@@ -9,7 +9,7 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
   const check = async (expression,message) => { if (!await read(expression)) throw new Error('Echo Simulator: '+message); };
   const click = async selector => {
     await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);
-    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:10,y:10});await sleep(500);await pointerClick(send,selector);
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:10,y:10});await sleep(500);await pointerClick(send,selector);await sleep(150);
   };
   const policyState='window.bellibingImproveSettings.getState()', inventoryState='window.bellibingResourceInventory.getState()';
   const policyKey='bellibing.improve.policy.v3';
@@ -24,6 +24,8 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
     await send('Input.insertText',{text});
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
     await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+    const id=selector.match(/\[data-resource="([^"]+)"\]/)?.[1];
+    if(id){const path=['echoes','tuners','shellCredits'].includes(id)?id:'tubes.'+id;const expected=['∞','unlimited'].includes(text)?`.kind==='UNLIMITED'`:`.count===${Number(text)}`;await waitForUi(send,'window.bellibingResourceInventory.getState().'+path+expected,'serialized resource input '+id)}
   };
   const expand=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="true"&&!document.getElementById("improveSettings").inert','physical '+id+' expansion')};
   const collapse=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="false"','physical '+id+' collapse')};
@@ -99,7 +101,7 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await setViewport(send,width,height);await sleep(600);
     await read('document.getElementById("improveEchoRow").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
-    await check(`(()=>{const columns=[...document.querySelectorAll('.simulator-slot')];return columns.every(column=>{const c=column.querySelector('.improve-equipped-echo').getBoundingClientRect(),p=column.querySelector('.simulator-trash').getBoundingClientRect();return p.top>=c.bottom&&Math.abs(p.x-c.x)<3&&p.width>60&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'pile layout/viewport '+width);
+    await check(`(()=>{const columns=[...document.querySelectorAll('.simulator-slot')];return columns.length===5&&columns.every(column=>{const pile=column.querySelector('.simulator-trash');if(!pile.querySelector('button'))return getComputedStyle(pile).display==='none';const c=column.querySelector('.improve-equipped-echo').getBoundingClientRect(),p=pile.getBoundingClientRect();return p.top>=c.bottom&&Math.abs(p.x-c.x)<3&&p.width>60&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'pile layout/viewport '+width);
     await capture(send,'artifacts/ui-preview-echo-simulator-'+width+'x'+height+'.png');
     await click('[data-trash-slot="5"] summary');await click('[data-trash-slot="5"] details button:last-child');
     await capture(send,'artifacts/ui-preview-echo-simulator-inspect-'+width+'x'+height+'.png');
@@ -233,8 +235,9 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
       await enter(resource(id),'37');
       const bounds=await read(`(()=>{const r=document.querySelector(${JSON.stringify(resource(id))}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
       await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',buttons:1,clickCount:1,...bounds});
-      for(const dx of [1.25,2.5,6.25,60])await send('Input.dispatchMouseEvent',{type:'mouseMoved',buttons:1,x:bounds.x+dx,y:bounds.y});
+      await sleep(100);for(const dx of [1.25,2.5,6.25,60]){await send('Input.dispatchMouseEvent',{type:'mouseMoved',button:'left',buttons:1,x:bounds.x+dx,y:bounds.y});await sleep(50)}
       await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',buttons:0,clickCount:1,x:bounds.x+60,y:bounds.y});
+      await waitForUi(send,`window.bellibingResourceInventory.getState().${['echoes','tuners','shellCredits'].includes(id)?id:'tubes.'+id}.count===47`,'resource scrub serialized commit');
       await check(`document.querySelector(${JSON.stringify(resource(id))}).value==='47'`,'real pointer scrub '+id+' '+width+' '+JSON.stringify(await read(`({value:document.querySelector(${JSON.stringify(resource(id))}).value,inventory:window.bellibingResourceInventory.getState()})`)));
       await enter(resource(id),'∞');
     }
@@ -244,7 +247,7 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
     await enter(resource('echoes'),'∞');await click('#improve-setting-gate');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','desktop success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','desktop success');
     await read('document.getElementById("improveCandidateEcho").scrollIntoView({block:"center",behavior:"instant"})');
     await check('document.querySelectorAll(".improve-settings-heading button").length===0&&document.getElementById("simulatorControls").textContent.includes("Gold")&&!document.getElementById("simulatorControls").innerText.includes("Gross costs only")','compact surface');
-    await check('document.getElementById("improveShell").scrollLeft===0&&document.getElementById("improveCharacterArt").getBoundingClientRect().left>=document.getElementById("improveShell").getBoundingClientRect().left','Character art clipped by horizontal focus scroll '+width);
+    await check('document.getElementById("improveShell").scrollLeft===0&&document.getElementById("improveCharacterArt").getBoundingClientRect().left>=document.getElementById("improveShell").getBoundingClientRect().left','Character art clipped by horizontal focus scroll '+width+' '+JSON.stringify(await read('({scroll:document.getElementById("improveShell").scrollLeft,scrollWidth:document.getElementById("improveShell").scrollWidth,width:document.getElementById("improveShell").clientWidth,art:document.getElementById("improveCharacterArt").getBoundingClientRect().toJSON(),shell:document.getElementById("improveShell").getBoundingClientRect().toJSON()})')));
     await capture(send,'artifacts/ui-preview-playable-echo-'+width+'x'+height+'.png');
   }
   await check('JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'resources persistence altered by simulation');

@@ -24,7 +24,7 @@ Settings edits cancel running batches before another attempt. Sonata edits also 
 
 Invalid/impossible/unavailable requirements or unfunded attempts stop before spending. Finite-zero Echoes, fewer than 50 Tuners or insufficient whole Tubes do not roll. One attempt is atomic, including detached resource depletion and actual checkpoint history. Exhaustion and Cancel preserve completed slots, consumption and histories. A 1,000-attempt safety pause offers Resume. Yielding batches keep controls usable.
 
-Unrolled templates contribute no stats. Generated active/inactive equipment shares the same slot owner as prepared cards. Accepted and rejected generated histories remain inspectable, with slot-local Trash Piles and checkpoint records. Replacement does not refund resources. The exact Tube ledger owns upgrade overflow/carry/cap returns; discard/feed/Data Recovery receipts and net recovery remain Pending.
+Unrolled templates contribute no stats. Generated active/inactive equipment shares the same slot owner as prepared cards. Accepted and rejected generated histories remain inspectable, with slot-local Trash Piles and checkpoint records. Empty piles stay hidden to avoid five redundant Empty labels; populated piles remain below their owning cards. Replacement does not refund resources. The exact Tube ledger owns upgrade overflow/carry/cap returns; discard/feed/Data Recovery receipts and net recovery remain Pending.
 
 Gate +5/+10/+15/+20/+25 is retained user intent, but this public driver evaluates completed +25 cards; early checkpoint rejection is not implemented. The separate pure +5 resource transaction and candidate groundwork is preserved and regression-tested, including cross-tab debit protection, but is not connected to a live UI spending action.
 

@@ -33,6 +33,7 @@ const classStat:Record<string,string>={BASIC:'Basic Attack DMG',HEAVY:'Heavy Att
 export function assembleAugustaPilotBuild(build:AugustaPilotBuild){
  const preset=presets[build.characterId];if(!preset||build.sequence!==preset.sequence||build.weapon?.id!==preset.weaponId||build.weapon.rank!==1||build.equipmentPresetId!==preset.equipment)throw Error('Pilot requires its exact declared sequence/R1 weapon/equipment preset');
  const projection=projectRank5EchoStats(build.echoes);if(!validateEchoLoadout(projection.cards).valid||projection.cards.map(c=>c.cost).join(',')!=='4,3,3,1,1')throw Error('Pilot requires a valid ordered 43311 loadout');
+ if(projection.cards.some(card=>card.level!==25))throw Error('Pilot requires five fully tuned level25 Echo stat cards');
  const character=CHARACTER_CATALOG.find(c=>c.id===build.characterId)!,weapon=WEAPON_CATALOG.find(w=>w.id===build.weapon.id)!;
  if(!character||character.level90.atk===null||character.level90.hp===null||!weapon||weapon.level90BaseAtk===null||!weapon.secondary)throw Error('Canonical build stats incomplete');
  const stats:Record<string,number>={...projection.totals};const add=(stat:string,value:number)=>stats[stat]=(stats[stat]??0)+value;

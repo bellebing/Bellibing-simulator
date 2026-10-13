@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {SUBSTAT_VALUE_TABLE} from '../src/echoCore.ts';
+import {SUBSTAT_VALUE_TABLE,primaryMainStatValueAtLevel,secondaryMainStatValueAtLevel} from '../src/echoCore.ts';
 import {expectedDamage,defenseMultiplier,resistanceMultiplier} from '../src/combat/damageKernel.ts';
 import {evaluateAugustaTeamPilot,compareAugustaPilotTeams,compareAugustaPilotEcho,assembleAugustaPilotBuild} from '../src/combat/augustaTeamPilot.ts';
 import {createAugustaPilotExampleBuilds,AUGUSTA_PILOT_EXAMPLE_ENEMY} from '../src/data/augustaPilotExampleBuilds.ts';
@@ -74,6 +74,11 @@ test('same party, gear rank, sequence and actual canonical card values are manda
 test('Heron sensitivity is reported separately without silently closing source ambiguity',()=>{
  const scenario=input('mortefi'),on=evaluateAugustaTeamPilot(scenario),off=evaluateAugustaTeamPilot({...scenario,heronTransfer:'DISABLED_SENSITIVITY'});
  assert.ok(on.scenarioDps!>off.scenarioDps!);if(on.status==='EXPERIMENTAL_REFERENCE_SCENARIO')assert.ok(on.pending.some(s=>s.includes('Heron')));
+});
+test('a legal lower-level card cannot enter the fixed level25 pilot scenario',()=>{
+ const build=createAugustaPilotExampleBuilds()[0],card=build.echoes[0];
+ const lower={...card,level:20 as const,mainStat:{...card.mainStat,value:primaryMainStatValueAtLevel(card.cost,card.mainStat.name,20)!},secondaryMainStat:{name:'Flat ATK' as const,value:secondaryMainStatValueAtLevel(card.cost,20)},substats:card.substats.slice(0,4)};
+ assert.throws(()=>assembleAugustaPilotBuild({...build,echoes:build.echoes.map((echo,index)=>index===0?lower:echo)}),/five fully tuned level25/);
 });
 test('multi-component Sword of Eternal Oath preserves all eight canonical hits',()=>{
  for(const model of AUGUSTA_PILOT_HIT_MODELS){const cycle=model.cycles[1],counts=new Map<number,number>();

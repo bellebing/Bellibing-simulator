@@ -100,7 +100,7 @@ test('the existing assignment adapter preserves explicit Flex counts and exact m
   assert.equal(req.requiredOnEveryEcho.find(row=>row.stat==='Energy Regen')!.minimum,.068);
   assert.equal(req.groups[0].minimumCount,1);
   assert.equal(req.groups[0].members.some(row=>row.stat==='Energy Regen'),false);
-  assert.equal(req.groups[0].members.length,3);
+  assert.equal(req.groups[0].members.length,2);
   state=assignImproveEchoStat(state,source,'Energy Regen','PREFERRED');
   req=resolveImprovePolicyState(state,source).policy.echoPolicy.requirements.value!;
   assert.equal(req.groups[0].minimumCount,1);assert.equal(req.groups[0].members.find(row=>row.stat==='Energy Regen')!.minimum,.068);

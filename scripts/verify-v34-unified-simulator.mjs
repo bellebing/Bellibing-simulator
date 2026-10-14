@@ -1,10 +1,11 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 // Test-only fixtures. Product code never imports this module.
 export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   const read = expression => evaluate(send,expression);
   const check = async (expression,message) => { if(!await read(expression))throw Error('Unified simulator: '+message); };
   const click = async selector => {await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);const point=await read(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});await sleep(500);await pointerClick(send,selector);await sleep(150);};
   await setViewport(send,1440,900);await navigate(send);
-  await read('localStorage.clear()');await navigate(send);
+  await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await waitForUi(send,"echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&buildStatsRuntimeLoaded&&window.bellibingImproveSettings?.canAssessEchoRequirements!==undefined",'source readiness',20000);
   await read("show('build');buildPicker.select('Augusta');addOwned('Augusta');show('improve');improvePicker.select('Augusta')");
   await waitForUi(send,"window.bellibingImproveSettings.canAssessEchoRequirements()",'policy readiness',20000);
@@ -31,6 +32,8 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await check("JSON.stringify(projectImproveCurrentStats('Augusta'))==="+JSON.stringify(active),'reactivation restores exact stats');
   await check('improveUi.simulator.slots[0].accepted.length===0&&improveUi.simulator.rolling.attempts===0','preparation is not a paid/generated outcome');
   await check('JSON.stringify(state)==='+JSON.stringify(current)+'&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'Current and budget isolation');
+  await check("!document.getElementById('simulatorResultStats').hidden&&document.getElementById('simulatorEnergyTarget').dataset.targetStatus==='BELOW'&&document.getElementById('simulatorEnergyTarget').textContent.includes('120%')",'visible Character-wide ER reference separate from Echo requirements');
+  await check("document.getElementById('simulatorTrashPanel').parentElement===document.getElementById('improveBuildCard').parentElement&&document.querySelectorAll('#simulatorTrashColumns [data-trash-slot]').length===5&&document.getElementById('simulatorTrashPanel').compareDocumentPosition(document.getElementById('improveEchoRow'))&Node.DOCUMENT_POSITION_PRECEDING",'five piles in their separate panel after Simulator');
   // Use the existing serialized Settings writer for the fixture budget/criteria.
   await click('#improve-setting-gate');
   const input='[data-resource="echoes"] input';
@@ -40,6 +43,11 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await send('Input.insertText',{text:'37'});
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab'});
   await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===37','persisted input');
+  await click('[data-resource="echoes"] .improve-resource-unlimited');
+  await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.kind==='UNLIMITED'",'Unlimited toggle');
+  await check("document.querySelector('[data-resource=echoes] input').value==='∞'&&document.querySelector('[data-resource=echoes] .improve-resource-unlimited').getAttribute('aria-pressed')==='true'",'infinite count shown');
+  await click('[data-resource="echoes"] .improve-resource-unlimited');
+  await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.count===37",'toggle restores prior numeric value');
   await click(input);
   const dragPoint=await read(`(()=>{const r=document.querySelector(${JSON.stringify(input)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
   await send('Input.dispatchMouseEvent',{type:'mouseMoved',...dragPoint});await sleep(200);
@@ -47,6 +55,12 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   for(const dx of [1.25,2.5,6.25,60]){await send('Input.dispatchMouseEvent',{type:'mouseMoved',button:'left',buttons:1,x:dragPoint.x+dx,y:dragPoint.y});await sleep(50)}
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',buttons:0,clickCount:1,x:dragPoint.x+60,y:dragPoint.y});
   await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===47','physical resource scrub commits exactly once');
+  await click('#improve-setting-gate');
+  const historyBeforeBudget=await read('JSON.stringify(improveUi.simulator.slots)');
+  await check("document.getElementById('simulatorRoll').disabled&&document.getElementById('simulatorApplyBudget')",'resource change has a visible recovery action');
+  await click('#simulatorApplyBudget');
+  await check('!document.getElementById("simulatorRoll").disabled&&JSON.stringify(improveUi.simulator.slots)==='+JSON.stringify(historyBeforeBudget),'apply preserves prepared cards and history');
+  await click('#improve-setting-gate');
   // Fixtures write only through the same exclusive canonical storage API.
   await read("(async()=>{const m=await import(new URL('../../assets/improvePolicyState.js',new URL('assets/improve-settings.js',location.href)));const r=await import(new URL('../../assets/resourceInventory.js',new URL('assets/improve-settings.js',location.href)));const awaitSourceFixture=(await(await fetch('assets/improve-settings/policies.json')).json()).characters.find(p=>p.characterId==='augusta');await m.withExclusiveImprovePolicyStorage(()=>{let store=m.loadImprovePolicyStorage(localStorage);let budget=r.updateResourceInventory(store.resourceInventory,'echoes',{kind:'FINITE',count:8});for(const id of ['tuners','premium','advanced','medium','basic'])budget=r.updateResourceInventory(budget,id,{kind:'UNLIMITED'});store=m.persistResourceInventory(store,budget,localStorage);const src=(awaitSourceFixture);let policy=m.readImprovePolicyState(store,'augusta',src);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoRequirements',value:{requiredOnEveryEcho:[],groups:[]}},src);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoPreferences',value:[]},src);m.persistImprovePolicyState(store,policy,localStorage)});window.dispatchEvent(new StorageEvent('storage',{key:m.IMPROVE_POLICY_STORAGE_KEY,storageArea:localStorage}));})()");
   await waitForUi(send,'window.bellibingResourceInventory.getState().tuners.kind===\"UNLIMITED\"','fixture budget');
@@ -74,6 +88,19 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
     await check("(()=>{const cards=[...document.querySelectorAll('.simulator-slot>.improve-equipped-echo')];return cards.length===5&&cards.every(c=>{const r=c.getBoundingClientRect();return r.width>100&&r.left>=0&&r.right<=innerWidth&&c.scrollWidth<=c.clientWidth+1})})()",'five contained cards '+width);
     await capture(send,'artifacts/unified-simulator-'+width+'x'+height+'.png');
   }
+  // A below-minimum unique roll proves impossibility at +5, without stat blacklists.
+  await read("(async()=>{const m=await import(new URL('../../assets/improvePolicyState.js',new URL('assets/improve-settings.js',location.href)));const source=(await(await fetch('assets/improve-settings/policies.json')).json()).characters.find(p=>p.characterId==='augusta');await m.withExclusiveImprovePolicyStorage(()=>{let store=m.loadImprovePolicyStorage(localStorage);let policy=m.readImprovePolicyState(store,'augusta',source);policy=m.updateImprovePolicyState(policy,{type:'gate',value:5},source);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoRequirements',value:{requiredOnEveryEcho:[{stat:'Flat HP',minimum:echoStatContract.substats.find(row=>row.name==='Flat HP').values.at(-1)}],groups:[]}},source);m.persistImprovePolicyState(store,policy,localStorage)});window.dispatchEvent(new StorageEvent('storage',{key:m.IMPROVE_POLICY_STORAGE_KEY,storageArea:localStorage}));})()");
+  await setViewport(send,1440,900);await click('#simulatorOneSlot');await click('#simulatorReset');
+  await read('window.unifiedOriginalRandom=Math.random;Math.random=()=>0');await click('#simulatorRoll');
+  await waitForUi(send,"improveUi.simulator.run?.status==='EXHAUSTED'",'early rejected finite run');
+  await check("improveUi.simulator.slots[0].trash.length===8&&improveUi.simulator.slots[0].trash.every(card=>card.card.level===5)&&improveUi.simulator.rolling.tuners===80&&improveUi.simulator.evaluator.status==='PENDING'",'actual +5 stops and no economic evaluator');
+  await click('[data-trash-slot="1"] .simulator-pile-top');
+  await check("document.querySelector('.simulator-inspection').open&&document.querySelectorAll('.simulator-inspection [data-checkpoint-level]').length===1&&document.querySelector('.simulator-inspection [data-checkpoint-level]').textContent.includes('Flat HP')&&document.querySelector('.simulator-inspection s')&&!document.querySelector('.simulator-inspection [data-checkpoint-level]').textContent.includes('CRIT Rate')&&document.querySelector('.simulator-inspection .improve-equipped-echo img')",'discard inspection shows only the new roll and actual stopped checkpoint');
+  await capture(send,'artifacts/public-simulator-discard-history-1440x900.png');
+  await click('.simulator-inspection button');
+  await read("document.getElementById('simulatorTrashPanel').scrollIntoView({block:'center',behavior:'instant'})");
+  await capture(send,'artifacts/public-simulator-trash-panel-1440x900.png');
+  await read('Math.random=window.unifiedOriginalRandom;delete window.unifiedOriginalRandom');
   await click('#simulatorCurrent');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(current),'exit restores Current');
   await navigate(send);await waitForUi(send,'window.bellibingResourceInventory','reload');await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===8','reload keeps budget, discards sandbox');
   console.log('Display font:',await read("[...document.fonts].filter(f=>f.family.includes('Etna')).map(f=>({family:f.family,status:f.status}))"));

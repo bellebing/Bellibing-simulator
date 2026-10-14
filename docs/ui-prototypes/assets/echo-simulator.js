@@ -1,3 +1,4 @@
+import { simulatedCharacterTargets } from './character-target-presentation.js';
 import * as session from '../../assets/echoSimulatorSession.js';
 import * as run from '../../assets/echoSimulatorRun.js';
 import * as rolling from '../../assets/echoSimulatorRolling.js';
@@ -10,27 +11,20 @@ function node(tag, text, className) {
   if (className) result.className = className;
   return result;
 }
-function inspect(sessionState, slot, card, name, onReturn, trigger, formatStat) {
+function inspect(sessionState, slot, card, name, onReturn, trigger, formatStat, identity) {
   const dialog = node('dialog', undefined, 'simulator-inspection');
   dialog.setAttribute('aria-label', 'Trash card history');
   dialog.append(node('h2', name(card.card)), node('p', 'Echo #' + card.id.split(':').at(-1) + ' · Slot ' + slot));
-  for (const checkpoint of card.history) {
-    const text = checkpoint.level === undefined ? 'Initial candidate' : '+' + checkpoint.level;
-    const row = node('section'); row.append(node('strong', text));
-    const stats = node('dl', undefined, 'simulator-checkpoint-stats');
-    for (const stat of [checkpoint.mainStat, ...(checkpoint.substats || [])].filter(Boolean)) {
-      stats.append(node('dt', stat.name), node('dd', formatStat(stat.name, stat.value)));
-    }
-    row.append(stats);
-    dialog.append(row);
-  }
+  const actualCard = node('div', undefined, 'improve-equipped-echo'); actualCard.setAttribute('aria-label', 'Discarded Echo card');
+  actualCard.append(renderEchoCard(card.card, identity(card.card), formatStat));
+  dialog.append(actualCard, node('p', 'Discarded · Reached +' + (card.card.level ?? 0)), renderCheckpointHistory(card, formatStat, true));
   dialog.append(node('p', card.reason));
   const close = node('button', 'Return to pile'); close.type = 'button';
   close.onclick = () => dialog.close(); dialog.append(close);
   dialog.addEventListener('close', () => { dialog.remove(); onReturn(); trigger?.focus({ preventScroll: true }); }, { once: true });
   document.body.append(dialog); dialog.showModal(); close.focus();
 }
-function renderTrashPile(state, slot, name, onInspect, onReturn, formatStat) {
+function renderTrashPile(state, slot, name, onInspect, onReturn, formatStat, identity = card => ({ name: name(card) })) {
   const pile = node('section', undefined, 'simulator-trash'); pile.dataset.trashSlot = slot;
   pile.setAttribute('aria-label', 'Trash Pile for Echo ' + slot);
   const cards = state.slots[slot - 1].trash;
@@ -44,25 +38,48 @@ function renderTrashPile(state, slot, name, onInspect, onReturn, formatStat) {
     back.style.setProperty('--card-offset', index); back.setAttribute('aria-hidden', 'true'); stack.append(back);
   }
   if (cards.length) {
-    const trigger = node('button', name(cards.at(-1).card) + ' ×' + cards.length, 'simulator-pile-top'); trigger.type = 'button';
-    trigger.onclick = () => { const card = cards.at(-1); onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, trigger, formatStat); };
+    const trigger = node('button', undefined, 'simulator-pile-top improve-equipped-echo'); trigger.type = 'button';
+    trigger.append(renderEchoCard(cards.at(-1).card, identity(cards.at(-1).card), formatStat), node('span', 'Discarded · ×' + cards.length));
+    trigger.onclick = () => { const card = cards.at(-1); onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, trigger, formatStat, identity); };
     stack.append(trigger);
     const choices = node('details'); choices.append(node('summary', 'Inspect older cards'));
     for (const card of [...cards].reverse()) {
       const button = node('button', name(card.card) + ' · ' + (card.card.level === undefined ? 'Unbuilt' : '+' + card.card.level)); button.type = 'button';
-      button.onclick = () => { onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, button, formatStat); };
+      button.onclick = () => { onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, button, formatStat, identity); };
       choices.append(button);
     }
     pile.append(stack, choices);
   } else pile.append(stack);
   return pile;
 }
-function renderCheckpointHistory(candidate, formatStat) {
+/** One renderer for generated, prepared, unrolled and discarded slot cards. */
+function renderEchoCard(card, identity, formatStat) {
+  const host = node('span', undefined, 'simulator-echo-card');
+  host.append(node('span', identity?.name ?? card?.echoId ?? 'Empty', 'improve-equipped-name'));
+  const art = node('span', undefined, 'improve-equipped-art');
+  if (identity?.artSrc) { const img = node('img'); img.src = identity.artSrc; img.alt = ''; img.draggable = false; art.append(img); }
+  const cost = node('span', 'COST ' + (card?.cost ?? identity?.cost ?? '—'), 'improve-equipped-cost');
+  cost.append(node('span', card?.level === undefined ? 'Not rolled' : '+' + card.level, 'improve-equipped-level'));
+  host.append(art, cost);
+  const stats = node('span', undefined, 'improve-echo-substats');
+  const entries = [card?.mainStat ?? (card?.primaryMainStat ? { name: card.primaryMainStat } : null), card?.secondaryMainStat, ...(card?.substats ?? [])].filter(Boolean);
+  for (const [index, stat] of entries.entries()) {
+    const row = node('span', undefined, 'improve-echo-substat' + (index < (card?.secondaryMainStat ? 2 : 1) ? ' is-main' : ''));
+    row.append(node('span', stat.name), node('strong', Number.isFinite(stat.value) ? formatStat(stat.name, stat.value) : '—')); stats.append(row);
+  }
+  if (!entries.length) stats.append(node('span', 'Choose main stat', 'improve-echo-substat'));
+  host.append(stats); return host;
+}
+function renderCheckpointHistory(candidate, formatStat, discarded = false) {
   const details = node('details', undefined, 'simulator-roll-history');
-  details.append(node('summary', 'Checkpoint history'));
-  for (const checkpoint of candidate.history.filter(card => card.level !== undefined)) {
+  details.append(node('summary', 'Checkpoint history')); details.open = discarded;
+  const checkpoints = candidate.history.filter(card => card.level > 0);
+  for (const [index, checkpoint] of checkpoints.entries()) {
     const stat = checkpoint.substats?.at(-1);
-    details.append(node('p', '+' + checkpoint.level + (stat ? ' · ' + stat.name + ' ' + formatStat(stat.name, stat.value) : ' · Eligible Rank-5 template')));
+    const row = node('p'); row.dataset.checkpointLevel = checkpoint.level;
+    row.append(node('span', '+' + checkpoint.level + ' · '));
+    const text = stat ? stat.name + ' ' + formatStat(stat.name, stat.value) : 'Roll unavailable';
+    row.append(node(discarded && index === checkpoints.length - 1 ? 's' : 'span', text)); details.append(row);
   }
   return details;
 }
@@ -103,5 +120,5 @@ function renderActivationControl(active, enabled, onChange, label) {
   }
   return group;
 }
-window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, renderActivationControl, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
+window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, simulatedCharacterTargets, renderEchoCard, renderActivationControl, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
 window.dispatchEvent(new Event('bellibing-echo-simulator-ready'));

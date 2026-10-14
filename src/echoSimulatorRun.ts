@@ -1,3 +1,4 @@
+import { CHECKPOINT_CUMULATIVE_COST } from './echoCoreRules.ts';
 import type { RandomSource } from './echoCoreDomain.ts';
 import type { EchoRequirements } from './improvePolicyDomain.ts';
 import type { EchoSimulatorSession } from './echoSimulatorSession.ts';
@@ -7,7 +8,7 @@ import { assessEchoRequirements } from './echoRequirements.ts';
 import { ECHO_TUBES, readResourceInventory, updateResourceInventory } from './resourceInventory.ts';
 import type { ResourceInventory } from './resourceInventory.ts';
 import { MAX_RANK5_ECHO_EXP, spendExactTubes, tuneEligibleCheckpoint } from './echoExactTubeSpending.ts';
-import type { TubeCounts, TubeLedger } from './echoExactTubeSpending.ts';
+import type { ExactResourceState, TubeCounts, TubeLedger } from './echoExactTubeSpending.ts';
 
 export type SimulatorTemplate = Parameters<typeof rollSimulatorCandidate>[1];
 export interface SimulatorRun {
@@ -36,14 +37,35 @@ export function initializeSimulatorResources(session: EchoSimulatorSession, inve
   next.resources = { inventory: structuredClone(basis), basis, spent: zero(), returned: zero(), lastLedger: null };
   return next;
 }
+/** New total sandbox budget, minus all committed spending in this session.
+ * Retains equipment/history/counters; never spends the saved user inventory. */
+export function applySimulatorBudget(session: EchoSimulatorSession, inventory: ResourceInventory): EchoSimulatorSession {
+  if (!session.resources || session.run?.status === 'RUNNING') throw new Error('Stop the simulation before applying a budget.');
+  const basis = readResourceInventory(inventory);
+  let working = structuredClone(basis);
+  const used = { echoes: session.rolling.attempts, tuners: session.rolling.tuners,
+    ...Object.fromEntries(ECHO_TUBES.map(tube => [tube.id, session.resources!.spent[tube.id] - session.resources!.returned[tube.id]])) };
+  for (const id of ['echoes', 'tuners', ...ECHO_TUBES.map(tube => tube.id)] as const) {
+    const quantity = id === 'echoes' || id === 'tuners' ? working[id] : working.tubes[id];
+    if (quantity.kind === 'UNLIMITED') continue;
+    const remaining = quantity.count - used[id as keyof typeof used];
+    if (!Number.isSafeInteger(remaining) || remaining < 0) throw new Error('New total budget is below this session’s used ' + id + '. Increase it or Reset.');
+    working = updateResourceInventory(working, id, { kind: 'FINITE', count: remaining });
+  }
+  const next = stopSimulatorRun(session, 'New total budget applied; history retained');
+  next.resources!.basis = basis; next.resources!.inventory = working;
+  return next;
+}
 /** Bounded whole-item witness, not a finite-budget economic optimizer. The explicit
  * V1 policy selects the smallest supplied EXP reaching +25; equivalent witnesses
  * follow canonical catalog order. All spending/carry/cap returns remain engine-owned.
  * Binary decomposition caps work independently of arbitrarily large inventories. */
-export function simulatorTubeWitness(inventory: ResourceInventory): TubeCounts | null {
+export function simulatorTubeWitness(inventory: ResourceInventory, neededEXP = MAX_RANK5_ECHO_EXP): TubeCounts | null {
+  if (!Number.isSafeInteger(neededEXP) || neededEXP < 0 || neededEXP > MAX_RANK5_ECHO_EXP) throw new Error('Invalid checkpoint EXP requirement.');
+  if (neededEXP === 0) return zero();
   inventory = readResourceInventory(inventory);
   const unit = Math.min(...ECHO_TUBES.map(tube => tube.echoExp));
-  const target = Math.ceil(MAX_RANK5_ECHO_EXP / unit);
+  const target = Math.ceil(neededEXP / unit);
   const bound = target + Math.max(...ECHO_TUBES.map(tube => tube.echoExp)) / unit - 1;
   const reachable: (Record<keyof TubeCounts, number> | undefined)[] = Array(bound + 1);
   reachable[0] = zero();
@@ -91,9 +113,10 @@ export function resumeSimulatorRun(session: EchoSimulatorSession): EchoSimulator
   if (next.run?.status === 'PAUSED') { next.run.status = 'RUNNING'; next.run.reason = 'Running'; next.run.sincePause = 0; }
   return next;
 }
-/** One complete Echo is an atomic commit; callers yield between attempts. No
- * early Gate rejection or recovery policy is inferred. Failed requirements spend
- * real resources; invalid mechanics/RNG leave candidate and inventory untouched. */
+/** One bounded attempt is an atomic commit; callers yield between attempts.
+ * At/after Gate, reject only mathematically impossible user requirements.
+ * No economic usefulness, discard refunds or private acceptance are inferred.
+ * Resource exhaustion retains a truthful partial card; invalid RNG rolls back. */
 export function advanceSimulatorRun(session: EchoSimulatorSession, rng: RandomSource, batchSize = 4, pauseAfter = 1000): EchoSimulatorSession {
   if (!Number.isSafeInteger(batchSize) || batchSize < 1 || batchSize > 20 || !Number.isSafeInteger(pauseAfter) || pauseAfter < 1) throw new Error('Invalid cooperative bounds.');
   let next = session;
@@ -101,34 +124,57 @@ export function advanceSimulatorRun(session: EchoSimulatorSession, rng: RandomSo
     const run = next.run, resources = next.resources!;
     if (run.slot !== next.selectedSlot) return stopSimulatorRun(next, 'Slot changed');
     const unavailable = resources.inventory.echoes.kind === 'FINITE' && resources.inventory.echoes.count < 1 ? 'No Echoes available'
-      : resources.inventory.tuners.kind === 'FINITE' && resources.inventory.tuners.count < 50 ? 'Not enough Tuners for +25' : null;
-    const witness = unavailable ? null : simulatorTubeWitness(resources.inventory);
-    if (unavailable || !witness) {
-      next = structuredClone(next); next.run!.status = 'EXHAUSTED'; next.run!.reason = unavailable ?? 'Not enough whole EXP Tubes for +25'; break;
+      : resources.inventory.tuners.kind === 'FINITE' && resources.inventory.tuners.count < 10 ? 'Not enough Tuners for +5' : null;
+    if (unavailable || !simulatorTubeWitness(resources.inventory, CHECKPOINT_CUMULATIVE_COST[5].exp)) {
+      next = structuredClone(next); next.run!.status = 'EXHAUSTED'; next.run!.reason = unavailable ?? 'Not enough whole Tubes for +5'; break;
     }
     try {
       let inventory = readResourceInventory(resources.inventory);
       if (inventory.echoes.kind === 'FINITE') inventory = updateResourceInventory(inventory, 'echoes', { kind: 'FINITE', count: inventory.echoes.count - 1 });
-      const transaction = spendExactTubes({ revision: 0, progress: { cumulativeEchoEXP: 0, tunedThrough: 0 }, inventory }, witness!, 0);
-      let state = transaction.state;
-      for (let checkpoint = 0; checkpoint < 5; checkpoint++) state = tuneEligibleCheckpoint(state, state.revision);
+      let state: ExactResourceState = { revision: 0, progress: { cumulativeEchoEXP: 0, tunedThrough: 0 }, inventory };
+      const spent = zero(), returned = zero();
+      let lastLedger: TubeLedger | null = null, exhausted: string | null = null;
       let attempt = clearSimulatorCandidate(next);
       // Identity-only configuration is replaced, never recorded as a rejected roll.
       const unplaced = attempt.slots[run.slot - 1].unplaced;
       if (unplaced.at(-1)?.card.level === undefined) unplaced.pop();
       attempt = startSimulatorCandidate(attempt, { echoId: run.template.echoId, selectedSonataSetId: run.template.selectedSonataSetId });
-      attempt = rollSimulatorCandidate(attempt, run.template, rng);
+      attempt = rollSimulatorCandidate(attempt, run.template, rng, {
+        before: (_echo, target) => {
+          const tuners = state.inventory.tuners;
+          if (tuners.kind === 'FINITE' && tuners.count < 10) { exhausted = 'Not enough Tuners for +' + target; return false; }
+          const needed = Math.max(0, CHECKPOINT_CUMULATIVE_COST[target].exp - state.progress.cumulativeEchoEXP);
+          const witness = simulatorTubeWitness(state.inventory, needed);
+          if (!witness) { exhausted = 'Not enough whole Tubes for +' + target; return false; }
+          if (needed > 0) {
+            const transaction = spendExactTubes(state, witness, state.revision);
+            state = transaction.state; lastLedger = transaction.ledger;
+            for (const tube of ECHO_TUBES) { spent[tube.id] += transaction.ledger.spent[tube.id]; returned[tube.id] += transaction.ledger.returned[tube.id]; }
+          }
+          state = tuneEligibleCheckpoint(state, state.revision);
+          return true;
+        },
+        after: echo => {
+          if (echo.level < run.gate) return true;
+          const result = assessEchoRequirements(run.requirements, echo);
+          if (['INVALID', 'PENDING'].includes(result.status)) throw new Error(result.reason);
+          return result.status !== 'IMPOSSIBLE';
+        },
+      });
       const candidate = attempt.slots[run.slot - 1].candidate!;
-      const result = assessEchoRequirements(run.requirements, { rank: 5, level: 25, substats: candidate.card.substats! });
-      if (!['SATISFIED', 'IMPOSSIBLE'].includes(result.status)) throw new Error('Unsupported completed requirement result: ' + result.status);
+      const result = assessEchoRequirements(run.requirements, { rank: 5, level: candidate.card.level!, substats: candidate.card.substats! });
       attempt.resources!.inventory = state.inventory;
-      attempt.resources!.lastLedger = transaction.ledger;
+      attempt.resources!.lastLedger = lastLedger;
       for (const tube of ECHO_TUBES) {
-        attempt.resources!.spent[tube.id] += transaction.ledger.spent[tube.id];
-        attempt.resources!.returned[tube.id] += transaction.ledger.returned[tube.id];
+        attempt.resources!.spent[tube.id] += spent[tube.id];
+        attempt.resources!.returned[tube.id] += returned[tube.id];
       }
+      if (exhausted) {
+        attempt.run!.status = 'EXHAUSTED'; attempt.run!.reason = exhausted + '; partial Echo retained'; next = attempt; break;
+      }
+      if (candidate.card.level !== 25 && result.status !== 'IMPOSSIBLE') throw new Error('Unexpected partial requirement result.');
       attempt.run!.sincePause++;
-      if (result.status === 'SATISFIED') {
+      if (result.status === 'SATISFIED' && candidate.card.level === 25) {
         if (run.autoActivate) {
           const finished = structuredClone(candidate);
           attempt = placeSimulatorCandidate(attempt, true);

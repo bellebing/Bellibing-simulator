@@ -73,12 +73,12 @@ test('summaries reflect effective ordered rows after moves without changing mini
   let state = initial();
   const view = () => echoPolicyPresentation(state, source, SUBSTAT_TYPES);
   assert.equal(echoSelectionSummary(view().layout.every), 'CR · CD');
-  assert.equal(echoSelectionSummary(view().layout.flex), 'ATK% · HA DMG · ER · Flat ATK');
+  assert.equal(echoSelectionSummary(view().layout.flex), 'ATK% · HA DMG · ER');
   const minimum = view().policy.requirements.value.requiredOnEveryEcho[0].minimum;
   const count = view().flexCount.count;
   state = moveEchoStat(state, source, SUBSTAT_TYPES, 'CRIT Rate', 'flex');
   assert.equal(echoSelectionSummary(view().layout.every), 'CD');
-  assert.equal(echoSelectionSummary(view().layout.flex), 'ATK% · HA DMG · ER · Flat ATK · CR');
+  assert.equal(echoSelectionSummary(view().layout.flex), 'ATK% · HA DMG · ER · CR');
   assert.equal(view().policy.preferences.value.find(row => row.stat === 'CRIT Rate').minimum, minimum);
   assert.equal(view().flexCount.count, count);
   state = moveEchoStat(state, source, SUBSTAT_TYPES, 'Energy Regen', 'flex', 0);

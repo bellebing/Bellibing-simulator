@@ -87,7 +87,7 @@
 .simulator-slot-actions>*{pointer-events:auto}.simulator-slot-actions .simulator-activation{padding:0;margin:0;border:0;gap:3px}
 .simulator-slot-actions button{min-width:26px;min-height:26px;padding:3px;border:1px solid #48443b;border-radius:6px;background:#16191e;color:#d1bd91;font:15px var(--font-ui);cursor:pointer}
 .simulator-slot-actions button+button{border-left:1px solid #48443b}.simulator-slot-actions button:focus-visible{outline:2px solid #d8b152;outline-offset:2px}
-.simulator-slot .improve-equipped-art{max-height:92px}.simulator-trash{padding:5px 2px;border-top:0}.simulator-trash:has(.simulator-trash-stack small){display:none}
+.simulator-slot .improve-equipped-art{max-height:92px}.simulator-trash{padding:5px 2px;border-top:0}
 #improveBuildCard[data-simulator="true"] .improve-current-echo>.simulator-activation{display:none}
 #improveBuildCard[data-simulator="true"] .improve-helper-main{font-size:11px;color:#b4ad9d}.simulator-run-status:empty{display:none}
 #simulatorRoll{font-size:23px}#simulatorControls h3{font-size:16px;margin-top:6px}
@@ -108,3 +108,15 @@
 .improve-more-stats{font-size:11px}.improve-echo-substats.is-unrolled{display:block;text-align:center;color:#a8a299;padding:8px;font-size:11px}
 /* Keep offscreen selector cards out of the workspace's horizontal scroll range. */
 #improveWheel{overflow-x:clip;overflow-y:visible}
+
+.simulator-trash-panel{flex:none;min-width:0;margin-top:0;padding:16px;border:1px solid #927843;border-radius:14px;background:linear-gradient(135deg,#30291eaa,#1a1e26 65%)}
+.simulator-trash-panel[hidden]{display:none}.simulator-trash-panel h2{margin:0 0 12px;font:24px var(--font-display)}
+.simulator-trash-columns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:start}
+.simulator-echo-card{display:flex;flex-direction:column;width:100%;min-width:0}.simulator-echo-card .improve-equipped-art{height:88px}
+.simulator-trash-stack:has(.simulator-pile-top){min-height:240px}.simulator-card-back{height:220px}.simulator-pile-top{padding:8px 0!important;font-family:var(--font-ui)!important}
+.simulator-pile-top .improve-echo-substats{text-align:left}.simulator-pile-top>.simulator-echo-card+.simulator-echo-card{display:none}
+.simulator-trash .improve-equipped-name{white-space:normal;overflow-wrap:anywhere}.simulator-trash-stack small{display:block;padding:20px 0;color:#a8a299}
+#simulatorCharacterTargets,#simulatorEnergyTarget{font:11px/1.4 var(--font-ui);color:#cbbd9b;margin:6px 0}
+@media(max-width:760px){.simulator-trash-columns{grid-template-columns:repeat(5,140px);overflow-x:auto}}
+
+.simulator-result-stats h2{font-size:16px;margin:0 0 6px}.simulator-result-stats{margin:8px 0}

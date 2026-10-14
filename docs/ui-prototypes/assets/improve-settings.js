@@ -12,20 +12,24 @@ import { readSonataChoices, sonataChoicesPresentation, toggleSonataSelection } f
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
+root.dataset.sourceStatus = 'LOADING';
 let store, storageError = null, retiredEchoRecovery = false;
 let writerQueue = Promise.resolve();
 // Only cross-tab writes invalidate already queued local edits. A burst of edits
 // from this same tab is serialized and rebased under the same exclusive lock.
 let externalWriteEpoch = 0;
+// UI memory only; the canonical inventory remains the sole persisted budget.
+const previousFiniteCounts = new Map();
 function coordinatedWrite(action) {
   const pending = writerQueue.then(() => withExclusiveImprovePolicyStorage(action));
   writerQueue = pending.then(() => {}, () => {});
   return pending;
 }
-try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
+try { store = await withExclusiveImprovePolicyStorage(() => loadImprovePolicyStorage(localStorage)); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
+let renderAfterDrag = false;
 let drag = null, otherExpanded = false, moreSetsExpanded = false, sonataChoices = { catalog: [], recommendations: {} }, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
@@ -58,27 +62,44 @@ function renderResources() {
     const input = element('input'); input.type = 'text'; input.value = formatInventoryQuantity(quantity); input.hidden = !expanded;
     input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
     input.disabled = !!storageError || !store; input.autocomplete = 'off'; input.spellcheck = false;
-    input.oninput = () => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
+    let inputEditSequence = 0;
+    input.oninput = () => { inputEditSequence++; input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
     input.onchange = async () => {
+      const editSequence = ++inputEditSequence;
       try {
         const value = parseInventoryQuantity(input.value);
         const epoch = externalWriteEpoch;
-        await coordinatedWrite(() => {
+        const saved = await coordinatedWrite(() => {
           if (epoch !== externalWriteEpoch)
             throw new Error('Stale shared resource inventory; reload before editing.');
           const next = updateResourceInventory(inventory, id, value);
-          store = persistResourceInventory(store, next, localStorage);
-          inventory = store.resourceInventory;
+          return { store: persistResourceInventory(store, next, localStorage), prior: quantityAt(id) };
         });
-        input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
-        input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
+        store = saved.store; inventory = saved.store.resourceInventory;
+        if (saved.prior.kind === 'FINITE') previousFiniteCounts.set(id, saved.prior.count);
+        summary.textContent = formatInventoryQuantity(quantityAt(id));
+        toggle.setAttribute('aria-pressed', String(quantityAt(id).kind === 'UNLIMITED'));
         window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
-      } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
+        if (editSequence !== inputEditSequence) return;
+        input.value = summary.textContent;
+        input.disabled = !!storageError || !store;
+        input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
+      } catch (error) { if (editSequence !== inputEditSequence) return; input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     attachResourceScrubber(input, () => input.onchange());
     if (id === 'shellCredits') owner.title = 'Shell Credits · saved budget; not charged by this sandbox';
-    owner.append(summary, input); parent.append(owner);
+    const toggle = element('button', 'Unlimited', 'improve-resource-unlimited'); toggle.type = 'button'; toggle.hidden = !expanded;
+    toggle.setAttribute('aria-label', accessibleName + ' unlimited'); toggle.setAttribute('aria-pressed', String(quantity.kind === 'UNLIMITED'));
+    toggle.disabled = !!storageError || !store;
+    if (quantity.kind === 'FINITE') previousFiniteCounts.set(id, quantity.count);
+    toggle.onclick = async event => {
+      event.preventDefault();
+      const current = quantityAt(id);
+      input.value = current.kind === 'FINITE' ? '∞' : String(previousFiniteCounts.get(id) ?? 0);
+      await input.onchange();
+    };
+    owner.append(summary, input, toggle); parent.append(owner);
   }
   for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner'], ['shellCredits', 'Shell Credits', 'Shell Credits']]) {
     const family = element('div', undefined, 'improve-resource-family');
@@ -104,11 +125,12 @@ async function save() {
   const candidate = settings, selected = characterId;
   const epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
-      store = persistImprovePolicyState(store, candidate, localStorage);
+      return persistImprovePolicyState(store, candidate, localStorage);
     });
+    store = saved;
     saveNote.hidden = true; return true;
   } catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
 }
@@ -116,13 +138,15 @@ async function save() {
 async function resetRetiredEchoPolicy() {
   const selected = characterId, epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (selected !== characterId) throw new Error('Character changed before recovery.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before recovery.');
       const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
-      store = persistImprovePolicyState(store, next, localStorage);
-      settings = next;
+      return { store: persistImprovePolicyState(store, next, localStorage), settings: next };
     });
+    store = saved.store;
+    if (characterId !== selected) return;
+    settings = saved.settings;
     storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
     render(); groups.get('flex').trigger.focus({ preventScroll: true });
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
@@ -130,18 +154,21 @@ async function resetRetiredEchoPolicy() {
 async function commit(change, focusKey, refresh = true) {
   const selected = characterId, epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
       const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
-      store = persistImprovePolicyState(store, next, localStorage);
-      settings = next;
+      return { store: persistImprovePolicyState(store, next, localStorage), settings: next };
     });
+    store = saved.store;
+    if (characterId !== selected) return;
+    settings = saved.settings;
     saveNote.hidden = true;
   } catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
   window.dispatchEvent(new Event('bellibing-improve-settings-changed'));
   if (!refresh) { resolved = resolveImprovePolicyState(settings, source); return; }
   render();
+  if (drag) return; // preserve pointer/focus ownership until the native gesture ends
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
@@ -239,7 +266,7 @@ function renderTargets() {
     item.append(element('dt', row.label), recommended, expected);
     table.append(item);
   }
-  targets.append(table);
+  targets.append(table, note('Expected: not calculated. Simulated stats show an observed build, not an expected outcome.'));
   if (policy.status === 'USER_DEFINED' || policy.origin === 'USER') {
     // Custom editors remain user-owned and never overwrite canonical values.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
@@ -338,7 +365,7 @@ function renderEcho() {
     handle.setAttribute('aria-label', 'Move ' + name); handle.setAttribute('aria-describedby', 'improve-flex-keyboard-help');
     handle.title = 'Drag to another section; Alt + Arrow keys to move';
     item.ondragstart = event => { drag = { characterId, name }; event.dataTransfer.setData('text/plain', name); event.dataTransfer.effectAllowed = 'move'; item.classList.add('is-dragging'); };
-    item.ondragend = () => { drag = null; item.classList.remove('is-dragging'); };
+    item.ondragend = () => { drag = null; item.classList.remove('is-dragging'); if (renderAfterDrag) render(); };
     const index = view.layout[list].indexOf(name);
     dropTarget(item, list, index);
     handle.onkeydown = event => {
@@ -404,6 +431,9 @@ function renderEcho() {
 }
 
 function render() {
+  // An older async save must not detach the source of an in-progress native drag.
+  if (drag) { renderAfterDrag = true; return; }
+  renderAfterDrag = false;
   renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
@@ -449,7 +479,8 @@ window.addEventListener('storage', event => {
   render();window.dispatchEvent(new Event('bellibing-improve-settings-changed'));if(priorInventory!==JSON.stringify(inventory))window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));if(priorSets!==JSON.stringify(settings?.selectedSonataSetIds))window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
 });
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, getSonataSetIds: () => settings ? sonataChoicesPresentation(settings,sonataChoices).selected.map(row=>row.id) : [], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+// Settled is not a success receipt; callers still inspect their operation/result.
+window.bellibingImproveSettings = { whenIdle: () => writerQueue, setCharacter, getSonataSetIds: () => settings ? sonataChoicesPresentation(settings,sonataChoices).selected.map(row=>row.id) : [], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),

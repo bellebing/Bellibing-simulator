@@ -3,21 +3,115 @@ import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
-// Web Locks serializes all same-origin tabs across the entire shared v3 envelope.
-// Never substitute localStorage CAS, a timeout lease or an uncoordinated fallback.
+// Web Locks order callers; IndexedDB supplies the authoritative envelope. Chromium's
+// renderer-local localStorage cache need not be fresh when a Web Lock is handed over.
+// localStorage remains the synchronous UI mirror and storage-event transport.
+export const IMPROVE_POLICY_DATABASE = 'bellibing.improve.storage.v1';
 let exclusiveImproveWriter = false;
+function openImproveDatabase() {
+    return new Promise((resolve, reject) => {
+        let blocked = false;
+        const request = indexedDB.open(IMPROVE_POLICY_DATABASE, 1);
+        request.onupgradeneeded = () => request.result.createObjectStore('envelopes');
+        request.onerror = () => reject(request.error ?? new Error('Improve storage database unavailable.'));
+        request.onblocked = () => { blocked = true; reject(new Error('Improve storage database blocked.')); };
+        request.onsuccess = () => {
+            if (blocked) {
+                request.result.close();
+                return;
+            }
+            request.result.onversionchange = () => request.result.close();
+            resolve(request.result);
+        };
+    });
+}
+function readEnvelope() {
+    return { current: localStorage.getItem(IMPROVE_POLICY_STORAGE_KEY),
+        legacy: localStorage.getItem(IMPROVE_POLICY_V2_KEY) };
+}
+function mirrorEnvelope(envelope) {
+    for (const [key, value] of [[IMPROVE_POLICY_STORAGE_KEY, envelope.current],
+        [IMPROVE_POLICY_V2_KEY, envelope.legacy]]) {
+        if (localStorage.getItem(key) === value)
+            continue;
+        if (value === null)
+            localStorage.removeItem(key);
+        else
+            localStorage.setItem(key, value);
+    }
+}
+/** Callbacks are synchronous. Resolve only after the authoritative transaction commits. */
 export async function withExclusiveImprovePolicyStorage(write) {
     if (typeof navigator === 'undefined' || !navigator.locks || typeof navigator.locks.request !== 'function')
         throw new Error('Safe cross-tab Improve storage coordination unavailable.');
-    return navigator.locks.request(IMPROVE_POLICY_STORAGE_KEY, { mode: 'exclusive' }, lock => {
+    return navigator.locks.request(IMPROVE_POLICY_STORAGE_KEY, { mode: 'exclusive' }, async (lock) => {
         if (!lock || exclusiveImproveWriter)
             throw new Error('Exclusive Improve storage lock unavailable.');
-        exclusiveImproveWriter = true;
+        // Pure Node/test adapters keep their existing synchronous storage contract.
+        if (typeof window === 'undefined' || !(window.localStorage instanceof Storage)) {
+            exclusiveImproveWriter = true;
+            try {
+                return write();
+            }
+            finally {
+                exclusiveImproveWriter = false;
+            }
+        }
+        if (typeof indexedDB === 'undefined')
+            throw new Error('Safe cross-tab Improve database unavailable.');
+        const database = await openImproveDatabase();
         try {
-            return write();
+            const execute = () => new Promise((resolve, reject) => {
+                const transaction = database.transaction('envelopes', 'readwrite', { durability: 'strict' });
+                const envelopes = transaction.objectStore('envelopes');
+                const request = envelopes.get(IMPROVE_POLICY_STORAGE_KEY);
+                let before, value, failure;
+                transaction.oncomplete = () => resolve(value);
+                transaction.onabort = () => {
+                    // Undo the provisional mirror; if storage is unavailable, the authoritative
+                    // original still survives and startup will repair the mirror before reading.
+                    try {
+                        if (before)
+                            mirrorEnvelope(before);
+                    }
+                    catch { /* durable original is retained */ }
+                    reject(failure ?? transaction.error ?? new Error('Improve storage transaction aborted.'));
+                };
+                request.onsuccess = () => {
+                    try {
+                        if (request.result !== undefined && (!request.result
+                            || !['current', 'legacy'].every(key => request.result[key] === null || typeof request.result[key] === 'string')))
+                            throw new Error('Invalid Improve database envelope; recovery data has been retained.');
+                        if (request.result === undefined) {
+                            // Commit the original before the first mutation. Even an unavailable
+                            // mirror rollback or a lost tab cannot erase the only pre-write copy.
+                            envelopes.put(readEnvelope(), IMPROVE_POLICY_STORAGE_KEY);
+                            transaction.oncomplete = () => { execute().then(resolve, reject); };
+                            return;
+                        }
+                        before = request.result;
+                        mirrorEnvelope(before); // refresh this renderer from the authoritative transaction
+                        exclusiveImproveWriter = true;
+                        try {
+                            value = write();
+                        }
+                        finally {
+                            exclusiveImproveWriter = false;
+                        }
+                        if (value && typeof value.then === 'function')
+                            throw new Error('Improve storage writers must be synchronous.');
+                        envelopes.put(readEnvelope(), IMPROVE_POLICY_STORAGE_KEY);
+                    }
+                    catch (error) {
+                        failure = error;
+                        transaction.abort();
+                    }
+                };
+            });
+            return await execute();
         }
         finally {
-            exclusiveImproveWriter = false;
+            database.close();
         }
     });
 }
@@ -209,7 +303,7 @@ export function resolveImprovePolicyState(state, recommended) {
         && state.presetId === 'augusta-standard' && recommended.presetId === 'augusta-standard'
         && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
     const hard = ['CRIT Rate', 'CRIT DMG'];
-    const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+    const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen'];
     const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })),
         groups: [{ id: 'selected-flex', minimumCount: 1, members: flex.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })) }] };
     const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat][0] }));

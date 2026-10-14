@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
@@ -94,6 +95,23 @@ async function waitForUi(send, expression, message, timeout = 5000) {
 
 async function pointerClick(send, selector) {
   await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)});if(!el)throw new Error('Missing pointer target: '+${JSON.stringify(selector)});el.scrollIntoView({block:'center',inline:'center',behavior:'instant'})})()`);
+  // Build slots can still be moving after Character/Workspace transitions. Wait
+  // for the actual hit target and stable geometry before issuing a single click.
+  if (selector.startsWith('.echo[data-echo-slot=')) {
+    const bottom = await evaluate(send, 'innerHeight-20');
+    await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:20,y:bottom});
+    await waitForUi(send, `!document.getElementById('buildShell').classList.contains('hover-expanded')&&(innerWidth<=760||document.getElementById('buildWheel').getBoundingClientRect().height<=123)`, 'Build Character hover did not collapse before slot click');
+    let previous = null, stable = 0;
+    for (let i = 0; i < 50; i++) {
+      const sample = await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)}),r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{rect:[r.x,r.y,r.width,r.height],hit:el===hit||el.contains(hit)}})()`);
+      const rect = JSON.stringify(sample.rect);
+      stable = sample.hit && rect === previous ? stable + 1 : 0;
+      previous = rect;
+      if (stable >= 2) break;
+      if (i === 49) throw new Error('Build pointer target did not settle: '+selector+' '+JSON.stringify(sample));
+      await sleep(50);
+    }
+  }
   await sleep(50);
   const bounds = await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)});const r=el.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,innerWidth,innerHeight}})()`);
   if (bounds.width <= 0 || bounds.height <= 0 || bounds.x + bounds.width <= 0 || bounds.y + bounds.height <= 0 || bounds.x >= bounds.innerWidth || bounds.y >= bounds.innerHeight) {
@@ -231,7 +249,7 @@ async function assertOwnedCardFamily(send,label){
 async function verifyDesktop(send) {
   await setViewport(send, 1440, 900);
   await navigate(send);
-  await evaluate(send, 'localStorage.clear()');
+  await evaluate(send, resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send, 'Augusta');
   const characterDialog=await evaluate(send,`(()=>{buildPicker.requestSwitch('Aalto');return{kind:activeConfirmation?.kind,title:document.getElementById('dialogTitle').textContent,body:document.getElementById('dialogCopy').textContent,button:document.getElementById('confirmSwitch').textContent,focus:document.activeElement.id,selected:buildPicker.selected}})()`);
@@ -321,7 +339,11 @@ async function verifyDesktop(send) {
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
   await pointerClick(send, '.echo[data-echo-slot="0"]');
-  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
+  try { await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1'); }
+  catch (error) {
+    const diagnostic=await evaluate(send, `(()=>{const el=document.querySelector('.echo[data-echo-slot="0"]'),r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{open:echoUi.open,closing:echoUi.closing,slot:echoUi.targetSlot,overlay:echoUi.overlay.className,focus:document.activeElement?.outerHTML.slice(0,250),hit:hit?.outerHTML.slice(0,250),rect:[r.x,r.y,r.width,r.height],events:window.__echoPointerAudit.slice(-12)}})()`);
+    throw new Error(error.message+' '+JSON.stringify(diagnostic));
+  }
 
   const cardAudit = await evaluate(send, `(()=>{
     const rows=[...document.querySelectorAll('#echoChoices .echo-choice:not([hidden])')].map(card=>{
@@ -828,7 +850,7 @@ async function verifyMobileSmoke(send) {
 async function verifySonataComposition(send){
   await setViewport(send,1440,900);
   await navigate(send);
-  await evaluate(send,'localStorage.clear()');
+  await evaluate(send,resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send,'Augusta');
   await pointerClick(send,'.echo[data-echo-slot="0"]');

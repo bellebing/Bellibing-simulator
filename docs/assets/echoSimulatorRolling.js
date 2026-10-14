@@ -1,8 +1,9 @@
+import { nextCheckpoint } from "./echoCoreRules.js";
 import { createRank5EchoAtLevel0, withRank5MainStatsAtLevel } from "./echoMainStats.js";
 import { VerifiedWuwaEchoRuntime } from "./echoCoreRuntime.js";
 import { assessEchoRequirements } from "./echoRequirements.js";
 /** Already-eligible, explicitly selected template; no farming or Character prescription. */
-export function rollSimulatorCandidate(session, template, rng) {
+export function rollSimulatorCandidate(session, template, rng, checkpoints) {
     const candidate = session.slots[session.selectedSlot - 1]?.candidate;
     if (!candidate || candidate.card.echoId !== template.echoId
         || candidate.card.selectedSonataSetId !== template.selectedSonataSetId || !template.selectedSonataSetId)
@@ -26,12 +27,17 @@ export function rollSimulatorCandidate(session, template, rng) {
     let echo = fresh.echo;
     record(echo);
     next.rolling.attempts += fresh.cost.echoes;
-    for (let step = runtime.rollNext(echo, rng); step; step = runtime.rollNext(echo, rng)) {
+    while (nextCheckpoint(echo.level) !== null) {
+        if (checkpoints && !checkpoints.before(echo, nextCheckpoint(echo.level)))
+            break;
+        const step = runtime.rollNext(echo, rng);
         echo = step.echo;
         record(echo);
         next.rolling.checkpoints++;
         next.rolling.tuners += step.cost.tuners;
         next.rolling.exp += step.cost.exp;
+        if (checkpoints && !checkpoints.after(echo))
+            break;
     }
     return next;
 }

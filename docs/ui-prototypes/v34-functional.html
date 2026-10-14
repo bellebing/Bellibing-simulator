@@ -512,6 +512,7 @@
     <div id="simulatorSequence" class="simulator-sequence" hidden></div>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
   </main>
+    <section id="simulatorTrashPanel" class="improve-surface simulator-trash-panel" aria-label="Discarded Echo history" hidden><h2>Trash Piles</h2><div id="simulatorTrashColumns" class="simulator-trash-columns"></div></section>
 </div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
@@ -2084,7 +2085,7 @@ const improveUi={
     document.getElementById('simulatorExecutionModes').hidden=!this.simulator;document.getElementById('simulatorResultStats').hidden=true;
     for(const [id,mode] of [['simulatorOneSlot','ONE_SLOT'],['simulatorFullSet','FULL_SET']]){const button=document.getElementById(id);button.setAttribute('aria-pressed',String((this.executionMode||'ONE_SLOT')===mode));button.disabled=this.simulator?.run?.status==='RUNNING';}
     document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;
-    document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes and slot Trash Piles':'Current equipped Echoes');
+    document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes':'Current equipped Echoes');
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent='Current';document.querySelector('.improve-stat-head span:last-child').textContent=this.simulator?'Simulated':'New';
   },
   setCharacter(name){
@@ -2212,19 +2213,19 @@ const improveUi={
     this.renderHelper();
   },
   renderEchoRow(){
-    const host=document.getElementById('improveEchoRow'),slots=this.simulator?window.bellibingEchoSimulator.simulatorEquipmentSlots(this.simulator):improveWorkspaceSlots(this.characterName);host.replaceChildren();
+    const host=document.getElementById('improveEchoRow'),slots=this.simulator?window.bellibingEchoSimulator.simulatorEquipmentSlots(this.simulator):improveWorkspaceSlots(this.characterName);host.replaceChildren();const trashPanel=document.getElementById('simulatorTrashPanel'),trashColumns=document.getElementById('simulatorTrashColumns');trashPanel.hidden=!this.simulator;trashColumns.replaceChildren();
     for(let index=0;index<5;index++){
       const slot=slots[index]||(this.simulator?this.simulatorTemplates?.[index]:null),item=echoById.get(echoSlotId(slot));const button=document.createElement('button');button.type='button';button.className='improve-equipped-echo'+(index===this.selectedEchoIndex?' is-selected':'');button.dataset.echoSlot=String(index);button.setAttribute('aria-pressed',String(index===this.selectedEchoIndex));
       const cost=document.createElement('span');cost.className='improve-equipped-cost';cost.textContent=item?'COST '+item.cost:'EMPTY';const level=document.createElement('span');level.className='improve-equipped-level';level.textContent=Number.isFinite(slot?.level)?'+'+slot.level:'';cost.appendChild(level);
       const art=document.createElement('span');art.className='improve-equipped-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}
       const title=document.createElement('span');title.className='improve-equipped-name';title.textContent=item?.name||('Echo '+(index+1));
-      button.title=item?.name||('Echo '+(index+1));button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);
+      button.title=item?.name||('Echo '+(index+1));if(this.simulator)button.append(window.bellibingEchoSimulator.renderEchoCard(slot,item,echoStatValueText));else button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);
       if(this.simulator){
         const column=document.createElement('div');column.className='simulator-slot';column.dataset.simulatorSlot=String(index+1);column.dataset.equipmentState=slot?.level===undefined?'NOT_ROLLED':improveWorkspaceSlots(this.characterName)[index]?'ACTIVE':'INACTIVE';column.append(button);const status=document.createElement('p');status.className='simulator-equipment-state';status.textContent=slot?.prepared?'Prepared':column.dataset.equipmentState==='NOT_ROLLED'?'Ready to roll':column.dataset.equipmentState==='ACTIVE'?'Active':'Inactive';const actions=document.createElement('div');actions.className='simulator-slot-actions';const edit=document.createElement('button');edit.type='button';edit.textContent='✎';edit.title='Edit Echo';edit.setAttribute('aria-label','Edit Echo '+(index+1));edit.dataset.editEcho=String(index);edit.disabled=this.simulator.run?.status==='RUNNING';edit.onclick=()=>this.editSimulationEcho(index);actions.append(this.activationControl(index),edit);column.append(actions,status);
         const model=window.bellibingEchoSimulator;
-        column.append(model.renderTrashPile(this.simulator,index+1,card=>echoById.get(echoSlotId(card))?.name||card.echoId,
+        trashColumns.append(model.renderTrashPile(this.simulator,index+1,card=>echoById.get(echoSlotId(card))?.name||card.echoId,
           (slot,id)=>{this.simulator=model.inspectSimulatorTrash(this.simulator,slot,id)},
-          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)},echoStatValueText));host.append(column);
+          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)},echoStatValueText,card=>echoById.get(echoSlotId(card))));host.append(column);
       }else host.appendChild(button);
     }
   },
@@ -2268,10 +2269,13 @@ const improveUi={
   },
   renderSimulatedStats(){
     const host=document.getElementById('simulatorResultStats'),projection=projectImproveCurrentStats(this.characterName);host.replaceChildren();
-    const title=document.createElement('h2');title.textContent='Simulated';host.append(title);
-    for(const [key,label,percent] of [['atk','ATK',false],['critRate','CRIT Rate',true],['critDamage','CRIT DMG',true],['energyRegen','Energy Regen',true],['heavyAttackDamageBonus','Heavy Attack DMG',true]]){
-      const row=document.createElement('div');row.dataset.simulatedStat=key;const name=document.createElement('span'),value=document.createElement('strong');name.textContent=label;value.textContent=statsUi.format(projection?.[key],percent);row.append(name,value);host.append(row);
-    }
+    host.hidden=false;const title=document.createElement('h2');title.textContent='Character targets';host.append(title);
+    const targets=window.bellibingEchoSimulator.simulatedCharacterTargets(this.characterId,projection,window.bellibingImproveSettings?.getState());
+    const summary=document.createElement('p');summary.id='simulatorCharacterTargets';
+    summary.textContent=!targets.length||targets.some(row=>row.status==='PENDING')?'Character targets: Pending':targets.every(row=>row.status==='MET')?'Character targets met · static stats only':'Character targets not yet met';host.append(summary);
+    const er=targets.find(row=>row.metric==='TOTAL_ENERGY_REGEN');
+    const indicator=document.createElement('p');indicator.id='simulatorEnergyTarget';indicator.dataset.targetStatus=er?.status||'PENDING';
+    indicator.textContent=er&&er.status!=='PENDING'?'Energy Regen: '+statsUi.format(er.actual,true)+' / '+statsUi.format(er.target,true)+' '+(er.status==='MET'?'✓':'⚠')+' · '+er.basisLabel:'Energy Regen target: Pending';host.append(indicator);
   },
   renderRollingControls(){
     const host=document.getElementById('simulatorControls'),model=window.bellibingEchoSimulator,running=this.simulator.run?.status==='RUNNING';host.hidden=false;
@@ -2287,18 +2291,20 @@ const improveUi={
     if(!running)button('simulatorRoll','Simulate',()=>this.startRun()).disabled=!template||this.resourcesChanged;
     if(running)button('simulatorCancel','Cancel',()=>this.cancelRun());
     if(this.simulator.run?.status==='PAUSED')button('simulatorResume','Resume simulation',()=>this.startRun(true));
-    host.append(text('h3','Used'));const status=text('p',this.simulator.run?.status==='SUCCESS'?'Complete':this.simulator.run?.reason||'');status.className='simulator-run-status';status.setAttribute('role','status');host.append(status);
+    host.append(text('h3','Used'));const status=text('p',this.simulator.run?.status==='SUCCESS'?'Echo requirements met':this.simulator.run?.reason||'');status.className='simulator-run-status';status.setAttribute('role','status');host.append(status);
     for(const [id,value] of Object.entries(counts)){const row=text('p',value);row.dataset.counter=id;host.append(row)}
     if(!running&&template){
       const details=text('details',''),summary=text('summary','Details');details.append(summary);
       const label=text('label','Main stat');label.htmlFor='simulatorMainStat';const select=document.createElement('select');select.id='simulatorMainStat';
       for(const stat of model.RANK5_PRIMARY_MAIN_STATS[template.cost])select.append(new Option(stat.name,stat.name));select.value=template.primaryMainStat;
       select.onchange=()=>{this.cancelRun('Configuration changed');this.simulatorTemplates[this.selectedEchoIndex].primaryMainStat=select.value;this.renderCandidate();this.renderEchoRow();this.renderCurrentEcho();this.renderHelper()};details.append(label,select);
-      details.append(text('p','Eligible editable templates. Completed +25 rolls pass ALL Hard minima and the selected Flex count. Gate is retained without early rejection. Full Set runs slots 1–5 with one working budget.'));
-      details.append(text('p','Whole Tubes use the least supplied EXP reaching +25, with catalog-order ties. Gross spending and verified upgrade cap returns are exact; discard/feed recovery, Character usefulness and expected outcomes remain Pending. Saved Resources stay unchanged.'));
+      details.append(text('p','Eligible editable templates. Completed +25 rolls pass ALL Hard minima and the selected Flex count. At and after Gate, mathematically impossible Echo requirements stop further upgrading. Full Set runs slots 1–5 with one working budget.'));
+      details.append(text('p','Each checkpoint uses the least supplied whole-Tube EXP with catalog-order ties; carry stays with the candidate. Gross spending and verified upgrade cap returns are exact; discard/feed recovery, economic Continue/Reject/Accept, Character usefulness and expected outcomes remain Pending. Saved Resources stay unchanged.'));
       host.append(details);
     }
-    if(this.resourcesChanged)host.append(text('small','Resources changed — reset to use the new budget.'));
+    if(this.resourcesChanged){host.append(text('small','Simulate paused: saved Resources changed. Apply the new total budget minus this session’s spending, or Reset. Cards and history stay when applying.'));
+      button('simulatorApplyBudget','Apply new total budget',()=>{this.simulator=model.applySimulatorBudget(this.simulator,window.bellibingResourceInventory.getState());this.resourcesChanged=false;});
+    }
     if(this.simulatorError){const error=text('p',this.simulatorError);error.setAttribute('role','alert');host.append(error);}
   },
   refresh(){if(this.characterName)this.render()}

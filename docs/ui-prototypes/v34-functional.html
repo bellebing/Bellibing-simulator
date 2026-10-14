@@ -511,6 +511,7 @@
     <nav id="simulatorExecutionModes" class="simulator-execution-modes" aria-label="Simulation execution mode" hidden><button id="simulatorOneSlot" type="button" aria-pressed="true">1 Slot</button><button id="simulatorFullSet" type="button" aria-pressed="false">Full Set</button></nav>
     <div id="simulatorSequence" class="simulator-sequence" hidden></div>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
+    <section id="simulatorTrashPanel" class="simulator-trash-panel" aria-label="Discarded Echo history" hidden><h2>Trash Piles</h2><div id="simulatorTrashColumns" class="simulator-trash-columns"></div></section>
   </main>
 </div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
@@ -2212,19 +2213,19 @@ const improveUi={
     this.renderHelper();
   },
   renderEchoRow(){
-    const host=document.getElementById('improveEchoRow'),slots=this.simulator?window.bellibingEchoSimulator.simulatorEquipmentSlots(this.simulator):improveWorkspaceSlots(this.characterName);host.replaceChildren();
+    const host=document.getElementById('improveEchoRow'),slots=this.simulator?window.bellibingEchoSimulator.simulatorEquipmentSlots(this.simulator):improveWorkspaceSlots(this.characterName);host.replaceChildren();const trashPanel=document.getElementById('simulatorTrashPanel'),trashColumns=document.getElementById('simulatorTrashColumns');trashPanel.hidden=!this.simulator;trashColumns.replaceChildren();
     for(let index=0;index<5;index++){
       const slot=slots[index]||(this.simulator?this.simulatorTemplates?.[index]:null),item=echoById.get(echoSlotId(slot));const button=document.createElement('button');button.type='button';button.className='improve-equipped-echo'+(index===this.selectedEchoIndex?' is-selected':'');button.dataset.echoSlot=String(index);button.setAttribute('aria-pressed',String(index===this.selectedEchoIndex));
       const cost=document.createElement('span');cost.className='improve-equipped-cost';cost.textContent=item?'COST '+item.cost:'EMPTY';const level=document.createElement('span');level.className='improve-equipped-level';level.textContent=Number.isFinite(slot?.level)?'+'+slot.level:'';cost.appendChild(level);
       const art=document.createElement('span');art.className='improve-equipped-art';if(item){const img=document.createElement('img');img.src=item.artSrc;img.alt='';img.draggable=false;art.appendChild(img)}
       const title=document.createElement('span');title.className='improve-equipped-name';title.textContent=item?.name||('Echo '+(index+1));
-      button.title=item?.name||('Echo '+(index+1));button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);
+      button.title=item?.name||('Echo '+(index+1));if(this.simulator)button.append(window.bellibingEchoSimulator.renderEchoCard(slot,item,echoStatValueText));else button.append(title,art,cost,this.echoStats(slot));button.onclick=()=>this.selectEcho(index);
       if(this.simulator){
         const column=document.createElement('div');column.className='simulator-slot';column.dataset.simulatorSlot=String(index+1);column.dataset.equipmentState=slot?.level===undefined?'NOT_ROLLED':improveWorkspaceSlots(this.characterName)[index]?'ACTIVE':'INACTIVE';column.append(button);const status=document.createElement('p');status.className='simulator-equipment-state';status.textContent=slot?.prepared?'Prepared':column.dataset.equipmentState==='NOT_ROLLED'?'Ready to roll':column.dataset.equipmentState==='ACTIVE'?'Active':'Inactive';const actions=document.createElement('div');actions.className='simulator-slot-actions';const edit=document.createElement('button');edit.type='button';edit.textContent='✎';edit.title='Edit Echo';edit.setAttribute('aria-label','Edit Echo '+(index+1));edit.dataset.editEcho=String(index);edit.disabled=this.simulator.run?.status==='RUNNING';edit.onclick=()=>this.editSimulationEcho(index);actions.append(this.activationControl(index),edit);column.append(actions,status);
         const model=window.bellibingEchoSimulator;
-        column.append(model.renderTrashPile(this.simulator,index+1,card=>echoById.get(echoSlotId(card))?.name||card.echoId,
+        trashColumns.append(model.renderTrashPile(this.simulator,index+1,card=>echoById.get(echoSlotId(card))?.name||card.echoId,
           (slot,id)=>{this.simulator=model.inspectSimulatorTrash(this.simulator,slot,id)},
-          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)},echoStatValueText));host.append(column);
+          ()=>{if(this.simulator)this.simulator=model.inspectSimulatorTrash(this.simulator,index+1,null)},echoStatValueText,card=>echoById.get(echoSlotId(card))));host.append(column);
       }else host.appendChild(button);
     }
   },
@@ -2268,10 +2269,7 @@ const improveUi={
   },
   renderSimulatedStats(){
     const host=document.getElementById('simulatorResultStats'),projection=projectImproveCurrentStats(this.characterName);host.replaceChildren();
-    const title=document.createElement('h2');title.textContent='Simulated · observed build';host.append(title);
-    for(const [key,label,percent] of [['atk','ATK',false],['critRate','CRIT Rate',true],['critDamage','CRIT DMG',true],['energyRegen','Energy Regen',true],['heavyAttackDamageBonus','Heavy Attack DMG',true]]){
-      const row=document.createElement('div');row.dataset.simulatedStat=key;const name=document.createElement('span'),value=document.createElement('strong');name.textContent=label;value.textContent=statsUi.format(projection?.[key],percent);row.append(name,value);host.append(row);
-    }
+    host.hidden=false;const title=document.createElement('h2');title.textContent='Character targets';host.append(title);
     const targets=window.bellibingEchoSimulator.simulatedCharacterTargets(this.characterId,projection,window.bellibingImproveSettings?.getState());
     const summary=document.createElement('p');summary.id='simulatorCharacterTargets';
     summary.textContent=!targets.length||targets.some(row=>row.status==='PENDING')?'Character targets: Pending':targets.every(row=>row.status==='MET')?'Character targets met · static stats only':'Character targets not yet met';host.append(summary);

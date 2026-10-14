@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
@@ -231,7 +232,7 @@ async function assertOwnedCardFamily(send,label){
 async function verifyDesktop(send) {
   await setViewport(send, 1440, 900);
   await navigate(send);
-  await evaluate(send, 'localStorage.clear()');
+  await evaluate(send, resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send, 'Augusta');
   const characterDialog=await evaluate(send,`(()=>{buildPicker.requestSwitch('Aalto');return{kind:activeConfirmation?.kind,title:document.getElementById('dialogTitle').textContent,body:document.getElementById('dialogCopy').textContent,button:document.getElementById('confirmSwitch').textContent,focus:document.activeElement.id,selected:buildPicker.selected}})()`);
@@ -828,7 +829,7 @@ async function verifyMobileSmoke(send) {
 async function verifySonataComposition(send){
   await setViewport(send,1440,900);
   await navigate(send);
-  await evaluate(send,'localStorage.clear()');
+  await evaluate(send,resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send,'Augusta');
   await pointerClick(send,'.echo[data-echo-slot="0"]');

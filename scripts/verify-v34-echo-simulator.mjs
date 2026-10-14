@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 // Test/dev-only observations and external dispositions, injected into an isolated
 // browser profile. This file is never copied to the public browser artifact.
 export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
@@ -29,7 +30,7 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
   };
   const expand=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="true"&&!document.getElementById("improveSettings").inert','physical '+id+' expansion')};
   const collapse=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="false"','physical '+id+' collapse')};
-  await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
+  await setViewport(send,1440,900);await navigate(send);await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await waitForUi(send,'echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&window.bellibingEchoSimulator&&releasedCharacters.length===59','Simulator sources not ready');
   await read(`(()=>{
     addOwned('Augusta');addOwned('Cartethyia');
@@ -187,7 +188,7 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   const key=async(key,modifiers=0)=>{const code=key==='a'?'KeyA':key,windowsVirtualKeyCode=({a:65,Backspace:8,Tab:9,Home:36,ArrowDown:40,ArrowRight:39})[key];await send('Input.dispatchKeyEvent',{type:'keyDown',key,code,modifiers,windowsVirtualKeyCode});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers,windowsVirtualKeyCode})};
   const enter=async(selector,text)=>{await click(selector);await key('a',2);await key('Backspace');await send('Input.insertText',{text});await key('Tab')};
   const resource=id=>'[data-resource="'+id+'"] input';
-  await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
+  await setViewport(send,1440,900);await navigate(send);await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await waitForUi(send,'echoDataLoaded&&window.bellibingEchoSimulator&&window.bellibingImproveSettings&&releasedCharacters.length===59','sources not ready');
   await read("show('improve')");await click('#improveScenarioChoose');
   const index=await read("[...document.querySelectorAll('#improveWheel .choice')].findIndex(c=>c.dataset.characterId==='augusta')");

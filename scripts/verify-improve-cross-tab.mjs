@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 const PORT = Number(process.env.BELLIBING_CROSS_TAB_DEBUG_PORT ?? 9774);
 const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
-let URL = process.env.BELLIBING_CROSS_TAB_URL ?? 'http://127.0.0.1:4173/REVIEW_UI_PREVIEW.txt';
+let fixtureUrl = process.env.BELLIBING_CROSS_TAB_URL ?? 'http://127.0.0.1:4173/REVIEW_UI_PREVIEW.txt';
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const chrome = spawn(CHROME, ['--headless=new', '--no-sandbox', '--disable-gpu',
   '--disable-dev-shm-usage', ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []), '--remote-debugging-address=127.0.0.1',
@@ -54,9 +54,9 @@ async function attempt(p,body) {
 }
 async function navigate(p) {
   await p.send('Page.enable'); await p.send('Runtime.enable');
-  await p.send('Page.navigate',{url:URL});
+  await p.send('Page.navigate',{url:fixtureUrl});
   for(let i=0;i<150;i++) {
-    if (await evaluate(p,"document.readyState === 'complete' && location.origin === 'http://127.0.0.1:4173'")) return;
+    if (await evaluate(p,`document.readyState === 'complete' && location.origin === ${JSON.stringify(new URL(fixtureUrl).origin)}`)) return;
     await sleep(75);
   }
   throw new Error('Browser fixture navigation timeout');
@@ -71,16 +71,19 @@ async function main() {
       window.r=await import('/assets/resourceInventory.js');
       window.presentation=await import('/assets/improvePolicyPresentation.js');
       window.key=window.p.IMPROVE_POLICY_STORAGE_KEY;
-      window.seed=(count=1)=>{let inv=window.r.emptyResourceInventory();
+      window.seedBytes=(count=1)=>{let inv=window.r.emptyResourceInventory();
         for(const [id,n] of [['echoes',count],['tuners',count*10],['shellCredits',count*2440],['basic',count*9]])
           inv=window.r.updateResourceInventory(inv,id,{kind:'FINITE',count:n});
-        localStorage.setItem(window.key,JSON.stringify({version:3,characters:{},pendingV2Characters:{},resourceInventory:inv}));
+        return JSON.stringify({version:3,characters:{},pendingV2Characters:{},resourceInventory:inv});
       };
+      window.seed=(count=1)=>p.withExclusiveImprovePolicyStorage(()=>localStorage.setItem(key,seedBytes(count)));
       true`;
     await Promise.all([evaluate(A,'(async()=>{'+setup+'})()'),evaluate(B,'(async()=>{'+setup+'})()')]);
     assert.equal(await evaluate(A,'!!navigator.locks && typeof navigator.locks.request==="function"'),true,'Chromium Web Locks unavailable');
     // Both snapshots from before either exclusive commit: exactly one paid attempt.
-    await evaluate(A,'localStorage.clear();seed();window.snap=t.readRank5Plus5Snapshot(localStorage);true');
+    const seeded = await evaluate(A,'(async()=>{localStorage.clear();localStorage.setItem(key,seedBytes());localStorage.setItem(p.IMPROVE_POLICY_V2_KEY,"retained legacy recovery bytes");await p.withExclusiveImprovePolicyStorage(()=>p.loadImprovePolicyStorage(localStorage));window.snap=t.readRank5Plus5Snapshot(localStorage);return snap.storageBytes})()');
+    for (let i=0;i<100 && await evaluate(B,'localStorage.getItem(key)')!==seeded;i++) await sleep(20);
+    assert.equal(await evaluate(B,'localStorage.getItem(key)'),seeded,'both tabs see the funded starting envelope');
     await evaluate(B,'window.snap=t.readRank5Plus5Snapshot(localStorage);true');
     const simultaneous=await Promise.all([
       attempt(A,"return t.commitRank5Plus5ResourcesExclusive(localStorage,snap,'first-tab')"),
@@ -96,6 +99,15 @@ async function main() {
     assert.deepEqual(await evaluate(A,'p.loadImprovePolicyStorage(localStorage).resourceTransactions'),
       {revision:1,consumedIds:[winner.receipt.transactionId]});
     assert.equal(await evaluate(A,'p.loadImprovePolicyStorage(localStorage).resourceInventory.echoes.count'),0);
+    // Deterministic reproduction: a renderer still exposes the pre-debit envelope.
+    // Web Locks alone allowed a second receipt; the durable authority must reject it.
+    await evaluate(B,'localStorage.setItem(key,snap.storageBytes);true');
+    const staleMirror=await attempt(B,"return t.commitRank5Plus5ResourcesExclusive(localStorage,snap,'stale-renderer')");
+    assert.equal(staleMirror.ok,false,'stale localStorage must not debit a paid budget twice');
+    assert.match(staleMirror.error,/Stale/);
+    assert.deepEqual(await evaluate(B,'p.loadImprovePolicyStorage(localStorage).resourceTransactions'),
+      {revision:1,consumedIds:[winner.receipt.transactionId]});
+    assert.equal(await evaluate(B,'localStorage.getItem(p.IMPROVE_POLICY_V2_KEY)'),'retained legacy recovery bytes','migration/commits preserve legacy recovery bytes');
     // A same-Character stale policy save must not clobber a newer policy record.
     await evaluate(A,"window.oldStore=p.loadImprovePolicyStorage(localStorage);true");
     await evaluate(B,"window.oldStore=p.loadImprovePolicyStorage(localStorage);true");
@@ -135,8 +147,14 @@ async function main() {
     assert.equal(rejected.ok,false); assert.match(rejected.error,/lock denied/);
     await evaluate(B,"if(hadLocks)Object.defineProperty(navigator,'locks',hadLocks);else delete navigator.locks;true");
     assert.equal(await evaluate(A,'localStorage.getItem(key)'),beforeDenied);
+    await evaluate(B,`window.originalDatabase=Object.getOwnPropertyDescriptor(window,'indexedDB');
+      Object.defineProperty(window,'indexedDB',{configurable:true,value:undefined});true`);
+    const noDatabase=await attempt(B,"return p.withExclusiveImprovePolicyStorage(()=>localStorage.setItem(key,'invalid'))");
+    assert.equal(noDatabase.ok,false);assert.match(noDatabase.error,/database unavailable/);
+    await evaluate(B,"if(originalDatabase)Object.defineProperty(window,'indexedDB',originalDatabase);else delete window.indexedDB;true");
+    assert.equal(await evaluate(A,'localStorage.getItem(key)'),beforeDenied);
     // Quota/serialization write error must preserve bytes and allow safe retry.
-    await evaluate(A,"seed();window.retrySnap=t.readRank5Plus5Snapshot(localStorage);true");
+    await evaluate(A,"(async()=>{await seed();window.retrySnap=t.readRank5Plus5Snapshot(localStorage);return true})()");
     const beforeQuota=await evaluate(A,'localStorage.getItem(key)');
     const quota=await attempt(A,`const original=Storage.prototype.setItem;
       Storage.prototype.setItem=function(key,value){throw new DOMException('quota','QuotaExceededError')};
@@ -147,10 +165,32 @@ async function main() {
     const retry=await attempt(A,"return t.commitRank5Plus5ResourcesExclusive(localStorage,retrySnap,'retry-id')");
     assert.equal(retry.ok,true,retry.error);
     assert.deepEqual(await evaluate(A,'p.loadImprovePolicyStorage(localStorage).resourceTransactions.consumedIds'),['retry-id']);
+    // Failure after the mirror write, before durable commit: no success or lost receipt.
+    await evaluate(A,"(async()=>{await seed();window.abortSnap=t.readRank5Plus5Snapshot(localStorage);return true})()");
+    const beforeAbort=await evaluate(A,'localStorage.getItem(key)');
+    const aborted=await attempt(A,`const put=IDBObjectStore.prototype.put;
+      IDBObjectStore.prototype.put=function(){throw new Error('durable write failed')};
+      try{return await t.commitRank5Plus5ResourcesExclusive(localStorage,abortSnap,'durable-retry')}
+      finally{IDBObjectStore.prototype.put=put}`);
+    assert.equal(aborted.ok,false); assert.match(aborted.error,/durable write failed/);
+    assert.equal(await evaluate(A,'localStorage.getItem(key)'),beforeAbort);
+    const durableRetry=await attempt(A,"return t.commitRank5Plus5ResourcesExclusive(localStorage,abortSnap,'durable-retry')");
+    assert.equal(durableRetry.ok,true,durableRetry.error);
+    assert.deepEqual(await evaluate(A,'p.loadImprovePolicyStorage(localStorage).resourceTransactions.consumedIds'),['durable-retry']);
+    await evaluate(A,"(async()=>{await seed();window.abortSnap=t.readRank5Plus5Snapshot(localStorage);return true})()");
+    const beforeAbortEvent=await evaluate(A,'localStorage.getItem(key)');
+    const abortEvent=await attempt(A,`const put=IDBObjectStore.prototype.put;
+      IDBObjectStore.prototype.put=function(...args){const request=put.apply(this,args);this.transaction.abort();return request};
+      try{return await t.commitRank5Plus5ResourcesExclusive(localStorage,abortSnap,'abort-event')}
+      finally{IDBObjectStore.prototype.put=put}`);
+    assert.equal(abortEvent.ok,false);assert.match(abortEvent.error,/aborted/);
+    assert.equal(await evaluate(A,'localStorage.getItem(key)'),beforeAbortEvent);
+    const completed=await attempt(A,"return t.commitRank5Plus5ResourcesExclusive(localStorage,abortSnap,'after-abort')");
+    assert.equal(completed.ok,true,completed.error);
     // A real lock held in one tab forces the other tab to wait, not race writes.
-    await evaluate(A,`seed();window.holding=false;
+    await evaluate(A,`(async()=>{await seed();window.holding=false;
       window.hold=navigator.locks.request(key,{mode:'exclusive'},async()=>{window.holding=true;await new Promise(resolve=>window.releaseHold=resolve)});
-      true`);
+      return true})()`);
     for(let i=0;i<50 && !await evaluate(A,'window.holding');i++)await sleep(20);
     assert.equal(await evaluate(A,'window.holding'),true);
     await evaluate(B,'window.waitSnap=t.readRank5Plus5Snapshot(localStorage);true');
@@ -164,22 +204,58 @@ async function main() {
     const afterHold=await waiting;
     assert.equal(afterHold.ok,true,afterHold.error);
     assert.deepEqual(await evaluate(A,'p.loadImprovePolicyStorage(localStorage).resourceTransactions.consumedIds'),['after-hold']);
-    URL='http://127.0.0.1:4173/ui-preview/';
+    // Repeated real two-renderer contention; every round has the same funded snapshot.
+    for (let round=0;round<20;round++) {
+      const bytes=await evaluate(A,'(async()=>{await seed();window.snap=t.readRank5Plus5Snapshot(localStorage);return snap.storageBytes})()');
+      for(let i=0;i<100 && await evaluate(B,'localStorage.getItem(key)')!==bytes;i++)await sleep(20);
+      assert.equal(await evaluate(B,'localStorage.getItem(key)'),bytes);
+      await evaluate(B,'window.snap=t.readRank5Plus5Snapshot(localStorage);true');
+      const results=await Promise.all([
+        attempt(A,`return t.commitRank5Plus5ResourcesExclusive(localStorage,snap,'round-${round}-a')`),
+        attempt(B,`return t.commitRank5Plus5ResourcesExclusive(localStorage,snap,'round-${round}-b')`)
+      ]);
+      assert.equal(results.filter(result=>result.ok).length,1,'contention round '+round);
+      assert.match(results.find(result=>!result.ok)?.error ?? '',/Stale/);
+    }
+    await evaluate(A,'(async()=>{await seed(2);return true})()');
+    fixtureUrl=new URL('/ui-preview/',fixtureUrl).href;
     await Promise.all([navigate(A),navigate(B)]);
     for(const tab of [A,B]){for(let i=0;i<200;i++){if(await evaluate(tab,"typeof improveUi!=='undefined'&&window.bellibingImproveSettings?.canAssessEchoRequirements&&echoDataLoaded&&window.bellibingEchoSimulator"))break;await sleep(75)}await evaluate(tab,"show('improve');improveUi.setCharacter('Augusta')")}
-    await evaluate(B,'improveUi.startSimulation();true');
+    await evaluate(B,'improveUi.startSimulation();window.originalRandom=Math.random;Math.random=()=>0;document.getElementById("simulatorRoll").click();true');
+    for(let i=0;i<200 && !await evaluate(B,"improveUi.simulator.run?.status==='EXHAUSTED'");i++)await sleep(25);
+    await evaluate(B,'Math.random=originalRandom;true');
+    assert.equal(await evaluate(B,"improveUi.simulator.run?.status==='EXHAUSTED'"),true);
+    assert.equal(await evaluate(B,'improveUi.simulator.rolling.attempts>0'),true,'preservation fixture contains actual rolls');
+    const histories=await evaluate(B,'JSON.stringify(improveUi.simulator.slots)');
     const sandbox=await evaluate(B,'JSON.stringify(improveWorkspaceSlots("Augusta"))');
     await evaluate(A,"document.getElementById('improve-setting-gate').click();const n=document.querySelector('[data-resource=echoes] input');n.value='19';n.onchange()");
     for(let i=0;i<100;i++){if(await evaluate(B,'window.bellibingResourceInventory.getState().echoes.count===19'))break;await sleep(50)}
     assert.equal(await evaluate(B,'window.bellibingResourceInventory.getState().echoes.count'),19,'native storage event updates second UI tab');
     assert.equal(await evaluate(B,'improveUi.resourcesChanged'),true,'external budget edit requires sandbox reset');
     assert.equal(await evaluate(B,'JSON.stringify(improveWorkspaceSlots("Augusta"))'),sandbox,'external edit retains sandbox equipment');
+    assert.equal(await evaluate(B,'JSON.stringify(improveUi.simulator.slots)'),histories,'external edit retains rolled histories and trash');
     assert.equal(await evaluate(B,'document.getElementById("simulatorRoll").disabled'),true,'changed budget cannot continue old run');
     await evaluate(A,"document.querySelector('[data-focus-key=\"sonata:sonata-20\"]').click();true");
     for(let i=0;i<100;i++){if(await evaluate(B,'!window.bellibingImproveSettings.getSonataSetIds().includes("sonata-20")'))break;await sleep(50)}
     assert.equal(await evaluate(B,'window.bellibingImproveSettings.getSonataSetIds().includes("sonata-20")'),false,'native storage event updates Character-owned Sonata filters');
+    // A slow valid save must not erase a newer invalid input or its error marker.
+    await evaluate(A,`window.inputHoldReady=false;
+      navigator.locks.request('bellibing.improve.policy.v3',{mode:'exclusive'},async()=>{
+        window.inputHoldReady=true;await new Promise(resolve=>window.releaseInputHold=resolve)});true`);
+    for(let i=0;i<100 && !await evaluate(A,'window.inputHoldReady');i++)await sleep(20);
+    assert.equal(await evaluate(A,'window.inputHoldReady'),true);
+    await evaluate(B,`document.getElementById('improve-setting-gate').click();
+      window.resourceInput=document.querySelector('[data-resource=echoes] input');
+      resourceInput.value='18';window.pendingInput=resourceInput.onchange();
+      resourceInput.value='-1';resourceInput.dispatchEvent(new Event('input'));
+      resourceInput.onchange();true`);
+    await evaluate(A,'releaseInputHold();true');
+    await evaluate(B,'pendingInput.then(()=>true)');
+    assert.equal(await evaluate(B,'resourceInput.value'),'-1','earlier completion retains the newer input');
+    assert.equal(await evaluate(B,'resourceInput.getAttribute("aria-invalid")'),'true','earlier success cannot clear a later validation error');
+    assert.equal(await evaluate(B,'window.bellibingResourceInventory.getState().echoes.count'),18,'only the valid edit commits');
     console.log('PASS native UI storage events: shared budget/Sonatas, reset required, sandbox retained.');
-    console.log('PASS BUG-045 Chromium: 2 tabs, 1 debit + receipt, stale Settings/Resources, direct/missing/rejected locks, quota retry, exclusive contention.');
+    console.log('PASS BUG-045 Chromium: 2 tabs, 1 debit + receipt, stale Settings/Resources, direct/missing/rejected locks, quota/durable rollback and retry, stale mirrors, 20 contention rounds.');
   } finally { A.socket.close(); B.socket.close(); }
 }
 try { await main(); }

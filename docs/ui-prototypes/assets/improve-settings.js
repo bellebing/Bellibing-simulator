@@ -24,7 +24,7 @@ function coordinatedWrite(action) {
   writerQueue = pending.then(() => {}, () => {});
   return pending;
 }
-try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
+try { store = await withExclusiveImprovePolicyStorage(() => loadImprovePolicyStorage(localStorage)); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
@@ -60,26 +60,29 @@ function renderResources() {
     const input = element('input'); input.type = 'text'; input.value = formatInventoryQuantity(quantity); input.hidden = !expanded;
     input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
     input.disabled = !!storageError || !store; input.autocomplete = 'off'; input.spellcheck = false;
-    input.oninput = () => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
+    let inputEditSequence = 0;
+    input.oninput = () => { inputEditSequence++; input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
     input.onchange = async () => {
+      const editSequence = ++inputEditSequence;
       try {
         const value = parseInventoryQuantity(input.value);
-        const prior = quantityAt(id);
         const epoch = externalWriteEpoch;
-        await coordinatedWrite(() => {
+        const saved = await coordinatedWrite(() => {
           if (epoch !== externalWriteEpoch)
             throw new Error('Stale shared resource inventory; reload before editing.');
           const next = updateResourceInventory(inventory, id, value);
-          store = persistResourceInventory(store, next, localStorage);
-          inventory = store.resourceInventory;
+          return { store: persistResourceInventory(store, next, localStorage), prior: quantityAt(id) };
         });
-        if (prior.kind === 'FINITE') previousFiniteCounts.set(id, prior.count);
-        input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
-        input.disabled = !!storageError || !store;
+        store = saved.store; inventory = saved.store.resourceInventory;
+        if (saved.prior.kind === 'FINITE') previousFiniteCounts.set(id, saved.prior.count);
+        summary.textContent = formatInventoryQuantity(quantityAt(id));
         toggle.setAttribute('aria-pressed', String(quantityAt(id).kind === 'UNLIMITED'));
-        input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
         window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
-      } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
+        if (editSequence !== inputEditSequence) return;
+        input.value = summary.textContent;
+        input.disabled = !!storageError || !store;
+        input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
+      } catch (error) { if (editSequence !== inputEditSequence) return; input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     attachResourceScrubber(input, () => input.onchange());
@@ -93,7 +96,6 @@ function renderResources() {
       const current = quantityAt(id);
       input.value = current.kind === 'FINITE' ? '∞' : String(previousFiniteCounts.get(id) ?? 0);
       await input.onchange();
-      input.value = formatInventoryQuantity(quantityAt(id));
     };
     owner.append(summary, input, toggle); parent.append(owner);
   }
@@ -121,11 +123,12 @@ async function save() {
   const candidate = settings, selected = characterId;
   const epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
-      store = persistImprovePolicyState(store, candidate, localStorage);
+      return persistImprovePolicyState(store, candidate, localStorage);
     });
+    store = saved;
     saveNote.hidden = true; return true;
   } catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
 }
@@ -133,13 +136,15 @@ async function save() {
 async function resetRetiredEchoPolicy() {
   const selected = characterId, epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (selected !== characterId) throw new Error('Character changed before recovery.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before recovery.');
       const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
-      store = persistImprovePolicyState(store, next, localStorage);
-      settings = next;
+      return { store: persistImprovePolicyState(store, next, localStorage), settings: next };
     });
+    store = saved.store;
+    if (characterId !== selected) return;
+    settings = saved.settings;
     storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
     render(); groups.get('flex').trigger.focus({ preventScroll: true });
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
@@ -147,13 +152,15 @@ async function resetRetiredEchoPolicy() {
 async function commit(change, focusKey, refresh = true) {
   const selected = characterId, epoch = externalWriteEpoch;
   try {
-    await coordinatedWrite(() => {
+    const saved = await coordinatedWrite(() => {
       if (characterId !== selected) throw new Error('Character changed before settings save.');
       if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
       const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
-      store = persistImprovePolicyState(store, next, localStorage);
-      settings = next;
+      return { store: persistImprovePolicyState(store, next, localStorage), settings: next };
     });
+    store = saved.store;
+    if (characterId !== selected) return;
+    settings = saved.settings;
     saveNote.hidden = true;
   } catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
   window.dispatchEvent(new Event('bellibing-improve-settings-changed'));

@@ -1,10 +1,11 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 // Test-only fixtures. Product code never imports this module.
 export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   const read = expression => evaluate(send,expression);
   const check = async (expression,message) => { if(!await read(expression))throw Error('Unified simulator: '+message); };
   const click = async selector => {await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);const point=await read(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});await sleep(500);await pointerClick(send,selector);await sleep(150);};
   await setViewport(send,1440,900);await navigate(send);
-  await read('localStorage.clear()');await navigate(send);
+  await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await waitForUi(send,"echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&buildStatsRuntimeLoaded&&window.bellibingImproveSettings?.canAssessEchoRequirements!==undefined",'source readiness',20000);
   await read("show('build');buildPicker.select('Augusta');addOwned('Augusta');show('improve');improvePicker.select('Augusta')");
   await waitForUi(send,"window.bellibingImproveSettings.canAssessEchoRequirements()",'policy readiness',20000);

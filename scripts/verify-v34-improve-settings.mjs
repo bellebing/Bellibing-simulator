@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 export async function verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep, desktopViewports = [[1440,900],[1920,1080],[2560,1440]], resourceWidths = [960,640,390] }) {
   const read = expression => evaluate(send, expression);
   const state = 'window.bellibingImproveSettings.getState()';
@@ -61,7 +62,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Backspace',code:'Backspace'});
     if (text) await send('Input.insertText',{text});
   };
-  await setViewport(send,1440,900); await navigate(send); await read('localStorage.clear()'); await navigate(send); await wait();
+  await setViewport(send,1440,900); await navigate(send); await read(resetImproveStorageFixture('localStorage.clear()')); await navigate(send); await wait();
   const source = await read("fetch('assets/improve-settings/sources.json').then(r=>r.json()).then(d=>d.characters.find(c=>c.characterId==='augusta'))");
   await read("addOwned('Augusta');addOwned('Chixia');show('improve');improvePicker.select('Augusta')");
   const artifactVariant = await read("location.pathname.startsWith('/ui-preview/') ? 'built' : 'source'");
@@ -94,9 +95,11 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`(()=>{const n=document.querySelector('.improve-sonata-list');return n.scrollTop>0&&n.scrollHeight>n.clientHeight&&n.clientHeight>=300&&n.clientHeight<=310&&getComputedStyle(n).overflowY==='auto'&&getComputedStyle(document.querySelector('.improve-sonata-recommended')).overflowY==='visible'&&JSON.stringify([...document.querySelectorAll('[data-setting=sonata] > label,[data-setting=sonata] > button,.improve-sonata-recommended')].map(n=>n.getBoundingClientRect().y))===${JSON.stringify(fixedBefore)}})()`, 'only More Sets list scrolls while summary and recommended rows stay fixed');
   // Stress every catalog choice, including future/unusual large selections.
   await read(`for(const row of [...document.querySelectorAll('.improve-sonata-row[aria-pressed="false"]')])document.querySelector('[data-focus-key="sonata:'+row.dataset.sonataId+'"]').click()`);await settle();
+  await waitForUi(send,"document.querySelectorAll('.improve-sonata-summary img').length===37",'queued Sonata saves committed',10000);
   await check(`(()=>{const icons=[...document.querySelectorAll('.improve-sonata-summary img')],r=document.getElementById('improve-setting-sonata').getBoundingClientRect();return icons.length===37&&icons.every((n,i)=>{const a=n.getBoundingClientRect();return n.alt&&n.complete&&n.naturalWidth&&a.left>=r.left&&a.right<=r.right&&a.top>=r.top&&a.bottom<=r.bottom&&(!i||a.left<icons[i-1].getBoundingClientRect().right)})&&document.documentElement.scrollWidth===1440})()`, 'all canonical selected icons overlap inside the original field without clipping/overflow');
   await capture(send,'artifacts/ui-preview-selected-sonatas-all-1440x900.png');
   await read(`for(const row of [...document.querySelectorAll('.improve-sonata-list .improve-sonata-row[aria-pressed="true"]')])document.querySelector('[data-focus-key="sonata:'+row.dataset.sonataId+'"]').click()`);await settle();
+  await waitForUi(send,"document.querySelectorAll('.improve-sonata-summary img').length===2",'queued Sonata saves committed',10000);
   await click('.improve-more-sonatas summary');await check(`!document.querySelector('.improve-more-sonatas').open`, 'More Sets collapses');
   const selectedBeforeReload=await read(`JSON.stringify(${state}.selectedSonataSetIds)`);
   await navigate(send);await wait();await read("show('improve');improvePicker.select('Augusta')");
@@ -112,8 +115,9 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await enter(resourceInput(id),value); await read(`document.querySelector(${JSON.stringify(resourceInput(id))}).blur()`);
   }
   await check(`document.querySelector('[data-resource=shellCredits] input').getAttribute('aria-label')==='Shell Credits available count'&&!document.querySelector('[data-resource=shellCredits] img')`, 'Shell Credits accessible input without fabricated icon');
-  const inventorySaved=await read(`JSON.stringify(${inventoryState})`);
+  await waitForUi(send,`${inventoryState}.tubes.basic.kind==='UNLIMITED'`,'last resource save committed',6000);
   await check(`${inventoryState}.echoes.count===12&&${inventoryState}.tuners.kind==='UNLIMITED'&&${inventoryState}.shellCredits.count===0&&${inventoryState}.tubes.premium.count===7&&${inventoryState}.tubes.advanced.count===11&&${inventoryState}.tubes.medium.count===0&&${inventoryState}.tubes.basic.kind==='UNLIMITED'`, 'seven independent inventory counts including finite-zero Shell Credits');
+  const inventorySaved=await read(`JSON.stringify(${inventoryState})`);
   for (const invalid of ['-1','1.5']) {
     await enter(resourceInput('echoes'),invalid); await read(`document.querySelector(${JSON.stringify(resourceInput('echoes'))}).blur()`);
     await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&document.querySelector(${JSON.stringify(resourceInput('echoes'))}).getAttribute('aria-invalid')==='true'`, 'invalid resource input never saves');
@@ -254,7 +258,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   }
   // Character Target input, validity and source-family presentation remain independent of decisions.
   await setViewport(send,1440,900);
-  await read(`import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href))).then(m=>{const key='bellibing.improve.policy.v3',saved=JSON.parse(localStorage.getItem(key));saved.characters.augusta.mode='MANUAL';saved.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ENERGY_REGEN','115','125')];localStorage.setItem(key,JSON.stringify(saved))})`);
+  await read(resetImproveStorageFixture(`import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href))).then(m=>{const key='bellibing.improve.policy.v3',saved=JSON.parse(localStorage.getItem(key));saved.characters.augusta.mode='MANUAL';saved.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ENERGY_REGEN','115','125')];localStorage.setItem(key,JSON.stringify(saved))})`));
   const savedTargetBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`localStorage.getItem('bellibing.improve.policy.v3')===${JSON.stringify(savedTargetBytes)}&&${state}.overrides.numericTargets[0].minimum===1.15&&!document.querySelector('.improve-target-add')`, 'previously saved custom Target bytes survive reload without Add stat');
@@ -282,7 +286,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   for(const [mode,activeStats] of [['MANUAL',['CRIT DMG','CRIT Rate']],['MANUAL',[]],['RECOMMENDED',[]]]) {
     const legacy={version:2,characters:{augusta:{schemaVersion:2,characterId:'augusta',gate:15,rollQuality:'Mid+',valuableStats:{schemaVersion:2,presetId:source.presetId,profileId:source.profileId,sourceBinding:binding,orderingMode:mode,activeStats}}}};
     const raw=JSON.stringify(legacy);
-    await read(`localStorage.removeItem('bellibing.improve.policy.v3');localStorage.setItem('bellibing.improve.simple-settings.v2',${JSON.stringify(raw)})`);
+    await read(resetImproveStorageFixture(`localStorage.removeItem('bellibing.improve.policy.v3');localStorage.setItem('bellibing.improve.simple-settings.v2',${JSON.stringify(raw)})`));
     await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
     await check(`${state}.mode===${JSON.stringify(mode)}&&${state}.gate===15&&localStorage.getItem('bellibing.improve.simple-settings.v2')===${JSON.stringify(raw)}&&${state}.overrides.echoRequirements===undefined&&${state}.overrides.numericTargets===undefined`, 'v2 intent/recovery copy');
     if(mode==='MANUAL') await check(`JSON.stringify(${state}.overrides.echoPreferences.map(r=>r.stat))===${JSON.stringify(JSON.stringify(activeStats))}`, 'v2 order/empty preserved');
@@ -290,10 +294,10 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   }
   await click('#improve-setting-every'); await settle();  if (!await read("document.querySelector('.improve-other-stats').open")) await click('.improve-other-stats summary'); await dragRow('ATK%', '[data-echo-section=flex]');
   const originalBinding=await read(`${state}.contextBinding`);
-  await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding='changed-context';localStorage.setItem(key,JSON.stringify(s))})()`);
+  await read(resetImproveStorageFixture(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding='changed-context';localStorage.setItem(key,JSON.stringify(s))})()`));
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`${state}.compatibility.status==='REVIEW_REQUIRED'&&${state}.overrides.echoPreferences[0].stat==='ATK%'&&${state}.presentation.echoPolicy.preferences.status==='PENDING'&&!document.querySelector('.improve-policy-review').hidden`, 'context drift suspends original input');
-  await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding=${JSON.stringify(originalBinding)};localStorage.setItem(key,JSON.stringify(s))})()`);
+  await read(resetImproveStorageFixture(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding=${JSON.stringify(originalBinding)};localStorage.setItem(key,JSON.stringify(s))})()`));
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'`, 'matching context recovery');
   await check(`(()=>{const s=${state};s.overrides.echoPreferences.length=0;return ${state}.overrides.echoPreferences.length===3})()`, 'detached public view');
@@ -310,7 +314,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   const recoveryBuild=await read(equipmentSnapshot), recoveryInventory=await read(`JSON.stringify(${inventoryState})`);
   const recoveryGate=await read(`${state}.gate`), recoveryQuality=await read(`${state}.rollQuality`);
   const otherCharacters=await read("JSON.stringify(Object.fromEntries(Object.entries(JSON.parse(localStorage.getItem('bellibing.improve.policy.v3')).characters).filter(([id])=>id!=='augusta')))");
-  await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding='stale-recovery-fixture';localStorage.setItem(key,JSON.stringify(s))})()`);
+  await read(resetImproveStorageFixture(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding='stale-recovery-fixture';localStorage.setItem(key,JSON.stringify(s))})()`));
   const staleBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`localStorage.getItem('bellibing.improve.policy.v3')===${JSON.stringify(staleBytes)}&&${state}.compatibility.status==='REVIEW_REQUIRED'`, 'stale binding retained without automatic reset');
@@ -318,7 +322,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`Object.keys(${state}.overrides).length===0&&${state}.compatibility.context==='MATCH'&&${state}.gate===${recoveryGate}&&${state}.rollQuality===${JSON.stringify(recoveryQuality)}&&JSON.stringify(${inventoryState})===${JSON.stringify(recoveryInventory)}`, 'explicit existing reset recovers stale binding while preserving Gate/quality/Resources');
   await check(`${equipmentSnapshot}===${JSON.stringify(recoveryBuild)}&&JSON.stringify(Object.fromEntries(Object.entries(JSON.parse(localStorage.getItem('bellibing.improve.policy.v3')).characters).filter(([id])=>id!=='augusta')))===${JSON.stringify(otherCharacters)}`, 'full policy recovery preserves equipment and unrelated Characters');
   const retiredResources=await read(`JSON.stringify(${inventoryState})`), retiredQuality=await read(`${state}.rollQuality`);
-  await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.overrides.echoCards={minimumCount:2};localStorage.setItem(key,JSON.stringify(s))})()`);
+  await read(resetImproveStorageFixture(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.overrides.echoCards={minimumCount:2};localStorage.setItem(key,JSON.stringify(s))})()`));
   const retiredBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`localStorage.getItem('bellibing.improve.policy.v3')===${JSON.stringify(retiredBytes)}&&Object.keys(${state}.overrides).length===0&&document.getElementById('improveSettings').innerText.includes('Recovery data has been retained')`, 'rejected card intent retained for review, never hidden acceptance or silent migration');

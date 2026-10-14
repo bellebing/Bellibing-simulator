@@ -1,3 +1,4 @@
+import { simulatedCharacterTargets } from './character-target-presentation.js';
 import * as session from '../../assets/echoSimulatorSession.js';
 import * as run from '../../assets/echoSimulatorRun.js';
 import * as rolling from '../../assets/echoSimulatorRolling.js';
@@ -103,5 +104,5 @@ function renderActivationControl(active, enabled, onChange, label) {
   }
   return group;
 }
-window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, renderActivationControl, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
+window.bellibingEchoSimulator = Object.freeze({ ...session, ...rolling, ...run, RANK5_PRIMARY_MAIN_STATS, simulatedCharacterTargets, renderActivationControl, renderTrashPile, renderCheckpointHistory, renderSlotHistory, requirementsText });
 window.dispatchEvent(new Event('bellibing-echo-simulator-ready'));

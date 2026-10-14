@@ -239,7 +239,7 @@ function renderTargets() {
     item.append(element('dt', row.label), recommended, expected);
     table.append(item);
   }
-  targets.append(table);
+  targets.append(table, note('Expected: not calculated. Simulated stats show an observed build, not an expected outcome.'));
   if (policy.status === 'USER_DEFINED' || policy.origin === 'USER') {
     // Custom editors remain user-owned and never overwrite canonical values.
     for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);

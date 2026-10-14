@@ -2268,10 +2268,16 @@ const improveUi={
   },
   renderSimulatedStats(){
     const host=document.getElementById('simulatorResultStats'),projection=projectImproveCurrentStats(this.characterName);host.replaceChildren();
-    const title=document.createElement('h2');title.textContent='Simulated';host.append(title);
+    const title=document.createElement('h2');title.textContent='Simulated · observed build';host.append(title);
     for(const [key,label,percent] of [['atk','ATK',false],['critRate','CRIT Rate',true],['critDamage','CRIT DMG',true],['energyRegen','Energy Regen',true],['heavyAttackDamageBonus','Heavy Attack DMG',true]]){
       const row=document.createElement('div');row.dataset.simulatedStat=key;const name=document.createElement('span'),value=document.createElement('strong');name.textContent=label;value.textContent=statsUi.format(projection?.[key],percent);row.append(name,value);host.append(row);
     }
+    const targets=window.bellibingEchoSimulator.simulatedCharacterTargets(this.characterId,projection,window.bellibingImproveSettings?.getState());
+    const summary=document.createElement('p');summary.id='simulatorCharacterTargets';
+    summary.textContent=!targets.length||targets.some(row=>row.status==='PENDING')?'Character targets: Pending':targets.every(row=>row.status==='MET')?'Character targets met · static stats only':'Character targets not yet met';host.append(summary);
+    const er=targets.find(row=>row.metric==='TOTAL_ENERGY_REGEN');
+    const indicator=document.createElement('p');indicator.id='simulatorEnergyTarget';indicator.dataset.targetStatus=er?.status||'PENDING';
+    indicator.textContent=er&&er.status!=='PENDING'?'Energy Regen: '+statsUi.format(er.actual,true)+' / '+statsUi.format(er.target,true)+' '+(er.status==='MET'?'✓':'⚠')+' · '+er.basisLabel:'Energy Regen target: Pending';host.append(indicator);
   },
   renderRollingControls(){
     const host=document.getElementById('simulatorControls'),model=window.bellibingEchoSimulator,running=this.simulator.run?.status==='RUNNING';host.hidden=false;
@@ -2287,7 +2293,7 @@ const improveUi={
     if(!running)button('simulatorRoll','Simulate',()=>this.startRun()).disabled=!template||this.resourcesChanged;
     if(running)button('simulatorCancel','Cancel',()=>this.cancelRun());
     if(this.simulator.run?.status==='PAUSED')button('simulatorResume','Resume simulation',()=>this.startRun(true));
-    host.append(text('h3','Used'));const status=text('p',this.simulator.run?.status==='SUCCESS'?'Complete':this.simulator.run?.reason||'');status.className='simulator-run-status';status.setAttribute('role','status');host.append(status);
+    host.append(text('h3','Used'));const status=text('p',this.simulator.run?.status==='SUCCESS'?'Echo requirements met':this.simulator.run?.reason||'');status.className='simulator-run-status';status.setAttribute('role','status');host.append(status);
     for(const [id,value] of Object.entries(counts)){const row=text('p',value);row.dataset.counter=id;host.append(row)}
     if(!running&&template){
       const details=text('details',''),summary=text('summary','Details');details.append(summary);

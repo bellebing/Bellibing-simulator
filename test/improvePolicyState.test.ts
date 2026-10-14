@@ -15,9 +15,9 @@ import {
 const recommended = await projectRecommendedImprovePolicy({ characterId: 'augusta' });
 const approved = { ...recommended, echoPolicy: { ...recommended.echoPolicy,
   requirements: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value: { requiredOnEveryEcho:
-    ['CRIT Rate', 'CRIT DMG'].map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [{id:'selected-flex',minimumCount:1,members:['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK'].map(stat=>({stat,minimum:SUBSTAT_VALUE_TABLE[stat][0]}))}] } },
+    ['CRIT Rate', 'CRIT DMG'].map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [{id:'selected-flex',minimumCount:1,members:['ATK%','Heavy Attack DMG','Energy Regen'].map(stat=>({stat,minimum:SUBSTAT_VALUE_TABLE[stat][0]}))}] } },
   preferences: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value:
-    ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'].map((stat,index) => ({ stat, priorityGroup:index+1, minimum:SUBSTAT_VALUE_TABLE[stat][0] })) } } };
+    ['ATK%', 'Heavy Attack DMG', 'Energy Regen'].map((stat,index) => ({ stat, priorityGroup:index+1, minimum:SUBSTAT_VALUE_TABLE[stat][0] })) } } };
 const legacy = projectImproveSettingsSources().find(row => row.characterId === 'augusta')!;
 const initial = () => createImprovePolicyState('augusta', recommended);
 const preference = [{ stat: 'CRIT DMG', priorityGroup: 1 }, { stat: 'Energy Regen', priorityGroup: 2 }] as const;

@@ -282,7 +282,7 @@ export function resolveImprovePolicyState(state: ImprovePolicyState, recommended
     && state.presetId === 'augusta-standard' && recommended.presetId === 'augusta-standard'
     && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
   const hard: readonly StatName[] = ['CRIT Rate', 'CRIT DMG'];
-  const flex: readonly StatName[] = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+  const flex: readonly StatName[] = ['ATK%', 'Heavy Attack DMG', 'Energy Regen'];
   const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat]![0]! })),
     groups: [{ id: 'selected-flex', minimumCount: 1, members: flex.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat]![0]! })) }] };
   const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat]![0]! }));

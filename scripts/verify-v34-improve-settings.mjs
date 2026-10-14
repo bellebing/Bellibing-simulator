@@ -133,19 +133,19 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}&&JSON.stringify(improveBuildState('Augusta'))===${JSON.stringify(realBuild)}`, 'Current/Simulate/reset preserve inventory and CharacterBuildState');
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`JSON.stringify(${inventoryState})===${JSON.stringify(inventorySaved)}`, 'inventory reload persistence');
-  await check(`JSON.stringify([...document.querySelectorAll('[data-echo-section=every] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['CRIT Rate','CRIT DMG'])&&JSON.stringify([...document.querySelectorAll('[data-echo-section=flex] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK'])&&document.querySelectorAll('[data-echo-section=other] .improve-echo-row').length===7`, 'fresh approved Augusta placement and exact order');
+  await check(`JSON.stringify([...document.querySelectorAll('[data-echo-section=every] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['CRIT Rate','CRIT DMG'])&&JSON.stringify([...document.querySelectorAll('[data-echo-section=flex] .improve-echo-row')].map(n=>n.dataset.statName))===JSON.stringify(['ATK%','Heavy Attack DMG','Energy Regen'])&&document.querySelectorAll('[data-echo-section=other] .improve-echo-row').length===8`, 'fresh approved Augusta placement and exact order');
   await check(`fetch('assets/improve-settings/policies.json').then(r=>r.json()).then(d=>{const p=d.characters.find(c=>c.characterId==='augusta');return ${state}.mode==='RECOMMENDED'&&Object.keys(${state}.overrides).length===0&&p.echoPolicy.requirements.status==='PENDING'&&p.echoPolicy.preferences.status==='PENDING'})`, 'approved user defaults leave provider readiness Pending');
   await click('#improve-setting-every');
   await check(`document.querySelector('.improve-flex-count output').textContent==='At least 1 of 4'&&document.querySelector('[data-focus-key="flex-count"]').max==='3'`, 'default explicit Flex count and feasible range');
   await click(focus('flex-count')); await key('Home'); await key('ArrowRight');
-  await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===2&&document.querySelector('.improve-flex-count output').textContent==='At least 2 of 4'`, 'physical count slider and keyboard 1-to-2');
+  await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===2&&document.querySelector('.improve-flex-count output').textContent==='At least 2 of 3'`, 'physical count slider and keyboard 1-to-2');
   const counted = await read(`JSON.stringify(${state}.overrides)`);
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Chixia')");
   await check(`!${state}.presentation.echoPolicy.requirements.value?.groups?.some(g=>g.minimumCount!==undefined)`, 'count does not leak to another Character');
   await read("improvePicker.select('Augusta')");
   await check(`JSON.stringify(${state}.overrides)===${JSON.stringify(counted)}`, 'count reload and Character switching');
   await click('#improve-setting-every');
-  await dragRow('Flat ATK','[data-echo-section=other]'); await dragRow('Energy Regen','[data-echo-section=other]'); await dragRow('Heavy Attack DMG','[data-echo-section=other]');
+  await dragRow('Energy Regen','[data-echo-section=other]'); await dragRow('Heavy Attack DMG','[data-echo-section=other]');
   await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===2&&document.querySelector('[data-focus-key="flex-count"]').getAttribute('aria-invalid')==='true'&&document.querySelector('.improve-flex-count output').textContent.includes('Saved count 2')`, 'drag invalidation preserves count and shows validation');
   await dragRow('ATK%','[data-echo-section=other]');
   await check(`document.querySelector('.improve-flex-count output').textContent.includes('Flex pool empty')&&!document.querySelector('.improve-flex-count output').textContent.includes('of 0')`, 'empty pool is explicit without 1-of-0');
@@ -154,7 +154,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===1`, 'count 2-to-1 after pool recovery');
   await resetEcho();
   await click(slider('every','CRIT Rate')); await key('End');
-  await check(`${state}.mode==='MANUAL'&&${state}.overrides.echoRequirements.requiredOnEveryEcho.find(r=>r.stat==='CRIT Rate').minimum===.105&&${state}.overrides.echoPreferences.length===4`, 'first default slider edit is immediately editable and preserves untouched defaults');
+  await check(`${state}.mode==='MANUAL'&&${state}.overrides.echoRequirements.requiredOnEveryEcho.find(r=>r.stat==='CRIT Rate').minimum===.105&&${state}.overrides.echoPreferences.length===3`, 'first default slider edit is immediately editable and preserves untouched defaults');
   await resetEcho(); await click('#improve-setting-every'); await settle();
   // Inactive rows can also be moved directly from Recommended without selecting them.
   await click('#improve-setting-flex'); if (!await read("document.querySelector('.improve-other-stats').open")) await click('.improve-other-stats summary');
@@ -179,7 +179,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await rowsUnique();
     await check(`(()=>{const columns=[...document.querySelectorAll('.improve-setting')].map(n=>n.getBoundingClientRect().width);return columns[1]===64&&[0,2,3,4].every(i=>Math.abs(columns[i]-columns[0])<.1)&&Math.abs(columns[0]-(document.querySelector('.improve-settings-controls').clientWidth-104)/4)<1&& !document.querySelector('[data-setting=flex] h3')})()`, 'same equal-width five-column grid when expanded');
     await check(`(()=>{const h=document.querySelector('.improve-recommended-header'),rows=[...document.querySelectorAll('.improve-recommended-stat')];return h.children[1].textContent==='Recommended'&&h.children[2].textContent==='Expected'&&rows.length===5&&rows.every(n=>n.children.length===3&&n.children[2].textContent==='—'&&Math.abs(n.children[1].getBoundingClientRect().right-h.children[1].getBoundingClientRect().right)<1&&Math.abs(n.children[2].getBoundingClientRect().right-h.children[2].getBoundingClientRect().right)<1)&&rows.find(n=>n.dataset.metric==='TOTAL_ATK')?.children[1].textContent==='2,407'})()`, 'Recommended and neutral Expected align at desktop width');
-    await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='CR · CD'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='ATK% · HA DMG · ER · Flat ATK'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'actual ordered selected summaries and row clearance');
+    await check(`document.querySelector('[data-setting=every] .improve-setting-summary').textContent==='CR · CD'&&document.querySelector('[data-setting=flex] .improve-setting-summary').textContent==='ATK% · HA DMG · ER'&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)`, 'actual ordered selected summaries and row clearance');
     await check(`!JSON.stringify(${state}).includes('checkpointReference')&&!JSON.stringify(${state}).includes('effectivePolicy')`, 'public inspection contract');
     await check(`!document.querySelector('.improve-build-need')`, 'visible Build Need removed');
     await check(`(()=>{const row=document.querySelector('.improve-resources'),r=row.getBoundingClientRect(),fields=[...row.querySelectorAll('input')];return r.height<=160&&row.scrollWidth<=row.clientWidth+1&&fields.length===7&&fields.every(n=>!n.hidden)&&document.querySelector('.improve-resource-tubes').querySelectorAll('input').length===4&&!/Raw EXP/.test(row.innerText)})()`, 'expanded grouped Resources with Shell Credits and no raw EXP');
@@ -198,7 +198,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
       await check(`document.querySelector(${JSON.stringify('.improve-echo-row[data-stat-name='+JSON.stringify(name)+']')}).dataset.section==='flex'`, 'physical inactive Hard-to-Flex drag');
       await check(`!!document.querySelector(${JSON.stringify('.improve-echo-row[data-stat-name='+JSON.stringify(name)+'] .improve-roll-slider')})&&${state}.overrides.echoPreferences.some(r=>r.stat===${JSON.stringify(name)})`, 'drop activates immediately without another click');
     }
-    await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===1&&${state}.overrides.echoRequirements.requiredOnEveryEcho.length===2&&${state}.overrides.echoPreferences.length===4`, 'explicit user-only Echo inputs');
+    await check(`${state}.overrides.echoRequirements.groups.find(g=>g.id==='selected-flex').minimumCount===1&&${state}.overrides.echoRequirements.requiredOnEveryEcho.length===2&&${state}.overrides.echoPreferences.length===3`, 'explicit user-only Echo inputs');
     await check(`(()=>{const owners=[...document.querySelectorAll('.improve-setting')], root=document.getElementById('improveSettings').getBoundingClientRect();return owners.every((n,i)=>{const r=n.getBoundingClientRect();return r.left>=root.left&&r.right<=root.right&&(!i||owners[i-1].getBoundingClientRect().right<=r.left)})&&[...document.querySelectorAll('.improve-roll-slider')].every(n=>n.getBoundingClientRect().width>=65)&&[...document.querySelectorAll('.improve-echo-row')].every(n=>n.scrollWidth<=n.clientWidth+1)&&document.documentElement.scrollWidth===${width}})()`, 'unchanged column/slider/viewport assertions');
     await click(slider('every','CRIT Rate')); await key('Home');
     const tiers=[.063,.069,.075,.081,.087,.093,.099,.105];
@@ -296,7 +296,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   await read(`(()=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.contextBinding=${JSON.stringify(originalBinding)};localStorage.setItem(key,JSON.stringify(s))})()`);
   await navigate(send); await wait(); await read("show('improve');improvePicker.select('Augusta')");
   await check(`${state}.presentation.echoPolicy.preferences.status==='USER_DEFINED'`, 'matching context recovery');
-  await check(`(()=>{const s=${state};s.overrides.echoPreferences.length=0;return ${state}.overrides.echoPreferences.length===4})()`, 'detached public view');
+  await check(`(()=>{const s=${state};s.overrides.echoPreferences.length=0;return ${state}.overrides.echoPreferences.length===3})()`, 'detached public view');
   // A failed browser write must leave both the UI state and original bytes committed.
   await click('#improve-setting-every'); await settle();
   const beforeFailure=await read(`JSON.stringify(${state})`), originalBytes=await read("localStorage.getItem('bellibing.improve.policy.v3')");

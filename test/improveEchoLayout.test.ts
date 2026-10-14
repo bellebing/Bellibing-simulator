@@ -110,8 +110,8 @@ test('only Augusta/default receives the explicit user-approved initial configura
   const state = initial(), presented = view(state), resolved = resolveImprovePolicyState(state, source);
   assert.equal(state.mode, 'RECOMMENDED'); assert.deepEqual(state.overrides, {});
   assert.deepEqual(presented.layout.every, ['CRIT Rate', 'CRIT DMG']);
-  assert.deepEqual(presented.layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK']);
-  assert.equal(presented.layout.other.length, 7); uniqueRows(state);
+  assert.deepEqual(presented.layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen']);
+  assert.equal(presented.layout.other.length, 8); uniqueRows(state);
   assert.equal(presented.relevant.includes('Flat ATK'), false);
   assert.equal(resolved.policy.echoPolicy.requirements.origin, 'USER');
   assert.equal(source.echoPolicy.requirements.status, 'PENDING'); assert.equal(source.echoPolicy.preferences.status, 'PENDING');
@@ -131,7 +131,7 @@ test('only Augusta/default receives the explicit user-approved initial configura
 test('first default edits freeze untouched defaults; reload/custom empties and reset preserve intent', () => {
   let state = editEchoRollMinimum(initial(), source, SUBSTAT_TYPES, 'every', 'CRIT Rate', SUBSTAT_VALUE_TABLE['CRIT Rate']!.length - 1);
   assert.equal(state.mode, 'MANUAL'); assert.equal(view(state).defaulted, false);
-  assert.deepEqual(view(state).layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK']);
+  assert.deepEqual(view(state).layout.flex, ['ATK%', 'Heavy Attack DMG', 'Energy Regen']);
   state = updateImprovePolicyState(state, {type:'gate', value:20}, source);
   state = updateImprovePolicyState(state, {type:'set',section:'numericTargets',value:[]}, source);
   const data = new Map<string,string>(), storage = { getItem:key=>data.get(key)??null, setItem:(key,value)=>data.set(key,value) };
@@ -173,7 +173,7 @@ test('explicit Flex count and exact group minima survive moves, invalid pools, s
   state=moveEchoStat(state,source,SUBSTAT_TYPES,'ATK%','flex');
   assert.equal(group(state).members[0].minimum,.116);
   state=editFlexCount(state,source,SUBSTAT_TYPES,1); assert.equal(view(state).flexCount.valid,true);
-  state=resetEchoPolicy(state,source); assert.equal(group(state).minimumCount,1); assert.equal(view(state).flex.length,4);
+  state=resetEchoPolicy(state,source); assert.equal(group(state).minimumCount,1); assert.equal(view(state).flex.length,3);
 });
 test('old preferences and count-less groups are not silently promoted by loading or dragging', () => {
   let state=updateImprovePolicyState(initial(),{type:'set',section:'echoPreferences',value:[{stat:'ATK%',priorityGroup:1,minimum:.116}]},source);

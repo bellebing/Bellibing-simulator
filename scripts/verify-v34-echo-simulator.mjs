@@ -101,7 +101,8 @@ export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setV
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await setViewport(send,width,height);await sleep(600);
     await read('document.getElementById("improveEchoRow").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
-    await check(`(()=>{const columns=[...document.querySelectorAll('.simulator-slot')];return columns.length===5&&columns.every(column=>{const pile=column.querySelector('.simulator-trash');if(!pile.querySelector('button'))return getComputedStyle(pile).display==='none';const c=column.querySelector('.improve-equipped-echo').getBoundingClientRect(),p=pile.getBoundingClientRect();return p.top>=c.bottom&&Math.abs(p.x-c.x)<3&&p.width>60&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'pile layout/viewport '+width);
+    await read('document.getElementById("simulatorTrashPanel").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
+    await check(`(()=>{const columns=[...document.querySelectorAll('#simulatorTrashColumns .simulator-trash')],panel=document.getElementById('simulatorTrashPanel').getBoundingClientRect(),cards=document.getElementById('improveEchoRow').getBoundingClientRect();return columns.length===5&&panel.top>=cards.bottom&&columns.every(pile=>{const p=pile.getBoundingClientRect();return getComputedStyle(pile).display!=='none'&&p.width>60&&p.left>=0&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'separate five-column pile layout/viewport '+width);
     await capture(send,'artifacts/ui-preview-echo-simulator-'+width+'x'+height+'.png');
     await click('[data-trash-slot="5"] summary');await click('[data-trash-slot="5"] details button:last-child');
     await capture(send,'artifacts/ui-preview-echo-simulator-inspect-'+width+'x'+height+'.png');
@@ -215,7 +216,7 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
   for(const [id,count] of [['echoes','3'],['tuners','150'],['premium','90']])await enter(resource(id),count);
   await click('#improve-setting-every');await click('#simulatorReset');await read('window.savedFiniteRandom=Math.random;Math.random=()=>.99999');
   await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','finite exhaustion');
-  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===3&&improveUi.simulator.rolling.tuners===150&&improveUi.simulator.resources.inventory.echoes.count===0&&window.bellibingResourceInventory.getState().echoes.count===3','finite failed attempts must really spend detached resources');
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===3&&improveUi.simulator.rolling.tuners===improveUi.simulator.slots[0].trash.reduce((sum,card)=>sum+card.card.level/5*10,0)&&improveUi.simulator.slots[0].trash.every(card=>card.card.level<25)&&improveUi.simulator.resources.inventory.echoes.count===0&&window.bellibingResourceInventory.getState().echoes.count===3','finite failed attempts must really spend detached resources');
   await read('Math.random=window.savedFiniteRandom;delete window.savedFiniteRandom');await click('#improve-setting-every');
   for(const id of ['echoes','tuners','premium','advanced','medium','basic'])await enter(resource(id),'∞');
   await check('window.bellibingResourceInventory.getState().echoes.kind==="UNLIMITED"&&window.bellibingResourceInventory.getState().tuners.kind==="UNLIMITED"','physical budget entry');await click('#improve-setting-every');await click('#simulatorReset');

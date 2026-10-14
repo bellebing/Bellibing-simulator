@@ -75,7 +75,7 @@ function renderResources() {
         });
         if (prior.kind === 'FINITE') previousFiniteCounts.set(id, prior.count);
         input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
-        input.disabled = !!storageError || !store || quantityAt(id).kind === 'UNLIMITED';
+        input.disabled = !!storageError || !store;
         toggle.setAttribute('aria-pressed', String(quantityAt(id).kind === 'UNLIMITED'));
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
         window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
@@ -88,7 +88,6 @@ function renderResources() {
     toggle.setAttribute('aria-label', accessibleName + ' unlimited'); toggle.setAttribute('aria-pressed', String(quantity.kind === 'UNLIMITED'));
     toggle.disabled = !!storageError || !store;
     if (quantity.kind === 'FINITE') previousFiniteCounts.set(id, quantity.count);
-    input.disabled = input.disabled || quantity.kind === 'UNLIMITED';
     toggle.onclick = async event => {
       event.preventDefault();
       const current = quantityAt(id);

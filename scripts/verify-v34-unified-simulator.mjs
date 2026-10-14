@@ -44,7 +44,7 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===37','persisted input');
   await click('[data-resource="echoes"] .improve-resource-unlimited');
   await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.kind==='UNLIMITED'",'Unlimited toggle');
-  await check("document.querySelector('[data-resource=echoes] input').value==='∞'&&document.querySelector('[data-resource=echoes] input').disabled",'infinite count shown');
+  await check("document.querySelector('[data-resource=echoes] input').value==='∞'&&document.querySelector('[data-resource=echoes] .improve-resource-unlimited').getAttribute('aria-pressed')==='true'",'infinite count shown');
   await click('[data-resource="echoes"] .improve-resource-unlimited');
   await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.count===37",'toggle restores prior numeric value');
   await click(input);

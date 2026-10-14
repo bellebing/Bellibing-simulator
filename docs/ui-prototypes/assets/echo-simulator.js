@@ -11,11 +11,13 @@ function node(tag, text, className) {
   if (className) result.className = className;
   return result;
 }
-function inspect(sessionState, slot, card, name, onReturn, trigger, formatStat) {
+function inspect(sessionState, slot, card, name, onReturn, trigger, formatStat, identity) {
   const dialog = node('dialog', undefined, 'simulator-inspection');
   dialog.setAttribute('aria-label', 'Trash card history');
   dialog.append(node('h2', name(card.card)), node('p', 'Echo #' + card.id.split(':').at(-1) + ' · Slot ' + slot));
-  dialog.append(node('p', 'Discarded · Reached +' + (card.card.level ?? 0)), renderCheckpointHistory(card, formatStat, true));
+  const actualCard = node('div', undefined, 'improve-equipped-echo'); actualCard.setAttribute('aria-label', 'Discarded Echo card');
+  actualCard.append(renderEchoCard(card.card, identity(card.card), formatStat));
+  dialog.append(actualCard, node('p', 'Discarded · Reached +' + (card.card.level ?? 0)), renderCheckpointHistory(card, formatStat, true));
   dialog.append(node('p', card.reason));
   const close = node('button', 'Return to pile'); close.type = 'button';
   close.onclick = () => dialog.close(); dialog.append(close);
@@ -38,12 +40,12 @@ function renderTrashPile(state, slot, name, onInspect, onReturn, formatStat, ide
   if (cards.length) {
     const trigger = node('button', undefined, 'simulator-pile-top improve-equipped-echo'); trigger.type = 'button';
     trigger.append(renderEchoCard(cards.at(-1).card, identity(cards.at(-1).card), formatStat), node('span', 'Discarded · ×' + cards.length));
-    trigger.onclick = () => { const card = cards.at(-1); onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, trigger, formatStat); };
+    trigger.onclick = () => { const card = cards.at(-1); onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, trigger, formatStat, identity); };
     stack.append(trigger);
     const choices = node('details'); choices.append(node('summary', 'Inspect older cards'));
     for (const card of [...cards].reverse()) {
       const button = node('button', name(card.card) + ' · ' + (card.card.level === undefined ? 'Unbuilt' : '+' + card.card.level)); button.type = 'button';
-      button.onclick = () => { onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, button, formatStat); };
+      button.onclick = () => { onInspect(slot, card.id); inspect(state, slot, card, name, onReturn, button, formatStat, identity); };
       choices.append(button);
     }
     pile.append(stack, choices);

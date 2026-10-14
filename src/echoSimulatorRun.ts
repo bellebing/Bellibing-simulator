@@ -36,6 +36,25 @@ export function initializeSimulatorResources(session: EchoSimulatorSession, inve
   next.resources = { inventory: structuredClone(basis), basis, spent: zero(), returned: zero(), lastLedger: null };
   return next;
 }
+/** New total sandbox budget, minus all committed spending in this session.
+ * Retains equipment/history/counters; never spends the saved user inventory. */
+export function applySimulatorBudget(session: EchoSimulatorSession, inventory: ResourceInventory): EchoSimulatorSession {
+  if (!session.resources || session.run?.status === 'RUNNING') throw new Error('Stop the simulation before applying a budget.');
+  const basis = readResourceInventory(inventory);
+  let working = structuredClone(basis);
+  const used = { echoes: session.rolling.attempts, tuners: session.rolling.tuners,
+    ...Object.fromEntries(ECHO_TUBES.map(tube => [tube.id, session.resources!.spent[tube.id] - session.resources!.returned[tube.id]])) };
+  for (const id of ['echoes', 'tuners', ...ECHO_TUBES.map(tube => tube.id)] as const) {
+    const quantity = id === 'echoes' || id === 'tuners' ? working[id] : working.tubes[id];
+    if (quantity.kind === 'UNLIMITED') continue;
+    const remaining = quantity.count - used[id as keyof typeof used];
+    if (!Number.isSafeInteger(remaining) || remaining < 0) throw new Error('New total budget is below this session’s used ' + id + '. Increase it or Reset.');
+    working = updateResourceInventory(working, id, { kind: 'FINITE', count: remaining });
+  }
+  const next = stopSimulatorRun(session, 'New total budget applied; history retained');
+  next.resources!.basis = basis; next.resources!.inventory = working;
+  return next;
+}
 /** Bounded whole-item witness, not a finite-budget economic optimizer. The explicit
  * V1 policy selects the smallest supplied EXP reaching +25; equivalent witnesses
  * follow canonical catalog order. All spending/carry/cap returns remain engine-owned.

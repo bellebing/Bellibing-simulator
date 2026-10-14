@@ -2302,7 +2302,9 @@ const improveUi={
       details.append(text('p','Whole Tubes use the least supplied EXP reaching +25, with catalog-order ties. Gross spending and verified upgrade cap returns are exact; discard/feed recovery, Character usefulness and expected outcomes remain Pending. Saved Resources stay unchanged.'));
       host.append(details);
     }
-    if(this.resourcesChanged)host.append(text('small','Resources changed — reset to use the new budget.'));
+    if(this.resourcesChanged){host.append(text('small','Simulate paused: saved Resources changed. Apply the new total budget minus this session’s spending, or Reset. Cards and history stay when applying.'));
+      button('simulatorApplyBudget','Apply new total budget',()=>{this.simulator=model.applySimulatorBudget(this.simulator,window.bellibingResourceInventory.getState());this.resourcesChanged=false;});
+    }
     if(this.simulatorError){const error=text('p',this.simulatorError);error.setAttribute('role','alert');host.append(error);}
   },
   refresh(){if(this.characterName)this.render()}

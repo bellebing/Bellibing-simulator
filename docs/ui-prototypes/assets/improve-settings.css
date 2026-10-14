@@ -186,3 +186,5 @@
 .improve-sonata-list { display:grid; gap:5px; max-height:307px; overflow-y:auto; overflow-x:hidden; margin-top:8px; padding:1px; }
 .improve-sonata-list .improve-sonata-row { margin:0; }
 [data-setting="gate"] .improve-setting-choice { width:100%; min-height:34px; }
+
+.improve-resource-unlimited{font:10px var(--font-ui);border:1px solid #655a43;border-radius:5px;background:#20232b;color:#cbbd9b;padding:3px 5px;cursor:pointer}.improve-resource-unlimited[aria-pressed="true"]{color:#ffe3a0;border-color:#b3975d}.improve-resource-unlimited[hidden]{display:none}.improve-resource-unlimited:focus-visible{outline:2px solid #d8b152;outline-offset:2px}

@@ -14,9 +14,9 @@ Current and Simulate use one Character-owned settings record and shared Resource
 
 The compact settings row is **Sonata Sets / Gate / Required Substats / Flex Substats / Stats**. Edits express manual intent directly; resetting Echo settings is local to that section. Saved numeric targets remain editable and recoverable. Source Recommended values never substitute for unavailable Expected values.
 
-Resources allow safe whole counts or explicit ∞. Direct editing, horizontal scrubbing and Arrow Up/Down use the same serialized storage writer. Inventory v2 includes Shell Credits, retaining finite-zero and legacy recovery semantics. Shell Credits are saved context, **not charged by the +25 sandbox**. Browser Web Locks serialize writers across tabs; stale snapshots, failed/quota writes and unavailable locks fail closed. Native storage events refresh the other tab's settings and inventory.
+Resources allow safe whole counts or explicit ∞, with an Unlimited toggle per input. Previous finite counts are remembered during the page lifetime; after reload an already-unlimited field returns to zero because its prior finite value is not persisted. Direct editing, horizontal scrubbing and Arrow Up/Down use the same serialized storage writer. Inventory v2 includes Shell Credits, retaining finite-zero and legacy recovery semantics. Shell Credits are saved context, **not charged by the +25 sandbox**. Browser Web Locks serialize writers across tabs; stale snapshots, failed/quota writes and unavailable locks fail closed. Native storage events refresh the other tab's settings and inventory.
 
-Settings edits cancel running batches before another attempt. Sonata edits also rebuild eligible templates without rewriting equipped cards. Resource edits cancel the run, preserve cards/history and require explicit Reset before applying the new budget. Saved Resources are never spent by the simulator.
+Settings edits cancel running batches before another attempt. Sonata edits also rebuild eligible templates without rewriting equipped cards. Resource edits cancel the run and preserve cards/history. Apply new total budget deducts all committed session spending (net of verified cap returns); an insufficient total fails without mutation. Reset remains available. Saved Resources are never spent by the simulator.
 
 ## Canonical requirement rolling
 

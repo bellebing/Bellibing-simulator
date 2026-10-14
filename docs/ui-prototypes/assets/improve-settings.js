@@ -17,6 +17,8 @@ let writerQueue = Promise.resolve();
 // Only cross-tab writes invalidate already queued local edits. A burst of edits
 // from this same tab is serialized and rebased under the same exclusive lock.
 let externalWriteEpoch = 0;
+// UI memory only; the canonical inventory remains the sole persisted budget.
+const previousFiniteCounts = new Map();
 function coordinatedWrite(action) {
   const pending = writerQueue.then(() => withExclusiveImprovePolicyStorage(action));
   writerQueue = pending.then(() => {}, () => {});
@@ -62,6 +64,7 @@ function renderResources() {
     input.onchange = async () => {
       try {
         const value = parseInventoryQuantity(input.value);
+        const prior = quantityAt(id);
         const epoch = externalWriteEpoch;
         await coordinatedWrite(() => {
           if (epoch !== externalWriteEpoch)
@@ -70,7 +73,10 @@ function renderResources() {
           store = persistResourceInventory(store, next, localStorage);
           inventory = store.resourceInventory;
         });
+        if (prior.kind === 'FINITE') previousFiniteCounts.set(id, prior.count);
         input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        input.disabled = !!storageError || !store || quantityAt(id).kind === 'UNLIMITED';
+        toggle.setAttribute('aria-pressed', String(quantityAt(id).kind === 'UNLIMITED'));
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
         window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));
       } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
@@ -78,7 +84,19 @@ function renderResources() {
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     attachResourceScrubber(input, () => input.onchange());
     if (id === 'shellCredits') owner.title = 'Shell Credits · saved budget; not charged by this sandbox';
-    owner.append(summary, input); parent.append(owner);
+    const toggle = element('button', 'Unlimited', 'improve-resource-unlimited'); toggle.type = 'button'; toggle.hidden = !expanded;
+    toggle.setAttribute('aria-label', accessibleName + ' unlimited'); toggle.setAttribute('aria-pressed', String(quantity.kind === 'UNLIMITED'));
+    toggle.disabled = !!storageError || !store;
+    if (quantity.kind === 'FINITE') previousFiniteCounts.set(id, quantity.count);
+    input.disabled = input.disabled || quantity.kind === 'UNLIMITED';
+    toggle.onclick = async event => {
+      event.preventDefault();
+      const current = quantityAt(id);
+      input.value = current.kind === 'FINITE' ? '∞' : String(previousFiniteCounts.get(id) ?? 0);
+      await input.onchange();
+      input.value = formatInventoryQuantity(quantityAt(id));
+    };
+    owner.append(summary, input, toggle); parent.append(owner);
   }
   for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner'], ['shellCredits', 'Shell Credits', 'Shell Credits']]) {
     const family = element('div', undefined, 'improve-resource-family');

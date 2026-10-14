@@ -31,6 +31,8 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await check("JSON.stringify(projectImproveCurrentStats('Augusta'))==="+JSON.stringify(active),'reactivation restores exact stats');
   await check('improveUi.simulator.slots[0].accepted.length===0&&improveUi.simulator.rolling.attempts===0','preparation is not a paid/generated outcome');
   await check('JSON.stringify(state)==='+JSON.stringify(current)+'&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'Current and budget isolation');
+  await check("!document.getElementById('simulatorResultStats').hidden&&document.getElementById('simulatorEnergyTarget').dataset.targetStatus==='BELOW'&&document.getElementById('simulatorEnergyTarget').textContent.includes('120%')",'visible Character-wide ER reference separate from Echo requirements');
+  await check("document.querySelectorAll('#simulatorTrashColumns [data-trash-slot]').length===5&&document.getElementById('simulatorTrashPanel').compareDocumentPosition(document.getElementById('improveEchoRow'))&Node.DOCUMENT_POSITION_PRECEDING",'five piles in their separate panel after Simulator');
   // Use the existing serialized Settings writer for the fixture budget/criteria.
   await click('#improve-setting-gate');
   const input='[data-resource="echoes"] input';
@@ -40,6 +42,11 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await send('Input.insertText',{text:'37'});
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab'});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab'});
   await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===37','persisted input');
+  await click('[data-resource="echoes"] .improve-resource-unlimited');
+  await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.kind==='UNLIMITED'",'Unlimited toggle');
+  await check("document.querySelector('[data-resource=echoes] input').value==='∞'&&document.querySelector('[data-resource=echoes] input').disabled",'infinite count shown');
+  await click('[data-resource="echoes"] .improve-resource-unlimited');
+  await waitForUi(send,"window.bellibingResourceInventory.getState().echoes.count===37",'toggle restores prior numeric value');
   await click(input);
   const dragPoint=await read(`(()=>{const r=document.querySelector(${JSON.stringify(input)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
   await send('Input.dispatchMouseEvent',{type:'mouseMoved',...dragPoint});await sleep(200);
@@ -47,6 +54,12 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   for(const dx of [1.25,2.5,6.25,60]){await send('Input.dispatchMouseEvent',{type:'mouseMoved',button:'left',buttons:1,x:dragPoint.x+dx,y:dragPoint.y});await sleep(50)}
   await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',buttons:0,clickCount:1,x:dragPoint.x+60,y:dragPoint.y});
   await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===47','physical resource scrub commits exactly once');
+  await click('#improve-setting-gate');
+  const historyBeforeBudget=await read('JSON.stringify(improveUi.simulator.slots)');
+  await check("document.getElementById('simulatorRoll').disabled&&document.getElementById('simulatorApplyBudget')",'resource change has a visible recovery action');
+  await click('#simulatorApplyBudget');
+  await check('!document.getElementById("simulatorRoll").disabled&&JSON.stringify(improveUi.simulator.slots)==='+JSON.stringify(historyBeforeBudget),'apply preserves prepared cards and history');
+  await click('#improve-setting-gate');
   // Fixtures write only through the same exclusive canonical storage API.
   await read("(async()=>{const m=await import(new URL('../../assets/improvePolicyState.js',new URL('assets/improve-settings.js',location.href)));const r=await import(new URL('../../assets/resourceInventory.js',new URL('assets/improve-settings.js',location.href)));const awaitSourceFixture=(await(await fetch('assets/improve-settings/policies.json')).json()).characters.find(p=>p.characterId==='augusta');await m.withExclusiveImprovePolicyStorage(()=>{let store=m.loadImprovePolicyStorage(localStorage);let budget=r.updateResourceInventory(store.resourceInventory,'echoes',{kind:'FINITE',count:8});for(const id of ['tuners','premium','advanced','medium','basic'])budget=r.updateResourceInventory(budget,id,{kind:'UNLIMITED'});store=m.persistResourceInventory(store,budget,localStorage);const src=(awaitSourceFixture);let policy=m.readImprovePolicyState(store,'augusta',src);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoRequirements',value:{requiredOnEveryEcho:[],groups:[]}},src);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoPreferences',value:[]},src);m.persistImprovePolicyState(store,policy,localStorage)});window.dispatchEvent(new StorageEvent('storage',{key:m.IMPROVE_POLICY_STORAGE_KEY,storageArea:localStorage}));})()");
   await waitForUi(send,'window.bellibingResourceInventory.getState().tuners.kind===\"UNLIMITED\"','fixture budget');

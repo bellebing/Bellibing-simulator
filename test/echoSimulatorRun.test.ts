@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { SeededRng } from '../src/seededRng.ts';
 import { startEchoSimulator, selectSimulatorSlot, simulatedEchoSlots } from '../src/echoSimulatorSession.ts';
 import { placeSimulatorCandidate, rollSimulatorCandidate } from '../src/echoSimulatorRolling.ts';
-import { advanceSimulatorRun, beginSimulatorRun, initializeSimulatorResources, resumeSimulatorRun, simulatorTubeWitness, stopSimulatorRun } from '../src/echoSimulatorRun.ts';
+import { advanceSimulatorRun, applySimulatorBudget, beginSimulatorRun, initializeSimulatorResources, resumeSimulatorRun, simulatorTubeWitness, stopSimulatorRun } from '../src/echoSimulatorRun.ts';
 import { emptyResourceInventory, ECHO_TUBES } from '../src/resourceInventory.ts';
 import { assessEchoRequirements } from '../src/echoRequirements.ts';
 import { MAX_RANK5_ECHO_EXP } from '../src/echoExactTubeSpending.ts';
@@ -16,6 +16,20 @@ const unlimited = {kind:'UNLIMITED'} as const, finite = (count:number) => ({kind
 const budget = () => ({...emptyResourceInventory(),echoes:unlimited,tuners:unlimited,tubes:{premium:unlimited,advanced:unlimited,medium:unlimited,basic:unlimited}});
 const requirements: EchoRequirements = {requiredOnEveryEcho:[{stat:'CRIT Rate',minimum:.063},{stat:'CRIT DMG',minimum:.126}],groups:[{id:'selected-flex',minimumCount:2,members:[{stat:'ATK%',minimum:.064},{stat:'Energy Regen',minimum:.068},{stat:'Heavy Attack DMG',minimum:.064}]}]};
 const prepare = (inventory = budget(), req = requirements) => beginSimulatorRun(initializeSimulatorResources(startEchoSimulator('augusta',{weaponId:'real'},'run'),inventory),template,req,10);
+
+test('budget edits retain history and subtract committed spending exactly once', () => {
+  const finished = advanceSimulatorRun(prepare(budget(), { requiredOnEveryEcho: [], groups: [] }), new SeededRng(1));
+  const inventory = { ...budget(), echoes: finite(10), tuners: finite(100) };
+  const next = applySimulatorBudget(finished, inventory);
+  assert.deepEqual(next.slots, finished.slots);
+  assert.deepEqual(next.rolling, finished.rolling);
+  assert.deepEqual(next.resources!.inventory.echoes, finite(9));
+  assert.deepEqual(next.resources!.inventory.tuners, finite(50));
+  assert.deepEqual(applySimulatorBudget(next, inventory).resources, next.resources);
+  assert.throws(() => applySimulatorBudget(finished, { ...inventory, tuners: finite(49) }), /below/);
+  assert.throws(() => applySimulatorBudget(prepare(), inventory), /Stop/);
+  assert.equal(finished.resources!.basis.echoes.kind, 'UNLIMITED');
+});
 
 test('multiple failures repeat, spend, and stop on first ALL Hard / N distinct Flex success',()=>{
   const original=prepare(), rng=new SeededRng(52);let session=original;

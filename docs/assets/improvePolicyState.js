@@ -68,7 +68,8 @@ export async function withExclusiveImprovePolicyStorage(write) {
                 let before, value, failure;
                 transaction.oncomplete = () => resolve(value);
                 transaction.onabort = () => {
-                    // A failed durable commit cannot leave a successful-looking mirror behind.
+                    // Undo the provisional mirror; if storage is unavailable, the authoritative
+                    // original still survives and startup will repair the mirror before reading.
                     try {
                         if (before)
                             mirrorEnvelope(before);

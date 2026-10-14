@@ -244,7 +244,7 @@ export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setVie
       await enter(resource(id),'∞');
     }
     await enter(resource('echoes'),'5');await click(resource('echoes'));await check('window.bellibingResourceInventory.getState().echoes.count===5','ordinary click mutation');
-    await key('ArrowDown');await check('window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard');
+    await key('ArrowDown');await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard durable commit');await check('window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard');
     await enter(resource('echoes'),'oops');await check('document.querySelector("[data-resource=echoes] input").getAttribute("aria-invalid")==="true"&&window.bellibingResourceInventory.getState().echoes.count===4','invalid-input recovery');
     await enter(resource('echoes'),'∞');await click('#improve-setting-gate');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','desktop success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','desktop success');
     await read('document.getElementById("improveCandidateEcho").scrollIntoView({block:"center",behavior:"instant"})');

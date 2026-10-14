@@ -62,7 +62,8 @@ export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Prom
         let before: StorageEnvelope | undefined, value: T, failure: unknown;
         transaction.oncomplete = () => resolve(value);
         transaction.onabort = () => {
-          // A failed durable commit cannot leave a successful-looking mirror behind.
+          // Undo the provisional mirror; if storage is unavailable, the authoritative
+          // original still survives and startup will repair the mirror before reading.
           try { if (before) mirrorEnvelope(before); } catch { /* durable original is retained */ }
           reject(failure ?? transaction.error ?? new Error('Improve storage transaction aborted.'));
         };

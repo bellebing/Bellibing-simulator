@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
@@ -85,7 +86,7 @@ try {
     for (const [kind, path] of [['source', '/docs/ui-prototypes/v34-functional.html'], ['built', '/dist/ui-preview/']]) {
       await send('Page.navigate', { url: base + path });
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
-      await evaluate('localStorage.clear()');
+      await evaluate(resetImproveStorageFixture('localStorage.clear()'));
       await send('Page.navigate', { url: base + path });
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran']);
@@ -123,7 +124,7 @@ try {
       assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'opening Settings creates no overrides');
       assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'opening Settings creates no custom editors');
       assert.equal(await evaluate("!!document.querySelector('.improve-target-add')"), false, 'Add stat absent');
-      await evaluate("import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href))).then(m=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.mode='MANUAL';s.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ATK','2200','2400')];localStorage.setItem(key,JSON.stringify(s))})");
+      await evaluate(resetImproveStorageFixture("import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href))).then(m=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.mode='MANUAL';s.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ATK','2200','2400')];localStorage.setItem(key,JSON.stringify(s))})"));
       await send('Page.reload');
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
@@ -141,6 +142,7 @@ try {
       await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');
+      await wait('window.bellibingImproveSettings.getState().overrides.numericTargets===undefined');
       assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), undefined, 'Use Recommended clears custom targets');
       assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Recommended rows return');
       assert.equal(await evaluate(snapshot), originalEquipment, 'equipment and Candidate unchanged');

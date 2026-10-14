@@ -13,6 +13,10 @@ The public workstream owns explicit user Echo requirement checks, verified check
 - Specify supported discard/recovery economics before integrating refunds. Canonical effective EXP refunds do not prove material-denomination conversion.
 - Define statistical Expected and repeated-run cost distributions with sample basis and unsupported paths. Actual simulated stats must never be relabeled Expected.
 
+## Public budget and checkpoint contract
+
+Apply new total budget deducts the session’s committed spending, including verified +25 cap returns, while preserving cards/history. It does not treat the edited amount as additional resources. A partial candidate stopped for resource exhaustion stays inspectable; starting a fresh run archives it as unplaced. Discard recovery remains unsupported. Unlimited toggle remembers prior finite counts only during the page lifetime.
+
 ## Public delivery tracking
 
 The approved workstream consists of target/status clarity, shared cards/history, resource editing and checkpoint requirement control, followed by browser/build/CI verification. Implementation and exact-head evidence belong to GitHub. Private dependencies can be planned before visual polishing finishes.

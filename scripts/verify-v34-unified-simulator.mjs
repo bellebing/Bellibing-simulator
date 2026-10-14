@@ -87,6 +87,19 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
     await check("(()=>{const cards=[...document.querySelectorAll('.simulator-slot>.improve-equipped-echo')];return cards.length===5&&cards.every(c=>{const r=c.getBoundingClientRect();return r.width>100&&r.left>=0&&r.right<=innerWidth&&c.scrollWidth<=c.clientWidth+1})})()",'five contained cards '+width);
     await capture(send,'artifacts/unified-simulator-'+width+'x'+height+'.png');
   }
+  // A below-minimum unique roll proves impossibility at +5, without stat blacklists.
+  await read("(async()=>{const m=await import(new URL('../../assets/improvePolicyState.js',new URL('assets/improve-settings.js',location.href)));const source=(await(await fetch('assets/improve-settings/policies.json')).json()).characters.find(p=>p.characterId==='augusta');await m.withExclusiveImprovePolicyStorage(()=>{let store=m.loadImprovePolicyStorage(localStorage);let policy=m.readImprovePolicyState(store,'augusta',source);policy=m.updateImprovePolicyState(policy,{type:'gate',value:5},source);policy=m.updateImprovePolicyState(policy,{type:'set',section:'echoRequirements',value:{requiredOnEveryEcho:[{stat:'Flat HP',minimum:echoStatContract.substats.find(row=>row.name==='Flat HP').values.at(-1)}],groups:[]}},source);m.persistImprovePolicyState(store,policy,localStorage)});window.dispatchEvent(new StorageEvent('storage',{key:m.IMPROVE_POLICY_STORAGE_KEY,storageArea:localStorage}));})()");
+  await setViewport(send,1440,900);await click('#simulatorOneSlot');await click('#simulatorReset');
+  await read('window.unifiedOriginalRandom=Math.random;Math.random=()=>0');await click('#simulatorRoll');
+  await waitForUi(send,"improveUi.simulator.run?.status==='EXHAUSTED'",'early rejected finite run');
+  await check("improveUi.simulator.slots[0].trash.length===8&&improveUi.simulator.slots[0].trash.every(card=>card.card.level===5)&&improveUi.simulator.rolling.tuners===80&&improveUi.simulator.evaluator.status==='PENDING'",'actual +5 stops and no economic evaluator');
+  await click('[data-trash-slot="1"] .simulator-pile-top');
+  await check("document.querySelector('.simulator-inspection').open&&document.querySelectorAll('.simulator-inspection [data-checkpoint-level]').length===1&&document.querySelector('.simulator-inspection [data-checkpoint-level]').textContent.includes('Flat HP')&&document.querySelector('.simulator-inspection s')&&!document.querySelector('.simulator-inspection').textContent.includes('CRIT Rate')",'discard inspection shows only the new roll and actual stopped checkpoint');
+  await capture(send,'artifacts/public-simulator-discard-history-1440x900.png');
+  await click('.simulator-inspection button');
+  await read("document.getElementById('simulatorTrashPanel').scrollIntoView({block:'center',behavior:'instant'})");
+  await capture(send,'artifacts/public-simulator-trash-panel-1440x900.png');
+  await read('Math.random=window.unifiedOriginalRandom;delete window.unifiedOriginalRandom');
   await click('#simulatorCurrent');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(current),'exit restores Current');
   await navigate(send);await waitForUi(send,'window.bellibingResourceInventory','reload');await check('!improveUi.simulator&&window.bellibingResourceInventory.getState().echoes.count===8','reload keeps budget, discards sandbox');
   console.log('Display font:',await read("[...document.fonts].filter(f=>f.family.includes('Etna')).map(f=>({family:f.family,status:f.status}))"));

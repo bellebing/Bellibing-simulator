@@ -50,9 +50,9 @@ test('partial exhaustion retains finished equipment and checkpoints, actual spen
   assert.equal(result.run!.status,'EXHAUSTED');assert.deepEqual(result.run!.completedSlots,[1,2]);
   assert.equal(result.selectedSlot,3);assert.equal(result.rolling.attempts,2);assert.equal(result.rolling.tuners,100);
   assert.equal(simulatorEquipmentSlots(result).filter(Boolean).length,2);assert.equal(result.slots[2].candidate,null);
-  assert.equal(result.resources!.spent.premium,58);assert.equal(result.resources!.returned.advanced,2);
+  assert.equal(result.resources!.spent.premium,58);assert.equal(result.resources!.returned.advanced,3);
   assert.equal(result.resources!.returned.medium,0);assert.equal(result.slots[0].candidate!.history.at(-1)!.level,25);
-  for(const inventory of [budget(0),{...budget(),tuners:finite(49)},{...budget(),tubes:emptyResourceInventory().tubes}]){
+  for(const inventory of [budget(0),{...budget(),tuners:finite(9)},{...budget(),tubes:emptyResourceInventory().tubes}]){
     const original=beginSimulatorExecution(prepare(inventory),templates,'FULL_SET',noRequirements,25);
     const blocked=advanceSimulatorRun(original,new SeededRng(1));assert.equal(blocked.run!.status,'EXHAUSTED');assert.deepEqual(blocked.resources,original.resources);assert.deepEqual(blocked.slots,original.slots);
   }

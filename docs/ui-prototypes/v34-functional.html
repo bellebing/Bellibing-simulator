@@ -2298,8 +2298,8 @@ const improveUi={
       const label=text('label','Main stat');label.htmlFor='simulatorMainStat';const select=document.createElement('select');select.id='simulatorMainStat';
       for(const stat of model.RANK5_PRIMARY_MAIN_STATS[template.cost])select.append(new Option(stat.name,stat.name));select.value=template.primaryMainStat;
       select.onchange=()=>{this.cancelRun('Configuration changed');this.simulatorTemplates[this.selectedEchoIndex].primaryMainStat=select.value;this.renderCandidate();this.renderEchoRow();this.renderCurrentEcho();this.renderHelper()};details.append(label,select);
-      details.append(text('p','Eligible editable templates. Completed +25 rolls pass ALL Hard minima and the selected Flex count. Gate is retained without early rejection. Full Set runs slots 1–5 with one working budget.'));
-      details.append(text('p','Whole Tubes use the least supplied EXP reaching +25, with catalog-order ties. Gross spending and verified upgrade cap returns are exact; discard/feed recovery, Character usefulness and expected outcomes remain Pending. Saved Resources stay unchanged.'));
+      details.append(text('p','Eligible editable templates. Completed +25 rolls pass ALL Hard minima and the selected Flex count. At and after Gate, mathematically impossible Echo requirements stop further upgrading. Full Set runs slots 1–5 with one working budget.'));
+      details.append(text('p','Each checkpoint uses the least supplied whole-Tube EXP with catalog-order ties; carry stays with the candidate. Gross spending and verified upgrade cap returns are exact; discard/feed recovery, economic Continue/Reject/Accept, Character usefulness and expected outcomes remain Pending. Saved Resources stay unchanged.'));
       host.append(details);
     }
     if(this.resourcesChanged){host.append(text('small','Simulate paused: saved Resources changed. Apply the new total budget minus this session’s spending, or Reset. Cards and history stay when applying.'));

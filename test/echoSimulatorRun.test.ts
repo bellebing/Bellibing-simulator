@@ -39,8 +39,9 @@ test('multiple failures repeat, spend, and stop on first ALL Hard / N distinct F
   const candidate=session.slots[0].candidate!;
   assert.equal(assessEchoRequirements(requirements,{rank:5,level:25,substats:candidate.card.substats!}).status,'SATISFIED');
   assert.equal(session.slots[0].trash.length,session.rolling.attempts-1);
-  for(const failed of session.slots[0].trash)assert.equal(assessEchoRequirements(requirements,{rank:5,level:25,substats:failed.card.substats!}).status,'IMPOSSIBLE');
-  assert.equal(session.rolling.tuners,50*session.rolling.attempts);
+  for(const failed of session.slots[0].trash)assert.equal(assessEchoRequirements(requirements,{rank:5,level:failed.card.level!,substats:failed.card.substats!}).status,'IMPOSSIBLE');
+  assert.equal(session.rolling.tuners, 50 + session.slots[0].trash.reduce((sum, card) => sum + card.card.level! / 5 * 10, 0));
+  assert.ok(session.slots[0].trash.some(card => card.card.level! < 25));
   assert.deepEqual(candidate.history.slice(1).map(row=>row.level),[0,5,10,15,20,25]);
   assert.equal(JSON.stringify(session.resources!.basis),saved);
   assert.deepEqual(advanceSimulatorRun(session,rng),session);
@@ -52,7 +53,7 @@ test('multiple failures repeat, spend, and stop on first ALL Hard / N distinct F
 });
 
 test('finite zero, insufficient full attempt, invalid/impossible intent and RNG are atomic',()=>{
-  for(const inventory of [{...budget(),echoes:finite(0)},{...budget(),tuners:finite(0)},{...budget(),tuners:finite(49)},{...budget(),tubes:emptyResourceInventory().tubes}]){
+  for(const inventory of [{...budget(),echoes:finite(0)},{...budget(),tuners:finite(0)},{...budget(),tuners:finite(9)},{...budget(),tubes:emptyResourceInventory().tubes}]){
     const session=prepare(inventory),next=advanceSimulatorRun(session,new SeededRng(1));
     assert.equal(next.run!.status,'EXHAUSTED');assert.deepEqual(next.resources,session.resources);assert.equal(next.rolling.attempts,0);assert.equal(next.slots[0].candidate,null);
   }
@@ -68,7 +69,8 @@ test('finite failed rolls deplete inventory without recovery; bounded pause, res
   let session=prepare(inventory);session=advanceSimulatorRun(session,{next:()=>0},4,2);
   assert.equal(session.run!.status,'PAUSED');assert.equal(session.rolling.attempts,2);
   assert.equal(session.resources!.inventory.echoes.kind,'FINITE');assert.equal((session.resources!.inventory.echoes as any).count,1);
-  assert.equal(session.resources!.spent.premium,58);assert.equal(session.resources!.returned.advanced,2);
+  assert.equal(session.resources!.spent.premium,8);assert.equal(session.resources!.returned.advanced,0);
+  assert.equal(session.rolling.tuners,40);assert.ok(session.slots[0].trash.every(card=>card.card.level===10));
   const paused=structuredClone(session);assert.deepEqual(advanceSimulatorRun(session,{next:()=>0}),paused);
   session=advanceSimulatorRun(resumeSimulatorRun(session),{next:()=>0},4,2);
   assert.equal(session.run!.status,'EXHAUSTED');assert.equal(session.rolling.attempts,3);assert.equal(session.slots[0].trash.length,3);
@@ -127,4 +129,31 @@ test('scrubber clicks, cancellation, lost capture and exact keyboard commits pre
   fire('pointerdown',100);fire('pointermove',160);fire('pointerup',160);assert.deepEqual(saved,['47']);
   input.value='0';fire('keydown',0,{key:'ArrowDown'});assert.equal(saved.at(-1),'∞');fire('keydown',0,{key:'ArrowUp'});assert.equal(saved.at(-1),'0');
   input.value='invalid';fire('pointerdown',100);fire('pointermove',160);fire('pointerup',160);assert.equal(input.value,'invalid');assert.equal(saved.length,3);
+});
+
+
+test('Gate controls first impossibility check without a stat blacklist', () => {
+  const req = { requiredOnEveryEcho: [{ stat: 'Flat HP' }], groups: [] };
+  const possible = advanceSimulatorRun(beginSimulatorRun(initializeSimulatorResources(startEchoSimulator('augusta', {}, 'flat'), budget()), template, req, 5), {next:()=>0}, 1);
+  assert.equal(possible.run!.status, 'SUCCESS'); assert.equal(possible.slots[0].candidate!.card.level, 25);
+  const hard = { requiredOnEveryEcho: [{stat:'CRIT Rate',minimum:.105}], groups: [] };
+  const lowRoll = {next:()=>0};
+  // First canonical rolls Flat HP, Flat ATK, Flat DEF, CRIT Rate at its lowest tier.
+  const session = beginSimulatorRun(initializeSimulatorResources(startEchoSimulator('augusta', {}, 'gate'), budget()), template, hard, 5);
+  const rejected = advanceSimulatorRun(session, lowRoll, 1);
+  assert.equal(rejected.slots[0].trash[0].card.level,20);
+  assert.equal(rejected.rolling.tuners,40);
+  const late = advanceSimulatorRun(beginSimulatorRun(session,template,hard,25), {next:()=>0},1);
+  assert.equal(late.slots[0].trash[0].card.level,25);
+  assert.equal(late.evaluator.status,'PENDING');
+});
+
+test('partial budget retains the actual checkpoint and never accepts or rejects it', () => {
+  const inventory = {...budget(),echoes:finite(1),tuners:finite(49)};
+  const session=beginSimulatorRun(initializeSimulatorResources(startEchoSimulator('augusta',{},'partial'),inventory),template,{requiredOnEveryEcho:[],groups:[]},5);
+  const stopped=advanceSimulatorRun(session,new SeededRng(1));
+  assert.equal(stopped.run!.status,'EXHAUSTED'); assert.equal(stopped.slots[0].candidate!.card.level,20);
+  assert.equal(stopped.rolling.tuners,40);assert.equal(stopped.rolling.checkpoints,4);
+  assert.equal(stopped.slots[0].trash.length,0);assert.equal(stopped.slots[0].accepted.length,0);
+  assert.deepEqual(stopped.resources!.inventory.tuners,finite(9));
 });

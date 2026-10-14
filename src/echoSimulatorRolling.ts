@@ -1,4 +1,5 @@
-import type { EchoCost, RandomSource } from './echoCoreDomain.ts';
+import type { Echo, EchoCost, EchoLevel, RandomSource } from './echoCoreDomain.ts';
+import { nextCheckpoint } from './echoCoreRules.ts';
 import type { PrimaryMainStatName } from './echoMainStats.ts';
 import { createRank5EchoAtLevel0, withRank5MainStatsAtLevel } from './echoMainStats.ts';
 import { VerifiedWuwaEchoRuntime } from './echoCoreRuntime.ts';
@@ -8,7 +9,10 @@ import type { EchoSimulatorSession, SimulatorEchoCard } from './echoSimulatorSes
 /** Already-eligible, explicitly selected template; no farming or Character prescription. */
 export function rollSimulatorCandidate(session: EchoSimulatorSession, template: {
   echoId: string; selectedSonataSetId: string; cost: EchoCost; primaryMainStat: PrimaryMainStatName;
-}, rng: RandomSource): EchoSimulatorSession {
+}, rng: RandomSource, checkpoints?: {
+  before: (echo: Echo, target: EchoLevel) => boolean;
+  after: (echo: Echo) => boolean;
+}): EchoSimulatorSession {
   const candidate = session.slots[session.selectedSlot - 1]?.candidate;
   if (!candidate || candidate.card.echoId !== template.echoId
     || candidate.card.selectedSonataSetId !== template.selectedSonataSetId || !template.selectedSonataSetId)
@@ -28,12 +32,15 @@ export function rollSimulatorCandidate(session: EchoSimulatorSession, template: 
   };
   let echo = fresh.echo; record(echo);
   next.rolling.attempts += fresh.cost.echoes;
-  for (let step = runtime.rollNext(echo, rng); step; step = runtime.rollNext(echo, rng)) {
+  while (nextCheckpoint(echo.level) !== null) {
+    if (checkpoints && !checkpoints.before(echo, nextCheckpoint(echo.level)!)) break;
+    const step = runtime.rollNext(echo, rng)!;
     echo = step.echo;
     record(echo);
     next.rolling.checkpoints++;
     next.rolling.tuners += step.cost.tuners;
     next.rolling.exp += step.cost.exp;
+    if (checkpoints && !checkpoints.after(echo)) break;
   }
   return next;
 }

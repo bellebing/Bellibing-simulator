@@ -16,6 +16,6 @@ The current candidate combines the previously separate UI work on the current ap
 
 The persistent multi-select supersedes the older memory-only two-set replacement picker. Selected families are eligibility filters; reviewed default slot distributions and already equipped assignments remain separate. The removed global Recommended/Customize bar and Add stat action are replaced by direct section edits/reset and preservation of already saved numeric targets.
 
-No new game facts, rotation defaults, team damage engine, private evaluator or upgrade recommendation is introduced. Gate early rejection, Shell Credit simulation charges, discard/recovery economics, Expected, Improvement Cost and full DPS UI remain unsupported. See the [foundation contract](ECHO_SIMULATOR_FOUNDATION.md) for the executable boundaries.
+No new game facts, rotation defaults, team damage engine, private evaluator or upgrade recommendation is introduced. Shell Credit simulation charges, discard/recovery economics, Expected, Improvement Cost and full DPS UI remain unsupported. See the [foundation contract](ECHO_SIMULATOR_FOUNDATION.md) for the executable boundaries.
 
 Legacy UI PRs should stay available for traceability until this integrated candidate has been reviewed and landed. Preview acceptance does not establish FULL/merge readiness.

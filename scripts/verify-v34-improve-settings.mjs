@@ -2,7 +2,9 @@ import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 export async function verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep, desktopViewports = [[1440,900],[1920,1080],[2560,1440]], resourceWidths = [960,640,390] }) {
   const read = expression => evaluate(send, expression);
   const state = 'window.bellibingImproveSettings.getState()';
+  const settledWrites = () => read('window.bellibingImproveSettings.whenIdle().then(()=>true)');
   const check = async (expression, message) => {
+    await settledWrites();
     if (!await read(expression)) throw new Error('Improve Settings: ' + message + ' ' + JSON.stringify(await read(`({state:${state},text:document.getElementById('improveSettings').innerText})`)));
   };
   const click = async selector => {
@@ -18,7 +20,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
   const summariesMatch = async () => check(`(()=>{const abbreviations={'CRIT Rate':'CR','CRIT DMG':'CD','Energy Regen':'ER','Basic Attack DMG':'BA DMG','Heavy Attack DMG':'HA DMG','Liberation DMG':'Lib DMG'};return ['every','flex'].every(id=>{const rows=[...document.querySelectorAll('[data-setting='+id+'] .improve-echo-row[data-section='+id+']')].map(n=>n.dataset.statName);return document.querySelector('[data-setting='+id+'] .improve-setting-summary').textContent===rows.map(n=>abbreviations[n]??n).join(' · ')})})()`, 'summaries immediately reflect current active row membership/order');
   const resetEcho = async () => { if (await read("!!document.querySelector('[data-focus-key=\"reset:echo\"]')")) await click(focus('reset:echo')); };
   const slider = (list, name) => '[data-setting=' + list + '] .improve-echo-row[data-stat-name=' + JSON.stringify(name) + '] .improve-roll-slider';
-  const wait = () => waitForUi(send, 'releasedCharacters.length===59&&echoDataLoaded&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings not ready', 15000);
+  const wait = () => waitForUi(send, 'releasedCharacters.length===59&&echoDataLoaded&&!!window.bellibingImproveSettings&&document.getElementById("improveSettings").dataset.sourceStatus!=="LOADING"', 'Settings not ready', 15000);
   const settle = async () => { await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:20,y:800}); await sleep(750); };
   const key = async name => {
     const virtual = {ArrowLeft:37,ArrowRight:39,ArrowUp:38,ArrowDown:40,Home:36,End:35}[name];
@@ -33,6 +35,7 @@ export async function verifyImproveSettings({ send, evaluate, navigate, setViewp
     await check(`document.activeElement.dataset.focusKey===${JSON.stringify('handle:'+name)}`, 'keyboard retains moved handle focus'); await summariesMatch();
   };
   const dragRow = async (name, target) => {
+    await settledWrites(); // a previous save must not replace rows during native drag
     const handle=focus('handle:'+name);
     await read(`document.querySelector(${JSON.stringify(handle)}).scrollIntoView({block:'center',behavior:'instant'})`); await sleep(600);
     const hover=await read(`(()=>{const r=document.querySelector(${JSON.stringify(handle)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);

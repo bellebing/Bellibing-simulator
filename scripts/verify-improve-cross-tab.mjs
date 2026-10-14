@@ -9,7 +9,7 @@ const CHROME = process.env.CHROME_BIN ?? 'google-chrome';
 let fixtureUrl = process.env.BELLIBING_CROSS_TAB_URL ?? 'http://127.0.0.1:4173/REVIEW_UI_PREVIEW.txt';
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const chrome = spawn(CHROME, ['--headless=new', '--no-sandbox', '--disable-gpu',
-  '--disable-dev-shm-usage', ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []), '--remote-debugging-address=127.0.0.1',
+  '--disable-dev-shm-usage', '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4', ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []), '--remote-debugging-address=127.0.0.1',
   '--remote-debugging-port='+PORT, '--user-data-dir='+join(tmpdir(), 'bellibing-cross-tab-'+process.pid),
   'about:blank'], { stdio: ['ignore', 'pipe', 'pipe'] });
 let stderr = '';
@@ -81,7 +81,22 @@ async function main() {
     await Promise.all([evaluate(A,'(async()=>{'+setup+'})()'),evaluate(B,'(async()=>{'+setup+'})()')]);
     assert.equal(await evaluate(A,'!!navigator.locks && typeof navigator.locks.request==="function"'),true,'Chromium Web Locks unavailable');
     // Both snapshots from before either exclusive commit: exactly one paid attempt.
-    const seeded = await evaluate(A,'(async()=>{localStorage.clear();localStorage.setItem(key,seedBytes());localStorage.setItem(p.IMPROVE_POLICY_V2_KEY,"retained legacy recovery bytes");await p.withExclusiveImprovePolicyStorage(()=>p.loadImprovePolicyStorage(localStorage));window.snap=t.readRank5Plus5Snapshot(localStorage);return snap.storageBytes})()');
+    await evaluate(A,'localStorage.clear();localStorage.setItem(key,seedBytes());localStorage.setItem(p.IMPROVE_POLICY_V2_KEY,"retained legacy recovery bytes");window.originalBytes=localStorage.getItem(key);window.snap=t.readRank5Plus5Snapshot(localStorage);true');
+    // First-use mutation fails after its provisional mirror write, and rollback
+    // is unavailable. The separately committed original must still recover it.
+    const firstAdoption=await attempt(A,`const put=IDBObjectStore.prototype.put, set=Storage.prototype.setItem;
+      IDBObjectStore.prototype.put=function(value,...args){
+        if(value.current?.includes('first-adoption'))throw new Error('first write denied');
+        return put.call(this,value,...args)};
+      Storage.prototype.setItem=function(k,value){
+        if(k===key&&value===originalBytes)throw new Error('mirror rollback unavailable');
+        return set.call(this,k,value)};
+      try{return await t.commitRank5Plus5ResourcesExclusive(localStorage,snap,'first-adoption')}
+      finally{IDBObjectStore.prototype.put=put;Storage.prototype.setItem=set}`);
+    assert.equal(firstAdoption.ok,false,'failed first write must not report success');
+    assert.match(firstAdoption.error,/first write denied/);
+    const seeded = await evaluate(A,'(async()=>{await p.withExclusiveImprovePolicyStorage(()=>p.loadImprovePolicyStorage(localStorage));window.snap=t.readRank5Plus5Snapshot(localStorage);return snap.storageBytes})()');
+    assert.equal(seeded,await evaluate(A,'originalBytes'),'durable original survives unavailable first-write rollback');
     for (let i=0;i<100 && await evaluate(B,'localStorage.getItem(key)')!==seeded;i++) await sleep(20);
     assert.equal(await evaluate(B,'localStorage.getItem(key)'),seeded,'both tabs see the funded starting envelope');
     await evaluate(B,'window.snap=t.readRank5Plus5Snapshot(localStorage);true');
@@ -219,8 +234,15 @@ async function main() {
     }
     await evaluate(A,'(async()=>{await seed(2);return true})()');
     fixtureUrl=new URL('/ui-preview/',fixtureUrl).href;
+    await Promise.all([A,B].map(tab=>tab.send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false})));
     await Promise.all([navigate(A),navigate(B)]);
-    for(const tab of [A,B]){for(let i=0;i<200;i++){if(await evaluate(tab,"typeof improveUi!=='undefined'&&window.bellibingImproveSettings?.canAssessEchoRequirements&&echoDataLoaded&&window.bellibingEchoSimulator"))break;await sleep(75)}await evaluate(tab,"show('improve');improveUi.setCharacter('Augusta')")}
+    for(const tab of [A,B]) {
+      for(let i=0;i<200;i++){if(await evaluate(tab,"typeof improveUi!=='undefined'&&window.bellibingImproveSettings&&echoDataLoaded&&window.bellibingEchoSimulator"))break;await sleep(75)}
+      await evaluate(tab,"addOwned('Augusta');show('improve');improvePicker.select('Augusta')");
+      for(let i=0;i<200 && !await evaluate(tab,'window.bellibingImproveSettings.canAssessEchoRequirements()');i++)await sleep(75);
+      assert.equal(await evaluate(tab,'window.bellibingImproveSettings.canAssessEchoRequirements()'),true,'UI requirements fully loaded');
+      await evaluate(tab,'window.bellibingImproveSettings.whenIdle().then(()=>true)');
+    }
     await evaluate(B,'improveUi.startSimulation();window.originalRandom=Math.random;Math.random=()=>0;document.getElementById("simulatorRoll").click();true');
     for(let i=0;i<200 && !await evaluate(B,"improveUi.simulator.run?.status==='EXHAUSTED'");i++)await sleep(25);
     await evaluate(B,'Math.random=originalRandom;true');
@@ -254,6 +276,42 @@ async function main() {
     assert.equal(await evaluate(B,'resourceInput.value'),'-1','earlier completion retains the newer input');
     assert.equal(await evaluate(B,'resourceInput.getAttribute("aria-invalid")'),'true','earlier success cannot clear a later validation error');
     assert.equal(await evaluate(B,'window.bellibingResourceInventory.getState().echoes.count'),18,'only the valid edit commits');
+    // A pending save finishing mid-drag must retain the real DOM drag source.
+    await B.send('Page.bringToFront');
+    await evaluate(B,`(async()=>{resourceInput.value='18';resourceInput.dispatchEvent(new Event('input'));
+      await resourceInput.onchange();
+      const details=document.querySelector('.improve-other-stats');if(!details.open)details.querySelector('summary').click();
+      document.querySelector('[data-focus-key="handle:HP%"] ').scrollIntoView({block:'center',behavior:'instant'});return true})()`);
+    await evaluate(A,`window.dragHoldReady=false;
+      navigator.locks.request('bellibing.improve.policy.v3',{mode:'exclusive'},async()=>{
+        window.dragHoldReady=true;await new Promise(resolve=>window.releaseDragHold=resolve)});true`);
+    for(let i=0;i<100 && !await evaluate(A,'window.dragHoldReady');i++)await sleep(20);
+    assert.equal(await evaluate(A,'window.dragHoldReady'),true);
+    await evaluate(B,`document.querySelector('[data-focus-key="gate:10"]').click();true`);
+    await sleep(100);
+    const sourcePoint=await evaluate(B,`(()=>{window.dragSource=document.querySelector('.improve-echo-row[data-stat-name="HP%"]');
+      const r=dragSource.querySelector('.improve-policy-handle').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+    await B.send('Input.dispatchMouseEvent',{type:'mouseMoved',...sourcePoint});await sleep(600);
+    const dragPoints=await evaluate(B,`(()=>{window.dragSource=document.querySelector('.improve-echo-row[data-stat-name="HP%"]');const a=dragSource.querySelector('.improve-policy-handle').getBoundingClientRect(),
+      b=document.querySelector('[data-echo-section=flex]').getBoundingClientRect();
+      return [{x:a.x+a.width/2,y:a.y+a.height/2},{x:b.x+b.width/2,y:b.y+16}]})()`);
+    const [from,to]=dragPoints;
+    await B.send('Input.dispatchMouseEvent',{type:'mouseMoved',...from});
+    await B.send('Input.dispatchMouseEvent',{type:'mousePressed',...from,button:'left',buttons:1,clickCount:1});
+    for(let step=1;step<=15;step++){await B.send('Input.dispatchMouseEvent',{type:'mouseMoved',
+      x:from.x+(to.x-from.x)*step/15,y:from.y+(to.y-from.y)*step/15,button:'left',buttons:1});await sleep(25)}
+    const dragStarted=await evaluate(B,'dragSource.classList.contains("is-dragging")');
+    if(!dragStarted) console.error(await evaluate(B,`({rect:dragSource.getBoundingClientRect().toJSON(),open:document.querySelector('.improve-other-stats').open,expanded:document.getElementById('improve-setting-gate').getAttribute('aria-expanded'),hit:document.elementFromPoint(${from.x},${from.y})?.outerHTML.slice(0,300),viewport:[innerWidth,innerHeight],active:document.hasFocus()})`));
+    assert.equal(dragStarted,true,'real native drag started');
+    await evaluate(A,'releaseDragHold();true');
+    await evaluate(B,'window.bellibingImproveSettings.whenIdle().then(()=>true)');
+    assert.equal(await evaluate(B,'window.bellibingImproveSettings.getState().gate'),10,'older save finished during drag');
+    assert.equal(await evaluate(B,'dragSource.isConnected'),true,'save cannot detach the active drag source');
+    assert.equal(await evaluate(B,'dragSource.classList.contains("is-dragging")'),true,'save cannot end the active native gesture');
+    await B.send('Input.dispatchMouseEvent',{type:'mouseMoved',...to,button:'left',buttons:1});await sleep(150);
+    await B.send('Input.dispatchMouseEvent',{type:'mouseReleased',...to,button:'left',clickCount:1});
+    await evaluate(B,'window.bellibingImproveSettings.whenIdle().then(()=>true)');
+    assert.equal(await evaluate(B,'document.querySelector(\'.improve-echo-row[data-stat-name="HP%"]\').dataset.section'),'flex','real drop survives the concurrent save');
     console.log('PASS native UI storage events: shared budget/Sonatas, reset required, sandbox retained.');
     console.log('PASS BUG-045 Chromium: 2 tabs, 1 debit + receipt, stale Settings/Resources, direct/missing/rejected locks, quota/durable rollback and retry, stale mirrors, 20 contention rounds.');
   } finally { A.socket.close(); B.socket.close(); }

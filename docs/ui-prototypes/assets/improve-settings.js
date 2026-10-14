@@ -12,6 +12,7 @@ import { readSonataChoices, sonataChoicesPresentation, toggleSonataSelection } f
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
+root.dataset.sourceStatus = 'LOADING';
 let store, storageError = null, retiredEchoRecovery = false;
 let writerQueue = Promise.resolve();
 // Only cross-tab writes invalidate already queued local edits. A burst of edits
@@ -28,6 +29,7 @@ try { store = await withExclusiveImprovePolicyStorage(() => loadImprovePolicySto
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
+let renderAfterDrag = false;
 let drag = null, otherExpanded = false, moreSetsExpanded = false, sonataChoices = { catalog: [], recommendations: {} }, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
@@ -166,6 +168,7 @@ async function commit(change, focusKey, refresh = true) {
   window.dispatchEvent(new Event('bellibing-improve-settings-changed'));
   if (!refresh) { resolved = resolveImprovePolicyState(settings, source); return; }
   render();
+  if (drag) return; // preserve pointer/focus ownership until the native gesture ends
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
@@ -362,7 +365,7 @@ function renderEcho() {
     handle.setAttribute('aria-label', 'Move ' + name); handle.setAttribute('aria-describedby', 'improve-flex-keyboard-help');
     handle.title = 'Drag to another section; Alt + Arrow keys to move';
     item.ondragstart = event => { drag = { characterId, name }; event.dataTransfer.setData('text/plain', name); event.dataTransfer.effectAllowed = 'move'; item.classList.add('is-dragging'); };
-    item.ondragend = () => { drag = null; item.classList.remove('is-dragging'); };
+    item.ondragend = () => { drag = null; item.classList.remove('is-dragging'); if (renderAfterDrag) render(); };
     const index = view.layout[list].indexOf(name);
     dropTarget(item, list, index);
     handle.onkeydown = event => {
@@ -428,6 +431,9 @@ function renderEcho() {
 }
 
 function render() {
+  // An older async save must not detach the source of an in-progress native drag.
+  if (drag) { renderAfterDrag = true; return; }
+  renderAfterDrag = false;
   renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
@@ -473,7 +479,8 @@ window.addEventListener('storage', event => {
   render();window.dispatchEvent(new Event('bellibing-improve-settings-changed'));if(priorInventory!==JSON.stringify(inventory))window.dispatchEvent(new Event('bellibing-resource-inventory-changed'));if(priorSets!==JSON.stringify(settings?.selectedSonataSetIds))window.dispatchEvent(new Event('bellibing-simulator-sonatas-changed'));
 });
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, getSonataSetIds: () => settings ? sonataChoicesPresentation(settings,sonataChoices).selected.map(row=>row.id) : [], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+// Settled is not a success receipt; callers still inspect their operation/result.
+window.bellibingImproveSettings = { whenIdle: () => writerQueue, setCharacter, getSonataSetIds: () => settings ? sonataChoicesPresentation(settings,sonataChoices).selected.map(row=>row.id) : [], canAssessEchoRequirements: () => loaded && !!settings && !storageError && !retiredEchoRecovery, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),

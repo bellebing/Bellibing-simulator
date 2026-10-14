@@ -55,7 +55,7 @@ export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Prom
     if (typeof indexedDB === 'undefined') throw new Error('Safe cross-tab Improve database unavailable.');
     const database = await openImproveDatabase();
     try {
-      return await new Promise<T>((resolve, reject) => {
+      const execute = (): Promise<T> => new Promise<T>((resolve, reject) => {
         const transaction = database.transaction('envelopes', 'readwrite', { durability: 'strict' });
         const envelopes = transaction.objectStore('envelopes');
         const request = envelopes.get(IMPROVE_POLICY_STORAGE_KEY);
@@ -72,7 +72,14 @@ export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Prom
             if (request.result !== undefined && (!request.result
               || !['current', 'legacy'].every(key => request.result[key] === null || typeof request.result[key] === 'string')))
               throw new Error('Invalid Improve database envelope; recovery data has been retained.');
-            before = request.result ?? readEnvelope(); // first-use migration retains exact recovery bytes
+            if (request.result === undefined) {
+              // Commit the original before the first mutation. Even an unavailable
+              // mirror rollback or a lost tab cannot erase the only pre-write copy.
+              envelopes.put(readEnvelope(), IMPROVE_POLICY_STORAGE_KEY);
+              transaction.oncomplete = () => { execute().then(resolve, reject); };
+              return;
+            }
+            before = request.result;
             mirrorEnvelope(before!); // refresh this renderer from the authoritative transaction
             exclusiveImproveWriter = true;
             try { value = write(); } finally { exclusiveImproveWriter = false; }
@@ -82,6 +89,7 @@ export async function withExclusiveImprovePolicyStorage<T>(write: () => T): Prom
           } catch (error) { failure = error; transaction.abort(); }
         };
       });
+      return await execute();
     } finally { database.close(); }
   });
 }

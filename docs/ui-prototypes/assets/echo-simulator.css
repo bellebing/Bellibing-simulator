@@ -109,7 +109,7 @@
 /* Keep offscreen selector cards out of the workspace's horizontal scroll range. */
 #improveWheel{overflow-x:clip;overflow-y:visible}
 
-.simulator-trash-panel{grid-column:1/-1;min-width:0;margin-top:14px;padding:16px;border:1px solid #927843;border-radius:14px;background:linear-gradient(135deg,#30291eaa,#1a1e26 65%)}
+.simulator-trash-panel{flex:none;min-width:0;margin-top:0;padding:16px;border:1px solid #927843;border-radius:14px;background:linear-gradient(135deg,#30291eaa,#1a1e26 65%)}
 .simulator-trash-panel[hidden]{display:none}.simulator-trash-panel h2{margin:0 0 12px;font:24px var(--font-display)}
 .simulator-trash-columns{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:start}
 .simulator-echo-card{display:flex;flex-direction:column;width:100%;min-width:0}.simulator-echo-card .improve-equipped-art{height:88px}

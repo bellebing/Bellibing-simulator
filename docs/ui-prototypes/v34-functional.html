@@ -511,8 +511,8 @@
     <nav id="simulatorExecutionModes" class="simulator-execution-modes" aria-label="Simulation execution mode" hidden><button id="simulatorOneSlot" type="button" aria-pressed="true">1 Slot</button><button id="simulatorFullSet" type="button" aria-pressed="false">Full Set</button></nav>
     <div id="simulatorSequence" class="simulator-sequence" hidden></div>
     <section id="improveEchoRow" class="improve-echoes-row" aria-label="Current equipped Echoes"></section>
-    <section id="simulatorTrashPanel" class="simulator-trash-panel" aria-label="Discarded Echo history" hidden><h2>Trash Piles</h2><div id="simulatorTrashColumns" class="simulator-trash-columns"></div></section>
   </main>
+    <section id="simulatorTrashPanel" class="improve-surface simulator-trash-panel" aria-label="Discarded Echo history" hidden><h2>Trash Piles</h2><div id="simulatorTrashColumns" class="simulator-trash-columns"></div></section>
 </div></div></section>
 <section id="team" class="page"><button class="menu" data-home type="button">☰</button><div class="team-placeholder">Build a Team</div></section>
 <div id="skillsOverlay" class="skills-overlay" aria-hidden="true">
@@ -2085,7 +2085,7 @@ const improveUi={
     document.getElementById('simulatorExecutionModes').hidden=!this.simulator;document.getElementById('simulatorResultStats').hidden=true;
     for(const [id,mode] of [['simulatorOneSlot','ONE_SLOT'],['simulatorFullSet','FULL_SET']]){const button=document.getElementById(id);button.setAttribute('aria-pressed',String((this.executionMode||'ONE_SLOT')===mode));button.disabled=this.simulator?.run?.status==='RUNNING';}
     document.getElementById('simulatorSessionNote').hidden=!this.simulator;document.getElementById('simulatorReset').hidden=!this.simulator;
-    document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes and slot Trash Piles':'Current equipped Echoes');
+    document.getElementById('improveEchoRow').setAttribute('aria-label',this.simulator?'Simulated Current Echoes':'Current equipped Echoes');
     document.querySelector('.improve-stat-head span:nth-child(2)').textContent='Current';document.querySelector('.improve-stat-head span:last-child').textContent=this.simulator?'Simulated':'New';
   },
   setCharacter(name){

@@ -32,7 +32,7 @@ export async function verifyUnifiedSimulator({send,evaluate,navigate,setViewport
   await check('improveUi.simulator.slots[0].accepted.length===0&&improveUi.simulator.rolling.attempts===0','preparation is not a paid/generated outcome');
   await check('JSON.stringify(state)==='+JSON.stringify(current)+'&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'Current and budget isolation');
   await check("!document.getElementById('simulatorResultStats').hidden&&document.getElementById('simulatorEnergyTarget').dataset.targetStatus==='BELOW'&&document.getElementById('simulatorEnergyTarget').textContent.includes('120%')",'visible Character-wide ER reference separate from Echo requirements');
-  await check("document.querySelectorAll('#simulatorTrashColumns [data-trash-slot]').length===5&&document.getElementById('simulatorTrashPanel').compareDocumentPosition(document.getElementById('improveEchoRow'))&Node.DOCUMENT_POSITION_PRECEDING",'five piles in their separate panel after Simulator');
+  await check("document.getElementById('simulatorTrashPanel').parentElement===document.getElementById('improveBuildCard').parentElement&&document.querySelectorAll('#simulatorTrashColumns [data-trash-slot]').length===5&&document.getElementById('simulatorTrashPanel').compareDocumentPosition(document.getElementById('improveEchoRow'))&Node.DOCUMENT_POSITION_PRECEDING",'five piles in their separate panel after Simulator');
   // Use the existing serialized Settings writer for the fixture budget/criteria.
   await click('#improve-setting-gate');
   const input='[data-resource="echoes"] input';

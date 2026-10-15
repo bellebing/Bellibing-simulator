@@ -1,31 +1,27 @@
-# Character Carousel Interaction V2
+# Character Carousel — in-flow expansion
 
-The approved pre-V2 implementation is recoverable at `66d72f339e3c1aa363a1794ff243128d63bc3f28`. V1, earlier V1.1 revisions and the approved artwork remain unchanged.
+The approved center-focused revision remains recoverable at `c79dbbd74aded4050b725220705e3006a071e13c`. Artwork, depth hierarchy, centered information and the continuous movement model are preserved. V1 remains byte-identical.
 
-## Interaction contract
+## Layout and interaction
 
-The wheel has one continuous position over the active catalog, not nine-Character pages. All 59 released identities (or six illustrative Account identities) participate. Each artwork's horizontal offset, scale and opacity are measured from the same center. The approved resting scale/opacity hierarchy and gallery appearance are retained. First and last Characters sit at the same center with intentional empty space beyond the catalog bounds.
+The selector is the first child of the central column, immediately above Echo Workshop. The compact row and expanded gallery share one grid cell inside a component whose height grows from 70px to 470px. Both states are normal-flow grid items. There is no page-positioned anchor or overlay gallery. Workshop and Trash Piles move downward by 400px; their widths, dimensions and contents remain unchanged. The two side panels retain their independent layout. Overflow is clipped at the component, with no nested scrolling.
 
-The name, Weapon and stat preview stay anchored in one fixed central block. Moving the pointer over gallery artwork does not change focus. Circular portraits are 44px, with a 50px selected portrait. Their track is centered on Echo Workshop independently of filter, arrows and expansion controls; its visible span adapts to actual available header space. Working on the selected Character is now inline in the Workshop header. The overlay also identifies the working Character when browsing previews far from that selection.
+Only the centered circular portraits are visible when collapsed. Click/tap a portrait to expand and preview; the full-row expansion button provides a keyboard entry point. Expansion hides and makes the compact state inert, transfers keyboard focus into the gallery, and grows the same component. Escape, close, outside click or leaving the component collapses it. Focus returns to the compact entry point when appropriate. Reduced motion disables the growth/scale transitions.
 
-- Hover the compact track to reveal the gallery; click/tap a compact Character to open and center it.
-- Drag/swipe horizontally to spin. The direct manipulation threshold is 8px; vertical touch motion retains page scrolling. Pointer capture keeps the gesture stable. Native image dragging is disabled.
-- Release uses smoothed pointer velocity, bounded momentum (release projection capped at 1.5 positions before snapping), an ease-out settle and magnetic snapping. A pause before release removes stale velocity. Cancelled gestures snap without momentum. A drag-generated click cannot select a Character.
-- Click/tap a neighboring Character to center it. Click/tap the settled center Character to select it. The center name/caption is preview state; the gold portrait ring, selected marker, Working on label and `aria-pressed` identify the actual selection.
-- Previous/Next move one position. Left/Right, Home/End browse the continuous active catalog; Enter/Space on the focused wheel selects its settled center. Escape and close restore focus to the expansion button. Horizontal trackpad scrolling/Shift+wheel browses; ordinary vertical wheel scrolling remains available.
-- Account/All filtering preserves a preview when available, otherwise centers the selected Character if included or the first matching identity. It cancels movement without changing the working build. All restores the full catalog rather than a fixed page.
-- Reduced motion retains direct drag input but snaps immediately without a momentum animation. Expansion/collapse transitions and visual scale interpolation animations are disabled by the existing preference contract.
+The wheel has one continuous position across the active catalog, without fixed pages. Focused artwork, name, Weapon and stat preview remain at one horizontal center, including the first and last entries. Neighbor spacing is 172–190px according to available width; the existing scale, opacity, gradients and layered artwork remain. Narrower columns show fewer recognizable Characters instead of compressing the spacing.
 
-Expansion shares the portrait track's center/origin, revealing the existing gallery with a clipped growth and portrait-to-artwork transition. It remains an overlay; it never changes Workshop geometry. Browsing and motion do not call `onSelect`; only explicit activation of a settled center does. Existing Lab data, settings, feedback, Echo cards, Character comparison and Trash Piles remain owned by their existing components.
+- Drag/swipe horizontally with an 8px intent threshold. Vertical touch remains page scrolling. Pointer capture, smoothed velocity, bounded projection and magnetic snapping preserve the approved movement. Cancelled gestures have no fling; drag-generated clicks cannot select.
+- Click a neighbor to center it; click the settled center to select. Hover never moves focus. Gold selection markers and Working on identify the actual build independently of the preview.
+- Left/Right and Home/End browse; Enter/Space on the wheel selects; Escape collapses. Horizontal trackpad input and Shift+wheel browse. Reduced motion retains direct manipulation and snaps without momentum.
+- Collection and Element are independent filters inside the expanded gallery. Their intersection uses the existing canonical `catalog.js` element values; unknown elements are not inferred. Account membership remains the six illustrative fixture identities. Filtering preserves a matching preview when possible, otherwise uses a matching selection or first result, and never selects a build.
+- Empty intersections show an explicit empty state with no selectable artwork or fabricated information. Collapsing an empty result still shows the selected Character's portrait, so the gallery remains discoverable. Filters persist when reopened.
 
-## Source and reused ideas
+## Source and boundaries
 
-`v1.1/modules/carousel.js` owns the adapter and input events; `carousel-motion.js` owns bounded presentation position and settling. Neither imports production state or a gameplay calculation.
+`v1.1/modules/carousel.js` owns rendering/input/filtering. `carousel-motion.js` owns bounded presentation position and settling. Production `FreewheelCarousel` supplied interaction ideas only; no production code/state/layout is changed or imported. Existing Lab state, Workshop, feedback, Echo Cards, Character comparison, Settings and Trash Piles keep their current owners.
 
-Production `FreewheelCarousel` in `docs/ui-prototypes/v34-functional.html` was inspected for its drag threshold, pointer capture, velocity smoothing, release projection, easing, reduced-motion and click-suppression patterns. Those interaction ideas are adapted in the isolated Lab; no production selector layout or code is changed.
+## Verification
 
-## Verification and demonstration
+`tools/review-carousel.mjs` exercises physical mouse/CDP touch, momentum and snapping, no hover fisheye, neighbor versus center activation, endpoints, all collection/element combinations including empty results, keyboard and reduced motion. It checks fixed centers, selected/preview separation, hidden compact state, real 400px document displacement, unchanged side panels, collapse restoration and no horizontal overflow at 1440/1920/2560px. Existing Workshop/feedback/history regression checks remain in `verify-browser.mjs`.
 
-`tools/review-carousel.mjs` exercises real mouse and CDP touch input, continuous full-catalog traversal, momentum, snapping, pointer hover, neighbor versus center activation, endpoint centering, filter changes, keyboard and reduced motion. It asserts the fixed centers, artwork emphasis, immutable preview/build distinction and unchanged Workshop geometry at 1440/1920/2560px. Existing Workshop/feedback/history checks remain in the same review workflow.
-
-`tools/record-carousel.mjs` records actual Chromium compositor frames and physical input into `carousel-interaction.mp4`, with exact source identity in `carousel-interaction.json`. FFmpeg is required for that review recording (installed by the review workflow); it is not a product/runtime dependency. Screenshot and portable-file identity remain in the review manifest/verification JSON and exact-head Actions artifact.
+The default review generates no screenshots, MP4 or downloadable bundles. CI tests the exact source head without deploying it. The PR links the immutable GitHack source URL; external availability must be distinguished from local Chromium evidence. Optional portable packaging/testing tools remain available for maintainers (`UI_LAB_PORTABLE_REVIEW=true`) but are not part of the current review deliverables.

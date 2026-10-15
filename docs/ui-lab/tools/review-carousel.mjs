@@ -1,5 +1,4 @@
 import assert from 'node:assert/strict';
-import { resolve } from 'node:path';
 
 const settle = page => page.waitForFunction(() => document.querySelector('#characterCarousel').dataset.motion === 'settled');
 const focusId = page => page.locator('#characterCarousel').getAttribute('data-focused-character');
@@ -7,16 +6,28 @@ const selectedName = page => page.locator('.hero-copy h2').innerText();
 const geometry = page => page.evaluate(() => Object.fromEntries(['.workshop', '.working-area', '.slots', '.trash-panel'].map(selector => { const r = document.querySelector(selector).getBoundingClientRect(); return [selector, [r.x + scrollX, r.y + scrollY, r.width, r.height]]; })));
 const center = locator => locator.evaluate(node => { const r = node.getBoundingClientRect(); return r.x + r.width / 2; });
 
-export async function reviewCarousel(page, { width, output, checks, touch = false, capture = true }) {
-  const activate = locator => touch ? locator.tap() : locator.click();
+export async function reviewCarousel(page, { width, checks, touch = false }) {
+  const activate = async locator => { const options = await locator.getAttribute('id') === 'openGallery' ? { position: { x: 10, y: 30 } } : {}; return touch ? locator.tap(options) : locator.click(options); };
   const original = await geometry(page);
+  const sides = await page.locator('.side').evaluateAll(items => items.map(item => { const r = item.getBoundingClientRect(); return [r.x, r.y, r.width, r.height]; }));
   const build = await page.locator('#currentCard').innerHTML();
   const stats = await page.locator('#characterStats').innerText();
   const middle = await center(page.locator('.workshop'));
   assert.ok(Math.abs(await center(page.locator('#portraits')) - middle) < 1, 'Portrait collection must be centered on Workshop');
   assert.equal(await page.locator('.workshop-header .current-name strong').innerText(), 'Augusta');
   assert.ok(await page.locator('.portrait.selected').evaluate(node => node.clientWidth) >= 48);
+  assert.equal(await page.locator('.filter').isVisible(), false);
   await activate(page.locator('#openGallery')); await page.waitForTimeout(450);
+  assert.equal(await page.locator('#portraits').isVisible(), false);
+  const expanded = await geometry(page);
+  assert.deepEqual(await page.locator('.side').evaluateAll(items => items.map(item => { const r = item.getBoundingClientRect(); return [r.x, r.y, r.width, r.height]; })), sides, 'Gallery moved a side panel');
+  for (const key of Object.keys(original)) {
+    assert.equal(expanded[key][1], original[key][1] + 400, `${key} was not pushed down`);
+    assert.deepEqual([expanded[key][0], ...expanded[key].slice(2)], [original[key][0], ...original[key].slice(2)]);
+  }
+  const gallery = await page.locator('#characterGallery').boundingBox();
+  assert.ok(Math.abs(gallery.width - expanded['.workshop'][2]) < 1);
+  assert.ok(gallery.y + gallery.height <= expanded['.workshop'][1]);
   async function assertCentered() {
     await settle(page); await page.waitForTimeout(50);
     assert.ok(Math.abs(await center(page.locator('.art-hit.is-focus')) - middle) < 1, 'Focused Character left the fixed center');
@@ -24,10 +35,13 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
     const widths = await page.locator('.art-hit').evaluateAll(items => items.filter(item => getComputedStyle(item).visibility === 'visible').map(item => ({ focused: item.classList.contains('is-focus'), width: item.querySelector('.art-figure').getBoundingClientRect().width })));
     const focused = widths.find(item => item.focused).width;
     assert.ok(widths.every(item => item.focused || item.width < focused), `Focused artwork must be largest: ${JSON.stringify(widths)}`);
-    assert.deepEqual(await geometry(page), original, 'Browsing shifted/resized Workshop');
+    assert.deepEqual(await geometry(page), expanded, 'Browsing shifted/resized expanded Workshop');
   }
   await assertCentered();
-  if (capture) await page.screenshot({ path: resolve(output, `carousel-center-${width}.png`) });
+  const artwork = await page.locator('.art-hit.is-focus').evaluate(node => { const current = node.querySelector('.art-figure').getBoundingClientRect(); const next = node.nextElementSibling?.querySelector('.art-figure')?.getBoundingClientRect(); return { current: { left:current.left, right:current.right }, next: next && { left:next.left, width:next.width } }; });
+  if (artwork.next) assert.ok((artwork.current.right - artwork.next.left) / artwork.next.width <= .31, 'Immediate neighbor is excessively hidden');
+  const filters = await page.locator('.gallery-filters').evaluate(node => [...node.querySelectorAll('button')].map(button => { const r = button.getBoundingClientRect(); return [r.left, r.right]; }));
+  assert.ok(filters.every(([left, right]) => left >= gallery.x && right <= gallery.x + gallery.width), 'Filters are clipped');
   const initial = await focusId(page);
   const neighbor = page.locator('[data-art="iuno"]');
   if (!touch) { await neighbor.hover(); await page.waitForTimeout(220); assert.equal(await focusId(page), initial, 'Hover must not create a fisheye focus'); }
@@ -61,10 +75,10 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
   }
   assert.equal(await page.locator('#characterCarousel').getAttribute('data-motion'), 'dragging', 'Pointer capture was lost during the real gesture');
   const draggedPosition = Number(await page.locator('#characterCarousel').getAttribute('data-position'));
-  assert.ok(draggedPosition > 5, 'The drag did not actually move the collection');
+  assert.ok(draggedPosition > 4.8, 'The drag did not actually move the collection');
   // A real quick flick finishes the gesture. Record release in the browser's
   // pointer-up event, so automation latency cannot be mistaken for no momentum.
-  for (const distance of [210, 224]) {
+  for (const distance of [235, 270]) {
     if (touch) await session.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: x - distance, y }] });
     else await page.mouse.move(x - distance, y);
   }
@@ -77,7 +91,6 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
   if (reduced) assert.equal(snapped, Math.round(released), 'Reduced motion should omit the fling');
   else assert.ok(snapped > released + .1, `Momentum did not carry beyond release: ${released} → ${snapped}`);
   assert.equal(await selectedName(page), 'Augusta', 'Drag accidentally selected a Character');
-  if (capture) await page.screenshot({ path: resolve(output, `carousel-drag-snap-${width}.png`) });
   if (touch) {
     // Cancel an actual captured swipe; then verify vertical touch remains scrolling.
     await session.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x, y }] });
@@ -99,24 +112,43 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
   await activate(page.locator('[data-filter="account"]')); await assertCentered();
   assert.equal(await page.locator('.portrait').count(), 6);
   assert.equal(await selectedName(page), 'Augusta');
+  const expectedCatalog = await import('../v1.1/modules/catalog.js');
+  for (const collection of ['account', 'all']) {
+    await activate(page.locator(`[data-filter="${collection}"]`));
+    for (const element of ['Spectro', 'Havoc', 'Aero', 'Glacio', 'Fusion', 'Electro', 'all']) {
+      await activate(page.locator(`[data-element="${element}"]`));
+      const account = ['changli', 'yinlin', 'the-shorekeeper', 'augusta', 'iuno', 'phrolova'];
+      const expected = expectedCatalog.CHARACTER_CATALOG.filter(person => (collection === 'all' || account.includes(person.id)) && (element === 'all' || person.element === element)).map(person => person.id).sort();
+      assert.deepEqual((await page.locator('[data-art]').evaluateAll(items => items.map(item => item.dataset.art))).sort(), expected);
+      assert.equal(await selectedName(page), 'Augusta', 'Filtering selected a Character');
+      assert.equal(await page.locator('#currentCard').innerHTML(), build);
+      assert.equal(await page.locator('#characterStats').innerText(), stats);
+      assert.equal(await page.locator('#emptyCatalog').isVisible(), expected.length === 0);
+      if (!expected.length) {
+        await page.locator('#galleryArt').focus(); await page.keyboard.press('Enter');
+        assert.equal(await selectedName(page), 'Augusta');
+        await page.keyboard.press('Escape'); await page.waitForTimeout(450);
+        assert.equal(await page.locator('.portrait.selected').isVisible(), true);
+        await activate(page.locator('#openGallery')); await page.waitForTimeout(450);
+      } else await assertCentered();
+    }
+  }
+  await activate(page.locator('[data-filter="account"]'));
   await page.locator('#galleryArt').focus(); await page.keyboard.press('End'); await assertCentered();
-  assert.equal(await page.locator('#portraitNext').isDisabled(), true);
+  assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), await page.locator('.portrait').count() - 1);
   await activate(page.locator('[data-filter="all"]')); await assertCentered();
   assert.equal(await page.locator('.portrait').count(), 59);
   await page.locator('#galleryArt').focus(); await page.keyboard.press('End'); await assertCentered();
-  assert.equal(await page.locator('#portraitNext').isDisabled(), true);
+  assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), await page.locator('.portrait').count() - 1);
   assert.equal(await page.locator('#galleryPosition').innerText(), '59 / 59 · DEMONSTRATION BUILDS');
-  if (capture) await page.screenshot({ path: resolve(output, `carousel-last-${width}.png`) });
   await page.keyboard.press('Home'); await assertCentered();
-  assert.equal(await page.locator('#portraitPrevious').isDisabled(), true);
-  if (capture) await page.screenshot({ path: resolve(output, `carousel-first-${width}.png`) });
+  assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), 0);
   for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
   await assertCentered(); assert.equal(await focusId(page), 'iuno');
   await activate(page.locator('.art-hit.is-focus'));
   assert.equal(await selectedName(page), 'Iuno', 'Centered activation did not select');
   assert.equal(await page.locator('.workshop-header .current-name strong').innerText(), 'Iuno');
   assert.equal(await page.locator('#openGallery').getAttribute('aria-expanded'), 'false');
-  if (capture) await page.screenshot({ path: resolve(output, `carousel-selected-${width}.png`) });
   await activate(page.locator('#openGallery')); await page.locator('#galleryArt').focus();
   await page.keyboard.press('ArrowLeft'); await settle(page); await page.keyboard.press('Enter');
   assert.equal(await selectedName(page), 'Augusta');
@@ -124,6 +156,14 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#openGallery').evaluate(node => node === document.activeElement), true);
   assert.ok(Math.abs(await center(page.locator('#portraits')) - middle) < 1);
+  if (!touch) {
+    await page.keyboard.press('Enter'); await page.waitForTimeout(450);
+    assert.equal(await page.locator('#galleryArt').evaluate(node => node === document.activeElement), true, 'Keyboard expansion must focus the wheel');
+    await page.keyboard.press('Escape');
+  }
+  await page.waitForTimeout(450);
+  assert.deepEqual(await geometry(page), original, 'Collapse must restore the collapsed layout');
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
   if (session) await session.detach();
   checks.push({ label: 'Carousel V2: center, no hover focus, neighbor browse, physical drag, momentum/snap, endpoints, filters and explicit selection', width, touch, reducedMotion: reduced, releasePosition: released, snappedPosition: snapped });
 }

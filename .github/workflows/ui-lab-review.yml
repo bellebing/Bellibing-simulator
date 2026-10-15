@@ -28,25 +28,11 @@ jobs:
           node-version: 22
       - name: Install browser driver without changing dependency manifests
         run: npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.56.1
-      - name: Install review-only video encoder
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends ffmpeg
       - name: Preserved baseline, isolation and discard boundaries
         run: node --test docs/ui-lab/tools/state.test.mjs
       - name: Reviewed catalog parity
         run: node docs/ui-lab/tools/export-catalog.mjs --check
-      - name: Package exact-source portable preview
-        run: node docs/ui-lab/tools/build-review.mjs --require-clean
-      - name: Chromium source, portable and interaction review
+      - name: Chromium layout and interaction review
         env:
           UI_LAB_CHROME_PATH: /usr/bin/google-chrome
         run: node docs/ui-lab/tools/verify-browser.mjs
-      - name: Upload downloadable review environment and screenshots
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bellibing-ui-lab-v1-1-${{ github.event.pull_request.head.sha || github.sha }}
-          path: artifacts/ui-lab-review/
-          if-no-files-found: error
-          retention-days: 90

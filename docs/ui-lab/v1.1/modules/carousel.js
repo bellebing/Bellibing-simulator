@@ -14,20 +14,22 @@ export function mountCarousel({ selectedId, onSelect }) {
   let selected = selectedId;
   let focused = selectedId;
   let filter = 'all';
+  let element = 'all';
   let records = [];
-  let pinned = false;
   let drag = null;
   let suppressUntil = 0;
-  let closeTimer, hoverTimer, wheelTimer;
+  let wheelTimer;
   let lastInfoId = null;
   const isOpen = () => ribbon.classList.contains('expanded');
-  const step = () => Math.min(112, Math.max(88, (art.clientWidth - 270) / 8));
+  const step = () => Math.min(190, Math.max(172, art.clientWidth / 6));
   const portraitStep = 52;
-  const motion = createCarouselMotion({ initial: ids.indexOf(selected), maximum: () => ids.length - 1, paint, reduced: () => reduced.matches });
+  const motion = createCarouselMotion({ initial: ids.indexOf(selected), maximum: () => Math.max(0, ids.length - 1), paint, reduced: () => reduced.matches });
 
   function updateInformation(force = false) {
     if (focused === lastInfoId && !force) return;
     lastInfoId = focused;
+    if (!focused) { $('#focusedInfo').hidden = true; return; }
+    $('#focusedInfo').hidden = false;
     const person = catalog.get(focused);
     const preview = previewSnapshot(focused);
     const info = $('#focusedInfo');
@@ -70,8 +72,7 @@ export function mountCarousel({ selectedId, onSelect }) {
       record.label.style.left = `calc(50% + ${distance * spacing}px)`;
       record.label.hidden = absolute < .7 || absolute > 2.7;
     });
-    $('#portraitPrevious').disabled = position <= .001;
-    $('#portraitNext').disabled = position >= ids.length - 1 - .001;
+
     ribbon.classList.toggle('is-moving', !!drag?.active || moving);
     ribbon.dataset.focusedCharacter = focused;
     ribbon.dataset.position = position.toFixed(4);
@@ -84,14 +85,14 @@ export function mountCarousel({ selectedId, onSelect }) {
     if ($('#galleryPosition').textContent !== positionLabel) $('#galleryPosition').textContent = positionLabel;
     updateInformation();
     if (!moving && !drag?.active) {
-      const announcement = `${focused === selected ? 'Selected' : 'Preview'} ${catalog.get(focused).name}, ${ids.indexOf(focused) + 1} of ${ids.length}. Working on ${name}.`;
+      const announcement = `${focused === selected ? 'Selected' : 'Preview'} ${catalog.get(focused)?.name ?? 'No matching Characters'}, ${ids.indexOf(focused) + 1} of ${ids.length}. Working on ${name}.`;
       if ($('#carouselAnnouncement').textContent !== announcement) $('#carouselAnnouncement').textContent = announcement;
     }
   }
 
   function renderCatalog() {
     ribbon.classList.add('is-rebuilding');
-    portraits.innerHTML = ids.map((id, index) => {
+    portraits.innerHTML = (ids.length ? ids : [selected]).map((id, index) => {
       const person = catalog.get(id);
       return `<button class="portrait ${DEMO_ACCOUNT_IDS.includes(id) ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${DEMO_ACCOUNT_IDS.includes(id) ? 'on demo account' : 'not on demo account'}, ${index + 1} of ${ids.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
     }).join('');
@@ -100,6 +101,7 @@ export function mountCarousel({ selectedId, onSelect }) {
       return `<button class="art-hit" data-art="${id}" tabindex="-1"><span class="art-figure ${person.artStatus === 'PORTRAIT_FALLBACK' ? 'portrait-fallback' : ''}"><img src="${assetURL(person.art)}" alt="${escapeHtml(person.name)}" draggable="false"></span></button>`;
     }).join('') + `<div class="neighbor-labels">${ids.map(id => `<span data-label="${id}" hidden>${id === selected ? '<b>◆</b> ' : ''}${escapeHtml(catalog.get(id).name)}</span>`).join('')}</div>`;
     records = ids.map(id => ({ id, name: catalog.get(id).name, hit: art.querySelector(`[data-art="${id}"]`), figure: art.querySelector(`[data-art="${id}"] .art-figure`), portrait: portraits.querySelector(`[data-person="${id}"]`), label: art.querySelector(`[data-label="${id}"]`) }));
+    if (!ids.length) { const fallback = portraits.firstElementChild; fallback.style.left = '50%'; fallback.classList.add('selected'); fallback.tabIndex = 0; }
     lastInfoId = null;
   }
 
@@ -112,48 +114,38 @@ export function mountCarousel({ selectedId, onSelect }) {
   }
 
   function align() {
-    const workshop = $('.workshop').getBoundingClientRect();
-    const heading = $('.page-heading').getBoundingClientRect();
-    const anchor = $('#carouselAnchor');
-    anchor.style.left = `${workshop.left + scrollX + 1}px`;
-    anchor.style.top = `${heading.top + scrollY + 18}px`;
-    anchor.style.width = `${workshop.width - 2}px`;
-    const right = Math.min(workshop.right - 1, $('.demo-note').getBoundingClientRect().left - 18);
-    const inset = Math.max(0, workshop.right - 1 - right);
-    const center = workshop.left + workshop.width / 2;
-    const filterLeft = right - 34 - $('.filter').offsetWidth;
-    const titleRight = $('h1').getBoundingClientRect().right;
-    const span = Math.max(272, Math.min(420, 2 * (filterLeft - center - 52), 2 * (center - titleRight - 70)));
-    ribbon.style.setProperty('--controls-inset', `${inset}px`);
-    ribbon.style.setProperty('--portrait-span', `${span}px`);
+    ribbon.style.setProperty('--portrait-span', `${Math.min(420, ribbon.clientWidth - 56)}px`);
     paint();
   }
-  function open({ pin = false } = {}) {
-    clearTimeout(closeTimer);
-    if (pin) pinned = true;
+  function open() {
+    const compactFocus = $('.ribbon-rest').contains(document.activeElement);
     ribbon.classList.add('expanded');
     $('#characterGallery').inert = false;
+    $('.ribbon-rest').inert = true;
     $('#openGallery').setAttribute('aria-expanded', 'true');
+    if (compactFocus) art.focus({ preventScroll: true });
   }
   function close({ returnFocus = false } = {}) {
-    clearTimeout(hoverTimer); clearTimeout(closeTimer); clearTimeout(wheelTimer);
+    clearTimeout(wheelTimer);
     cancelDrag();
     motion.jump(Math.round(motion.position));
-    pinned = false;
     ribbon.classList.remove('expanded');
     $('#characterGallery').inert = true;
+    $('.ribbon-rest').inert = false;
     $('#openGallery').setAttribute('aria-expanded', 'false');
     if (returnFocus || $('#characterGallery').contains(document.activeElement)) $('#openGallery').focus({ preventScroll: true });
   }
   function browse(index, { keyboard = false } = {}) {
-    open({ pin: true });
+    if (!ids.length) return;
+    open();
     motion.animate(index);
     if (keyboard) art.focus({ preventScroll: true });
   }
   function activate(id) {
-    if (performance.now() < suppressUntil || drag?.active) return;
+    if (!id || performance.now() < suppressUntil || drag?.active) return;
     const index = ids.indexOf(id);
-    if (!isOpen()) { open({ pin: true }); motion.animate(index); return; }
+    if (!isOpen()) { open(); motion.animate(index); return; }
+    if (!ids.length) return;
     if (motion.busy || Math.abs(motion.position - index) > .02) { browse(index); return; }
     selected = id;
     onSelect(id); // The only browsing path permitted to commit a Character.
@@ -173,7 +165,7 @@ export function mountCarousel({ selectedId, onSelect }) {
   }
   ribbon.addEventListener('pointerdown', event => {
     const element = event.target.closest('#galleryArt, #portraits');
-    if (!element || !event.isPrimary || event.button !== 0 || drag) return;
+    if (!ids.length || !element || !event.isPrimary || event.button !== 0 || drag) return;
     motion.stop();
     drag = { id: event.pointerId, element, x: event.clientX, y: event.clientY, lastX: event.clientX, lastTime: performance.now(), active: false, vertical: false, velocity: 0 };
   });
@@ -186,7 +178,7 @@ export function mountCarousel({ selectedId, onSelect }) {
       drag.active = true;
       drag.element.setPointerCapture(event.pointerId);
       ribbon.classList.add('is-dragging');
-      open({ pin: true });
+      open();
     }
     event.preventDefault();
     const now = performance.now(), dt = Math.max(8, now - drag.lastTime);
@@ -214,18 +206,6 @@ export function mountCarousel({ selectedId, onSelect }) {
     if (performance.now() < suppressUntil) { event.preventDefault(); event.stopPropagation(); return; }
     activate(character.dataset.art ?? character.dataset.person);
   });
-  portraits.addEventListener('pointerenter', event => {
-    if (event.pointerType !== 'mouse' || isOpen()) return;
-    clearTimeout(hoverTimer);
-    hoverTimer = setTimeout(() => open(), 140);
-  });
-  portraits.addEventListener('pointerleave', () => clearTimeout(hoverTimer));
-  // Hovering gallery artwork never moves focus; the collection responds to intent.
-  ribbon.addEventListener('pointerenter', () => clearTimeout(closeTimer));
-  ribbon.addEventListener('pointerleave', () => {
-    clearTimeout(hoverTimer);
-    if (!pinned && !drag) closeTimer = setTimeout(() => close(), 480);
-  });
   ribbon.addEventListener('focusout', event => {
     const next = event.relatedTarget;
     if (next && next !== document.body && !ribbon.contains(next)) queueMicrotask(() => {
@@ -234,7 +214,7 @@ export function mountCarousel({ selectedId, onSelect }) {
   });
   ribbon.addEventListener('keydown', event => {
     if (event.key === 'Escape' && isOpen()) { event.preventDefault(); close({ returnFocus: true }); return; }
-    if (!event.target.closest('[data-person], [data-art], #galleryArt, #openGallery, .ribbon-arrow')) return;
+    if (!event.target.closest('[data-person], [data-art], #galleryArt, #openGallery')) return;
     if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
       event.preventDefault();
       const target = event.key === 'Home' ? 0 : event.key === 'End' ? ids.length - 1 : Math.round(motion.target) + (event.key === 'ArrowRight' ? 1 : -1);
@@ -244,11 +224,11 @@ export function mountCarousel({ selectedId, onSelect }) {
     }
   });
   ribbon.addEventListener('wheel', event => {
-    if (!event.target.closest('#galleryArt, #portraits')) return;
+    if (!ids.length || !event.target.closest('#galleryArt, #portraits')) return;
     const delta = event.shiftKey ? event.deltaY : event.deltaX;
     if (Math.abs(delta) < 2 || !event.shiftKey && Math.abs(event.deltaY) > Math.abs(delta)) return;
     event.preventDefault();
-    open({ pin: true });
+    open();
     motion.jump(motion.position + delta / (event.deltaMode === 1 ? 8 : step()));
     clearTimeout(wheelTimer);
     wheelTimer = setTimeout(() => motion.release(0), 100);
@@ -256,18 +236,19 @@ export function mountCarousel({ selectedId, onSelect }) {
   document.addEventListener('pointerdown', event => { if (isOpen() && !ribbon.contains(event.target)) close(); });
   window.addEventListener('blur', () => { if (drag) { cancelDrag(); motion.release(0); } });
   reduced.addEventListener('change', () => { cancelDrag(); motion.jump(Math.round(motion.target)); });
-  $('#openGallery').onclick = () => isOpen() ? close({ returnFocus: true }) : open({ pin: true });
+  $('#openGallery').onclick = () => isOpen() ? close({ returnFocus: true }) : open();
   $('#closeGallery').onclick = () => close({ returnFocus: true });
-  $('#portraitPrevious').onclick = () => browse(Math.round(motion.target) - 1);
-  $('#portraitNext').onclick = () => browse(Math.round(motion.target) + 1);
-  $('.filter').addEventListener('click', event => {
-    const button = event.target.closest('[data-filter]');
+  $('.gallery-filters').addEventListener('click', event => {
+    const button = event.target.closest('[data-filter], [data-element]');
     if (!button) return;
     cancelDrag(); motion.stop(); clearTimeout(wheelTimer);
-    filter = button.dataset.filter;
-    ids = ordered.filter(id => filter === 'all' || DEMO_ACCOUNT_IDS.includes(id));
+    if (button.dataset.filter) filter = button.dataset.filter;
+    if (button.dataset.element) element = button.dataset.element;
+    ids = ordered.filter(id => (filter === 'all' || DEMO_ACCOUNT_IDS.includes(id)) && (element === 'all' || catalog.get(id).element === element));
     const next = ids.includes(focused) ? focused : ids.includes(selected) ? selected : ids[0];
-    ribbon.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active', item === button); item.setAttribute('aria-pressed', item === button); });
+    ribbon.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active', item.dataset.filter === filter); item.classList.toggle('selected', item.dataset.filter === filter); item.setAttribute('aria-pressed', item.dataset.filter === filter); });
+    ribbon.querySelectorAll('[data-element]').forEach(item => { item.classList.toggle('selected', item.dataset.element === element); item.setAttribute('aria-pressed', item.dataset.element === element); });
+    $('#emptyCatalog').hidden = ids.length > 0;
     renderCatalog();
     finishCatalog(ids.indexOf(next));
   });

@@ -4,9 +4,7 @@ An isolated, interactive visual prototype. This is not the production Improve pa
 
 ## Open the review
 
-**No-install portable preview:** download the `bellibing-ui-lab-v1-1-<head SHA>` artifact from this PR's **UI Lab Review** Actions run, extract it, and double-click `Bellibing-UI-Lab-V1.1.html` in Chrome, Edge or Firefox. No server, account, installation or internet connection is required. Scripts, styles, artwork and the existing approved temporary review font are embedded. `OPEN-REVIEW.txt`, `review-manifest.json`, screenshots and `verification.json` travel with it. Actions artifacts are retained for 90 days; the source remains in Git, and a new run can reproduce the review.
-
-The HTML is a generated **review artifact**, not the maintained implementation. Its source revision, dirty-tree status, source-file hashes and artifact hash are recorded in the manifest. Only clean-head artifacts are uploaded by CI. The external font oracle is embedded only in the downloadable review artifact; no font binary or new license clearance is added to repository/production assets.
+Use the exact-commit GitHack `index.html` link in Draft PR #292. The current review process uses the working interface directly; CI does not generate screenshot collections, MP4 demonstrations or downloadable review bundles. GitHack availability can be restricted by an executor's outbound policy; local Chromium verification does not establish external availability.
 
 **Repository source:** from the repository root:
 
@@ -14,17 +12,17 @@ The HTML is a generated **review artifact**, not the maintained implementation. 
 python3 -m http.server 4180 --bind 127.0.0.1
 ```
 
-Open `http://127.0.0.1:4180/docs/ui-lab/v1.1/`. `?settings=expanded` opens Settings, and `?compact=true` compacts both side panels. The ordinary source page uses the same approved external ETNA stylesheet as V1. The portable artifact works offline.
+Open `http://127.0.0.1:4180/docs/ui-lab/v1.1/`. `?settings=expanded` opens Settings, and `?compact=true` compacts both side panels. The ordinary source page uses the same approved external ETNA stylesheet as V1.
 
-The existing project documents GitHack immutable source previews. Use only an exact PR-head URL, with the explicit `index.html` path, and only claim availability after verifying the HTML, modules and artwork. Localhost in an agent environment is not an externally accessible preview. No new hosting service, GitHub Pages configuration or production deployment is introduced here. The portable artifact is the supported fallback when the external source-preview method cannot be verified.
+The existing project documents GitHack immutable source previews. Use only an exact PR-head URL, with the explicit `index.html` path, and only claim availability after verifying the HTML, modules and artwork. Localhost in an agent environment is not an externally accessible preview. No new hosting service, GitHub Pages configuration or production deployment is introduced here.
 
 ## What to try
 
-- Hover the circular portrait track to reveal the connected gallery. Artwork and lightweight preview information stay fixed at the center while the collection moves.
+- Click/tap a circular portrait (or focus the selector and press Enter) to expand the same component. Artwork and lightweight preview information stay fixed at the center while the collection moves.
 - Drag/swipe horizontally, release for controlled momentum and magnetic snapping. Click/tap a neighboring Character to center it; click/tap the settled center Character to select it in the actual Lab workspace. The gold ring and Working on label continue to identify the selected Character while browsing.
-- **Account Characters / All Characters** filters the continuous wheel. All Characters contains all 59 reviewed released identities; there are no fixed nine-Character pages. Previous/Next, Left/Right and Home/End browse; Enter selects the centered preview. Escape, outside click or close collapses the gallery. Reduced motion snaps immediately. [Interaction contract and production reference](CAROUSEL.md).
+- **Account Characters / All Characters** filters the continuous wheel. All Characters contains all 59 reviewed released identities; there are no fixed nine-Character pages. Inside the expanded gallery, combine collection with **All Elements / Spectro / Havoc / Aero / Glacio / Fusion / Electro**. Left/Right and Home/End browse; Enter selects the centered preview. Escape, outside click or close collapses the gallery. Reduced motion snaps immediately. [Interaction contract and production reference](CAROUSEL.md).
 - Switch to Iuno, select another Echo slot or Gate, switch to Augusta, then return. Each Character keeps its own in-memory demonstration choices. Hovering catalog entries never creates a build; catalog entries with no demo build have empty equipment/dashes, not fabricated stats.
-- Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Carousel opening and selection never resize or push the Workshop.
+- Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. The expanded gallery occupies the central column, hides the compact portraits, and pushes Workshop/Trash Piles downward without resizing them or moving either side panel. Collapse restores their original positions.
 - Select **1 Slot / Full Set** using the compact segmented control. This remembers a per-Character scope choice without running a simulation or changing any results.
 - Click any of the five Echo slots: the larger Current/New pair follows the selected slot.
 - Lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
@@ -60,27 +58,24 @@ The module-local demo store is discarded on reload. There are no localStorage, I
 | `v1.1/modules/carousel-motion.js` | Bounded presentation position, momentum and magnetic settling; no build state. |
 | `v1.1/modules/app.js` | Workspace views and interaction binding. |
 | `tools/` | Catalog parity, focused boundary tests, Chromium review and portable packaging. |
-| `.github/workflows/ui-lab-review.yml` | Exact-head downloadable review artifact; no deploy step. |
+| `.github/workflows/ui-lab-review.yml` | Exact-head Chromium verification; no deploy or artifact-upload step. |
 
 Existing artwork is reused from `v1/assets/` and `../ui-prototypes/assets/characters/`. Asset provenance and production font-licensing boundaries remain owned by the existing repository contracts. No owner reference screenshots are shipped as product UI or used to simulate interactive controls.
 
-## Verification and rebuilding artifacts
+## Verification
 
-Node 22+, curl, FFmpeg, an installed Chromium/Chrome and Playwright are needed for maintainers to rebuild/test (not for opening the downloaded preview). CI pins the browser driver without changing dependency manifests.
+Node 22+, installed Chromium/Chrome and Playwright are needed for maintainer checks. CI pins the browser driver without changing dependency manifests.
 
 ```sh
 node --test docs/ui-lab/tools/state.test.mjs
 node docs/ui-lab/tools/export-catalog.mjs --check
-node docs/ui-lab/tools/build-review.mjs --require-clean
 UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.mjs
 ```
 
-Output is under ignored `artifacts/ui-lab-review/`. An optional `--font /absolute/path/to/the-approved-review.woff2` lets packaging reuse an already fetched exact oracle; otherwise it fetches the documented approved URL into temporary storage. The portable classic-script bundle is generated from maintained ESM modules, so opening it requires neither a module server nor a build tool.
+The browser review covers 1440×900, 1920×1080 and 2560×1440, normal/reduced motion, physical mouse/touch, full catalog navigation, independent/combined filters, empty results, fixed center, layout displacement/restoration, per-Character isolation, side panels, Echo slots, feedback/material boundaries and discarded-card inspection. V1 dimensions and the approved primary action's dimensions/horizontal position remain checked; absolute Workshop vertical position now intentionally includes the in-flow selector.
 
-Before/after screenshots are generated against the recoverable approved V1.1 revision `66d72f339e3c1aa363a1794ff243128d63bc3f28` (approved pre-carousel-V2 revision). The original V1.1 remains recoverable at `46691a0`. If your checkout is shallow, first run `git fetch --depth=1 origin 66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly. The V1 files remain immutable.
+The comparison revision is `66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly for approved geometry checks. V1 files remain immutable. The current center-focused design is recoverable at `c79dbbd74aded4050b725220705e3006a071e13c`.
 
-The review includes a short real-input `carousel-interaction.mp4` and exact-revision metadata alongside the screenshots.
-
-The browser review exercises Ready/Warning/Error/recorded-material scenarios, source and portable How to Fix, temporary highlights, native-popover keyboard/outside dismissal, action permissions, preserved spending, no automatic fixes, the shared selection gradients and Secondary Stat hierarchy. It also exercises source at 1440×900, 1920×1080 and 2560×1440, V1 composition geometry, hover versus selection, all 59 catalog entries, Account/All filtering, per-Character isolation, side panels, slot selection, discarded/older-card inspection, physical pointer input, ordinary/reduced motion and touch-pointer selection. The portable artifact is imported as an opaque-origin document with networking disabled at all three widths; it must produce zero HTTP requests and retain interactive Character/history behavior. This executor's browser file-URL policy can block direct `file://` navigation; opaque-origin/offline import tests the same embedded code/styles/art without a local server or file privileges. The test records its exact source revision and limitations, rather than claiming a hosted preview.
+Optional portable packaging remains in `tools/build-review.mjs`; `UI_LAB_PORTABLE_REVIEW=true` also tests a previously packaged file offline. Neither packaging nor media generation runs in the current review workflow. Results are written to ignored `artifacts/ui-lab-review/verification.json`, with exact revision and dirty-tree status.
 
 This is a Draft visual-review lane. FULL/merge readiness and production integration are outside this task. Do not merge or alter the production deployment to make the Lab reviewable.

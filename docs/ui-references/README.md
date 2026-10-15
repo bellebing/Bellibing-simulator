@@ -1,32 +1,32 @@
 # Bellibing UI Lab — Visual References
 
-**Status: image upload pending.** This is the reference index and approved interpretation, not a completed screenshot import. The eight `.webp` files named below must be added to this directory before the PR can be considered complete.
+These are user-provided design-study screenshots. Study **layout logic, visual hierarchy, responsive adaptation and interaction affordances**; do not copy source sites, branding, text, icons or media.
 
-These screenshots were provided by the project owner. Study **layout logic, visual hierarchy, responsive behavior and interaction affordances**, not source-site branding or content. The existing Bellibing production DOM/layout is **not** the starting template for the new UI Lab.
+This reference set is **not** a specification of the current Bellibing production DOM or a reason to keep its layout.
 
-| Reference file | What to study |
+| Image | What to study |
 | --- | --- |
-| `miruro-browse-card-flow.webp` | Panels by purpose, consistent column/card widths, natural reading flow between featured items, lists and schedule. |
-| `miruro-watch-detail-flow.webp` | Primary viewing area with separate supportive panels; coherent vertical information flow. |
-| `miruro-watch-primary-secondary.webp` | Main work area has priority over episodes, seasons and recommendations in the adjacent column. |
-| `youtube-home-priority.webp` | Media tiles in adaptive grids; navigation, imagery and text have different resizing behavior. |
-| `youtube-watch-wide.webp` | Main content takes dominant width; controls and textual content need not each have their own nested cards. |
-| `youtube-watch-narrow.webp` | Compare against wide version: media scales, text reflows, controls retain usable sizing. |
-| `wuwa-tracker-cards.webp` | Consistent surfaces, compact metrics, strong artwork/typography hierarchy, repeated purpose-specific panels. |
-| `miruro-anime-metadata.webp` | One information panel; buttons and artwork have boundaries, while labels and ordinary metadata are unboxed. |
+| [Miruro browse](miruro-browse-card-flow.webp) | Panels by purpose; repeated card widths; hierarchy of featured content, lists and schedule. |
+| [Miruro watch detail](miruro-watch-detail-flow.webp) | Primary work area with supporting right panels; information and actions underneath; strategic use of borders. |
+| [Miruro watch overview](miruro-watch-primary-secondary.webp) | Video as main focus, episode and season/recommendations in separate right-hand panels. |
+| [YouTube home](youtube-home-priority.webp) | Images/media scale in responsive grids; navigational sidebar has a different width behavior than thumbnails. |
+| [YouTube watch wide](youtube-watch-wide.webp) | Video dominates; recommendations narrower; text/actions flow outside an enclosing media card. |
+| [YouTube watch narrow](youtube-watch-narrow.webp) | Compare with wide screenshot: player scales, text reflows and controls stay usable. |
+| [Wuwa Tracker](wuwa-tracker-cards.webp) | Compact repeatable cards; data, artwork, icons and sparse separators instead of excessive nesting. |
+| [Miruro metadata](miruro-anime-metadata.webp) | One parent panel; interactive buttons have surfaces, ordinary labels/data not boxed individually. |
 
-## Bellibing-specific direction
+## Approved Bellibing direction (not inferred from reference sites)
 
-- **Three independent columns** when space permits: collapsible Improve Settings (left), **wide primary Echo Workshop** (center), Character Card with full readable stats (right). The center remains dominant and never collapses.
-- Echo Workshop contains two **portrait, collectible-style Echo cards**: Current Echo (left), New Echo (right), and **open space between them** with decision/status above, SIMULATE button in the middle, resources used below. No extra giant middle panel.
-- Real Echo card anatomy: artwork, Sonata icon, prominent Main Stat and Secondary Stat, five visible Substat rows even when empty. Five visible usable Echo slots below.
-- **Trash Piles are a separate panel below Workshop**, showing real Echo-card stacks (not counters or generic slot/inspect boxes). Inspecting a card lifts it temporarily and preserves the working state.
-- Cards/panels are not mandated around every piece of text. Use spacing, typography, imagery and separators to create hierarchy; nest surfaces only for distinct objects, groups or actions.
-- Side panels may collapse independently as width tightens; do not squeeze the workshop into a token center column. The main browser scrollbar belongs at the outer edge.
-- Avoid UI design commentary, explanatory paragraphs, fabricated gameplay results, and unverified Expected or resource values. Current implementation contracts remain authoritative for actual data.
+- A wide central **Echo Workshop** anchors the page; it is never collapsed. Collapsible Improve Settings (left) and Character Card (right) support it, rather than squeezing it.
+- **Two portrait Echo game cards** (Current Echo and New Echo), with open space **between** them: concise decision/status above, SIMULATE button centered, and actual resources used below; **no extra big middle box**.
+- Echo cards show artwork, Sonata icon, prominent Main/Secondary stats and five substat rows, including empty rows.
+- Five interactive Echo slots below the main interaction. **Trash Piles** are a separate panel beneath Workshop, containing visible stacks of the same Echo-card objects, not count/inspect boxes.
+- A panel can contain unboxed text and values; add nested cards only when they support a separate object or interactive action.
+- Expandable side panels preserve user control; central workspace has first claim on useful width. Images resize, text reflows naturally, controls stay legible.
+- No decorative explanatory text in UI. **UI screenshots illustrate design principles, not gameplay truth.** Missing evaluator/Expected values remain Pending.
 
-## Provenance and use
+## Evidence notes
 
-These are static design-study screenshots supplied 2026-10-15, **not evidence of live website behavior**. The paired YouTube captures illustrate resizing, without independently verifying the site's implementation. Privacy-sensitive account/avatar corners were obscured in prepared repository copies. Images are reference-only and must **not be shipped in the production web artifact**.
-
-The original source screenshots and prepared upload package remain outside the repo until the `.webp` assets above are committed. Do not call this reference set complete while assets are absent.
+- These are static images, not proof of dynamic behavior. Responsive observations for YouTube are suggested by the **paired wide/narrow user screenshots**, not verified through live website interaction.
+- Screenshots were provided by the project owner on 2026-10-15; account/avatar corners are obscured for repository use. They remain third-party interface references, not Bellibing assets for product UI.
+- Do not include these reference images in the public app build; they are design-only documentation.

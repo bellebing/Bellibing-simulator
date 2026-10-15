@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 
+const flowSettled = page => page.waitForFunction(() => { const ribbon = document.querySelector('#characterCarousel'); return getComputedStyle(ribbon).height === (ribbon.classList.contains('expanded') ? '470px' : '70px'); });
 const settle = page => page.waitForFunction(() => document.querySelector('#characterCarousel').dataset.motion === 'settled');
 const focusId = page => page.locator('#characterCarousel').getAttribute('data-focused-character');
 const selectedName = page => page.locator('.hero-copy h2').innerText();
@@ -17,7 +18,7 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
   assert.equal(await page.locator('.workshop-header .current-name strong').innerText(), 'Augusta');
   assert.ok(await page.locator('.portrait.selected').evaluate(node => node.clientWidth) >= 48);
   assert.equal(await page.locator('.filter').isVisible(), false);
-  await activate(page.locator('#openGallery')); await page.waitForTimeout(450);
+  await activate(page.locator('#openGallery')); await flowSettled(page);
   assert.equal(await page.locator('#portraits').isVisible(), false);
   const expanded = await geometry(page);
   assert.deepEqual(await page.locator('.side').evaluateAll(items => items.map(item => { const r = item.getBoundingClientRect(); return [r.x, r.y, r.width, r.height]; })), sides, 'Gallery moved a side panel');
@@ -127,9 +128,9 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
       if (!expected.length) {
         await page.locator('#galleryArt').focus(); await page.keyboard.press('Enter');
         assert.equal(await selectedName(page), 'Augusta');
-        await page.keyboard.press('Escape'); await page.waitForTimeout(450);
+        await page.keyboard.press('Escape'); await flowSettled(page);
         assert.equal(await page.locator('.portrait.selected').isVisible(), true);
-        await activate(page.locator('#openGallery')); await page.waitForTimeout(450);
+        await activate(page.locator('#openGallery')); await flowSettled(page);
       } else await assertCentered();
     }
   }
@@ -157,11 +158,11 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
   assert.equal(await page.locator('#openGallery').evaluate(node => node === document.activeElement), true);
   assert.ok(Math.abs(await center(page.locator('#portraits')) - middle) < 1);
   if (!touch) {
-    await page.keyboard.press('Enter'); await page.waitForTimeout(450);
+    await page.keyboard.press('Enter'); await flowSettled(page);
     assert.equal(await page.locator('#galleryArt').evaluate(node => node === document.activeElement), true, 'Keyboard expansion must focus the wheel');
     await page.keyboard.press('Escape');
   }
-  await page.waitForTimeout(450);
+  await flowSettled(page);
   assert.deepEqual(await geometry(page), original, 'Collapse must restore the collapsed layout');
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width);
   if (session) await session.detach();

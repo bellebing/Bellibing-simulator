@@ -20,9 +20,9 @@ The existing project documents GitHack immutable source previews. Use only an ex
 
 - Click/tap a circular portrait (or focus the selector and press Enter) to expand the same component. Artwork and lightweight preview information stay fixed at the center while the collection moves.
 - Drag/swipe horizontally, release for controlled momentum and magnetic snapping. Click/tap a neighboring Character to center it; click/tap the settled center Character to select it in the actual Lab workspace. The gold ring and Working on label continue to identify the selected Character while browsing.
-- **Account Characters / All Characters** filters the continuous wheel. All Characters contains all 59 reviewed released identities; there are no fixed nine-Character pages. Inside the expanded gallery, combine collection with **All Elements / Spectro / Havoc / Aero / Glacio / Fusion / Electro**. Left/Right and Home/End browse; Enter selects the centered preview. Escape, outside click or close collapses the gallery. Reduced motion snaps immediately. [Interaction contract and production reference](CAROUSEL.md).
+- **Account Characters / All Characters** filters the continuous wheel. All Characters contains all 59 reviewed released identities; there are no fixed nine-Character pages. Inside the expanded gallery, combine the upper-right collection controls with **All Elements** and six verified element-icon buttons (native tooltips/accessibility labels). Left/Right and Home/End browse; Enter selects the centered preview. Escape, outside click or close collapses the gallery. Reduced motion snaps immediately. [Interaction contract and production reference](CAROUSEL.md).
 - Switch to Iuno, select another Echo slot or Gate, switch to Augusta, then return. Each Character keeps its own in-memory demonstration choices. Hovering catalog entries never creates a build; catalog entries with no demo build have empty equipment/dashes, not fabricated stats.
-- Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. The expanded gallery occupies the central column, hides the compact portraits, and pushes Workshop/Trash Piles downward without resizing them or moving either side panel. Collapse restores their original positions.
+- Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Collapsed portraits share the page heading and reserve no space above the three aligned panels. The expanded gallery occupies the central column, hides the compact portraits, and pushes Workshop/Trash Piles downward without resizing them or moving either side panel. Collapse restores their original top edge.
 - Select **1 Slot / Full Set** using the compact segmented control. This remembers a per-Character scope choice without running a simulation or changing any results.
 - Click any of the five Echo slots: the larger Current/New pair follows the selected slot.
 - Lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
@@ -55,6 +55,7 @@ The module-local demo store is discarded on reload. There are no localStorage, I
 | `v1.1/modules/lab-state.js` | Explicit fixtures and isolated per-Character memory state. |
 | `v1.1/modules/echo-card.js` | Shared working/slot/discarded/inspection Echo-card renderer. |
 | `v1.1/modules/carousel.js` | Fixed-center gallery, independent preview/selection, continuous catalog, filtering and keyboard/touch input. |
+| `v1.1/modules/carousel-layout.js` | Scale-aware artwork spacing; no movement or build state. |
 | `v1.1/modules/carousel-motion.js` | Bounded presentation position, momentum and magnetic settling; no build state. |
 | `v1.1/modules/app.js` | Workspace views and interaction binding. |
 | `tools/` | Catalog parity, focused boundary tests, Chromium review and portable packaging. |
@@ -72,9 +73,9 @@ node docs/ui-lab/tools/export-catalog.mjs --check
 UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.mjs
 ```
 
-The browser review covers 1440×900, 1920×1080 and 2560×1440, normal/reduced motion, physical mouse/touch, full catalog navigation, independent/combined filters, empty results, fixed center, layout displacement/restoration, per-Character isolation, side panels, Echo slots, feedback/material boundaries and discarded-card inspection. V1 dimensions and the approved primary action's dimensions/horizontal position remain checked; absolute Workshop vertical position now intentionally includes the in-flow selector.
+The browser review covers 1440×900, 1920×1080 and 2560×1440, normal/reduced motion, physical mouse/touch, full catalog navigation, independent/combined filters, empty results, fixed center, layout displacement/restoration, per-Character isolation, side panels, Echo slots, feedback/material boundaries and discarded-card inspection. V1 dimensions and the approved primary action's dimensions/horizontal position remain checked; collapsed panel top edges and absolute Workshop position match the approved composition.
 
-The comparison revision is `66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly for approved geometry checks. V1 files remain immutable. The current center-focused design is recoverable at `c79dbbd74aded4050b725220705e3006a071e13c`.
+The comparison revision is `66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly for approved geometry checks. V1 files remain immutable. The current center-focused design is recoverable at `6400eecef41abe963cc997449164e3f9dd7d87bb`.
 
 Optional portable packaging remains in `tools/build-review.mjs`; `UI_LAB_PORTABLE_REVIEW=true` also tests a previously packaged file offline. Neither packaging nor media generation runs in the current review workflow. Results are written to ignored `artifacts/ui-lab-review/verification.json`, with exact revision and dirty-tree status.
 

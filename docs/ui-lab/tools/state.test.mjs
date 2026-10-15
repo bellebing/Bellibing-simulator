@@ -1,3 +1,4 @@
+import { artworkOffset, artworkScale } from '../v1.1/modules/carousel-layout.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -118,4 +119,22 @@ test('carousel position and momentum stay bounded across the full catalog', () =
   assert.equal(snapTarget(4.2, -.006, 58), 3);
   assert.ok(snapTarget(4.2, 5, 58) <= 6, 'Momentum must not fling through the catalog');
   assert.equal(snapTarget(4.2, .006, 58, true), 4, 'Reduced motion snaps to the nearest dragged position without a fling');
+});
+
+test('scaled artwork stays connected, recognizable and continuous at each position', () => {
+  for (const width of [960, 1400, 1800]) {
+    let previousInterval = Infinity;
+    for (let index = 0; index < 8; index++) {
+      const near = artworkOffset(index, width), far = artworkOffset(index + 1, width);
+      const interval = far - near;
+      const nearWidth = 252 * artworkScale(index), farWidth = 252 * artworkScale(index + 1);
+      const gap = interval - (nearWidth + farWidth) / 2;
+      assert.ok(interval > 0 && interval <= previousInterval + .001, 'Intervals should follow shrinking artwork');
+      assert.ok(gap <= 4.001, 'Distant figures must not become disconnected');
+      assert.ok(-gap / farWidth <= .3, 'Neighbors must remain recognizable');
+      assert.ok(Math.abs(artworkOffset(index + 1 - .00001, width) - far) < .01, 'No position jump at snapping boundaries');
+      assert.equal(artworkOffset(-index, width), -near);
+      previousInterval = interval;
+    }
+  }
 });

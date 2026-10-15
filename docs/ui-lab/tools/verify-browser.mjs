@@ -98,7 +98,7 @@ async function carouselSettled(page, id) {
   }, id);
 }
 async function browseCharacter(page, id) {
-  if (await page.locator('#openGallery').getAttribute('aria-expanded') !== 'true') await page.locator('#openGallery').click({ position: { x: 10, y: 30 } });
+  if (await page.locator('#openGallery').getAttribute('aria-expanded') !== 'true') await page.locator('.portrait[tabindex="0"]').click();
   const index = await page.locator('.portrait').evaluateAll((buttons, id) => buttons.findIndex(button => button.dataset.person === id), id);
   assert.ok(index >= 0, `Character ${id} is in the active filter`);
   await page.locator('#galleryArt').focus();
@@ -140,7 +140,7 @@ async function exercise(page, width, prefix) {
   await settle(page);
   assert.equal(await selectedName(page), 'Augusta', 'Hover must never select');
   assert.equal(await page.locator('#focusedInfo .focus-name').innerText(), 'Iuno');
-  assert.equal((await geometry(page))['.workshop'].y, originalGeometry['.workshop'].y + 400, 'Gallery must occupy layout space');
+  assert.equal((await geometry(page))['.workshop'].y, originalGeometry['.workshop'].y + 482, 'Gallery must occupy layout space');
   assert.equal(await page.locator('#characterStats').innerText(), originalStats);
   await selectCharacter(page, 'iuno');
   assert.equal(await selectedName(page), 'Iuno', 'Click must select the real Lab workspace');
@@ -342,7 +342,7 @@ try {
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of ['x', 'width', 'height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
+      for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
     }
     checks.push({ label: 'V1 composition parity', width, approved, current });
     await baseline.close();
@@ -352,8 +352,8 @@ try {
       await wait(before); await before.evaluate(() => document.fonts.ready);
       const primaryPosition = target => target.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
       const beforeAction = await primaryPosition(before), currentAction = await primaryPosition(page);
-      beforeAction.forEach((value, index) => { if (index !== 1) assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action geometry changed'); });
-      checks.push({ label: 'Approved primary action dimensions and horizontal position', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
+      beforeAction.forEach((value, index) => assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action geometry changed'));
+      checks.push({ label: 'Approved primary action geometry', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
     await reviewCarousel(page, { width, checks });

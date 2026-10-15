@@ -90,6 +90,7 @@ export function mountCarousel({ selectedId, onSelect }) {
   }
 
   function renderCatalog() {
+    ribbon.classList.add('is-rebuilding');
     portraits.innerHTML = ids.map((id, index) => {
       const person = catalog.get(id);
       return `<button class="portrait ${DEMO_ACCOUNT_IDS.includes(id) ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${DEMO_ACCOUNT_IDS.includes(id) ? 'on demo account' : 'not on demo account'}, ${index + 1} of ${ids.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
@@ -100,6 +101,14 @@ export function mountCarousel({ selectedId, onSelect }) {
     }).join('') + `<div class="neighbor-labels">${ids.map(id => `<span data-label="${id}" hidden>${id === selected ? '<b>◆</b> ' : ''}${escapeHtml(catalog.get(id).name)}</span>`).join('')}</div>`;
     records = ids.map(id => ({ id, name: catalog.get(id).name, hit: art.querySelector(`[data-art="${id}"]`), figure: art.querySelector(`[data-art="${id}"] .art-figure`), portrait: portraits.querySelector(`[data-person="${id}"]`), label: art.querySelector(`[data-label="${id}"]`) }));
     lastInfoId = null;
+  }
+
+  function finishCatalog(index) {
+    motion.jump(index);
+    // Commit initial poses without tweening every newly mounted artwork from
+    // its full-size CSS default; only expansion/motion should animate them.
+    void art.offsetWidth;
+    ribbon.classList.remove('is-rebuilding');
   }
 
   function align() {
@@ -260,10 +269,10 @@ export function mountCarousel({ selectedId, onSelect }) {
     const next = ids.includes(focused) ? focused : ids.includes(selected) ? selected : ids[0];
     ribbon.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active', item === button); item.setAttribute('aria-pressed', item === button); });
     renderCatalog();
-    motion.jump(ids.indexOf(next));
+    finishCatalog(ids.indexOf(next));
   });
   renderCatalog();
-  motion.jump(ids.indexOf(selected));
+  finishCatalog(ids.indexOf(selected));
   new ResizeObserver(align).observe($('.workshop'));
   // Panel intent changes grid columns in one task; align before the next paint.
   new MutationObserver(align).observe($('#composition'), { attributes: true, attributeFilter: ['style'] });

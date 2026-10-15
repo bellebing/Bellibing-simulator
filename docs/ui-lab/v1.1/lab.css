@@ -315,7 +315,7 @@
 .ribbon-arrow { position:absolute; top:17px; color:#b5a177; font-size:var(--type-panel); padding:7px 5px; width:26px; min-height:36px; }
 #portraitPrevious { left:calc(50% - var(--portrait-span) / 2 - 38px); }
 #portraitNext { left:calc(50% + var(--portrait-span) / 2 + 12px); }
-.is-moving .art-figure { transition:none; }
+.is-moving .art-figure, .is-rebuilding .art-figure { transition:none; }
 .is-dragging .gallery-art, .is-dragging .portraits { cursor:grabbing; }
 .character-ribbon:not(.expanded) .art-figure { transform:translateX(calc(-50% + var(--compact-dx))) translateY(-285px) scale(.17)!important; }
 .gallery-art:focus-visible { outline:1px solid #bba37355; outline-offset:3px; }

@@ -23,7 +23,7 @@ export async function reviewCarousel(page, { width, output, checks, touch = fals
     assert.ok(Math.abs(await center(page.locator('#focusedInfo')) - middle) < 1, 'Information left the fixed center');
     const widths = await page.locator('.art-hit').evaluateAll(items => items.filter(item => getComputedStyle(item).visibility === 'visible').map(item => ({ focused: item.classList.contains('is-focus'), width: item.querySelector('.art-figure').getBoundingClientRect().width })));
     const focused = widths.find(item => item.focused).width;
-    assert.ok(widths.every(item => item.focused || item.width < focused), 'Focused artwork must be largest');
+    assert.ok(widths.every(item => item.focused || item.width < focused), `Focused artwork must be largest: ${JSON.stringify(widths)}`);
     assert.deepEqual(await geometry(page), original, 'Browsing shifted/resized Workshop');
   }
   await assertCentered();

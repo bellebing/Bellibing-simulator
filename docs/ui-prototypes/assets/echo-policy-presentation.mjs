@@ -135,3 +135,13 @@ export function moveEchoStat(state, source, canonicalStats, name, destination, t
   next = syncFlexGroup(next, source, requirements, preferences(layout.flex, view, source));
   return updateImprovePolicyState(next, { type: 'layout', value: layout }, source);
 }
+
+// Display abbreviations only; the effective policy/layout still owns membership and order.
+const SUBSTAT_ABBREVIATIONS = {
+  'CRIT Rate': 'CR', 'CRIT DMG': 'CD', 'Energy Regen': 'ER',
+  'Basic Attack DMG': 'BA DMG', 'Heavy Attack DMG': 'HA DMG',
+  'Liberation DMG': 'Lib DMG',
+};
+export function echoSelectionSummary(names) {
+  return names.map(name => SUBSTAT_ABBREVIATIONS[name] ?? name).join(' · ');
+}

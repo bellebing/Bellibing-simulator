@@ -2,7 +2,7 @@
 
 ## Purpose and readiness
 
-This is the canonical long-term product direction for Bellibing's Echo Simulator, preserving the accepted concept for a future PM/builder. It describes the full future behavior. The bounded [Echo Simulator Foundation candidate](ECHO_SIMULATOR_FOUNDATION.md) establishes sandbox/card ownership only; this direction does not claim an active evaluator, RNG orchestration or Improvement Cost feature.
+This is the canonical long-term product direction for Bellibing's Echo Simulator, preserving the accepted concept for a future PM/builder. It describes the full future behavior. The bounded [Echo Simulator Foundation candidate](ECHO_SIMULATOR_FOUNDATION.md) supports a bounded playable canonical rolling/manual-placement V1; this direction does not claim an active evaluator, automatic decisions or Improvement Cost feature.
 
 The north-star question is: **“If I use my real Echo resources with these Improve settings, how difficult/expensive is it to actually improve this Character?”**
 
@@ -38,7 +38,7 @@ The simulation should feel like a card game. A candidate card arrives at New Ech
 - **Accepted:** the card moves up into the selected Echo slot and becomes its best/accepted card.
 - **Rejected:** the card animates down into that slot's Trash Pile.
 
-Place **five corresponding physical Trash Piles directly under the five Echo slots**, in Echo 1–5 order. Every rejected candidate belongs to the pile of the slot being simulated. This is the primary visual history; do not put history in the main panel, a sidebar or a long list. No permanent large history table is needed in the main view.
+Place **five corresponding physical Trash Piles in a separate panel under Simulator**, in Echo 1–5 order. Every rejected candidate belongs to the pile of the slot being simulated. This is the primary visual history; keep the history panel separate from the simulator workspace. No permanent large history table is needed in the main view.
 
 Cards stack with a small physical offset: one reject looks like one card; two to five clearly form a growing pile; an expensive slot should visibly become a thick bundle. Large piles may use compressed rendering, but must still feel as though they grow. A count such as `×37` may supplement the stack.
 
@@ -147,7 +147,7 @@ Document product behavior and safe result meanings, not secret implementation. P
 - Current/Simulate sandbox separation; simulation never mutates the real Current Character/build.
 - Five slot-centric Echo cards represent best/accepted Echoes; New Echo is the active candidate.
 - Accepted Echo → selected slot; rejected Echo → corresponding Trash Pile.
-- Five Trash Piles under the slots, physically stacked/offset cards that visibly grow; history cards can be inspected and returned.
+- Five Trash Piles in a separate panel below Simulator, physically stacked/offset cards that visibly grow; history cards can be inspected and returned.
 - Verifiable progression/decision depth may drive visual frame state; no hidden stat/quality score.
 - Per-slot Simulate with free slot choice is core interaction.
 - Interactive and Auto share one engine/decision logic; eventual Instant bulk mode uses that same engine.

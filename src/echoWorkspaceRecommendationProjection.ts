@@ -6,6 +6,8 @@ export interface EchoWorkspaceLoadoutRecommendation {
   readonly profileId: string;
   readonly characterId: string;
   readonly slotCosts: readonly EchoCost[];
+  readonly mainEchoId?: string;
+  readonly slotMainStats: readonly string[];
   readonly sonataSetIds: readonly string[];
 }
 
@@ -44,6 +46,8 @@ export function projectVerifiedEchoWorkspaceLoadoutProfiles(): readonly EchoWork
         profileId: profile.id,
         characterId: profile.characterId,
         slotCosts: [...slotCosts],
+        mainEchoId: profile.mainEchoId,
+        slotMainStats: profile.slots.map(slot => [...slot.primaryMainStats].sort((a,b) => a.priority - b.priority)[0].stat),
         sonataSetIds: [...profile.sonataSetIds],
       };
     });

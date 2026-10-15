@@ -1,8 +1,10 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { verifyEchoSimulator, verifyEchoSimulatorReview } from './verify-v34-echo-simulator.mjs';
+import { verifyEchoSimulator, verifyEchoSimulatorReview, verifyPlayableEchoSimulator, verifyEchoSimulatorFoundation } from './verify-v34-echo-simulator.mjs';
+import { verifyUnifiedSimulator } from './verify-v34-unified-simulator.mjs';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
 import { verifyAccountReview } from './verify-v34-account-review.mjs';
@@ -51,7 +53,7 @@ function cdp(wsUrl) {
   async function send(method, params = {}) {
     await opened;
     const id = ++serial;
-    const answer = new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+    const answer = new Promise((resolve, reject) => { const timer=setTimeout(()=>{pending.delete(id);reject(new Error('CDP timeout: '+method+(params.expression?' '+params.expression.slice(0,180):'')))},45000);pending.set(id,{resolve:value=>{clearTimeout(timer);resolve(value)},reject:error=>{clearTimeout(timer);reject(error)}}); });
     socket.send(JSON.stringify({ id, method, params }));
     return answer;
   }
@@ -93,6 +95,23 @@ async function waitForUi(send, expression, message, timeout = 5000) {
 
 async function pointerClick(send, selector) {
   await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)});if(!el)throw new Error('Missing pointer target: '+${JSON.stringify(selector)});el.scrollIntoView({block:'center',inline:'center',behavior:'instant'})})()`);
+  // Build slots can still be moving after Character/Workspace transitions. Wait
+  // for the actual hit target and stable geometry before issuing a single click.
+  if (selector.startsWith('.echo[data-echo-slot=')) {
+    const bottom = await evaluate(send, 'innerHeight-20');
+    await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:20,y:bottom});
+    await waitForUi(send, `!document.getElementById('buildShell').classList.contains('hover-expanded')&&(innerWidth<=760||document.getElementById('buildWheel').getBoundingClientRect().height<=123)`, 'Build Character hover did not collapse before slot click');
+    let previous = null, stable = 0;
+    for (let i = 0; i < 50; i++) {
+      const sample = await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)}),r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{rect:[r.x,r.y,r.width,r.height],hit:el===hit||el.contains(hit)}})()`);
+      const rect = JSON.stringify(sample.rect);
+      stable = sample.hit && rect === previous ? stable + 1 : 0;
+      previous = rect;
+      if (stable >= 2) break;
+      if (i === 49) throw new Error('Build pointer target did not settle: '+selector+' '+JSON.stringify(sample));
+      await sleep(50);
+    }
+  }
   await sleep(50);
   const bounds = await evaluate(send, `(()=>{const el=document.querySelector(${JSON.stringify(selector)});const r=el.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height,innerWidth,innerHeight}})()`);
   if (bounds.width <= 0 || bounds.height <= 0 || bounds.x + bounds.width <= 0 || bounds.y + bounds.height <= 0 || bounds.x >= bounds.innerWidth || bounds.y >= bounds.innerHeight) {
@@ -230,7 +249,7 @@ async function assertOwnedCardFamily(send,label){
 async function verifyDesktop(send) {
   await setViewport(send, 1440, 900);
   await navigate(send);
-  await evaluate(send, 'localStorage.clear()');
+  await evaluate(send, resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send, 'Augusta');
   const characterDialog=await evaluate(send,`(()=>{buildPicker.requestSwitch('Aalto');return{kind:activeConfirmation?.kind,title:document.getElementById('dialogTitle').textContent,body:document.getElementById('dialogCopy').textContent,button:document.getElementById('confirmSwitch').textContent,focus:document.activeElement.id,selected:buildPicker.selected}})()`);
@@ -320,7 +339,11 @@ async function verifyDesktop(send) {
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
   await pointerClick(send, '.echo[data-echo-slot="0"]');
-  await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
+  try { await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1'); }
+  catch (error) {
+    const diagnostic=await evaluate(send, `(()=>{const el=document.querySelector('.echo[data-echo-slot="0"]'),r=el.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return{open:echoUi.open,closing:echoUi.closing,slot:echoUi.targetSlot,overlay:echoUi.overlay.className,focus:document.activeElement?.outerHTML.slice(0,250),hit:hit?.outerHTML.slice(0,250),rect:[r.x,r.y,r.width,r.height],events:window.__echoPointerAudit.slice(-12)}})()`);
+    throw new Error(error.message+' '+JSON.stringify(diagnostic));
+  }
 
   const cardAudit = await evaluate(send, `(()=>{
     const rows=[...document.querySelectorAll('#echoChoices .echo-choice:not([hidden])')].map(card=>{
@@ -827,7 +850,7 @@ async function verifyMobileSmoke(send) {
 async function verifySonataComposition(send){
   await setViewport(send,1440,900);
   await navigate(send);
-  await evaluate(send,'localStorage.clear()');
+  await evaluate(send,resetImproveStorageFixture('localStorage.clear()'));
   await navigate(send);
   await prepareBuild(send,'Augusta');
   await pointerClick(send,'.echo[data-echo-slot="0"]');
@@ -878,6 +901,7 @@ async function verifySonataComposition(send){
 }
 
 const chrome = spawn(CHROME, [
+  ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []),
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
   // Headless Linux has no physical pointing device. Declare the desktop mouse
   // capabilities (as Playwright's Chromium launcher does), then send real CDP
@@ -897,8 +921,14 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
+    if (process.env.BELLIBING_UNIFIED_SIMULATOR_ONLY === '1') {
+      await verifyUnifiedSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+    } else if (process.env.BELLIBING_SIMULATOR_FOUNDATION_ONLY === '1') {
+      await verifyEchoSimulatorFoundation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+    } else if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
       await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
+    } else if (process.env.BELLIBING_PLAYABLE_SIMULATOR_ONLY === '1') {
+      await verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
     } else {

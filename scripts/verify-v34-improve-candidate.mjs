@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 // Runs inside the existing Echo Workspace browser harness so both commit contexts
 // exercise the same page, browser components and canonical data.
 export async function verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep}) {
@@ -20,7 +21,7 @@ export async function verifyImproveCandidate({socket,send,evaluate,navigate,setV
     await wait('activeConfirmation?.kind==="character"','Character confirmation missing');
     await click('#confirmSwitch');await settled();
   }
-  await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
+  await setViewport(send,1440,900);await navigate(send);await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await wait('echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&releasedCharacters.length===59','Improve canonical sources not ready');
   const pageUrl=await read('location.href');
   await send('Network.enable');await send('Network.setCacheDisabled',{cacheDisabled:true});

@@ -1,3 +1,4 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { rm } from 'node:fs/promises';
@@ -11,6 +12,7 @@ const debugPort = 9679;
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 const profile = mkdtempSync(join(tmpdir(), 'bellibing-character-target-'));
 const chrome = spawn(process.env.CHROME_BIN ?? 'google-chrome', [
+  ...(process.env.BELLIBING_CHROME_PROXY ? ['--proxy-server='+process.env.BELLIBING_CHROME_PROXY] : []),
   '--headless=new', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage',
   '--blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4',
   '--remote-debugging-address=127.0.0.1', '--remote-debugging-port=' + debugPort,
@@ -58,14 +60,20 @@ try {
   };
   const click = async selector => {
     const rect = await evaluate(`(()=>{const n=document.querySelector(${JSON.stringify(selector)});if(!n)throw new Error('Missing target '+${JSON.stringify(selector)});n.scrollIntoView({block:'center',behavior:'instant'});return n.getBoundingClientRect().toJSON()})()`);
-    const x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
+    let x = rect.x + rect.width / 2, y = rect.y + rect.height / 2;
     await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x, y });
+    await sleep(500);
+    const settled=await evaluate(`document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect().toJSON()`);x=settled.x+settled.width/2;y=settled.y+settled.height/2;
     await send('Input.dispatchMouseEvent', { type: 'mousePressed', x, y, button: 'left', clickCount: 1 });
     await send('Input.dispatchMouseEvent', { type: 'mouseReleased', x, y, button: 'left', clickCount: 1 });
     await send('Input.dispatchMouseEvent', { type: 'mouseMoved', x: 10, y: 850 }); await sleep(400);
   };
   const input = async (selector, text) => {
     await click(selector);
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Backspace',code:'Backspace'});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Backspace',code:'Backspace'});
     await send('Input.insertText', { text });
   };
   const shot = async path => {
@@ -78,7 +86,7 @@ try {
     for (const [kind, path] of [['source', '/docs/ui-prototypes/v34-functional.html'], ['built', '/dist/ui-preview/']]) {
       await send('Page.navigate', { url: base + path });
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
-      await evaluate('localStorage.clear()');
+      await evaluate(resetImproveStorageFixture('localStorage.clear()'));
       await send('Page.navigate', { url: base + path });
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran']);
@@ -95,10 +103,10 @@ try {
         if (id !== 'suoming') await click('#improveWheel .choice[data-character-id="' + id + '"]');
         if (['hsin', 'jingran'].includes(id)) assert.equal(await evaluate(`projectImproveCurrentStats(${JSON.stringify(name)})`), null, name + ' unresolved Current Stats stay Pending');
         if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
-        const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
+        const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('.improve-recommended-value').textContent}))");
         const projected = expected.find(item => item.characterId === id);
         assert.deepEqual(rows, projected.rows.map(row => ({ metric: row.metric, status: row.status, label: row.label, value: row.displayValue })), kind + ' ' + name);
-        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===2&&n.querySelector('dd').children.length===1&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' one value per row, no source subline');
+        assert.ok(await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].every(n=>n.children.length===3&&n.querySelector('.improve-expected-value').textContent==='—'&&!n.querySelector('small')&&!/Prydwen|DPR|Calc|[+·]/.test(n.textContent))"), kind + ' one value per row, no source subline');
         if (id === 'augusta') assert.deepEqual(rows.map(row => [row.label, row.value]), [
           ['ATK', '2,407'], ['CRIT Rate', '84.7%'], ['CRIT DMG', '225%'], ['Energy Regen', '120%'], ['Heavy Attack DMG', '29.2%'],
         ]);
@@ -113,12 +121,18 @@ try {
       await evaluate("improvePicker.select('Augusta')"); await sleep(700);
       if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
       const before = await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
-      await click('[data-focus-key="mode:MANUAL"]');
-      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'Customize alone creates no overrides');
-      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat,.improve-target-editor').length"), 0, 'Customize is not seeded');
-      await click('.improve-target-add summary'); await click('[data-focus-key="metric:TOTAL_ATK"]');
+      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'opening Settings creates no overrides');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'opening Settings creates no custom editors');
+      assert.equal(await evaluate("!!document.querySelector('.improve-target-add')"), false, 'Add stat absent');
+      await evaluate(resetImproveStorageFixture("import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href))).then(m=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.mode='MANUAL';s.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ATK','2200','2400')];localStorage.setItem(key,JSON.stringify(s))})"));
+      await send('Page.reload');
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
+      assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets[0].minimum'),2200,'saved custom target preserved');
+      await click('#improve-setting-target');
       await input('#improve-target-minimum-TOTAL_ATK', '2345'); await input('#improve-target-preferred-TOTAL_ATK', '2500');
       await click('[data-focus-key="save-target:TOTAL_ATK"]');
+      await wait('window.bellibingImproveSettings.getState().overrides.numericTargets[0].minimum===2345');
       const custom = await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets');
       const atk = custom.find(row => row.metric === 'TOTAL_ATK');
       assert.equal(atk.minimum, 2345); assert.equal(atk.preferred, 2500);
@@ -128,11 +142,11 @@ try {
       await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');
+      await wait('window.bellibingImproveSettings.getState().overrides.numericTargets===undefined');
       assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), undefined, 'Use Recommended clears custom targets');
-      await click('[data-focus-key="mode:RECOMMENDED"]');
       assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Recommended rows return');
       assert.equal(await evaluate(snapshot), originalEquipment, 'equipment and Candidate unchanged');
-      console.log(kind + ': Customize add/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
+      console.log(kind + ': saved target editing/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
     }
   }
   console.log('Character Target checkpoint matrix PASS (source + built; 1440x900, 1920x1080, 2560x1440).');

@@ -1,8 +1,125 @@
-import { readResourceInventory } from "./resourceInventory.js";
+import { emptyResourceInventory, readResourceInventory } from "./resourceInventory.js";
 import { SUBSTAT_TYPES, SUBSTAT_VALUE_TABLE } from "./echoCoreRules.js";
 export const IMPROVE_POLICY_SCHEMA_VERSION = 3;
 export const IMPROVE_POLICY_STORAGE_KEY = 'bellibing.improve.policy.v3';
 export const IMPROVE_POLICY_V2_KEY = 'bellibing.improve.simple-settings.v2';
+// Web Locks order callers; IndexedDB supplies the authoritative envelope. Chromium's
+// renderer-local localStorage cache need not be fresh when a Web Lock is handed over.
+// localStorage remains the synchronous UI mirror and storage-event transport.
+export const IMPROVE_POLICY_DATABASE = 'bellibing.improve.storage.v1';
+let exclusiveImproveWriter = false;
+function openImproveDatabase() {
+    return new Promise((resolve, reject) => {
+        let blocked = false;
+        const request = indexedDB.open(IMPROVE_POLICY_DATABASE, 1);
+        request.onupgradeneeded = () => request.result.createObjectStore('envelopes');
+        request.onerror = () => reject(request.error ?? new Error('Improve storage database unavailable.'));
+        request.onblocked = () => { blocked = true; reject(new Error('Improve storage database blocked.')); };
+        request.onsuccess = () => {
+            if (blocked) {
+                request.result.close();
+                return;
+            }
+            request.result.onversionchange = () => request.result.close();
+            resolve(request.result);
+        };
+    });
+}
+function readEnvelope() {
+    return { current: localStorage.getItem(IMPROVE_POLICY_STORAGE_KEY),
+        legacy: localStorage.getItem(IMPROVE_POLICY_V2_KEY) };
+}
+function mirrorEnvelope(envelope) {
+    for (const [key, value] of [[IMPROVE_POLICY_STORAGE_KEY, envelope.current],
+        [IMPROVE_POLICY_V2_KEY, envelope.legacy]]) {
+        if (localStorage.getItem(key) === value)
+            continue;
+        if (value === null)
+            localStorage.removeItem(key);
+        else
+            localStorage.setItem(key, value);
+    }
+}
+/** Callbacks are synchronous. Resolve only after the authoritative transaction commits. */
+export async function withExclusiveImprovePolicyStorage(write) {
+    if (typeof navigator === 'undefined' || !navigator.locks || typeof navigator.locks.request !== 'function')
+        throw new Error('Safe cross-tab Improve storage coordination unavailable.');
+    return navigator.locks.request(IMPROVE_POLICY_STORAGE_KEY, { mode: 'exclusive' }, async (lock) => {
+        if (!lock || exclusiveImproveWriter)
+            throw new Error('Exclusive Improve storage lock unavailable.');
+        // Pure Node/test adapters keep their existing synchronous storage contract.
+        if (typeof window === 'undefined' || !(window.localStorage instanceof Storage)) {
+            exclusiveImproveWriter = true;
+            try {
+                return write();
+            }
+            finally {
+                exclusiveImproveWriter = false;
+            }
+        }
+        if (typeof indexedDB === 'undefined')
+            throw new Error('Safe cross-tab Improve database unavailable.');
+        const database = await openImproveDatabase();
+        try {
+            const execute = () => new Promise((resolve, reject) => {
+                const transaction = database.transaction('envelopes', 'readwrite', { durability: 'strict' });
+                const envelopes = transaction.objectStore('envelopes');
+                const request = envelopes.get(IMPROVE_POLICY_STORAGE_KEY);
+                let before, value, failure;
+                transaction.oncomplete = () => resolve(value);
+                transaction.onabort = () => {
+                    // Undo the provisional mirror; if storage is unavailable, the authoritative
+                    // original still survives and startup will repair the mirror before reading.
+                    try {
+                        if (before)
+                            mirrorEnvelope(before);
+                    }
+                    catch { /* durable original is retained */ }
+                    reject(failure ?? transaction.error ?? new Error('Improve storage transaction aborted.'));
+                };
+                request.onsuccess = () => {
+                    try {
+                        if (request.result !== undefined && (!request.result
+                            || !['current', 'legacy'].every(key => request.result[key] === null || typeof request.result[key] === 'string')))
+                            throw new Error('Invalid Improve database envelope; recovery data has been retained.');
+                        if (request.result === undefined) {
+                            // Commit the original before the first mutation. Even an unavailable
+                            // mirror rollback or a lost tab cannot erase the only pre-write copy.
+                            envelopes.put(readEnvelope(), IMPROVE_POLICY_STORAGE_KEY);
+                            transaction.oncomplete = () => { execute().then(resolve, reject); };
+                            return;
+                        }
+                        before = request.result;
+                        mirrorEnvelope(before); // refresh this renderer from the authoritative transaction
+                        exclusiveImproveWriter = true;
+                        try {
+                            value = write();
+                        }
+                        finally {
+                            exclusiveImproveWriter = false;
+                        }
+                        if (value && typeof value.then === 'function')
+                            throw new Error('Improve storage writers must be synchronous.');
+                        envelopes.put(readEnvelope(), IMPROVE_POLICY_STORAGE_KEY);
+                    }
+                    catch (error) {
+                        failure = error;
+                        transaction.abort();
+                    }
+                };
+            });
+            return await execute();
+        }
+        finally {
+            database.close();
+        }
+    });
+}
+/** Test storage adapters remain synchronous; native browser envelope writes do not. */
+export function assertExclusiveImprovePolicyWriter(storage) {
+    if (typeof window !== 'undefined' && storage === window.localStorage && !exclusiveImproveWriter)
+        throw new Error('Exclusive Improve storage lock required.');
+}
 const sections = ['numericTargets', 'priorities', 'echoRequirements', 'echoPreferences'];
 const record = (value) => value !== null && typeof value === 'object'
     && !Array.isArray(value) ? value : {};
@@ -15,6 +132,10 @@ const nonnegative = (value) => typeof value === 'number' && Number.isFinite(valu
 const positiveInteger = (value) => typeof value === 'number' && Number.isSafeInteger(value) && value > 0;
 const unique = (rows, key) => new Set(rows.map(row => record(row)[key])).size === rows.length;
 const list = (value, valid, key) => Array.isArray(value) && unique(value, key) && value.every(row => valid(record(row)));
+function validSonataSelection(value) {
+    return Array.isArray(value) && value.every(id => typeof id === 'string' && /^sonata-[1-9][0-9]*$/.test(id))
+        && new Set(value).size === value.length;
+}
 function validEchoLayout(value) {
     const layout = record(value);
     if (Object.keys(layout).some(key => !['every', 'flex', 'other', 'minimums'].includes(key)))
@@ -111,6 +232,11 @@ function resumeMigration(state, recommended, source) {
 export function updateImprovePolicyState(state, action, recommended) {
     if (recommended.characterId !== state.characterId)
         throw new Error('Policy Character mismatch.');
+    if (action.type === 'sonatas') {
+        if (!validSonataSelection(action.value))
+            throw new Error('Invalid Sonata selection.');
+        return { ...state, selectedSonataSetIds: [...action.value] };
+    }
     if (action.type === 'gate')
         return gate(action.value) === action.value ? { ...state, gate: action.value } : state;
     if (action.type === 'quality')
@@ -177,7 +303,7 @@ export function resolveImprovePolicyState(state, recommended) {
         && state.presetId === 'augusta-standard' && recommended.presetId === 'augusta-standard'
         && !(state.contextBinding === null && Object.keys(state.overrides).length > 0);
     const hard = ['CRIT Rate', 'CRIT DMG'];
-    const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+    const flex = ['ATK%', 'Heavy Attack DMG', 'Energy Regen'];
     const approvedRequirements = { requiredOnEveryEcho: hard.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })),
         groups: [{ id: 'selected-flex', minimumCount: 1, members: flex.map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })) }] };
     const approvedPreferences = flex.map((stat, index) => ({ stat, priorityGroup: index + 1, minimum: SUBSTAT_VALUE_TABLE[stat][0] }));
@@ -221,10 +347,24 @@ function savedIntent(state) {
         for (const key of sections)
             if (own(state.overrides, key))
                 overrides[key] = structuredClone(state.overrides[key]);
-    return { schemaVersion: 3, characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
+    return { schemaVersion: 3,
+        ...(state.selectedSonataSetIds === undefined ? {} : { selectedSonataSetIds: [...state.selectedSonataSetIds] }),
+        characterId: state.characterId, presetId: state.presetId, contextBinding: state.contextBinding,
         ...(state.mode === 'MANUAL' && state.echoLayout !== undefined ? { echoLayout: structuredClone(state.echoLayout) } : {}),
         mode: state.mode, overrides: overrides, gate: gate(state.gate), rollQuality: quality(state.rollQuality),
         migration: state.mode === 'MANUAL' ? structuredClone(state.migration) : null };
+}
+function readResourceTransactions(value) {
+    const row = record(value);
+    if (Object.keys(row).sort().join() !== 'consumedIds,revision'
+        || typeof row.revision !== 'number' || !Number.isSafeInteger(row.revision) || row.revision < 0
+        || !Array.isArray(row.consumedIds)
+        || !row.consumedIds.every(id => typeof id === 'string' && /^[A-Za-z0-9_-]{1,100}$/.test(id))
+        || new Set(row.consumedIds).size !== row.consumedIds.length
+        || row.consumedIds.length !== row.revision) {
+        throw new Error('Saved resource transaction history needs review.');
+    }
+    return { revision: row.revision, consumedIds: [...row.consumedIds] };
 }
 export function loadImprovePolicyStorage(storage) {
     const raw = storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
@@ -234,6 +374,7 @@ export function loadImprovePolicyStorage(storage) {
         if (saved.version !== 3)
             throw new Error('Unsupported Improve policy storage version.');
         return { version: 3,
+            ...(own(saved, 'resourceTransactions') ? { resourceTransactions: readResourceTransactions(saved.resourceTransactions) } : {}),
             ...(own(saved, 'resourceInventory') ? { resourceInventory: readResourceInventory(saved.resourceInventory) } : {}),
             characters: structuredClone(record(saved.characters)),
             pendingV2Characters: structuredClone(record(saved.pendingV2Characters)) };
@@ -273,6 +414,8 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         // The rejected card model is not legacy Flex intent. Never reinterpret or overwrite it.
         if (own(record(saved.overrides), 'echoCards'))
             throw new Error('Retired Echo card settings need review; recovery data retained.');
+        if (saved.selectedSonataSetIds !== undefined && !validSonataSelection(saved.selectedSonataSetIds))
+            throw new Error('Invalid saved Sonata selection.');
         if (saved.echoLayout !== undefined && !validEchoLayout(saved.echoLayout))
             throw new Error('Invalid saved Echo row layout.');
         if (saved.schemaVersion !== 3 || saved.characterId !== characterId
@@ -291,17 +434,32 @@ export function readImprovePolicyState(store, characterId, recommended, legacySo
         : createImprovePolicyState(characterId, recommended);
 }
 export function persistImprovePolicyState(store, state, storage) {
-    const pendingV2Characters = { ...store.pendingV2Characters };
+    assertExclusiveImprovePolicyWriter(storage);
+    // Keep live shared inventory/receipts when a Character settings editor held a stale copy.
+    const live = loadImprovePolicyStorage(storage);
+    // Only merge unrelated Character edits; a concurrent edit to this Character must not be lost.
+    if (JSON.stringify(store.characters[state.characterId] ?? null) !== JSON.stringify(live.characters[state.characterId] ?? null)
+        || JSON.stringify(store.pendingV2Characters[state.characterId] ?? null) !== JSON.stringify(live.pendingV2Characters[state.characterId] ?? null))
+        throw new Error('Stale Improve settings; reload before editing.');
+    const pendingV2Characters = { ...live.pendingV2Characters };
     delete pendingV2Characters[state.characterId];
-    const next = { ...store, version: 3,
-        characters: { ...store.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
+    const next = { ...live, version: 3,
+        characters: { ...live.characters, [state.characterId]: savedIntent(state) }, pendingV2Characters };
     // Write before returning the new immutable store; failure cannot mark a save committed.
     storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
     return next;
 }
 /** Same user-owned envelope and write-before-commit recovery discipline as settings. */
 export function persistResourceInventory(store, inventory, storage) {
-    const next = { ...store, resourceInventory: readResourceInventory(inventory) };
+    assertExclusiveImprovePolicyWriter(storage);
+    const live = loadImprovePolicyStorage(storage);
+    const previous = readResourceInventory(store.resourceInventory ?? { ...emptyResourceInventory() });
+    const current = readResourceInventory(live.resourceInventory ?? { ...emptyResourceInventory() });
+    if (JSON.stringify(previous) !== JSON.stringify(current)
+        || (store.resourceTransactions?.revision ?? 0) !== (live.resourceTransactions?.revision ?? 0)) {
+        throw new Error('Stale shared resource inventory; reload before editing.');
+    }
+    const next = { ...live, resourceInventory: readResourceInventory(inventory) };
     storage.setItem(IMPROVE_POLICY_STORAGE_KEY, JSON.stringify(next));
     return next;
 }

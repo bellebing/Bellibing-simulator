@@ -21,6 +21,14 @@
         1,
         1
       ],
+      "mainEchoId": "echo-60001215",
+      "slotMainStats": [
+        "CRIT Rate",
+        "Electro DMG",
+        "Electro DMG",
+        "ATK%",
+        "ATK%"
+      ],
       "sonataSetIds": [
         "sonata-20",
         "sonata-3"
@@ -36,6 +44,14 @@
         1,
         1
       ],
+      "mainEchoId": "echo-60001065",
+      "slotMainStats": [
+        "CRIT Rate",
+        "CRIT DMG",
+        "HP%",
+        "HP%",
+        "HP%"
+      ],
       "sonataSetIds": [
         "sonata-17"
       ]
@@ -49,6 +65,14 @@
         3,
         1,
         1
+      ],
+      "mainEchoId": "echo-60001135",
+      "slotMainStats": [
+        "CRIT Rate",
+        "Aero DMG",
+        "Aero DMG",
+        "ATK%",
+        "ATK%"
       ],
       "sonataSetIds": [
         "sonata-16"
@@ -64,6 +88,14 @@
         1,
         1
       ],
+      "mainEchoId": "echo-60001065",
+      "slotMainStats": [
+        "CRIT Rate",
+        "Aero DMG",
+        "Aero DMG",
+        "ATK%",
+        "ATK%"
+      ],
       "sonataSetIds": [
         "sonata-17"
       ]
@@ -78,6 +110,14 @@
         1,
         1
       ],
+      "mainEchoId": "echo-60000525",
+      "slotMainStats": [
+        "CRIT Rate",
+        "Aero DMG",
+        "Aero DMG",
+        "ATK%",
+        "ATK%"
+      ],
       "sonataSetIds": [
         "sonata-8"
       ]
@@ -91,6 +131,14 @@
         3,
         1,
         1
+      ],
+      "mainEchoId": "echo-60000605",
+      "slotMainStats": [
+        "CRIT DMG",
+        "Energy Regen",
+        "Energy Regen",
+        "HP%",
+        "HP%"
       ],
       "sonataSetIds": [
         "sonata-7"

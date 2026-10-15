@@ -15,9 +15,9 @@ import {
 const recommended = await projectRecommendedImprovePolicy({ characterId: 'augusta' });
 const approved = { ...recommended, echoPolicy: { ...recommended.echoPolicy,
   requirements: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value: { requiredOnEveryEcho:
-    ['CRIT Rate', 'CRIT DMG'].map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [{id:'selected-flex',minimumCount:1,members:['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK'].map(stat=>({stat,minimum:SUBSTAT_VALUE_TABLE[stat][0]}))}] } },
+    ['CRIT Rate', 'CRIT DMG'].map(stat => ({ stat, minimum: SUBSTAT_VALUE_TABLE[stat][0] })), groups: [{id:'selected-flex',minimumCount:1,members:['ATK%','Heavy Attack DMG','Energy Regen'].map(stat=>({stat,minimum:SUBSTAT_VALUE_TABLE[stat][0]}))}] } },
   preferences: { status: 'USER_DEFINED', origin: 'USER', content: 'PRESENT', value:
-    ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'].map((stat,index) => ({ stat, priorityGroup:index+1, minimum:SUBSTAT_VALUE_TABLE[stat][0] })) } } };
+    ['ATK%', 'Heavy Attack DMG', 'Energy Regen'].map((stat,index) => ({ stat, priorityGroup:index+1, minimum:SUBSTAT_VALUE_TABLE[stat][0] })) } } };
 const legacy = projectImproveSettingsSources().find(row => row.characterId === 'augusta')!;
 const initial = () => createImprovePolicyState('augusta', recommended);
 const preference = [{ stat: 'CRIT DMG', priorityGroup: 1 }, { stat: 'Energy Regen', priorityGroup: 2 }] as const;
@@ -290,7 +290,8 @@ test('storage persists intent only, returns detached state, and failed writes ne
   const read = readImprovePolicyState(next, 'augusta', recommended);
   read.overrides.echoPreferences[0].priorityGroup = 99;
   assert.equal(next.characters.augusta.overrides.echoPreferences?.[0].priorityGroup, 1);
-  assert.throws(() => persistImprovePolicyState(store, manual(), { getItem: storage.getItem, setItem: () => { throw new Error('quota'); } }), /quota/);
+  assert.throws(() => persistImprovePolicyState(next, manual(), { getItem: storage.getItem, setItem: () => { throw new Error('quota'); } }), /quota/);
+  assert.equal(storage.getItem(IMPROVE_POLICY_STORAGE_KEY), raw, 'failed write retains committed bytes');
   assert.deepEqual(store.characters, {});
 });
 

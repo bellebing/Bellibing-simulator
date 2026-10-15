@@ -34,7 +34,7 @@ test('Approved Augusta defaults and explicit user selections use only canonical 
   const recommended = view(initial());
   assert.deepEqual(recommended.relevant, SUBSTAT_TYPES.filter(name => improveRelevantStats(source).includes(name)));
   assert.ok(recommended.relevant.length > 0);
-  assert.deepEqual(recommended.required, ['CRIT Rate','CRIT DMG']); assert.deepEqual(recommended.flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.deepEqual(recommended.required, ['CRIT Rate','CRIT DMG']); assert.deepEqual(recommended.flex, ['ATK%','Heavy Attack DMG','Energy Regen']);
   assert.equal(recommended.policy.requirements.status, 'USER_DEFINED');
   assert.equal(source.echoPolicy.requirements.status, 'PENDING');
   let state = manual();
@@ -54,7 +54,7 @@ test('Approved Augusta defaults and explicit user selections use only canonical 
   assert.deepEqual(source.echoPolicy.requirements.value, null);
   state = resetEchoPolicy(state, source);
   assert.deepEqual(view(state).required, ['CRIT Rate','CRIT DMG']);
-  assert.deepEqual(view(state).flex, ['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.deepEqual(view(state).flex, ['ATK%','Heavy Attack DMG','Energy Regen']);
   assert.equal(view(state).defaulted, true);
 });
 

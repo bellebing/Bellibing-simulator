@@ -1,11 +1,16 @@
+import { resetImproveStorageFixture } from './improve-storage-fixture.mjs';
 // Test/dev-only observations and external dispositions, injected into an isolated
 // browser profile. This file is never copied to the public browser artifact.
 export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
+  await verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+  await verifyEchoSimulatorFoundation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+}
+export async function verifyEchoSimulatorFoundation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
   const read = expression => evaluate(send,expression);
   const check = async (expression,message) => { if (!await read(expression)) throw new Error('Echo Simulator: '+message); };
   const click = async selector => {
     await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);
-    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:10,y:10});await sleep(500);await pointerClick(send,selector);
+    await send('Input.dispatchMouseEvent',{type:'mouseMoved',x:10,y:10});await sleep(500);await pointerClick(send,selector);await sleep(150);
   };
   const policyState='window.bellibingImproveSettings.getState()', inventoryState='window.bellibingResourceInventory.getState()';
   const policyKey='bellibing.improve.policy.v3';
@@ -20,10 +25,12 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await send('Input.insertText',{text});
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
     await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab',windowsVirtualKeyCode:9});
+    const id=selector.match(/\[data-resource="([^"]+)"\]/)?.[1];
+    if(id){const path=['echoes','tuners','shellCredits'].includes(id)?id:'tubes.'+id;const expected=['∞','unlimited'].includes(text)?`.kind==='UNLIMITED'`:`.count===${Number(text)}`;await waitForUi(send,'window.bellibingResourceInventory.getState().'+path+expected,'serialized resource input '+id)}
   };
   const expand=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="true"&&!document.getElementById("improveSettings").inert','physical '+id+' expansion')};
   const collapse=async id=>{await click('#improve-setting-'+id);await check('document.querySelector("#improve-setting-'+id+'").getAttribute("aria-expanded")==="false"','physical '+id+' collapse')};
-  await setViewport(send,1440,900);await navigate(send);await read('localStorage.clear()');await navigate(send);
+  await setViewport(send,1440,900);await navigate(send);await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
   await waitForUi(send,'echoDataLoaded&&weaponDataLoaded&&characterMechanicsDataLoaded&&sequenceRuntimeDataLoaded&&buildStatsRuntimeLoaded&&window.bellibingEchoSimulator&&releasedCharacters.length===59','Simulator sources not ready');
   await read(`(()=>{
     addOwned('Augusta');addOwned('Cartethyia');
@@ -53,11 +60,11 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await capture(send,'artifacts/ui-preview-echo-simulator-current-1440x900.png');
   await click('#simulatorEnter');await unchanged('start mutated real state');await sharedUnchanged('Current edits not shared with Simulate');
   await check('!!improveUi.simulator&&document.querySelectorAll(".simulator-slot").length===5&&document.querySelectorAll(".simulator-trash").length===5','five physical slot/pile pairs missing');
-  await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&[...document.querySelectorAll(".simulator-slot .improve-equipped-echo")].every(card=>card.textContent.includes("EMPTY"))&&improveUi.simulator.slots.every(slot=>!slot.candidate&&!slot.accepted.length&&!slot.trash.length)', 'start must have five empty cards and histories');
+  await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).every(slot=>slot===null)&&[...document.querySelectorAll(".simulator-slot")].every(card=>card.dataset.equipmentState==="NOT_ROLLED")&&improveUi.simulator.slots.every(slot=>!slot.candidate&&!slot.accepted.length&&!slot.trash.length)', 'start must have five empty cards and histories');
   await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(JSON.stringify(stats.empty)),'real Echoes contributed to empty simulated stats');
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await setViewport(send,width,height);await read('document.getElementById("improveEchoRow").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
-    await check('document.getElementById("improveCurrentEcho").textContent.includes("Empty slot")&&document.querySelectorAll(".simulator-trash").length===5','empty Current/piles missing');
+    await check('document.getElementById("improveCurrentEcho").dataset.equipmentState==="NOT_ROLLED"&&document.querySelectorAll(".simulator-trash").length===5','empty Current/piles missing');
     await capture(send,'artifacts/ui-preview-echo-simulator-empty-'+width+'x'+height+'.png');
   }
   await setViewport(send,1440,900);
@@ -65,7 +72,7 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await check('improveUi.simulator.selectedSlot===5&&improveUi.selectedEchoIndex===4','free slot selection failed');
   await click('#improveNewEcho');await waitForUi(send,'echoUi.open&&echoUi.context.kind==="candidate"','New Echo chooser not opened');await sleep(650);
   await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','Candidate chooser not closed');
-  await check('!!improveUi.simulator.slots[4].candidate&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.getElementById("improveHelperTitle").textContent==="Evaluator Pending"','candidate isolation/Pending failed');
+  await check('!!improveUi.simulatorTemplates[4]&&JSON.stringify(improveUi.candidate)==='+JSON.stringify(realCandidate)+'&&document.getElementById("improveHelperTitle").textContent==="Simulate Echo"&&improveUi.simulator.evaluator.status==="PENDING"','candidate isolation/Pending failed');
   await unchanged('choose candidate mutated real state');
   // Observed checkpoints come from the existing canonical card editor contract.
   // Dispositions are explicit fixtures, never computed from Target or stat quality.
@@ -95,20 +102,22 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
     await setViewport(send,width,height);await sleep(600);
     await read('document.getElementById("improveEchoRow").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
-    await check(`(()=>{const columns=[...document.querySelectorAll('.simulator-slot')];return columns.every(column=>{const c=column.querySelector('.improve-equipped-echo').getBoundingClientRect(),p=column.querySelector('.simulator-trash').getBoundingClientRect();return p.top>=c.bottom&&Math.abs(p.x-c.x)<3&&p.width>60&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'pile layout/viewport '+width);
+    await read('document.getElementById("simulatorTrashPanel").scrollIntoView({block:"center",behavior:"instant"})');await sleep(250);
+    await check(`(()=>{const columns=[...document.querySelectorAll('#simulatorTrashColumns .simulator-trash')],panel=document.getElementById('simulatorTrashPanel').getBoundingClientRect(),cards=document.getElementById('improveEchoRow').getBoundingClientRect();return columns.length===5&&panel.top>=cards.bottom&&columns.every(pile=>{const p=pile.getBoundingClientRect();return getComputedStyle(pile).display!=='none'&&p.width>60&&p.left>=0&&p.right<=innerWidth&&p.bottom<=innerHeight})})()`,'separate five-column pile layout/viewport '+width);
     await capture(send,'artifacts/ui-preview-echo-simulator-'+width+'x'+height+'.png');
     await click('[data-trash-slot="5"] summary');await click('[data-trash-slot="5"] details button:last-child');
     await capture(send,'artifacts/ui-preview-echo-simulator-inspect-'+width+'x'+height+'.png');
     await click('.simulator-inspection button');
     await click('[data-trash-slot="5"] summary');
   }
-  await check('!document.getElementById("improveBuildCard").innerText.match(/\\b(?:EXP|XP)\\b|Shell Credits|Run 1,000|DPS|combined score/)','fabricated resource/output presentation');
+  await check('!document.getElementById("improveBuildCard").innerText.match(/\\b(?:EXP|XP)\\b(?! Tubes)|Shell Credits|Run 1,000|DPS|combined score/)','fabricated resource/output presentation');
   for(const index of [0,1,2]){
     await click('#improveEchoRow [data-echo-slot="'+index+'"]');await read('__simulatorFixture("accepted")');
     await check('window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator).filter(Boolean).length==='+String(index+2)+'&&window.bellibingEchoSimulator.simulatedEchoSlots(improveUi.simulator)[3]===null&&improveUi.simulator.evaluator.status==="PENDING"','partial build filled empty slots or fabricated evaluator availability');
   }
   await unchanged('partial simulated builds mutated real state');
   // Physical edits against an active populated sandbox must leave every candidate/history/build byte intact.
+  await read(`(async()=>{const m=await import(new URL('../../assets/improvePolicyState.js',new URL('assets/improve-settings.js',location.href)));const presentation=await import(new URL('../../assets/improvePolicyPresentation.js',new URL('assets/improve-settings.js',location.href)));await m.withExclusiveImprovePolicyStorage(()=>{const store=m.loadImprovePolicyStorage(localStorage);store.characters.augusta.mode='MANUAL';store.characters.augusta.overrides.numericTargets=[presentation.parseImproveTarget('TOTAL_ENERGY_REGEN','115','125')];localStorage.setItem(m.IMPROVE_POLICY_STORAGE_KEY,JSON.stringify(store))});window.dispatchEvent(new StorageEvent('storage',{key:m.IMPROVE_POLICY_STORAGE_KEY,storageArea:localStorage}))})()`);
   const activeSession=await read('JSON.stringify(improveUi.simulator)');
   const activeUnchanged=async message=>{
     await unchanged(message+' mutated real equipment/account');
@@ -119,10 +128,8 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await setViewport(send,width,height);
     await expand('gate');await enter(resource('echoes'),String(32+index));await enter(resource('tuners'),String(99+index));await enter(resource('premium'),'∞');
     await check(inventoryState+'.echoes.count==='+String(32+index)+'&&'+inventoryState+'.tuners.count==='+String(99+index)+'&&'+inventoryState+'.tubes.premium.kind==="UNLIMITED"','Simulate physical finite and ∞');
-    await click(focus('mode:RECOMMENDED'));await check(policyState+'.mode==="RECOMMENDED"&&Object.keys('+policyState+'.overrides).length===0','Simulate Recommended');
-    await click(focus('mode:MANUAL'));await check(policyState+'.mode==="MANUAL"','Simulate Customize');
     await click(focus('gate:'+([10,15,20][index])));await collapse('gate');
-    await expand('target');await click('#improveSettings .improve-target-add summary');await click(focus('metric:TOTAL_ENERGY_REGEN'));
+    await expand('target');
     await enter('#improve-target-minimum-TOTAL_ENERGY_REGEN','117.5');await enter('#improve-target-preferred-TOTAL_ENERGY_REGEN','126.25');
     await click('[data-editor-metric="TOTAL_ENERGY_REGEN"] button');await collapse('target');
     await expand('every');await click('[data-setting=every] .improve-echo-row[data-stat-name="CRIT Rate"] .improve-roll-slider');
@@ -130,12 +137,12 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
     await expand('flex');await click(focus('flex-count'));
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Home',code:'Home',windowsVirtualKeyCode:36});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Home',code:'Home',windowsVirtualKeyCode:36});
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowRight',code:'ArrowRight',windowsVirtualKeyCode:39});
-    await check(policyState+'.overrides.echoRequirements.groups.find(g=>g.id==="selected-flex").minimumCount===2','Simulate explicit Flex count');
+    await waitForUi(send,policyState+'.overrides.echoRequirements.groups.find(g=>g.id==="selected-flex").minimumCount===2','Simulate serialized explicit Flex count');
     await click('[data-setting=flex] .improve-echo-row[data-stat-name="ATK%"] .improve-roll-slider');
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'End',code:'End',windowsVirtualKeyCode:35});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'End',code:'End',windowsVirtualKeyCode:35});
-    await check(policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
+    await waitForUi(send,policyState+'.gate==='+String([10,15,20][index])+'&&'+policyState+'.overrides.numericTargets[0].minimum===1.175&&'+policyState+'.overrides.numericTargets[0].preferred===1.2625&&'+policyState+'.overrides.echoRequirements.requiredOnEveryEcho[0].minimum===.105&&'+policyState+'.overrides.echoPreferences[0].minimum===.116','Simulate Target/Gate/Every Echo/Flex canonical edits');
     await activeUnchanged('Simulate settings/resources at '+width);
-    await check(`(()=>{const row=document.querySelector('.improve-resources');return row.scrollWidth<=row.clientWidth+1&&row.querySelectorAll('input').length===6&&[...row.querySelectorAll('img')].every(n=>n.complete&&n.naturalWidth===256)&&row.getBoundingClientRect().bottom<=document.querySelector('.improve-resources-separator').getBoundingClientRect().top})()`,'Simulate unchanged resources layout/icons');
+    await check(`(()=>{const row=document.querySelector('.improve-resources');return row.scrollWidth<=row.clientWidth+1&&row.querySelectorAll('input').length===7&&[...row.querySelectorAll('img')].every(n=>n.complete&&n.naturalWidth===256)&&row.getBoundingClientRect().bottom<=document.querySelector('.improve-resources-separator').getBoundingClientRect().top})()`,'Simulate unchanged resources layout/icons');
     await read('document.querySelector(".improve-resources").scrollIntoView({block:"center",behavior:"instant"})');
     await capture(send,'artifacts/ui-preview-echo-simulator-shared-settings-'+width+'x'+height+'-'+artifactVariant+'.png');await collapse('flex');
   }
@@ -167,8 +174,123 @@ export async function verifyEchoSimulator({send,evaluate,navigate,setViewport,wa
   await click('#simulatorEnter');await check('improveUi.simulator.evaluator.status==="PENDING"','Cartethyia falsely evaluatable');
   const navigationState=await read('JSON.stringify(state)'),navigationStorage=await read('localStorage.getItem(KEY)');
   await click('.page.active [data-home]');await check('!improveUi.simulator&&JSON.stringify(state)==='+JSON.stringify(navigationState)+'&&localStorage.getItem(KEY)==='+JSON.stringify(navigationStorage),'physical Home exit retained sandbox or wrote real navigation metadata');
-  console.log('Shared Current/Simulate editable settings: physical finite/∞, Recommended/Customize, Target/Gate/Every Echo/Flex edits, populated session byte isolation, canonical storage, reset/exit/re-entry/reload, Character ownership and desktop/narrow widths passed.');
+  console.log('Shared Current/Simulate editable settings: physical finite/∞, saved target/Gate/Required/Flex edits, populated session byte isolation, canonical storage, reset/exit/re-entry/reload, Character ownership and desktop/narrow widths passed.');
   console.log('Echo Simulator Foundation: browser isolation, five piles, free slot selection, fixture histories/dispositions, inspection, stack growth, reset/exit/reload and Pending passed at 1440/1920/2560.');
+}
+
+/** Real controls and production RNG; fixtures seed only owned account context. */
+export async function verifyPlayableEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep}) {
+  const read=expression=>evaluate(send,expression),check=async(expression,message)=>{if(!await read(expression))throw new Error('Playable Echo: '+message)};
+  const click=async selector=>{await read(`document.querySelector(${JSON.stringify(selector)}).scrollIntoView({block:'center',behavior:'instant'})`);
+    const point=await read(`(()=>{const r=document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point});await sleep(600);
+    await waitForUi(send,`(()=>{const el=document.querySelector(${JSON.stringify(selector)}),r=el.getBoundingClientRect();return r.width>0&&r.height>0&&el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})()`,'Playable pointer target covered: '+selector);
+    await pointerClick(send,selector)};
+  const key=async(key,modifiers=0)=>{const code=key==='a'?'KeyA':key,windowsVirtualKeyCode=({a:65,Backspace:8,Tab:9,Home:36,ArrowDown:40,ArrowRight:39})[key];await send('Input.dispatchKeyEvent',{type:'keyDown',key,code,modifiers,windowsVirtualKeyCode});await send('Input.dispatchKeyEvent',{type:'keyUp',key,code,modifiers,windowsVirtualKeyCode})};
+  const enter=async(selector,text)=>{await click(selector);await key('a',2);await key('Backspace');await send('Input.insertText',{text});await key('Tab')};
+  const resource=id=>'[data-resource="'+id+'"] input';
+  await setViewport(send,1440,900);await navigate(send);await read(resetImproveStorageFixture('localStorage.clear()'));await navigate(send);
+  await waitForUi(send,'echoDataLoaded&&window.bellibingEchoSimulator&&window.bellibingImproveSettings&&releasedCharacters.length===59','sources not ready');
+  await read("show('improve')");await click('#improveScenarioChoose');
+  const index=await read("[...document.querySelectorAll('#improveWheel .choice')].findIndex(c=>c.dataset.characterId==='augusta')");
+  await read('document.getElementById("improveWheel").focus()');for(let n=0;n<index;n++){await key('ArrowRight');await sleep(700)}
+  await read('document.querySelector("#improveWheel [data-character-id=augusta]").scrollIntoView({block:"center",behavior:"instant"})');const augustaPoint=await read('(()=>{const r=document.querySelector("#improveWheel [data-character-id=augusta]").getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()');await send('Input.dispatchMouseEvent',{type:'mouseMoved',...augustaPoint});await sleep(750);
+  await click('#improveWheel [data-character-id="augusta"]');
+  if(!await read('!!improveUi.simulator')){await sleep(800);await click('#improveWheel [data-character-id="augusta"]')}
+  try{await waitForUi(send,'!!improveUi.simulator&&improveUi.simulatorTemplates?.[0]?.echoId==="echo-60001215"','preselected default not ready')}catch(error){throw new Error(error.message+' '+JSON.stringify(await read('({character:improveUi.characterId,scenario:improveScenarioSelection,session:!!improveUi.simulator,templates:improveUi.simulatorTemplates,sets:window.bellibingImproveSettings.getSonataSetIds(),profile:echoLoadoutByCharacterId.get("augusta")})')))};
+  await check('state.characters.length===0&&Object.keys(state.drafts).length===0&&improveUi.simulatorTemplates.length===5','scenario wrote equipment or lacks templates');
+  await waitForUi(send,'window.bellibingImproveSettings.canAssessEchoRequirements()','settings not ready');
+  await click('#simulatorRoll');await waitForUi(send,'!!improveUi.simulator.run&&improveUi.simulator.run.status!=="RUNNING"','zero-budget stop');
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===0','zero budget freely rolled');
+  await click('#improve-setting-every');
+  await check('JSON.stringify([...document.querySelectorAll(".improve-setting-label")].map(n=>n.textContent))===JSON.stringify(["Sonata Sets","Gate","Required Substats","Flex Substats","Stats"])','settings order');
+  await check('window.bellibingImproveSettings.getSonataSetIds().length===2&&document.querySelectorAll("[data-setting=sonata] img").length>30','canonical sets/icons');
+  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===1','set remove');await click('.improve-more-sonatas summary');
+  await click('[data-focus-key="sonata:sonata-3"]');await check('window.bellibingImproveSettings.getSonataSetIds().length===2','set add');
+  await check('document.querySelectorAll("[data-setting=sonata] button:not([aria-pressed=true]):not(.improve-setting-trigger)").length>0&&[...document.querySelectorAll("[data-setting=sonata] .improve-sonata-row[aria-pressed=false]")].every(n=>!n.disabled)','eligible Sonata filters remain actionable');
+  const alternate=await read('echoCatalog.find(item=>item.cost===4&&item.sonataSetIds.some(id=>!["sonata-20","sonata-3"].includes(id))).sonataSetIds.find(id=>!["sonata-20","sonata-3"].includes(id))');
+  await click('[data-focus-key="sonata:sonata-20"]');await click('[data-focus-key="sonata:sonata-3"]');await click('[data-focus-key="sonata:'+alternate+'"]');await click('#improve-setting-every');
+  await click('#improveNewEcho');await waitForUi(send,'echoUi.open','scenario chooser');await sleep(650);
+  await check('JSON.stringify([...echoUi.selectedSonataIds])==='+JSON.stringify(JSON.stringify([alternate])),'New Echo must use intended simulation sets');
+  await click('#echoChoices .echo-choice:not([hidden])');await click('#echoEquip');await waitForUi(send,'!echoUi.open&&!echoUi.closing','scenario chooser close');
+  await check('improveUi.simulatorTemplates[0].selectedSonataSetId==='+JSON.stringify(alternate),'scenario assignment eligibility');
+  await click('#improve-setting-every');await click('[data-focus-key="sonata:'+alternate+'"]');await click('[data-focus-key="sonata:sonata-20"]');await click('[data-focus-key="sonata:sonata-3"]');
+  for(const [id,count] of [['echoes','3'],['tuners','150'],['premium','90']])await enter(resource(id),count);
+  await click('#improve-setting-every');await click('#simulatorReset');await read('window.savedFiniteRandom=Math.random;Math.random=()=>.99999');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','finite exhaustion');
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&improveUi.simulator.rolling.attempts===3&&improveUi.simulator.rolling.tuners===improveUi.simulator.slots[0].trash.reduce((sum,card)=>sum+card.card.level/5*10,0)&&improveUi.simulator.slots[0].trash.every(card=>card.card.level<25)&&improveUi.simulator.resources.inventory.echoes.count===0&&window.bellibingResourceInventory.getState().echoes.count===3','finite failed attempts must really spend detached resources');
+  await read('Math.random=window.savedFiniteRandom;delete window.savedFiniteRandom');await click('#improve-setting-every');
+  for(const id of ['echoes','tuners','premium','advanced','medium','basic'])await enter(resource(id),'∞');
+  await check('window.bellibingResourceInventory.getState().echoes.kind==="UNLIMITED"&&window.bellibingResourceInventory.getState().tuners.kind==="UNLIMITED"','physical budget entry');await click('#improve-setting-every');await click('#simulatorReset');
+  const inventory=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','requirements run stop',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"&&improveUi.workspaceCandidate().level===25&&improveUi.simulator.slots[0].candidate.history.length===7&&state.characters.length===0','normal Augusta scenario success '+JSON.stringify(await read('({run:improveUi.simulator.run,attempts:improveUi.simulator.rolling.attempts,card:improveUi.workspaceCandidate(),error:improveUi.simulatorError})')));
+  await read('window.savedSimulatorRandom=Math.random;Math.random=()=>.99999');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.rolling.attempts>2&&improveUi.simulator.run.status==="RUNNING"','repeated failure run');
+  await click('#simulatorCancel');const cancelledAttempts=await read('improveUi.simulator.rolling.attempts');await sleep(150);
+  await check('improveUi.simulator.run.status==="CANCELLED"&&improveUi.simulator.rolling.attempts==='+cancelledAttempts,'physical cancel must stop batches');
+  await read('Math.random=window.savedSimulatorRandom;delete window.savedSimulatorRandom');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','success after cancel',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"','success after cancel');
+  await click('#improveCandidateEcho .simulator-roll-history summary');
+  for(const [width,height] of [[1440,900],[1920,1080],[2560,1440]]){
+    await setViewport(send,width,height);await sleep(250);await click('#improve-setting-gate');
+    for(const id of ['echoes','tuners','premium','advanced','medium','basic']){
+      await enter(resource(id),'37');
+      const bounds=await read(`(()=>{const r=document.querySelector(${JSON.stringify(resource(id))}).getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()`);
+      await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',buttons:1,clickCount:1,...bounds});
+      await sleep(100);for(const dx of [1.25,2.5,6.25,60]){await send('Input.dispatchMouseEvent',{type:'mouseMoved',button:'left',buttons:1,x:bounds.x+dx,y:bounds.y});await sleep(50)}
+      await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',buttons:0,clickCount:1,x:bounds.x+60,y:bounds.y});
+      await waitForUi(send,`window.bellibingResourceInventory.getState().${['echoes','tuners','shellCredits'].includes(id)?id:'tubes.'+id}.count===47`,'resource scrub serialized commit');
+      await check(`document.querySelector(${JSON.stringify(resource(id))}).value==='47'`,'real pointer scrub '+id+' '+width+' '+JSON.stringify(await read(`({value:document.querySelector(${JSON.stringify(resource(id))}).value,inventory:window.bellibingResourceInventory.getState()})`)));
+      await enter(resource(id),'∞');
+    }
+    await enter(resource('echoes'),'5');await click(resource('echoes'));await check('window.bellibingResourceInventory.getState().echoes.count===5','ordinary click mutation');
+    await key('ArrowDown');await waitForUi(send,'window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard durable commit');await check('window.bellibingResourceInventory.getState().echoes.count===4','scrubber keyboard');
+    await enter(resource('echoes'),'oops');await check('document.querySelector("[data-resource=echoes] input").getAttribute("aria-invalid")==="true"&&window.bellibingResourceInventory.getState().echoes.count===4','invalid-input recovery');
+    await enter(resource('echoes'),'∞');await click('#improve-setting-gate');await click('#simulatorReset');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','desktop success',60000);await check('improveUi.simulator.run.status==="SUCCESS"','desktop success');
+    await read('document.getElementById("improveCandidateEcho").scrollIntoView({block:"center",behavior:"instant"})');
+    await check('document.querySelectorAll(".improve-settings-heading button").length===0&&document.getElementById("simulatorControls").textContent.includes("Gold")&&!document.getElementById("simulatorControls").innerText.includes("Gross costs only")','compact surface');
+    await check('document.getElementById("improveShell").scrollLeft===0&&document.getElementById("improveCharacterArt").getBoundingClientRect().left>=document.getElementById("improveShell").getBoundingClientRect().left','Character art clipped by horizontal focus scroll '+width+' '+JSON.stringify(await read('({scroll:document.getElementById("improveShell").scrollLeft,scrollWidth:document.getElementById("improveShell").scrollWidth,width:document.getElementById("improveShell").clientWidth,art:document.getElementById("improveCharacterArt").getBoundingClientRect().toJSON(),shell:document.getElementById("improveShell").getBoundingClientRect().toJSON()})')));
+    await capture(send,'artifacts/ui-preview-playable-echo-'+width+'x'+height+'.png');
+  }
+  await check('JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory),'resources persistence altered by simulation');
+  await check('improveWorkspaceSlots("Augusta")[0]?.level===25&&improveUi.simulator.slots[0].accepted.length===1','requirement success automatically activated');
+  const activeStats=await read('JSON.stringify(projectImproveCurrentStats("Augusta"))'),rolled=await read('JSON.stringify(window.bellibingEchoSimulator.simulatorEquipmentSlots(improveUi.simulator)[0])');
+  for(let repeat=0;repeat<3;repeat++){
+    await click('[data-simulator-slot="1"] [data-activation="false"]');
+    await check('improveWorkspaceSlots("Augusta")[0]===null&&JSON.stringify(window.bellibingEchoSimulator.simulatorEquipmentSlots(improveUi.simulator)[0])==='+JSON.stringify(rolled)+'&&JSON.stringify(projectImproveCurrentStats("Augusta"))!=='+JSON.stringify(activeStats),'inactive equipment lost or contributes stats');
+    await click('[data-simulator-slot="1"] [data-activation="true"]');await check('JSON.stringify(projectImproveCurrentStats("Augusta"))==='+JSON.stringify(activeStats),'reactivation changed card/stats');
+  }
+  await click('#simulatorCurrent');await check('!improveUi.simulator&&state.characters.length===0&&Object.keys(state.drafts).length===0','scenario exit wrote account');
+  // Existing real equipment is preserved across five independent simulated slots.
+  await read(`addOwned('Augusta');echoCatalog.slice(0,5).forEach((item,index)=>commitEchoSlot('Augusta',index,makeEchoStatCard(item,item.sonataSetIds[0])));show('improve');improvePicker.select('Augusta')`);
+  const bytes=await read('JSON.stringify(state)'),storage=await read('localStorage.getItem(KEY)');await click('#simulatorEnter');
+  // Settings are real user-owned controls; configure an easy explicit ALL-hard scenario
+  // with physical keyboard movement, rather than a private evaluator fixture.
+  await click('#improve-setting-every');
+  await click('.improve-other-stats summary');
+  for(const name of ['CRIT Rate','CRIT DMG']){await click('[data-focus-key="handle:'+name+'"]');await send('Input.dispatchKeyEvent',{type:'keyDown',key:'ArrowLeft',code:'ArrowLeft',modifiers:1});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'ArrowLeft',code:'ArrowLeft',modifiers:1})}
+  await click('[data-focus-key="flex-count"]');await key('Home');await click('#improve-setting-every');
+  for(const slot of [5,2,4,1,3]){
+    await click('#improveEchoRow [data-echo-slot="'+(slot-1)+'"]');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','slot success',60000);await check('improveUi.simulator.run.status==="SUCCESS"&&improveWorkspaceSlots("Augusta")['+(slot-1)+']?.level===25','slot success '+slot);
+  }
+  await check('improveWorkspaceSlots("Augusta").every(card=>card.level===25)&&JSON.stringify(state)==='+JSON.stringify(bytes)+'&&localStorage.getItem(KEY)==='+JSON.stringify(storage),'five slots/real isolation');
+  await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','replacement success',60000);
+  await check('improveUi.simulator.slots[2].accepted.length===2','reroll preserves prior generated history');
+  await read("autosave('Augusta',{weaponId:'thunderflare-dominion'});improveUi.closeSimulation();improveUi.startSimulation()");
+  const weaponStats=await read('projectImproveCurrentStats("Augusta").atk');
+  await click('#simulatorWeaponActivation [data-activation="false"]');await check('projectImproveCurrentStats("Augusta").atk<'+weaponStats,'inactive Weapon contributes');
+  await click('#simulatorWeaponActivation [data-activation="true"]');await check('projectImproveCurrentStats("Augusta").atk==='+weaponStats,'Weapon reactivation');
+  await click('#simulatorFullSet');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','Full Set success',60000);
+  await check('improveUi.simulator.run.status==="SUCCESS"&&JSON.stringify(improveUi.simulator.run.completedSlots)==="[1,2,3,4,5]"&&improveWorkspaceSlots("Augusta").every(card=>card?.level===25)','Full Set did not attempt/activate all five');
+  await click('#improve-setting-gate');await enter(resource('echoes'),'2');await click('#improve-setting-gate');await click('#simulatorReset');await read('window.partialSetRandom=Math.random;Math.random=()=>.5');await click('#simulatorRoll');await waitForUi(send,'improveUi.simulator.run.status!=="RUNNING"','partial Full Set',60000);
+  await check('improveUi.simulator.run.status==="EXHAUSTED"&&JSON.stringify(improveUi.simulator.run.completedSlots)==="[1,2]"&&improveUi.simulator.rolling.attempts===2&&improveUi.simulator.rolling.tuners===100&&improveWorkspaceSlots("Augusta").filter(Boolean).length===2&&improveUi.simulator.slots[2].candidate===null','partial results/budget were lost or fictitious');
+  await read('Math.random=window.partialSetRandom;delete window.partialSetRandom');
+  await click('#improve-setting-gate');await enter(resource('echoes'),'∞');await click('#improve-setting-gate');
+  const finalStorage=await read('localStorage.getItem(KEY)');
+  await click('#simulatorRoll');await sleep(60);if(await read('improveUi.simulator.run.status==="RUNNING"')){await click('#simulatorCancel');await check('improveUi.simulator.run.status==="CANCELLED"','cancel')}
+  await click('#simulatorCurrent');await navigate(send);await waitForUi(send,'echoDataLoaded&&window.bellibingImproveSettings','reload');
+  await check('!improveUi.simulator&&JSON.stringify(window.bellibingResourceInventory.getState())==='+JSON.stringify(inventory)+'&&localStorage.getItem(KEY)==='+JSON.stringify(finalStorage),'reload isolation/persistence');
+  console.log('Playable Echo corrections: real pointer controls at 1440/1920/2560, preselected Augusta/no-build, repeated requirement success, zero/explicit unlimited resources, six scrubbers/keyboard/persistence/invalid recovery, canonical Sonata selection, inspectable success/activation, Full Set/partial exhaustion, Weapon toggles and five-slot real-build isolation passed.');
 }
 
 export async function verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep}) {
@@ -188,7 +310,7 @@ export async function verifyEchoSimulatorReview({send,evaluate,setViewport,waitF
     await sleep(350);
     const bounds=await read(inFrame?'(()=>{const iframe=document.getElementById("preview"),f=iframe.getBoundingClientRect(),r=iframe.contentDocument.querySelector('+JSON.stringify(selector)+').getBoundingClientRect();return {x:f.x+r.x+r.width/2,y:f.y+r.y+r.height/2}})()':'(()=>{const r=document.querySelector('+JSON.stringify(selector)+').getBoundingClientRect();return{x:r.x+r.width/2,y:r.y+r.height/2}})()');
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',...bounds});
-    await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...bounds});
+    await send('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',buttons:1,clickCount:1,...bounds});
     await send('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...bounds});await sleep(180);
   }
   await capture(send,'artifacts/ui-preview-echo-simulator-review-1440x900.png');

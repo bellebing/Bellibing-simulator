@@ -49,6 +49,8 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.equal(await page.locator('.result-row.is-affected').getAttribute('data-result-id'),'TOTAL_CRIT_RATE');
   assert.equal(await page.locator('.workshop .is-affected,.echo-card.is-affected').count(),0);
   assert.equal(await page.locator('.workshop').evaluate(n=>getComputedStyle(n).opacity),'1');
+  await page.waitForTimeout(1100);
+  assert.equal(await page.locator('.result-row.is-affected').count(),1,'Focus must remain while a paused slider gesture is still active');
   await page.mouse.up();
   assert.equal(await slider.evaluate(node=>node.closest('[data-minimum]').draggable),true,'Row dragging must be restored after the slider gesture');
   await page.waitForTimeout(animated ? 260 : 20);

@@ -290,7 +290,7 @@ window.addEventListener('pointerup', finishSlider);
 window.addEventListener('pointercancel', finishSlider);
 $('#settings').addEventListener('change', () => characterCard.settle());
 $('#settings').addEventListener('pointerup', () => characterCard.settle());
-$('#settings').addEventListener('focusout', () => characterCard.settle());
+$('#settings').addEventListener('focusout', () => { if (!sliderRow) characterCard.settle(); });
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {

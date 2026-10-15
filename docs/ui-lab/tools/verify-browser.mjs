@@ -20,13 +20,22 @@ const result = {
   workingTreeDirty: !!execFileSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd: root, encoding: 'utf8' }).trim(),
   chromium: null, checks, errors,
 };
+const approvedRevision = '46691a0c04380c10d2108964f7bae3141d8700ea';
+const approvedFiles = new Map();
 const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
   try {
-    const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    const before = pathname.startsWith('/__approved__/');
+    if (before) pathname = pathname.slice('/__approved__'.length);
     const path = resolve(root, '.' + pathname + (pathname.endsWith('/') ? 'index.html' : ''));
     if (!path.startsWith(root + '/')) { response.writeHead(403).end(); return; }
-    const body = readFileSync(path);
+    let body;
+    if (before && /\.(html|css|js)$/.test(path)) {
+      const file = path.slice(root.length + 1);
+      if (!approvedFiles.has(file)) approvedFiles.set(file, execFileSync('git', ['show', `${approvedRevision}:${file}`], { cwd: root, maxBuffer: 8 * 1024 * 1024 }));
+      body = approvedFiles.get(file);
+    } else body = readFileSync(path);
     response.writeHead(200, { 'Content-Type': contentTypes[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
     response.end(body);
   } catch { response.writeHead(404).end(); }
@@ -40,7 +49,7 @@ const wait = page => page.waitForFunction(() => document.documentElement.dataset
 const selectedName = page => page.locator('.hero-copy h2').innerText();
 const geometry = page => page.evaluate(() => Object.fromEntries(['.workshop', '.working-area', '.slots', '.trash-panel'].map(selector => {
   const { x, y, width, height } = document.querySelector(selector).getBoundingClientRect();
-  return [selector, { x, y, width, height }];
+  return [selector, { x: x + scrollX, y: y + scrollY, width, height }];
 })));
 const settle = page => page.waitForTimeout(520);
 
@@ -56,11 +65,53 @@ async function checkLayout(page, width, label) {
   assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
-  checks.push({ label, width, ...data });
+  // Verify labels against their sibling values, not just page overflow.
+  const collisions = await page.evaluate(() => {
+    const problems = [];
+    for (const row of document.querySelectorAll('.main-stat,.secondary-stat,.substat')) {
+      const label = row.firstElementChild.getBoundingClientRect();
+      const value = row.lastElementChild.getBoundingClientRect();
+      if (label.right > value.left + .5) problems.push(row.textContent);
+    }
+    for (const row of document.querySelectorAll('.character td:first-child')) {
+      if (!row.getBoundingClientRect().height) continue;
+      const range = document.createRange(); range.selectNodeContents(row);
+      if (range.getClientRects().length !== 1 || row.scrollWidth > row.clientWidth) problems.push(row.textContent);
+    }
+    const title = document.querySelector('h1').getBoundingClientRect();
+    const name = document.querySelector('.current-name').getBoundingClientRect();
+    const filterEnd = document.querySelector('.expand-gallery').getBoundingClientRect();
+    const notice = document.querySelector('.demo-note').getBoundingClientRect();
+    if (title.right > name.left) problems.push('Page title / current Character');
+    if (filterEnd.right > notice.left) problems.push('Character controls / demonstration disclosure');
+    return problems;
+  });
+  assert.deepEqual(collisions, [], `${label}: stat label/value overlap or wrapped Character label`);
+  checks.push({ label, width, ...data, collisions });
 }
 
 async function exercise(page, width, prefix) {
+  await page.evaluate(() => scrollTo(0, 0));
   const originalGeometry = await geometry(page);
+  const candidate = await page.locator('#newCard').innerHTML();
+  await page.locator('#fullSet').focus();
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('#fullSet').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'false');
+  assert.equal(await page.locator('#newCard').innerHTML(), candidate, 'Scope must not fabricate results');
+  const focusStyle = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).outlineStyle);
+  assert.equal(focusStyle, 'solid', 'Scope needs visible keyboard focus');
+  const activeFill = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).backgroundColor);
+  await page.locator('[data-scope="slot"]').hover();
+  const hoverFill = await page.locator('[data-scope="slot"]').evaluate(node => getComputedStyle(node).backgroundColor);
+  assert.notEqual(activeFill, hoverFill, 'Active and hover scope states must differ');
+  await page.locator('[data-scope="slot"]').click();
+  assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('#consumption h3').innerText(), 'Materials Used');
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  assert.equal(await page.locator('.settings h3', { hasText: 'Resources' }).innerText(), 'Resources');
+  assert.equal(await page.locator('.selected-slot .slot-selection').innerText(), 'SELECTED');
+  assert.equal(await page.locator('.selected-slot .slot-state').innerText(), 'ACTIVE');
   const originalStats = await page.locator('#characterStats').innerText();
   await page.locator('[data-person="iuno"]').hover();
   await settle(page);
@@ -71,6 +122,7 @@ async function exercise(page, width, prefix) {
   await page.screenshot({ path: resolve(output, `${prefix}-gallery-${width}.png`) });
   await page.locator('[data-person="iuno"]').click();
   assert.equal(await selectedName(page), 'Iuno', 'Click must select the real Lab workspace');
+  assert.equal(await page.locator('#materialRows').innerText(), 'Not recorded');
   assert.equal(await page.locator('.slot .empty-echo').count(), 2);
   assert.match(await page.locator('#characterStats').innerText(), /1,940/);
   await page.locator('#settingsToggle').click();
@@ -158,7 +210,23 @@ try {
     }
     checks.push({ label: 'V1 composition parity', width, approved, current });
     await baseline.close();
+    if (width === 1920) {
+      const before = await context.newPage();
+      await before.goto(`${origin}/__approved__${selector}?settings=expanded`, { waitUntil: 'networkidle' });
+      await wait(before); await before.evaluate(() => document.fonts.ready);
+      const regions = { workshop: '.working-area', loadout: '.slots', settings: '#settings', character: '#character', trash: '.trash-panel' };
+      for (const [name, selector] of Object.entries(regions)) {
+        await before.locator(selector).screenshot({ path: resolve(output, `before-${name}-1920.png`) });
+        await page.locator(selector).screenshot({ path: resolve(output, `after-${name}-1920.png`) });
+      }
+      checks.push({ label: 'Before/after captures', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
+      await before.close();
+    }
     await exercise(page, width, 'source');
+    if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
+    await checkLayout(page, width, 'expanded Character Card');
+    await page.waitForTimeout(3700); // Let the tested boundary toast dismiss before the review capture.
+    await page.screenshot({ path: resolve(output, `source-character-${width}.png`), fullPage: true });
     await page.goto(`${origin}${selector}?compact=true`, { waitUntil: 'networkidle' });
     await wait(page);
     await checkLayout(page, width, 'compact panels');

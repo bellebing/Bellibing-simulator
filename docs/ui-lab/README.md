@@ -25,6 +25,7 @@ The existing project documents GitHack immutable source previews. Use only an ex
 - Switch **Account Characters / All Characters**. Membership is a six-Character illustrative account, not the user's game account or production storage. All Characters contains all 59 reviewed released identities. Arrow buttons page the visible nine; Left/Right, Home/End and Enter support keyboard browsing. Escape, clicking outside, or the close control collapses the gallery. Touch uses a first tap to preview and a second tap to select.
 - Switch to Iuno, select another Echo slot or Gate, switch to Augusta, then return. Each Character keeps its own in-memory demonstration choices. Hovering catalog entries never creates a build; catalog entries with no demo build have empty equipment/dashes, not fabricated stats.
 - Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Carousel opening and selection never resize or push the Workshop.
+- Select **1 Slot / Full Set** using the compact segmented control. This remembers a per-Character scope choice without running a simulation or changing any results.
 - Click any of the five Echo slots: the larger Current/New pair follows the selected slot.
 - Lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
 - Adjust minimum sliders or Gate; reorder Flex rows with drag or Alt+Up/Down. Choices are demonstration input only. Reset restores only the selected Character's demo fixture.
@@ -35,7 +36,7 @@ The gallery uses real approved Character artwork where available. Six catalog id
 
 The preserved Augusta composition and values come from approved V1. Other example account builds and previews are explicitly illustrative. Catalog identity/art comes from existing reviewed presentation manifests; no Character rules, quality score, bonus activation, damage calculation, roll algorithm or evaluator is added.
 
-**SIMULATE**, **Full Set**, **Current** and top navigation show an explicit not-connected/demo notice. They do not run simulations, change equipment, consume resources or navigate into production. Static Current/New figures are declared fixtures, not calculated deltas. Resources are displayed as fixture context; resource spending/editing is not implemented. There is no Activate/Deactivate or Sonata-bonus feature in this iteration.
+**SIMULATE**, **Current** and top navigation show an explicit not-connected/demo notice. They do not run simulations, change equipment, consume resources or navigate into production. **1 Slot / Full Set** only selects a demonstration scope. Materials Used displays the original recorded quantities; explicit zero-use rows are omitted and unavailable records remain unknown. Static Current/New figures are declared fixtures, not calculated deltas. Resources are displayed as fixture context; resource spending/editing is not implemented. There is no Activate/Deactivate or Sonata-bonus feature in this iteration.
 
 The module-local demo store is discarded on reload. There are no localStorage, IndexedDB, cookies, account APIs or production source-module imports. Selecting a catalog Character creates only an empty memory-only Lab state. `Account Characters` follows the production distinction between Add to Account and a draft, but it uses the Lab fixture list, never the real membership reader.
 
@@ -46,6 +47,7 @@ The module-local demo store is discarded on reload. There are no localStorage, I
 | `v1/` | Byte-identical approved V1 source/artwork, preserved in a separate initial commit. `baseline.json` pins hashes. |
 | `v1.1/index.html` | Actual standalone V1.1 page structure. |
 | `v1.1/lab.css` | Approved carousel/discard additions; the unchanged base composition uses `v1/style.css`. |
+| `v1.1/typography.css` | Lab-only shared type/card/control roles; hierarchy documented in `TYPOGRAPHY.md`. |
 | `v1.1/modules/catalog.js` | Generated released identity/art-only catalog; no live data fetch. |
 | `v1.1/modules/lab-state.js` | Explicit fixtures and isolated per-Character memory state. |
 | `v1.1/modules/echo-card.js` | Shared working/slot/discarded/inspection Echo-card renderer. |
@@ -68,6 +70,8 @@ UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.
 ```
 
 Output is under ignored `artifacts/ui-lab-review/`. An optional `--font /absolute/path/to/the-approved-review.woff2` lets packaging reuse an already fetched exact oracle; otherwise it fetches the documented approved URL into temporary storage. The portable classic-script bundle is generated from maintained ESM modules, so opening it requires neither a module server nor a build tool.
+
+Before/after screenshots are generated against the recoverable approved V1.1 revision `46691a0c04380c10d2108964f7bae3141d8700ea`. If your checkout is shallow, first run `git fetch --depth=1 origin 46691a0c04380c10d2108964f7bae3141d8700ea`; CI fetches it explicitly. The V1 files remain immutable.
 
 The browser review exercises source at 1440×900, 1920×1080 and 2560×1440, V1 composition geometry, hover versus selection, all 59 catalog entries, Account/All filtering, per-Character isolation, side panels, slot selection, discarded/older-card inspection, physical pointer input, ordinary/reduced motion and touch-pointer selection. The portable artifact is imported as an opaque-origin document with networking disabled at all three widths; it must produce zero HTTP requests and retain interactive Character/history behavior. This executor's browser file-URL policy can block direct `file://` navigation; opaque-origin/offline import tests the same embedded code/styles/art without a local server or file privileges. The test records its exact source revision and limitations, rather than claiming a hosted preview.
 

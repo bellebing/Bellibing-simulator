@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
-import { getDemoState, previewSnapshot, inspectDemoStore, resetDemoState } from '../v1.1/modules/lab-state.js';
+import { getDemoState, previewSnapshot, inspectDemoStore, resetDemoState, visibleMaterials } from '../v1.1/modules/lab-state.js';
 import { echoCard } from '../v1.1/modules/echo-card.js';
 
 test('approved V1 source and artwork remain byte-identical', () => {
@@ -25,15 +25,18 @@ test('Character settings/slots are isolated and resetting one retains the other'
   const iuno = getDemoState('iuno');
   augusta.gate = '+20';
   augusta.selectedSlot = 3;
+  augusta.scope = 'set';
   augusta.minima['CRIT Rate'] = 7;
   assert.equal(iuno.gate, '+5');
   assert.equal(iuno.selectedSlot, 0);
+  assert.equal(iuno.scope, 'slot');
   assert.equal(iuno.minima['CRIT Rate'], 0);
   assert.equal(getDemoState('augusta'), augusta);
   resetDemoState('iuno');
   assert.equal(getDemoState('augusta').gate, '+20');
   assert.equal(getDemoState('augusta').minima['CRIT Rate'], 7);
   assert.notEqual(augusta.echoes[0], iuno.echoes[0]);
+  assert.equal(getDemoState('augusta').scope, 'set');
   resetDemoState('augusta');
 });
 
@@ -51,4 +54,12 @@ test('discard presentation distinguishes observed stops, unknowns and unplaced c
   const unknown = echoCard({ ...echo, level: null });
   assert.match(unknown, /STOPPING LEVEL UNKNOWN/);
   assert.doesNotMatch(unknown, /Not rolled|\+null|\+undefined/);
+});
+
+
+test('materials distinguish recorded zero usage from unavailable quantities', () => {
+  const records = [{ name: 'Unused Tube', count: 0 }, { name: 'Unknown Tube', count: null }, { name: 'Tuners', count: 120 }];
+  assert.deepEqual(visibleMaterials(records), records.slice(1));
+  assert.equal(records.length, 3, 'Filtering must not mutate the record');
+  assert.equal(getDemoState('iuno').materials, null);
 });

@@ -18,7 +18,7 @@ if (args.includes('--require-clean') && dirty) throw new Error('Review packaging
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const mime = path => ({ '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml' })[extname(path)];
-const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1/style.css'];
+const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1.1/typography.css', 'docs/ui-lab/v1/style.css'];
 const assetPaths = [...new Set([
   ...readdirSync(resolve(root, 'docs/ui-lab/v1/assets')).map(name => `../v1/assets/${name}`),
   ...CHARACTER_CATALOG.flatMap(person => [person.face, person.art]),
@@ -78,7 +78,7 @@ html = html.replace(/<link rel="stylesheet" href="https:\/\/db\.onlinewebfonts\.
 html = html.replace(/<link rel="stylesheet" href="([^"\n]+)">/g, (_, path) => `<style>${readFileSync(resolve(entry, path), 'utf8')}</style>`);
 html = html.replace(/src="(\.\.\/v1\/assets\/[^"\n]+)"/g, (_, path) => `src="${assets[path]}"`);
 html = html.replace('<script type="module" src="modules/app.js"></script>', `<script>globalThis.BELLIBING_LAB_ASSETS=${JSON.stringify(assets)};globalThis.BELLIBING_LAB_REVIEW=${JSON.stringify({ revision, workingTreeDirty: dirty })};\n${script.replaceAll('</script', '<\\/script')}</script>`);
-html = html.replace('<body>', `<body><!-- Review source: ${revision}; dirty=${dirty}. Approved temporary ETNA source: ${fontUrl}. Font credit: https://www.onlinewebfonts.com/fonts . Review artifact does not establish production font licensing. -->`);
+html = html.replace('<body class="ui-lab">', `<body class="ui-lab"><!-- Review source: ${revision}; dirty=${dirty}. Approved temporary ETNA source: ${fontUrl}. Font credit: https://www.onlinewebfonts.com/fonts . Review artifact does not establish production font licensing. -->`);
 if (/<script[^>]+src=|<link[^>]+rel="stylesheet"|\bfetch\s*\(/.test(html)) throw new Error('Portable preview still depends on external code/styles or fetch');
 const filename = 'Bellibing-UI-Lab-V1.1.html';
 writeFileSync(resolve(output, filename), html);

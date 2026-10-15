@@ -1,5 +1,5 @@
 import { CHARACTER_CATALOG } from './catalog.js';
-import { getDemoState, resetDemoState, MINIMUM_TIERS, STAT_LABELS } from './lab-state.js';
+import { getDemoState, resetDemoState, MINIMUM_TIERS, STAT_LABELS, visibleMaterials } from './lab-state.js';
 import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, baseAsset, escapeHtml, notify } from './util.js';
@@ -18,11 +18,11 @@ function renderWorking() {
   $('#currentCard').innerHTML = echoCard(state.echoes[slot], { footer: 'ACTIVE' });
   $('#newCard').innerHTML = echoCard(state.candidates[slot], { candidate: true, footer: 'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
-  $('#feedbackText').textContent = state.candidates[slot] ? 'Demonstration candidate · evaluation Pending' : 'No candidate · simulation is not connected';
+  $('#feedbackText').textContent = state.candidates[slot] ? 'Candidate ready' : 'No candidate';
 }
 
 function renderSlots() {
-  $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number"><span>0${index + 1}</span><span>${index === state.selectedSlot ? 'SELECTED' : echo ? 'ACTIVE' : 'EMPTY'}</span></span>${echoCard(echo)}</button>`).join('');
+  $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number"><span>0${index + 1}</span><span class="slot-selection">${index === state.selectedSlot ? 'SELECTED' : ''}</span><span class="slot-state">${echo ? 'ACTIVE' : 'EMPTY'}</span></span>${echoCard(echo)}</button>`).join('');
   const occupied = state.echoes.filter(Boolean);
   $('.loadout-heading .small-muted').innerHTML = `${occupied.length} Echoes <span class="gold">·</span> ${occupied.reduce((sum, echo) => sum + echo.cost, 0)} / 12 Cost`;
 }
@@ -56,8 +56,9 @@ function renderCharacter() {
     return `<tr><td>${displayLabel}</td><td>${state.stats[index][0]}</td><td>${state.stats[index][1]}</td></tr>`;
   }).join('');
   // Consumption is an explicit V1 demonstration record, never recomputed from a build.
-  const consumption = selectedId === 'augusta' ? ['12', '120', '24'] : ['—', '—', '—'];
-  $('#consumption').querySelectorAll('strong').forEach((node, index) => { node.textContent = consumption[index]; });
+  $('#materialRows').innerHTML = state.materials === null
+    ? '<p class="materials-unavailable">Not recorded</p>'
+    : visibleMaterials(state.materials).map(material => `<div class="material-row"><span>${material.icon ? `<img src="${baseAsset(material.icon)}" alt="">` : '<span class="material-symbol" aria-hidden="true">◇</span>'}${escapeHtml(material.name)}</span><strong>${material.count === null ? '—' : material.count}</strong></div>`).join('') || '<p class="materials-unavailable">None used</p>';
 }
 
 function rowMarkup(name) {
@@ -67,14 +68,19 @@ function rowMarkup(name) {
 
 function renderSettings() {
   $('#gateLabel').value = state.gate;
+  document.querySelectorAll('[data-scope]').forEach(button => {
+    const selected = button.dataset.scope === state.scope;
+    button.classList.toggle('selected', selected);
+    button.setAttribute('aria-pressed', selected);
+  });
   $('.compact-gate').textContent = state.gate;
-  document.querySelectorAll('.gate-options button').forEach(button => button.classList.toggle('selected', button.textContent === state.gate));
+  document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   const hard = [...document.querySelectorAll('.settings section')].find(section => section.querySelector('h3')?.textContent === 'Hard Requirements');
   hard.querySelectorAll('.setting-row').forEach(row => row.remove());
   hard.insertAdjacentHTML('beforeend', rowMarkup('CRIT Rate') + rowMarkup('CRIT DMG'));
   $('#flexRows').innerHTML = state.flexOrder.map(rowMarkup).join('');
   const buttons = [...document.querySelectorAll('.setting-mode button')];
-  buttons.forEach(button => button.classList.toggle('selected', button.textContent === state.settingsMode));
+  buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = selectedId !== 'augusta';
   buttons[0].title = selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
   const target = $('.target');
@@ -126,7 +132,7 @@ function renderInspection() {
   $('#historyPosition').textContent = `${inspection.index + 1} / ${history.length}`;
   $('#previousCard').disabled = inspection.index === 0;
   $('#nextCard').disabled = inspection.index === history.length - 1;
-  $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · illustrative history · no rejection reason supplied`;
+  $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · rejection reason unavailable`;
 }
 
 function inspectPile(slot) {
@@ -236,11 +242,16 @@ $('.setting-mode').addEventListener('click', event => {
 });
 $('#simulate').onclick = () => {
   notify('Visual UI Lab · live simulation is not connected');
-  $('#feedbackText').textContent = 'Demonstration candidate · evaluation Pending';
+  $('#feedbackText').textContent = 'Candidate ready';
   $('#newCard .echo-card').classList.remove('lift-in');
   requestAnimationFrame(() => $('#newCard .echo-card').classList.add('lift-in'));
 };
-$('#fullSet').onclick = () => notify('Full Set presentation · simulator is not connected');
+$('.interaction-options').addEventListener('click', event => {
+  const button = event.target.closest('[data-scope]');
+  if (!button) return;
+  state.scope = button.dataset.scope;
+  renderSettings();
+});
 $('.mode-switch').addEventListener('click', event => { if (event.target.tagName === 'BUTTON') notify('UI Lab uses isolated Simulate fixtures · no real account is connected'); });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 $('#reset').onclick = () => { state = resetDemoState(selectedId); renderWorkspace(); notify('This Character’s demonstration state restored'); };

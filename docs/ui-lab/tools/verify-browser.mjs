@@ -479,6 +479,15 @@ try {
   }
   assert.deepEqual(errors, []);
   console.log(`UI Lab Chromium review passed: ${checks.length} checks; source ${result.revision}; dirty=${result.workingTreeDirty}`);
+} catch (error) {
+  result.failure = error.stack ?? String(error);
+  // Keep the actual assertion/encoder error accessible through GitHub's check
+  // API even when this executor cannot follow redirected Actions log downloads.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const diagnostic = result.failure.slice(0, 12000).replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.error(`::error title=UI Lab Chromium review::${diagnostic}`);
+  }
+  throw error;
 } finally {
   writeFileSync(resolve(output, 'verification.json'), JSON.stringify(result, null, 2) + '\n');
   await browser.close();

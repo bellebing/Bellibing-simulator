@@ -1,0 +1,21 @@
+{
+  "version": "Approved Visual Concept V1",
+  "description": "Exact approved standalone implementation and artwork, preserved before V1.1. No live simulator or production persistence.",
+  "sha256": {
+    "app.js": "c0c260b9553225d5e2f859e09ab95a079dadf6cbce49ba982168d024ab9dce69",
+    "assets/augusta-face.png": "b2825b9275a6435c718d380bcc739932d1f451b1d874a4957ffa312f5922f4fd",
+    "assets/augusta.webp": "6d62674a8a960f37586fdf6b5f038148d170ce6757c0e0603d258d1ce886f8b5",
+    "assets/crown.webp": "f0d90197daf5979771ffe8a0c52ad81850db70f04ffcc355c7bac99ac39d30c0",
+    "assets/heron.png": "7e8809564fb912ccf9c984b25801aeb25315b3b1c7469c265b2aac2a7debaa2a",
+    "assets/hurriclaw.png": "f49fc211a9c40a2d6532ac9d1b52b2f34fac66f817c47b11d59be52128686296",
+    "assets/predator.png": "2da864ae86a6ec88370f577256b6684f01689cfb9a4b120e49991f8fd51ad699",
+    "assets/saurian.png": "76dbba07783812dbdfba061c3c5912d458b8c7f150c4424bf869c34a49f27cc6",
+    "assets/sovereign.png": "8b46e660d89bcc80f4d8012a3e4adb332aaef4bad9178f99ddeeb7422bc65b17",
+    "assets/thunder.webp": "d929a63ffd9bbe8adaa32f5c864347939822695e943bb7f8cc1ee704f2efd0a0",
+    "assets/tube.png": "9b33308611795115b1389dacffba8700fc162a498a1ba93e5ff24df8cc8d2a40",
+    "assets/tuner.png": "c318f2e90924c73f6927e0495fb5fe30c92ec000051787b994a26cbc09b89f69",
+    "assets/weapon.png": "ffdfcbcd0178d22b74a31fbef32d2dc8ca453cb69f67b4fea25475aa4ba2cd99",
+    "index.html": "e79c4d3b24e9eed2d7b58138af87fba7c7484d913e6577afd0dcf3ca83537d0a",
+    "style.css": "be86bbc81dffeb22aaa1efb2a1e83edf3adb8f150c269a862a37c74bec176432"
+  }
+}

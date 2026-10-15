@@ -20,7 +20,7 @@ const result = {
   workingTreeDirty: !!execFileSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd: root, encoding: 'utf8' }).trim(),
   chromium: null, checks, errors,
 };
-const approvedRevision = '46691a0c04380c10d2108964f7bae3141d8700ea';
+const approvedRevision = '00c8532eaa88fd70ee5ed94b43ec582122a97807';
 const approvedFiles = new Map();
 const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
@@ -64,6 +64,7 @@ async function checkLayout(page, width, label) {
   assert.equal(data.pageWidth, width, `${label}: horizontal overflow`);
   assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
+  assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
   // Verify labels against their sibling values, not just page overflow.
   const collisions = await page.evaluate(() => {
@@ -101,14 +102,14 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('#newCard').innerHTML(), candidate, 'Scope must not fabricate results');
   const focusStyle = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).outlineStyle);
   assert.equal(focusStyle, 'solid', 'Scope needs visible keyboard focus');
-  const activeFill = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).backgroundColor);
+  const activeFill = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).backgroundImage);
   await page.locator('[data-scope="slot"]').hover();
-  const hoverFill = await page.locator('[data-scope="slot"]').evaluate(node => getComputedStyle(node).backgroundColor);
+  const hoverFill = await page.locator('[data-scope="slot"]').evaluate(node => getComputedStyle(node).backgroundImage);
   assert.notEqual(activeFill, hoverFill, 'Active and hover scope states must differ');
   await page.locator('[data-scope="slot"]').click();
   assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'true');
-  assert.equal(await page.locator('#consumption h3').innerText(), 'Materials Used');
-  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  assert.equal(await page.locator('#consumption').isVisible(), false, 'Ready must omit unused materials');
+  assert.equal(await page.locator('#materialRows .material-row').count(), 0);
   assert.equal(await page.locator('.settings h3', { hasText: 'Resources' }).innerText(), 'Resources');
   assert.equal(await page.locator('.selected-slot .slot-selection').innerText(), 'SELECTED');
   assert.equal(await page.locator('.selected-slot .slot-state').innerText(), 'ACTIVE');
@@ -122,7 +123,7 @@ async function exercise(page, width, prefix) {
   await page.screenshot({ path: resolve(output, `${prefix}-gallery-${width}.png`) });
   await page.locator('[data-person="iuno"]').click();
   assert.equal(await selectedName(page), 'Iuno', 'Click must select the real Lab workspace');
-  assert.equal(await page.locator('#materialRows').innerText(), 'Not recorded');
+  assert.equal(await page.locator('#consumption').isVisible(), false);
   assert.equal(await page.locator('.slot .empty-echo').count(), 2);
   assert.match(await page.locator('#characterStats').innerText(), /1,940/);
   await page.locator('#settingsToggle').click();
@@ -165,9 +166,11 @@ async function exercise(page, width, prefix) {
   await settle(page);
   assert.equal(await page.locator('#inspection').isVisible(), true);
   assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
-  assert.match(await page.locator('#inspectedCard').innerText(), /STOPPED AT \+15/);
+  assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED AT \+15/);
   assert.equal(await page.locator('#inspectedCard .substat.empty').count(), 2);
   assert.equal(await page.locator('#checkpoints .checkpoint').count(), 3);
+  const inspectionSizes = await page.locator('#inspectedCard').evaluate(node => ['.main-stat strong', '.secondary-stat', '.substat'].map(selector => parseFloat(getComputedStyle(node.querySelector(selector)).fontSize)));
+  assert.ok(inspectionSizes[0] > inspectionSizes[1] && inspectionSizes[1] > inspectionSizes[2]);
   await page.screenshot({ path: resolve(output, `${prefix}-history-${width}.png`) });
   await page.locator('#previousCard').click();
   assert.equal(await page.locator('#historyPosition').innerText(), '4 / 5');
@@ -183,10 +186,125 @@ async function exercise(page, width, prefix) {
   if (await page.locator('#settingsToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#settingsToggle').click();
   assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'), 'true');
   await page.locator('[data-slot="0"]').click();
+  const workingCard = await page.locator('#currentCard').innerHTML();
+  const candidateCard = await page.locator('#newCard').innerHTML();
+  const comparison = await page.locator('#characterStats').innerText();
   await page.locator('#simulate').click();
+  assert.equal(await page.locator('#currentCard').innerHTML(), workingCard);
+  assert.equal(await page.locator('#newCard').innerHTML(), candidateCard);
+  assert.equal(await page.locator('#characterStats').innerText(), comparison);
+  assert.equal(await page.locator('#consumption h3').innerText(), 'Materials Used');
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
   assert.match(await page.locator('#toast').innerText(), /not connected/);
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), [], 'Lab wrote persistent data');
   await checkLayout(page, width, `${prefix}: interactions complete`);
+}
+
+async function chooseScenario(page, value) {
+  if (!await page.locator('.demo-note').evaluate(node => node.open)) await page.locator('.demo-note summary').click();
+  await page.locator('#reviewScenario').selectOption(value);
+  await page.locator('.demo-note summary').click();
+}
+
+async function exerciseFeedback(page, width, prefix, capture = true) {
+  await page.locator('#reset').click();
+  if (capture) await page.waitForTimeout(3700);
+  await page.evaluate(() => scrollTo(0, 0));
+  const stable = await geometry(page);
+  const buttonBounds = () => page.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return { x: r.x + scrollX, y: r.y + scrollY, width: r.width, height: r.height }; });
+  const actionPosition = await buttonBounds();
+  async function captureState(name) {
+    assert.deepEqual(await buttonBounds(), actionPosition, `${name}: primary action moved`);
+    assert.deepEqual(await geometry(page), stable, `${name}: Workshop/slots resized`);
+    await checkLayout(page, width, `${prefix}: ${name}`);
+    if (capture) await page.locator('.workshop').screenshot({ path: resolve(output, `${prefix}-feedback-${name}-${width}.png`) });
+  }
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Ready to Simulate');
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  assert.equal(await page.locator('.sonata-count').count(), 2);
+  assert.deepEqual(await page.locator('.sonata-count').allInnerTexts(), ['×3', '×2']);
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  await captureState('ready');
+  for (const group of ['.mode-switch', '.setting-mode', '.interaction-options']) {
+    const selected = page.locator(`${group} button.selected`);
+    assert.equal(await selected.getAttribute('aria-pressed'), 'true');
+    assert.match(await selected.evaluate(node => getComputedStyle(node).backgroundImage), /linear-gradient/);
+  }
+  await page.locator('.mode-switch button', { hasText: 'Current' }).click();
+  assert.match(await page.locator('#toast').innerText(), /isolated Simulate fixtures/);
+  assert.equal(await page.locator('.mode-switch .selected').innerText(), 'Simulate');
+  const settingsWasExpanded = await page.locator('#settingsToggle').getAttribute('aria-expanded') === 'true';
+  const characterWasExpanded = await page.locator('#characterToggle').getAttribute('aria-expanded') === 'true';
+  if (!settingsWasExpanded) await page.locator('#settingsToggle').click();
+  await page.locator('.setting-mode button', { hasText: 'Customize' }).click();
+  assert.equal(await page.locator('.setting-mode .selected').innerText(), 'Customize');
+  await page.locator('.setting-mode button', { hasText: 'Recommended' }).click();
+  if (!settingsWasExpanded) await page.locator('#settingsToggle').click();
+  if (characterWasExpanded && await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
+  await chooseScenario(page, 'warning');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Sonata Target Not Met');
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  assert.deepEqual(await page.locator('.sonata-count').allInnerTexts(), ['×2', '×2']);
+  if (capture) await page.waitForTimeout(3700);
+  await captureState('warning');
+  await page.locator('#howToFix').focus(); await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#workshopExplanation').isVisible(), true);
+  assert.equal(await page.locator('.feedback-affected').count(), 3);
+  assert.equal(await page.locator('#closeExplanation').evaluate(node => node === document.activeElement), true);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#workshopExplanation').matches(':popover-open'));
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  assert.equal(await page.locator('#howToFix').evaluate(node => node === document.activeElement), true);
+  const warningEquipment = await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML));
+  const comparison = await page.locator('#characterStats').innerText();
+  await page.locator('#simulate').click();
+  assert.deepEqual(await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML)), warningEquipment, 'Run record must not auto-fix warning');
+  assert.equal(await page.locator('#characterStats').innerText(), comparison);
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  const recorded = await page.locator('#materialRows').innerHTML();
+  await chooseScenario(page, 'error');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Cost Limit Exceeded');
+  assert.equal(await page.locator('#simulate').isDisabled(), true);
+  assert.equal(await page.locator('#materialRows').innerHTML(), recorded, 'Blocker erased recorded spending');
+  if (capture) await page.waitForTimeout(3700);
+  await captureState('error');
+  await page.locator('#howToFix').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 1);
+  assert.equal(await page.locator('[data-slot="4"]').getAttribute('data-feedback-severity'), 'error');
+  assert.match(await page.locator('#explanationFacts').innerText(), /15/);
+  assert.match(await page.locator('#explanationFacts').innerText(), /12/);
+  const noMotion = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (noMotion) assert.equal(await page.locator('.feedback-affected .echo-card').evaluate(node => getComputedStyle(node).animationName), 'none');
+  await settle(page);
+  if (capture) await page.locator('.workshop').screenshot({ path: resolve(output, `${prefix}-feedback-how-to-fix-${width}.png`) });
+  await page.locator('#closeExplanation').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  await page.locator('#howToFix').click();
+  await page.locator('[data-slot="1"]').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0, 'Outside/slot selection must clear highlights');
+  assert.equal(await page.locator('#workshopExplanation').isVisible(), false);
+  await page.locator('[data-slot="0"]').click();
+  await chooseScenario(page, 'result');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Run Record');
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  await captureState('result');
+  await chooseScenario(page, 'combination');
+  assert.match(await page.locator('#feedbackTitle').innerText(), /Pending/);
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  await page.locator('#howToFix').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  await page.keyboard.press('Escape');
+  await page.locator('#reset').click();
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  // Shared anatomy: primary value > secondary label/value > ordinary substats.
+  const hierarchy = await page.evaluate(() => [...document.querySelectorAll('.echo-card')].map(card => {
+    const size = selector => parseFloat(getComputedStyle(card.querySelector(selector)).fontSize);
+    return { main: size('.main-stat strong'), secondary: size('.secondary-stat'), substat: size('.substat') };
+  }));
+  hierarchy.forEach(level => assert.ok(level.main > level.secondary && level.secondary > level.substat));
+  checks.push({ label: `${prefix}: contextual feedback, highlighting, permission and recorded-consumption boundaries`, width, reducedMotion: noMotion, hierarchy });
 }
 
 try {
@@ -214,6 +332,9 @@ try {
       const before = await context.newPage();
       await before.goto(`${origin}/__approved__${selector}?settings=expanded`, { waitUntil: 'networkidle' });
       await wait(before); await before.evaluate(() => document.fonts.ready);
+      const primaryPosition = target => target.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
+      const beforeAction = await primaryPosition(before), currentAction = await primaryPosition(page);
+      beforeAction.forEach((value, index) => assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action geometry changed'));
       const regions = { workshop: '.working-area', loadout: '.slots', settings: '#settings', character: '#character', trash: '.trash-panel' };
       for (const [name, selector] of Object.entries(regions)) {
         await before.locator(selector).screenshot({ path: resolve(output, `before-${name}-1920.png`) });
@@ -222,6 +343,7 @@ try {
       checks.push({ label: 'Before/after captures', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
+    await exerciseFeedback(page, width, 'source');
     await exercise(page, width, 'source');
     if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
     await checkLayout(page, width, 'expanded Character Card');
@@ -231,7 +353,16 @@ try {
     await wait(page);
     await checkLayout(page, width, 'compact panels');
     await page.screenshot({ path: resolve(output, `source-compact-${width}.png`), fullPage: true });
+    await exerciseFeedback(page, width, 'compact', false);
     if (width === 1920) {
+      const queryPage = await context.newPage();
+      await queryPage.goto(`${origin}${selector}?feedback=error&recorded=true&compact=true`, { waitUntil: 'networkidle' });
+      await wait(queryPage);
+      assert.equal(await queryPage.locator('#simulate').isDisabled(), true);
+      assert.equal(await queryPage.locator('#materialRows .material-row').count(), 3);
+      assert.match(await queryPage.locator('.loadout-heading .small-muted').innerText(), /15 \/ 12 Cost/);
+      checks.push({ label: 'Review query parameters: blocked fixture plus preserved spending', width });
+      await queryPage.close();
       await page.locator('[data-person="augusta"]').focus();
       await page.keyboard.press('End');
       assert.equal(await selectedName(page), 'Augusta');
@@ -258,6 +389,7 @@ try {
   const motionPage = await animated.newPage();
   await motionPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' });
   await wait(motionPage);
+  await exerciseFeedback(motionPage, 1920, 'animated');
   await exercise(motionPage, 1920, 'animated');
   await animated.close();
 
@@ -286,8 +418,11 @@ try {
     await wait(page);
     await page.evaluate(() => document.fonts.ready);
     await checkLayout(page, width, 'portable HTML with networking disabled');
+    await exerciseFeedback(page, width, 'portable', false);
     await page.locator('[data-person="iuno"]').click();
     assert.equal(await selectedName(page), 'Iuno');
+    await page.locator('#simulate').click();
+    assert.equal(await page.locator('#materialRows').innerText(), 'Consumption not recorded');
     await page.locator('[data-person="augusta"]').click();
     await page.locator('[data-pile="0"]').click();
     assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);

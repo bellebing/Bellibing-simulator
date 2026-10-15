@@ -22,7 +22,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - name: Fetch the approved V1.1 comparison revision
-        run: git fetch --depth=1 origin 46691a0c04380c10d2108964f7bae3141d8700ea
+        run: git fetch --depth=1 origin 00c8532eaa88fd70ee5ed94b43ec582122a97807
       - uses: actions/setup-node@v4
         with:
           node-version: 22

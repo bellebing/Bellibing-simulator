@@ -6,7 +6,6 @@ export function echoCard(echo, { candidate = false, footer = 'SIMULATED' } = {})
   const knownLevel = Number.isInteger(echo.level) && echo.level >= 0 && echo.level <= 25 && echo.level % 5 === 0;
   const name = escapeHtml(echo.name).replace(/^Nightmare: /, '<span class="nightmare-prefix">Nightmare:</span><br>');
   return `<article class="echo-card ${candidate ? 'candidate' : ''} ${discarded ? 'discarded' : ''}" aria-label="${escapeHtml(echo.name)}, ${knownLevel ? `level ${echo.level}` : 'level unknown'}${discarded ? ', discarded' : ''}">
-    ${discarded ? '<div class="discard-stamp">DISCARDED</div>' : ''}
     <div class="echo-topline"><span class="cost">COST <strong>${echo.cost}</strong></span><span class="level">${knownLevel ? `+${echo.level}` : '—'}</span></div>
     <div class="echo-art"><img src="${baseAsset(echo.art)}" alt="${escapeHtml(echo.name)}"></div>
     <div class="echo-identity"><img src="${baseAsset(`${echo.set}.webp`)}" alt="${echo.set === 'crown' ? 'Crown of Valor' : 'Void Thunder'}"><div class="echo-name">${name}<small>${echo.set === 'crown' ? 'CROWN OF VALOR' : 'VOID THUNDER'}</small></div></div>
@@ -18,7 +17,7 @@ export function echoCard(echo, { candidate = false, footer = 'SIMULATED' } = {})
       const notRolled = !stat && discarded && knownLevel && checkpoint > echo.level;
       return `<div class="substat ${stat && ['CRIT Rate', 'CRIT DMG'].includes(stat[0]) ? 'relevant' : ''} ${stat ? '' : 'empty'}"><span>${stat ? escapeHtml(stat[0]) : notRolled ? `+${checkpoint}` : '— — —'}</span><strong>${stat ? escapeHtml(stat[1]) : notRolled ? 'Not rolled' : '—'}</strong></div>`;
     }).join('')}</div></div>
-    <div class="card-bottom"><span class="stars">✦✦✦✦✦</span><span>${discarded ? knownLevel ? `STOPPED AT +${echo.level}` : 'STOPPING LEVEL UNKNOWN' : escapeHtml(footer)}</span></div>
+    <div class="card-bottom"><span class="stars">✦✦✦✦✦</span><span>${discarded ? knownLevel ? `DISCARDED AT +${echo.level}` : 'DISCARDED · CHECKPOINT UNKNOWN' : escapeHtml(footer)}</span></div>
   </article>`;
 }
 

@@ -52,8 +52,8 @@ function makeState(id) {
   const stats = id === 'augusta' ? structuredClone(AUGUSTA_STATS) : STAT_LABELS.map(() => ['—', '—']);
   if (PREVIEW_FIXTURES[id]) [1, 4, 5].forEach((row, index) => { stats[row] = [PREVIEW_FIXTURES[id][index], PREVIEW_FIXTURES[id][index]]; });
   return {
-    id, onAccount, selectedSlot: 0, scope: 'slot', echoes,
-    materials: id === 'augusta' ? [{ name: 'Echoes', icon: null, count: 12 }, { name: 'Tuners', icon: 'tuner.png', count: 120 }, { name: 'Premium Tubes', icon: 'tube.png', count: 24 }] : null,
+    id, onAccount, selectedSlot: 0, scope: 'slot', echoes, scenarioEchoes: structuredClone(echoes), feedbackScenario: 'ready', hasRecordedRun: false,
+    materials: [],
     candidates: echoes.map(candidateFixture),
     histories: echoes.map((echo, slot) => echo ? Array.from({ length: [5, 3, 4, 2, 4][slot] }, (_, index) => historyFixture(echo, index)) : []),
     stats, weapon: id === 'augusta' ? 'Thunderflare Dominion' : onAccount ? 'Weapon equipped · demo' : 'Not configured',

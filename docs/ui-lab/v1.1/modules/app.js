@@ -1,8 +1,11 @@
 import { CHARACTER_CATALOG } from './catalog.js';
-import { getDemoState, resetDemoState, MINIMUM_TIERS, STAT_LABELS, visibleMaterials } from './lab-state.js';
+import { getDemoState, resetDemoState, MINIMUM_TIERS, STAT_LABELS } from './lab-state.js';
+import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
+import { mountWorkshopFeedback } from './workshop-feedback.js';
+import { sonataSummary } from './sonata-summary.js';
 import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
-import { $, assetURL, baseAsset, escapeHtml, notify } from './util.js';
+import { $, assetURL, escapeHtml, notify } from './util.js';
 
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
@@ -12,19 +15,40 @@ let inspection = null;
 let inspectorSource = null;
 let closingInspection = false;
 let draggedRow = null;
+const query = new URLSearchParams(location.search);
+const feedback = mountWorkshopFeedback({
+  highlightSlots: (slots, severity) => slots.forEach(index => {
+    const slot = $(`[data-slot="${index}"]`);
+    if (slot) { slot.classList.add('feedback-affected'); slot.dataset.feedbackSeverity = severity; }
+  }),
+  clearHighlights: () => document.querySelectorAll('.feedback-affected').forEach(slot => {
+    slot.classList.remove('feedback-affected'); delete slot.dataset.feedbackSeverity;
+  }),
+});
+applyFeedbackScenario(state, query.get('feedback'));
+if (query.get('recorded') === 'true') {
+  const scenario = state.feedbackScenario;
+  applyFeedbackScenario(state, 'result');
+  applyFeedbackScenario(state, scenario);
+}
+function renderFeedback() {
+  feedback.render(workshopFeedbackFixture(state));
+  $('#reviewScenario').value = state.feedbackScenario;
+  $('#reviewScenario').disabled = selectedId !== 'augusta';
+  $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
+}
 
 function renderWorking() {
   const slot = state.selectedSlot;
   $('#currentCard').innerHTML = echoCard(state.echoes[slot], { footer: 'ACTIVE' });
   $('#newCard').innerHTML = echoCard(state.candidates[slot], { candidate: true, footer: 'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
-  $('#feedbackText').textContent = state.candidates[slot] ? 'Candidate ready' : 'No candidate';
+  renderFeedback();
 }
 
 function renderSlots() {
   $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number"><span>0${index + 1}</span><span class="slot-selection">${index === state.selectedSlot ? 'SELECTED' : ''}</span><span class="slot-state">${echo ? 'ACTIVE' : 'EMPTY'}</span></span>${echoCard(echo)}</button>`).join('');
-  const occupied = state.echoes.filter(Boolean);
-  $('.loadout-heading .small-muted').innerHTML = `${occupied.length} Echoes <span class="gold">·</span> ${occupied.reduce((sum, echo) => sum + echo.cost, 0)} / 12 Cost`;
+  $('.loadout-heading .small-muted').innerHTML = sonataSummary(state.echoes);
 }
 
 function renderPiles() {
@@ -55,10 +79,6 @@ function renderCharacter() {
     const displayLabel = index === 6 ? `${person.element ?? 'Element'} DMG Bonus` : label;
     return `<tr><td>${displayLabel}</td><td>${state.stats[index][0]}</td><td>${state.stats[index][1]}</td></tr>`;
   }).join('');
-  // Consumption is an explicit V1 demonstration record, never recomputed from a build.
-  $('#materialRows').innerHTML = state.materials === null
-    ? '<p class="materials-unavailable">Not recorded</p>'
-    : visibleMaterials(state.materials).map(material => `<div class="material-row"><span>${material.icon ? `<img src="${baseAsset(material.icon)}" alt="">` : '<span class="material-symbol" aria-hidden="true">◇</span>'}${escapeHtml(material.name)}</span><strong>${material.count === null ? '—' : material.count}</strong></div>`).join('') || '<p class="materials-unavailable">None used</p>';
 }
 
 function rowMarkup(name) {
@@ -241,10 +261,14 @@ $('.setting-mode').addEventListener('click', event => {
   renderSettings();
 });
 $('#simulate').onclick = () => {
-  notify('Visual UI Lab · live simulation is not connected');
-  $('#feedbackText').textContent = 'Candidate ready';
-  $('#newCard .echo-card').classList.remove('lift-in');
-  requestAnimationFrame(() => $('#newCard .echo-card').classList.add('lift-in'));
+  if (!workshopFeedbackFixture(state).actionAllowed) return;
+  applyFeedbackScenario(state, 'result');
+  renderWorkspace();
+  notify('Illustrative run record · live simulation is not connected');
+};
+$('#reviewScenario').onchange = event => {
+  applyFeedbackScenario(state, event.target.value);
+  renderWorkspace();
 };
 $('.interaction-options').addEventListener('click', event => {
   const button = event.target.closest('[data-scope]');
@@ -263,7 +287,6 @@ carousel = mountCarousel({ selectedId, onSelect: id => {
   state = getDemoState(id);
   renderWorkspace();
 } });
-const query = new URLSearchParams(location.search);
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }
 if (query.get('compact') === 'true') { $('#settings').classList.remove('expanded'); $('#character').classList.remove('expanded'); layout(); }
 if (globalThis.BELLIBING_LAB_REVIEW) {

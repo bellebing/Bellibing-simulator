@@ -67,6 +67,7 @@ export async function reviewCharacterCard(page, { width, checks }) {
   assert.equal(await card.locator('.weapon img').count(), 0, 'Unknown equipment must not borrow a signature Weapon');
   assert.deepEqual(await card.locator('#characterStats td:last-child').allTextContents(), Array(12).fill('—'));
   await select(page, 'hsin');
+  assert.equal(await card.locator('.character-element img').getAttribute('alt'), 'Electro', 'Card must use canonical identity even when legacy build-stat metadata is unavailable');
   await card.locator('#characterSkills summary').click();
   assert.match(await card.locator('.card-skills-body').innerText(), /Skills unavailable/);
   assert.equal(await card.locator('.card-forte-node').count(), 0);

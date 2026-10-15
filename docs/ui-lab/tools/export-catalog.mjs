@@ -25,6 +25,7 @@ const rows = [
     name: row.characterName,
     element: metadata.get(row.characterId)?.element ?? null,
     rarity: [4, 5].includes(canonicalById.get(row.characterId)?.rarity) ? canonicalById.get(row.characterId).rarity : null,
+    identityElement: ['Spectro', 'Havoc', 'Aero', 'Glacio', 'Fusion', 'Electro'].includes(canonicalById.get(row.characterId)?.element) ? canonicalById.get(row.characterId).element : null,
     weaponType: canonicalById.get(row.characterId)?.weaponType ?? null,
     sequences: (sequences.get(row.characterId)?.chains ?? []).map(chain => ({ sequence: chain.sequence, name: chain.name, art: presentationPath(chain.assetPath) })),
     forte: skills.get(row.characterId)?.status === 'SOURCE_BACKED' ? { nodes: skills.get(row.characterId).nodes.map(node => ({ id: node.id, parents: node.parents, kind: node.kind, role: node.role, name: node.name, art: presentationPath(node.assetPath), column: node.column, row: node.row })) } : null,

@@ -6,6 +6,7 @@ export const CHARACTER_CATALOG = [
     "name": "Aalto",
     "element": "Aero",
     "rarity": 4,
+    "identityElement": "Aero",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -232,6 +233,7 @@ export const CHARACTER_CATALOG = [
     "name": "Aemeath",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -458,6 +460,7 @@ export const CHARACTER_CATALOG = [
     "name": "Augusta",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -684,6 +687,7 @@ export const CHARACTER_CATALOG = [
     "name": "Baizhi",
     "element": "Glacio",
     "rarity": 4,
+    "identityElement": "Glacio",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -910,6 +914,7 @@ export const CHARACTER_CATALOG = [
     "name": "Brant",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -1136,6 +1141,7 @@ export const CHARACTER_CATALOG = [
     "name": "Buling",
     "element": "Electro",
     "rarity": 4,
+    "identityElement": "Electro",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -1362,6 +1368,7 @@ export const CHARACTER_CATALOG = [
     "name": "Calcharo",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -1588,6 +1595,7 @@ export const CHARACTER_CATALOG = [
     "name": "Camellya",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -1814,6 +1822,7 @@ export const CHARACTER_CATALOG = [
     "name": "Cantarella",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -2040,6 +2049,7 @@ export const CHARACTER_CATALOG = [
     "name": "Carlotta",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -2266,6 +2276,7 @@ export const CHARACTER_CATALOG = [
     "name": "Cartethyia",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -2492,6 +2503,7 @@ export const CHARACTER_CATALOG = [
     "name": "Changli",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -2718,6 +2730,7 @@ export const CHARACTER_CATALOG = [
     "name": "Chisa",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -2944,6 +2957,7 @@ export const CHARACTER_CATALOG = [
     "name": "Chixia",
     "element": "Fusion",
     "rarity": 4,
+    "identityElement": "Fusion",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -3170,6 +3184,7 @@ export const CHARACTER_CATALOG = [
     "name": "Ciaccona",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -3396,6 +3411,7 @@ export const CHARACTER_CATALOG = [
     "name": "Danjin",
     "element": "Havoc",
     "rarity": 4,
+    "identityElement": "Havoc",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -3622,6 +3638,7 @@ export const CHARACTER_CATALOG = [
     "name": "Denia",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -3848,6 +3865,7 @@ export const CHARACTER_CATALOG = [
     "name": "Encore",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -4074,6 +4092,7 @@ export const CHARACTER_CATALOG = [
     "name": "Galbrena",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -4300,6 +4319,7 @@ export const CHARACTER_CATALOG = [
     "name": "Hiyuki",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -4526,6 +4546,7 @@ export const CHARACTER_CATALOG = [
     "name": "Hsin",
     "element": null,
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Rectifier",
     "sequences": [],
     "forte": null,
@@ -4538,6 +4559,7 @@ export const CHARACTER_CATALOG = [
     "name": "Iuno",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -4764,6 +4786,7 @@ export const CHARACTER_CATALOG = [
     "name": "Jianxin",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -4990,6 +5013,7 @@ export const CHARACTER_CATALOG = [
     "name": "Jingran",
     "element": null,
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Broadblade",
     "sequences": [],
     "forte": null,
@@ -5002,6 +5026,7 @@ export const CHARACTER_CATALOG = [
     "name": "Jinhsi",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -5228,6 +5253,7 @@ export const CHARACTER_CATALOG = [
     "name": "Jiyan",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -5454,6 +5480,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lingyang",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -5680,6 +5707,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lucilla",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -5906,6 +5934,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lucy",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -6132,6 +6161,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lumi",
     "element": "Electro",
     "rarity": 4,
+    "identityElement": "Electro",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -6358,6 +6388,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lupa",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -6584,6 +6615,7 @@ export const CHARACTER_CATALOG = [
     "name": "Luuk Herssen",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -6810,6 +6842,7 @@ export const CHARACTER_CATALOG = [
     "name": "Lynae",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -7036,6 +7069,7 @@ export const CHARACTER_CATALOG = [
     "name": "Mornye",
     "element": "Fusion",
     "rarity": 5,
+    "identityElement": "Fusion",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -7262,6 +7296,7 @@ export const CHARACTER_CATALOG = [
     "name": "Mortefi",
     "element": "Fusion",
     "rarity": 4,
+    "identityElement": "Fusion",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -7488,6 +7523,7 @@ export const CHARACTER_CATALOG = [
     "name": "Phoebe",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -7714,6 +7750,7 @@ export const CHARACTER_CATALOG = [
     "name": "Phrolova",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -7940,6 +7977,7 @@ export const CHARACTER_CATALOG = [
     "name": "Qingxiao",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -8166,6 +8204,7 @@ export const CHARACTER_CATALOG = [
     "name": "Qiuyuan",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -8392,6 +8431,7 @@ export const CHARACTER_CATALOG = [
     "name": "Rebecca",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Pistols",
     "sequences": [
       {
@@ -8618,6 +8658,7 @@ export const CHARACTER_CATALOG = [
     "name": "Roccia",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -8844,6 +8885,7 @@ export const CHARACTER_CATALOG = [
     "name": "Rover (Aero)",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -9070,6 +9112,7 @@ export const CHARACTER_CATALOG = [
     "name": "Rover (Electro)",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -9296,6 +9339,7 @@ export const CHARACTER_CATALOG = [
     "name": "Rover (Havoc)",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -9522,6 +9566,7 @@ export const CHARACTER_CATALOG = [
     "name": "Rover (Spectro)",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -9748,6 +9793,7 @@ export const CHARACTER_CATALOG = [
     "name": "Sanhua",
     "element": "Glacio",
     "rarity": 4,
+    "identityElement": "Glacio",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -9974,6 +10020,7 @@ export const CHARACTER_CATALOG = [
     "name": "Sigrika",
     "element": "Aero",
     "rarity": 5,
+    "identityElement": "Aero",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -10200,6 +10247,7 @@ export const CHARACTER_CATALOG = [
     "name": "Suisui",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -10426,6 +10474,7 @@ export const CHARACTER_CATALOG = [
     "name": "Taoqi",
     "element": "Havoc",
     "rarity": 4,
+    "identityElement": "Havoc",
     "weaponType": "Broadblade",
     "sequences": [
       {
@@ -10652,6 +10701,7 @@ export const CHARACTER_CATALOG = [
     "name": "The Shorekeeper",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -10878,6 +10928,7 @@ export const CHARACTER_CATALOG = [
     "name": "Verina",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -11104,6 +11155,7 @@ export const CHARACTER_CATALOG = [
     "name": "Xiangli Yao",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -11330,6 +11382,7 @@ export const CHARACTER_CATALOG = [
     "name": "Yangyang",
     "element": "Aero",
     "rarity": 4,
+    "identityElement": "Aero",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -11556,6 +11609,7 @@ export const CHARACTER_CATALOG = [
     "name": "Yangyang: Xuanling",
     "element": "Havoc",
     "rarity": 5,
+    "identityElement": "Havoc",
     "weaponType": "Sword",
     "sequences": [
       {
@@ -11782,6 +11836,7 @@ export const CHARACTER_CATALOG = [
     "name": "Yinlin",
     "element": "Electro",
     "rarity": 5,
+    "identityElement": "Electro",
     "weaponType": "Rectifier",
     "sequences": [
       {
@@ -12008,6 +12063,7 @@ export const CHARACTER_CATALOG = [
     "name": "Youhu",
     "element": "Glacio",
     "rarity": 4,
+    "identityElement": "Glacio",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -12234,6 +12290,7 @@ export const CHARACTER_CATALOG = [
     "name": "Yuanwu",
     "element": "Electro",
     "rarity": 4,
+    "identityElement": "Electro",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -12460,6 +12517,7 @@ export const CHARACTER_CATALOG = [
     "name": "Zani",
     "element": "Spectro",
     "rarity": 5,
+    "identityElement": "Spectro",
     "weaponType": "Gauntlets",
     "sequences": [
       {
@@ -12686,6 +12744,7 @@ export const CHARACTER_CATALOG = [
     "name": "Zhezhi",
     "element": "Glacio",
     "rarity": 5,
+    "identityElement": "Glacio",
     "weaponType": "Rectifier",
     "sequences": [
       {

@@ -136,13 +136,11 @@
 .ui-lab .setting-row label { white-space: nowrap; }
 .ui-lab .filter { gap: 10px; }
 .ui-lab .filter button { font-size: var(--type-body); min-height: 32px; }
-.ui-lab .ribbon-rest { gap: 10px; }
 .ui-lab .demo-note { position: relative; text-align: right; font-size: var(--type-body); z-index: 50; }
 .ui-lab .demo-note summary { cursor: pointer; color: #b0a583; }
 .ui-lab .demo-note p { position: absolute; right: 0; top: 20px; width: 290px; margin: 0; padding: 16px; color: #b7c0ca; background: #141c26; border: 1px solid var(--line); font-size: var(--type-body); line-height: 1.6; text-align: left; }
 @media (max-width: 1600px) {
   .ui-lab .filter { gap: 8px; padding-left: 10px; }
-  .ui-lab .ribbon-rest { gap: 7px; padding-left: 80px; }
 }
 /* Line-box compensation keeps the approved outer geometry. */
 .ui-lab .page-heading { padding-bottom: 25px; }

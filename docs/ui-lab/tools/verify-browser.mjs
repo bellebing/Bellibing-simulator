@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { reviewCarousel } from './review-carousel.mjs';
+import { recordCarouselDemo } from './record-carousel.mjs';
 import { createRequire } from 'node:module';
 import { createServer } from 'node:http';
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
@@ -20,7 +22,7 @@ const result = {
   workingTreeDirty: !!execFileSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd: root, encoding: 'utf8' }).trim(),
   chromium: null, checks, errors,
 };
-const approvedRevision = '00c8532eaa88fd70ee5ed94b43ec582122a97807';
+const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
 const approvedFiles = new Map();
 const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
@@ -63,6 +65,7 @@ async function checkLayout(page, width, label) {
   }));
   assert.equal(data.pageWidth, width, `${label}: horizontal overflow`);
   assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
+  assert.ok(await page.evaluate(() => { const track = document.querySelector('#portraits').getBoundingClientRect(), workshop = document.querySelector('.workshop').getBoundingClientRect(); return Math.abs(track.x + track.width / 2 - workshop.x - workshop.width / 2) < 1; }), `${label}: compact portrait collection is not centered on Workshop`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
@@ -83,12 +86,32 @@ async function checkLayout(page, width, label) {
     const name = document.querySelector('.current-name').getBoundingClientRect();
     const filterEnd = document.querySelector('.expand-gallery').getBoundingClientRect();
     const notice = document.querySelector('.demo-note').getBoundingClientRect();
-    if (title.right > name.left) problems.push('Page title / current Character');
+    if (title.right > name.left && title.top < name.bottom && name.top < title.bottom) problems.push('Page title / current Character');
     if (filterEnd.right > notice.left) problems.push('Character controls / demonstration disclosure');
     return problems;
   });
   assert.deepEqual(collisions, [], `${label}: stat label/value overlap or wrapped Character label`);
   checks.push({ label, width, ...data, collisions });
+}
+
+async function carouselSettled(page, id) {
+  await page.waitForFunction(expected => {
+    const carousel = document.querySelector('#characterCarousel');
+    return carousel.dataset.motion === 'settled' && (!expected || carousel.dataset.focusedCharacter === expected);
+  }, id);
+}
+async function browseCharacter(page, id) {
+  if (await page.locator('#openGallery').getAttribute('aria-expanded') !== 'true') await page.locator('#openGallery').click();
+  const index = await page.locator('.portrait').evaluateAll((buttons, id) => buttons.findIndex(button => button.dataset.person === id), id);
+  assert.ok(index >= 0, `Character ${id} is in the active filter`);
+  await page.locator('#galleryArt').focus();
+  await page.keyboard.press('Home');
+  for (let i = 0; i < index; i++) await page.keyboard.press('ArrowRight');
+  await carouselSettled(page, id);
+}
+async function selectCharacter(page, id) {
+  await browseCharacter(page, id);
+  await page.locator(`[data-art="${id}"]`).click();
 }
 
 async function exercise(page, width, prefix) {
@@ -115,13 +138,15 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('.selected-slot .slot-state').innerText(), 'ACTIVE');
   const originalStats = await page.locator('#characterStats').innerText();
   await page.locator('[data-person="iuno"]').hover();
+  await page.locator('[data-person="iuno"]').click();
+  await carouselSettled(page, 'iuno');
   await settle(page);
   assert.equal(await selectedName(page), 'Augusta', 'Hover must never select');
   assert.equal(await page.locator('#focusedInfo .focus-name').innerText(), 'Iuno');
   assert.deepEqual(await geometry(page), originalGeometry, 'Carousel expansion shifted the Workshop');
   assert.equal(await page.locator('#characterStats').innerText(), originalStats);
   await page.screenshot({ path: resolve(output, `${prefix}-gallery-${width}.png`) });
-  await page.locator('[data-person="iuno"]').click();
+  await selectCharacter(page, 'iuno');
   assert.equal(await selectedName(page), 'Iuno', 'Click must select the real Lab workspace');
   assert.equal(await page.locator('#consumption').isVisible(), false);
   assert.equal(await page.locator('.slot .empty-echo').count(), 2);
@@ -131,33 +156,34 @@ async function exercise(page, width, prefix) {
   await page.locator('.gate-options button', { hasText: '+15' }).click();
   await page.locator('[data-slot="2"]').click();
   assert.equal(await page.locator('#slotLabel').innerText(), '03');
-  await page.locator('[data-person="augusta"]').click();
+  await selectCharacter(page, 'augusta');
   assert.equal(await page.locator('#gateLabel').innerText(), '+5', 'Settings leaked between Characters');
   assert.equal(await page.locator('#slotLabel').innerText(), '01');
-  await page.locator('[data-person="iuno"]').click();
+  await selectCharacter(page, 'iuno');
   assert.equal(await page.locator('#gateLabel').innerText(), '+15', 'Session settings were lost on return');
   assert.equal(await page.locator('#slotLabel').innerText(), '03');
-  await page.locator('[data-person="augusta"]').click();
+  await selectCharacter(page, 'augusta');
   await page.locator('[data-filter="account"]').click();
   assert.equal(await page.locator('.portrait').count(), 6);
   assert.equal(await page.locator('[data-person="jinhsi"]').count(), 0);
   await page.locator('[data-filter="all"]').click();
-  await page.locator('[data-person="jinhsi"]').hover();
+  await browseCharacter(page, 'jinhsi');
   await settle(page);
   assert.match(await page.locator('.focus-meta').innerText(), /No saved demo build/);
   assert.deepEqual(await page.locator('.focus-stats strong').allInnerTexts(), ['—', '—', '—']);
   assert.equal(await selectedName(page), 'Augusta');
-  await page.locator('[data-person="jinhsi"]').click();
+  await selectCharacter(page, 'jinhsi');
   assert.equal(await selectedName(page), 'Jinhsi');
   assert.equal(await page.locator('.slot .empty-echo').count(), 5);
-  await page.locator('[data-person="augusta"]').click();
+  await selectCharacter(page, 'augusta');
   await page.locator('[data-person="augusta"]').focus();
   await page.keyboard.press('ArrowRight');
+  await carouselSettled(page, 'iuno');
   assert.equal(await page.locator('.focus-name').innerText(), 'Iuno');
   assert.equal(await selectedName(page), 'Augusta');
   await page.keyboard.press('Enter');
   assert.equal(await selectedName(page), 'Iuno');
-  await page.locator('[data-person="augusta"]').click();
+  await selectCharacter(page, 'augusta');
   await page.locator('[data-slot="3"]').click();
   assert.equal(await page.locator('#slotLabel').innerText(), '04');
   const workingBeforeHistory = await page.locator('.working-area').innerText();
@@ -343,6 +369,7 @@ try {
       checks.push({ label: 'Before/after captures', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
+    await reviewCarousel(page, { width, output, checks, capture: false });
     await exerciseFeedback(page, width, 'source');
     await exercise(page, width, 'source');
     if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
@@ -372,15 +399,30 @@ try {
       await page.keyboard.press('Enter');
       assert.equal(await selectedName(page), 'Changli', 'Home must keep keyboard focus for selection');
       const seen = new Set();
+      await page.locator('#galleryArt').focus(); await page.keyboard.press('Home');
+      await carouselSettled(page);
       while (true) {
-        for (const id of await page.locator('.portrait').evaluateAll(items => items.map(item => item.dataset.person))) seen.add(id);
+        seen.add(await page.locator('#characterCarousel').getAttribute('data-focused-character'));
         if (await page.locator('#portraitNext').isDisabled()) break;
-        await page.locator('#portraitNext').click();
+        await page.locator('#portraitNext').click(); await carouselSettled(page);
       }
-      assert.equal(seen.size, 59, 'All Characters is not the complete released catalog');
-      checks.push({ label: 'Full catalog reachable with paging', count: seen.size });
+      assert.equal(seen.size, 59, 'All 59 Characters must be reachable without page boundaries');
+      checks.push({ label: 'Full continuous catalog reachable one position at a time', count: seen.size });
     }
     await context.close();
+    const wheelContext = await browser.newContext({ viewport: { width, height } });
+    const wheelPage = await wheelContext.newPage();
+    wheelPage.on('pageerror', error => errors.push(error.message));
+    await wheelPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
+    await reviewCarousel(wheelPage, { width, output, checks });
+    if (width === 1920) {
+      const demoPage = await wheelContext.newPage();
+      await demoPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' }); await wait(demoPage);
+      await recordCarouselDemo(demoPage, { output, revision: result.revision, workingTreeDirty: result.workingTreeDirty });
+      await demoPage.close();
+      checks.push({ label: 'Real-input Chromium carousel interaction demonstration', width });
+    }
+    await wheelContext.close();
   }
 
   // Pointer behavior is also exercised with ordinary motion; reduced motion above
@@ -402,6 +444,8 @@ try {
   await touchPage.locator('[data-person="iuno"]').tap();
   assert.equal(await selectedName(touchPage), 'Iuno', 'Second touch must select');
   checks.push({ label: 'Desktop touch-pointer preview then selection', passed: true });
+  await touchPage.goto(`${origin}${selector}`, { waitUntil: 'networkidle' }); await wait(touchPage);
+  await reviewCarousel(touchPage, { width: 1440, output, checks, touch: true, capture: false });
   await touch.close();
 
   const portable = readFileSync(resolve(output, 'Bellibing-UI-Lab-V1.1.html'), 'utf8');
@@ -418,12 +462,13 @@ try {
     await wait(page);
     await page.evaluate(() => document.fonts.ready);
     await checkLayout(page, width, 'portable HTML with networking disabled');
+    await reviewCarousel(page, { width, output, checks, capture: false });
     await exerciseFeedback(page, width, 'portable', false);
-    await page.locator('[data-person="iuno"]').click();
+    await selectCharacter(page, 'iuno');
     assert.equal(await selectedName(page), 'Iuno');
     await page.locator('#simulate').click();
     assert.equal(await page.locator('#materialRows').innerText(), 'Consumption not recorded');
-    await page.locator('[data-person="augusta"]').click();
+    await selectCharacter(page, 'augusta');
     await page.locator('[data-pile="0"]').click();
     assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
     await page.locator('#closeInspection').click();

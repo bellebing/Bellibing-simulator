@@ -20,9 +20,9 @@ The existing project documents GitHack immutable source previews. Use only an ex
 
 ## What to try
 
-- Hover a circular portrait: the whole visible gallery expands, and hover/focus only previews. The gold ring remains on the selected Character.
-- Click a portrait/artwork, or press Enter: select that Character in the actual Lab workspace. Name/art, illustrative stats, equipment, candidates, Trash Piles, Gate, minimum sliders and selected Echo slot update together.
-- Switch **Account Characters / All Characters**. Membership is a six-Character illustrative account, not the user's game account or production storage. All Characters contains all 59 reviewed released identities. Arrow buttons page the visible nine; Left/Right, Home/End and Enter support keyboard browsing. Escape, clicking outside, or the close control collapses the gallery. Touch uses a first tap to preview and a second tap to select.
+- Hover the circular portrait track to reveal the connected gallery. Artwork and lightweight preview information stay fixed at the center while the collection moves.
+- Drag/swipe horizontally, release for controlled momentum and magnetic snapping. Click/tap a neighboring Character to center it; click/tap the settled center Character to select it in the actual Lab workspace. The gold ring and Working on label continue to identify the selected Character while browsing.
+- **Account Characters / All Characters** filters the continuous wheel. All Characters contains all 59 reviewed released identities; there are no fixed nine-Character pages. Previous/Next, Left/Right and Home/End browse; Enter selects the centered preview. Escape, outside click or close collapses the gallery. Reduced motion snaps immediately. [Interaction contract and production reference](CAROUSEL.md).
 - Switch to Iuno, select another Echo slot or Gate, switch to Augusta, then return. Each Character keeps its own in-memory demonstration choices. Hovering catalog entries never creates a build; catalog entries with no demo build have empty equipment/dashes, not fabricated stats.
 - Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Carousel opening and selection never resize or push the Workshop.
 - Select **1 Slot / Full Set** using the compact segmented control. This remembers a per-Character scope choice without running a simulation or changing any results.
@@ -56,7 +56,8 @@ The module-local demo store is discarded on reload. There are no localStorage, I
 | `v1.1/modules/catalog.js` | Generated released identity/art-only catalog; no live data fetch. |
 | `v1.1/modules/lab-state.js` | Explicit fixtures and isolated per-Character memory state. |
 | `v1.1/modules/echo-card.js` | Shared working/slot/discarded/inspection Echo-card renderer. |
-| `v1.1/modules/carousel.js` | Connected gallery, preview/selection, paging, filtering and keyboard/touch interaction. |
+| `v1.1/modules/carousel.js` | Fixed-center gallery, independent preview/selection, continuous catalog, filtering and keyboard/touch input. |
+| `v1.1/modules/carousel-motion.js` | Bounded presentation position, momentum and magnetic settling; no build state. |
 | `v1.1/modules/app.js` | Workspace views and interaction binding. |
 | `tools/` | Catalog parity, focused boundary tests, Chromium review and portable packaging. |
 | `.github/workflows/ui-lab-review.yml` | Exact-head downloadable review artifact; no deploy step. |
@@ -65,7 +66,7 @@ Existing artwork is reused from `v1/assets/` and `../ui-prototypes/assets/charac
 
 ## Verification and rebuilding artifacts
 
-Node 22+, curl, an installed Chromium/Chrome and Playwright are needed for maintainers to rebuild/test (not for opening the downloaded preview). CI pins the browser driver without changing dependency manifests.
+Node 22+, curl, FFmpeg, an installed Chromium/Chrome and Playwright are needed for maintainers to rebuild/test (not for opening the downloaded preview). CI pins the browser driver without changing dependency manifests.
 
 ```sh
 node --test docs/ui-lab/tools/state.test.mjs
@@ -76,7 +77,9 @@ UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.
 
 Output is under ignored `artifacts/ui-lab-review/`. An optional `--font /absolute/path/to/the-approved-review.woff2` lets packaging reuse an already fetched exact oracle; otherwise it fetches the documented approved URL into temporary storage. The portable classic-script bundle is generated from maintained ESM modules, so opening it requires neither a module server nor a build tool.
 
-Before/after screenshots are generated against the recoverable approved V1.1 revision `00c8532eaa88fd70ee5ed94b43ec582122a97807` (approved typography refinement). The original V1.1 remains recoverable at `46691a0`. If your checkout is shallow, first run `git fetch --depth=1 origin 00c8532eaa88fd70ee5ed94b43ec582122a97807`; CI fetches it explicitly. The V1 files remain immutable.
+Before/after screenshots are generated against the recoverable approved V1.1 revision `66d72f339e3c1aa363a1794ff243128d63bc3f28` (approved pre-carousel-V2 revision). The original V1.1 remains recoverable at `46691a0`. If your checkout is shallow, first run `git fetch --depth=1 origin 66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly. The V1 files remain immutable.
+
+The review includes a short real-input `carousel-interaction.mp4` and exact-revision metadata alongside the screenshots.
 
 The browser review exercises Ready/Warning/Error/recorded-material scenarios, source and portable How to Fix, temporary highlights, native-popover keyboard/outside dismissal, action permissions, preserved spending, no automatic fixes, the shared selection gradients and Secondary Stat hierarchy. It also exercises source at 1440×900, 1920×1080 and 2560×1440, V1 composition geometry, hover versus selection, all 59 catalog entries, Account/All filtering, per-Character isolation, side panels, slot selection, discarded/older-card inspection, physical pointer input, ordinary/reduced motion and touch-pointer selection. The portable artifact is imported as an opaque-origin document with networking disabled at all three widths; it must produce zero HTTP requests and retain interactive Character/history behavior. This executor's browser file-URL policy can block direct `file://` navigation; opaque-origin/offline import tests the same embedded code/styles/art without a local server or file privileges. The test records its exact source revision and limitations, rather than claiming a hosted preview.
 

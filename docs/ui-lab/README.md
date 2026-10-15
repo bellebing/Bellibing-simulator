@@ -24,6 +24,7 @@ The existing project documents GitHack immutable source previews. Use only an ex
 - Switch to Iuno, select another Echo slot or Gate, switch to Augusta, then return. Each Character keeps its own in-memory demonstration choices. Hovering catalog entries never creates a build; catalog entries with no demo build have empty equipment/dashes, not fabricated stats.
 - Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Collapsed portraits share the page heading and reserve no space above the three aligned panels. The expanded gallery occupies the central column, hides the compact portraits, and pushes Workshop/Trash Piles downward without resizing them or moving either side panel. Collapse restores their original top edge.
 - Select **1 Slot / Full Set** using the compact segmented control. This remembers a per-Character scope choice without running a simulation or changing any results.
+- Open **Skills** inside Character Card to reveal the verified Forte tree in normal flow. The card displays saved/current stats only; missing Sequence/skill investment stays unknown. [Character Card contract](CHARACTER_CARD.md).
 - Click any of the five Echo slots: the larger Current/New pair follows the selected slot.
 - Lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
 - Open **Demonstration** to exercise Ready, Sonata warning, Cost blocker, recorded-run and pending-combination scenarios. Warning/error review fixtures are provided for Augusta. URL equivalents and canonical boundaries are documented in [Workshop feedback](FEEDBACK.md). **How to Fix** opens a small explanation and temporarily highlights the supplied affected slots; Close, Escape, outside click or changing context clears them.
@@ -33,7 +34,7 @@ The gallery uses real approved Character artwork where available. Six catalog id
 
 ## Demonstration boundaries
 
-The preserved Augusta composition and values come from approved V1. Other example account builds and previews are explicitly illustrative. Catalog identity/art comes from existing reviewed presentation manifests; no Character rules, quality score, bonus activation, damage calculation, roll algorithm or evaluator is added.
+The preserved Augusta composition and values come from approved V1. Other example account builds and previews are explicitly illustrative. Catalog identity/rarity comes from canonical Character/Weapon sources; art and Sequence/Forte topology come from existing reviewed presentation manifests; no Character rules, quality score, bonus activation, damage calculation, roll algorithm or evaluator is added.
 
 **Current** and top navigation show an explicit not-connected/demo notice. **SIMULATE** exposes a static illustrative run record and recorded materials; it does not run a simulation, change equipment, spend resources or calculate Character results. A supplied blocking-error fixture disables the action. This does not establish a production rolling restriction: canonical Cost validation applies to equipping, while mixed over-Cost rolling batches remain legal. Warning feedback does not block it. **1 Slot / Full Set** only selects a demonstration scope. Materials Used appears only after a supplied run record, retains that record through later invalid configurations, and displays the original recorded quantities; explicit zero-use rows are omitted and unavailable records remain unknown. Static Current/New figures are declared fixtures, not calculated deltas. Resources are displayed as fixture context; resource spending/editing is not implemented. There is no Activate/Deactivate or Sonata-bonus feature in this iteration.
 
@@ -51,7 +52,8 @@ The module-local demo store is discarded on reload. There are no localStorage, I
 | `v1.1/modules/workshop-feedback.js` | Explicit feedback presenter; no validation or automatic fixes. |
 | `v1.1/modules/feedback-fixtures.js` | Isolated review scenarios and recorded-material fixtures. |
 | `v1.1/modules/sonata-summary.js` | Equipped assignment counts only; no active bonus claims. |
-| `v1.1/modules/catalog.js` | Generated released identity/art-only catalog; no live data fetch. |
+| `v1.1/modules/catalog.js` | Generated canonical identity/rarity and read-only presentation assets; no live data fetch. |
+| `v1.1/modules/character-card.js` / `character-card.css` | Saved/current Character presentation, rarity/equipment, read-only Sequence and inline Skills. |
 | `v1.1/modules/lab-state.js` | Explicit fixtures and isolated per-Character memory state. |
 | `v1.1/modules/echo-card.js` | Shared working/slot/discarded/inspection Echo-card renderer. |
 | `v1.1/modules/carousel.js` | Fixed-center gallery, independent preview/selection, continuous catalog, filtering and keyboard/touch input. |

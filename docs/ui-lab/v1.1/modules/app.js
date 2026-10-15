@@ -1,5 +1,6 @@
+import { mountCharacterCard } from './character-card.js';
 import { CHARACTER_CATALOG } from './catalog.js';
-import { getDemoState, resetDemoState, MINIMUM_TIERS, STAT_LABELS } from './lab-state.js';
+import { getDemoState, resetDemoState, MINIMUM_TIERS } from './lab-state.js';
 import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
 import { mountWorkshopFeedback } from './workshop-feedback.js';
 import { sonataSummary } from './sonata-summary.js';
@@ -7,6 +8,7 @@ import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
+const characterCard = mountCharacterCard($('.character-content'));
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let state = getDemoState(selectedId);
@@ -60,25 +62,10 @@ function renderPiles() {
 
 function renderCharacter() {
   const person = people.get(selectedId);
-  const image = $('.character-hero > img');
-  image.src = assetURL(person.art);
-  image.alt = `${person.name} ${person.artStatus === 'HERO' ? 'Character artwork' : 'portrait; hero art Pending'}`;
-  image.classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
-  $('.hero-copy h2').textContent = person.name;
-  $('.hero-copy .eyebrow').textContent = selectedId === 'augusta' ? 'THE UNDEFEATED' : 'DEMONSTRATION BUILD';
-  $('.hero-copy > span').textContent = selectedId === 'augusta' ? 'Lv. 90 · Electro · Broadblade' : `${person.element ?? 'Element Pending'} · ${state.onAccount ? 'On demo account' : 'Catalog experiment'}`;
-  $('.character-element').textContent = selectedId === 'augusta' ? 'ϟ' : '◇';
+  characterCard.render(person, state);
   $('.character-compact img').src = assetURL(person.face);
   $('.character-compact img').alt = person.name;
   $('.character-compact .vertical-label').textContent = person.name.toUpperCase();
-  $('.weapon img').hidden = selectedId !== 'augusta';
-  $('.weapon strong').textContent = state.weapon;
-  $('.weapon div > span').textContent = selectedId === 'augusta' ? 'Lv. 90 · R1' : 'Illustrative equipment state';
-  $('.character-context').innerHTML = `<span>Skills <b>${selectedId === 'augusta' ? 'MAX' : '—'}</b></span><span>Sequence <b>${selectedId === 'augusta' ? 'S0' : '—'}</b></span>`;
-  $('#characterStats').innerHTML = STAT_LABELS.map((label, index) => {
-    const displayLabel = index === 6 ? `${person.element ?? 'Element'} DMG Bonus` : label;
-    return `<tr><td>${displayLabel}</td><td>${state.stats[index][0]}</td><td>${state.stats[index][1]}</td></tr>`;
-  }).join('');
 }
 
 function rowMarkup(name) {

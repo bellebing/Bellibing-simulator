@@ -1,3 +1,5 @@
+import { characterCardModel, forteMarkup, rarityClass, sequenceMarkup } from '../v1.1/modules/character-card.js';
+import { CHARACTER_CATALOG, WEAPON_CATALOG } from '../v1.1/modules/catalog.js';
 import { artworkOffset, artworkScale } from '../v1.1/modules/carousel-layout.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -137,4 +139,40 @@ test('scaled artwork stays connected, recognizable and continuous at each positi
       previousInterval = interval;
     }
   }
+});
+
+test('Character Card reads saved values and canonical equipment without inventing investment', () => {
+  const person = CHARACTER_CATALOG.find(row => row.id === 'augusta');
+  const state = resetDemoState('augusta');
+  const model = characterCardModel(person, state);
+  assert.equal(model.rarity, 5);
+  assert.equal(model.weapon.id, 'thunderflare-dominion');
+  assert.equal(model.weapon.rarity, 5);
+  assert.equal(model.sequence, null);
+  assert.equal((sequenceMarkup(person, null).match(/data-state="unavailable"/g) ?? []).length, 6);
+  assert.equal((sequenceMarkup(person, 3).match(/data-state="active"/g) ?? []).length, 3);
+  assert.equal((sequenceMarkup(person, 3).match(/data-state="inactive"/g) ?? []).length, 3);
+  assert.equal(model.forte, null);
+  const before = model.stats;
+  state.stats[0][1] = 'untrusted simulated value';
+  state.candidates = [];
+  assert.deepEqual(characterCardModel(person, state).stats, before);
+  const aalto = CHARACTER_CATALOG.find(row => row.id === 'aalto');
+  const unknown = characterCardModel(aalto, getDemoState('aalto'));
+  assert.equal(unknown.rarity, 4);
+  assert.equal(unknown.weapon, null);
+  assert.equal(unknown.weaponContext, null);
+  const independent = characterCardModel(aalto, { ...state, id:'aalto' });
+  assert.equal(independent.weapon.rarity, 5, 'Weapon rarity cannot follow Character rarity');
+  assert.equal(independent.weaponContext, null, 'Character must not borrow equipment level/refinement');
+  assert.equal(characterCardModel({...person,rarity:9},{...state,sequenceLevel:9}).rarity,null);
+  assert.equal(rarityClass(undefined),'rarity-unknown');
+  for (const rarity of [1,2,3,4,5]) assert.ok(WEAPON_CATALOG.some(weapon=>weapon.rarity===rarity));
+  assert.match(forteMarkup(person,null),/Levels unavailable/);
+  assert.doesNotMatch(forteMarkup(person,null),/>10</);
+  assert.match(forteMarkup({...person,forte:null},null),/Skills unavailable/);
+  const explicit = characterCardModel(person,{...state,sequenceLevel:3,forte:{schemaVersion:1,levels:{skill:6},enabled:{}}});
+  assert.equal(explicit.sequence,3);
+  assert.match(forteMarkup(person,explicit.forte),/data-skill-level="skill">6/);
+  resetDemoState('augusta');
 });

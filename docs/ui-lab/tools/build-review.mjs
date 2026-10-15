@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { resolve, relative, dirname, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CHARACTER_CATALOG } from '../v1.1/modules/catalog.js';
+import { CHARACTER_CATALOG, WEAPON_CATALOG } from '../v1.1/modules/catalog.js';
 
 const root = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const entry = resolve(root, 'docs/ui-lab/v1.1');
@@ -18,10 +18,12 @@ if (args.includes('--require-clean') && dirty) throw new Error('Review packaging
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const mime = path => ({ '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml' })[extname(path)];
-const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1.1/typography.css', 'docs/ui-lab/v1.1/feedback.css', 'docs/ui-lab/v1/style.css'];
+const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1.1/typography.css', 'docs/ui-lab/v1.1/feedback.css', 'docs/ui-lab/v1.1/character-card.css', 'docs/ui-lab/v1/style.css'];
 const assetPaths = [...new Set([
   ...readdirSync(resolve(root, 'docs/ui-lab/v1/assets')).map(name => `../v1/assets/${name}`),
-  ...CHARACTER_CATALOG.flatMap(person => [person.face, person.art]),
+  ...CHARACTER_CATALOG.flatMap(person => [person.face, person.art, ...(person.sequences ?? []).map(chain => chain.art), ...(person.forte?.nodes ?? []).map(node => node.art)]),
+  ...WEAPON_CATALOG.map(weapon => weapon.art).filter(Boolean),
+  ...["spectro", "havoc", "aero", "glacio", "fusion", "electro"].map(element => `../../ui-prototypes/assets/builder-icons/elements/${element}.webp`),
 ])];
 const assets = {};
 for (const path of assetPaths) {

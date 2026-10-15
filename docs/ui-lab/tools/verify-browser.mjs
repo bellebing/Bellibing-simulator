@@ -1,3 +1,4 @@
+import { reviewCharacterCard } from './review-character-card.mjs';
 import assert from 'node:assert/strict';
 import { reviewCarousel } from './review-carousel.mjs';
 import { createRequire } from 'node:module';
@@ -356,6 +357,7 @@ try {
       checks.push({ label: 'Approved primary action geometry', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
+    await reviewCharacterCard(page, { width, checks });
     await reviewCarousel(page, { width, checks });
     await exerciseFeedback(page, width, 'source');
     await exercise(page, width, 'source');

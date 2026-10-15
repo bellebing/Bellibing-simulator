@@ -182,7 +182,11 @@ export function mountCarousel({ selectedId, onSelect }) {
   }
   listen('pointerdown', event => {
     const element = event.target.closest('#galleryArt, #portraits');
-    if (!ids.length || !element || !event.isPrimary || event.button !== 0 || drag) return;
+    if (!element || !event.isPrimary || event.button !== 0 || drag) return;
+    // Suppress the click produced by the previous drag, not a new intentional
+    // gesture (for example reopening immediately after changing filters).
+    suppressUntil = 0;
+    if (!ids.length) return;
     motion.stop();
     drag = { id: event.pointerId, element, x: event.clientX, y: event.clientY, lastX: event.clientX, lastTime: performance.now(), active: false, vertical: false, velocity: 0 };
   });

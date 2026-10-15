@@ -20,6 +20,10 @@ Read before implementation: `docs/UI_CHARACTER_BUILD_CARD.md`, `docs/ui-prototyp
 
 `tools/export-catalog.mjs` joins canonical Character/Weapon rarity and existing Hero/Sequence/Skills/icon manifests into the generated `catalog.js`. Only presentation identity/assets/topology are copied: no skill coefficients, stat effects, recommendations or formulas. `--check` validates generated parity. Runtime remains standalone ESM with relative local assets, including GitHack; there are no production-only module imports or data fetches. Optional portable packaging knows the new stylesheet/assets but is not generated for this review.
 
+## Hero composition alternatives
+
+Optional `hero=elegant` / `hero=cinematic` queries refine only the artwork/identity region. The approved baseline remains the default. Both retain the same data and read-only investment boundaries; [Hero variations](HERO_VARIATIONS.md) owns their visual contract.
+
 ## Verification
 
 `tools/review-character-card.mjs` covers rarity/element/equipment, explicit unknown Sequence/investment, inline Skills flow and keyboard input, exact saved stat values, independence from candidate/run changes, 4/5-star Character switching, missing equipment/tree, independent panel collapse and label fit. It runs at 1440/1920/2560 inside the existing UI Lab verification; Carousel, Workshop, feedback, state-isolation and history checks remain. Focused tests also exercise explicit active/inactive Sequence rendering and reject invented defaults. No media collections or review bundles are generated.

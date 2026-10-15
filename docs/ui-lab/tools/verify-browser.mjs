@@ -1,3 +1,4 @@
+import { reviewHero } from './review-hero.mjs';
 import { reviewCharacterCard } from './review-character-card.mjs';
 import assert from 'node:assert/strict';
 import { reviewCarousel } from './review-carousel.mjs';
@@ -402,6 +403,14 @@ try {
     await wheelPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
     await reviewCarousel(wheelPage, { width, checks });
     await wheelContext.close();
+    for (const variant of ['elegant','cinematic']) {
+      const heroContext = await browser.newContext({ viewport:{width,height}, reducedMotion:'reduce' });
+      const heroPage = await heroContext.newPage();
+      heroPage.on('pageerror', error => errors.push(error.message));
+      await heroPage.goto(`${origin}${selector}?hero=${variant}`,{waitUntil:'networkidle'});
+      await reviewHero(heroPage,{width,variant,checks});
+      await heroContext.close();
+    }
   }
 
   // Pointer behavior is also exercised with ordinary motion; reduced motion above

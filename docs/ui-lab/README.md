@@ -16,6 +16,8 @@ Open `http://127.0.0.1:4180/docs/ui-lab/v1.1/`. `?settings=expanded` opens Setti
 
 The existing project documents GitHack immutable source previews. Use only an exact PR-head URL, with the explicit `index.html` path, and only claim availability after verifying the HTML, modules and artwork. Localhost in an agent environment is not an externally accessible preview. No new hosting service, GitHub Pages configuration or production deployment is introduced here.
 
+Hero alternatives are available at `?hero=elegant` and `?hero=cinematic`. Without either query the approved baseline remains unchanged. [Artistic directions and scope](HERO_VARIATIONS.md).
+
 ## What to try
 
 - Click/tap a circular portrait (or focus the selector and press Enter) to expand the same component. Artwork and lightweight preview information stay fixed at the center while the collection moves.

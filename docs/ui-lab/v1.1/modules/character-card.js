@@ -21,14 +21,14 @@ export function characterCardModel(person, saved) {
   };
 }
 const image = (path, alt = '') => `<img src="${escapeHtml(assetURL(path))}" alt="${escapeHtml(alt)}" draggable="false">`;
-export function sequenceMarkup(person, level) {
+export function sequenceMarkup(person, level, { labels = true } = {}) {
   const nodes = Array.from({ length: 6 }, (_, index) => {
     const sequence = 6 - index, chain = person.sequences.find(node => node.sequence === sequence);
     const known = level !== null && !!chain, active = known && sequence <= level;
     const status = known ? active ? 'active' : 'inactive' : 'unavailable';
-    return `<span class="sequence-node node n${sequence} ${active ? 'is-active' : ''} ${!known ? 'is-unknown' : ''}" data-sequence="${sequence}" data-state="${status}" role="img" aria-label="S${sequence} ${status}" title="${escapeHtml(chain?.name ?? `S${sequence}`)} · ${status}">${chain?.art ? image(chain.art) : ''}<span class="seq-tag">S${sequence}${known ? '' : '?'}</span></span>`;
+    return `<span class="sequence-node node n${sequence} ${active ? 'is-active' : ''} ${!known ? 'is-unknown' : ''}" data-sequence="${sequence}" data-state="${status}" role="img" aria-label="S${sequence} ${status}" title="${escapeHtml(chain?.name ?? `S${sequence}`)} · ${status}">${chain?.art ? image(chain.art) : ''}${labels ? `<span class="seq-tag">S${sequence}${known ? '' : '?'}</span>` : ''}</span>`;
   }).join('');
-  return `<div class="card-sequence seq-line" role="group" aria-label="${level === null ? 'Sequence unavailable' : `Sequence S${level}`}" data-level="${level ?? 'unknown'}">${nodes}${level === null ? '<small>Unknown</small>' : ''}</div>`;
+  return `<div class="card-sequence seq-line" role="group" aria-label="${level === null ? 'Sequence unavailable' : `Sequence S${level}`}" data-level="${level ?? 'unknown'}">${nodes}${labels && level === null ? '<small>Unknown</small>' : ''}</div>`;
 }
 // Same five-column topology/coordinates as the existing read-only Skills/Forte
 // renderer. No normalizer is called: its fresh-build defaults would invent MAX.
@@ -51,7 +51,19 @@ export function forteMarkup(person, investment) {
   }).join('')}</div>${!investment ? '<p class="card-unavailable">Levels unavailable</p>' : ''}`;
 }
 
-export function mountCharacterCard(host) {
+// Explicit alternatives; the approved composition remains the default until review.
+export function heroVariation(search) {
+  const variant = new URLSearchParams(search).get('hero');
+  return ['elegant', 'cinematic'].includes(variant) ? variant : 'baseline';
+}
+function refinedHero(model, saved, variant) {
+  const { person, rarity, sequence } = model, element = person.identityElement;
+  const stars = `<div class="rarity-stars" role="img" aria-label="${rarity ? `${rarity}-star Character` : 'Character rarity unavailable'}">${rarity ? '★'.repeat(rarity) : 'Rarity —'}</div>`;
+  const metadata = `<div class="hero-metadata">${saved.id === 'augusta' ? '<span>Lv. 90</span><i aria-hidden="true">·</i>' : ''}<span class="character-element">${element ? image(`../../ui-prototypes/assets/builder-icons/elements/${element.toLowerCase()}.webp`, element) : '<span role="img" aria-label="Element unavailable">—</span>'}</span>${person.weaponType ? `<i aria-hidden="true">·</i><span>${escapeHtml(person.weaponType)}</span>` : ''}</div>`;
+  return `<div class="character-hero ${rarityClass(rarity)}" data-hero="${variant}" data-rarity="${rarity ?? 'unknown'}"><div class="hero-visual"><div class="hero-lines"></div>${image(person.art, `${person.name} ${person.artStatus === 'HERO' ? 'Character artwork' : 'portrait; hero art unavailable'}`)}${sequenceMarkup(person, sequence, { labels:false })}</div><div class="hero-copy">${variant === 'cinematic' ? stars : ''}<h2>${escapeHtml(person.name)}</h2>${saved.id === 'augusta' ? '<div class="eyebrow">THE UNDEFEATED</div>' : ''}${variant === 'elegant' ? `<div class="hero-meta-row">${stars}${metadata}</div>` : metadata}</div></div>`;
+}
+
+export function mountCharacterCard(host, { hero = heroVariation(location.search) } = {}) {
   const expanded = new Map();
   let current;
   host.addEventListener('toggle', event => {
@@ -64,11 +76,12 @@ export function mountCharacterCard(host) {
       const model = characterCardModel(person, saved);
       current = person.id;
       const weapon = model.weapon, context = model.weaponContext, element = person.identityElement;
-      host.innerHTML = `<div class="character-hero ${rarityClass(model.rarity)}" data-rarity="${model.rarity ?? 'unknown'}"><div class="hero-lines"></div>${image(person.art, `${person.name} ${person.artStatus === 'HERO' ? 'Character artwork' : 'portrait; hero art unavailable'}`)}<span class="character-element">${element ? image(`../../ui-prototypes/assets/builder-icons/elements/${element.toLowerCase()}.webp`, element) : '<span role="img" aria-label="Element unavailable">—</span>'}</span>${sequenceMarkup(person, model.sequence)}<div class="hero-copy"><div class="eyebrow"${saved.id === 'augusta' ? '' : ' hidden'}>${saved.id === 'augusta' ? 'THE UNDEFEATED' : ''}</div><div class="rarity-stars" role="img" aria-label="${model.rarity ? `${model.rarity}-star Character` : 'Character rarity unavailable'}">${model.rarity ? '★'.repeat(model.rarity) : 'Rarity —'}</div><h2>${escapeHtml(person.name)}</h2><span>${saved.id === 'augusta' ? 'Lv. 90 · ' : ''}${escapeHtml(element ?? 'Element unavailable')}${person.weaponType ? ` · ${escapeHtml(person.weaponType)}` : ''}</span></div></div>
+      const baselineHero = `<div class="character-hero ${rarityClass(model.rarity)}" data-rarity="${model.rarity ?? 'unknown'}"><div class="hero-lines"></div>${image(person.art, `${person.name} ${person.artStatus === 'HERO' ? 'Character artwork' : 'portrait; hero art unavailable'}`)}<span class="character-element">${element ? image(`../../ui-prototypes/assets/builder-icons/elements/${element.toLowerCase()}.webp`, element) : '<span role="img" aria-label="Element unavailable">—</span>'}</span>${sequenceMarkup(person, model.sequence)}<div class="hero-copy"><div class="eyebrow"${saved.id === 'augusta' ? '' : ' hidden'}>${saved.id === 'augusta' ? 'THE UNDEFEATED' : ''}</div><div class="rarity-stars" role="img" aria-label="${model.rarity ? `${model.rarity}-star Character` : 'Character rarity unavailable'}">${model.rarity ? '★'.repeat(model.rarity) : 'Rarity —'}</div><h2>${escapeHtml(person.name)}</h2><span>${saved.id === 'augusta' ? 'Lv. 90 · ' : ''}${escapeHtml(element ?? 'Element unavailable')}${person.weaponType ? ` · ${escapeHtml(person.weaponType)}` : ''}</span></div></div>`;
+      host.innerHTML = `${hero === 'baseline' ? baselineHero : refinedHero(model, saved, hero)}
       <div class="weapon ${rarityClass(weapon?.rarity)}" data-weapon-id="${weapon?.id ?? ''}" data-rarity="${weapon?.rarity ?? 'unknown'}">${weapon?.art ? `<div class="weapon-art">${image(weapon.art, weapon.name)}</div>` : ''}<div class="weapon-copy"><small>WEAPON</small><strong>${escapeHtml(weapon?.name ?? 'Weapon unavailable')}</strong><span>${context ? `Lv. ${context.level} · R${context.rank}` : weapon ? 'Level / refinement unavailable' : '—'}</span></div></div>
       <details id="characterSkills" class="card-skills"${expanded.get(person.id) ? ' open' : ''}><summary>Skills <span class="chevron" aria-hidden="true">›</span></summary><div class="card-skills-body">${forteMarkup(person, model.forte)}</div></details>
       <div class="stats-heading"><h3>Character Stats</h3></div><table aria-label="Current equipped Character stats"><tbody id="characterStats">${model.stats.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>`;
-      host.querySelector('.character-hero > img').classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
+      host.querySelector('.character-hero > img, .hero-visual > img').classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
     },
   };
 }

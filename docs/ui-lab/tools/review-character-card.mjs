@@ -6,7 +6,7 @@ import { characterCardModel } from '../v1.1/modules/character-card.js';
 const ready = page => page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
 const bounds = page => page.locator('.workshop').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
 const top = locator => locator.evaluate(node => node.getBoundingClientRect().top + scrollY);
-async function select(page, id) {
+export async function selectCardCharacter(page, id) {
   await page.locator('.portrait.selected').click();
   await page.locator('#galleryArt').focus(); await page.keyboard.press('Home');
   const index = await page.locator('[data-art]').evaluateAll((nodes, id) => nodes.findIndex(node => node.dataset.art === id), id);
@@ -58,7 +58,7 @@ export async function reviewCharacterCard(page, { width, checks }) {
   await page.locator('#characterToggle').click();
   assert.equal(await card.locator('#characterSkills').evaluate(node => node.open), true, 'Panel toggle lost independent Skills expansion');
   await card.locator('#characterSkills summary').click();
-  await select(page, 'aalto');
+  await selectCardCharacter(page, 'aalto');
   assert.equal(await card.locator('.hero-copy h2').innerText(), 'Aalto');
   assert.equal(await card.locator('.rarity-stars').textContent(), '★★★★');
   assert.equal(await card.locator('.character-hero').getAttribute('data-rarity'), '4');
@@ -66,15 +66,15 @@ export async function reviewCharacterCard(page, { width, checks }) {
   assert.equal(await card.locator('.weapon').getAttribute('data-rarity'), 'unknown');
   assert.equal(await card.locator('.weapon img').count(), 0, 'Unknown equipment must not borrow a signature Weapon');
   assert.deepEqual(await card.locator('#characterStats td:last-child').allTextContents(), Array(12).fill('—'));
-  await select(page, 'hsin');
+  await selectCardCharacter(page, 'hsin');
   assert.equal(await card.locator('.character-element img').getAttribute('alt'), 'Electro', 'Card must use canonical identity even when legacy build-stat metadata is unavailable');
   await card.locator('#characterSkills summary').click();
   assert.match(await card.locator('.card-skills-body').innerText(), /Skills unavailable/);
   assert.equal(await card.locator('.card-forte-node').count(), 0);
-  await select(page, 'iuno');
+  await selectCardCharacter(page, 'iuno');
   assert.match(await card.locator('#characterStats').innerText(), /1,940/);
   assert.equal(await card.locator('.character-element img').getAttribute('alt'), 'Aero');
-  await select(page, 'augusta');
+  await selectCardCharacter(page, 'augusta');
   assert.deepEqual(await card.locator('#characterStats tr').evaluateAll(rows => rows.map(row => [...row.children].map(cell => cell.textContent))), saved.stats);
   const collisions = await card.locator('#characterStats tr').evaluateAll(rows => rows.filter(row => { const [a,b] = [...row.cells].map(cell => cell.getBoundingClientRect()); return a.right > b.left + .1 || row.firstElementChild.scrollWidth > row.firstElementChild.clientWidth; }).map(row => row.textContent));
   assert.deepEqual(collisions, []);

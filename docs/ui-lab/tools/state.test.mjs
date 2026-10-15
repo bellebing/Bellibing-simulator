@@ -1,4 +1,4 @@
-import { characterCardModel, forteMarkup, rarityClass, sequenceMarkup } from '../v1.1/modules/character-card.js';
+import { characterCardModel, forteMarkup, rarityClass, sequenceMarkup, heroVariation } from '../v1.1/modules/character-card.js';
 import { CHARACTER_CATALOG, WEAPON_CATALOG } from '../v1.1/modules/catalog.js';
 import { artworkOffset, artworkScale } from '../v1.1/modules/carousel-layout.js';
 import test from 'node:test';
@@ -175,4 +175,17 @@ test('Character Card reads saved values and canonical equipment without inventin
   assert.equal(explicit.sequence,3);
   assert.match(forteMarkup(person,explicit.forte),/data-skill-level="skill">6/);
   resetDemoState('augusta');
+});
+
+test('Hero alternatives are explicit and keep unknown Sequence state accessible without labels', () => {
+  assert.equal(heroVariation(''), 'baseline');
+  assert.equal(heroVariation('?hero=unknown'), 'baseline');
+  assert.equal(heroVariation('?hero=elegant'), 'elegant');
+  assert.equal(heroVariation('?hero=cinematic'), 'cinematic');
+  const person = CHARACTER_CATALOG.find(row=>row.id==='augusta');
+  const unknown = sequenceMarkup(person,null,{labels:false});
+  assert.doesNotMatch(unknown,/seq-tag|<small>|Unknown|S6\?/);
+  assert.equal((unknown.match(/aria-label="S[1-6] unavailable"/g)??[]).length,6);
+  assert.equal((unknown.match(/data-state="unavailable"/g)??[]).length,6);
+  assert.equal((sequenceMarkup(person,3,{labels:false}).match(/data-state="active"/g)??[]).length,3);
 });

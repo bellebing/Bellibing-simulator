@@ -84,3 +84,5 @@ The comparison revision is `66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetche
 Optional portable packaging remains in `tools/build-review.mjs`; `UI_LAB_PORTABLE_REVIEW=true` also tests a previously packaged file offline. Neither packaging nor media generation runs in the current review workflow. Results are written to ignored `artifacts/ui-lab-review/verification.json`, with exact revision and dirty-tree status.
 
 This is a Draft visual-review lane. FULL/merge readiness and production integration are outside this task. Do not merge or alter the production deployment to make the Lab reviewable.
+
+The approved Elegant Hero is now the default. [Simulation Stats](SIMULATION_STATS.md) documents the shared panel, result sources, illustrative focus demo and interaction contract.

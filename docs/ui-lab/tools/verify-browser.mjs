@@ -1,3 +1,4 @@
+import { reviewResults } from './review-results.mjs';
 import { reviewHero } from './review-hero.mjs';
 import { reviewCharacterCard } from './review-character-card.mjs';
 import assert from 'node:assert/strict';
@@ -344,9 +345,9 @@ try {
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of ['x', 'y', 'width', 'height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
+      for (const key of (width === 1440 ? ['x','y','width','height'] : ['y','height'])) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
     }
-    checks.push({ label: 'V1 composition parity', width, approved, current });
+    checks.push({ label: 'Preserved V1 vertical composition; authorized shared-panel width adaptation', width, approved, current });
     await baseline.close();
     if (width === 1920) {
       const before = await context.newPage();
@@ -354,7 +355,7 @@ try {
       await wait(before); await before.evaluate(() => document.fonts.ready);
       const primaryPosition = target => target.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
       const beforeAction = await primaryPosition(before), currentAction = await primaryPosition(page);
-      beforeAction.forEach((value, index) => assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action geometry changed'));
+      beforeAction.forEach((value, index) => { if (index !== 0) assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action size/vertical placement changed'); });
       checks.push({ label: 'Approved primary action geometry', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
@@ -422,6 +423,14 @@ try {
   await exerciseFeedback(motionPage, 1920, 'animated');
   await exercise(motionPage, 1920, 'animated');
   await animated.close();
+
+  for (const width of [1440,1920,2560]) {
+    const context = await browser.newContext({viewport:{width,height:width === 1440 ? 900 : 1440},reducedMotion:width === 1920 ? 'no-preference' : 'reduce'});
+    const page = await context.newPage(); page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(`${origin}${selector}`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewResults(page,{width,checks,animated:width===1920});
+    await context.close();
+  }
 
   const touch = await browser.newContext({ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
   const touchPage = await touch.newPage();

@@ -178,8 +178,8 @@ test('Character Card reads saved values and canonical equipment without inventin
 });
 
 test('Hero alternatives are explicit and keep unknown Sequence state accessible without labels', () => {
-  assert.equal(heroVariation(''), 'baseline');
-  assert.equal(heroVariation('?hero=unknown'), 'baseline');
+  assert.equal(heroVariation(''), 'elegant');
+  assert.equal(heroVariation('?hero=unknown'), 'elegant');
   assert.equal(heroVariation('?hero=elegant'), 'elegant');
   assert.equal(heroVariation('?hero=cinematic'), 'cinematic');
   const person = CHARACTER_CATALOG.find(row=>row.id==='augusta');
@@ -188,4 +188,28 @@ test('Hero alternatives are explicit and keep unknown Sequence state accessible 
   assert.equal((unknown.match(/aria-label="S[1-6] unavailable"/g)??[]).length,6);
   assert.equal((unknown.match(/data-state="unavailable"/g)??[]).length,6);
   assert.equal((sequenceMarkup(person,3,{labels:false}).match(/data-state="active"/g)??[]).length,3);
+});
+
+test('result roles remain independent, canonical recommendations never cross-fill and only explicit changes focus', async () => {
+  const {simulationModel,changedResults} = await import('../v1.1/modules/simulation-model.js');
+  const {focusFixture} = await import('../v1.1/modules/result-fixtures.js');
+  const person = CHARACTER_CATALOG.find(row=>row.id==='augusta'), saved = resetDemoState('augusta');
+  const before = structuredClone(saved), model = simulationModel(person,saved);
+  assert.equal(model.rows.find(row=>row.id==='TOTAL_ATK').recommended,'2,407');
+  assert.ok(model.rows.every(row=>row.expected===null && row.simulated===null));
+  assert.equal(model.rows.find(row=>row.id==='TOTAL_HP').recommended,null);
+  const fixture = focusFixture('augusta',{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:3});
+  const next = simulationModel(person,saved,fixture.values);
+  assert.deepEqual(changedResults(model,next,fixture.affected),fixture.affected);
+  assert.deepEqual(changedResults(next,next,fixture.affected),[]);
+  assert.deepEqual(changedResults(model,next,[{id:'TOTAL_ATK',role:'expected'}]),[]);
+  assert.equal(focusFixture('augusta',{kind:'resources'}),null);
+  assert.equal(focusFixture('aalto',{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:3}),null);
+  saved.hasRecordedRun = true;
+  const recorded = simulationModel(person,saved);
+  assert.equal(recorded.rows.find(row=>row.id==='BASIC_ATTACK_DMG_BONUS').simulated,'0.0%');
+  assert.ok(recorded.rows.every(row=>row.expected===null));
+  saved.hasRecordedRun = false; assert.deepEqual(saved,before);
+  const other = simulationModel(CHARACTER_CATALOG.find(row=>row.id==='aalto'),getDemoState('aalto'));
+  assert.ok(other.rows.every(row=>row.recommended===null && row.expected===null && row.simulated===null));
 });

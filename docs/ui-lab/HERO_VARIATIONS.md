@@ -1,6 +1,6 @@
 # Character Hero compositions
 
-The approved Character Card is recoverable at `4b05fe1fd2d63c49b066a52ecf21f6f4dc503bf4`. It remains the default when `hero` is absent or unsupported. Neither alternative is designated the winner.
+The approved Character Card is recoverable at `4b05fe1fd2d63c49b066a52ecf21f6f4dc503bf4`. Elegant Hero is approved and is now the default when `hero` is absent or unsupported. `?hero=baseline` preserves the earlier presentation. See [Simulation Stats](SIMULATION_STATS.md) for the shared-panel integration.
 
 - `?hero=elegant`: left-aligned name and epithet below a fuller artwork region; rarity and concise metadata share a quiet baseline. The artwork leaves a dedicated Sequence lane, with restrained circular light.
 - `?hero=cinematic`: closer, slightly offset artwork; deeper radial lighting and a slanted arc; centered rarity, larger name, epithet and metadata. The portrait region is modestly taller.

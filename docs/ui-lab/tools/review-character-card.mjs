@@ -35,7 +35,7 @@ export async function reviewCharacterCard(page, { width, checks }) {
   const saved = characterCardModel(CHARACTER_CATALOG.find(person => person.id === 'augusta'), getDemoState('augusta'));
   assert.deepEqual(await card.locator('#characterStats tr').evaluateAll(rows => rows.map(row => [...row.children].map(cell => cell.textContent))), saved.stats);
   assert.equal(await card.locator('thead,.comparison-basis,.character-pending,.character-context').count(), 0);
-  assert.doesNotMatch(await card.innerText(), /Skills MAX|Sequence S0|Simulated build|Build evaluation|Expected|Recommended/);
+  assert.doesNotMatch(await card.locator('.character-content').innerText(), /Skills MAX|Sequence S0|Simulated build|Build evaluation|Expected|Recommended/);
   const statsTop = await top(card.locator('.stats-heading'));
   await card.locator('#characterSkills summary').focus(); await page.keyboard.press('Space');
   assert.equal(await card.locator('#characterSkills').evaluate(node => node.open), true);

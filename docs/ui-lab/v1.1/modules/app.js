@@ -1,4 +1,5 @@
-import { mountCharacterCard } from './character-card.js';
+import { mountResultsPanel } from './simulation-stats.js';
+import { SETTING_METRICS } from './simulation-model.js';
 import { CHARACTER_CATALOG } from './catalog.js';
 import { getDemoState, resetDemoState, MINIMUM_TIERS } from './lab-state.js';
 import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
@@ -8,7 +9,7 @@ import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
-const characterCard = mountCharacterCard($('.character-content'));
+const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let state = getDemoState(selectedId);
@@ -70,7 +71,7 @@ function renderCharacter() {
 
 function rowMarkup(name) {
   const tier = state.minima[name];
-  return `<div class="setting-row ${name === 'Flat ATK' ? 'neutral' : ''}" draggable="true" data-minimum="${escapeHtml(name)}" tabindex="0" aria-label="${escapeHtml(name)}; Alt Up or Down reorders this list"><span class="handle" aria-hidden="true">≡</span><label>${escapeHtml(name)}<input aria-label="${escapeHtml(name)} minimum" type="range" min="0" max="${MINIMUM_TIERS[name].length - 1}" value="${tier}"></label><output>${MINIMUM_TIERS[name][tier]}</output></div>`;
+  return `<div class="setting-row ${name === 'Flat ATK' ? 'neutral' : ''}" draggable="true" data-minimum="${escapeHtml(name)}" data-stat-id="${SETTING_METRICS[name]}" tabindex="0" aria-label="${escapeHtml(name)}; Alt Up or Down reorders this list"><span class="handle" aria-hidden="true">≡</span><label>${escapeHtml(name)}<input aria-label="${escapeHtml(name)} minimum" type="range" min="0" max="${MINIMUM_TIERS[name].length - 1}" value="${tier}"></label><output>${MINIMUM_TIERS[name][tier]}</output></div>`;
 }
 
 function renderSettings() {
@@ -111,8 +112,9 @@ function layout(last = 'character') {
   const available = shell.clientWidth;
   let expandedSettings = settings.classList.contains('expanded');
   let expandedCharacter = character.classList.contains('expanded');
-  const characterWidth = available < 1550 ? 290 : 324;
-  const required = 1000 + 24 + (expandedSettings ? 280 : 58) + (expandedCharacter ? characterWidth : 58);
+  const characterWidth = available < 1550 ? 290 : Math.min(480, Math.floor(available * .24));
+  const gaps = 2 * parseFloat(getComputedStyle(shell).columnGap);
+  const required = 1000 + gaps + (expandedSettings ? 280 : 58) + (expandedCharacter ? characterWidth : 58);
   if (available < required) {
     if (last === 'settings') expandedCharacter = false;
     else expandedSettings = false;
@@ -205,6 +207,7 @@ $('.gate-options').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
   state.gate = event.target.textContent;
   renderSettings();
+  characterCard.edit({kind:'gate'},null);
 });
 $('#settings').addEventListener('input', event => {
   if (event.target.type !== 'range') return;
@@ -213,10 +216,12 @@ $('#settings').addEventListener('input', event => {
   state.settingsMode = 'Customize';
   row.querySelector('output').textContent = MINIMUM_TIERS[row.dataset.minimum][Number(event.target.value)];
   document.querySelectorAll('.setting-mode button').forEach(button => button.classList.toggle('selected', button.textContent === 'Customize'));
+  characterCard.edit({kind:'minimum', metric:row.dataset.statId, tier:Number(event.target.value)},row);
 });
 function rememberFlexOrder() {
   state.flexOrder = [...$('#flexRows').querySelectorAll('[data-minimum]')].map(row => row.dataset.minimum);
   state.settingsMode = 'Customize';
+  characterCard.edit({kind:'flex-placement'},null);
 }
 $('#settings').addEventListener('dragstart', event => {
   draggedRow = event.target.closest('#flexRows [data-minimum]');
@@ -246,6 +251,7 @@ $('.setting-mode').addEventListener('click', event => {
     state.flexOrder = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
   }
   renderSettings();
+  characterCard.edit({kind:'settings-mode'},null);
 });
 $('#simulate').onclick = () => {
   if (!workshopFeedbackFixture(state).actionAllowed) return;
@@ -267,6 +273,24 @@ $('.mode-switch').addEventListener('click', event => { if (event.target.tagName 
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 $('#reset').onclick = () => { state = resetDemoState(selectedId); renderWorkspace(); notify('This Character’s demonstration state restored'); };
 
+$('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
+// Native row drag must not intercept a range thumb's pointer gesture.
+let sliderRow = null;
+$('#settings').addEventListener('pointerdown', event => {
+  if (event.target.type !== 'range') return;
+  sliderRow = event.target.closest('[data-minimum]');
+  if (sliderRow) sliderRow.draggable = false;
+});
+function finishSlider() {
+  if (!sliderRow) return;
+  sliderRow.draggable = true; sliderRow = null;
+  characterCard.settle();
+}
+window.addEventListener('pointerup', finishSlider);
+window.addEventListener('pointercancel', finishSlider);
+$('#settings').addEventListener('change', () => characterCard.settle());
+$('#settings').addEventListener('pointerup', () => characterCard.settle());
+$('#settings').addEventListener('focusout', () => characterCard.settle());
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {

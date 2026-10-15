@@ -51,10 +51,10 @@ export function forteMarkup(person, investment) {
   }).join('')}</div>${!investment ? '<p class="card-unavailable">Levels unavailable</p>' : ''}`;
 }
 
-// Explicit alternatives; the approved composition remains the default until review.
+// Elegant is approved; earlier compositions remain explicitly reviewable.
 export function heroVariation(search) {
   const variant = new URLSearchParams(search).get('hero');
-  return ['elegant', 'cinematic'].includes(variant) ? variant : 'baseline';
+  return ['baseline', 'elegant', 'cinematic'].includes(variant) ? variant : 'elegant';
 }
 function refinedHero(model, saved, variant) {
   const { person, rarity, sequence } = model, element = person.identityElement;

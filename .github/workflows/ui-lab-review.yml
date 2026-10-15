@@ -31,7 +31,9 @@ jobs:
       - name: Preserved baseline, isolation and discard boundaries
         run: node --test docs/ui-lab/tools/state.test.mjs
       - name: Reviewed catalog parity
-        run: node docs/ui-lab/tools/export-catalog.mjs --check
+        run: |
+          node docs/ui-lab/tools/export-catalog.mjs --check
+          node docs/ui-lab/tools/export-targets.mjs --check
       - name: Chromium layout and interaction review
         env:
           UI_LAB_CHROME_PATH: /usr/bin/google-chrome

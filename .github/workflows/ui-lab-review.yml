@@ -28,6 +28,10 @@ jobs:
           node-version: 22
       - name: Install browser driver without changing dependency manifests
         run: npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.56.1
+      - name: Install review-only video encoder
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ffmpeg
       - name: Preserved baseline, isolation and discard boundaries
         run: node --test docs/ui-lab/tools/state.test.mjs
       - name: Reviewed catalog parity

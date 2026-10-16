@@ -24,6 +24,9 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.ok(Number((await expected.allTextContents())[2].replaceAll(',',''))>=1112,'Calculated DEF includes verified base and non-target rolls');
   assert.match(await read('TOTAL_ATK'),/2,407/);
   assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
+  // At 1440 the last-opened side panel wins. Open Settings before using its
+  // slider; the results DOM remains reactive even while the other rail compacts.
+  await ensure('settings');
   // Source-backed Accepted Echo means must respond to actual Improve edits.
   const heavyCell=page.locator('[data-result-id="HEAVY_ATTACK_DMG_BONUS"] [data-role="expected"] strong');
   const priorHeavy=await heavyCell.innerText();
@@ -44,6 +47,8 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   await page.locator('#erEnabled').uncheck();
   await page.waitForTimeout(animated ? 210 : 10);
   assert.equal(await erCell.innerText(),beforeER,'Disabled ER Target must not modify Expected');
+  await ensure('character');
+  await choose('simulation');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
   const compact = await page.locator('.simulation-content').evaluate(view => {
     const headers = [...view.querySelectorAll('.results-key span')].map(n=>n.getBoundingClientRect());

@@ -20,8 +20,8 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.equal(await page.locator('.result-row').count(),12);
   assert.equal(await expected.count(),12);
   assert.equal(await page.locator('[data-role=expected] strong:not(.unavailable)').count(),12,'All twelve Augusta Expected values are computed');
-  assert.match((await expected.allTextContents())[0],/^\\d/,'Actual HP, not a missing requirement');
-  assert.match((await expected.allTextContents())[2],/^\\d/,'Actual DEF, not a missing requirement');
+  assert.ok(Number((await expected.allTextContents())[0].replaceAll(',',''))>10300,'Calculated HP includes real base, Main Stats and non-target rolls');
+  assert.ok(Number((await expected.allTextContents())[2].replaceAll(',',''))>=1112,'Calculated DEF includes verified base and non-target rolls');
   assert.match(await read('TOTAL_ATK'),/2,407/);
   assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
   // Source-backed Accepted Echo means must respond to actual Improve edits.

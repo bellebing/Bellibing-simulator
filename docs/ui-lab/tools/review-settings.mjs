@@ -21,7 +21,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await browse.evaluate(el=>el.open),true,'More Sets must open with keyboard');
   assert.equal(await page.locator('.sonata-browse').isVisible(),true);
   assert.equal(await page.locator('.sonata-browse .sonata-option').count(),35,'Only source-backed other sets');
-  assert.equal(await page.locator('[data-sonata-id="sonata-37"]').innerText(),'Flash of Electric Reflection');
+  assert.equal(await page.locator('[data-sonata-id="sonata-37"] .sonata-name').innerText(),'Flash of Electric Reflection');
   const visibleSonatas=await page.locator('.sonata-browse').evaluate(el=>{
     const viewport=el.getBoundingClientRect();
     const bounds=[...el.querySelectorAll('.sonata-card')].map(child=>child.getBoundingClientRect());
@@ -55,7 +55,9 @@ export async function reviewSettings(page,{width,checks}) {
   const selectedIds=()=>page.locator('.sonata-selected [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
   const listIds=()=>page.locator('.sonata-browse [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
   const defaults=['sonata-20','sonata-3'];
-  await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-selected'),{targetPosition:{x:60,y:6}});
+  const chosenSize=await page.locator('.sonata-selected').boundingBox();
+  await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-selected'),
+    {targetPosition:{x:60,y:chosenSize.height-5}});
   assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],'Pointer drag should add Celestial Light');
   assert.equal((await listIds()).length,34,'Chosen card must leave More Sets');
   assert.equal(new Set([...(await selectedIds()),...(await listIds())]).size,37,'Sonata IDs must stay unique');

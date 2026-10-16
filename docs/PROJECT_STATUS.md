@@ -68,6 +68,10 @@ Sequence gate stabilization is integrated. The verifier now waits for settled op
 
 GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidence. Do not copy those values into this current-status file.
 
+## Manual Workshop integration candidate
+
+The approved UI now has a bounded manual integration candidate, separate from deployed main behavior. It reuses canonical Character/build ownership, creates eligible Echo candidates, rolls actual checkpoints and spends only a detached session budget. Candidates stay unequipped; automatic decisions, Full Set, Expected and DPS remain Pending. See [manual Workshop contract](ECHO_MANUAL_WORKSHOP.md). A general account-owned inventory model for unequipped Echo/Weapon instances remains a future architectural requirement.
+
 ## Nearest roadmap
 
 Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.

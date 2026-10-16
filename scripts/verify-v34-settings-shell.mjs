@@ -105,6 +105,7 @@ async function pointerClick(send, selector) {
 }
 
 async function capture(send, path) {
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
   const shot = await send('Page.captureScreenshot', { format:'png', fromSurface:true });
   mkdirSync('artifacts', { recursive:true }); writeFileSync(path, Buffer.from(shot.data,'base64'));
 }

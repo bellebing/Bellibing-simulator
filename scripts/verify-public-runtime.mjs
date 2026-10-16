@@ -143,9 +143,11 @@ try {
     }
     console.log('PASS public runtime '+route);
   }
+  if (process.env.BELLIBING_CAPTURE_MEDIA !== '0') {
   mkdirSync('artifacts',{recursive:true});
   const shot=await send('Page.captureScreenshot',{format:'png'});
   writeFileSync('artifacts/public-echo-lab-1440x900.png',Buffer.from(shot.data,'base64'));
+  }
   socket.close();
 } catch(error) { console.error(error); if(stderr)console.error(stderr); process.exitCode=1; }
 finally { chrome.kill(); }

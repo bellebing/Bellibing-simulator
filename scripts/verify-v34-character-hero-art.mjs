@@ -164,11 +164,13 @@ function assertReadyGeometry(s,row,label){
   assert(s.art.right<=s.echoes.left+1,'Echo controls overlap Character art frame',{label,s});
 }
 async function captureFull(send,filename){
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
   mkdirSync('artifacts',{recursive:true});
   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
   writeFileSync('artifacts/'+filename,Buffer.from(shot.data,'base64'));
 }
 async function captureFocus(send,id){
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
   mkdirSync('artifacts/hero-roster',{recursive:true});
   const box=await evaluate(send,"document.querySelector('.focus').getBoundingClientRect().toJSON()");
   const shot=await send('Page.captureScreenshot',{format:'png',fromSurface:true,clip:{x:Math.max(0,box.x),y:Math.max(0,box.y),width:Math.min(box.width,1440-Math.max(0,box.x)),height:Math.min(box.height,900-Math.max(0,box.y)),scale:.5}});

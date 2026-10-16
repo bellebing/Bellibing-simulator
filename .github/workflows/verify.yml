@@ -3,6 +3,11 @@ name: Verify
 on:
   # Exact-head FULL can run on a draft branch before PM UI review.
   workflow_dispatch:
+    inputs:
+      capture_media:
+        description: Capture optional review images
+        type: boolean
+        default: true
   push:
     branches: [main]
   pull_request:
@@ -18,6 +23,8 @@ concurrency:
 
 jobs:
   verify:
+    env:
+      BELLIBING_CAPTURE_MEDIA: ${{ github.event_name == 'workflow_dispatch' && inputs.capture_media == false && '0' || '1' }}
     # A skipped draft job is not FULL evidence. Required-check enforcement is
     # outside this split; main FULL remains the transition backstop.
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
@@ -127,6 +134,10 @@ jobs:
             curl --fail --silent --output /dev/null "http://127.0.0.1:4174/docs/assets/$module"
           done
           google-chrome --version
+          BELLIBING_WORKSHOP_URL=http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html \
+            node scripts/verify-echo-workshop.mjs
+          BELLIBING_WORKSHOP_URL=http://127.0.0.1:4173/ui-preview/ \
+            node scripts/verify-echo-workshop.mjs
           BELLIBING_LIVE_ROLL_ASSIST_URL=http://127.0.0.1:4173/roll-assistant.html \
             node scripts/verify-live-roll-assist.mjs
           BELLIBING_ALPHA_URL=http://127.0.0.1:4173/ \
@@ -249,6 +260,7 @@ jobs:
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/echo-cost/cost-4.png"
           curl --fail --silent --output /dev/null             "http://127.0.0.1:4173/ui-preview/assets/builder-icons/manifest.json"
 
+          if [ "$BELLIBING_CAPTURE_MEDIA" != "0" ]; then
           google-chrome \
             --headless=new \
             --no-sandbox \
@@ -269,8 +281,10 @@ jobs:
             --screenshot=artifacts/ui-preview-improve-augusta-1440x900.png \
             "http://127.0.0.1:4173/ui-preview/?improve-layout-preview=1"
           test -s artifacts/ui-preview-improve-augusta-1440x900.png
+          fi
 
       - name: Upload New UI Home visual evidence
+        if: env.BELLIBING_CAPTURE_MEDIA != '0'
         uses: actions/upload-artifact@v4
         with:
           name: bellibing-new-ui-home-visual

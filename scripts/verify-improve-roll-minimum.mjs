@@ -127,6 +127,7 @@ try {
   await send('Page.enable'); await send('Runtime.enable');
   await verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, sleep,
     capture: async (send, path) => {
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
       const result = await send('Page.captureScreenshot', { format: 'png' });
       mkdirSync('artifacts', { recursive: true }); writeFileSync(path, Buffer.from(result.data, 'base64'));
     } });

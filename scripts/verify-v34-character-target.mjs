@@ -69,6 +69,7 @@ try {
     await send('Input.insertText', { text });
   };
   const shot = async path => {
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
     const result = await send('Page.captureScreenshot', { format: 'png', fromSurface: true });
     mkdirSync('artifacts', { recursive: true }); writeFileSync(path, Buffer.from(result.data, 'base64'));
   };

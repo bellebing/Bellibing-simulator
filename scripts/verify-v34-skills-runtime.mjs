@@ -97,6 +97,7 @@ async function layout(send){
   return evaluate(send,"(() => {const box=id=>document.getElementById(id).getBoundingClientRect().toJSON(),side=document.querySelector('.side-left').getBoundingClientRect(),panel=document.getElementById('skillsPanel').getBoundingClientRect(),tree=document.getElementById('skillsMenuTree').getBoundingClientRect(),detail=document.querySelector('.skills-detail-pane').getBoundingClientRect();return{stats:box('buildStatsBlock'),skills:box('skillsBlock'),skillsButton:box('skillsBtn'),weapon:document.getElementById('weaponBtn').closest('.block').getBoundingClientRect().toJSON(),side:side.toJSON(),panel:panel.toJSON(),tree:tree.toJSON(),detail:detail.toJSON(),iw:innerWidth,ih:innerHeight,sw:document.documentElement.scrollWidth,sh:document.documentElement.scrollHeight}})()");
 }
 async function capture(send){
+  if (process.env.BELLIBING_CAPTURE_MEDIA === '0') return;
   mkdirSync('artifacts',{recursive:true});
   const shot=await send('Page.captureScreenshot',{format:'png',captureBeyondViewport:false,fromSurface:true});
   writeFileSync('artifacts/ui-preview-skills-menu-1440x900.png',Buffer.from(shot.data,'base64'));

@@ -73,7 +73,7 @@ export async function reviewSettings(page,{width,checks}) {
   const chosenSize=await page.locator('.sonata-selected').boundingBox();
   await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-selected'),
     {targetPosition:{x:60,y:chosenSize.height-5}});
-  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],`Pointer drag should add Celestial Light: ${JSON.stringify(await page.evaluate(()=>window.sonataDragTrace))}`);
+  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],`Pointer drag should add Celestial Light: ${JSON.stringify(await page.evaluate(()=>({events:window.sonataDragTrace,drop:document.querySelector('.sonata-section').dataset.sonataDebug})))}`);
   assert.equal((await listIds()).length,34,'Chosen card must leave More Sets');
   assert.equal(new Set([...(await selectedIds()),...(await listIds())]).size,37,'Sonata IDs must stay unique');
   assert.equal(await page.locator('.sonata-count').count(),2,'UI pool must not change demo Echo equipment or set counts');

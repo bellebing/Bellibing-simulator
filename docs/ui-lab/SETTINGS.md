@@ -2,6 +2,12 @@
 
 `modules/improve-settings.js` owns the compact controls; `settings-state.js` owns the memory-only configuration. Production persistence, policy, evaluator and defaults are untouched. The preceding PR revision remains recoverable in git.
 
+## Available Resource Inventory
+
+`modules/resource-state.js` creates one page-owned inventory outside all Character and simulation records, using the existing pure `docs/assets/resourceInventory.js` implementation of `src/resourceInventory.ts`. It starts at the canonical explicit-zero budget. `resource-inventory.js` displays Echoes, Premium Tuners and four source-owned Tube identities with the verified `resource-icons` assets. Direct input commits on Enter or blur, formats Unlimited as ∞, and atomically rolls back invalid drafts to the previous valid quantity with an accessible local error. Escape clears a rejected draft.
+
+Character selection, right-panel modes, side-panel collapse, Recommended and Character Reset preserve this shared inventory. Reload clears it; no production persistence is connected. Available quantities and illustrative Materials Used records are independent: neither SIMULATE nor inventory edits deduct or rewrite the other. Budget editing does not invent Expected/evaluator effects. `review-resources.mjs` verifies these interactions at the three desktop widths without media artifacts.
+
 ## Canonical inputs and ownership
 
 `tools/export-settings.mjs` exports all 13 canonical `StatName` identities and exact minimum tiers from `src/echoCoreRules.ts`, existing `improveRollControl` labels and the source-owned `selectedFlexRequirement` presentation function. `settings-catalog.js` is generated, with CI parity. Canonical StatName strings are IDs in the source domain; placement never parses visible labels. Probabilities/evaluator code are excluded.

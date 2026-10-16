@@ -254,3 +254,28 @@ test('ER Target presentation fails closed and distinguishes optional illustrativ
   assert.equal(erTargetPresentation({...base,total:{...total,status:'ILLUSTRATIVE'}}).status,'UNAVAILABLE');
   assert.deepEqual(erTargetPresentation({...base,total:{...total,status:'ILLUSTRATIVE'},allowIllustrative:true}),{status:'REACHED',isDemo:true,totalPercent:120});
 });
+
+test('Lab inventory reuses canonical validation and rejects drafts atomically outside Character state', async () => {
+  const canonical=await import('../../../src/resourceInventory.ts');
+  const browser=await import('../../assets/resourceInventory.js');
+  const {createLabResourceInventory}=await import('../v1.1/modules/resource-state.js');
+  const store=createLabResourceInventory(), initial=store.read();
+  assert.deepEqual(initial,canonical.emptyResourceInventory());
+  assert.deepEqual(browser.ECHO_TUBES,canonical.ECHO_TUBES);
+  for(const text of ['0','240','00012','9007199254740991','∞','Unlimited',' unlimited ']) {
+    assert.deepEqual(browser.parseInventoryQuantity(text),canonical.parseInventoryQuantity(text));
+    store.set('echoes',text);
+    assert.deepEqual(store.read().echoes,canonical.parseInventoryQuantity(text));
+  }
+  const before=store.read();
+  for(const text of ['','-1','1.5','1e3','1,000','NaN','Infinity','9007199254740992']) {
+    assert.throws(()=>canonical.parseInventoryQuantity(text));assert.throws(()=>store.set('echoes',text));assert.deepEqual(store.read(),before);
+  }
+  for(const id of ['tuners',...canonical.ECHO_TUBES.map(tube=>tube.id)])store.set(id,'0');
+  assert.deepEqual(store.read().tuners,{kind:'FINITE',count:0});
+  store.set('premium','Unlimited');assert.deepEqual(store.read().tubes.premium,{kind:'UNLIMITED'});
+  const snapshot=store.read();snapshot.tubes.premium.kind='FINITE';assert.deepEqual(store.read().tubes.premium,{kind:'UNLIMITED'});
+  resetDemoState('augusta');resetDemoState('iuno');assert.deepEqual(store.read().echoes,before.echoes);
+  assert.equal(Object.hasOwn(getDemoState('augusta'),'resourceInventory'),false);
+  assert.throws(()=>store.set('unknown','1'));
+});

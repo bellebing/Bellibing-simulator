@@ -18,10 +18,11 @@ if (args.includes('--require-clean') && dirty) throw new Error('Review packaging
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const mime = path => ({ '.webp': 'image/webp', '.png': 'image/png', '.svg': 'image/svg+xml' })[extname(path)];
-const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1.1/typography.css', 'docs/ui-lab/v1.1/feedback.css', 'docs/ui-lab/v1.1/character-card.css', 'docs/ui-lab/v1.1/hero-variations.css', 'docs/ui-lab/v1.1/simulation-stats.css', 'docs/ui-lab/v1.1/improve-settings.css', 'docs/ui-lab/v1/style.css'];
+const sourceFiles = ['docs/ui-lab/v1.1/index.html', 'docs/ui-lab/v1.1/lab.css', 'docs/ui-lab/v1.1/typography.css', 'docs/ui-lab/v1.1/feedback.css', 'docs/ui-lab/v1.1/character-card.css', 'docs/ui-lab/v1.1/hero-variations.css', 'docs/ui-lab/v1.1/simulation-stats.css', 'docs/ui-lab/v1.1/improve-settings.css', 'docs/ui-lab/v1.1/resource-inventory.css', 'docs/ui-lab/v1/style.css'];
 const assetPaths = [...new Set([
   ...readdirSync(resolve(root, 'docs/ui-lab/v1/assets')).map(name => `../v1/assets/${name}`),
   ...CHARACTER_CATALOG.flatMap(person => [person.face, person.art, ...(person.sequences ?? []).map(chain => chain.art), ...(person.forte?.nodes ?? []).map(node => node.art)]),
+  ...['tuners','premium','advanced','medium','basic'].map(id => `../../ui-prototypes/assets/resource-icons/${id}.png`),
   ...WEAPON_CATALOG.map(weapon => weapon.art).filter(Boolean),
   ...["spectro", "havoc", "aero", "glacio", "fusion", "electro"].map(element => `../../ui-prototypes/assets/builder-icons/elements/${element}.webp`),
 ])];
@@ -41,17 +42,24 @@ const moduleSources = new Map();
 function bundleModule(id) {
   if (moduleSources.has(id)) return;
   const path = resolve(entry, id);
-  if (!path.startsWith(entry + '/modules/')) throw new Error(`Unexpected review import ${id}`);
+  const shared = ['docs/assets/resourceInventory.js','docs/assets/data/echoTubeSource.js'].map(file => resolve(root, file));
+  if (!path.startsWith(entry + '/modules/') && !shared.includes(path)) throw new Error(`Unexpected review import ${id}`);
   let source = readFileSync(path, 'utf8');
   sourceFiles.push(relative(root, path));
   moduleSources.set(id, '');
+  const reexported = [];
+  source = source.replace(/^export \{([^}]+)\} from ['"]([^'"]+)['"];$/gm, (_, bindings, dependency) => {
+    const next = relative(entry, resolve(dirname(path), dependency)).replaceAll('\\', '/');
+    bundleModule(next); reexported.push(...bindings.split(',').map(name => name.trim()));
+    return `const {${bindings}} = require(${JSON.stringify(next)});`;
+  });
   source = source.replace(/^import \{([^}]+)\} from ['"]([^'"]+)['"];$/gm, (_, bindings, dependency) => {
     const next = relative(entry, resolve(dirname(path), dependency)).replaceAll('\\', '/');
     bundleModule(next);
     return `const {${bindings}} = require(${JSON.stringify(next)});`;
   });
   if (/^import\s/m.test(source)) throw new Error(`Unsupported module import in ${id}`);
-  const exported = [];
+  const exported = [...reexported];
   source = source.replace(/^export (function|const|class) ([\w$]+)/gm, (_, kind, name) => { exported.push(name); return `${kind} ${name}`; });
   if (/^export\s/m.test(source)) throw new Error(`Unsupported module export in ${id}`);
   moduleSources.set(id, `function(exports,require){\n${source}\nObject.assign(exports,{${exported.join(',')}});\n}`);

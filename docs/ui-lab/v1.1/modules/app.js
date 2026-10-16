@@ -1,3 +1,4 @@
+import { mountResourceInventory } from './resource-inventory.js';
 import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
 import { restoreRecommendedSettings } from './settings-state.js';
@@ -10,6 +11,7 @@ import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
+mountResourceInventory($('#resourceInventory'));
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));

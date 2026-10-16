@@ -1,3 +1,4 @@
+import { reviewResources } from './review-resources.mjs';
 import { reviewSettings } from './review-settings.mjs';
 import { reviewResults } from './review-results.mjs';
 import { reviewHero } from './review-hero.mjs';
@@ -432,6 +433,8 @@ try {
     await reviewResults(page,{width,checks,animated:width===1920});
     await page.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
     await reviewSettings(page,{width,checks});
+    await page.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewResources(page,{width,checks});
     await context.close();
   }
 

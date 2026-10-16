@@ -55,25 +55,11 @@ export async function reviewSettings(page,{width,checks}) {
   const selectedIds=()=>page.locator('.sonata-selected [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
   const listIds=()=>page.locator('.sonata-browse [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
   const defaults=['sonata-20','sonata-3'];
-  await page.evaluate(() => {
-    window.sonataDragTrace=[];
-    const section=document.querySelector('.sonata-section');
-    for(const name of ['dragstart','dragenter','dragover','drop','dragend']){
-      section.addEventListener(name,event=>{
-        if(window.sonataDragTrace.length<60)
-          window.sonataDragTrace.push({name,target:event.target.className,
-            accepted:event.defaultPrevented,xy:[event.clientX,event.clientY]});
-      },{capture:true});
-      section.addEventListener(name,event=>{
-        if(window.sonataDragTrace.length<80)
-          window.sonataDragTrace.push({name:name+'-bubble',cancelled:event.defaultPrevented,target:event.target.className});
-      });
-    }
-  });
+
   const chosenSize=await page.locator('.sonata-selected').boundingBox();
   await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-selected'),
     {targetPosition:{x:60,y:chosenSize.height-5}});
-  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],`Pointer drag should add Celestial Light: ${JSON.stringify(await page.evaluate(()=>({events:window.sonataDragTrace,drop:document.querySelector('.sonata-section').dataset.sonataDebug})))}`);
+  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],'Pointer drag should add Celestial Light');
   assert.equal((await listIds()).length,34,'Chosen card must leave More Sets');
   assert.equal(new Set([...(await selectedIds()),...(await listIds())]).size,37,'Sonata IDs must stay unique');
   assert.equal(await page.locator('.sonata-count').count(),2,'UI pool must not change demo Echo equipment or set counts');

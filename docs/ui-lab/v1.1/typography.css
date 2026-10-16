@@ -39,10 +39,11 @@
 
 /* Card variants set roles, rather than inventing independent hierarchies. */
 .ui-lab .echo-card {
-  --card-title: var(--type-item);
-  --card-main-label: var(--type-item);
-  --card-main-value: var(--type-value);
-  --card-secondary: var(--type-item);
+  --card-title: 14px;
+  --card-main-label: 14px;
+  --card-main-value: 24px;
+  --card-secondary: 13px;
+  --card-substat: 11px;
   --card-row-height: 24.1px;
 }
 .ui-lab .slot .echo-card, .ui-lab .pile .echo-card {
@@ -52,7 +53,31 @@
   --card-secondary: var(--type-label);
   --card-row-height: 22.65px;
 }
-.ui-lab .pile .echo-card { --card-row-height: 20.1px; }
+.ui-lab .pile .echo-card {
+  --card-title: 11px;
+  --card-main-label: 12px;
+  --card-main-value: 20px;
+  --card-secondary: 11px;
+  --card-substat: 10px;
+  --card-row-height: 20.1px;
+}
+/* Loadout and Trash follow the same compact typography without changing the card stack layout. */
+.ui-lab .slot .echo-card {
+  --card-title: 11px;
+  --card-main-label: 12px;
+  --card-main-value: 20px;
+  --card-secondary: 11px;
+  --card-substat: 10px;
+}
+.ui-lab .working-card .echo-name, .ui-lab .slot .echo-name, .ui-lab .pile .echo-name { font-weight: 500; }
+.ui-lab .working-card .main-stat>span, .ui-lab .slot .main-stat>span, .ui-lab .pile .main-stat>span { font-weight: 400; }
+.ui-lab .working-card .secondary-stat, .ui-lab .slot .secondary-stat, .ui-lab .pile .secondary-stat { font-weight: 400; }
+.ui-lab .working-card .main-stat { min-height: 31px; }
+.ui-lab .slot .main-stat { min-height: 26px; }
+.ui-lab .working-card .secondary-stat { min-height: 26.3px; }
+.ui-lab .slot .secondary-stat { min-height: 19.8px; }
+.ui-lab .pile .main-stat { min-height: 26px; }
+.ui-lab .pile .secondary-stat { min-height: 19px; }
 .ui-lab .echo-name { font-size: var(--card-title); line-height: 1.1; font-weight: 600; }
 .ui-lab .echo-name small, .ui-lab .cost, .ui-lab .level,
 .ui-lab .card-bottom { font-size: var(--type-meta); }
@@ -63,8 +88,15 @@
 .ui-lab .secondary-stat { font-size: var(--card-secondary); line-height: 1.2; color: #d2d5d5; font-weight: 500; padding-bottom: 9px; }
 .ui-lab .secondary-stat strong { font-weight: 500; }
 .ui-lab .substat, .ui-lab .echo-card.discarded .substat.empty span,
-.ui-lab .echo-card.discarded .substat.empty strong { font-size: var(--type-body); }
+.ui-lab .echo-card.discarded .substat.empty strong { font-size: var(--card-substat, var(--type-body)); }
 .ui-lab .substat { height: var(--card-row-height); padding-block: 0; align-items: center; line-height: 1.2; }
+/* A unitless stat reserves one percent glyph's space, not a fixed value column.
+   The compact card variant needs a smaller unit width. */
+.ui-lab .echo-card { --main-percent-space: 21px; --substat-percent-space: 10px; }
+.ui-lab .slot .echo-card, .ui-lab .pile .echo-card { --main-percent-space: 18px; --substat-percent-space: 9px; }
+.ui-lab .main-stat strong.stat-unitless,
+.ui-lab .secondary-stat strong.stat-unitless { padding-inline-end:var(--main-percent-space); }
+.ui-lab .substat strong.stat-unitless { padding-inline-end:var(--substat-percent-space); }
 .ui-lab .echo-values { font-variant-numeric: tabular-nums; }
 .ui-lab .working-card .echo-identity { min-height: 48px; }
 .ui-lab .working-card .echo-values { padding-block: 10px 12px; }

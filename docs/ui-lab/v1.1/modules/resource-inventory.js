@@ -9,7 +9,9 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
     const value = initial[id] ?? initial.tubes[id];
     return `<label class="resource-field${prominent ? ' resource-prominent' : ''}" data-resource="${id}" title="${escapeHtml(name)} · whole count or ∞ / Unlimited"><span class="resource-caption">${icon ? `<img src="${assetURL(`../../ui-prototypes/assets/resource-icons/${id}.png`)}" alt="">` : ''}<span>${escapeHtml(caption)}</span></span><input type="text" value="${formatInventoryQuantity(value)}" aria-label="${escapeHtml(name)} available count" aria-description="Whole non-negative count or ∞ / Unlimited" autocomplete="off" spellcheck="false"></label>`;
   }
-  host.innerHTML = `<div class="resource-primary">${field('echoes','Echoes','Echoes',false,true)}${field('tuners','Premium Tuner','Premium Tuners',true,true)}</div><div class="resource-tube-heading" id="tubeInventoryLabel">Sealed Tubes</div><div class="resource-tubes" role="group" aria-labelledby="tubeInventoryLabel">${ECHO_TUBES.map(tube=>field(tube.id,tube.name,tube.color)).join('')}</div><p id="resourceError" class="resource-error" role="alert" hidden></p>`;
+  host.innerHTML = `<div class="resource-grid-headings" aria-hidden="true"><span>Echoes</span><span>Tuners</span><span>Tubes</span></div>
+    <div class="resource-compact-grid">${field('echoes','Echoes','',false,true)}${field('tuners','Premium Tuner','',true,true)}${ECHO_TUBES.map(tube=>field(tube.id,tube.name,'',true)).join('')}</div>
+    <p id="resourceError" class="resource-error" role="alert" hidden></p>`;
   const error = host.querySelector('#resourceError');
   function clear(input) {
     input.setCustomValidity('');

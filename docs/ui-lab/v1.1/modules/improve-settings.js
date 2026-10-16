@@ -9,12 +9,13 @@ const statById = new Map(ECHO_SETTING_STATS.map(stat=>[stat.id,stat]));
 const labels={hard:'Hard Requirements',flex:'Flex Stats',other:'Other Stats'};
 export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   host.innerHTML = `<span class="carousel-announcement" id="settingsKeys">Drag to reorder or move between sections. Alt Left or Right changes section. Alt Up or Down reorders.</span>
-    <section class="er-target" id="erTarget"><div class="er-target-heading"><label><input id="erEnabled" type="checkbox" aria-label="Enable ER Target">ER Target</label><button id="editERTarget" aria-controls="erTargetEditor" aria-expanded="false"><span id="erTargetValue"></span><span id="erTargetBadge"></span><span class="er-edit-symbol" aria-hidden="true">⌄</span></button></div><div id="erTargetEditor" hidden><label class="er-target-field">Total ER <span><input id="erTargetInput" type="number" min="0" step="0.1" inputmode="decimal" aria-label="ER Target percent">%</span></label><output id="erTotalStatus"></output></div></section>
+    <section class="er-target" id="erTarget"><div class="er-target-heading"><label><input id="erEnabled" type="checkbox" aria-label="Enable ER Target" aria-describedby="erTargetBadge">ER Target</label><output id="erTargetValue" class="er-target-readout"></output><label id="erTargetEditor" class="er-target-inline-editor" hidden><input id="erTargetInput" type="number" min="0" step="0.1" inputmode="decimal" aria-label="ER Target percent" aria-describedby="erTargetBadge"><span aria-hidden="true">%</span></label><span id="erTargetBadge" role="status" aria-live="polite"></span></div></section>
     <section><h3>Hard Requirements</h3><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div></section>
     <section><h3>Flex Stats</h3><label class="flex-count"><output id="flexCountLabel"></output><input id="flexCount" type="range" aria-label="Required distinct Flex Stats" aria-describedby="flexCountLabel flexCountError"></label><p id="flexCountError" class="settings-validation" role="alert" hidden></p><div id="flexRows" class="stat-list" data-stat-section="flex" aria-label="Flex Stats"></div></section>
     <details id="otherStats"><summary>Other Stats</summary><div id="otherRows" class="stat-list" data-stat-section="other" aria-label="Other Stats"></div></details>`;
   const find=selector=>host.querySelector(selector);
-  let current=null, targetOwner=null, drag=null, sliderRow=null, erOpen=false, priorER=null, verifiedTotal=null;
+  let current=null, drag=null, sliderRow=null, verifiedTotal=null;
+  const editedERTargets=new WeakSet();
   function mode() {
     document.querySelectorAll('.setting-mode button').forEach(button=>{
       const selected=button.textContent===getState().settingsMode;
@@ -79,41 +80,53 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   find('#flexCount').addEventListener('input',setCount);
   function repair(){if(!flexCountPresentation(getState()).valid&&!find('#flexCount').disabled)setCount();}
   find('#flexCount').addEventListener('pointerup',repair);find('#flexCount').addEventListener('keyup',event=>{if(['Home','End','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(event.key))repair();});
-  function er({editing=false,finish=false}={}) {
+  function er() {
     const state=getState(), fixture=erTotalFixture(state.id,document.querySelector('#erReview').value);
     const view=erTargetPresentation({characterId:state.id,target:state.erTarget,total:fixture??verifiedTotal,allowIllustrative:!!fixture});
-    if(editing)erOpen=true;
-    else if(view.status==='REACHED'&&(priorER!=='REACHED'||finish))erOpen=false;
-    else if(view.status==='OUTSTANDING'&&priorER==='REACHED')erOpen=true;
-    priorER=view.status;
     const reference=CHARACTER_TARGETS.find(row=>row.characterId===state.id)?.rows.find(row=>row.metric==='TOTAL_ENERGY_REGEN'&&row.status==='READY');
     const suggested=reference?.sourceValue?.reference;
+    const suggestedPercent=Number.isFinite(suggested)?Number((suggested*100).toFixed(6)):null;
+    const customize=state.settingsMode==='Customize';
     find('#erEnabled').checked=state.erTarget.enabled;
-    find('#erTarget').dataset.status=view.status;find('#erTarget').dataset.demo=String(view.isDemo);
-    find('#erTargetValue').textContent=state.erTarget.valuePercent!==null?`${state.erTarget.valuePercent}%`:reference?`${reference.displayValue} suggested`:'Set target';
-    find('#erTargetBadge').textContent=(view.isDemo?'Demo · ':'')+({DISABLED:'Off',UNCONFIGURED:'Set value',UNAVAILABLE:'—',OUTSTANDING:'Outstanding',REACHED:'✓'}[view.status]);
-    find('#erTargetEditor').hidden=!erOpen;find('#editERTarget').setAttribute('aria-expanded',String(erOpen));
-    const input=find('#erTargetInput');if(document.activeElement!==input)input.value=state.erTarget.valuePercent??'';
-    input.placeholder=Number.isFinite(suggested)?String(Number((suggested*100).toFixed(6))):'—';
+    find('#erTarget').dataset.status=view.status;
+    find('#erTarget').dataset.demo=String(view.isDemo);
+    find('#erTargetValue').hidden=customize;
+    find('#erTargetValue').textContent=reference?`${reference.displayValue} suggested`:'—';
+    find('#erTargetEditor').hidden=!customize;
+    find('#erTargetBadge').textContent=(view.isDemo?'Illustrative demo: ':'')+({
+      DISABLED:'ER target disabled',
+      UNCONFIGURED:'ER target needs a valid percentage',
+      UNAVAILABLE:'Verified ER total unavailable',
+      OUTSTANDING:'ER target not reached',
+      REACHED:'ER target reached',
+    }[view.status]);
+    const input=find('#erTargetInput');
+    if(document.activeElement!==input)input.value=state.erTarget.valuePercent??(editedERTargets.has(state.erTarget)?'':suggestedPercent??'');
     input.setAttribute('aria-invalid',String(state.erTarget.enabled&&view.status==='UNCONFIGURED'));
-    find('#erTotalStatus').textContent=view.totalPercent===null?'Simulated total unavailable':`${view.isDemo?'Illustrative':'Verified'} total · ${view.totalPercent}%`;
     document.querySelector('#erReview').disabled=state.id!=='augusta';
-    return reference;
+    return suggestedPercent;
   }
-  find('#editERTarget').onclick=()=>{erOpen=!erOpen;er();};
   find('#erEnabled').onchange=event=>{
-    const state=getState(),enabled=event.target.checked,reference=er();state.erTarget.enabled=enabled;
-    if(state.erTarget.enabled&&state.erTarget.valuePercent===null&&reference)state.erTarget.valuePercent=Number((reference.sourceValue.reference*100).toFixed(6));
-    erOpen=state.erTarget.enabled;er();edited({kind:'er-target',metric:'TOTAL_ENERGY_REGEN'});
+    const state=getState(),enabled=event.target.checked,suggestedPercent=er();
+    state.erTarget.enabled=enabled;
+    if(enabled&&state.erTarget.valuePercent===null&&suggestedPercent!==null) {
+      state.erTarget.valuePercent=suggestedPercent;
+      editedERTargets.delete(state.erTarget);
+    }
+    edited({kind:'er-target',metric:'TOTAL_ENERGY_REGEN'});
+    er();
   };
   find('#erTargetInput').oninput=event=>{
-    const value=event.target.value.trim();getState().erTarget.valuePercent=value!==''&&event.target.validity.valid?Number(value):null;
-    er({editing:true});edited({kind:'er-target',metric:'TOTAL_ENERGY_REGEN'});
+    const value=event.target.value.trim();
+    editedERTargets.add(getState().erTarget);
+    getState().erTarget.valuePercent=value!==''&&event.target.validity.valid?Number(value):null;
+    edited({kind:'er-target',metric:'TOTAL_ENERGY_REGEN'});
+    er();
   };
-  find('#erTargetInput').onchange=()=>er({finish:true});
+  find('#erTargetInput').onchange=()=>er();
   document.querySelector('#erReview').onchange=()=>er();
   return {
-    render(){const state=getState();if(current!==state){current=state;verifiedTotal=null;}if(targetOwner!==state.erTarget){targetOwner=state.erTarget;erOpen=state.erTarget.enabled;priorER=null;}lists();er();},
+    render(){const state=getState();if(current!==state){current=state;verifiedTotal=null;}lists();er();},
     presentER(total){verifiedTotal=total;er();},
   };
 }

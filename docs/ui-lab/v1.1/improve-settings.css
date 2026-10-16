@@ -15,7 +15,7 @@
 #settings .stat-list { min-height:34px; }
 #settings .stat-list:empty { border-bottom:1px dashed var(--line); }
 #settings .is-dragging { opacity:.55; }
-#settings .handle:focus-visible,#settings input:focus-visible,#settings #editERTarget:focus-visible { outline:2px solid var(--gold); outline-offset:2px; border-radius:3px; }
+#settings .handle:focus-visible,#settings input:focus-visible { outline:2px solid var(--gold); outline-offset:2px; border-radius:3px; }
 #settings .flex-count { display:flex; align-items:center; gap:12px; margin-bottom:5px; font-size:var(--type-body); }
 #settings .flex-count output { flex:none; color:#c8bd9f; }
 #settings .settings-validation { font-size:var(--type-body); line-height:1.4; margin:3px 0 8px; color:#d59c93; }
@@ -23,14 +23,54 @@
 #settings #otherStats { border-top:1px solid var(--line); padding-block:12px; }
 #settings #otherStats summary { font-size:var(--type-label); color:#9da8b1; cursor:pointer; }
 #settings #otherStats[open] summary { margin-bottom:9px; }
-#settings .er-target-heading { display:flex; align-items:center; justify-content:space-between; gap:6px; min-height:28px; }
-#settings .er-target-heading label { display:flex; align-items:center; gap:7px; font-size:var(--type-label); white-space:nowrap; }
+#settings .er-target-heading { display:flex; align-items:center; justify-content:space-between; gap:8px; min-height:28px; }
+#settings .er-target-heading > label:first-child { display:flex; align-items:center; gap:7px; font-size:var(--type-label); white-space:nowrap; }
 #settings .er-target input[type=checkbox] { accent-color:var(--gold); width:14px; height:14px; margin:0; }
-#settings #editERTarget { padding:6px 0 6px 6px; display:flex; align-items:center; gap:8px; font-size:var(--type-body); color:#cdbd99; }
-#settings #erTargetBadge { font-size:var(--type-meta); color:#88939d; }
-#settings .er-target[data-status=REACHED] #erTargetBadge { color:#a5bd99; }
-#settings .er-target-field { display:flex; align-items:center; justify-content:space-between; font-size:var(--type-body); margin-top:9px; color:#a7b1bb; }
-#settings .er-target-field>span { display:flex; align-items:center; gap:5px; }
-#settings #erTargetInput { width:87px; padding:5px 6px; border:1px solid var(--line); border-radius:4px; background:#10161b; color:#d8cba9; font:inherit; text-align:right; }
-#settings #erTotalStatus { display:block; margin-top:7px; font-size:var(--type-meta); color:#87949e; }
+#settings .er-target-readout { margin-left:auto; color:#cdbd99; font-size:var(--type-body); white-space:nowrap; font-variant-numeric:tabular-nums; }
+#settings .er-target-inline-editor { margin-left:auto; display:flex; align-items:center; gap:3px; color:#cdbd99; font-size:var(--type-body); white-space:nowrap; }
+#settings #erTargetInput { width:64px; padding:5px 6px; border:1px solid var(--line); border-radius:4px; background:#10161b; color:#d8cba9; font:inherit; text-align:right; font-variant-numeric:tabular-nums; }
+#settings #erTargetBadge { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 #settings [hidden] { display:none!important; }
+
+/* Inline browse-only Sonata list. The two current visual choices are unchanged. */
+#settings .sonata-selected { display:grid; gap:4px; }
+#settings .sonata-card {
+  min-height:34px; display:flex; align-items:center; gap:8px; padding:4px 8px;
+  border:1px solid #bda3634d; border-radius:5px;
+  background:linear-gradient(100deg,#c1a96710,#c1a96704);
+  color:#d6c9a9; font-size:var(--type-body); line-height:1.25;
+}
+#settings .sonata-card img { width:24px; height:24px; flex:none; object-fit:contain; }
+#settings .sonata-card .sonata-name { min-width:0; flex:1; }
+#settings .sonata-card .sonata-check { flex:none; color:var(--gold); }
+#settings .sonata-option { border-color:var(--line); background:#ffffff03; color:#bbc2c7; }
+#settings .sonata-more { margin:8px 0 0; }
+#settings .sonata-more summary {
+  display:flex; align-items:center; justify-content:space-between; min-height:28px;
+  padding:3px 6px; color:#a9b2bc; font-size:var(--type-label); cursor:pointer; list-style:none;
+}
+#settings .sonata-more summary::-webkit-details-marker { display:none; }
+#settings .sonata-more summary:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+#settings .sonata-more-arrow { display:inline-block; color:var(--gold); font-size:18px; line-height:1; transition:transform .18s; }
+#settings .sonata-more[open] .sonata-more-arrow { transform:rotate(180deg); }
+#settings .sonata-browse {
+  display:grid; align-content:start; gap:4px; max-height:264px; overflow-y:auto;
+  overscroll-behavior:contain; padding:3px 5px 4px 0;
+  scrollbar-width:thin; scrollbar-color:#aa926084 transparent;
+}
+@media (prefers-reduced-motion:reduce) { #settings .sonata-more-arrow { transition:none; } }
+
+/* Reuse the Improve Settings drag-handle language on Sonata cards. */
+#settings .sonata-card .sonata-handle {
+  appearance:none; border:0; background:transparent; color:#a49a82;
+  flex:none; width:22px; height:26px; margin-left:-5px; padding:0;
+  display:grid; place-items:center; font-size:16px; line-height:1;
+  cursor:grab; touch-action:none; user-select:none;
+}
+#settings .sonata-handle:active { cursor:grabbing; }
+#settings .sonata-handle:focus-visible { outline:2px solid var(--gold); border-radius:3px; }
+#settings .sonata-card.is-dragging { opacity:.55; }
+#settings .sonata-selected.sonata-drop-target,
+#settings .sonata-browse.sonata-drop-target { outline:2px dashed var(--gold); outline-offset:2px; }
+#settings .sonata-selected.sonata-pool-empty { min-height:36px; border:1px dashed var(--line); border-radius:5px; }
+#settings .sonata-selection-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }

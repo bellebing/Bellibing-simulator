@@ -1,6 +1,7 @@
 import { mountResourceInventory } from './resource-inventory.js';
 import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
+import { mountSonataSelection } from './sonata-selection.js';
 import { restoreRecommendedSettings } from './settings-state.js';
 import { CHARACTER_CATALOG } from './catalog.js';
 import { getDemoState, resetDemoState } from './lab-state.js';
@@ -14,6 +15,7 @@ import { $, assetURL, escapeHtml, notify } from './util.js';
 mountResourceInventory($('#resourceInventory'));
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
+const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let state = getDemoState(selectedId);
@@ -53,14 +55,25 @@ function renderWorking() {
 }
 
 function renderSlots() {
-  $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number"><span>0${index + 1}</span><span class="slot-selection">${index === state.selectedSlot ? 'SELECTED' : ''}</span><span class="slot-state">${echo ? 'ACTIVE' : 'EMPTY'}</span></span>${echoCard(echo)}</button>`).join('');
+  $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo)}</button>`).join('');
   $('.loadout-heading .small-muted').innerHTML = sonataSummary(state.echoes);
 }
 
 function renderPiles() {
-  $('#piles').innerHTML = state.histories.map((history, index) => history.length
-    ? `<button class="pile" data-pile="${index}" aria-label="Lift discarded card from Echo ${index + 1}, ${history.length} historical cards"><span class="pile-count"><span>ECHO 0${index + 1}</span><b>× ${history.length}</b></span>${echoCard(history.at(-1))}</button>`
-    : `<div class="pile empty-pile" aria-label="Echo ${index + 1} Trash Pile, empty"><span class="pile-count"><span>ECHO 0${index + 1}</span><b>EMPTY</b></span>${echoCard(null)}</div>`).join('');
+  $('#piles').innerHTML = state.histories.map((history, slot) => history.length
+    ? `<div class="pile" data-pile="${slot}" aria-label="Echo ${slot + 1} Trash Pile, ${history.length} historical cards">
+        <span class="pile-count"><span>ECHO 0${slot + 1}</span><b>× ${history.length}</b></span>
+        <div class="pile-stack" style="--pile-extra:${(history.length - 1) * 16}px">
+          ${history.map((echo, index) => {
+            const depth = history.length - index - 1;
+            const checkpoint = Number.isInteger(echo.level) ? `+${echo.level}` : 'checkpoint unknown';
+            return `<button type="button" class="pile-card" data-history-index="${index}"
+              style="--pile-offset:${depth * 16}px;--pile-lift:-${depth * 16 + 10}px;--pile-z:${index + 1}"
+              aria-label="Inspect Echo ${slot + 1}, discarded card ${index + 1} of ${history.length}, ${escapeHtml(echo.name)}, discarded at ${checkpoint}">${echoCard(echo)}</button>`;
+          }).join('')}
+        </div>
+      </div>`
+    : `<div class="pile empty-pile" aria-label="Echo ${slot + 1} Trash Pile, empty"><span class="pile-count"><span>ECHO 0${slot + 1}</span><b>EMPTY</b></span>${echoCard(null)}</div>`).join('');
   $('#historyCount').textContent = `${state.histories.reduce((sum, history) => sum + history.length, 0)} cards`;
 }
 
@@ -82,6 +95,7 @@ function renderSettings() {
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   improveSettings.render();
+  sonataSelection.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = selectedId !== 'augusta';
@@ -143,12 +157,12 @@ function renderInspection() {
   $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · rejection reason unavailable`;
 }
 
-function inspectPile(slot) {
-  if (!state.histories[slot].length) return;
+function inspectPile(slot, index, source) {
+  if (!state.histories[slot]?.[index] || !source) return;
   carousel.close();
-  inspection = { slot, index: state.histories[slot].length - 1 };
-  inspectorSource = document.querySelector(`[data-pile="${slot}"]`);
-  const origin = inspectorSource.querySelector('.echo-card').getBoundingClientRect();
+  inspection = { slot, index };
+  inspectorSource = source;
+  const origin = source.querySelector('.echo-card').getBoundingClientRect();
   renderInspection();
   $('#inspection').showModal();
   const card = $('#inspectedCard');
@@ -186,8 +200,8 @@ $('#slots').addEventListener('click', event => {
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
 $('#piles').addEventListener('click', event => {
-  const button = event.target.closest('[data-pile]');
-  if (button) inspectPile(Number(button.dataset.pile));
+  const button = event.target.closest('button.pile-card');
+  if (button) inspectPile(Number(button.closest('[data-pile]').dataset.pile), Number(button.dataset.historyIndex), button);
 });
 $('#closeInspection').onclick = () => closeInspection();
 $('#inspection').addEventListener('cancel', event => { event.preventDefault(); closeInspection(); });

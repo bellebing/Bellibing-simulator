@@ -28,7 +28,7 @@ const result = {
 };
 const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
 const approvedFiles = new Map();
-const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
+const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
   try {
     let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -69,10 +69,106 @@ async function checkLayout(page, width, label) {
   }));
   assert.equal(data.pageWidth, width, `${label}: horizontal overflow`);
   assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
-  assert.ok(await page.evaluate(() => { const track = document.querySelector('#portraits').getBoundingClientRect(), workshop = document.querySelector('.workshop').getBoundingClientRect(); return Math.abs(track.x + track.width / 2 - workshop.x - workshop.width / 2) < 1; }), `${label}: compact portrait collection is not centered on Workshop`);
+  // Header center follows Workshop, not the unequal title/Reset widths.
+  const headerGeometry = await page.evaluate(() => {
+    const box = selector => document.querySelector(selector).getBoundingClientRect();
+    const center = rect => rect.left + rect.width / 2;
+    const workshop = box('.workshop');
+    const header = box('.workshop-header');
+    const mode = box('.workshop-header .mode-switch');
+    const context = box('.workshop-header .workshop-context');
+    const reset = box('.workshop-header #reset');
+    const simulate = box('#simulate');
+    return {
+      modeOffset: Math.abs(center(mode) - center(workshop)),
+      actionOffset: Math.abs(center(simulate) - center(workshop)),
+      leftGap: mode.left - context.right,
+      rightGap: reset.left - mode.right,
+      contained: mode.left >= header.left && mode.right <= header.right,
+    };
+  });
+  assert.ok(headerGeometry.modeOffset < 1, `${label}: Current / Simulate off Workshop center by ${headerGeometry.modeOffset}px`);
+  assert.ok(headerGeometry.actionOffset < 1, `${label}: SIMULATE off Workshop center by ${headerGeometry.actionOffset}px`);
+  assert.ok(headerGeometry.leftGap >= 4 && headerGeometry.rightGap >= 4 && headerGeometry.contained,
+    `${label}: Workshop header controls collide or escape the header`);
+  assert.ok(await page.evaluate(() => {
+    const midpoint = document.documentElement.clientWidth / 2;
+    const center = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return r.x + r.width / 2; };
+    return ['.site-header nav .active','#portraits','.portrait.selected'].every(selector => Math.abs(center(selector) - midpoint) < 1);
+  }), `${label}: Improve tab and compact Character portrait must share the page centerline`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
+
+  // elementFromPoint uses viewport coordinates; the Trash Piles are below the fold.
+  await page.locator('#piles').scrollIntoViewIfNeeded();
+  const trashStack = await page.evaluate(() => {
+    const piles = [...document.querySelectorAll('#piles .pile')];
+    const records = piles.map(pile => {
+      const buttons = [...pile.querySelectorAll('.pile-card')];
+      const count = Number(pile.querySelector('.pile-count b')?.textContent.replace(/[^0-9]/g, ''));
+      const stack = pile.querySelector('.pile-stack');
+      const bounds = stack?.getBoundingClientRect();
+      const tabVisible = buttons.every(button => {
+        const b = button.getBoundingClientRect();
+        const hit = document.elementFromPoint(b.right - 35, b.bottom - 6);
+        return hit?.closest('.pile-card') === button;
+      });
+      return {
+        length: buttons.length,
+        count,
+        indices: buttons.map(b => Number(b.dataset.historyIndex)),
+        footers: buttons.map(b => b.querySelector('.card-bottom')?.textContent.trim()),
+        tabVisible,
+        insideColumn: !bounds || buttons.every(b => b.getBoundingClientRect().right <= bounds.right + 1),
+      };
+    });
+    const footer = document.querySelector('.trash-footer').getBoundingClientRect();
+    const cardBottom = Math.max(...[...document.querySelectorAll('#piles .pile-stack')].map(s => s.getBoundingClientRect().bottom));
+    return {records,footerGap:footer.top - cardBottom,pseudoCards: getComputedStyle(piles[0],'::before').content};
+  });
+  assert.deepEqual(trashStack.records.map(p=>p.length),[5,3,4,2,4], `${label}: history records missing from physical piles`);
+  trashStack.records.forEach((pile,slot) => {
+    assert.equal(pile.count,pile.length, `${label}: pile ${slot + 1} history count incorrect`);
+    assert.deepEqual(pile.indices,Array.from({length:pile.length},(_,i)=>i), `${label}: pile card indices reordered`);
+    assert.ok(pile.footers.every(text => /DISCARDED AT \+/.test(text)), `${label}: missing individual discard footer`);
+    assert.ok(pile.tabVisible && pile.insideColumn, `${label}: pile ${slot+1} tab not individually reachable`);
+  });
+  assert.ok(trashStack.footerGap >= 0, `${label}: Trash footer is covered`);
+  assert.equal(trashStack.pseudoCards, 'none', `${label}: decorative pile cards still showing`);
+  await page.evaluate(() => scrollTo(0,0));
+  // Large cards and the five narrower Loadout cards have different type scales.
+  const typeScale = await page.evaluate(() => {
+    const size = (card, selector) => parseFloat(getComputedStyle(document.querySelector(`${card} ${selector}`)).fontSize);
+    return {
+      large: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#currentCard',sel)),
+      compact: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#slots .slot:first-child',sel)),
+      trash: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#piles .pile:first-child',sel)),
+    };
+  });
+  assert.deepEqual(typeScale.large, [14,14,24,13,11], `${label}: large Echo typography drift`);
+  assert.deepEqual(typeScale.compact, [11,12,20,11,10], `${label}: compact Loadout typography drift`);
+  assert.deepEqual(typeScale.trash, [11,12,20,11,10], `${label}: compact Trash typography drift`);
+  // Check number/unit presentation in all card sizes without assuming fixed card widths.
+  const suffixes = await page.evaluate(() => {
+    const pureNumber = value => /^[+-]?\d[\d,]*(?:\.\d+)?$/.test(value.trim());
+    return ['#currentCard .echo-card','#newCard .echo-card','#slots .slot:first-child .echo-card','#piles .pile:first-child .echo-card'].map(selector => {
+      const card = document.querySelector(selector);
+      const values = [...card.querySelectorAll('.main-stat strong,.secondary-stat strong,.substat strong')];
+      const correct = values.every(el => el.classList.contains('stat-unitless') === pureNumber(el.textContent));
+      const noOverlap = [...card.querySelectorAll('.main-stat,.secondary-stat,.substat')].every(row => row.scrollWidth <= row.clientWidth + 1);
+      const main = card.querySelector('.main-stat strong');
+      const secondary = card.querySelector('.secondary-stat strong');
+      const padding = parseFloat(getComputedStyle(secondary).paddingRight);
+      return { selector, correct, noOverlap, main:main.textContent, secondary:secondary.textContent, padding };
+    });
+  });
+  for (const row of suffixes) {
+    assert.ok(row.correct, `${label}: numeric suffix classification changed in ${row.selector}`);
+    assert.ok(row.noOverlap, `${label}: numeric spacing overlaps in ${row.selector}`);
+    if (/^[\d,.]+$/.test(row.secondary)) assert.ok(row.padding >= 17, `${label}: missing unit-space after ${row.secondary}`);
+  }
+
   // Verify labels against their sibling values, not just page overflow.
   const collisions = await page.evaluate(() => {
     const problems = [];
@@ -135,9 +231,12 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'true');
   assert.equal(await page.locator('#consumption').isVisible(), false, 'Ready must omit unused materials');
   assert.equal(await page.locator('#materialRows .material-row').count(), 0);
-  assert.equal(await page.locator('.settings h3', { hasText: 'Resources' }).innerText(), 'Resources');
-  assert.equal(await page.locator('.selected-slot .slot-selection').innerText(), 'SELECTED');
-  assert.equal(await page.locator('.selected-slot .slot-state').innerText(), 'ACTIVE');
+  assert.equal(await page.locator('.settings .resource-section h3').count(), 0, 'Resources heading should be removed');
+  assert.equal(await page.locator('#resourceInventory input').count(), 6, 'Resource values remain individually editable');
+  assert.equal(await page.locator('#slots .slot-number[aria-hidden="true"]').count(), 5, 'Preserve approved card spacing with silent headers');
+  assert.equal(await page.locator('#slots .slot-number > *').count(), 0, 'No visible numbers or passive status labels');
+  assert.equal(await page.locator('#slots .selected-slot[aria-pressed="true"]').count(), 1, 'Selected slot remains accessible');
+  assert.match(await page.locator('#slots .selected-slot').getAttribute('aria-label'), /^Select Echo slot 1(?:,|$)/);
   const originalStats = await page.locator('#characterStats').innerText();
   await page.locator('[data-person="iuno"]').hover();
   await page.locator('[data-person="iuno"]').click();
@@ -190,7 +289,29 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('#slotLabel').innerText(), '04');
   const workingBeforeHistory = await page.locator('.working-area').innerText();
   const statsBeforeHistory = await page.locator('#characterStats').innerText();
-  await page.locator('[data-pile="0"]').click();
+  // The visible footer of an older record must open THAT record, not the last.
+  const first = page.locator('[data-pile="0"] .pile-card[data-history-index="0"]');
+  // The card's center is correctly covered by later cards. Interact with its
+  // individually exposed footer tab, as a person would, not its occluded center.
+  await first.scrollIntoViewIfNeeded();
+  const firstBox = await first.boundingBox();
+  const tabX = firstBox.right ?? (firstBox.x + firstBox.width - 35);
+  const tabY = firstBox.y + firstBox.height - 6;
+  await page.mouse.move(tabX - 35, tabY);
+  await page.waitForTimeout(80);
+  assert.ok(await first.evaluate(node => getComputedStyle(node.querySelector('.echo-card')).transform !== 'none'),
+    'Hover did not lift the specific historical card');
+  await page.mouse.click(tabX - 35, tabY);
+  assert.equal(await page.locator('#historyPosition').innerText(), '1 / 5');
+  assert.match(await page.locator('#inspectedCard .card-bottom').innerText(), /DISCARDED AT \+10/);
+  assert.equal(await page.locator('#previousCard').isDisabled(), true);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#inspection').open);
+  assert.equal(await first.evaluate(node => document.activeElement === node), true, 'Close must return focus to original historical card');
+  // Make sure the original lifted focus/hover no longer covers the front-card center.
+  await page.mouse.move(1, 1);
+  await first.evaluate(node => node.blur());
+  await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
   await settle(page);
   assert.equal(await page.locator('#inspection').isVisible(), true);
   assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
@@ -347,7 +468,7 @@ try {
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
+      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed (${current[selector][key]} vs ${approved[selector][key]})`);
     }
     checks.push({ label: 'Preserved V1 vertical composition; authorized shared-panel width adaptation', width, approved, current });
     await baseline.close();
@@ -473,7 +594,7 @@ try {
       await page.locator('#simulate').click();
       assert.equal(await page.locator('#materialRows').innerText(), 'Consumption not recorded');
       await selectCharacter(page, 'augusta');
-      await page.locator('[data-pile="0"]').click();
+      await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
       assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
       await page.locator('#closeInspection').click();
       assert.deepEqual(network, [], 'Portable artifact attempted a network request');

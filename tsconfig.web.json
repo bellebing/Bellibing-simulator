@@ -25,6 +25,7 @@
     "src/improvePolicyState.ts",
     "src/improvePolicyPresentation.ts",
     "src/publicSettingsView.ts",
-    "src/echoSimulatorSession.ts"
+    "src/echoSimulatorSession.ts",
+    "src/echoResourceTransaction.ts"
   ]
 }

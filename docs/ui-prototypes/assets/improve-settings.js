@@ -2,25 +2,35 @@ import { SUBSTAT_TYPES } from '../../assets/echoCoreRules.js';
 import { ECHO_TUBES, emptyResourceInventory, parseInventoryQuantity, formatInventoryQuantity, updateResourceInventory } from '../../assets/resourceInventory.js';
 import { publicSettingsView } from '../../assets/publicSettingsView.js';
 import { createImprovePolicyState, loadImprovePolicyStorage, readImprovePolicyState, resolveImprovePolicyState,
-  updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory } from '../../assets/improvePolicyState.js';
+  updateImprovePolicyState, persistImprovePolicyState, persistResourceInventory,
+  withExclusiveImprovePolicyStorage, IMPROVE_POLICY_STORAGE_KEY } from '../../assets/improvePolicyState.js';
 import { pendingImprovePolicySource, IMPROVE_TARGET_METRICS, improveTargetInput, parseImproveTarget,
   editImproveTarget } from '../../assets/improvePolicyPresentation.js';
-import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount } from './echo-policy-presentation.mjs';
+import { echoPolicyPresentation, moveEchoStat, resetEchoPolicy, echoRollControl, editEchoRollMinimum, editFlexCount, echoSelectionSummary } from './echo-policy-presentation.mjs';
+import { readSonataChoices, sonataChoicesPresentation, toggleSonataSelection } from './improve-sonata-presentation.mjs';
 import { recommendedCharacterStatsPresentation } from './character-target-presentation.js';
 
 const root = document.getElementById('improveSettings');
 let store, storageError = null, retiredEchoRecovery = false;
+let writerQueue = Promise.resolve();
+// Only cross-tab writes invalidate already queued local edits. A burst of edits
+// from this same tab is serialized and rebased under the same exclusive lock.
+let externalWriteEpoch = 0;
+function coordinatedWrite(action) {
+  const pending = writerQueue.then(() => withExclusiveImprovePolicyStorage(action));
+  writerQueue = pending.then(() => {}, () => {});
+  return pending;
+}
 try { store = loadImprovePolicyStorage(localStorage); } catch { storageError = 'Saved policy could not be read. Recovery data has been retained.'; }
 let inventory = store?.resourceInventory ?? emptyResourceInventory();
 let characterId = null, source, sources = [], legacySources = [], loaded = false, expanded = false, settings = null, resolved = null;
 let settingsOpener = 'target';
-let drag = null, selectedMetric = null, otherExpanded = false, canonicalStats = [...SUBSTAT_TYPES];
+let drag = null, otherExpanded = false, moreSetsExpanded = false, sonataChoices = { catalog: [], recommendations: {} }, canonicalStats = [...SUBSTAT_TYPES];
 const groups = new Map();
 const element = (tag, text, className) => { const node = document.createElement(tag); if (text !== undefined) node.textContent = text; if (className) node.className = className; return node; };
 const heading = element('div', undefined, 'improve-settings-heading');
 const title = element('h2', 'Improve Settings'); title.id = 'improveSettingsTitle';
-const modes = element('div', undefined, 'improve-setting-chips'); modes.setAttribute('role', 'group'); modes.setAttribute('aria-label', 'Improve policy mode');
-heading.append(title, modes);
+heading.append(title);
 const controls = element('div', undefined, 'improve-settings-controls');
 const saveNote = element('p', undefined, 'improve-setting-note'); saveNote.setAttribute('role', 'status'); saveNote.hidden = true;
 const reviewNote = element('p', undefined, 'improve-setting-note improve-policy-review'); reviewNote.setAttribute('role', 'status'); reviewNote.hidden = true;
@@ -37,7 +47,7 @@ function renderResources() {
     owner.title = accessibleName;
     const caption = element('span', label, 'improve-resource-label');
     owner.append(caption);
-    if (id !== 'echoes') {
+    if (id === 'tuners' || ECHO_TUBES.some(tube => tube.id === id)) {
       const icon = element('img', undefined, 'improve-resource-icon');
       icon.src = new URL('./resource-icons/' + id + '.png', import.meta.url).href;
       icon.alt = ''; icon.setAttribute('aria-hidden', 'true'); icon.width = 52; icon.height = 52;
@@ -48,18 +58,25 @@ function renderResources() {
     input.setAttribute('aria-label', accessibleName + ' available count'); input.title = accessibleName + ' · whole count or ∞ (unlimited)';
     input.disabled = !!storageError || !store; input.autocomplete = 'off'; input.spellcheck = false;
     input.oninput = () => { input.setCustomValidity(''); input.removeAttribute('aria-invalid'); };
-    input.onchange = () => {
+    input.onchange = async () => {
       try {
-        const next = updateResourceInventory(inventory, id, parseInventoryQuantity(input.value));
-        const nextStore = persistResourceInventory(store, next, localStorage);
-        store = nextStore; inventory = next; input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
+        const value = parseInventoryQuantity(input.value);
+        const epoch = externalWriteEpoch;
+        await coordinatedWrite(() => {
+          if (epoch !== externalWriteEpoch)
+            throw new Error('Stale shared resource inventory; reload before editing.');
+          const next = updateResourceInventory(inventory, id, value);
+          store = persistResourceInventory(store, next, localStorage);
+          inventory = store.resourceInventory;
+        });
+        input.value = formatInventoryQuantity(quantityAt(id)); summary.textContent = input.value;
         input.setCustomValidity(''); input.removeAttribute('aria-invalid'); saveNote.hidden = true;
       } catch (error) { input.setAttribute('aria-invalid', 'true'); input.setCustomValidity(error.message); input.reportValidity(); }
     };
     input.onkeydown = event => { if (event.key === 'Enter') { event.preventDefault(); input.blur(); } };
     owner.append(summary, input); parent.append(owner);
   }
-  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner']]) {
+  for (const [id, label, accessibleName] of [['echoes', 'Echoes', 'Echoes'], ['tuners', 'Tuners', 'Premium Tuner'], ['shellCredits', 'Shell Credits', 'Shell Credits']]) {
     const family = element('div', undefined, 'improve-resource-family');
     family.append(element('h4', label));
     field(family, id, label, accessibleName, inventory[id]);
@@ -71,40 +88,61 @@ function renderResources() {
   for (const tube of ECHO_TUBES) field(denominations, tube.id, tube.color, tube.name, inventory.tubes[tube.id]);
   tubes.append(denominations); resourceControls.append(tubes);
 }
-function quantityAt(id) { return id === 'echoes' || id === 'tuners' ? inventory[id] : inventory.tubes[id]; }
+function quantityAt(id) { return id === 'echoes' || id === 'tuners' || id === 'shellCredits' ? inventory[id] : inventory.tubes[id]; }
 const note = text => element('p', text, 'improve-setting-note');
 function button(label, callback, key, selected) {
   const node = element('button', label, 'improve-setting-choice'); node.type = 'button'; node.dataset.focusKey = key;
   if (selected !== undefined) node.setAttribute('aria-pressed', String(selected));
   node.onclick = callback; return node;
 }
-function save() {
+async function save() {
   if (!store || storageError) { saveNote.textContent = storageError; saveNote.hidden = false; return false; }
-  try { store = persistImprovePolicyState(store, settings, localStorage); saveNote.hidden = true; return true; }
-  catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
-}
-// Existing Recommended action explicitly clears retired card intent; it is never migrated.
-function resetRetiredEchoPolicy() {
+  const candidate = settings, selected = characterId;
+  const epoch = externalWriteEpoch;
   try {
-    const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
-    const nextStore = persistImprovePolicyState(store, next, localStorage);
-    store = nextStore; settings = next; storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
-    render(); root.querySelector('[data-focus-key="mode:RECOMMENDED"]').focus({ preventScroll: true });
+    await coordinatedWrite(() => {
+      if (characterId !== selected) throw new Error('Character changed before settings save.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
+      store = persistImprovePolicyState(store, candidate, localStorage);
+    });
+    saveNote.hidden = true; return true;
+  } catch { saveNote.textContent = 'Settings could not be saved on this device.'; saveNote.hidden = false; return false; }
+}
+// Recovery is explicit; rejected bytes remain untouched until the existing reset is used.
+async function resetRetiredEchoPolicy() {
+  const selected = characterId, epoch = externalWriteEpoch;
+  try {
+    await coordinatedWrite(() => {
+      if (selected !== characterId) throw new Error('Character changed before recovery.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before recovery.');
+      const next = updateImprovePolicyState(settings, { type: 'reset' }, source);
+      store = persistImprovePolicyState(store, next, localStorage);
+      settings = next;
+    });
+    storageError = null; retiredEchoRecovery = false; saveNote.hidden = true;
+    render(); groups.get('flex').trigger.focus({ preventScroll: true });
   } catch { saveNote.textContent = 'Settings could not be saved on this device. Recovery data has been retained.'; saveNote.hidden = false; }
 }
-function commit(change, focusKey, refresh = true) {
-  const previous = settings;
-  try { settings = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source); }
-  catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
-  const saved = save();
-  if (!saved) settings = previous;
-  if (!refresh && saved) { resolved = resolveImprovePolicyState(settings, source); return; }
+async function commit(change, focusKey, refresh = true) {
+  const selected = characterId, epoch = externalWriteEpoch;
+  try {
+    await coordinatedWrite(() => {
+      if (characterId !== selected) throw new Error('Character changed before settings save.');
+      if (epoch !== externalWriteEpoch) throw new Error('Stale Improve settings; reload before editing.');
+      const next = typeof change === 'function' ? change(settings) : updateImprovePolicyState(settings, change, source);
+      store = persistImprovePolicyState(store, next, localStorage);
+      settings = next;
+    });
+    saveNote.hidden = true;
+  } catch (error) { saveNote.textContent = error.message; saveNote.hidden = false; return; }
+  if (!refresh) { resolved = resolveImprovePolicyState(settings, source); return; }
   render();
   const target = [...root.querySelectorAll('[data-focus-key]')].find(node => node.dataset.focusKey === focusKey && !node.disabled);
   (target ?? groups.get(settingsOpener).trigger).focus({ preventScroll: true });
 }
 function setExpanded(next, restore = false) {
   expanded = !!next;
+  controls.classList.toggle('is-expanded', expanded);
   renderResources();
   for (const group of groups.values()) {
     const open = expanded; group.host.classList.toggle('is-expanded', open);
@@ -112,18 +150,19 @@ function setExpanded(next, restore = false) {
   }
   if (restore) groups.get(settingsOpener).trigger.focus({ preventScroll: true });
 }
-for (const [id, label] of [['target', 'Target'], ['gate', 'Gate'], ['every', 'Hard Requirements'], ['flex', 'Flex Stats']]) {
+for (const [id, label] of [['sonata', 'Sonata Sets'], ['gate', 'Gate'], ['every', 'Required Substats'], ['flex', 'Flex Substats'], ['target', 'Stats']]) {
   const host = element('section', undefined, 'improve-setting'); host.dataset.setting = id;
   const trigger = element('button', undefined, 'improve-setting-trigger'); trigger.type = 'button'; trigger.id = 'improve-setting-' + id;
   const labelNode = element('label', label, 'improve-setting-label'); labelNode.htmlFor = trigger.id; labelNode.id = trigger.id + '-label';
   const summary = element('strong', undefined, 'improve-setting-summary');
-  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary, caret);
+  const caret = element('span', '⌄', 'improve-setting-caret'); caret.setAttribute('aria-hidden', 'true'); trigger.append(summary); if (id !== 'sonata') trigger.append(caret);
   const panel = element('div', undefined, 'improve-setting-expansion'); panel.id = trigger.id + '-choices'; panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', labelNode.id);
-  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
+  trigger.setAttribute('aria-label', label); trigger.setAttribute('aria-controls', 'improve-setting-sonata-choices improve-setting-target-choices improve-setting-gate-choices improve-setting-every-choices improve-setting-flex-choices');
   trigger.onclick = () => { settingsOpener = id; setExpanded(!expanded); };
   const clip = element('div', undefined, 'improve-setting-clip'), content = element('div', undefined, 'improve-setting-options');
   clip.append(content); panel.append(clip); host.append(labelNode, trigger, panel); controls.append(host); groups.set(id, { host, trigger, summary, panel, content });
 }
+setExpanded(false);
 root.addEventListener('keydown', event => { if (event.key === 'Escape' && expanded) { event.preventDefault(); event.stopPropagation(); setExpanded(false, true); } });
 function origin(section, key) {
   if (resolved.compatibility.suspendedSections.includes(key)) return resolved.compatibility.status === 'REVIEW_REQUIRED' ? 'Needs review' : 'Pending';
@@ -131,41 +170,76 @@ function origin(section, key) {
   if (section.status === 'USER_DEFINED') return 'Custom';
   return settings.mode === 'MANUAL' ? 'Recommended / inherited' : 'Recommended';
 }
+function updateSonataOverlap() {
+  const summary = groups.get('sonata').summary, count = summary.children.length;
+  summary.style.setProperty('--sonata-step', Math.min(12, Math.max(0, (summary.clientWidth - 24) / Math.max(1, count - 1))) + 'px');
+}
+new ResizeObserver(updateSonataOverlap).observe(groups.get('sonata').summary);
+function renderSonatas() {
+  const group = groups.get('sonata'), view = sonataChoicesPresentation(settings, sonataChoices);
+  group.summary.replaceChildren(); group.summary.classList.add('improve-sonata-summary');
+  group.trigger.setAttribute('aria-label', 'Sonata Sets' + (view.selected.length ? ': ' + view.selected.map(row => row.name).join(', ') : ''));
+  function icon(sonata, accessible = false) {
+    const image = element('img'); image.src = new URL(sonata.artPath.replace(/^docs\/ui-prototypes\/assets\//, './'), import.meta.url).href;
+    image.alt = accessible ? sonata.name : ''; image.title = sonata.name; image.draggable = false; image.dataset.sonataId = sonata.id;
+    return image;
+  }
+  for (const sonata of view.selected) group.summary.append(icon(sonata, true));
+  updateSonataOverlap();
+  function row(sonata, parent) {
+    const selected = view.selected.some(value => value.id === sonata.id);
+    const node = element('button', undefined, 'improve-sonata-row'); node.type = 'button';
+    node.dataset.sonataId = sonata.id; node.dataset.focusKey = 'sonata:' + sonata.id;
+    node.setAttribute('aria-pressed', String(selected));
+    node.disabled = !!storageError || !store;
+    node.append(icon(sonata), element('span', sonata.name));
+    node.onclick = () => {
+      const list = group.content.querySelector('.improve-sonata-list'), scroll = list?.scrollTop ?? 0;
+      commit(state => updateImprovePolicyState(state, { type: 'sonatas', value: toggleSonataSelection(state, sonataChoices, sonata.id) }, source), 'sonata:' + sonata.id);
+      const currentList = group.content.querySelector('.improve-sonata-list'); if (currentList) currentList.scrollTop = scroll;
+    };
+    parent.append(node);
+  }
+  const recommended = element('div', undefined, 'improve-sonata-recommended');
+  for (const sonata of view.recommended) row(sonata, recommended);
+  group.content.append(recommended);
+  const more = element('details', undefined, 'improve-more-sonatas'); more.open = moreSetsExpanded;
+  more.append(element('summary', 'More Sets')); more.ontoggle = () => { if (more.isConnected) moreSetsExpanded = more.open; };
+  const list = element('div', undefined, 'improve-sonata-list');
+  for (const sonata of view.other) row(sonata, list);
+  more.append(list); group.content.append(more);
+}
 function renderTargets() {
   const group = groups.get('target'), policy = resolved.policy.characterTarget.numericTargets;
   group.summary.textContent = policy.status === 'USER_DEFINED' ? 'Custom' : 'Recommended';
   const targets = element('section', undefined, 'improve-policy-section'); targets.dataset.policySection = 'numericTargets';
   targets.append(element('h3', 'Character Stats'));
   group.content.append(targets);
-  if (settings.mode === 'MANUAL') {
-    // Display saved user-owned rows only; the canonical edit adapter still owns inheritance.
-    for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
-    if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
-    if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { selectedMetric = null; commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
-    const add = element('details', undefined, 'improve-target-add');
-    add.append(element('summary', 'Add stat'));
-    const metrics = element('div', undefined, 'improve-setting-chips'); metrics.setAttribute('role', 'group'); metrics.setAttribute('aria-label', 'Target metric');
-    const defined = new Set((policy.status === 'USER_DEFINED' ? policy.value ?? [] : []).map(row => row.metric));
-    for (const spec of IMPROVE_TARGET_METRICS.filter(row => !defined.has(row.metric))) metrics.append(button(spec.label, () => {
-      selectedMetric = spec.metric; render(); root.querySelector('[data-editor-metric="' + spec.metric + '"] input').focus({ preventScroll: true });
-    }, 'metric:' + spec.metric));
-    if (metrics.children.length) { add.append(metrics); targets.append(add); }
-    if (selectedMetric && !defined.has(selectedMetric)) renderTargetEditor(targets, selectedMetric);
-    return;
-  }
+  // Keep source-owned Recommended values separate from user targets and
+  // neutral Expected placeholders until an actual calculation exists.
   const rows = recommendedCharacterStatsPresentation(characterId);
   if (!rows.length) targets.append(note('Pending'));
   const table = element('dl', undefined, 'improve-recommended-stats');
+  const header = element('div', undefined, 'improve-recommended-header');
+  header.append(element('span', ''), element('span', 'Recommended'), element('span', 'Expected'));
+  table.append(header);
   for (const row of rows) {
     const ready = row.status === 'READY' && typeof row.displayValue === 'string' && row.displayValue.trim().length > 0;
     const item = element('div', undefined, 'improve-recommended-stat'); item.dataset.metric = row.metric;
     item.dataset.status = ready ? 'READY' : 'PENDING';
-    const value = element('dd');
-    value.append(element('span', ready ? row.displayValue : 'Pending'));
-    item.append(element('dt', row.label), value);
+    const recommended = element('dd', ready ? row.displayValue : 'Pending', 'improve-recommended-value');
+    const expected = element('dd', '—', 'improve-expected-value');
+    expected.setAttribute('aria-label', row.label + ' expected: not calculated');
+    item.append(element('dt', row.label), recommended, expected);
     table.append(item);
   }
   targets.append(table);
+  if (policy.status === 'USER_DEFINED' || policy.origin === 'USER') {
+    // Custom editors remain user-owned and never overwrite canonical values.
+    for (const row of policy.status === 'USER_DEFINED' ? policy.value ?? [] : []) renderTargetEditor(targets, row.metric, row);
+    if (policy.status === 'PENDING') targets.append(note(origin(policy, 'numericTargets') === 'Needs review' ? 'Needs review.' : 'Unavailable.'));
+  }
+  if (Object.hasOwn(settings.overrides, 'numericTargets')) targets.append(button('Use Recommended', () => { commit({ type: 'clear', section: 'numericTargets' }, 'clear:numericTargets'); }, 'clear:numericTargets'));
 }
 function renderTargetEditor(parent, metric, existing) {
   const spec = IMPROVE_TARGET_METRICS.find(row => row.metric === metric);
@@ -194,17 +268,20 @@ function renderTargetEditor(parent, metric, existing) {
   editor.append(actions, error);
   editor.onsubmit = event => {
     event.preventDefault();
-    try { const target = parseImproveTarget(metric, min.value, pref.value); selectedMetric = null; commit(state => editImproveTarget(state, source, metric, target), 'save-target:' + metric); }
+    try { const target = parseImproveTarget(metric, min.value, pref.value); commit(state => editImproveTarget(state, source, metric, target), 'save-target:' + metric); }
     catch (failure) { error.textContent = failure.message; error.hidden = false; min.setAttribute('aria-invalid', 'true'); pref.setAttribute('aria-invalid', 'true'); }
   };
   parent.append(editor);
 }
 function renderEcho() {
   const view = echoPolicyPresentation(settings, source, canonicalStats);
-  const editable = (settings.mode === 'MANUAL' || view.defaulted) && source.applicability && resolved.compatibility.context === 'MATCH'
+  const editable = source.applicability && resolved.compatibility.context === 'MATCH'
     && !storageError && !resolved.compatibility.suspendedSections.some(key => ['echoRequirements', 'echoPreferences'].includes(key));
-  groups.get('every').summary.textContent = Object.hasOwn(settings.overrides, 'echoRequirements') ? 'Custom' : 'Recommended';
-  groups.get('flex').summary.textContent = Object.hasOwn(settings.overrides, 'echoPreferences') ? 'Custom' : 'Recommended';
+  for (const [id, names] of [['every', view.layout.every], ['flex', view.layout.flex]]) {
+    const group = groups.get(id), text = echoSelectionSummary(names);
+    group.summary.textContent = text; group.summary.title = names.join(' · ');
+    group.trigger.setAttribute('aria-label', (id === 'every' ? 'Required Substats' : 'Flex Substats') + (text ? ': ' + names.join(', ') : ''));
+  }
   const flexSection = element('section', undefined, 'improve-policy-section');
 
   const countControl = element('label', undefined, 'improve-flex-count');
@@ -226,7 +303,6 @@ function renderEcho() {
     const current = echoPolicyPresentation(settings, source, canonicalStats).flexCount;
     countText.textContent = current.message; countSlider.setAttribute('aria-valuetext', current.message);
     countSlider.setAttribute('aria-invalid', String(!current.valid));
-    groups.get('flex').summary.textContent = 'Custom';
   };
   countSlider.onchange = () => commit(state => state, 'flex-count');
   // An invalid saved count can lie beyond the feasible range. A deliberate
@@ -288,8 +364,8 @@ function renderEcho() {
         slider.style.setProperty('--roll-position', (Number(slider.value) / Number(slider.max) * 100) + '%');
       };
       slider.oninput = () => {
-        commit(state => editEchoRollMinimum(state, source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
-        show(); groups.get(list).summary.textContent = 'Custom';
+        commit(state => editEchoRollMinimum(updateImprovePolicyState(state, { type: 'mode', value: 'MANUAL' }, source), source, canonicalStats, list, name, Number(slider.value)), slider.dataset.focusKey, false);
+        show();
       };
       slider.onchange = () => commit(state => state, slider.dataset.focusKey);
       // Range dragging owns the pointer; row dragging remains available elsewhere.
@@ -312,55 +388,71 @@ function renderEcho() {
   dropTarget(other, 'other');
   for (const name of view.layout.other) row(other, name, 'other');
   groups.get('flex').content.append(other);
-  if (Object.hasOwn(settings.overrides, 'echoRequirements') || Object.hasOwn(settings.overrides, 'echoPreferences') || settings.migration || settings.echoLayout) {
-    groups.get('flex').content.append(button('Reset to Recommended', () => commit(state => resetEchoPolicy(state, source), 'reset:echo'), 'reset:echo'));
+  const staleBinding = source.applicability && (resolved.compatibility.context === 'MISMATCH' || settings.contextBinding === null && Object.keys(settings.overrides).length > 0);
+  if (retiredEchoRecovery || staleBinding || Object.hasOwn(settings.overrides, 'echoRequirements') || Object.hasOwn(settings.overrides, 'echoPreferences') || settings.migration || settings.echoLayout) {
+    groups.get('flex').content.append(button('Reset to Recommended', () => {
+      if (retiredEchoRecovery) resetRetiredEchoPolicy();
+      else commit(state => staleBinding ? updateImprovePolicyState(state, { type: 'reset' }, source) : resetEchoPolicy(state, source), 'reset:echo');
+    }, 'reset:echo'));
   }
 }
 
 function render() {
   renderResources();
   root.dataset.sourceStatus = loaded ? source?.applicability ? 'READY' : 'PENDING' : 'LOADING';
-  modes.replaceChildren();
-  for (const [value, label] of [['RECOMMENDED', 'Recommended'], ['MANUAL', 'Customize']]) {
-    const node = button(label, () => retiredEchoRecovery && value === 'RECOMMENDED' ? resetRetiredEchoPolicy() : commit({ type: 'mode', value }, 'mode:' + value), 'mode:' + value, settings?.mode === value); node.disabled = !characterId || !!storageError && !(retiredEchoRecovery && value === 'RECOMMENDED'); modes.append(node);
-  }
   for (const group of groups.values()) { group.content.replaceChildren(); group.trigger.disabled = !characterId; }
-  if (!settings) { for (const group of groups.values()) group.summary.textContent = 'Select Character'; return; }
+  if (!settings) { for (const [id, group] of groups) group.summary.textContent = id === 'sonata' ? '' : 'Select Character'; return; }
   resolved = resolveImprovePolicyState(settings, source);
-  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or choose Recommended to clear them.';
-  renderTargets(); renderEcho();
+  reviewNote.hidden = resolved.compatibility.status !== 'REVIEW_REQUIRED'; reviewNote.textContent = 'Needs review. Saved overrides are retained. Review the affected sections or Reset to Recommended to clear them.';
+  renderSonatas(); renderTargets(); renderEcho();
   const gates = groups.get('gate'); gates.summary.textContent = '+' + settings.gate;
   const gateChoices = element('div', undefined, 'improve-setting-list'); for (const value of [5, 10, 15, 20, 25]) { const node = button('+' + value, () => commit({ type: 'gate', value }, 'gate:' + value), 'gate:' + value, value === settings.gate); node.dataset.settingValue = value; gateChoices.append(node); } gates.content.append(gateChoices);
 }
 function setCharacter(id) {
   if (characterId !== id) {
     if (retiredEchoRecovery) { storageError = null; retiredEchoRecovery = false; saveNote.hidden = true; }
-    setExpanded(false); drag = null; selectedMetric = null; otherExpanded = false;
+    setExpanded(false); drag = null; otherExpanded = false; moreSetsExpanded = false;
   }
   characterId = id; source = sources.find(row => row.characterId === id) ?? pendingImprovePolicySource(id ?? '');
   if (!id) { settings = null; resolved = null; render(); return; }
   try { settings = store ? readImprovePolicyState(store, id, source, legacySources.find(row => row.characterId === id)) : createImprovePolicyState(id, source); }
   catch (error) {
     retiredEchoRecovery = error.message.includes('Retired Echo card');
-    storageError = retiredEchoRecovery ? 'Saved Echo card settings need review. Choose Recommended to explicitly reset them. Recovery data has been retained.'
+    storageError = retiredEchoRecovery ? 'Saved Echo card settings need review. Reset to Recommended to explicitly reset them. Recovery data has been retained.'
       : 'Saved policy needs review. Recovery data has been retained.';
     settings = createImprovePolicyState(id, source);
     if (retiredEchoRecovery) {
       settings = updateImprovePolicyState(settings, { type: 'gate', value: store.characters[id].gate }, source);
       settings = updateImprovePolicyState(settings, { type: 'quality', value: store.characters[id].rollQuality }, source);
+      if (store.characters[id].selectedSonataSetIds !== undefined) {
+        try { settings = updateImprovePolicyState(settings, { type: 'sonatas', value: store.characters[id].selectedSonataSetIds }, source); } catch { /* Retain rejected bytes until explicit recovery. */ }
+      }
     }
   }
   if (loaded) save(); render();
 }
+window.addEventListener('storage', event => {
+  if (event.key !== IMPROVE_POLICY_STORAGE_KEY || event.storageArea !== localStorage) return;
+  externalWriteEpoch++;
+  try {
+    const live = loadImprovePolicyStorage(localStorage);
+    store = live; inventory = live.resourceInventory ?? emptyResourceInventory();
+    if (characterId) settings = readImprovePolicyState(live, characterId, source, legacySources.find(row => row.characterId === characterId));
+    if (!retiredEchoRecovery) storageError = null;
+  } catch { storageError = 'Saved policy needs review. Recovery data has been retained.'; }
+  render();
+});
 window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
 window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
-  fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])
-  .then(([policyResult, legacyResult]) => {
+  fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); }),
+  fetch(new URL('./echoes/browser-data.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Sonata catalog unavailable'); return response.json(); }).then(readSonataChoices)])
+  .then(([policyResult, legacyResult, sonataResult]) => {
     const policies = policyResult.status === 'fulfilled' ? policyResult.value : null, legacy = legacyResult.status === 'fulfilled' ? legacyResult.value : null;
     sources = policies?.schemaVersion === 1 && Array.isArray(policies.characters) ? policies.characters : [];
     legacySources = legacy?.schemaVersion === 1 && Array.isArray(legacy.characters) ? legacy.characters : [];
+    sonataChoices = sonataResult.status === 'fulfilled' ? sonataResult.value : { catalog: [], recommendations: {} };
     loaded = true; setCharacter(characterId);
   })
   .catch(() => { loaded = true; sources = []; legacySources = []; setCharacter(characterId); });

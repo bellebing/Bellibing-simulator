@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { verifyEchoSimulator, verifyEchoSimulatorReview } from './verify-v34-echo-simulator.mjs';
 import { verifyImproveCandidate } from './verify-v34-improve-candidate.mjs';
 import { verifyImproveSettings } from './verify-v34-improve-settings.mjs';
+import { verifyImproveNavigation } from './verify-v34-improve-navigation.mjs';
 import { verifyAccountReview } from './verify-v34-account-review.mjs';
 
 const UI_URL = process.env.BELLIBING_V34_URL ?? 'http://127.0.0.1:4173/ui-preview/';
@@ -897,7 +898,10 @@ try {
   try {
     await send('Page.enable');
     await send('Runtime.enable');
-    if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
+    if (process.env.BELLIBING_SINGLE_SLOT_ONLY === '1') {
+      await verifyImproveNavigation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
+      console.log('1440x900 single Echo source/built physical Chrome gate PASS');
+    } else if (process.env.BELLIBING_SIMULATOR_REVIEW_URL) {
       await verifyEchoSimulatorReview({send,evaluate,setViewport,waitForUi,capture,sleep});
     } else if (process.env.BELLIBING_SIMULATOR_ONLY === '1') {
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
@@ -906,11 +910,12 @@ try {
       await verifyAccountReview({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
       const desktop = improveOnly ? null : await verifyDesktop(send);
       const sonata = improveOnly ? null : await verifySonataComposition(send);
+      await verifyImproveNavigation({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
       await verifyImproveSettings({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
       await verifyImproveCandidate({socket,send,evaluate,navigate,setViewport,waitForUi,pointerClick,chooseBellibingComboOption,capture,sleep});
       await verifyEchoSimulator({send,evaluate,navigate,setViewport,waitForUi,pointerClick,capture,sleep});
       const mobile = VERIFY_MOBILE ? await verifyMobileSmoke(send) : null;
-      if(improveOnly) console.log('v34 focused Improve Settings and Candidate verification passed in real Chrome.');
+      if(improveOnly) console.log('v34 focused Improve navigation, Settings and Candidate verification passed in real Chrome.');
       else {
       console.log('v34 Echo Workspace Correction 2F-D verification passed in real Chromium.');
       console.log('- Desktop: Cost/portrait/active Sonata/name cards across browser, fixed dock and Build; Crown→Void and Void→Crown priority, Cost intersection, no duplicate or hidden-compatible badges, shared portrait motion and Preview visual regression passed.');

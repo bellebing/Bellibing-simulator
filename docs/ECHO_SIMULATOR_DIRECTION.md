@@ -72,13 +72,13 @@ Interactive, Auto and Instant must share simulation engine and decision logic. O
 
 ## Resources, canonical mechanics and source gates
 
-The user-facing simulator resources are exactly **Tuners | Tubes | Echoes**.
+The user-facing Improve Resources inventory contains **Tuners | Tubes | Echoes | Shell Credits**. This product approval adds a stored user input, not simulator spending.
 
 - **Echoes** means candidate Echoes / attempts, not a modeled farming drop rate.
 - Never display raw Echo EXP/XP or an abstract EXP total such as `142600` to the user.
 - A technical EXP unit may remain internal to apply verified checkpoint costs behind the Tube model. It is an implementation detail, not another visible resource.
 - **Four reviewed Tube denominations are canonical: Premium (5★/Gold, 5,000 internal Echo EXP), Advanced (4★/Purple, 2,000), Medium (3★/Blue, 1,000), Basic (2★/Green, 500).** The shared Improve Resources inputs retain separate whole counts or explicit unlimited state. Inventory foundation does not establish exact selection/depletion. Effective internal feed/recycle recovery does not by itself prove exact material conversion or rounding.
-- Shell Credits are not a user-facing simulator resource in this accepted direction. Adding them requires a new product decision; their presence in internal mechanics does not authorize a visible fourth resource.
+- **Shell Credits** are now an approved finite/unlimited whole-count Resource Inventory input. A saved v1 inventory migrates strictly to v2 with finite zero Shell Credits. Shell Credits do not authorize spending, recovery, feasibility decisions or Echo generation.
 - Do not combine resources into one score through arbitrary weights. Tuners, Tubes and Echoes retain separate meanings.
 
 Reuse current canonical mechanics rather than duplicating rules in a simulator or presentation layer:
@@ -151,7 +151,7 @@ Document product behavior and safe result meanings, not secret implementation. P
 - Verifiable progression/decision depth may drive visual frame state; no hidden stat/quality score.
 - Per-slot Simulate with free slot choice is core interaction.
 - Interactive and Auto share one engine/decision logic; eventual Instant bulk mode uses that same engine.
-- Tuners/Tubes/Echoes are the only user-facing simulator resources; no visible raw Echo EXP/XP, no Shell Credits without a new product decision, no combined resource score.
+- Tuners/Tubes/Echoes/Shell Credits are the approved visible inventory inputs; no visible raw Echo EXP/XP, no Shell Credits spending or feasibility without independently verified rules, no combined resource score.
 - The real evaluator determines Character improvement relative to evolving simulated Current; safe, short reason text does not expose proprietary policy/calibration.
 
 ## OPEN / NOT YET DECIDED

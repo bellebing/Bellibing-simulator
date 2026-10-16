@@ -66,6 +66,10 @@ try {
   };
   const input = async (selector, text) => {
     await click(selector);
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'a',code:'KeyA',modifiers:2,windowsVirtualKeyCode:65});
+    await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Backspace',code:'Backspace'});
+    await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Backspace',code:'Backspace'});
     await send('Input.insertText', { text });
   };
   const shot = async path => {
@@ -113,10 +117,15 @@ try {
       await evaluate("improvePicker.select('Augusta')"); await sleep(700);
       if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
       const before = await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)');
-      await click('[data-focus-key="mode:MANUAL"]');
-      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'Customize alone creates no overrides');
-      assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat,.improve-target-editor').length"), 0, 'Customize is not seeded');
-      await click('.improve-target-add summary'); await click('[data-focus-key="metric:TOTAL_ATK"]');
+      assert.equal(await evaluate('JSON.stringify(window.bellibingImproveSettings.getState().overrides)'), before, 'opening Settings creates no overrides');
+      assert.equal(await evaluate("document.querySelectorAll('.improve-target-editor').length"), 0, 'opening Settings creates no custom editors');
+      assert.equal(await evaluate("!!document.querySelector('.improve-target-add')"), false, 'Add stat absent');
+      await evaluate("import(new URL('../assets/improvePolicyPresentation.js',location.href)).then(m=>{const key='bellibing.improve.policy.v3',s=JSON.parse(localStorage.getItem(key));s.characters.augusta.mode='MANUAL';s.characters.augusta.overrides.numericTargets=[m.parseImproveTarget('TOTAL_ATK','2200','2400')];localStorage.setItem(key,JSON.stringify(s))})");
+      await send('Page.reload');
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
+      assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets[0].minimum'),2200,'saved custom target preserved');
+      await click('#improve-setting-target');
       await input('#improve-target-minimum-TOTAL_ATK', '2345'); await input('#improve-target-preferred-TOTAL_ATK', '2500');
       await click('[data-focus-key="save-target:TOTAL_ATK"]');
       const custom = await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets');
@@ -129,10 +138,9 @@ try {
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');
       assert.equal(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), undefined, 'Use Recommended clears custom targets');
-      await click('[data-focus-key="mode:RECOMMENDED"]');
       assert.equal(await evaluate("document.querySelectorAll('.improve-recommended-stat[data-status=READY]').length"), 5, 'Recommended rows return');
       assert.equal(await evaluate(snapshot), originalEquipment, 'equipment and Candidate unchanged');
-      console.log(kind + ': Customize add/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
+      console.log(kind + ': saved target editing/minimum/preferred/Use Recommended, persistence and return to source rows PASS');
     }
   }
   console.log('Character Target checkpoint matrix PASS (source + built; 1440x900, 1920x1080, 2560x1440).');

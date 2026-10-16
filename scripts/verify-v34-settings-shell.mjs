@@ -126,8 +126,8 @@ try {
   const { socket, send } = cdp(page.webSocketDebuggerUrl);
   try {
     await send('Page.enable'); await send('Runtime.enable');
-    await verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep });
-    console.log('PASS: accepted shared Settings shell and policy regression at all three desktop sizes.');
+    await verifyImproveSettings({ send, evaluate, navigate, setViewport, waitForUi, pointerClick, capture, sleep, ...(process.env.BELLIBING_SETTINGS_FOCUSED === '1' ? { desktopViewports: [[1440,900]], resourceWidths: [] } : {}) });
+    console.log('PASS: shared Settings shell and policy regression.');
   } finally { socket.close(); }
 } catch(error) { console.error(error); if(stderr.trim()) console.error(stderr.slice(-2000)); process.exitCode=1; }
 finally { chrome.kill('SIGTERM'); }

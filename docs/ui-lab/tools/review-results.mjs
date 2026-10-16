@@ -28,10 +28,10 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   const heavyCell=page.locator('[data-result-id="HEAVY_ATTACK_DMG_BONUS"] [data-role="expected"] strong');
   const priorHeavy=await heavyCell.innerText();
   const flexSlider=page.locator('#flexCount');
-  await flexSlider.focus(); await page.keyboard.press('ArrowRight');
+  await flexSlider.focus(); await page.keyboard.press('End');
   assert.match(await page.locator('#flexCountLabel').innerText(),/At least 2 of 2/);
   assert.notEqual(await heavyCell.innerText(),priorHeavy,'Flex 2/2 must change the accepted-build mean');
-  await page.keyboard.press('ArrowLeft');
+  await page.keyboard.press('Home');
   assert.equal(await heavyCell.innerText(),priorHeavy,'Flex 1/2 restores the same deterministic mean');
   const erCell=page.locator('[data-result-id="TOTAL_ENERGY_REGEN"] [data-role="expected"] strong');
   const beforeER=await erCell.innerText();

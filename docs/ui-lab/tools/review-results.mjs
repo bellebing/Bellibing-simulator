@@ -24,6 +24,22 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.match((await expected.allTextContents())[2],/^\\d/,'Actual DEF, not a missing requirement');
   assert.match(await read('TOTAL_ATK'),/2,407/);
   assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
+  // Source-backed Accepted Echo means must respond to actual Improve edits.
+  const heavyCell=page.locator('[data-result-id="HEAVY_ATTACK_DMG_BONUS"] [data-role="expected"] strong');
+  const priorHeavy=await heavyCell.innerText();
+  const flexSlider=page.locator('#flexCount');
+  await flexSlider.focus(); await page.keyboard.press('ArrowRight');
+  assert.match(await page.locator('#flexCountLabel').innerText(),/At least 2 of 2/);
+  assert.notEqual(await heavyCell.innerText(),priorHeavy,'Flex 2/2 must change the accepted-build mean');
+  await page.keyboard.press('ArrowLeft');
+  assert.equal(await heavyCell.innerText(),priorHeavy,'Flex 1/2 restores the same deterministic mean');
+  const erCell=page.locator('[data-result-id="TOTAL_ENERGY_REGEN"] [data-role="expected"] strong');
+  const beforeER=await erCell.innerText();
+  await page.locator('#erEnabled').check();
+  assert.notEqual(await erCell.innerText(),beforeER,'Enabled total ER Target must condition Expected across all five Echoes');
+  assert.ok(Number((await erCell.innerText()).replace('%',''))>=120,'Conditional total ER must meet configured target');
+  await page.locator('#erEnabled').uncheck();
+  assert.equal(await erCell.innerText(),beforeER,'Disabled ER Target must not modify Expected');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
   const compact = await page.locator('.simulation-content').evaluate(view => {
     const headers = [...view.querySelectorAll('.results-key span')].map(n=>n.getBoundingClientRect());

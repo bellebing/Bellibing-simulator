@@ -9,6 +9,22 @@ export async function reviewSettings(page,{width,checks}) {
   const moveKey=async(id,key)=>{await row(id).locator('.handle').focus();await page.keyboard.press(key);};
   const allIds=()=>page.locator('#echoSettings [data-minimum]').evaluateAll(nodes=>nodes.map(node=>node.dataset.minimum));
   await ensureSettings();
+  assert.equal(await page.locator('#editERTarget').count(),0,'ER target must not have a dropdown');
+  assert.equal(await page.locator('#erTotalStatus').count(),0,'No ER explanation row');
+  assert.equal(await page.locator('#erTarget > .er-target-heading').count(),1,'ER target remains on one row');
+  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
+  assert.equal(await page.locator('#erTargetValue').isVisible(),true);
+  assert.equal(await page.locator('#erTargetInput').isVisible(),false);
+  assert.equal(await page.locator('#erEnabled').isChecked(),false,'Suggested target is not enabled implicitly');
+  await page.locator('.setting-mode button',{hasText:'Customize'}).click();
+  assert.equal(await page.locator('#erTargetValue').isVisible(),false);
+  assert.equal(await page.locator('#erTargetInput').isVisible(),true);
+  assert.equal(await page.locator('#erTargetInput').inputValue(),'120','Customize offers the source-backed suggested value');
+  assert.equal(await page.locator('#erEnabled').isChecked(),false);
+  assert.ok(await page.locator('#erTarget').evaluate(node=>{
+    const r=node.getBoundingClientRect(), label=node.querySelector('label').getBoundingClientRect(), field=node.querySelector('#erTargetInput').getBoundingClientRect();
+    return Math.abs(label.y-field.y)<16 && r.height<58;
+  }),'ER checkbox and input must share a compact row');
   assert.deepEqual(await ids('hard'),['CRIT Rate','CRIT DMG']);
   assert.deepEqual(await ids('flex'),['ATK%','Heavy Attack DMG']);
   assert.equal((await ids('other'))[0],'Flat ATK');
@@ -58,19 +74,25 @@ export async function reviewSettings(page,{width,checks}) {
   await page.locator('#erEnabled').check();
   assert.equal(await page.locator('#erTargetInput').inputValue(),'120');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
-  const er=page.locator('#erTargetInput');await er.fill('130');await er.press('Tab');
+  const er=page.locator('#erTargetInput');
+  await er.fill('130');await er.press('Tab');
+  assert.equal(await er.inputValue(),'130');
   async function sample(value){await page.locator('.demo-note summary').click();await page.locator('#erReview').selectOption(value);await page.locator('.demo-note summary').click();}
   await sample('above');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'OUTSTANDING','126.8 demo must not satisfy a configured 130 target');
   await er.fill('120');await er.press('Tab');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'REACHED');
-  assert.match(await page.locator('#erTargetBadge').textContent(),/Demo/);
-  assert.equal(await page.locator('#erTargetEditor').isVisible(),false);
-  await page.locator('#editERTarget').click();assert.equal(await er.isVisible(),true);
+  assert.match(await page.locator('#erTargetBadge').textContent(),/Illustrative demo/);
+  assert.equal(await er.isVisible(),true,'Reaching a target does not create or collapse a dropdown');
   await sample('below');assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'OUTSTANDING');
   assert.equal(await er.isVisible(),true);
+  await er.fill('');await er.press('Tab');
+  assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNCONFIGURED');
+  assert.equal(await er.inputValue(),'','An invalid/cleared target must not silently revert to the suggestion');
+  assert.equal(await er.getAttribute('aria-invalid'),'true');
   await page.locator('#erEnabled').uncheck();assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'DISABLED');
   await sample('none');await page.locator('#erEnabled').check();
+  assert.equal(await er.inputValue(),'120','Explicitly re-enabling can adopt the verified source suggestion');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   assert.equal(await page.locator('.result-row.is-affected').count(),0,'ER input must not fabricate Expected changes');
   await page.locator('#simulate').click();
@@ -79,6 +101,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.deepEqual(await ids('hard'),[]);assert.deepEqual(await ids('flex'),[]);
   assert.equal(await page.locator('.setting-mode button').first().isDisabled(),true);
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
+  assert.equal(await page.locator('#erTargetInput').inputValue(),'','No suggestion may be invented for Iuno');
   await selectCardCharacter(page,'augusta');await ensureSettings();
   assert.equal(await row('CRIT Rate').locator('output').textContent(),minimum);
   assert.equal(await page.locator('#erEnabled').isChecked(),true);
@@ -88,6 +111,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 2');
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
   assert.equal(await page.locator('#erTargetEditor').isVisible(),false);
+  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
   assert.equal(await page.locator('#gateLabel').textContent(),'+15');
   await page.locator('#reset').click();assert.equal(await page.locator('#gateLabel').textContent(),'+5');
   assert.deepEqual((await allIds()).sort(),ECHO_SETTING_STATS.map(stat=>stat.id).sort());

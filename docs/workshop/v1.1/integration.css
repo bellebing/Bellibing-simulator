@@ -1,0 +1,9 @@
+/* Only controls needed for real candidate creation/history. Approved composition is unchanged. */
+#candidateSetup{color:var(--text,#e0e5e3);background:#0d181c;border:1px solid #665b3f;border-radius:12px;width:min(540px,90vw);padding:28px;font:inherit}
+#candidateSetup::backdrop{background:#0009}
+#candidateForm{display:grid;gap:18px}#candidateForm h2{margin:0}#candidateForm label{display:grid;gap:6px}
+#candidateForm select{width:100%;padding:9px;background:#152326;color:inherit;border:1px solid #52605b;font:inherit}
+#candidateForm button{font:inherit;color:inherit;background:#23322e;border:1px solid #6e664f;padding:9px 16px;cursor:pointer}
+#candidateForm>div{display:flex;justify-content:flex-end;gap:12px}#candidateForm p{font-size:13px;line-height:1.5;margin:0}
+#candidateError{color:#e9ad9d}#inspectCandidate{display:block;margin:10px auto 0}#inspectCandidate[hidden]{display:none}
+button:disabled{cursor:not-allowed;opacity:.5}.material-row small{font-size:10px;color:#9daaa6}

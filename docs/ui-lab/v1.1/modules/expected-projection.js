@@ -65,7 +65,7 @@ function project(totals){
   for(const [name,value] of Object.entries(totals)){
     const change=value-anchor[name];
     const key=STAT_KEYS[name][0];
-    numeric[key]+=change*(scalar[key]??1);
+    numeric[key]+=change*(['HP%','ATK%','DEF%'].includes(name)?scalar[key]:1);
   }
   return Object.fromEntries(STAT_COLUMNS.map(([id,key,whole])=>[id,format(numeric[key],whole)]));
 }

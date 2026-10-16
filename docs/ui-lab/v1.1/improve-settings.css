@@ -54,7 +54,7 @@
 #settings .sonata-more-arrow { display:inline-block; color:var(--gold); font-size:18px; line-height:1; transition:transform .18s; }
 #settings .sonata-more[open] .sonata-more-arrow { transform:rotate(180deg); }
 #settings .sonata-browse {
-  display:grid; align-content:start; gap:4px; max-height:104px; overflow-y:auto;
+  display:grid; align-content:start; gap:4px; max-height:264px; overflow-y:auto;
   overscroll-behavior:contain; padding:3px 5px 4px 0;
   scrollbar-width:thin; scrollbar-color:#aa926084 transparent;
 }

@@ -22,6 +22,20 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('.sonata-browse').isVisible(),true);
   assert.equal(await page.locator('.sonata-browse .sonata-option').count(),35,'Only source-backed other sets');
   assert.equal(await page.locator('[data-sonata-id="sonata-37"]').innerText(),'Flash of Electric Reflection');
+  const visibleSonatas=await page.locator('.sonata-browse').evaluate(el=>{
+    const viewport=el.getBoundingClientRect();
+    const bounds=[...el.querySelectorAll('.sonata-card')].map(child=>child.getBoundingClientRect());
+    return {
+      height:viewport.height,
+      visible:bounds.filter(box=>box.top<viewport.bottom&&box.bottom>viewport.top).length,
+      fullyVisible:bounds.filter(box=>box.top>=viewport.top&&box.bottom<=viewport.bottom).length,
+      widthFits:bounds.every(box=>box.left>=viewport.left-1&&box.right<=viewport.right+1),
+    };
+  });
+  assert.ok(visibleSonatas.height>=250&&visibleSonatas.height<=275,'More Sets should expand to approximately seven card rows');
+  assert.ok(visibleSonatas.visible>=6&&visibleSonatas.visible<=7,'More Sets should initially show approximately six or seven options');
+  assert.ok(visibleSonatas.fullyVisible>=6,'At least six Sonata cards should be fully visible');
+  assert.ok(visibleSonatas.widthFits,'Expanded Sonata cards must stay within the Settings panel');
   const scrollInfo=await page.locator('.sonata-browse').evaluate(el=>{
     el.scrollTop=el.scrollHeight;
     return {height:el.clientHeight,total:el.scrollHeight,scroll:el.scrollTop,overflow:el.scrollWidth>el.clientWidth+1};

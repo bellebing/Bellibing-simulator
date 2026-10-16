@@ -10,7 +10,7 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   await ensure('settings');
   await page.getByRole('slider',{name:'CRIT Rate minimum',exact:true}).focus(); await page.keyboard.press('ArrowRight');
   assert.equal(await page.locator('#character').getAttribute('data-result-mode'),'simulation','First actual edit reveals results');
-  assert.equal(await page.locator('.is-affected').count(),0);
+  assert.ok(await page.locator('[data-role=expected] strong:not(.unavailable)').count()===12,'Augusta Expected is calculated after settings edits');
   await ensure('character');
   const saved = await page.locator('#characterStats').textContent();
   const echo = await page.locator('#currentCard').textContent();
@@ -18,7 +18,10 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.equal(await page.locator('.character-content').isVisible(),false);
   assert.equal(await page.locator('.simulation-content').isVisible(),true);
   assert.equal(await page.locator('.result-row').count(),12);
-  assert.deepEqual(await expected.allTextContents(),Array(12).fill('—'));
+  assert.equal(await expected.count(),12);
+  assert.equal(await page.locator('[data-role=expected] strong:not(.unavailable)').count(),12,'All twelve Augusta Expected values are computed');
+  assert.match((await expected.allTextContents())[0],/^\\d/,'Actual HP, not a missing requirement');
+  assert.match((await expected.allTextContents())[2],/^\\d/,'Actual DEF, not a missing requirement');
   assert.match(await read('TOTAL_ATK'),/2,407/);
   assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
@@ -54,7 +57,7 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   const slider = page.getByRole('slider',{name:'CRIT Rate minimum',exact:true});
   await slider.focus(); await page.keyboard.press('ArrowRight');
   assert.equal(await page.locator('#character').getAttribute('data-result-mode'),'character','Manual choice must win');
-  assert.equal(await page.locator('.is-affected').count(),0,'Unsupported Expected must never gain inferred focus');
+  assert.equal(await page.locator('#character').getAttribute('data-result-mode'),'character','Manual mode still wins over calculated updates');
   await page.locator('.demo-note summary').click(); await page.locator('#focusDemo').check();
   await page.locator('.demo-note summary').click();
   assert.match(await page.locator('.results-origin').innerText(),/Illustrative focus demo/);
@@ -102,12 +105,13 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12);
   assert.match(await page.locator('.results-origin').innerText(),/Illustrative/);
   await page.locator('.demo-note summary').click(); await page.locator('#focusDemo').uncheck(); await page.locator('.demo-note summary').click();
-  assert.deepEqual(await expected.allTextContents(),Array(12).fill('—'));
+  assert.equal(await page.locator('[data-role=expected] strong:not(.unavailable)').count(),12,'Turning off demo restores live calculated Expected');
   await selectCardCharacter(page,'aalto');
   assert.equal(await page.locator('.results-heading h2').innerText(),'Aalto');
   assert.notEqual(await page.locator('.results-art').getAttribute('src'),compact.art,'Banner art must follow Character selection');
   await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
   assert.equal(await page.locator('[data-role=recommended] strong:not(.unavailable)').count(),0,'No fabricated recommendation for Aalto');
+  assert.equal(await page.locator('[data-role=expected] strong:not(.unavailable)').count(),0,'Augusta Expected must not leak to other Characters');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0,'No borrowed Augusta run');
   for (const id of ['the-shorekeeper','jiyan','hsin']) {
     await selectCardCharacter(page,id);
@@ -120,6 +124,7 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   }
   await selectCardCharacter(page,'augusta');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12,'Character switching preserves isolated recorded state');
+  assert.equal(await page.locator('[data-role=expected] strong:not(.unavailable)').count(),12,'Augusta Expected restores on Character switching');
   await page.locator('#characterToggle').click(); assert.equal(await page.locator('.simulation-content').isVisible(),false);
   await ensure('character'); assert.equal(await page.locator('.simulation-content').isVisible(),true);
   await page.locator('button[data-result-mode=simulation]').focus(); await page.keyboard.press('ArrowLeft');

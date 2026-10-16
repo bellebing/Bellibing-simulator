@@ -72,7 +72,7 @@ try{
   await click('#reset');assert.ok((await state()).session.slots.every(slot=>!slot.candidate));assert.equal((await state()).session.manual.inventory.echoes.count,5);
   await click('[data-mode="current"]');assert.equal((await state()).session,null);
   // Select the second real account Character through the approved wheel.
-  await click('.portrait.selected');await click('[data-filter="account"]');await click('#galleryArt');await key('End');await sleep(850);await key('Enter');await sleep(800);
+  await click('.portrait.selected');await click('[data-filter="account"]');await click('[data-art="cartethyia"]');await wait('d.querySelector("#characterCarousel").dataset.focusedCharacter==="cartethyia"&&d.querySelector("#characterCarousel").dataset.motion==="settled"','center real account Character');await click('[data-art="cartethyia"]');await wait('w.bellibingWorkshop.snapshot().selectedId==="cartethyia"&&d.querySelector("#characterGallery").inert','select real account Character');await sleep(500);
   assert.equal((await state()).selectedId,'cartethyia');assert.equal((await state()).session,null);
   await click('[data-mode="simulate"]');assert.ok((await state()).session,JSON.stringify(await inFrame('({feedback:d.querySelector("#feedbackTitle").textContent,mode:[...d.querySelectorAll(".mode-switch button")].map(b=>({text:b.textContent,pressed:b.getAttribute("aria-pressed")}))})')));assert.equal((await state()).session.source.characterId,'cartethyia');assert.ok((await state()).session.slots.every(slot=>!slot.candidate));
   await send('Page.reload');await wait("d.documentElement.dataset.workshopReady==='true'",'reload');assert.equal((await state()).session,null);

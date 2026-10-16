@@ -2,7 +2,7 @@
 
 The existing right panel has Character Stats and Simulation Stats modes. Character Stats uses the approved Elegant Hero by default, saved-equipment presentation, expandable Skills and saved value column. `?hero=baseline` and `?hero=cinematic` remain reviewable; the earlier implementation is recoverable in git.
 
-Simulation Stats is a separate result view in the same outer panel. Twelve canonical Character stat rows use a name followed by three aligned values. At narrow panel widths, each row becomes three labeled lines. There is no inner scroll region. Wide panels grow to 24% of the composition, capped at 480px. The Workshop retains its 1000px minimum. The measured layout gap participates in the fit calculation. At 1440px the established last-interacted side-panel priority applies: opening one expanded side panel compacts the other. Both modes share identical outer dimensions.
+Simulation Stats is a separate result view in the same outer panel. A 92px Character artwork banner replaces the oversized heading. Twelve canonical Character stats each occupy one horizontal row with aligned Stat, Recommended, Expected and Simulated columns. Typography matches Echo substats on wide panels; narrow panels tighten column proportions and type while retaining single-line labels and values. There is no inner scroll region. Wide panels grow to 24% of the composition, capped at 480px. The Workshop retains its 1000px minimum. The measured layout gap participates in the fit calculation. At 1440px the established last-interacted side-panel priority applies: opening one expanded side panel compacts the other. Both modes share identical outer dimensions.
 
 ## Data ownership
 

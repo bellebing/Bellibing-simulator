@@ -1,7 +1,7 @@
 import { mountCharacterCard } from './character-card.js';
 import { simulationModel, changedResults } from './simulation-model.js';
 import { focusFixture } from './result-fixtures.js';
-import { escapeHtml } from './util.js';
+import { assetURL, escapeHtml } from './util.js';
 
 const roles = ['recommended','expected','simulated'];
 const title = role => role[0].toUpperCase() + role.slice(1);
@@ -14,7 +14,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
   host.before(control);
   const view = document.createElement('div');
   view.className = 'side-content simulation-content'; view.hidden = true;
-  view.innerHTML = '<header class="results-heading"><div class="eyebrow">BUILD ANALYSIS</div><h2></h2><span class="results-origin"></span></header><div class="results-key" aria-hidden="true"><span>Recommended</span><span>Expected</span><span>Simulated</span></div><div class="result-rows" role="list" aria-label="Recommended, Expected and Simulated Character results"></div><span class="result-announcement carousel-announcement" role="status" aria-live="polite"></span>';
+  view.innerHTML = '<header class="results-heading"><img class="results-art" alt=""><div class="results-identity"><h2></h2></div></header><span class="results-origin"></span><div class="results-key" aria-hidden="true"><span>Stat</span><span>Recommended</span><span>Expected</span><span>Simulated</span></div><div class="result-rows" role="list" aria-label="Recommended, Expected and Simulated Character results"></div><span class="result-announcement carousel-announcement" role="status" aria-live="polite"></span>';
   host.after(view);
   let mode = 'character', manual = false, revealed = false, person, saved, model;
   let demo = false, expected = {}, fadeTimer, announceTimer, settling = false;
@@ -39,6 +39,9 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
   });
   function renderResults() {
     view.querySelector('h2').textContent = person.name;
+    const art = view.querySelector('.results-art');
+    art.src = assetURL(person.art);
+    art.classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
     view.querySelector('.results-origin').textContent = demo ? 'Illustrative focus demo · not a forecast' : saved.hasRecordedRun ? 'Illustrative run record' : 'Awaiting a run';
     view.dataset.demo = String(demo);
     view.querySelector('.result-announcement').textContent = '';

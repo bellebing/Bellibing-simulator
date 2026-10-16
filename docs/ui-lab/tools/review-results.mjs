@@ -22,6 +22,31 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.match(await read('TOTAL_ATK'),/2,407/);
   assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
+  const compact = await page.locator('.simulation-content').evaluate(view => {
+    const headers = [...view.querySelectorAll('.results-key span')].map(n=>n.getBoundingClientRect());
+    const problems = [];
+    for (const row of view.querySelectorAll('.result-row')) {
+      const cells = [row.querySelector('h3'), ...row.querySelectorAll('strong')];
+      const bounds = cells.map(n=>n.getBoundingClientRect());
+      if (row.getBoundingClientRect().height > 32) problems.push('Tall row: '+row.textContent);
+      cells.forEach((node,i)=>{
+        if (node.scrollWidth > node.clientWidth+1) problems.push('Clipped: '+node.textContent);
+        if (Math.abs(bounds[i].top-bounds[0].top)>2) problems.push('Not one horizontal row');
+        if (i && Math.abs(bounds[i].right-headers[i].right)>.6) problems.push('Misaligned numerical column');
+        if (i && bounds[i-1].right>bounds[i].left+.5) problems.push('Overlapping cells');
+      });
+    }
+    const art=view.querySelector('.results-art');
+    const banner=view.querySelector('.results-heading').getBoundingClientRect();
+    return {problems,height:view.getBoundingClientRect().height,bannerHeight:banner.height,
+      headers:[...view.querySelectorAll('.results-key span')].map(n=>n.textContent),
+      loaded:art.complete&&art.naturalWidth>0,art:art.getAttribute('src')};
+  });
+  assert.deepEqual(compact.problems,[],'Compact rows must remain aligned, single-line and unclipped');
+  assert.deepEqual(compact.headers,['Stat','Recommended','Expected','Simulated']);
+  assert.ok(compact.height<550,'All twelve stats should fit comfortably');
+  assert.ok(compact.bannerHeight>=80&&compact.bannerHeight<=100);
+  assert.ok(compact.loaded,'Character banner artwork must load');
   const panelWidth = await page.locator('#character').evaluate(n=>n.clientWidth);
   await choose('character');
   assert.equal(await page.locator('#character').evaluate(n=>n.clientWidth),panelWidth);
@@ -80,6 +105,8 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   assert.deepEqual(await expected.allTextContents(),Array(12).fill('—'));
   await selectCardCharacter(page,'aalto');
   assert.equal(await page.locator('.results-heading h2').innerText(),'Aalto');
+  assert.notEqual(await page.locator('.results-art').getAttribute('src'),compact.art,'Banner art must follow Character selection');
+  await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
   assert.equal(await page.locator('[data-role=recommended] strong:not(.unavailable)').count(),0,'No fabricated recommendation for Aalto');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0,'No borrowed Augusta run');
   await selectCardCharacter(page,'augusta');

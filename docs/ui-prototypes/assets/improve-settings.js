@@ -352,8 +352,42 @@ function setCharacter(id) {
   }
   if (loaded) save(); render();
 }
-window.bellibingResourceInventory = { getState: () => structuredClone(inventory) };
-window.bellibingImproveSettings = { setCharacter, getState: () => settings ? publicSettingsView(settings, resolved) : null };
+// The production Workshop edits the same owner through validated canonical actions.
+function workshopView() {
+  if (!loaded || !settings || !source) throw new Error('Settings are loading.');
+  const view = echoPolicyPresentation(settings, source, canonicalStats);
+  return structuredClone({ id: characterId, settingsMode: settings.mode === 'MANUAL' ? 'Customize' : 'Recommended',
+    gate: '+' + settings.gate, statSections: { hard: view.layout.every, flex: view.layout.flex, other: view.layout.other },
+    minima: Object.fromEntries(canonicalStats.map(name => {
+      const list = view.layout.every.includes(name) ? 'every' : view.layout.flex.includes(name) ? 'flex' : 'other';
+      return [name, echoRollControl(view, source, list, name).index];
+    })), flexCount: view.flexCount.count, erTarget: { enabled: false, valuePercent: null },
+    otherExpanded: false, unavailable: storageError || resolved.compatibility.status === 'REVIEW_REQUIRED' });
+}
+function workshopEdit(action) {
+  if (!loaded || !settings || !store || storageError) throw new Error(storageError || 'Settings unavailable.');
+  let next;
+  if (action.kind === 'minimum') next = editEchoRollMinimum(settings, source, canonicalStats, action.section === 'hard' ? 'every' : action.section, action.statId, action.tier);
+  else if (action.kind === 'stat-placement') next = moveEchoStat(settings, source, canonicalStats, action.statId, action.destination === 'hard' ? 'every' : action.destination, action.index);
+  else if (action.kind === 'flex-count') next = editFlexCount(settings, source, canonicalStats, action.count);
+  else if (action.kind === 'recommended') next = resetEchoPolicy(settings, source);
+  else if (action.kind === 'mode') next = updateImprovePolicyState(settings, { type: 'mode', value: action.value }, source);
+  else if (action.kind === 'gate') next = updateImprovePolicyState(settings, { type: 'gate', value: action.value }, source);
+  else throw new Error('Unsupported settings action.');
+  const nextStore = persistImprovePolicyState(store, next, localStorage);
+  store = nextStore; settings = next; render(); return workshopView();
+}
+window.bellibingResourceInventory = {
+  getState: () => structuredClone(inventory),
+  setQuantity(id, text) {
+    if (!store || storageError) throw new Error(storageError || 'Saved inventory unavailable.');
+    const next = updateResourceInventory(inventory, id, parseInventoryQuantity(text));
+    const nextStore = persistResourceInventory(store, next, localStorage);
+    store = nextStore; inventory = next; renderResources(); return structuredClone(inventory);
+  },
+};
+window.bellibingImproveSettings = { setCharacter, workshopView, workshopEdit,
+  ready: () => loaded, getState: () => settings ? publicSettingsView(settings, resolved) : null };
 setExpanded(false); render(); window.dispatchEvent(new Event('bellibing-improve-settings-ready'));
 Promise.allSettled([fetch(new URL('./improve-settings/policies.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Policy unavailable'); return response.json(); }),
   fetch(new URL('./improve-settings/sources.json', import.meta.url), { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('Legacy binding source unavailable'); return response.json(); })])

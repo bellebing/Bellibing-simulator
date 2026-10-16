@@ -385,7 +385,7 @@ try {
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
+      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed (${current[selector][key]} vs ${approved[selector][key]})`);
     }
     checks.push({ label: 'Preserved V1 vertical composition; authorized shared-panel width adaptation', width, approved, current });
     await baseline.close();

@@ -1,6 +1,7 @@
 import { mountCharacterCard } from './character-card.js';
 import { simulationModel, changedResults } from './simulation-model.js';
 import { focusFixture } from './result-fixtures.js';
+import { augustaExpected } from './expected-projection.js';
 import { assetURL, escapeHtml } from './util.js';
 
 const roles = ['recommended','expected','simulated'];
@@ -45,7 +46,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
     view.querySelector('.results-origin').textContent = demo ? 'Illustrative focus demo · not a forecast' : saved.hasRecordedRun ? 'Illustrative run record' : 'Awaiting a run';
     view.dataset.demo = String(demo);
     view.querySelector('.result-announcement').textContent = '';
-    view.querySelector('.result-rows').innerHTML = model.rows.map(row => `<div class="result-row" role="listitem" data-result-id="${row.id}"><h3>${escapeHtml(row.label)}</h3><div class="result-values">${roles.map(role => `<div class="result-value" data-role="${role}"><span class="result-role">${title(role)}</span><strong class="${row[role] === null ? 'unavailable' : ''}" aria-label="${title(role)} ${escapeHtml(row.label)}: ${escapeHtml(row[role] ?? 'unavailable')}" title="${role === 'recommended' ? row.source ? 'Verified modern DEFAULT Calc reference' : 'No verified modern DEFAULT Calc reference' : role === 'expected' ? demo ? 'Illustrative keyframe; not calculated' : 'Expected engine unavailable' : saved.hasRecordedRun ? 'Illustrative UI Lab run record' : 'No observed run record'}">${escapeHtml(row[role] ?? '—')}</strong></div>`).join('')}</div></div>`).join('');
+    view.querySelector('.result-rows').innerHTML = model.rows.map(row => `<div class="result-row" role="listitem" data-result-id="${row.id}"><h3>${escapeHtml(row.label)}</h3><div class="result-values">${roles.map(role => `<div class="result-value" data-role="${role}"><span class="result-role">${title(role)}</span><strong class="${row[role] === null ? 'unavailable' : ''}" aria-label="${title(role)} ${escapeHtml(row.label)}: ${escapeHtml(row[role] ?? 'unavailable')}" title="${role === 'recommended' ? row.source ? 'Verified modern DEFAULT Calc reference' : 'No verified modern DEFAULT Calc reference' : role === 'expected' ? demo ? 'Illustrative keyframe; not calculated' : row[role] === null ? 'Expected unavailable for this Character or settings' : 'Exact accepted-Echo mean; verified static stats only, excluding Sonata and conditional effects' : saved.hasRecordedRun ? 'Illustrative UI Lab run record' : 'No observed run record'}">${escapeHtml(row[role] ?? '—')}</strong></div>`).join('')}</div></div>`).join('');
   }
   function counter(node, from, to) {
     const prior = animations.get(node); if (prior) cancelAnimationFrame(prior); animations.delete(node);
@@ -91,11 +92,12 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
       clearFocus(); stopCounters();
       if (person?.id !== nextPerson.id) expected = {};
       person = nextPerson; saved = nextSaved; card.render(person,saved);
+      expected = demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
       model = simulationModel(person,saved,expected); renderResults(); setMode(mode);
     },
     setDemo(enabled) {
       clearFocus(); stopCounters(); demo = enabled; expected = {};
-      if (demo) expected = focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {};
+      expected = demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
       model = simulationModel(person,saved,expected); renderResults();
       if (enabled) { setMode('simulation'); onReveal(); }
     },
@@ -104,9 +106,12 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
       // for the rest of this session, including subsequent Character changes.
       if (!manual && !revealed) { setMode('simulation'); revealed = true; }
       const fixture = demo ? focusFixture(person.id,action) : null;
-      if (!fixture) { clearFocus(); return; }
-      const nextExpected = {...expected,...fixture.values};
-      apply(simulationModel(person,saved,nextExpected),fixture.affected); expected = nextExpected;
+      const nextExpected = demo ? {...expected,...(fixture?.values ?? {})} : augustaExpected(saved)?.values ?? {};
+      const nextModel = simulationModel(person,saved,nextExpected);
+      const affected = demo ? fixture?.affected ?? [] : nextModel.rows.filter(row=>
+        model.rows.some(previous=>previous.id===row.id && previous.expected!==row.expected)
+        && row.expected!==null).map(row=>({id:row.id,role:'expected'}));
+      apply(nextModel,affected); expected = nextExpected;
       if (view.classList.contains('has-result-focus')) source?.classList.add('is-active-setting');
     },
     settle() {

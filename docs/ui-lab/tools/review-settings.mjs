@@ -10,8 +10,8 @@ export async function reviewSettings(page,{width,checks}) {
   const allIds=()=>page.locator('#echoSettings [data-minimum]').evaluateAll(nodes=>nodes.map(node=>node.dataset.minimum));
   await ensureSettings();
   // Browse-only: an inline native disclosure shifts Gate and restores it on close.
-  const selectedSonatas=()=>page.locator('#settings .sonata-selected .sonata-card').allTextContents();
-  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor ✓','Void Thunder ✓']);
+  const selectedSonatas=()=>page.locator('#settings .sonata-selected .sonata-name').allTextContents();
+  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor','Void Thunder']);
   const browse=page.locator('#sonataMore');
   const gateY=()=>page.locator('.gate-options').evaluate(el=>el.getBoundingClientRect().top+scrollY);
   const gateBefore=await gateY();
@@ -29,7 +29,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.ok(scrollInfo.total>scrollInfo.height+80&&scrollInfo.scroll>0,'Sonata list must scroll inside panel');
   assert.equal(scrollInfo.overflow,false,'Sonata rows must fit panel width');
   assert.ok(await gateY()>gateBefore+100,'More Sets must push Gate downward');
-  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor ✓','Void Thunder ✓'],'Browse must not change existing selected sets');
+  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor','Void Thunder'],'Browse must not change existing selected sets');
   assert.equal(await page.locator('#gateLabel').textContent(),'+5');
   await browse.locator('summary').press('Enter');
   assert.equal(await browse.evaluate(el=>el.open),false);

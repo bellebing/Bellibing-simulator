@@ -11,6 +11,11 @@
   display:block;
   margin-bottom:5px}
 .workshop-context { display:flex; align-items:center; gap:20px; min-width:0; }
+/* Center the workspace mode on Workshop, not between unequal header labels. */
+.ui-lab .workshop-header { display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); }
+.ui-lab .workshop-header > .workshop-context { justify-self:start; }
+.ui-lab .workshop-header > .mode-switch { justify-self:center; }
+.ui-lab .workshop-header > #reset { justify-self:end; }
 .current-name { border-left:1px solid var(--line); padding-left:20px; min-width:100px; }
 .current-name .overline { letter-spacing:1px; margin-bottom:3px; }
 .current-name strong { font-family:Etna,Arial,sans-serif; font-size:var(--type-item); font-weight:400; color:#e0d5be; }

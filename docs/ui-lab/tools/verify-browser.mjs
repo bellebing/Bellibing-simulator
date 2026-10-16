@@ -69,6 +69,28 @@ async function checkLayout(page, width, label) {
   }));
   assert.equal(data.pageWidth, width, `${label}: horizontal overflow`);
   assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
+  // Header center follows Workshop, not the unequal title/Reset widths.
+  const headerGeometry = await page.evaluate(() => {
+    const box = selector => document.querySelector(selector).getBoundingClientRect();
+    const center = rect => rect.left + rect.width / 2;
+    const workshop = box('.workshop');
+    const header = box('.workshop-header');
+    const mode = box('.workshop-header .mode-switch');
+    const context = box('.workshop-header .workshop-context');
+    const reset = box('.workshop-header #reset');
+    const simulate = box('#simulate');
+    return {
+      modeOffset: Math.abs(center(mode) - center(workshop)),
+      actionOffset: Math.abs(center(simulate) - center(workshop)),
+      leftGap: mode.left - context.right,
+      rightGap: reset.left - mode.right,
+      contained: mode.left >= header.left && mode.right <= header.right,
+    };
+  });
+  assert.ok(headerGeometry.modeOffset < 1, `${label}: Current / Simulate off Workshop center by ${headerGeometry.modeOffset}px`);
+  assert.ok(headerGeometry.actionOffset < 1, `${label}: SIMULATE off Workshop center by ${headerGeometry.actionOffset}px`);
+  assert.ok(headerGeometry.leftGap >= 4 && headerGeometry.rightGap >= 4 && headerGeometry.contained,
+    `${label}: Workshop header controls collide or escape the header`);
   assert.ok(await page.evaluate(() => { const track = document.querySelector('#portraits').getBoundingClientRect(), workshop = document.querySelector('.workshop').getBoundingClientRect(); return Math.abs(track.x + track.width / 2 - workshop.x - workshop.width / 2) < 1; }), `${label}: compact portrait collection is not centered on Workshop`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);

@@ -28,7 +28,7 @@ const result = {
 };
 const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
 const approvedFiles = new Map();
-const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
+const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
   try {
     let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);

@@ -290,16 +290,26 @@ async function exercise(page, width, prefix) {
   const statsBeforeHistory = await page.locator('#characterStats').innerText();
   // The visible footer of an older record must open THAT record, not the last.
   const first = page.locator('[data-pile="0"] .pile-card[data-history-index="0"]');
-  await first.hover();
+  // The card's center is correctly covered by later cards. Interact with its
+  // individually exposed footer tab, as a person would, not its occluded center.
+  await first.scrollIntoViewIfNeeded();
+  const firstBox = await first.boundingBox();
+  const tabX = firstBox.right ?? (firstBox.x + firstBox.width - 35);
+  const tabY = firstBox.y + firstBox.height - 6;
+  await page.mouse.move(tabX - 35, tabY);
+  await page.waitForTimeout(80);
   assert.ok(await first.evaluate(node => getComputedStyle(node.querySelector('.echo-card')).transform !== 'none'),
     'Hover did not lift the specific historical card');
-  await first.click();
+  await page.mouse.click(tabX - 35, tabY);
   assert.equal(await page.locator('#historyPosition').innerText(), '1 / 5');
   assert.match(await page.locator('#inspectedCard .card-bottom').innerText(), /DISCARDED AT \+10/);
   assert.equal(await page.locator('#previousCard').isDisabled(), true);
   await page.keyboard.press('Escape');
   await page.waitForFunction(() => !document.querySelector('#inspection').open);
   assert.equal(await first.evaluate(node => document.activeElement === node), true, 'Close must return focus to original historical card');
+  // Make sure the original lifted focus/hover no longer covers the front-card center.
+  await page.mouse.move(1, 1);
+  await first.evaluate(node => node.blur());
   await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
   await settle(page);
   assert.equal(await page.locator('#inspection').isVisible(), true);

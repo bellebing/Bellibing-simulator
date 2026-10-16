@@ -86,21 +86,23 @@ export function mountSonataSelection(section,{getState}) {
     event.dataTransfer.effectAllowed='move';
     cards.get(id).classList.add('is-dragging');
   });
-  section.addEventListener('dragover',event=>{
-    if(!dragging||dragging.characterId!==getState().id)return;
-    const dest=destination(event.target);
-    if(!dest)return;
-    event.preventDefault();
-    event.dataTransfer.dropEffect='move';highlight(dest);
-  });
-  section.addEventListener('drop',event=>{
-    if(!dragging||dragging.characterId!==getState().id)return;
-    const dest=destination(event.target);
-    if(!dest)return;
-    event.preventDefault();
-    const id=dragging.id,anchor=before(event.target,dest,event.clientY);
-    cleanup();move(id,dest,anchor);
-  });
+  // Native DnD requires the actual drop zone to cancel dragover, otherwise
+  // Chromium never emits drop. Scope the acceptance to these two lists.
+  for(const [list,dest] of [[chosen,'chosen'],[available,'available']]){
+    list.addEventListener('dragover',event=>{
+      event.preventDefault();
+      if(event.dataTransfer)event.dataTransfer.dropEffect='move';
+      highlight(dest);
+    });
+    list.addEventListener('drop',event=>{
+      event.preventDefault();
+      const id=event.dataTransfer?.getData('text/plain')||dragging?.id;
+      const valid=dragging?.characterId===getState().id&&cards.has(id);
+      const anchor=before(event.target,dest,event.clientY);
+      cleanup();
+      if(valid)move(id,dest,anchor);
+    });
+  }
   section.addEventListener('dragend',cleanup);
 
   // Browsers may not support native HTML drag on touch. The same handle also

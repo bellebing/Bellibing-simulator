@@ -300,3 +300,24 @@
 .ui-lab .site-header nav button { text-align:center; }
 .ui-lab .site-header .study-label { justify-self:end; }
 .ui-lab .page-heading { grid-template-columns:minmax(0,1fr) 420px minmax(0,1fr); }
+
+/* The real discarded Echo records, rather than pseudo-cards, make up each stack.
+   Translate the CARD on hover; the button's hit target stays put, so footer
+   tabs do not flicker as a card is brought to the front. */
+.ui-lab .pile:not(.empty-pile) { cursor:default; }
+.ui-lab .pile:not(.empty-pile)::before,
+.ui-lab .pile:not(.empty-pile)::after { content:none; }
+.ui-lab .pile-stack { display:grid; position:relative; isolation:isolate; padding-bottom:var(--pile-extra); }
+.ui-lab .pile-card {
+  grid-area:1/1; display:block; position:relative; width:100%; min-width:0;
+  padding:0; margin:0; border:0; background:none; text-align:left; cursor:pointer;
+  transform:translateY(var(--pile-offset)); z-index:var(--pile-z);
+}
+.ui-lab .pile-card > .echo-card { pointer-events:none; transition:transform .25s cubic-bezier(.16,.84,.24,1); }
+.ui-lab .pile-card:hover, .ui-lab .pile-card:focus-visible { z-index:100; }
+.ui-lab .pile-card:hover > .echo-card,
+.ui-lab .pile-card:focus-visible > .echo-card { transform:translateY(var(--pile-lift)); }
+.ui-lab .pile-card:focus-visible { outline:0; }
+.ui-lab .pile-card:focus-visible > .echo-card { outline:2px solid var(--gold); outline-offset:2px; }
+.ui-lab .pile-card.is-lifted > .echo-card { visibility:hidden; }
+@media (prefers-reduced-motion:reduce) { .ui-lab .pile-card > .echo-card { transition:none; } }

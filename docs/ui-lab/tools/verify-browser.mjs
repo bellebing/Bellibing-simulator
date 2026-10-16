@@ -99,6 +99,41 @@ async function checkLayout(page, width, label) {
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
+
+  const trashStack = await page.evaluate(() => {
+    const piles = [...document.querySelectorAll('#piles .pile')];
+    const records = piles.map(pile => {
+      const buttons = [...pile.querySelectorAll('.pile-card')];
+      const count = Number(pile.querySelector('.pile-count b')?.textContent.replace(/[^0-9]/g, ''));
+      const stack = pile.querySelector('.pile-stack');
+      const bounds = stack?.getBoundingClientRect();
+      const tabVisible = buttons.every(button => {
+        const b = button.getBoundingClientRect();
+        const hit = document.elementFromPoint(b.right - 35, b.bottom - 6);
+        return hit?.closest('.pile-card') === button;
+      });
+      return {
+        length: buttons.length,
+        count,
+        indices: buttons.map(b => Number(b.dataset.historyIndex)),
+        footers: buttons.map(b => b.querySelector('.card-bottom')?.textContent.trim()),
+        tabVisible,
+        insideColumn: !bounds || buttons.every(b => b.getBoundingClientRect().right <= bounds.right + 1),
+      };
+    });
+    const footer = document.querySelector('.trash-footer').getBoundingClientRect();
+    const cardBottom = Math.max(...document.querySelectorAll('#piles .pile-stack').values().map(s => s.getBoundingClientRect().bottom));
+    return {records,footerGap:footer.top - cardBottom,pseudoCards: getComputedStyle(piles[0],'::before').content};
+  });
+  assert.deepEqual(trashStack.records.map(p=>p.length),[5,3,4,2,4], `${label}: history records missing from physical piles`);
+  trashStack.records.forEach((pile,slot) => {
+    assert.equal(pile.count,pile.length, `${label}: pile ${slot + 1} history count incorrect`);
+    assert.deepEqual(pile.indices,Array.from({length:pile.length},(_,i)=>i), `${label}: pile card indices reordered`);
+    assert.ok(pile.footers.every(text => /DISCARDED AT \+/.test(text)), `${label}: missing individual discard footer`);
+    assert.ok(pile.tabVisible && pile.insideColumn, `${label}: pile ${slot+1} tab not individually reachable`);
+  });
+  assert.ok(trashStack.footerGap >= 0, `${label}: Trash footer is covered`);
+  assert.equal(trashStack.pseudoCards, 'none', `${label}: decorative pile cards still showing`);
   // Large cards and the five narrower Loadout cards have different type scales.
   const typeScale = await page.evaluate(() => {
     const size = (card, selector) => parseFloat(getComputedStyle(document.querySelector(`${card} ${selector}`)).fontSize);
@@ -250,7 +285,19 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('#slotLabel').innerText(), '04');
   const workingBeforeHistory = await page.locator('.working-area').innerText();
   const statsBeforeHistory = await page.locator('#characterStats').innerText();
-  await page.locator('[data-pile="0"]').click();
+  // The visible footer of an older record must open THAT record, not the last.
+  const first = page.locator('[data-pile="0"] .pile-card[data-history-index="0"]');
+  await first.hover();
+  assert.ok(await first.evaluate(node => getComputedStyle(node.querySelector('.echo-card')).transform !== 'none'),
+    'Hover did not lift the specific historical card');
+  await first.click();
+  assert.equal(await page.locator('#historyPosition').innerText(), '1 / 5');
+  assert.match(await page.locator('#inspectedCard .card-bottom').innerText(), /DISCARDED AT \+10/);
+  assert.equal(await page.locator('#previousCard').isDisabled(), true);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#inspection').open);
+  assert.equal(await first.evaluate(node => document.activeElement === node), true, 'Close must return focus to original historical card');
+  await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
   await settle(page);
   assert.equal(await page.locator('#inspection').isVisible(), true);
   assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
@@ -533,7 +580,7 @@ try {
       await page.locator('#simulate').click();
       assert.equal(await page.locator('#materialRows').innerText(), 'Consumption not recorded');
       await selectCharacter(page, 'augusta');
-      await page.locator('[data-pile="0"]').click();
+      await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
       assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
       await page.locator('#closeInspection').click();
       assert.deepEqual(network, [], 'Portable artifact attempted a network request');

@@ -37,11 +37,17 @@ try{
   assert.equal((await state()).selectedId,'augusta');assert.equal((await state()).session,null);
   await click('#settingsToggle');
   await input('[data-resource="echoes"] input','5');await input('[data-resource="tuners"] input','50');await input('[data-resource="premium"] input','100');
+  if(width===1440){
+   await input('[data-resource="echoes"] input','0');await click('[data-mode="simulate"]');
+   const emptyBefore=JSON.stringify((await state()).session);await click('#simulate');await click('#candidateForm button[type="submit"]');
+   assert.equal(JSON.stringify((await state()).session),emptyBefore);assert.match(await inFrame('d.querySelector("#candidateError").textContent'),/No Echoes/);
+   await click('#cancelCandidate');await click('[data-mode="current"]');await input('[data-resource="echoes"] input','5');
+  }
   const savedInventory=await read('JSON.stringify(window.bellibingResourceInventory.getState())');
   await click('[data-mode="simulate"]');
   let s=await state();assert.ok(s.session.slots.every(slot=>slot.candidate===null));assert.ok(s.session.simulatedBuild.echoSets.sets[s.session.source.activeSetId].slots.every(slot=>slot===null));
   assert.equal(await inFrame('d.querySelectorAll("#piles .empty-pile").length'),5);
-  await click('[data-slot="5"]');await click('#simulate');await wait('d.querySelector("#candidateSetup").open','candidate dialog');
+  await click('[data-slot="5"]');await click('#simulate');await wait('d.querySelector("#candidateSetup").open','candidate dialog');assert.equal(await inFrame('d.querySelector("#candidateError").textContent'),'');
   // Native select receives pointer/keyboard interaction; legal options are canonical.
   await click('#candidateSpecies');await key('Escape');await key('Home');await key('ArrowDown');await key('Enter');
   await click('#candidateForm button[type="submit"]');

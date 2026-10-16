@@ -102,6 +102,7 @@ function populateTemplate() {
 $('#simulate').onclick=()=>{
   if(!session)return;
   if(!candidate()){
+    $('#candidateError').textContent='';
     $('#candidateSpecies').innerHTML=echoes.map(row=>`<option value="${row.id}">${html(row.name)} · COST ${row.cost}</option>`).join('');populateTemplate();$('#candidateSetup').showModal();
   }else perform(()=>{session=rollWorkshopCheckpoint(session,rng,workshopToken(session));});
 };

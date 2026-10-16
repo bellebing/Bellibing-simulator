@@ -1,3 +1,4 @@
+import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { selectCardCharacter } from './review-character-card.mjs';
 export async function reviewResults(page,{width,checks,animated=false}) {
@@ -126,7 +127,7 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   await choose('character'); assert.equal(await page.locator('#characterStats').textContent(),saved);
   assert.equal(await page.locator('#currentCard').textContent(),echo);
   await choose('simulation');
-  await page.locator('#simulate').click();
+  await chooseIllustrativeResult(page);
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12);
   assert.match(await page.locator('.results-origin').innerText(),/Illustrative/);
   await page.locator('.demo-note summary').click(); await page.locator('#focusDemo').uncheck(); await page.locator('.demo-note summary').click();

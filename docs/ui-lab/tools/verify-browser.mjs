@@ -1,3 +1,4 @@
+import {reviewActivation} from './review-activation.mjs';
 import { reviewResources } from './review-resources.mjs';
 import { reviewSettings } from './review-settings.mjs';
 import { reviewResults } from './review-results.mjs';
@@ -216,19 +217,14 @@ async function exercise(page, width, prefix) {
   await page.evaluate(() => scrollTo(0, 0));
   const originalGeometry = await geometry(page);
   const candidate = await page.locator('#newCard').innerHTML();
-  await page.locator('#fullSet').focus();
+  assert.equal(await page.locator('.interaction-options').count(), 0);
+  const activation=page.locator('[data-activation="1"]');
+  await activation.focus();await page.keyboard.press('Space');
+  assert.equal(await page.locator('[data-activation="1"]').getAttribute('aria-pressed'),'false');
+  assert.equal(await page.locator('[data-slot="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('#newCard').innerHTML(),candidate,'Activation must not replace the selected candidate');
   await page.keyboard.press('Space');
-  assert.equal(await page.locator('#fullSet').getAttribute('aria-pressed'), 'true');
-  assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'false');
-  assert.equal(await page.locator('#newCard').innerHTML(), candidate, 'Scope must not fabricate results');
-  const focusStyle = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).outlineStyle);
-  assert.equal(focusStyle, 'solid', 'Scope needs visible keyboard focus');
-  const activeFill = await page.locator('#fullSet').evaluate(node => getComputedStyle(node).backgroundImage);
-  await page.locator('[data-scope="slot"]').hover();
-  const hoverFill = await page.locator('[data-scope="slot"]').evaluate(node => getComputedStyle(node).backgroundImage);
-  assert.notEqual(activeFill, hoverFill, 'Active and hover scope states must differ');
-  await page.locator('[data-scope="slot"]').click();
-  assert.equal(await page.locator('[data-scope="slot"]').getAttribute('aria-pressed'), 'true');
+  assert.equal(await page.locator('[data-activation="1"]').getAttribute('aria-pressed'),'true');
   assert.equal(await page.locator('#consumption').isVisible(), false, 'Ready must omit unused materials');
   assert.equal(await page.locator('#materialRows .material-row').count(), 0);
   assert.equal(await page.locator('.settings .resource-section h3').count(), 0, 'Resources heading should be removed');
@@ -337,13 +333,14 @@ async function exercise(page, width, prefix) {
   const workingCard = await page.locator('#currentCard').innerHTML();
   const candidateCard = await page.locator('#newCard').innerHTML();
   const comparison = await page.locator('#characterStats').innerText();
-  await page.locator('#simulate').click();
+  await chooseScenario(page, 'result');
   assert.equal(await page.locator('#currentCard').innerHTML(), workingCard);
   assert.equal(await page.locator('#newCard').innerHTML(), candidateCard);
   assert.equal(await page.locator('#characterStats').innerText(), comparison);
   assert.equal(await page.locator('#consumption h3').innerText(), 'Materials Used');
   assert.equal(await page.locator('#materialRows .material-row').count(), 3);
-  assert.match(await page.locator('#toast').innerText(), /not connected/);
+  await page.locator('#simulate').click();
+  assert.match(await page.locator('#toast').innerText(), /Pending.*not connected/);
   assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), [], 'Lab wrote persistent data');
   await checkLayout(page, width, `${prefix}: interactions complete`);
 }
@@ -372,7 +369,7 @@ async function exerciseFeedback(page, width, prefix) {
   assert.deepEqual(await page.locator('.sonata-count').allInnerTexts(), ['×3', '×2']);
   assert.equal(await page.locator('#simulate').isEnabled(), true);
   await captureState('ready');
-  for (const group of ['.mode-switch', '.setting-mode', '.interaction-options']) {
+  for (const group of ['.mode-switch', '.setting-mode']) {
     const selected = page.locator(`${group} button.selected`);
     assert.equal(await selected.getAttribute('aria-pressed'), 'true');
     assert.match(await selected.evaluate(node => getComputedStyle(node).backgroundImage), /linear-gradient/);
@@ -404,7 +401,7 @@ async function exerciseFeedback(page, width, prefix) {
   assert.equal(await page.locator('#howToFix').evaluate(node => node === document.activeElement), true);
   const warningEquipment = await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML));
   const comparison = await page.locator('#characterStats').innerText();
-  await page.locator('#simulate').click();
+  await chooseScenario(page, 'result');
   assert.deepEqual(await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML)), warningEquipment, 'Run record must not auto-fix warning');
   assert.equal(await page.locator('#characterStats').innerText(), comparison);
   assert.equal(await page.locator('#materialRows .material-row').count(), 3);
@@ -483,7 +480,7 @@ try {
     assert.ok(Math.abs(current['.slots'].y - withoutCost['.slots'].y - addedHeight) < 2, `${width}: unexpected Loadout displacement`);
     const costFlow = await page.evaluate(() => {
       const cost = document.querySelector('#resourceCost').getBoundingClientRect();
-      const scope = document.querySelector('.interaction-options').getBoundingClientRect();
+      const scope = document.querySelector('#simulate').getBoundingClientRect();
       const slots = document.querySelector('.slots').getBoundingClientRect();
       return cost.top >= scope.bottom && cost.bottom <= slots.top;
     });
@@ -500,6 +497,9 @@ try {
       checks.push({ label: 'Approved primary action geometry', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
       await before.close();
     }
+    await reviewActivation(page, {width,checks});
+    await page.goto(`${origin}${selector}?settings=expanded`, {waitUntil:'networkidle'});
+    await wait(page);
     await reviewCharacterCard(page, { width, checks });
     await reviewCarousel(page, { width, checks });
     await exerciseFeedback(page, width, 'source');
@@ -610,7 +610,7 @@ try {
       await selectCharacter(page, 'iuno');
       assert.equal(await selectedName(page), 'Iuno');
       await page.locator('#simulate').click();
-      assert.equal(await page.locator('#materialRows').innerText(), 'Consumption not recorded');
+      assert.match(await page.locator('#toast').innerText(), /Pending/);
       await selectCharacter(page, 'augusta');
       await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
       assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);

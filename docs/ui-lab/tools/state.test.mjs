@@ -31,18 +31,18 @@ test('Character settings/slots are isolated and resetting one retains the other'
   const iuno = getDemoState('iuno');
   augusta.gate = '+20';
   augusta.selectedSlot = 3;
-  augusta.scope = 'set';
+  augusta.echoActive[1] = false;
   augusta.minima['CRIT Rate'] = 7;
   assert.equal(iuno.gate, '+5');
   assert.equal(iuno.selectedSlot, 0);
-  assert.equal(iuno.scope, 'slot');
+  assert.deepEqual(iuno.echoActive,[true,true,true,false,false]);
   assert.equal(iuno.minima['CRIT Rate'], 0);
   assert.equal(getDemoState('augusta'), augusta);
   resetDemoState('iuno');
   assert.equal(getDemoState('augusta').gate, '+20');
   assert.equal(getDemoState('augusta').minima['CRIT Rate'], 7);
   assert.notEqual(augusta.echoes[0], iuno.echoes[0]);
-  assert.equal(getDemoState('augusta').scope, 'set');
+  assert.equal(getDemoState('augusta').echoActive[1], false);
   resetDemoState('augusta');
 });
 
@@ -308,4 +308,29 @@ test('resource cost roles require verified results and convert all canonical Tub
   assert.deepEqual(resourceCostValues({...record,tubes:{premium:2}}),[0,20,null]);
   assert.deepEqual(resourceCostValues({...record,echoes:-1,tuners:Infinity,tubes:null}),[null,null,null]);
   assert.deepEqual(resourceCostValues({status:'VERIFIED',echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}}),[0,0,0]);
+});
+
+test('Echo activation excludes projection inputs without deleting cards, histories or selecting a different slot', async () => {
+  const {activeEchoSlots,activeSlotIndices,setEchoActive,simulationRequest}=await import('../v1.1/modules/echo-activation.js');
+  const {simulationModel}=await import('../v1.1/modules/simulation-model.js');
+  const augusta=resetDemoState('augusta'),iuno=resetDemoState('iuno');
+  const retained=structuredClone({echoes:augusta.echoes,histories:augusta.histories,stats:augusta.stats,candidates:augusta.candidates});
+  setEchoActive(augusta,1,false);setEchoActive(augusta,3,false);
+  assert.equal(augusta.selectedSlot,0);assert.deepEqual(activeSlotIndices(augusta),[0,2,4]);
+  assert.deepEqual(activeEchoSlots(augusta).map(Boolean),[true,false,true,false,true]);
+  const detached=activeEchoSlots(augusta);detached[0].name='Modified consumer copy';assert.deepEqual(augusta.echoes,retained.echoes);
+  assert.deepEqual({echoes:augusta.echoes,histories:augusta.histories,stats:augusta.stats,candidates:augusta.candidates},retained);
+  assert.equal(iuno.echoActive[1],true);augusta.selectedSlot=3;
+  assert.deepEqual(simulationRequest(augusta),{status:'PENDING',reason:'MULTI_SLOT_SIMULATION_PENDING',characterId:'augusta',slots:[0,2,4]});
+  augusta.hasRecordedRun=true;
+  const person=CHARACTER_CATALOG.find(row=>row.id==='augusta');
+  const model=simulationModel(person,augusta,{TOTAL_ATK:'99999'});
+  assert.equal(model.pending,'ACTIVE_BUILD_PROJECTION_PENDING');assert.ok(model.rows.every(row=>row.simulated===null&&row.expected===null));
+  assert.equal(model.rows.find(row=>row.id==='TOTAL_ATK').recommended,'2,407');
+  for(let index=0;index<5;index++)setEchoActive(augusta,index,false);
+  assert.deepEqual(activeEchoSlots(augusta),Array(5).fill(null));assert.deepEqual(simulationRequest(augusta).slots,[]);
+  for(let index=0;index<5;index++)setEchoActive(augusta,index,true);
+  assert.deepEqual(augusta.echoes,retained.echoes);assert.deepEqual(augusta.histories,retained.histories);
+  assert.throws(()=>setEchoActive(iuno,4,true));assert.throws(()=>setEchoActive(augusta,5,false));
+  assert.deepEqual(resetDemoState('augusta').echoActive,Array(5).fill(true));
 });

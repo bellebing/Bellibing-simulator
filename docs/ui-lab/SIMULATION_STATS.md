@@ -25,3 +25,9 @@ Editing reveals Simulation Stats once per session without expanding a compact pa
 ## Verification
 
 `review-results.mjs` exercises real slider dragging, keyboard input, mode control, explicit demo opt-in, unsupported dependencies, recommendation gaps, recorded-run boundaries, Character switching and side-panel states in Chromium at 1440, 1920 and 2560px, including ordinary and reduced motion. The existing Card, Hero, Carousel, Workshop, Echo, history and permission tests remain in the review runner. No media or downloadable bundles are generated.
+
+## Echo activation boundary
+
+The Loadout activation mask belongs to the isolated Character state and is independent of the selected inspection card. `activeEchoSlots` supplies detached cards only for active positions, preserving nulls for inactive positions; display cards/history stay intact. This follows the active/display ownership boundary reviewed in PR #288 without importing its UI, canonical simulator sessions or private logic.
+
+No mixed active-slot Character projection or multi-slot runner is connected in this Lab. When an equipped Echo is inactive, the existing Expected/Simulated cells are unavailable with Pending tooltips; five-card reference/illustrative values cannot leak into that build context. The unchanged Augusta fixed-five-Echo Expected producer still has its original independent semantics and tests. Recommended and the saved Character Stats column remain unchanged. SIMULATE prepares all active slot indices (zero-based), independently of selection, but reports Pending without creating results or charging inventory. Existing illustrative records require explicit Demonstration opt-in. With zero active cards the button is disabled.

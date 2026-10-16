@@ -1,3 +1,4 @@
+import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
 import { mountResourceCost } from './resource-cost.js';
 import { mountResourceInventory } from './resource-inventory.js';
 import { mountResultsPanel } from './simulation-stats.js';
@@ -43,6 +44,10 @@ if (query.get('recorded') === 'true') {
 }
 function renderFeedback() {
   feedback.render(workshopFeedbackFixture(state));
+  const request = simulationRequest(state);
+  if (!request.slots.length) $('#simulate').disabled = true;
+  $('#simulate').dataset.status = request.status;
+  $('#simulate').title = request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -57,8 +62,12 @@ function renderWorking() {
 }
 
 function renderSlots() {
-  $('#slots').innerHTML = state.echoes.map((echo, index) => `<button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo)}</button>`).join('');
-  $('.loadout-heading .small-muted').innerHTML = sonataSummary(state.echoes);
+  $('#slots').innerHTML = state.echoes.map((echo, index) => {
+    const active = !!echo && state.echoActive[index];
+    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo)}</button>${activationMarkup(index,active,!!echo)}</div>`;
+  }).join('');
+  positionActivationMarks($('#slots'));
+  $('.loadout-heading .small-muted').innerHTML = sonataSummary(activeEchoSlots(state));
 }
 
 function renderPiles() {
@@ -89,11 +98,6 @@ function renderCharacter() {
 
 function renderSettings() {
   $('#gateLabel').value = state.gate;
-  document.querySelectorAll('[data-scope]').forEach(button => {
-    const selected = button.dataset.scope === state.scope;
-    button.classList.toggle('selected', selected);
-    button.setAttribute('aria-pressed', selected);
-  });
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   improveSettings.render();
@@ -193,7 +197,16 @@ async function closeInspection({ immediate = false } = {}) {
   }
 }
 
+window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {
+  const toggle = event.target.closest('[data-activation]');
+  if (toggle) {
+    const index = Number(toggle.dataset.activation);
+    setEchoActive(state,index,!state.echoActive[index]);
+    renderSlots();renderCharacter();renderFeedback();
+    $(`[data-activation="${index}"]`).focus({preventScroll:true});
+    return;
+  }
   const button = event.target.closest('[data-slot]');
   if (!button) return;
   state.selectedSlot = Number(button.dataset.slot);
@@ -234,21 +247,14 @@ $('.setting-mode').addEventListener('click', event => {
   characterCard.edit({kind:'settings-mode'},null);
 });
 $('#simulate').onclick = () => {
-  if (!workshopFeedbackFixture(state).actionAllowed) return;
-  applyFeedbackScenario(state, 'result');
-  renderWorkspace();
-  notify('Illustrative run record · live simulation is not connected');
+  if ($('#simulate').disabled) return;
+  const request = simulationRequest(state);
+  notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);
 };
 $('#reviewScenario').onchange = event => {
   applyFeedbackScenario(state, event.target.value);
   renderWorkspace();
 };
-$('.interaction-options').addEventListener('click', event => {
-  const button = event.target.closest('[data-scope]');
-  if (!button) return;
-  state.scope = button.dataset.scope;
-  renderSettings();
-});
 $('.mode-switch').addEventListener('click', event => { if (event.target.tagName === 'BUTTON') notify('UI Lab uses isolated Simulate fixtures · no real account is connected'); });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 $('#reset').onclick = () => { state = resetDemoState(selectedId); renderWorkspace(); notify('This Character’s demonstration state restored'); };

@@ -1,3 +1,4 @@
+import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { ECHO_SETTING_STATS } from '../v1.1/modules/settings-catalog.js';
 import { selectCardCharacter } from './review-character-card.mjs';
@@ -170,7 +171,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await er.inputValue(),'120','Explicitly re-enabling can adopt the verified source suggestion');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   assert.ok((await page.locator('.result-row.is-affected').count()) > 0,'Enabled ER Target must recalculate Expected');
-  await page.locator('#simulate').click();
+  await chooseIllustrativeResult(page);
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE','An illustrative run is not a verified ER projection');
   await selectCardCharacter(page,'iuno');await ensureSettings();
   assert.deepEqual(await ids('hard'),[]);assert.deepEqual(await ids('flex'),[]);

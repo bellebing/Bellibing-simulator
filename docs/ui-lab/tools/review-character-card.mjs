@@ -1,3 +1,4 @@
+import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { CHARACTER_CATALOG } from '../v1.1/modules/catalog.js';
 import { getDemoState } from '../v1.1/modules/lab-state.js';
@@ -49,7 +50,7 @@ export async function reviewCharacterCard(page, { width, checks }) {
   assert.equal(await top(card.locator('.stats-heading')), statsTop, 'Collapsed Skills did not restore stats');
   // No calculated run or loadout selection may replace the saved value column.
   const values = await card.locator('#characterStats').innerText();
-  await page.locator('[data-slot="2"]').click(); await page.locator('#simulate').click();
+  await page.locator('[data-slot="2"]').click(); await chooseIllustrativeResult(page);
   assert.equal(await card.locator('#characterStats').innerText(), values);
   await page.locator('#reset').click();
   await card.locator('#characterSkills summary').click();

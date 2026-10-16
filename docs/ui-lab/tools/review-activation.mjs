@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import {selectCardCharacter} from './review-character-card.mjs';
+import {chooseIllustrativeResult} from './review-fixtures.mjs';
+
+export async function reviewActivation(page,{width,checks}) {
+  const toggle=index=>page.locator(`[data-activation="${index}"]`);
+  const selected=()=>page.locator('.slot[aria-pressed="true"]').getAttribute('data-slot');
+  const stats=()=>page.locator('#characterStats').textContent();
+  const saved=await stats(),current=await page.locator('#currentCard').innerHTML();
+  const histories=await page.locator('#piles').innerHTML();
+  const inventory=await page.locator('#resourceInventory input').evaluateAll(nodes=>nodes.map(n=>n.value));
+  assert.equal(await toggle(0).getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('.interaction-options').count(),0);
+  assert.equal(await page.locator('#materialRows .material-row').count(),0);
+  await page.locator('#simulate').click();
+  assert.match(await page.locator('#toast').innerText(),/Pending.*5 active slots/);
+  assert.equal(await page.locator('#materialRows .material-row').count(),0,'Pending must not manufacture a run');
+  await chooseIllustrativeResult(page);
+  await toggle(1).click();await toggle(3).click();
+  assert.equal(await selected(),'0');assert.equal(await toggle(1).getAttribute('aria-pressed'),'false');
+  assert.equal(await page.locator('#currentCard').innerHTML(),current);
+  assert.equal(await stats(),saved);assert.equal(await page.locator('#piles').innerHTML(),histories);
+  await page.locator('[data-slot="1"]').click();assert.equal(await selected(),'1');
+  assert.equal(await toggle(1).getAttribute('aria-pressed'),'false');
+  const styles=await page.locator('.activation-slot').evaluateAll(wrappers=>wrappers.map(w=>{
+    const icon=w.querySelector('.activation-mark'),card=w.querySelector('.slot'),level=w.querySelector('.level');
+    const a=icon.getBoundingClientRect(),b=level.getBoundingClientRect();
+    return {filter:getComputedStyle(card).filter,color:getComputedStyle(icon).color,width:a.width,overlap:a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top};
+  }));
+  assert.equal(styles[1].filter,'brightness(0.6)');assert.equal(styles[0].filter,'none');
+  assert.notEqual(styles[0].color,styles[1].color);assert.ok(styles.every(row=>row.width===13.75&&!row.overlap));
+  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  await page.locator('[data-result-mode="simulation"]').click();
+  assert.equal(await page.locator('[data-role="simulated"] strong:not(.unavailable)').count(),0);
+  assert.equal(await page.locator('[data-role="expected"] strong:not(.unavailable)').count(),0);
+  assert.match(await page.locator('[data-role="simulated"] strong').first().getAttribute('title'),/Pending/);
+  await toggle(1).focus();await page.keyboard.press('Space');assert.equal(await toggle(1).getAttribute('aria-pressed'),'true');
+  assert.equal(await selected(),'1');
+  await selectCardCharacter(page,'iuno');await selectCardCharacter(page,'augusta');
+  assert.equal(await toggle(3).getAttribute('aria-pressed'),'false','Activation belongs to its Character');
+  for(let i=0;i<5;i++)if(await toggle(i).getAttribute('aria-pressed')==='true')await toggle(i).click();
+  assert.equal(await page.locator('#simulate').isDisabled(),true);
+  await toggle(4).click();await page.locator('[data-slot="0"]').click();
+  assert.equal(await selected(),'0');await page.locator('#simulate').click();
+  assert.match(await page.locator('#toast').innerText(),/Pending.*1 active slots/);
+  assert.equal(await stats(),saved);assert.equal(await page.locator('#piles').innerHTML(),histories);
+  assert.deepEqual(await page.locator('#resourceInventory input').evaluateAll(nodes=>nodes.map(n=>n.value)),inventory);
+  await page.locator('#reset').click();
+  assert.equal(await page.locator('.activation-mark[aria-pressed="true"]').count(),5);
+  assert.equal(await page.locator('.cost-comparison').isVisible(),true);
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  checks.push({label:'Independent Echo activation, retained data, Pending projection/run boundary and approved icon geometry',width});
+}

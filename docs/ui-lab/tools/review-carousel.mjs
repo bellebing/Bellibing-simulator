@@ -17,7 +17,10 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
   const build = await page.locator('#currentCard').innerHTML();
   const stats = await page.locator('#characterStats').innerText();
   const middle = await center(page.locator('.workshop'));
-  assert.ok(Math.abs(await center(page.locator('#portraits')) - middle) < 1, 'Portrait collection must be centered on Workshop');
+  const pageMiddle = width / 2;
+  assert.ok(Math.abs(await center(page.locator('.site-header nav .active')) - pageMiddle) < 1, 'Improve tab must be centered on the page');
+  assert.ok(Math.abs(await center(page.locator('#portraits')) - pageMiddle) < 1, 'Portrait collection must be centered on the page');
+  assert.ok(Math.abs(await center(page.locator('.portrait.selected')) - pageMiddle) < 1, 'Selected portrait must be on the page centerline');
   assert.equal(await page.locator('.workshop-header .current-name strong').innerText(), 'Augusta');
   assert.ok(await page.locator('.portrait.selected').evaluate(node => node.clientWidth) >= 48);
   assert.equal(await page.locator('.filter').isVisible(), false);
@@ -176,7 +179,7 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
   await activate(page.locator('#openGallery')); await page.locator('#galleryArt').focus();
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('#openGallery').evaluate(node => node === document.activeElement), true);
-  assert.ok(Math.abs(await center(page.locator('#portraits')) - middle) < 1);
+  assert.ok(Math.abs(await center(page.locator('#portraits')) - pageMiddle) < 1);
   if (!touch) {
     await page.keyboard.press('Enter'); await flowSettled(page);
     assert.equal(await page.locator('#galleryArt').evaluate(node => node === document.activeElement), true, 'Keyboard expansion must focus the wheel');

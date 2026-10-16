@@ -123,12 +123,9 @@ export function mountCarousel({ selectedId, onSelect }) {
   }
 
   function align() {
-    // Share the actual workspace columns with the heading; CSS grid centers the
-    // compact state without moving or reserving any space above the panels.
-    const columns = getComputedStyle($('#composition'));
-    $('.page-heading').style.gridTemplateColumns = columns.gridTemplateColumns;
-    $('.page-heading').style.columnGap = columns.columnGap;
-    compact.style.setProperty('--portrait-span', `${Math.min(420, ribbon.clientWidth - 56)}px`);
+    // Compact Characters now belong to the page heading's fixed center column,
+    // not the dynamically resized three-column Workshop composition.
+    compact.style.setProperty('--portrait-span', `${Math.min(420, $('.heading-carousel').clientWidth)}px`);
     paint();
   }
   function open() {
@@ -275,9 +272,7 @@ export function mountCarousel({ selectedId, onSelect }) {
   });
   renderCatalog();
   finishCatalog(ids.indexOf(selected));
-  new ResizeObserver(align).observe($('.workshop'));
-  // Panel intent changes grid columns in one task; align before the next paint.
-  new MutationObserver(align).observe($('#composition'), { attributes: true, attributeFilter: ['style'] });
+  new ResizeObserver(align).observe($('.heading-carousel'));
   window.addEventListener('resize', align);
   document.fonts?.ready.then(align);
   align();

@@ -91,7 +91,11 @@ async function checkLayout(page, width, label) {
   assert.ok(headerGeometry.actionOffset < 1, `${label}: SIMULATE off Workshop center by ${headerGeometry.actionOffset}px`);
   assert.ok(headerGeometry.leftGap >= 4 && headerGeometry.rightGap >= 4 && headerGeometry.contained,
     `${label}: Workshop header controls collide or escape the header`);
-  assert.ok(await page.evaluate(() => { const track = document.querySelector('#portraits').getBoundingClientRect(), workshop = document.querySelector('.workshop').getBoundingClientRect(); return Math.abs(track.x + track.width / 2 - workshop.x - workshop.width / 2) < 1; }), `${label}: compact portrait collection is not centered on Workshop`);
+  assert.ok(await page.evaluate(() => {
+    const midpoint = document.documentElement.clientWidth / 2;
+    const center = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return r.x + r.width / 2; };
+    return ['.site-header nav .active','#portraits','.portrait.selected'].every(selector => Math.abs(center(selector) - midpoint) < 1);
+  }), `${label}: Improve tab and compact Character portrait must share the page centerline`);
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);

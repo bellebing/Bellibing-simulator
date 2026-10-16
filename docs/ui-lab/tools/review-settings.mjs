@@ -169,7 +169,7 @@ export async function reviewSettings(page,{width,checks}) {
   await sample('none');await page.locator('#erEnabled').check();
   assert.equal(await er.inputValue(),'120','Explicitly re-enabling can adopt the verified source suggestion');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
-  assert.equal(await page.locator('.result-row.is-affected').count(),0,'ER input must not fabricate Expected changes');
+  assert.ok((await page.locator('.result-row.is-affected').count()) > 0,'Enabled ER Target must recalculate Expected');
   await page.locator('#simulate').click();
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE','An illustrative run is not a verified ER projection');
   await selectCardCharacter(page,'iuno');await ensureSettings();

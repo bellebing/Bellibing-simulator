@@ -78,6 +78,6 @@ export function rollWorkshopCheckpoint(session, rng, token) {
     next.manual.inventory = resource.inventory;
     next.manual.progress[candidate.id] = resource.progress;
     next.manual.receipts.push({ candidateId: candidate.id, slot: session.selectedSlot, level: target, echoes: 0, tuners: rolled.cost.tuners, tubes: ledger });
-    next.manual.revision++;
+    next.manual.revision = resource.revision;
     return next;
 }

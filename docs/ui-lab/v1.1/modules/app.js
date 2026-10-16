@@ -1,3 +1,4 @@
+import { mountResourceCost } from './resource-cost.js';
 import { mountResourceInventory } from './resource-inventory.js';
 import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
@@ -13,6 +14,7 @@ import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
 mountResourceInventory($('#resourceInventory'));
+mountResourceCost($('#resourceCost')); // No verified cost producer is connected yet.
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
 const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state});

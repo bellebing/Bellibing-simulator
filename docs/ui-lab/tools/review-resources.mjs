@@ -10,7 +10,7 @@ export async function reviewResources(page,{width,checks}) {
   assert.equal(await page.locator('#resourceInventory input').count(),6);
   assert.equal(await page.locator('#settings .resource-section h3').count(),0,'Remove visible Resources heading');
   assert.deepEqual(await page.locator('#resourceInventory .resource-grid-headings span').allTextContents(),['Echoes','Tuners','Tubes']);
-  assert.equal(await page.locator('#resourceInventory .resource-compact-grid > label').count(),6);
+  assert.equal(await page.locator('#resourceInventory .resource-compact-grid > .resource-field').count(),6);
   assert.equal(await page.locator('#resourceInventory .resource-tube-heading').count(),0,'Old Sealed Tubes heading removed');
   const compactGrid=await page.locator('#resourceInventory').evaluate(root=>{
     const inputs=[...root.querySelectorAll('input')].map(el=>el.getBoundingClientRect());
@@ -60,6 +60,17 @@ export async function reviewResources(page,{width,checks}) {
   assert.deepEqual(Object.values(await read()),Array(6).fill('0'));
   await page.locator('#simulate').click();
   assert.deepEqual(Object.values(await read()),Array(6).fill('0'),'Illustrative Materials Used must not be deducted from inventory');
+  const unlimited=page.locator('.resource-unlimited');
+  assert.equal(await unlimited.count(),6);
+  for(const resource of ['echoes','tuners','premium','advanced','medium','basic']) {
+    const field=page.locator(`[data-resource="${resource}"]`),input=field.locator('input'),button=field.locator('button');
+    await input.fill('37');await input.press('Enter');
+    await button.click();assert.equal(await input.inputValue(),'∞');assert.equal(await button.getAttribute('aria-pressed'),'true');
+    await button.click();assert.equal(await input.inputValue(),'37');assert.equal(await button.getAttribute('aria-pressed'),'false');
+    await input.fill('0');await input.press('Enter');
+  }
+  assert.equal(await page.locator('.cost-comparison').isVisible(),true);
+  assert.deepEqual(await page.locator('[data-cost-role]').allTextContents(),Array(6).fill('—'));
   const materials=await page.locator('#materialRows').textContent();assert.ok(materials.length>0);
   await input('tuners').fill('Unlimited');await input('tuners').press('Enter');
   assert.equal(await page.locator('#materialRows').textContent(),materials,'Available resources must not rewrite recorded consumption');

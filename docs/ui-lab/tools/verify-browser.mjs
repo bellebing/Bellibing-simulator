@@ -463,14 +463,32 @@ try {
     await page.evaluate(() => document.fonts.ready);
     await checkLayout(page, width, 'repository source');
     const current = await geometry(page);
+    // Resource Cost is approved in-flow content. Check the original geometry with
+    // only that addition removed, then constrain its actual vertical impact.
+    const cost = page.locator('#resourceCost');
+    assert.equal(await cost.isVisible(), true, `${width}: approved Resource Cost is missing`);
+    await cost.evaluate(node => { node.style.display = 'none'; });
+    const withoutCost = await geometry(page);
+    await cost.evaluate(node => { node.style.removeProperty('display'); });
     const baseline = await context.newPage();
     await baseline.goto(`${origin}/docs/ui-lab/v1/?settings=expanded`, { waitUntil: 'networkidle' });
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed (${current[selector][key]} vs ${approved[selector][key]})`);
+      for (const key of ['y','height']) assert.ok(Math.abs(withoutCost[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed without Resource Cost (${withoutCost[selector][key]} vs ${approved[selector][key]})`);
     }
-    checks.push({ label: 'Preserved V1 vertical composition; authorized shared-panel width adaptation', width, approved, current });
+    const addedHeight = current['.working-area'].height - withoutCost['.working-area'].height;
+    assert.ok(addedHeight >= -1 && addedHeight < 16, `${width}: Resource Cost changed working-area height by ${addedHeight}px`);
+    assert.ok(Math.abs(current['.workshop'].height - withoutCost['.workshop'].height - addedHeight) < 2, `${width}: unrelated Workshop height change`);
+    assert.ok(Math.abs(current['.slots'].y - withoutCost['.slots'].y - addedHeight) < 2, `${width}: unexpected Loadout displacement`);
+    const costFlow = await page.evaluate(() => {
+      const cost = document.querySelector('#resourceCost').getBoundingClientRect();
+      const scope = document.querySelector('.interaction-options').getBoundingClientRect();
+      const slots = document.querySelector('.slots').getBoundingClientRect();
+      return cost.top >= scope.bottom && cost.bottom <= slots.top;
+    });
+    assert.ok(costFlow, `${width}: Resource Cost overlaps scope controls or Loadout`);
+    checks.push({ label: 'Preserved V1 composition with bounded, in-flow Resource Cost addition', width, approved, withoutCost, current, addedHeight });
     await baseline.close();
     if (width === 1920) {
       const before = await context.newPage();

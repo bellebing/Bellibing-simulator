@@ -67,7 +67,7 @@
 .ui-lab .working-card .secondary-stat, .ui-lab .slot .secondary-stat { font-weight: 400; }
 .ui-lab .working-card .main-stat { min-height: 31px; }
 .ui-lab .slot .main-stat { min-height: 26px; }
-.ui-lab .working-card .secondary-stat { min-height: 24.2px; }
+.ui-lab .working-card .secondary-stat { min-height: 26.3px; }
 .ui-lab .slot .secondary-stat { min-height: 19.8px; }
 .ui-lab .echo-name { font-size: var(--card-title); line-height: 1.1; font-weight: 600; }
 .ui-lab .echo-name small, .ui-lab .cost, .ui-lab .level,

@@ -31,3 +31,31 @@
 #settings #erTargetInput { width:64px; padding:5px 6px; border:1px solid var(--line); border-radius:4px; background:#10161b; color:#d8cba9; font:inherit; text-align:right; font-variant-numeric:tabular-nums; }
 #settings #erTargetBadge { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
 #settings [hidden] { display:none!important; }
+
+/* Inline browse-only Sonata list. The two current visual choices are unchanged. */
+#settings .sonata-selected { display:grid; gap:4px; }
+#settings .sonata-card {
+  min-height:34px; display:flex; align-items:center; gap:8px; padding:4px 8px;
+  border:1px solid #bda3634d; border-radius:5px;
+  background:linear-gradient(100deg,#c1a96710,#c1a96704);
+  color:#d6c9a9; font-size:var(--type-body); line-height:1.25;
+}
+#settings .sonata-card img { width:24px; height:24px; flex:none; object-fit:contain; }
+#settings .sonata-card .sonata-name { min-width:0; flex:1; }
+#settings .sonata-card .sonata-check { flex:none; color:var(--gold); }
+#settings .sonata-option { border-color:var(--line); background:#ffffff03; color:#bbc2c7; }
+#settings .sonata-more { margin:8px 0 0; }
+#settings .sonata-more summary {
+  display:flex; align-items:center; justify-content:space-between; min-height:28px;
+  padding:3px 6px; color:#a9b2bc; font-size:var(--type-label); cursor:pointer; list-style:none;
+}
+#settings .sonata-more summary::-webkit-details-marker { display:none; }
+#settings .sonata-more summary:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+#settings .sonata-more-arrow { display:inline-block; color:var(--gold); font-size:18px; line-height:1; transition:transform .18s; }
+#settings .sonata-more[open] .sonata-more-arrow { transform:rotate(180deg); }
+#settings .sonata-browse {
+  display:grid; align-content:start; gap:4px; max-height:104px; overflow-y:auto;
+  overscroll-behavior:contain; padding:3px 5px 4px 0;
+  scrollbar-width:thin; scrollbar-color:#aa926084 transparent;
+}
+@media (prefers-reduced-motion:reduce) { #settings .sonata-more-arrow { transition:none; } }

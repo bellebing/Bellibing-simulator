@@ -9,6 +9,31 @@ export async function reviewSettings(page,{width,checks}) {
   const moveKey=async(id,key)=>{await row(id).locator('.handle').focus();await page.keyboard.press(key);};
   const allIds=()=>page.locator('#echoSettings [data-minimum]').evaluateAll(nodes=>nodes.map(node=>node.dataset.minimum));
   await ensureSettings();
+  // Browse-only: an inline native disclosure shifts Gate and restores it on close.
+  const selectedSonatas=()=>page.locator('#settings .sonata-selected .sonata-card').allTextContents();
+  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor ✓','Void Thunder ✓']);
+  const browse=page.locator('#sonataMore');
+  const gateY=()=>page.locator('.gate-options').evaluate(el=>el.getBoundingClientRect().top+scrollY);
+  const gateBefore=await gateY();
+  assert.equal(await browse.evaluate(el=>el.open),false);
+  assert.equal(await page.locator('.sonata-browse').isVisible(),false);
+  await browse.locator('summary').focus();await page.keyboard.press('Enter');
+  assert.equal(await browse.evaluate(el=>el.open),true,'More Sets must open with keyboard');
+  assert.equal(await page.locator('.sonata-browse').isVisible(),true);
+  assert.equal(await page.locator('.sonata-browse .sonata-option').count(),35,'Only source-backed other sets');
+  assert.equal(await page.locator('[data-sonata-id="sonata-37"]').innerText(),'Flash of Electric Reflection');
+  const scrollInfo=await page.locator('.sonata-browse').evaluate(el=>{
+    el.scrollTop=el.scrollHeight;
+    return {height:el.clientHeight,total:el.scrollHeight,scroll:el.scrollTop,overflow:el.scrollWidth>el.clientWidth+1};
+  });
+  assert.ok(scrollInfo.total>scrollInfo.height+80&&scrollInfo.scroll>0,'Sonata list must scroll inside panel');
+  assert.equal(scrollInfo.overflow,false,'Sonata rows must fit panel width');
+  assert.ok(await gateY()>gateBefore+100,'More Sets must push Gate downward');
+  assert.deepEqual((await selectedSonatas()).map(s=>s.trim()),['Crown of Valor ✓','Void Thunder ✓'],'Browse must not change existing selected sets');
+  assert.equal(await page.locator('#gateLabel').textContent(),'+5');
+  await browse.locator('summary').press('Enter');
+  assert.equal(await browse.evaluate(el=>el.open),false);
+  assert.ok(Math.abs(await gateY()-gateBefore)<2,'Collapse must restore layout');
   assert.equal(await page.locator('#editERTarget').count(),0,'ER target must not have a dropdown');
   assert.equal(await page.locator('#erTotalStatus').count(),0,'No ER explanation row');
   assert.equal(await page.locator('#erTarget > .er-target-heading').count(),1,'ER target remains on one row');

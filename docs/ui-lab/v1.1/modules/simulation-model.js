@@ -1,3 +1,4 @@
+import { hasInactiveEchoes } from './echo-activation.js';
 import { CHARACTER_TARGETS } from './targets.js';
 import { characterCardModel } from './character-card.js';
 
@@ -14,15 +15,16 @@ export const SETTING_METRICS = Object.freeze({
   'ATK%':'TOTAL_ATK', 'Flat ATK':'TOTAL_ATK', 'Heavy Attack DMG':'HEAVY_ATTACK_DMG_BONUS',
 });
 export function simulationModel(person, saved, expected = {}) {
+  const incompleteProjection = hasInactiveEchoes(saved);
   const stats = characterCardModel(person, saved).stats;
   const target = CHARACTER_TARGETS.find(row => row.characterId === person.id);
-  return { characterId:person.id, name:person.name, recorded:saved.hasRecordedRun,
+  return { characterId:person.id, name:person.name, recorded:saved.hasRecordedRun && !incompleteProjection, pending:incompleteProjection ? 'ACTIVE_BUILD_PROJECTION_PENDING' : null,
     rows:RESULT_STATS.map(([id,index]) => {
       const metric = id === 'ELEMENT_DMG_BONUS' ? `${person.identityElement?.toUpperCase()}_DMG_BONUS` : id;
       const recommendation = target?.rows.find(row => row.metric === metric);
-      const observed = saved.hasRecordedRun ? saved.stats[index]?.[1] : null;
+      const observed = saved.hasRecordedRun && !incompleteProjection ? saved.stats[index]?.[1] : null;
       return { id:metric, label:stats[index][0], recommended:recommendation?.status === 'READY' ? recommendation.displayValue : null,
-        source:recommendation?.sourceValue ?? null, expected:expected[metric] ?? null,
+        source:recommendation?.sourceValue ?? null, expected:incompleteProjection ? null : expected[metric] ?? null,
         simulated:observed && observed !== '—' ? observed : null };
     }) };
 }

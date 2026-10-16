@@ -1,3 +1,4 @@
+import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { selectCardCharacter } from './review-character-card.mjs';
 export async function reviewResources(page,{width,checks}) {
@@ -58,7 +59,7 @@ export async function reviewResources(page,{width,checks}) {
   await page.locator('.setting-mode button').filter({hasText:'Recommended'}).click();assert.equal(await input('advanced').inputValue(),'77');
   for(const id of ids){await input(id).fill('0');await input(id).press('Enter');}
   assert.deepEqual(Object.values(await read()),Array(6).fill('0'));
-  await page.locator('#simulate').click();
+  await chooseIllustrativeResult(page);
   assert.deepEqual(Object.values(await read()),Array(6).fill('0'),'Illustrative Materials Used must not be deducted from inventory');
   const unlimited=page.locator('.resource-unlimited');
   assert.equal(await unlimited.count(),6);

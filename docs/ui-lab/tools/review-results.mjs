@@ -29,16 +29,20 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   const priorHeavy=await heavyCell.innerText();
   const flexSlider=page.locator('#flexCount');
   await flexSlider.focus(); await page.keyboard.press('End');
+  await page.waitForTimeout(animated ? 210 : 10);
   assert.match(await page.locator('#flexCountLabel').innerText(),/At least 2 of 2/);
   assert.notEqual(await heavyCell.innerText(),priorHeavy,'Flex 2/2 must change the accepted-build mean');
   await page.keyboard.press('Home');
+  await page.waitForTimeout(animated ? 210 : 10);
   assert.equal(await heavyCell.innerText(),priorHeavy,'Flex 1/2 restores the same deterministic mean');
   const erCell=page.locator('[data-result-id="TOTAL_ENERGY_REGEN"] [data-role="expected"] strong');
   const beforeER=await erCell.innerText();
   await page.locator('#erEnabled').check();
+  await page.waitForTimeout(animated ? 210 : 10);
   assert.notEqual(await erCell.innerText(),beforeER,'Enabled total ER Target must condition Expected across all five Echoes');
   assert.ok(Number((await erCell.innerText()).replace('%',''))>=120,'Conditional total ER must meet configured target');
   await page.locator('#erEnabled').uncheck();
+  await page.waitForTimeout(animated ? 210 : 10);
   assert.equal(await erCell.innerText(),beforeER,'Disabled ER Target must not modify Expected');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
   const compact = await page.locator('.simulation-content').evaluate(view => {

@@ -98,7 +98,6 @@ export function mountSonataSelection(section,{getState}) {
       event.preventDefault();
       const id=event.dataTransfer?.getData('text/plain')||dragging?.id;
       const valid=dragging?.characterId===getState().id&&cards.has(id);
-      section.dataset.sonataDebug=JSON.stringify({id,dragging,currentId:getState().id,exists:cards.has(id),valid});
       const anchor=before(event.target,dest,event.clientY);
       cleanup();
       if(valid)move(id,dest,anchor);
@@ -135,7 +134,11 @@ export function mountSonataSelection(section,{getState}) {
     const dest=prior.characterId===getState().id?destination(element):null;
     if(dest)move(prior.id,dest,before(element,dest,event.clientY));
   });
-  section.addEventListener('pointercancel',()=>{touch=null;cleanup();});
+  // Native HTML5 DnD can emit pointercancel for a mouse pointer after
+  // dragstart. Only a cancelled TOUCH gesture may clear the touch drag.
+  section.addEventListener('pointercancel',()=>{
+    if(touch){touch=null;cleanup();}
+  });
   section.addEventListener('click',event=>{
     const handle=event.target.closest('.sonata-handle');
     if(!handle)return;

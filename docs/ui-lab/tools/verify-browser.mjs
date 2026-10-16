@@ -99,6 +99,16 @@ async function checkLayout(page, width, label) {
   assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
+  // Large cards and the five narrower Loadout cards have different type scales.
+  const typeScale = await page.evaluate(() => {
+    const size = (card, selector) => parseFloat(getComputedStyle(document.querySelector(`${card} ${selector}`)).fontSize);
+    return {
+      large: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#currentCard',sel)),
+      compact: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#slots .slot:first-child',sel)),
+    };
+  });
+  assert.deepEqual(typeScale.large, [14,14,24,13,11], `${label}: large Echo typography drift`);
+  assert.deepEqual(typeScale.compact, [11,12,20,11,10], `${label}: compact Loadout typography drift`);
   // Verify labels against their sibling values, not just page overflow.
   const collisions = await page.evaluate(() => {
     const problems = [];

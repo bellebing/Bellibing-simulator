@@ -136,8 +136,9 @@ async function exercise(page, width, prefix) {
   assert.equal(await page.locator('#consumption').isVisible(), false, 'Ready must omit unused materials');
   assert.equal(await page.locator('#materialRows .material-row').count(), 0);
   assert.equal(await page.locator('.settings h3', { hasText: 'Resources' }).innerText(), 'Resources');
-  assert.equal(await page.locator('.selected-slot .slot-selection').innerText(), 'SELECTED');
-  assert.equal(await page.locator('.selected-slot .slot-state').innerText(), 'ACTIVE');
+  assert.equal(await page.locator('#slots .slot-number').count(), 0, 'No redundant visible slot captions');
+  assert.equal(await page.locator('#slots .selected-slot[aria-pressed="true"]').count(), 1, 'Selected slot remains accessible');
+  assert.match(await page.locator('#slots .selected-slot').getAttribute('aria-label'), /^Select Echo slot 1(?:,|$)/);
   const originalStats = await page.locator('#characterStats').innerText();
   await page.locator('[data-person="iuno"]').hover();
   await page.locator('[data-person="iuno"]').click();

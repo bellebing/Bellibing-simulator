@@ -100,6 +100,8 @@ async function checkLayout(page, width, label) {
   assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
   assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
 
+  // elementFromPoint uses viewport coordinates; the Trash Piles are below the fold.
+  await page.locator('#piles').scrollIntoViewIfNeeded();
   const trashStack = await page.evaluate(() => {
     const piles = [...document.querySelectorAll('#piles .pile')];
     const records = piles.map(pile => {
@@ -134,6 +136,7 @@ async function checkLayout(page, width, label) {
   });
   assert.ok(trashStack.footerGap >= 0, `${label}: Trash footer is covered`);
   assert.equal(trashStack.pseudoCards, 'none', `${label}: decorative pile cards still showing`);
+  await page.evaluate(() => scrollTo(0,0));
   // Large cards and the five narrower Loadout cards have different type scales.
   const typeScale = await page.evaluate(() => {
     const size = (card, selector) => parseFloat(getComputedStyle(document.querySelector(`${card} ${selector}`)).fontSize);

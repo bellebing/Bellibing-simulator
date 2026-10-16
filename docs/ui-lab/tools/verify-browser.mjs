@@ -105,10 +105,12 @@ async function checkLayout(page, width, label) {
     return {
       large: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#currentCard',sel)),
       compact: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#slots .slot:first-child',sel)),
+      trash: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#piles .pile:first-child',sel)),
     };
   });
   assert.deepEqual(typeScale.large, [14,14,24,13,11], `${label}: large Echo typography drift`);
   assert.deepEqual(typeScale.compact, [11,12,20,11,10], `${label}: compact Loadout typography drift`);
+  assert.deepEqual(typeScale.trash, [11,12,20,11,10], `${label}: compact Trash typography drift`);
   // Verify labels against their sibling values, not just page overflow.
   const collisions = await page.evaluate(() => {
     const problems = [];

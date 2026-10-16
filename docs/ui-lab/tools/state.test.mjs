@@ -279,3 +279,33 @@ test('Lab inventory reuses canonical validation and rejects drafts atomically ou
   assert.equal(Object.hasOwn(getDemoState('augusta'),'resourceInventory'),false);
   assert.throws(()=>store.set('unknown','1'));
 });
+
+test('six Unlimited controls retain each last finite count through direct entry and rejection', async () => {
+  const {createLabResourceInventory}=await import('../v1.1/modules/resource-state.js');
+  const inventory=createLabResourceInventory();
+  for(const id of ['echoes','tuners','premium','advanced','medium','basic']) {
+    inventory.set(id,'37'); inventory.toggleUnlimited(id);
+    const read=()=>inventory.read()[id]??inventory.read().tubes[id];
+    assert.deepEqual(read(),{kind:'UNLIMITED'});
+    assert.throws(()=>inventory.set(id,'-1'));assert.equal(read().kind,'UNLIMITED');
+    inventory.toggleUnlimited(id);assert.deepEqual(read(),{kind:'FINITE',count:37});
+    inventory.set(id,'0');inventory.set(id,'Unlimited');inventory.toggleUnlimited(id);
+    assert.deepEqual(read(),{kind:'FINITE',count:0});
+    inventory.set(id,'91');inventory.set(id,'∞');inventory.set(id,'Unlimited');inventory.toggleUnlimited(id);
+    assert.equal(read().count,91);
+  }
+  assert.throws(()=>inventory.toggleUnlimited('unknown'));
+});
+
+test('resource cost roles require verified results and convert all canonical Tube denominations without ceiling', async () => {
+  const {resourceCostValues}=await import('../v1.1/modules/resource-cost.js');
+  assert.deepEqual(resourceCostValues(),[null,null,null]);
+  assert.deepEqual(resourceCostValues({status:'ILLUSTRATIVE',echoes:99,tuners:99}),[null,null,null]);
+  const record={status:'VERIFIED',echoes:0,tuners:20,tubes:{premium:2,advanced:3,medium:4,basic:5}};
+  const before=JSON.stringify(record);
+  assert.deepEqual(resourceCostValues(record),[0,20,4.5]);
+  assert.equal(JSON.stringify(record),before);
+  assert.deepEqual(resourceCostValues({...record,tubes:{premium:2}}),[0,20,null]);
+  assert.deepEqual(resourceCostValues({...record,echoes:-1,tuners:Infinity,tubes:null}),[null,null,null]);
+  assert.deepEqual(resourceCostValues({status:'VERIFIED',echoes:0,tuners:0,tubes:{premium:0,advanced:0,medium:0,basic:0}}),[0,0,0]);
+});

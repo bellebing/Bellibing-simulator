@@ -1,0 +1,24 @@
+/* Approved resource controls and cost presentation; no spending or simulation. */
+#resourceInventory .resource-caption { gap:1px; }
+#resourceInventory .resource-caption img { width:19px; height:22px; }
+.resource-unlimited { width:20px; height:23px; padding:0; border-radius:3px; color:#7f8b97; font:18px/1 Arial,sans-serif; transition:color .15s,background .15s; }
+.resource-unlimited:hover { color:var(--gold); background:#d1b67c10; }
+.resource-unlimited[aria-pressed=true] { color:var(--gold); background:#d1b67c19; box-shadow:inset 0 -1px #d1b67c75; }
+#resourceInventory .resource-field.is-unlimited input { color:var(--gold); border-color:#d1b67c55; }
+.working-area { max-width:964px; }
+@media(min-width:2100px) { .working-area { max-width:1054px; } }
+#consumption { display:none!important; }
+.cost-comparison { width:100%; max-width:278px; margin-top:25px; border-collapse:collapse; table-layout:fixed; font-size:12px; color:#aeb6bd; }
+.cost-comparison col:first-child { width:40%; }
+.cost-comparison col:not(:first-child) { width:30%; }
+.cost-comparison thead th { font-size:10px; font-weight:500; color:#9da6ae; text-align:right; padding:0 3px 9px; letter-spacing:.15px; }
+.cost-comparison thead th:nth-child(2) { color:var(--gold); }
+.cost-comparison tbody th,.cost-comparison tbody td { border-top:1px solid var(--line); padding:8px 3px; font-size:12px; }
+.cost-comparison tbody th { font-weight:400; text-align:left; white-space:nowrap; }
+.cost-comparison tbody td { text-align:right; font-variant-numeric:tabular-nums; color:#7f8b97; }
+.cost-label { display:flex; align-items:center; gap:6px; }
+.cost-label img { width:20px; height:22px; object-fit:contain; }
+.cost-echo { width:20px; text-align:center; color:#bca779; font-size:19px; }
+.cost-comparison small { display:block; padding-left:26px; font-size:9px; color:#77828d; margin-top:1px; }
+
+#resourceCost { width:100%; display:flex; justify-content:center; }

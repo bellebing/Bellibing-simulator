@@ -90,6 +90,13 @@
 .ui-lab .substat, .ui-lab .echo-card.discarded .substat.empty span,
 .ui-lab .echo-card.discarded .substat.empty strong { font-size: var(--card-substat, var(--type-body)); }
 .ui-lab .substat { height: var(--card-row-height); padding-block: 0; align-items: center; line-height: 1.2; }
+/* A unitless stat reserves one percent glyph's space, not a fixed value column.
+   The compact card variant needs a smaller unit width. */
+.ui-lab .echo-card { --main-percent-space: 21px; --substat-percent-space: 10px; }
+.ui-lab .slot .echo-card, .ui-lab .pile .echo-card { --main-percent-space: 18px; --substat-percent-space: 9px; }
+.ui-lab .main-stat strong.stat-unitless,
+.ui-lab .secondary-stat strong.stat-unitless { padding-inline-end:var(--main-percent-space); }
+.ui-lab .substat strong.stat-unitless { padding-inline-end:var(--substat-percent-space); }
 .ui-lab .echo-values { font-variant-numeric: tabular-nums; }
 .ui-lab .working-card .echo-identity { min-height: 48px; }
 .ui-lab .working-card .echo-values { padding-block: 10px 12px; }

@@ -111,6 +111,26 @@ async function checkLayout(page, width, label) {
   assert.deepEqual(typeScale.large, [14,14,24,13,11], `${label}: large Echo typography drift`);
   assert.deepEqual(typeScale.compact, [11,12,20,11,10], `${label}: compact Loadout typography drift`);
   assert.deepEqual(typeScale.trash, [11,12,20,11,10], `${label}: compact Trash typography drift`);
+  // Check number/unit presentation in all card sizes without assuming fixed card widths.
+  const suffixes = await page.evaluate(() => {
+    const pureNumber = value => /^[+-]?\d[\d,]*(?:\.\d+)?$/.test(value.trim());
+    return ['#currentCard .echo-card','#newCard .echo-card','#slots .slot:first-child .echo-card','#piles .pile:first-child .echo-card'].map(selector => {
+      const card = document.querySelector(selector);
+      const values = [...card.querySelectorAll('.main-stat strong,.secondary-stat strong,.substat strong')];
+      const correct = values.every(el => el.classList.contains('stat-unitless') === pureNumber(el.textContent));
+      const noOverlap = [...card.querySelectorAll('.main-stat,.secondary-stat,.substat')].every(row => row.scrollWidth <= row.clientWidth + 1);
+      const main = card.querySelector('.main-stat strong');
+      const secondary = card.querySelector('.secondary-stat strong');
+      const padding = parseFloat(getComputedStyle(secondary).paddingRight);
+      return { selector, correct, noOverlap, main:main.textContent, secondary:secondary.textContent, padding };
+    });
+  });
+  for (const row of suffixes) {
+    assert.ok(row.correct, `${label}: numeric suffix classification changed in ${row.selector}`);
+    assert.ok(row.noOverlap, `${label}: numeric spacing overlaps in ${row.selector}`);
+    if (/^[\d,.]+$/.test(row.secondary)) assert.ok(row.padding >= 17, `${label}: missing unit-space after ${row.secondary}`);
+  }
+
   // Verify labels against their sibling values, not just page overflow.
   const collisions = await page.evaluate(() => {
     const problems = [];

@@ -1,0 +1,48 @@
+/* Shared panel; typography and the existing segmented gold control do the work. */
+#character { container-type:inline-size; }
+#character [hidden] { display:none!important; }
+#character .result-modes { display:flex; margin:8px 16px 4px; }
+#character:not(.expanded) .result-modes { display:none; }
+#character .result-modes button { flex:1; min-width:0; padding:10px 5px; font-size:var(--type-body); white-space:nowrap; }
+#character .simulation-content { padding:8px 14px 16px; --result-columns:minmax(0,1.8fr) repeat(3,minmax(0,1fr)); --result-gap:8px; }
+/* Artwork blends into the shared panel, with identity above the quiet edge. */
+#character .results-heading { height:92px; position:relative; overflow:hidden; margin:0 -14px; background:linear-gradient(110deg,#171c22,#20262d); }
+#character .results-art { position:absolute; right:0; top:-5px; width:58%; height:160px; object-fit:contain; object-position:50% 0; opacity:.86; }
+#character .results-art.portrait-fallback { height:100%; top:0; object-fit:contain; padding:5px 18px; }
+#character .results-heading:after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#171c22 8%,#171c22dd 31%,#171c2220 78%),linear-gradient(0deg,#171c22,transparent 34%); }
+#character .results-identity { position:relative; z-index:1; height:100%; display:flex; align-items:center; padding:0 14px; }
+#character .results-heading h2 { font-size:22px; line-height:1.15; font-weight:400; margin:0; max-width:90%; }
+#character .results-origin { display:block; color:var(--muted); font-size:var(--type-meta); line-height:1.3; margin:6px 0 12px; }
+#character .results-key, #character .result-row { display:grid; grid-template-columns:var(--result-columns); column-gap:var(--result-gap); align-items:center; }
+#character .results-key { font-size:var(--type-meta); line-height:1.2; padding-bottom:9px; border-bottom:1px solid var(--line); }
+#character .results-key span { text-align:right; white-space:nowrap; }
+#character .results-key span:first-child { text-align:left; color:#aeb7bf; }
+#character .results-key span:nth-child(3) { color:var(--gold); }
+#character .result-row { min-height:29px; padding:6px 0; border-bottom:1px solid #b6c1cc12; transition:opacity .35s; }
+#character .result-row h3 { font-size:var(--type-body); font-weight:400; color:#c0c7cc; margin:0; line-height:1.25; white-space:nowrap; }
+#character .result-values { display:contents; }
+#character .result-value { min-width:0; text-align:right; }
+#character .result-role { display:none; }
+#character .result-value strong { font-variant-numeric:tabular-nums; font-size:var(--type-body); line-height:1.25; font-weight:400; display:inline-block; color:#bec7cf; white-space:nowrap; }
+#character .result-value[data-role=expected] strong { color:#d9c38f; }
+#character .result-value[data-role=simulated] strong { color:#e2e4df; }
+#character .result-value strong.unavailable { color:#717d88; }
+#character .has-result-focus .result-row:not(.is-affected) { opacity:.72; }
+#character .result-row.is-affected h3 { color:#dfcd9e; }
+#character .result-value.is-affected strong { color:#f1dfb4; text-shadow:0 0 17px #d9bd7d40; }
+#settings .setting-row.is-active-setting .stat-label { color:#e9d29b; }
+@container (max-width:365px) {
+  #character .simulation-content { padding-inline:8px; --result-columns:minmax(0,1fr) 52px 42px 46px; --result-gap:3px; }
+  #character .results-heading { margin-inline:-8px; }
+  #character .results-heading h2 { font-size:20px; }
+  #character .result-row h3 { font-size:10px; }
+  #character .result-value strong { font-size:11px; }
+  #character .results-key { font-size:9px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  #character .result-row { transition:none; }
+}
+/* Extra panel room surrounds the approved artwork stage; it does not zoom it. */
+@container (min-width:365px) {
+  #character [data-hero=elegant] .hero-visual { width:324px; margin-inline:auto; }
+}

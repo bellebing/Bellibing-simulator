@@ -1,0 +1,62 @@
+/* Two Hero-only compositions. The unqualified, approved card stays unchanged. */
+#character .character-hero[data-hero] {
+  height:auto;
+  background:linear-gradient(180deg,#121a22,#171c22 82%,transparent);
+  isolation:isolate;
+}
+#character .character-hero[data-hero]:after { display:none; }
+#character [data-hero] .hero-visual { position:relative; height:256px; overflow:hidden; }
+#character [data-hero] .hero-visual:after {
+  content:''; position:absolute; inset:0; pointer-events:none; z-index:2;
+  background:linear-gradient(180deg,transparent 38%,#171c2212 56%,#171c2299 82%,#171c22 100%);
+}
+#character [data-hero] .hero-visual>img {
+  position:absolute; width:calc(100% - 40px); height:365px; top:-5px; left:0;
+  object-fit:cover; object-position:50% 0; filter:saturate(.82);
+}
+#character [data-hero] .hero-lines {
+  inset:18px 27px -40px; border-radius:50% 50% 0 0;
+  background:radial-gradient(ellipse at 50% 35%,rgba(var(--rarity-rgb),.11),transparent 70%);
+  border-color:rgba(var(--rarity-rgb),.15);
+  z-index:0;
+}
+#character [data-hero] .hero-copy {
+  position:relative; left:auto; bottom:auto; padding:0 20px 19px;
+  background:linear-gradient(#171c22,transparent); z-index:3;
+}
+#character [data-hero] .hero-copy h2 { margin:0; font-size:var(--type-hero); line-height:1.08; overflow-wrap:anywhere; }
+#character [data-hero] .hero-copy .eyebrow { margin-top:7px; font-size:var(--type-meta); letter-spacing:1.8px; color:var(--rarity); }
+#character [data-hero] .hero-meta-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:13px; }
+#character [data-hero] .rarity-stars { margin:0; flex:none; letter-spacing:2px; }
+#character [data-hero] .hero-metadata { display:flex; align-items:center; gap:7px; font-size:var(--type-body); color:#aeb5ba; white-space:nowrap; }
+#character [data-hero] .hero-metadata i { margin:0; color:#746d5c; font-style:normal; }
+#character [data-hero] .character-element { position:static; width:18px; height:18px; display:inline-flex; align-items:center; flex:none; }
+/* S1 rests at the foot of the artwork; no placeholder labels compete with it. */
+#character [data-hero] .card-sequence { top:auto; bottom:15px; right:10px; width:30px; gap:5px; z-index:3; }
+#character [data-hero] .card-sequence:before { top:15px; bottom:15px; background:linear-gradient(transparent,#b3a58a52 20%,#b3a58a52 80%,transparent); }
+#character [data-hero] .sequence-node { width:30px; height:30px; background:#111820c9; border-color:#b3afa331; }
+#character [data-hero] .sequence-node img { opacity:.72; filter:grayscale(.35) brightness(.88); }
+#character [data-hero] .sequence-node.is-unknown { border-style:solid; }
+#character [data-hero] .sequence-node.is-active { border-color:#d6a948d1; }
+#character [data-hero] .sequence-node.is-active img { opacity:.94; filter:grayscale(1) sepia(1) saturate(3.4) brightness(1.08); }
+#character [data-hero] .hero-visual>img.portrait-fallback {
+  width:170px; height:170px; left:calc(50% - 100px); top:36px;
+  object-fit:cover; border-radius:50%; filter:saturate(.8);
+}
+/* B uses a closer, offset portrait, a deeper atmosphere and centered typography. */
+#character [data-hero="cinematic"] .hero-visual {
+  height:272px;
+  background:radial-gradient(ellipse at 42% 35%,rgba(var(--rarity-rgb),.2),transparent 67%),linear-gradient(135deg,#1c2632,#10171e);
+}
+#character [data-hero="cinematic"] .hero-visual>img:not(.portrait-fallback) {
+  width:calc(100% + 10px); height:392px; left:-18px; top:-2px; filter:saturate(.95) contrast(1.025);
+}
+#character [data-hero="cinematic"] .hero-lines { inset:12px 10px -42px -38px; transform:rotate(-12deg); border-color:rgba(var(--rarity-rgb),.22); }
+#character [data-hero="cinematic"] .hero-visual:after {
+  background:linear-gradient(90deg,#0b111c26,transparent 45%,#0b111c24),linear-gradient(180deg,transparent 40%,#171c2229 62%,#171c22 100%);
+}
+#character [data-hero="cinematic"] .hero-copy { text-align:center; padding:0 18px 16px; }
+#character [data-hero="cinematic"] .hero-copy h2 { font-size:36px; letter-spacing:.2px; margin-top:6px; }
+#character [data-hero="cinematic"] .hero-copy .eyebrow { letter-spacing:2.2px; margin-top:5px; }
+#character [data-hero="cinematic"] .hero-metadata { justify-content:center; margin-top:10px; }
+#character [data-hero="cinematic"] .rarity-stars { padding-top:1px; letter-spacing:3px; }

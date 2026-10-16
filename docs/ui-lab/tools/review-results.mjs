@@ -1,0 +1,128 @@
+import assert from 'node:assert/strict';
+import { selectCardCharacter } from './review-character-card.mjs';
+export async function reviewResults(page,{width,checks,animated=false}) {
+  const ensure = async id => { if (await page.locator(`#${id}Toggle`).getAttribute('aria-expanded') !== 'true') await page.locator(`#${id}Toggle`).click(); };
+  const choose = mode => page.locator(`button[data-result-mode="${mode}"]`).click();
+  const expected = page.locator('[data-role=expected] strong');
+  const read = id => page.locator(`[data-result-id="${id}"] .result-values`).innerText();
+  await ensure('character');
+  assert.equal(await page.locator('.character-hero').getAttribute('data-hero'),'elegant');
+  await ensure('settings');
+  await page.getByRole('slider',{name:'CRIT Rate minimum',exact:true}).focus(); await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('#character').getAttribute('data-result-mode'),'simulation','First actual edit reveals results');
+  assert.equal(await page.locator('.is-affected').count(),0);
+  await ensure('character');
+  const saved = await page.locator('#characterStats').textContent();
+  const echo = await page.locator('#currentCard').textContent();
+  await choose('simulation');
+  assert.equal(await page.locator('.character-content').isVisible(),false);
+  assert.equal(await page.locator('.simulation-content').isVisible(),true);
+  assert.equal(await page.locator('.result-row').count(),12);
+  assert.deepEqual(await expected.allTextContents(),Array(12).fill('—'));
+  assert.match(await read('TOTAL_ATK'),/2,407/);
+  assert.match(await read('TOTAL_CRIT_RATE'),/84.7%/);
+  assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0);
+  const compact = await page.locator('.simulation-content').evaluate(view => {
+    const headers = [...view.querySelectorAll('.results-key span')].map(n=>n.getBoundingClientRect());
+    const problems = [];
+    for (const row of view.querySelectorAll('.result-row')) {
+      const cells = [row.querySelector('h3'), ...row.querySelectorAll('strong')];
+      const bounds = cells.map(n=>n.getBoundingClientRect());
+      if (row.getBoundingClientRect().height > 32) problems.push('Tall row: '+row.textContent);
+      cells.forEach((node,i)=>{
+        if (node.scrollWidth > node.clientWidth+1) problems.push('Clipped: '+node.textContent);
+        if (Math.abs(bounds[i].top-bounds[0].top)>2) problems.push('Not one horizontal row');
+        if (i && Math.abs(bounds[i].right-headers[i].right)>.6) problems.push('Misaligned numerical column');
+        if (i && bounds[i-1].right>bounds[i].left+.5) problems.push('Overlapping cells');
+      });
+    }
+    const art=view.querySelector('.results-art');
+    const banner=view.querySelector('.results-heading').getBoundingClientRect();
+    return {problems,height:view.getBoundingClientRect().height,bannerHeight:banner.height,
+      headers:[...view.querySelectorAll('.results-key span')].map(n=>n.textContent),
+      loaded:art.complete&&art.naturalWidth>0,art:art.getAttribute('src')};
+  });
+  assert.deepEqual(compact.problems,[],'Compact rows must remain aligned, single-line and unclipped');
+  assert.deepEqual(compact.headers,['Stat','Recommended','Expected','Simulated']);
+  assert.ok(compact.height<550,'All twelve stats should fit comfortably');
+  assert.ok(compact.bannerHeight>=80&&compact.bannerHeight<=100);
+  assert.ok(compact.loaded,'Character banner artwork must load');
+  const panelWidth = await page.locator('#character').evaluate(n=>n.clientWidth);
+  await choose('character');
+  assert.equal(await page.locator('#character').evaluate(n=>n.clientWidth),panelWidth);
+  await ensure('settings');
+  const slider = page.getByRole('slider',{name:'CRIT Rate minimum',exact:true});
+  await slider.focus(); await page.keyboard.press('ArrowRight');
+  assert.equal(await page.locator('#character').getAttribute('data-result-mode'),'character','Manual choice must win');
+  assert.equal(await page.locator('.is-affected').count(),0,'Unsupported Expected must never gain inferred focus');
+  await page.locator('.demo-note summary').click(); await page.locator('#focusDemo').check();
+  await page.locator('.demo-note summary').click();
+  assert.match(await page.locator('.results-origin').innerText(),/Illustrative focus demo/);
+  await ensure('settings');
+  await slider.scrollIntoViewIfNeeded();
+  await page.evaluate(() => {
+    const node = document.querySelector('[data-result-id=TOTAL_CRIT_RATE] [data-role=expected] strong');
+    window.resultSamples = [];
+    window.resultObserver = new MutationObserver(() => window.resultSamples.push(node.textContent));
+    window.resultObserver.observe(node,{childList:true,characterData:true,subtree:true});
+  });
+  const track = await slider.boundingBox();
+  await page.mouse.move(track.x+track.width*.14,track.y+track.height/2); await page.mouse.down();
+  await page.mouse.move(track.x+track.width*.85,track.y+track.height/2,{steps:12});
+  assert.equal(await page.locator('.result-row.is-affected').count(),1);
+  assert.equal(await page.locator('.result-value.is-affected').getAttribute('data-role'),'expected');
+  assert.equal(await page.locator('.result-row.is-affected').getAttribute('data-result-id'),'TOTAL_CRIT_RATE');
+  assert.equal(await page.locator('.workshop .is-affected,.echo-card.is-affected').count(),0);
+  assert.equal(await page.locator('.workshop').evaluate(n=>getComputedStyle(n).opacity),'1');
+  await page.waitForTimeout(1100);
+  assert.equal(await page.locator('.result-row.is-affected').count(),1,'Focus must remain while a paused slider gesture is still active');
+  await page.mouse.up();
+  assert.equal(await slider.evaluate(node=>node.closest('[data-minimum]').draggable),true,'Row dragging must be restored after the slider gesture');
+  await page.waitForTimeout(animated ? 260 : 20);
+  assert.match((await expected.allTextContents())[4],/^75/);
+  const samples = await page.evaluate(() => { window.resultObserver.disconnect(); return window.resultSamples; });
+  const keyframes = ['72.0%','72.4%','73.1%','73.5%','74.2%','74.6%','75.0%','75.3%'];
+  if (animated) assert.ok(samples.some(value=>!keyframes.includes(value)), 'Counter should interpolate between explicit keyframes');
+  else assert.ok(samples.every(value=>keyframes.includes(value)), 'Reduced motion should update directly to fixture values');
+  await page.waitForTimeout(1100);
+  assert.equal(await page.locator('.has-result-focus').count(),0);
+  await slider.focus(); await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('.result-row.is-affected').count(),1,'Keyboard must receive equivalent result focus');
+  await page.keyboard.press('Tab');
+  await page.locator('.gate-options button').filter({hasText:'+15'}).click();
+  assert.equal(await page.locator('.is-affected').count(),0,'Gate has no invented numerical dependency');
+  await ensure('character');
+  const clipping = await page.locator('.result-row').evaluateAll(rows=>rows.flatMap(row=>[...row.querySelectorAll('h3,strong,.result-role')].filter(n=>n.getBoundingClientRect().width).filter(n=>n.scrollWidth>n.clientWidth+1).map(n=>n.textContent)));
+  assert.deepEqual(clipping,[],'Results must remain readable');
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth),width);
+  await choose('character'); assert.equal(await page.locator('#characterStats').textContent(),saved);
+  assert.equal(await page.locator('#currentCard').textContent(),echo);
+  await choose('simulation');
+  await page.locator('#simulate').click();
+  assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12);
+  assert.match(await page.locator('.results-origin').innerText(),/Illustrative/);
+  await page.locator('.demo-note summary').click(); await page.locator('#focusDemo').uncheck(); await page.locator('.demo-note summary').click();
+  assert.deepEqual(await expected.allTextContents(),Array(12).fill('—'));
+  await selectCardCharacter(page,'aalto');
+  assert.equal(await page.locator('.results-heading h2').innerText(),'Aalto');
+  assert.notEqual(await page.locator('.results-art').getAttribute('src'),compact.art,'Banner art must follow Character selection');
+  await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
+  assert.equal(await page.locator('[data-role=recommended] strong:not(.unavailable)').count(),0,'No fabricated recommendation for Aalto');
+  assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0,'No borrowed Augusta run');
+  for (const id of ['the-shorekeeper','jiyan','hsin']) {
+    await selectCardCharacter(page,id);
+    await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
+    const framing=await page.locator('.results-art').evaluate(image=>({fit:getComputedStyle(image).objectFit,height:image.getBoundingClientRect().height,fallback:image.classList.contains('portrait-fallback')}));
+    assert.equal(framing.fit,'contain','Banner should preserve artwork proportions');
+    assert.ok(framing.height<=160,'Banner must not zoom the illustration excessively');
+    assert.equal(framing.fallback,id==='hsin');
+    assert.equal(await page.locator('.results-heading').evaluate(node=>node.getBoundingClientRect().height),92);
+  }
+  await selectCardCharacter(page,'augusta');
+  assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12,'Character switching preserves isolated recorded state');
+  await page.locator('#characterToggle').click(); assert.equal(await page.locator('.simulation-content').isVisible(),false);
+  await ensure('character'); assert.equal(await page.locator('.simulation-content').isVisible(),true);
+  await page.locator('button[data-result-mode=simulation]').focus(); await page.keyboard.press('ArrowLeft');
+  assert.equal(await page.locator('.character-content').isVisible(),true);
+  checks.push({label:'Simulation Stats roles, source gaps, pointer/keyboard focus, demo isolation, responsive modes and Character ownership',width,animated});
+}

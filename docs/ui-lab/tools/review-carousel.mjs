@@ -145,7 +145,7 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
       if (element === 'Spectro') {
         await page.keyboard.press('Escape'); await flowSettled(page);
         assert.equal(await page.locator('.portrait.selected').isVisible(), true);
-        assert.ok(Math.abs(await center(page.locator('.portrait.selected')) - middle) < 1);
+        assert.ok(Math.abs(await center(page.locator('.portrait.selected')) - pageMiddle) < 1);
         await activate(page.locator('#openGallery')); await flowSettled(page);
       }
       if (!expected.length) {

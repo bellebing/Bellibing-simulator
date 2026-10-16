@@ -122,7 +122,7 @@ async function checkLayout(page, width, label) {
       };
     });
     const footer = document.querySelector('.trash-footer').getBoundingClientRect();
-    const cardBottom = Math.max(...document.querySelectorAll('#piles .pile-stack').values().map(s => s.getBoundingClientRect().bottom));
+    const cardBottom = Math.max(...[...document.querySelectorAll('#piles .pile-stack')].map(s => s.getBoundingClientRect().bottom));
     return {records,footerGap:footer.top - cardBottom,pseudoCards: getComputedStyle(piles[0],'::before').content};
   });
   assert.deepEqual(trashStack.records.map(p=>p.length),[5,3,4,2,4], `${label}: history records missing from physical piles`);

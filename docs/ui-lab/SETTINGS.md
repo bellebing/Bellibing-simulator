@@ -34,7 +34,7 @@ Expanded Settings grows to 350px, bounded by the space remaining after the 1000p
 
 `review-settings.mjs` exercises physical drag, keyboard moves, slider separation, unique membership, dormant tiers, invalid counts, optional/illustrative ER states, Character ownership, Recommended/reset and responsive geometry at 1440/1920/2560. Existing Contextual Focus, Workshop, Carousel and Character Card checks remain in the full review. These verify presentation/configuration behavior, not gameplay evaluation.
 
-## Inline More Sets Sonata browser (PR #301, browse-only)
+## Inline More Sets and Sonata pool (PR #301, UI Lab only)
 
 The previously displayed Crown of Valor and Void Thunder Sonata labels are now compact cards. Their current illustrative presentation stays unchanged. The native keyboard- and touch-accessible `More Sets` disclosure reveals an **in-flow**, vertically scrollable list (around six to seven rows visible) immediately underneath. Expanding pushes Gate and all later settings downward, with no popup or side panel.
 

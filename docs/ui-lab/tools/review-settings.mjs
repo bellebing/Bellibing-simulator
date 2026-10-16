@@ -48,6 +48,39 @@ export async function reviewSettings(page,{width,checks}) {
   await browse.locator('summary').press('Enter');
   assert.equal(await browse.evaluate(el=>el.open),false);
   assert.ok(Math.abs(await gateY()-gateBefore)<2,'Collapse must restore layout');
+
+  // Verify actual HTML5 pointer drag, keyboard activation and demo pool isolation.
+  await browse.locator('summary').click();
+  const set=id=>page.locator(`[data-sonata-id="${id}"]`);
+  const selectedIds=()=>page.locator('.sonata-selected [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
+  const listIds=()=>page.locator('.sonata-browse [data-sonata-id]').evaluateAll(rows=>rows.map(r=>r.dataset.sonataId));
+  const defaults=['sonata-20','sonata-3'];
+  await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-selected'),{targetPosition:{x:60,y:6}});
+  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],'Pointer drag should add Celestial Light');
+  assert.equal((await listIds()).length,34,'Chosen card must leave More Sets');
+  assert.equal(new Set([...(await selectedIds()),...(await listIds())]).size,37,'Sonata IDs must stay unique');
+  assert.equal(await page.locator('.sonata-count').count(),2,'UI pool must not change demo Echo equipment or set counts');
+  await set('sonata-5').locator('.sonata-handle').focus();await page.keyboard.press('Enter');
+  assert.deepEqual(await selectedIds(),defaults,'Enter should remove chosen Sonata');
+  await set('sonata-5').locator('.sonata-handle').click();
+  assert.deepEqual(await selectedIds(),[...defaults,'sonata-5'],'Click/tap alternative adds Sonata');
+  await set('sonata-5').locator('.sonata-handle').dragTo(page.locator('.sonata-browse'),{targetPosition:{x:60,y:8}});
+  assert.deepEqual(await selectedIds(),defaults,'Drag back removes Sonata');
+  await set('sonata-20').locator('.sonata-handle').focus();await page.keyboard.press('Space');
+  assert.deepEqual(await selectedIds(),['sonata-3'],'Space moves a chosen Sonata out');
+  await set('sonata-20').locator('.sonata-handle').click();
+  assert.deepEqual(await selectedIds(),['sonata-3','sonata-20']);
+  await set('sonata-20').locator('.sonata-handle').dragTo(set('sonata-3'),{targetPosition:{x:8,y:3}});
+  assert.deepEqual(await selectedIds(),defaults,'Chosen cards can reorder by drag');
+  await selectCardCharacter(page,'iuno');await ensureSettings();
+  assert.deepEqual(await selectedIds(),defaults,'Other Character pool must be independent');
+  await set('sonata-5').locator('.sonata-handle').click();
+  assert.equal((await selectedIds()).length,3,'Iuno edits its own preview pool');
+  await selectCardCharacter(page,'augusta');await ensureSettings();
+  assert.deepEqual(await selectedIds(),defaults,'Iuno selection must not leak to Augusta');
+  await browse.locator('summary').click();
+  assert.equal(await browse.evaluate(el=>el.open),false);
+
   assert.equal(await page.locator('#editERTarget').count(),0,'ER target must not have a dropdown');
   assert.equal(await page.locator('#erTotalStatus').count(),0,'No ER explanation row');
   assert.equal(await page.locator('#erTarget > .er-target-heading').count(),1,'ER target remains on one row');

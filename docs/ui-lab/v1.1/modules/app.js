@@ -1,6 +1,7 @@
 import { mountResourceInventory } from './resource-inventory.js';
 import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
+import { mountSonataSelection } from './sonata-selection.js';
 import { restoreRecommendedSettings } from './settings-state.js';
 import { CHARACTER_CATALOG } from './catalog.js';
 import { getDemoState, resetDemoState } from './lab-state.js';
@@ -14,6 +15,7 @@ import { $, assetURL, escapeHtml, notify } from './util.js';
 mountResourceInventory($('#resourceInventory'));
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
+const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let state = getDemoState(selectedId);
@@ -93,6 +95,7 @@ function renderSettings() {
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   improveSettings.render();
+  sonataSelection.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = selectedId !== 'augusta';

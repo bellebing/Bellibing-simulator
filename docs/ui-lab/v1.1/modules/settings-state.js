@@ -8,7 +8,8 @@ export function initialSettings(id) {
   if (id === 'augusta') other.sort((a,b)=>a==='Flat ATK'?-1:b==='Flat ATK'?1:0);
   return {settingsMode:id==='augusta'?'Recommended':'Customize',
     minima:Object.fromEntries(ECHO_SETTING_STATS.map(stat=>[stat.id,0])),statSections:{hard,flex,other},flexCount:id==='augusta'?1:null,
-    erTarget:{enabled:false,valuePercent:null},otherExpanded:false};
+    erTarget:{enabled:false,valuePercent:null},otherExpanded:false,
+    sonataPool:['sonata-20','sonata-3']}; // UI Lab preview identities, not recommendations
 }
 export function moveSettingStat(state,id,destination,beforeId=null) {
   if(!ECHO_SETTING_STATS.some(stat=>stat.id===id)||!STAT_SECTIONS.includes(destination))throw Error('Unknown canonical stat or section');
@@ -30,7 +31,10 @@ export function editFlexCount(state,count) {
 }
 export function restoreRecommendedSettings(state) {
   if(state.id!=='augusta')return false;
-  Object.assign(state,initialSettings(state.id)); return true;
+  const pool=[...state.sonataPool];
+  Object.assign(state,initialSettings(state.id));
+  state.sonataPool=pool; // Preserve explicit UI Sonata choice when restoring other settings.
+  return true;
 }
 // A presentation-only conditional comparison. No total is projected here and no
 // Echo requirement, acceptance decision or build state is modified.

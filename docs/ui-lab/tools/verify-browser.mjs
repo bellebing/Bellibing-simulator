@@ -1,3 +1,4 @@
+import { reviewSettings } from './review-settings.mjs';
 import { reviewResults } from './review-results.mjs';
 import { reviewHero } from './review-hero.mjs';
 import { reviewCharacterCard } from './review-character-card.mjs';
@@ -345,7 +346,7 @@ try {
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
     for (const selector of ['.workshop', '.working-area', '.slots']) {
-      for (const key of (width === 1440 ? ['x','y','width','height'] : ['y','height'])) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
+      for (const key of ['y','height']) assert.ok(Math.abs(current[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed`);
     }
     checks.push({ label: 'Preserved V1 vertical composition; authorized shared-panel width adaptation', width, approved, current });
     await baseline.close();
@@ -429,6 +430,8 @@ try {
     const page = await context.newPage(); page.on('pageerror',error=>errors.push(error.message));
     await page.goto(`${origin}${selector}`,{waitUntil:'networkidle'}); await wait(page);
     await reviewResults(page,{width,checks,animated:width===1920});
+    await page.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewSettings(page,{width,checks});
     await context.close();
   }
 

@@ -1,4 +1,6 @@
 import { ECHO_FIXTURES } from './demo-data.js';
+import { initialSettings } from './settings-state.js';
+export { MINIMUM_TIERS } from './settings-state.js';
 
 export const DEMO_ACCOUNT_IDS = ['changli', 'yinlin', 'the-shorekeeper', 'augusta', 'iuno', 'phrolova'];
 export const DEMO_FEATURED_IDS = ['changli', 'jinhsi', 'yinlin', 'the-shorekeeper', 'augusta', 'iuno', 'cartethyia', 'phrolova', 'jiyan'];
@@ -14,15 +16,6 @@ const AUGUSTA_STATS = [
 const PREVIEW_FIXTURES = {
   changli: ['2,120', '65.4%', '240.0%'], yinlin: ['1,862', '61.2%', '218.4%'],
   iuno: ['1,940', '60.8%', '202.4%'], phrolova: ['2,036', '69.4%', '224.0%'],
-};
-
-export const MINIMUM_TIERS = {
-  'CRIT Rate': ['6.3%', '6.9%', '7.5%', '8.1%', '8.7%', '9.3%', '9.9%', '10.5%'],
-  'CRIT DMG': ['12.6%', '13.8%', '15.0%', '16.2%', '17.4%', '18.6%', '19.8%', '21.0%'],
-  'ATK%': ['6.4%', '7.1%', '7.9%', '8.6%', '9.4%', '10.1%', '10.9%', '11.6%'],
-  'Heavy Attack DMG': ['6.4%', '7.1%', '7.9%', '8.6%', '9.4%', '10.1%', '10.9%', '11.6%'],
-  'Energy Regen': ['6.8%', '7.6%', '8.4%', '9.2%', '10.0%', '10.8%', '11.6%', '12.4%'],
-  'Flat ATK': ['30', '40', '50', '60'],
 };
 
 export function candidateFixture(echo) {
@@ -57,9 +50,7 @@ function makeState(id) {
     candidates: echoes.map(candidateFixture),
     histories: echoes.map((echo, slot) => echo ? Array.from({ length: [5, 3, 4, 2, 4][slot] }, (_, index) => historyFixture(echo, index)) : []),
     stats, weapon: id === 'augusta' ? 'Thunderflare Dominion' : onAccount ? 'Weapon equipped · demo' : 'Not configured',
-    gate: '+5', settingsMode: id === 'augusta' ? 'Recommended' : 'Customize',
-    minima: Object.fromEntries(Object.keys(MINIMUM_TIERS).map(name => [name, 0])),
-    flexOrder: ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'],
+    gate: '+5', ...initialSettings(id),
   };
 }
 

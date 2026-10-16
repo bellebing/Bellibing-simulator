@@ -213,3 +213,44 @@ test('result roles remain independent, canonical recommendations never cross-fil
   const other = simulationModel(CHARACTER_CATALOG.find(row=>row.id==='aalto'),getDemoState('aalto'));
   assert.ok(other.rows.every(row=>row.recommended===null && row.expected===null && row.simulated===null));
 });
+
+test('canonical Settings placement retains dormant minima and explicit infeasible Flex intent', async () => {
+  const {ECHO_SETTING_STATS}=await import('../v1.1/modules/settings-catalog.js');
+  const {moveSettingStat,flexCountPresentation,editFlexCount,restoreRecommendedSettings}=await import('../v1.1/modules/settings-state.js');
+  const state=resetDemoState('augusta');
+  assert.equal(ECHO_SETTING_STATS.length,13);
+  assert.deepEqual(state.statSections.hard,['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(state.statSections.flex,['ATK%','Heavy Attack DMG']);
+  assert.equal(state.statSections.other[0],'Flat ATK');
+  assert.equal(flexCountPresentation(state).message,'At least 1 of 2');
+  state.minima['CRIT Rate']=7;
+  moveSettingStat(state,'CRIT Rate','other');moveSettingStat(state,'CRIT Rate','flex');
+  assert.equal(state.minima['CRIT Rate'],7);
+  editFlexCount(state,3);
+  moveSettingStat(state,'CRIT Rate','hard');
+  assert.equal(state.flexCount,3);assert.equal(flexCountPresentation(state).valid,false);
+  assert.throws(()=>editFlexCount(state,3));editFlexCount(state,2);
+  const rows=Object.values(state.statSections).flat();
+  assert.equal(new Set(rows).size,13);assert.deepEqual([...rows].sort(),ECHO_SETTING_STATS.map(row=>row.id).sort());
+  state.gate='+20';restoreRecommendedSettings(state);
+  assert.equal(state.gate,'+20');assert.equal(state.flexCount,1);assert.equal(state.minima['CRIT Rate'],0);
+  assert.equal(state.erTarget.enabled,false);
+  const other=resetDemoState('iuno');assert.deepEqual(other.statSections.hard,[]);assert.deepEqual(other.statSections.flex,[]);
+  assert.equal(other.flexCount,null);assert.equal(restoreRecommendedSettings(other),false);
+  resetDemoState('augusta');
+});
+
+test('ER Target presentation fails closed and distinguishes optional illustrative totals', async () => {
+  const {erTargetPresentation}=await import('../v1.1/modules/settings-state.js');
+  const base={characterId:'augusta',target:{enabled:true,valuePercent:120}};
+  assert.equal(erTargetPresentation(base).status,'UNAVAILABLE');
+  assert.equal(erTargetPresentation({...base,target:{enabled:false,valuePercent:120}}).status,'DISABLED');
+  assert.equal(erTargetPresentation({...base,target:{enabled:true,valuePercent:null}}).status,'UNCONFIGURED');
+  const total={status:'VERIFIED',characterId:'augusta',valuePercent:120};
+  assert.equal(erTargetPresentation({...base,total}).status,'REACHED');
+  assert.equal(erTargetPresentation({...base,total:{...total,valuePercent:119.9}}).status,'OUTSTANDING');
+  assert.equal(erTargetPresentation({...base,total:{...total,characterId:'iuno'}}).status,'UNAVAILABLE');
+  assert.equal(erTargetPresentation({...base,total:{...total,valuePercent:NaN}}).status,'UNAVAILABLE');
+  assert.equal(erTargetPresentation({...base,total:{...total,status:'ILLUSTRATIVE'}}).status,'UNAVAILABLE');
+  assert.deepEqual(erTargetPresentation({...base,total:{...total,status:'ILLUSTRATIVE'},allowIllustrative:true}),{status:'REACHED',isDemo:true,totalPercent:120});
+});

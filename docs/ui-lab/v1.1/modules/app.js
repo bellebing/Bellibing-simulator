@@ -1,7 +1,8 @@
 import { mountResultsPanel } from './simulation-stats.js';
-import { SETTING_METRICS } from './simulation-model.js';
+import { mountImproveSettings } from './improve-settings.js';
+import { restoreRecommendedSettings } from './settings-state.js';
 import { CHARACTER_CATALOG } from './catalog.js';
-import { getDemoState, resetDemoState, MINIMUM_TIERS } from './lab-state.js';
+import { getDemoState, resetDemoState } from './lab-state.js';
 import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
 import { mountWorkshopFeedback } from './workshop-feedback.js';
 import { sonataSummary } from './sonata-summary.js';
@@ -10,6 +11,7 @@ import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
+const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let state = getDemoState(selectedId);
@@ -17,7 +19,6 @@ let carousel;
 let inspection = null;
 let inspectorSource = null;
 let closingInspection = false;
-let draggedRow = null;
 const query = new URLSearchParams(location.search);
 const feedback = mountWorkshopFeedback({
   highlightSlots: (slots, severity) => slots.forEach(index => {
@@ -69,11 +70,6 @@ function renderCharacter() {
   $('.character-compact .vertical-label').textContent = person.name.toUpperCase();
 }
 
-function rowMarkup(name) {
-  const tier = state.minima[name];
-  return `<div class="setting-row ${name === 'Flat ATK' ? 'neutral' : ''}" draggable="true" data-minimum="${escapeHtml(name)}" data-stat-id="${SETTING_METRICS[name]}" tabindex="0" aria-label="${escapeHtml(name)}; Alt Up or Down reorders this list"><span class="handle" aria-hidden="true">≡</span><label>${escapeHtml(name)}<input aria-label="${escapeHtml(name)} minimum" type="range" min="0" max="${MINIMUM_TIERS[name].length - 1}" value="${tier}"></label><output>${MINIMUM_TIERS[name][tier]}</output></div>`;
-}
-
 function renderSettings() {
   $('#gateLabel').value = state.gate;
   document.querySelectorAll('[data-scope]').forEach(button => {
@@ -83,10 +79,7 @@ function renderSettings() {
   });
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
-  const hard = [...document.querySelectorAll('.settings section')].find(section => section.querySelector('h3')?.textContent === 'Hard Requirements');
-  hard.querySelectorAll('.setting-row').forEach(row => row.remove());
-  hard.insertAdjacentHTML('beforeend', rowMarkup('CRIT Rate') + rowMarkup('CRIT DMG'));
-  $('#flexRows').innerHTML = state.flexOrder.map(rowMarkup).join('');
+  improveSettings.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = selectedId !== 'augusta';
@@ -114,14 +107,18 @@ function layout(last = 'character') {
   let expandedCharacter = character.classList.contains('expanded');
   const characterWidth = available < 1550 ? 290 : Math.min(480, Math.floor(available * .24));
   const gaps = 2 * parseFloat(getComputedStyle(shell).columnGap);
-  const required = 1000 + gaps + (expandedSettings ? 280 : 58) + (expandedCharacter ? characterWidth : 58);
+  const workshopStyle = getComputedStyle($('.workshop'));
+  const workshopMinimum = 1000 + parseFloat(workshopStyle.borderLeftWidth) + parseFloat(workshopStyle.borderRightWidth);
+  const settingsWidth = Math.min(350, available - workshopMinimum - gaps - 58);
+  if (settingsWidth < 300) expandedSettings = false;
+  const required = workshopMinimum + gaps + (expandedSettings ? settingsWidth : 58) + (expandedCharacter ? characterWidth : 58);
   if (available < required) {
     if (last === 'settings') expandedCharacter = false;
     else expandedSettings = false;
   }
   settings.classList.toggle('expanded', expandedSettings);
   character.classList.toggle('expanded', expandedCharacter);
-  shell.style.gridTemplateColumns = `${expandedSettings ? 280 : 58}px minmax(1000px,1fr) ${expandedCharacter ? characterWidth : 58}px`;
+  shell.style.gridTemplateColumns = `${expandedSettings ? settingsWidth : 58}px minmax(${workshopMinimum}px,1fr) ${expandedCharacter ? characterWidth : 58}px`;
   $('#settingsToggle').setAttribute('aria-expanded', expandedSettings);
   $('#characterToggle').setAttribute('aria-expanded', expandedCharacter);
   $('#settingsToggle').title = `${expandedSettings ? 'Collapse' : 'Expand'} Improve Settings`;
@@ -209,46 +206,11 @@ $('.gate-options').addEventListener('click', event => {
   renderSettings();
   characterCard.edit({kind:'gate'},null);
 });
-$('#settings').addEventListener('input', event => {
-  if (event.target.type !== 'range') return;
-  const row = event.target.closest('[data-minimum]');
-  state.minima[row.dataset.minimum] = Number(event.target.value);
-  state.settingsMode = 'Customize';
-  row.querySelector('output').textContent = MINIMUM_TIERS[row.dataset.minimum][Number(event.target.value)];
-  document.querySelectorAll('.setting-mode button').forEach(button => button.classList.toggle('selected', button.textContent === 'Customize'));
-  characterCard.edit({kind:'minimum', metric:row.dataset.statId, tier:Number(event.target.value)},row);
-});
-function rememberFlexOrder() {
-  state.flexOrder = [...$('#flexRows').querySelectorAll('[data-minimum]')].map(row => row.dataset.minimum);
-  state.settingsMode = 'Customize';
-  characterCard.edit({kind:'flex-placement'},null);
-}
-$('#settings').addEventListener('dragstart', event => {
-  draggedRow = event.target.closest('#flexRows [data-minimum]');
-  if (draggedRow) event.dataTransfer.setData('text/plain', draggedRow.dataset.minimum);
-});
-$('#settings').addEventListener('dragover', event => { if (draggedRow && event.target.closest('#flexRows [data-minimum]')) event.preventDefault(); });
-$('#settings').addEventListener('drop', event => {
-  const target = event.target.closest('#flexRows [data-minimum]');
-  if (draggedRow && target && draggedRow !== target) { event.preventDefault(); target.before(draggedRow); rememberFlexOrder(); }
-  draggedRow = null;
-});
-$('#settings').addEventListener('dragend', () => { draggedRow = null; });
-$('#settings').addEventListener('keydown', event => {
-  const row = event.target.closest('#flexRows [data-minimum]');
-  if (!row || !event.altKey || !['ArrowUp', 'ArrowDown'].includes(event.key)) return;
-  event.preventDefault();
-  if (event.key === 'ArrowUp') row.previousElementSibling?.before(row);
-  else row.nextElementSibling?.after(row);
-  rememberFlexOrder();
-  row.focus();
-});
 $('.setting-mode').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
   state.settingsMode = event.target.textContent;
   if (state.settingsMode === 'Recommended') {
-    Object.keys(state.minima).forEach(name => { state.minima[name] = 0; });
-    state.flexOrder = ['ATK%', 'Heavy Attack DMG', 'Energy Regen', 'Flat ATK'];
+    restoreRecommendedSettings(state);
   }
   renderSettings();
   characterCard.edit({kind:'settings-mode'},null);
@@ -274,23 +236,6 @@ document.querySelectorAll('.site-header nav button').forEach(button => { button.
 $('#reset').onclick = () => { state = resetDemoState(selectedId); renderWorkspace(); notify('This Character’s demonstration state restored'); };
 
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
-// Native row drag must not intercept a range thumb's pointer gesture.
-let sliderRow = null;
-$('#settings').addEventListener('pointerdown', event => {
-  if (event.target.type !== 'range') return;
-  sliderRow = event.target.closest('[data-minimum]');
-  if (sliderRow) sliderRow.draggable = false;
-});
-function finishSlider() {
-  if (!sliderRow) return;
-  sliderRow.draggable = true; sliderRow = null;
-  characterCard.settle();
-}
-window.addEventListener('pointerup', finishSlider);
-window.addEventListener('pointercancel', finishSlider);
-$('#settings').addEventListener('change', () => characterCard.settle());
-$('#settings').addEventListener('pointerup', () => characterCard.settle());
-$('#settings').addEventListener('focusout', () => { if (!sliderRow) characterCard.settle(); });
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {

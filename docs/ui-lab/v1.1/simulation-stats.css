@@ -7,8 +7,8 @@
 #character .simulation-content { padding:8px 14px 16px; --result-columns:minmax(0,1.8fr) repeat(3,minmax(0,1fr)); --result-gap:8px; }
 /* Artwork blends into the shared panel, with identity above the quiet edge. */
 #character .results-heading { height:92px; position:relative; overflow:hidden; margin:0 -14px; background:linear-gradient(110deg,#171c22,#20262d); }
-#character .results-art { position:absolute; right:0; top:0; width:58%; height:100%; object-fit:cover; object-position:50% 22%; opacity:.86; }
-#character .results-art.portrait-fallback { object-fit:contain; padding:5px 18px; }
+#character .results-art { position:absolute; right:0; top:-5px; width:58%; height:160px; object-fit:contain; object-position:50% 0; opacity:.86; }
+#character .results-art.portrait-fallback { height:100%; top:0; object-fit:contain; padding:5px 18px; }
 #character .results-heading:after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#171c22 8%,#171c22dd 31%,#171c2220 78%),linear-gradient(0deg,#171c22,transparent 34%); }
 #character .results-identity { position:relative; z-index:1; height:100%; display:flex; align-items:center; padding:0 14px; }
 #character .results-heading h2 { font-size:22px; line-height:1.15; font-weight:400; margin:0; max-width:90%; }
@@ -30,7 +30,7 @@
 #character .has-result-focus .result-row:not(.is-affected) { opacity:.72; }
 #character .result-row.is-affected h3 { color:#dfcd9e; }
 #character .result-value.is-affected strong { color:#f1dfb4; text-shadow:0 0 17px #d9bd7d40; }
-#settings .setting-row.is-active-setting label { color:#e9d29b; }
+#settings .setting-row.is-active-setting .stat-label { color:#e9d29b; }
 @container (max-width:365px) {
   #character .simulation-content { padding-inline:8px; --result-columns:minmax(0,1fr) 52px 42px 46px; --result-gap:3px; }
   #character .results-heading { margin-inline:-8px; }

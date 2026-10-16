@@ -16,7 +16,9 @@ Open `http://127.0.0.1:4180/docs/ui-lab/v1.1/`. `?settings=expanded` opens Setti
 
 The existing project documents GitHack immutable source previews. Use only an exact PR-head URL, with the explicit `index.html` path, and only claim availability after verifying the HTML, modules and artwork. Localhost in an agent environment is not an externally accessible preview. No new hosting service, GitHub Pages configuration or production deployment is introduced here.
 
-Hero alternatives are available at `?hero=elegant` and `?hero=cinematic`. Without either query the approved baseline remains unchanged. [Artistic directions and scope](HERO_VARIATIONS.md).
+Hero alternatives are available at `?hero=elegant` and `?hero=cinematic`. Elegant Hero is the approved default; `?hero=baseline` retains the earlier presentation. [Artistic directions and scope](HERO_VARIATIONS.md).
+
+See [Settings contract](SETTINGS.md) for the 13 canonical movable rows, explicit Flex count and optional ER Target.
 
 ## What to try
 

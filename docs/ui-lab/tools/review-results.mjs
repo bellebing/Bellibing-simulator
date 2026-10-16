@@ -109,6 +109,15 @@ export async function reviewResults(page,{width,checks,animated=false}) {
   await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
   assert.equal(await page.locator('[data-role=recommended] strong:not(.unavailable)').count(),0,'No fabricated recommendation for Aalto');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),0,'No borrowed Augusta run');
+  for (const id of ['the-shorekeeper','jiyan','hsin']) {
+    await selectCardCharacter(page,id);
+    await page.waitForFunction(()=>{const image=document.querySelector('.results-art');return image.complete&&image.naturalWidth>0;});
+    const framing=await page.locator('.results-art').evaluate(image=>({fit:getComputedStyle(image).objectFit,height:image.getBoundingClientRect().height,fallback:image.classList.contains('portrait-fallback')}));
+    assert.equal(framing.fit,'contain','Banner should preserve artwork proportions');
+    assert.ok(framing.height<=160,'Banner must not zoom the illustration excessively');
+    assert.equal(framing.fallback,id==='hsin');
+    assert.equal(await page.locator('.results-heading').evaluate(node=>node.getBoundingClientRect().height),92);
+  }
   await selectCardCharacter(page,'augusta');
   assert.equal(await page.locator('[data-role=simulated] strong:not(.unavailable)').count(),12,'Character switching preserves isolated recorded state');
   await page.locator('#characterToggle').click(); assert.equal(await page.locator('.simulation-content').isVisible(),false);

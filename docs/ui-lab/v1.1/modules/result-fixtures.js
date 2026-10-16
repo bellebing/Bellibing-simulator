@@ -7,3 +7,9 @@ export function focusFixture(characterId, action) {
   return { values:{TOTAL_CRIT_RATE:CRIT_FRAMES[action.tier]},
     affected:[{id:'TOTAL_CRIT_RATE',role:'expected'}], provenance:'ILLUSTRATIVE_FOCUS_FIXTURE' };
 }
+
+// Existing illustrative Augusta record values; never a verified projection.
+export function erTotalFixture(characterId,scenario) {
+  if(characterId!=='augusta'||!['below','above'].includes(scenario))return null;
+  return {characterId,status:'ILLUSTRATIVE',valuePercent:scenario==='below'?118.4:126.8};
+}

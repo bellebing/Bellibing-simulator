@@ -98,6 +98,7 @@ export function mountSonataSelection(section,{getState}) {
       event.preventDefault();
       const id=event.dataTransfer?.getData('text/plain')||dragging?.id;
       const valid=dragging?.characterId===getState().id&&cards.has(id);
+      section.dataset.sonataDebug=JSON.stringify({id,dragging,currentId:getState().id,exists:cards.has(id),valid});
       const anchor=before(event.target,dest,event.clientY);
       cleanup();
       if(valid)move(id,dest,anchor);

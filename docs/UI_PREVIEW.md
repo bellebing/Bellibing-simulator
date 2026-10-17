@@ -1,45 +1,7 @@
-# Bellibing UI Preview — current routes
+# Public UI preview
 
-Last reconciled: 2026-09-24
+The published [Character Build / Improve preview](https://bellebing.github.io/Bellibing-simulator/ui-preview/) is built from the repository's merged `main` branch. The [root application](https://bellebing.github.io/Bellibing-simulator/) remains a separate legacy/regression surface.
 
-Use these links so a new chat/user does not need to remember repository paths or a historical branch name.
+The source for the functional preview is [`docs/ui-prototypes/v34-functional.html`](ui-prototypes/v34-functional.html). Current presentation rules are maintained in [UI/UX](UI_UX_STATUS.md), [layout and motion](UI_LAYOUT_MOTION_CONTRACT.md) and the [v34 visual baseline](UI_BUILD_HANDOFF_V34.md).
 
-## Stable New UI preview
-
-GitHub Pages route produced from current merged `main`:
-
-https://bellebing.github.io/Bellibing-simulator/ui-preview/
-
-The current Alpha root remains separate legacy/runtime-regression material:
-
-https://bellebing.github.io/Bellibing-simulator/
-
-## Canonical source on main
-
-Functional prototype source:
-
-https://github.com/bellebing/Bellibing-simulator/blob/main/docs/ui-prototypes/v34-functional.html
-
-Product/interaction contract:
-
-https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_UX_STATUS.md
-
-Layout/motion contract:
-
-https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_LAYOUT_MOTION_CONTRACT.md
-
-v34 visual baseline:
-
-https://github.com/bellebing/Bellibing-simulator/blob/main/docs/UI_BUILD_HANDOFF_V34.md
-
-## Active PR previews
-
-Do not assume a historical branch-specific Pages URL is current.
-
-For an unmerged active UI PR:
-
-1. fresh-read the current PR/head;
-2. use its GitHub Actions visual/build artifact or a locally served build for review;
-3. treat the stable `/ui-preview/` Pages route as merged-main evidence only.
-
-The old Alpha visual design is not the source of truth for New UI work.
+Unmerged pull requests are **not** represented by the published Pages site. Review their revision-specific GitHub Actions artifacts or local builds instead.

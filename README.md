@@ -1,12 +1,28 @@
 # Bellibing Simulator
 
-Source-backed Wuthering Waves Character Build / Improve UI and character-free Echo mechanics.
+Public Wuthering Waves character-building and Echo tools, with source-reviewed game data and mechanics.
+
+## Use
 
 - [Character Build / Improve](https://bellebing.github.io/Bellibing-simulator/ui-preview/)
 - [Echo Lab](https://bellebing.github.io/Bellibing-simulator/echo-lab.html)
 
-Improvement Cost / evaluator uses a private decision-engine contract. Proprietary policy and calibration are not part of the public repository. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy outputs remain Pending.
+The interface supports character/build presentation, Echo mechanics and user-owned inputs. Automated improvement evaluation and recommendation decisions are not available in the public app; unavailable evaluations remain **Pending**.
 
-See [current product status](docs/PROJECT_STATUS.md) and [development process](docs/DEVELOPMENT_PROCESS.md). Source completeness does not establish executable evaluation. Missing or disputed facts remain Pending/Unknown; missing is not zero.
+## Develop locally
 
-Run `npm test` for the retained public regressions and `npm run build` for the strict public browser build with generated parity and artifact containment verification.
+Requires Node.js 22 or later.
+
+```sh
+npm install
+npm test
+npm run build
+```
+
+`npm run build` creates the allowlisted browser application in `dist/` and checks generated-data parity. It does not deploy.
+
+## Sources and scope
+
+Game facts, stat formulas, effects and gameplay assumptions are documented with provenance in the relevant source/data files. Source gaps and disputed mechanics remain **Pending/Unknown**, not zero.
+
+See [public product scope](docs/PRODUCT_CONTRACT.md), [current feature status](docs/PROJECT_STATUS.md), [data verification policy](docs/DATA_VERIFICATION_POLICY.md) and [deployment contract](docs/PAGES_DEPLOYMENT.md).

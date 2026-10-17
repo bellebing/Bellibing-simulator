@@ -10,18 +10,18 @@ Status vocabulary: **NOT STARTED**, **IN PROGRESS**, **BLOCKED**, **READY FOR RE
 
 ## S1 — Sandbox foundation
 
-- **Status:** READY FOR REVIEW. **Current PR:** [Draft #312](https://github.com/bellebing/Bellibing-simulator/pull/312), stacked on #311. Source/configuration coverage is 59/59; implementation/browser evidence and remaining independent readiness dimensions are in the [foundation contract](ui-lab/SANDBOX_FOUNDATION.md) and [coverage matrix](ui-lab/SANDBOX_COVERAGE.md). Owner review of the DPS concept is still required; this is not a merged/production or S2 execution claim.
+- **Status:** READY FOR REVIEW. **Current PR:** [Draft #312](https://github.com/bellebing/Bellibing-simulator/pull/312), stacked on #311. Source/configuration coverage is 59/59; implementation/browser evidence and remaining independent readiness dimensions are in the [foundation contract](ui-lab/SANDBOX_FOUNDATION.md) and [coverage matrix](ui-lab/SANDBOX_COVERAGE.md). The owner has approved the four-column DPS concept; computation remains Pending. This is not a merged/production claim.
 - **Goal:** source-bound standard Character/Weapon/five-Echo configurations for all 59 released identities; independent sessions/settings/resources and slot-aware existing Workshop.
 - **Sources:** canonical Character/signature/guide/weapon/Echo/Sonata catalogs, reviewed loadout profiles, stat editor, source reviews and Settings v3; inherited Phase 6A.1/6B.1 contracts.
 - **Dependencies:** verified identity/type/Main/Cost/set composition rules and explicit build context. Missing facts are Pending, never Augusta fallback.
 - **Product decisions:** dedicated verified signature first, reviewed alternative otherwise; tied source alternatives may use an explicit deterministic Sandbox convention retaining originals. No invented rolls. Remove the large left Sonata selector; Edit Echo owns Sonata commits. DPS is a separate four-column concept below Character Stats with Pending values.
 - **Definition of Done:** every source-supported default implemented, full machine/human 59-Character matrix, independent configuration/simulation/DPR/DPS readiness, canonical baseline, unique session/revisions, manual overrides/Character/reset isolation, source-bound species/set checks, Expected Cost contract and S2 plan. Any unresolved Character dimension is enumerated and prevents a 59/59 claim.
 - **Verification:** coverage gate, source audits/generated parity, focused state/validation/regression tests, build, actual Chromium interaction/layout/keyboard at 1440×900, 1920×1080, 2560×1440, exact-head automatic CI. No account writes/spend.
-- **Pending:** real simulation, cost producer, DPR/DPS execution, active bonus presentation, account integration. Stop for ChatGPT review; do not start S2.
+- **Pending:** real simulation, cost producer, DPR/DPS execution, active bonus presentation, account integration. S2A is separately authorized below; S2B still requires separate authorization.
 
 ## S2 — Real Sandbox simulation
 
-- **Status:** NOT STARTED. **Current PR:** none; separate authorization required.
+- **Status:** IN PROGRESS. S2A offline integration is READY FOR REVIEW in [Draft #313](https://github.com/bellebing/Bellibing-simulator/pull/313) and its private companion; S2B browser/security integration is NOT STARTED. No public ingress or deployment.
 - **Goal:** SIMULATE uses the existing private motor for canonical rolls, Candidate/Current/Temporary/Trash, resource spend, Decision Trace and safe JSON export without an account.
 - **Sources:** existing private simulator and transport V1, canonical Echo/resource/session primitives, versioned Sandbox compiler/context and reviewed presentation DTO.
 - **Dependencies:** S1 valid configurations; private supported policy capability; isolated authenticated/guest sessions, bounded requests/work/budgets, idempotency, trusted revision registry, stale/late-result protection and safe exports.
@@ -29,6 +29,20 @@ Status vocabulary: **NOT STARTED**, **IN PROGRESS**, **BLOCKED**, **READY FOR RE
 - **Definition of Done:** actual end-to-end rolls/decisions/history/receipts and exact selected active slots; unsupported contexts fail explicitly; safe trace/export and reset/abort/reconnect semantics verified.
 - **Verification:** real private tests plus source/built Chromium, freshness/idempotency/session/resource isolation and no-leak checks; approved security/ingress review.
 - **Pending:** unsupported policy categories, global finite-budget optimization/recovery, general DPR/DPS; no automatic capability promotion from S1 templates.
+
+### S2A — actual private integration
+
+- Actual S1 Sandbox owner/configuration flows now execute Augusta/default through the existing private compiler, simulation owner, transport V1 and replay. Actual one-slot and five-slot runs reach GOAL_SUCCESS; abort, insufficient budget and administrative censoring retain their real statuses.
+- Canonical rolls, Temporary replacement, unique Current/Candidate/Trash ownership, receipt conservation, replay and safe JSON round-trip are verified privately. Public contract tests are explicitly separate from private execution evidence.
+- [Execution contract](ui-lab/SANDBOX_EXECUTION_CONTRACT.md) defines the public presentation boundary, observed-cost adapter, live-owner freshness and S2B plan. Exact public dependency is `32d8c348534cd8248e8b99d08221e06efb5bc6b9`; final PR heads/checks belong to GitHub. Exact private revision, reproducible runs and actual resource quantities remain in the private companion PR/report, not public release mappings.
+- Unsupported Characters, changed Weapon context and unsupported Gate/minimum/Settings capability remain Pending rather than falling back. Source-backed 59/59 templates do not establish 59 executable policies. Expected, general DPR/DPS and account integration remain separate.
+
+### S2B — browser and guest/session integration
+
+- **Status:** NOT STARTED; separate implementation and security authorization required. SIMULATE remains Pending in the browser.
+- Implement authoritative isolated guest sessions, authorization, bounded/rate-limited work, atomic commits, scoped idempotency and live revision/stale-response protection before enabling ingress.
+- Connect existing UI to approved safe DTOs and observed receipts; verify actual Chromium behavior and no account writes/private leakage. Do not mirror retired Echoes into public owners without a reviewed disposition API; read-only presentation is acceptable.
+- Preserve the approved four-column DPS concept (Augusta, Iuno, Shorekeeper, gold-highlighted Team Total), without graphs/calculations. Add small existing canonical portraits **above** the three Character names; Team Total has no portrait. This approved future detail is recorded only, not implemented in S2A.
 
 ## S3 — Expected and Simulated Cost
 

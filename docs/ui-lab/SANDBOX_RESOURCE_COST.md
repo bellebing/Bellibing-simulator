@@ -38,3 +38,9 @@ The eventual adapter must validate this DTO, reject mismatched/stale scope/provi
 4. Test exact/independent references, limiting/zero/unlimited cases, missing metrics, invalid negative/nonfinite values, denomination conversion, gross versus returns, scope mismatches, stale UI edits and repeated receipts. Verify actual browser pre-run `—`, active-slot scope and reset/invalidation. Any new mathematics requires its own model/source review.
 
 S1 deliberately connects no optional producer: the available exact Tuner economics does not establish a complete three-resource, arbitrary-set, fresh-context expectation API. Implementation belongs to the separately authorized S2/S3 phases.
+
+## S2A observed receipt adapter
+
+`src/simulatedResourceCost.mjs` now implements `BELLIBING_SIMULATED_RESOURCE_COST_V1` and its existing-table projection. It validates contiguous unique event receipts, inventory continuity and canonical whole Tube transactions; keeps gross, returned, signed per-denomination net and remaining separate; and computes Gold-equivalent using canonical denomination values. A negative denomination net can represent returned lower-denomination items, not negative gross spending. Unlimited still records actual paid receipts.
+
+The private offline integration reuses this public, policy-free adapter against actual engine receipts. Public synthetic contract tests verify aggregation/rejection only; actual run/replay evidence stays private. `expected` is always null. No UI producer is connected, no demo spend is substituted and no account inventory is debited. Browser cells remain `—` pending S2B. See the [execution boundary](SANDBOX_EXECUTION_CONTRACT.md).

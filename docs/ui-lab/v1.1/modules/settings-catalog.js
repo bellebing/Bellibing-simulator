@@ -434,3 +434,32 @@ export const selectedFlexRequirement = function selectedFlexRequirement(requirem
     : !valid ? `Saved count ${count} exceeds the feasible maximum ${maximum}; adjust the count or move stats`
     : count === null ? `No Flex count configured (${selected} selected)` : `At least ${count} of ${selected}` };
 };
+export const DEFAULT_ENDGAME_LOADOUT_RULES = {"maxEchoes":5,"maxCost":12,"requireFullLoadout":false};
+export const validateEchoLoadout = function validateEchoLoadout(
+  echoes                 ,
+  rules               = DEFAULT_ENDGAME_LOADOUT_RULES,
+)                          {
+  if (!Number.isInteger(rules.maxEchoes) || rules.maxEchoes <= 0) {
+    throw new RangeError(`maxEchoes must be a positive integer, got ${rules.maxEchoes}.`);
+  }
+  if (!Number.isFinite(rules.maxCost) || rules.maxCost <= 0) {
+    throw new RangeError(`maxCost must be positive, got ${rules.maxCost}.`);
+  }
+
+  const echoCount = echoes.length;
+  const totalCost = echoes.reduce((sum, echo) => sum + echo.cost, 0);
+  const violations                                                    = [];
+
+  if (echoCount > rules.maxEchoes) violations.push('TOO_MANY_ECHOES');
+  if (totalCost > rules.maxCost) violations.push('TOO_HIGH_COST');
+  if (rules.requireFullLoadout && echoCount < rules.maxEchoes) violations.push('INCOMPLETE_LOADOUT');
+
+  return {
+    valid: violations.length === 0,
+    status: violations[0] ?? 'VALID_LOADOUT',
+    violations,
+    echoCount,
+    totalCost,
+    rules: { ...rules },
+  };
+};

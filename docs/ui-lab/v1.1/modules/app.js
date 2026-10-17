@@ -1,3 +1,5 @@
+import {createConfigurationSession,configurationSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
+import {createWorkshopEditor} from './workshop-editor.js';
 import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
 import { mountResourceCost } from './resource-cost.js';
 import { mountResourceInventory } from './resource-inventory.js';
@@ -14,19 +16,34 @@ import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
-mountResourceInventory($('#resourceInventory'));
+const resources = mountResourceInventory($('#resourceInventory'));
 mountResourceCost($('#resourceCost')); // No verified cost producer is connected yet.
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
-const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => characterCard.edit(action, source), onSettle: () => characterCard.settle()});
-const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state});
+const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
+const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
-let state = getDemoState(selectedId);
+const query = new URLSearchParams(location.search);
+const demonstration = query.get('demonstration') === 'true';
+function characterState(id) {
+  const value=getDemoState(id);
+  if(!demonstration&&!value.configurationSession){
+    value.configurationSession=createConfigurationSession(id);
+    // The old two-row Sonata fixture is not a recommendation for other Characters.
+    if(id!=='augusta')value.sonataPool=[];
+  }
+  return value;
+}
+let state = characterState(selectedId);
+const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);}});
+window.bellibingLabConfiguration=Object.freeze({snapshot:()=>configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision()})});
+function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current:state.echoes;}
+function displayedCandidates(){return state.configurationSession?state.configurationSession.candidates:state.candidates;}
+function displayedHistories(){return state.configurationSession?state.configurationSession.histories:state.histories;}
 let carousel;
 let inspection = null;
 let inspectorSource = null;
 let closingInspection = false;
-const query = new URLSearchParams(location.search);
 const feedback = mountWorkshopFeedback({
   highlightSlots: (slots, severity) => slots.forEach(index => {
     const slot = $(`[data-slot="${index}"]`);
@@ -36,8 +53,8 @@ const feedback = mountWorkshopFeedback({
     slot.classList.remove('feedback-affected'); delete slot.dataset.feedbackSeverity;
   }),
 });
-applyFeedbackScenario(state, query.get('feedback'));
-if (query.get('recorded') === 'true') {
+if(demonstration)applyFeedbackScenario(state, query.get('feedback'));
+if (demonstration && query.get('recorded') === 'true') {
   const scenario = state.feedbackScenario;
   applyFeedbackScenario(state, 'result');
   applyFeedbackScenario(state, scenario);
@@ -45,33 +62,35 @@ if (query.get('recorded') === 'true') {
 function renderFeedback() {
   feedback.render(workshopFeedbackFixture(state));
   const request = simulationRequest(state);
-  if (!request.slots.length) $('#simulate').disabled = true;
+  if (!request.slots.length || state.configurationSession?.mode==='current') $('#simulate').disabled = true;
   $('#simulate').dataset.status = request.status;
   $('#simulate').title = request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   $('#reviewScenario').value = state.feedbackScenario;
-  $('#reviewScenario').disabled = selectedId !== 'augusta';
+  $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
 }
 
 function renderWorking() {
   const slot = state.selectedSlot;
-  $('#currentCard').innerHTML = echoCard(state.echoes[slot], { footer: 'ACTIVE' });
-  $('#newCard').innerHTML = echoCard(state.candidates[slot], { candidate: true, footer: 'UNFINISHED' });
+  $('#currentCard').innerHTML = echoCard(displayedEchoes()[slot], { footer: 'ACTIVE' });
+  $('#newCard').innerHTML = echoCard(displayedCandidates()[slot], { candidate: true, footer: 'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
 
 function renderSlots() {
-  $('#slots').innerHTML = state.echoes.map((echo, index) => {
-    const active = !!echo && state.echoActive[index];
-    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo)}</button>${activationMarkup(index,active,!!echo)}</div>`;
+  $('#slots').innerHTML = displayedEchoes().map((echo, index) => {
+    const session=state.configurationSession, editable=!!session&&session.mode==='simulate';
+    const active = session ? session.active[index] : !!echo && state.echoActive[index];
+    const available=session ? editable&&!!session.configurations[index] : !!echo;
+    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${activationMarkup(index,active,available)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${editable?'':' disabled'}>Edit Echo</button>` : ''}</div>`;
   }).join('');
   positionActivationMarks($('#slots'));
   $('.loadout-heading .small-muted').innerHTML = sonataSummary(activeEchoSlots(state));
 }
 
 function renderPiles() {
-  $('#piles').innerHTML = state.histories.map((history, slot) => history.length
+  $('#piles').innerHTML = displayedHistories().map((history, slot) => history.length
     ? `<div class="pile" data-pile="${slot}" aria-label="Echo ${slot + 1} Trash Pile, ${history.length} historical cards">
         <span class="pile-count"><span>ECHO 0${slot + 1}</span><b>× ${history.length}</b></span>
         <div class="pile-stack" style="--pile-extra:${(history.length - 1) * 16}px">
@@ -85,7 +104,7 @@ function renderPiles() {
         </div>
       </div>`
     : `<div class="pile empty-pile" aria-label="Echo ${slot + 1} Trash Pile, empty"><span class="pile-count"><span>ECHO 0${slot + 1}</span><b>EMPTY</b></span>${echoCard(null)}</div>`).join('');
-  $('#historyCount').textContent = `${state.histories.reduce((sum, history) => sum + history.length, 0)} cards`;
+  $('#historyCount').textContent = `${displayedHistories().reduce((sum, history) => sum + history.length, 0)} cards`;
 }
 
 function renderCharacter() {
@@ -112,6 +131,7 @@ function renderSettings() {
 }
 
 function renderWorkspace() {
+  if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
   renderSlots();
   renderPiles();
@@ -152,7 +172,7 @@ function liftTransform(source, target) {
 }
 
 function renderInspection() {
-  const history = state.histories[inspection.slot];
+  const history = displayedHistories()[inspection.slot];
   const echo = history[inspection.index];
   $('#inspectedCard').innerHTML = echoCard(echo);
   $('#inspectionSlot').textContent = String(inspection.slot + 1).padStart(2, '0');
@@ -164,7 +184,7 @@ function renderInspection() {
 }
 
 function inspectPile(slot, index, source) {
-  if (!state.histories[slot]?.[index] || !source) return;
+  if (!displayedHistories()[slot]?.[index] || !source) return;
   carousel.close();
   inspection = { slot, index };
   inspectorSource = source;
@@ -199,17 +219,19 @@ async function closeInspection({ immediate = false } = {}) {
 
 window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {
+  const edit=event.target.closest('[data-edit-echo]');
+  if(edit){const slot=Number(edit.dataset.editEcho);selectConfigurationSlot(state,slot);renderWorking();renderSlots();workshopEditor.open(slot,$(`[data-edit-echo="${slot}"]`));return;}
   const toggle = event.target.closest('[data-activation]');
   if (toggle) {
     const index = Number(toggle.dataset.activation);
-    setEchoActive(state,index,!state.echoActive[index]);
+    setEchoActive(state,index,state.configurationSession ? !state.configurationSession.active[index] : !state.echoActive[index]);
     renderSlots();renderCharacter();renderFeedback();
     $(`[data-activation="${index}"]`).focus({preventScroll:true});
     return;
   }
   const button = event.target.closest('[data-slot]');
   if (!button) return;
-  state.selectedSlot = Number(button.dataset.slot);
+  selectConfigurationSlot(state,Number(button.dataset.slot));
   renderWorking();
   renderSlots();
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
@@ -222,7 +244,7 @@ $('#closeInspection').onclick = () => closeInspection();
 $('#inspection').addEventListener('cancel', event => { event.preventDefault(); closeInspection(); });
 $('#inspection').addEventListener('click', event => { if (event.target === $('#inspection')) closeInspection(); });
 $('#previousCard').onclick = () => { if (inspection.index > 0) { inspection.index--; renderInspection(); } };
-$('#nextCard').onclick = () => { if (inspection.index < state.histories[inspection.slot].length - 1) { inspection.index++; renderInspection(); } };
+$('#nextCard').onclick = () => { if (inspection.index < displayedHistories()[inspection.slot].length - 1) { inspection.index++; renderInspection(); } };
 
 $('#settingsToggle').onclick = () => { $('#settings').classList.toggle('expanded'); layout('settings'); };
 $('#characterToggle').onclick = () => { $('#character').classList.toggle('expanded'); layout('character'); };
@@ -235,7 +257,7 @@ $('.gate-options').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
   state.gate = event.target.textContent;
   renderSettings();
-  characterCard.edit({kind:'gate'},null);
+  settingsConfigurationChanged(state);characterCard.edit({kind:'gate'},null);
 });
 $('.setting-mode').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
@@ -244,7 +266,7 @@ $('.setting-mode').addEventListener('click', event => {
     restoreRecommendedSettings(state);
   }
   renderSettings();
-  characterCard.edit({kind:'settings-mode'},null);
+  settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);
 });
 $('#simulate').onclick = () => {
   if ($('#simulate').disabled) return;
@@ -252,19 +274,24 @@ $('#simulate').onclick = () => {
   notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);
 };
 $('#reviewScenario').onchange = event => {
+  if(!demonstration)return;
   applyFeedbackScenario(state, event.target.value);
   renderWorkspace();
 };
-$('.mode-switch').addEventListener('click', event => { if (event.target.tagName === 'BUTTON') notify('UI Lab uses isolated Simulate fixtures · no real account is connected'); });
+$('.mode-switch').addEventListener('click', event => {
+  if(event.target.tagName!=='BUTTON')return;
+  if(!state.configurationSession){notify('UI Lab uses isolated Simulate fixtures · no real account is connected');return;}
+  workshopEditor.close();state.configurationSession.mode=event.target.textContent==='Current'?'current':'simulate';state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
+});
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
-$('#reset').onclick = () => { state = resetDemoState(selectedId); renderWorkspace(); notify('This Character’s demonstration state restored'); };
+$('#reset').onclick = () => { workshopEditor.close();if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
 
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {
   selectedId = id;
-  state = getDemoState(id);
+  workshopEditor.close();state = characterState(id);
   renderWorkspace();
 } });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }

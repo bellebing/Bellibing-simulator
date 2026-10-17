@@ -1,6 +1,6 @@
 // Per-Character UI Lab Sonata selections only. Existing cards represent the
 // verified identity snapshot; no recommendation, Echo filter or evaluator is run.
-export function mountSonataSelection(section,{getState}) {
+export function mountSonataSelection(section,{getState,onEdit=()=>{}}) {
   const chosen=section.querySelector('.sonata-selected');
   const available=section.querySelector('.sonata-browse');
   const more=section.querySelector('#sonataMore');
@@ -51,7 +51,7 @@ export function mountSonataSelection(section,{getState}) {
       now.splice(at<0?now.length:at,0,id);
     }
     if(now.join('|')===was.join('|'))return;
-    getState().sonataPool=now;
+    getState().sonataPool=now;onEdit();
     if(dest==='available')more.open=true;
     render(id);
     const name=cards.get(id).querySelector('.sonata-name').textContent;

@@ -4,7 +4,7 @@ An isolated, interactive visual prototype. This is not the production Improve pa
 
 ## Open the review
 
-Use the exact-commit GitHack `index.html` link in Draft PR #292. The current review process uses the working interface directly; CI does not generate screenshot collections, MP4 demonstrations or downloadable review bundles. GitHack availability can be restricted by an executor's outbound policy; local Chromium verification does not establish external availability.
+Use the exact-commit GitHack `index.html` link in the current UI Lab Draft PR. The current review process uses the working interface directly; CI does not generate screenshot collections, MP4 demonstrations or downloadable review bundles. GitHack availability can be restricted by an executor's outbound policy; local Chromium verification does not establish external availability.
 
 **Repository source:** from the repository root:
 
@@ -20,6 +20,10 @@ Hero alternatives are available at `?hero=elegant` and `?hero=cinematic`. Elegan
 
 See [Settings contract](SETTINGS.md) for the 13 canonical movable rows, explicit Flex count and optional ER Target.
 
+## Functional Echo configuration
+
+The default V1.1 entrypoint now provides per-slot **Edit Echo** through the existing Workshop and a Character-isolated, canonical template configuration. Simulated Current starts empty and remains empty until a real accepted result exists. Configure a slot, explicitly activate it, and reopen Edit Echo to review its identity/Main/Sonata. Current mode is read-only illustrative source equipment; no real account integration is implied. `window.bellibingLabConfiguration.snapshot()` exposes the structured selection and explicit Pending bindings for the next adapter phase. See [Echo configuration ownership and boundaries](ECHO_CONFIGURATION.md). The earlier fixture-only review surface requires `?demonstration=true`.
+
 ## What to try
 
 - Click/tap a circular portrait (or focus the selector and press Enter) to expand the same component. Artwork and lightweight preview information stay fixed at the center while the collection moves.
@@ -29,9 +33,9 @@ See [Settings contract](SETTINGS.md) for the 13 canonical movable rows, explicit
 - Expand/collapse either side panel. At limited desktop width, the panel being opened takes priority while the Workshop retains its useful width. Collapsed portraits share the page heading and reserve no space above the three aligned panels. The expanded gallery occupies the central column, hides the compact portraits, and pushes Workshop/Trash Piles downward without resizing them or moving either side panel. Collapse restores their original top edge.
 - Open **Skills** inside Character Card to reveal the verified Forte tree in normal flow. The card displays saved/current stats only; missing Sequence/skill investment stays unknown. [Character Card contract](CHARACTER_CARD.md).
 - Click any of the five Echo slots: the larger Current/New pair follows the selected slot.
-- Lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
-- Open **Demonstration** to exercise Ready, Sonata warning, Cost blocker, recorded-run and pending-combination scenarios. Warning/error review fixtures are provided for Augusta. URL equivalents and canonical boundaries are documented in [Workshop feedback](FEEDBACK.md). **How to Fix** opens a small explanation and temporarily highlights the supplied affected slots; Close, Escape, outside click or changing context clears them.
-- Adjust minimum sliders or Gate; reorder Flex rows with drag or Alt+Up/Down. Choices are demonstration input only. Reset restores only the selected Character's demo fixture.
+- In explicit demonstration mode, lift a Trash Pile card, browse previous/next historical cards, and close/Escape to return it. Working Echoes and Character stats stay unchanged during inspection. Muted red **DISCARDED**, the observed stopping level, and explicit **Not rolled** rows distinguish discarded progression from missing information.
+- In `?demonstration=true`, open **Demonstration** to exercise Ready, Sonata warning, Cost blocker, recorded-run and pending-combination scenarios. Warning/error review fixtures are provided for Augusta. URL equivalents and canonical boundaries are documented in [Workshop feedback](FEEDBACK.md). **How to Fix** opens a small explanation and temporarily highlights the supplied affected slots; Close, Escape, outside click or changing context clears them.
+- Adjust minimum sliders or Gate; reorder Flex rows with drag or Alt+Up/Down. Choices remain memory-only. Functional Reset clears simulated results and retains configuration/Settings/resources; explicit demonstration Reset restores that Character’s fixture.
 
 The gallery uses real approved Character artwork where available. Six catalog identities have no ready Hero Art runtime asset; their existing portrait is used with explicit Hero Art Pending feedback rather than inventing artwork.
 
@@ -39,9 +43,9 @@ The gallery uses real approved Character artwork where available. Six catalog id
 
 The preserved Augusta composition and values come from approved V1. Other example account builds and previews are explicitly illustrative. Catalog identity/rarity comes from canonical Character/Weapon sources; art and Sequence/Forte topology come from existing reviewed presentation manifests; no Character rules, quality score, bonus activation, damage calculation, roll algorithm or evaluator is added.
 
-**Current** and top navigation retain their explicit not-connected/demo notice. **SIMULATE** prepares the active slot list independently of the selected inspection card, but the actual multi-slot run remains **Pending**. Clicking does not generate a record, roll, spend inventory or change equipment. With no active cards the button is disabled. The pre-existing illustrative record remains available only through Demonstration. Resource Cost remains unavailable until a verified producer is connected. Resources remain Character-independent, canonical and editable, including six individual Unlimited controls.
+**Current** is a read-only illustrative source view in the functional workspace; top navigation retains its existing demo notice. **SIMULATE** prepares the active slot list independently of the selected inspection card, but the actual multi-slot run remains **Pending**. Clicking does not generate a record, roll, spend inventory or change equipment. With no active cards the button is disabled. The pre-existing illustrative record remains available only through Demonstration. Resource Cost remains unavailable until a verified producer is connected. Resources remain Character-independent, canonical and editable, including six individual Unlimited controls.
 
-Each Loadout card has its approved independent green/red activation button. Deactivation darkens the whole card by 40%, retains all data/history and removes the card from `activeEchoSlots`. Character selection/reset owns the mask; saved Character Stats and real persistence are never written. The mixed active-slot Character projection is **Pending**: Expected and Simulated cells are unavailable when an equipped card is inactive, rather than retaining stale five-card values. Recommended remains separate. No Sonata effects or multi-slot engine are added.
+Each Loadout card has its approved independent green/red activation button. In the functional workspace a valid configuration enables activation independently of an empty result card. Deactivation darkens the whole card by 40% and retains configuration/data/history. Character selection owns the mask; functional Reset retains it; saved Character Stats and real persistence are never written. The mixed active-slot Character projection is **Pending**: Expected and Simulated cells are unavailable when an equipped card is inactive, rather than retaining stale five-card values. Recommended remains separate. No Sonata effects or multi-slot engine are added.
 
 The module-local demo store is discarded on reload. There are no localStorage, IndexedDB, cookies, account APIs or simulator/persistence source-module imports. Resources reuse the existing pure browser-compatible inventory validator. Selecting a catalog Character creates only an empty memory-only Lab state. `Account Characters` follows the production distinction between Add to Account and a draft, but it uses the Lab fixture list, never the real membership reader.
 
@@ -75,7 +79,7 @@ Existing artwork is reused from `v1/assets/` and `../ui-prototypes/assets/charac
 Node 22+, installed Chromium/Chrome and Playwright are needed for maintainer checks. CI pins the browser driver without changing dependency manifests.
 
 ```sh
-node --test docs/ui-lab/tools/state.test.mjs
+node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs
 node docs/ui-lab/tools/export-catalog.mjs --check
 UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.mjs
 ```

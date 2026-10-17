@@ -1,3 +1,4 @@
+import {reviewConfiguration} from './review-configuration.mjs';
 import {reviewActivation} from './review-activation.mjs';
 import { reviewResources } from './review-resources.mjs';
 import { reviewSettings } from './review-settings.mjs';
@@ -455,7 +456,7 @@ try {
     console.log(`Reviewing source at ${width}px`);
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
-    await page.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' });
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
     await wait(page);
     await page.evaluate(() => document.fonts.ready);
     await checkLayout(page, width, 'repository source');
@@ -489,7 +490,7 @@ try {
     await baseline.close();
     if (width === 1920) {
       const before = await context.newPage();
-      await before.goto(`${origin}/__approved__${selector}?settings=expanded`, { waitUntil: 'networkidle' });
+      await before.goto(`${origin}/__approved__${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
       await wait(before); await before.evaluate(() => document.fonts.ready);
       const primaryPosition = target => target.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
       const beforeAction = await primaryPosition(before), currentAction = await primaryPosition(page);
@@ -498,7 +499,7 @@ try {
       await before.close();
     }
     await reviewActivation(page, {width,checks});
-    await page.goto(`${origin}${selector}?settings=expanded`, {waitUntil:'networkidle'});
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, {waitUntil:'networkidle'});
     await wait(page);
     await reviewCharacterCard(page, { width, checks });
     await reviewCarousel(page, { width, checks });
@@ -506,13 +507,13 @@ try {
     await exercise(page, width, 'source');
     if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
     await checkLayout(page, width, 'expanded Character Card');
-    await page.goto(`${origin}${selector}?compact=true`, { waitUntil: 'networkidle' });
+    await page.goto(`${origin}${selector}?demonstration=true&compact=true`, { waitUntil: 'networkidle' });
     await wait(page);
     await checkLayout(page, width, 'compact panels');
     await exerciseFeedback(page, width, 'compact');
     if (width === 1920) {
       const queryPage = await context.newPage();
-      await queryPage.goto(`${origin}${selector}?feedback=error&recorded=true&compact=true`, { waitUntil: 'networkidle' });
+      await queryPage.goto(`${origin}${selector}?demonstration=true&feedback=error&recorded=true&compact=true`, { waitUntil: 'networkidle' });
       await wait(queryPage);
       assert.equal(await queryPage.locator('#simulate').isDisabled(), true);
       assert.equal(await queryPage.locator('#materialRows .material-row').count(), 3);
@@ -542,14 +543,14 @@ try {
     const wheelContext = await browser.newContext({ viewport: { width, height } });
     const wheelPage = await wheelContext.newPage();
     wheelPage.on('pageerror', error => errors.push(error.message));
-    await wheelPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
+    await wheelPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
     await reviewCarousel(wheelPage, { width, checks });
     await wheelContext.close();
     for (const variant of ['elegant','cinematic']) {
       const heroContext = await browser.newContext({ viewport:{width,height}, reducedMotion:'reduce' });
       const heroPage = await heroContext.newPage();
       heroPage.on('pageerror', error => errors.push(error.message));
-      await heroPage.goto(`${origin}${selector}?hero=${variant}`,{waitUntil:'networkidle'});
+      await heroPage.goto(`${origin}${selector}?demonstration=true&hero=${variant}`,{waitUntil:'networkidle'});
       await reviewHero(heroPage,{width,variant,checks});
       await heroContext.close();
     }
@@ -559,7 +560,7 @@ try {
   // keeps geometry comparisons deterministic rather than skipping an end state.
   const animated = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
   const motionPage = await animated.newPage();
-  await motionPage.goto(`${origin}${selector}?settings=expanded`, { waitUntil: 'networkidle' });
+  await motionPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
   await wait(motionPage);
   await exerciseFeedback(motionPage, 1920, 'animated');
   await exercise(motionPage, 1920, 'animated');
@@ -568,25 +569,30 @@ try {
   for (const width of [1440,1920,2560]) {
     const context = await browser.newContext({viewport:{width,height:width === 1440 ? 900 : 1440},reducedMotion:width === 1920 ? 'no-preference' : 'reduce'});
     const page = await context.newPage(); page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(`${origin}${selector}`,{waitUntil:'networkidle'}); await wait(page);
+    await page.goto(`${origin}${selector}?demonstration=true`,{waitUntil:'networkidle'}); await wait(page);
     await reviewResults(page,{width,checks,animated:width===1920});
-    await page.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
     await reviewSettings(page,{width,checks});
-    await page.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
     await reviewResources(page,{width,checks});
     await context.close();
   }
 
   const touch = await browser.newContext({ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
+  const configContext=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+  const configPage=await configContext.newPage();
+  await configPage.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'});
+  await reviewConfiguration(configPage,{width:1440,checks});
+  await configContext.close();
   const touchPage = await touch.newPage();
-  await touchPage.goto(`${origin}${selector}`, { waitUntil: 'networkidle' });
+  await touchPage.goto(`${origin}${selector}?demonstration=true`, { waitUntil: 'networkidle' });
   await wait(touchPage);
   await touchPage.locator('[data-person="iuno"]').tap();
   assert.equal(await selectedName(touchPage), 'Augusta', 'First touch must preview');
   await touchPage.locator('[data-art="iuno"]').tap();
   assert.equal(await selectedName(touchPage), 'Iuno', 'Second touch must select');
   checks.push({ label: 'Desktop touch-pointer preview then selection', passed: true });
-  await touchPage.goto(`${origin}${selector}`, { waitUntil: 'networkidle' }); await wait(touchPage);
+  await touchPage.goto(`${origin}${selector}?demonstration=true`, { waitUntil: 'networkidle' }); await wait(touchPage);
   await reviewCarousel(touchPage, { width: 1440, checks, touch: true });
   await touch.close();
 

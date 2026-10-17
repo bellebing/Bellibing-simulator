@@ -28,6 +28,10 @@ async function choose(page,slot,echo,main,{keyboard=false,sonata=null}={}){
   assert.equal(await frame.locator('#echoSubstats').isVisible(),false);
   assert.equal(await frame.locator('#echoWorkspaceSlots').isVisible(),false);
   await frame.getByRole('button',{name:'Use Echo',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
+  const card=page.locator(`[data-slot="${slot}"]`);assert.match(await card.innerText(),new RegExp(echo.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  assert.ok((await card.innerText()).includes(main));assert.ok((await card.innerText()).includes('CONFIGURED'));
+  assert.equal(await card.locator('.echo-art img').getAttribute('src'),'../../ui-prototypes/assets/echoes/icons/'+echo.id+'.webp');
+  assert.equal((await snapshot(page)).slots[slot].simulatedCurrent,null);
 }
 export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}}){
   const errors=[];page.on('pageerror',error=>errors.push(error.message));

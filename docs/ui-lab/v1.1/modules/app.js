@@ -1,3 +1,4 @@
+import {configuredCard} from './configured-card.js';
 import {createConfigurationSession,configurationSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
 import {createWorkshopEditor} from './workshop-editor.js';
 import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
@@ -37,7 +38,7 @@ function characterState(id) {
 let state = characterState(selectedId);
 const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);}});
 window.bellibingLabConfiguration=Object.freeze({snapshot:()=>configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision()})});
-function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current:state.echoes;}
+function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){return state.configurationSession?state.configurationSession.candidates:state.candidates;}
 function displayedHistories(){return state.configurationSession?state.configurationSession.histories:state.histories;}
 let carousel;

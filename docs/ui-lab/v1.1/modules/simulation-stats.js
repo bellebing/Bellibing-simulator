@@ -92,12 +92,12 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
       clearFocus(); stopCounters();
       if (person?.id !== nextPerson.id) expected = {};
       person = nextPerson; saved = nextSaved; card.render(person,saved);
-      expected = demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
+      expected = saved.sandboxBuild ? {} : demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
       model = simulationModel(person,saved,expected); renderResults(); setMode(mode);
     },
     setDemo(enabled) {
       clearFocus(); stopCounters(); demo = enabled; expected = {};
-      expected = demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
+      expected = saved.sandboxBuild ? {} : demo ? focusFixture(person.id,{kind:'minimum',metric:'TOTAL_CRIT_RATE',tier:saved.minima['CRIT Rate']})?.values ?? {} : augustaExpected(saved)?.values ?? {};
       model = simulationModel(person,saved,expected); renderResults();
       if (enabled) { setMode('simulation'); onReveal(); }
     },
@@ -106,7 +106,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
       // for the rest of this session, including subsequent Character changes.
       if (!manual && !revealed) { setMode('simulation'); revealed = true; }
       const fixture = demo ? focusFixture(person.id,action) : null;
-      const nextExpected = demo ? {...expected,...(fixture?.values ?? {})} : augustaExpected(saved)?.values ?? {};
+      const nextExpected = saved.sandboxBuild ? {} : demo ? {...expected,...(fixture?.values ?? {})} : augustaExpected(saved)?.values ?? {};
       const nextModel = simulationModel(person,saved,nextExpected);
       const affected = demo ? fixture?.affected ?? [] : nextModel.rows.filter(row=>
         model.rows.some(previous=>previous.id===row.id && previous.expected!==row.expected)

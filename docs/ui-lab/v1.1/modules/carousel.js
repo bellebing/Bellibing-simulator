@@ -4,7 +4,7 @@ import { artworkOffset, artworkScale } from './carousel-layout.js';
 import { createCarouselMotion, clampPosition } from './carousel-motion.js';
 import { $, assetURL, escapeHtml } from './util.js';
 
-export function mountCarousel({ selectedId, onSelect }) {
+export function mountCarousel({ selectedId, onSelect,preview:readPreview=previewSnapshot,standalone=false }) {
   const ribbon = $('#characterCarousel');
   const art = $('#galleryArt');
   const portraits = $('#portraits');
@@ -36,10 +36,10 @@ export function mountCarousel({ selectedId, onSelect }) {
     if (!focused) { $('#focusedInfo').hidden = true; return; }
     $('#focusedInfo').hidden = false;
     const person = catalog.get(focused);
-    const preview = previewSnapshot(focused);
+    const preview = readPreview(focused);
     const info = $('#focusedInfo');
     info.classList.toggle('no-data', !preview.hasBuild);
-    info.innerHTML = `<div class="focus-caption">${focused === selected ? 'SELECTED CHARACTER' : 'PREVIEW'}${!preview.onAccount ? ' · CATALOG' : ''}${person.artStatus === 'PORTRAIT_FALLBACK' ? ' · HERO ART PENDING' : ''}</div>
+    info.innerHTML = `<div class="focus-caption">${focused === selected ? 'SELECTED CHARACTER' : 'PREVIEW'}${standalone?' · SANDBOX':!preview.onAccount ? ' · CATALOG' : ''}${person.artStatus === 'PORTRAIT_FALLBACK' ? ' · HERO ART PENDING' : ''}</div>
       <div class="focus-name">${escapeHtml(person.name)}</div>
       <div class="focus-meta">${preview.hasBuild ? `${escapeHtml(preview.weapon)} <i>·</i> ${Array.from({ length: 5 }, (_, index) => `<span class="socket ${index >= preview.slots ? 'empty' : ''}"></span>`).join('')} ${preview.slots}/5 Echoes` : 'No saved demo build'}</div>
       <div class="focus-stats">${['ATK', 'CRIT RATE', 'CRIT DMG'].map((label, index) => `<div><strong>${escapeHtml(preview.stats[index])}</strong><span>${label}</span></div>`).join('')}</div>`;
@@ -103,7 +103,7 @@ export function mountCarousel({ selectedId, onSelect }) {
     const compactIds = ordered.filter(id => id === selected || ids.includes(id));
     portraits.innerHTML = compactIds.map((id, index) => {
       const person = catalog.get(id);
-      return `<button class="portrait ${DEMO_ACCOUNT_IDS.includes(id) ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${DEMO_ACCOUNT_IDS.includes(id) ? 'on demo account' : 'not on demo account'}, ${index + 1} of ${compactIds.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
+      return `<button class="portrait ${standalone||DEMO_ACCOUNT_IDS.includes(id) ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${standalone?'Sandbox standard':DEMO_ACCOUNT_IDS.includes(id) ? 'on demo account' : 'not on demo account'}, ${index + 1} of ${compactIds.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
     }).join('');
     art.innerHTML = ids.map(id => {
       const person = catalog.get(id);

@@ -1,6 +1,7 @@
 import { WEAPON_CATALOG } from './catalog.js';
 import { STAT_LABELS } from './lab-state.js';
 import { assetURL, escapeHtml } from './util.js';
+import {dpsConceptMarkup} from './dps-concept.js';
 
 const weapons = new Map(WEAPON_CATALOG.map(weapon => [weapon.name, weapon]));
 // Existing Augusta equipment context, moved from app.js; no other equipment or
@@ -11,7 +12,7 @@ export function rarityClass(rarity) {
 }
 export function characterCardModel(person, saved) {
   const weapon = weapons.get(saved.weapon) ?? null;
-  const context = equipmentContext[saved.id];
+  const context = saved.sandboxBuild?{id:saved.sandboxBuild.weaponId,level:saved.sandboxBuild.baseline.weaponLevel,rank:saved.sandboxBuild.baseline.weaponRefinement}:equipmentContext[saved.id];
   return {
     person, rarity: [4, 5].includes(person.rarity) ? person.rarity : null,
     weapon, weaponContext: weapon && context && weapon.id === context.id ? context : null,
@@ -59,7 +60,7 @@ export function heroVariation(search) {
 function refinedHero(model, saved, variant) {
   const { person, rarity, sequence } = model, element = person.identityElement;
   const stars = `<div class="rarity-stars" role="img" aria-label="${rarity ? `${rarity}-star Character` : 'Character rarity unavailable'}">${rarity ? '★'.repeat(rarity) : 'Rarity —'}</div>`;
-  const metadata = `<div class="hero-metadata">${saved.id === 'augusta' ? '<span>Lv. 90</span><i aria-hidden="true">·</i>' : ''}<span class="character-element">${element ? image(`../../ui-prototypes/assets/builder-icons/elements/${element.toLowerCase()}.webp`, element) : '<span role="img" aria-label="Element unavailable">—</span>'}</span>${person.weaponType ? `<i aria-hidden="true">·</i><span>${escapeHtml(person.weaponType)}</span>` : ''}</div>`;
+  const metadata = `<div class="hero-metadata">${saved.sandboxBuild || saved.id === 'augusta' ? '<span>Lv. 90</span><i aria-hidden="true">·</i>' : ''}<span class="character-element">${element ? image(`../../ui-prototypes/assets/builder-icons/elements/${element.toLowerCase()}.webp`, element) : '<span role="img" aria-label="Element unavailable">—</span>'}</span>${person.weaponType ? `<i aria-hidden="true">·</i><span>${escapeHtml(person.weaponType)}</span>` : ''}</div>`;
   return `<div class="character-hero ${rarityClass(rarity)}" data-hero="${variant}" data-rarity="${rarity ?? 'unknown'}"><div class="hero-visual"><div class="hero-lines"></div>${image(person.art, `${person.name} ${person.artStatus === 'HERO' ? 'Character artwork' : 'portrait; hero art unavailable'}`)}${sequenceMarkup(person, sequence, { labels:false })}</div><div class="hero-copy">${variant === 'cinematic' ? stars : ''}<h2>${escapeHtml(person.name)}</h2>${saved.id === 'augusta' ? '<div class="eyebrow">THE UNDEFEATED</div>' : ''}${variant === 'elegant' ? `<div class="hero-meta-row">${stars}${metadata}</div>` : metadata}</div></div>`;
 }
 
@@ -80,7 +81,7 @@ export function mountCharacterCard(host, { hero = heroVariation(location.search)
       host.innerHTML = `${hero === 'baseline' ? baselineHero : refinedHero(model, saved, hero)}
       <div class="weapon ${rarityClass(weapon?.rarity)}" data-weapon-id="${weapon?.id ?? ''}" data-rarity="${weapon?.rarity ?? 'unknown'}">${weapon?.art ? `<div class="weapon-art">${image(weapon.art, weapon.name)}</div>` : ''}<div class="weapon-copy"><small>WEAPON</small><strong>${escapeHtml(weapon?.name ?? 'Weapon unavailable')}</strong><span>${context ? `Lv. ${context.level} · R${context.rank}` : weapon ? 'Level / refinement unavailable' : '—'}</span></div></div>
       <details id="characterSkills" class="card-skills"${expanded.get(person.id) ? ' open' : ''}><summary>Skills <span class="chevron" aria-hidden="true">›</span></summary><div class="card-skills-body">${forteMarkup(person, model.forte)}</div></details>
-      <div class="stats-heading"><h3>Character Stats</h3></div><table aria-label="Current equipped Character stats"><tbody id="characterStats">${model.stats.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>`;
+      <div class="stats-heading"><h3>Character Stats</h3></div><table aria-label="${saved.sandboxBuild?'Sandbox stats Pending':'Current equipped Character stats'}"><tbody id="characterStats">${model.stats.map(([label, value]) => `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>${saved.sandboxBuild?dpsConceptMarkup():''}`;
       host.querySelector('.character-hero > img, .hero-visual > img').classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
     },
   };

@@ -2,6 +2,8 @@
 
 An isolated, interactive visual prototype. This is not the production Improve page, an evaluator, or a replacement simulator. The production build/deployment does not include this directory.
 
+The separate **S1 standalone Sandbox** uses `v1.1/index.html?sandbox=true&settings=expanded`, without an account or persistence. See [foundation/ownership and run instructions](SANDBOX_FOUNDATION.md), [59-Character coverage](SANDBOX_COVERAGE.md), [Expected/Simulated Cost contract](SANDBOX_RESOURCE_COST.md) and [S1–S6 roadmap](../SANDBOX_SIMULATOR_ROADMAP.md). The default Lab and explicit demonstration surfaces retain their prior behavior.
+
 ## Open the review
 
 Use the exact-commit GitHack `index.html` link in the current UI Lab Draft PR. The current review process uses the working interface directly; CI does not generate screenshot collections, MP4 demonstrations or downloadable review bundles. GitHack availability can be restricted by an executor's outbound policy; local Chromium verification does not establish external availability.

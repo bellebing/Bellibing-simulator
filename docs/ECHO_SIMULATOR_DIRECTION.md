@@ -2,6 +2,8 @@
 
 ## Purpose and readiness
 
+The [standalone Sandbox program](SANDBOX_SIMULATOR_ROADMAP.md) now governs development order: source-bound detached standard Characters first, then simulation/cost/DPR/DPS, account integration last. The real-account behavior below remains the later account direction; it is not a prerequisite or automatic account import for standalone S1/S2.
+
 This is the canonical long-term product direction for Bellibing's Echo Simulator, preserving the accepted concept for a future PM/builder. It describes the full future behavior. The bounded [Echo Simulator Foundation candidate](ECHO_SIMULATOR_FOUNDATION.md) establishes sandbox/card ownership only; this direction does not claim an active evaluator, RNG orchestration or Improvement Cost feature.
 
 The north-star question is: **“If I use my real Echo resources with these Improve settings, how difficult/expensive is it to actually improve this Character?”**

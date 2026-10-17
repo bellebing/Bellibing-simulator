@@ -61,5 +61,5 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
     if (event.key === 'Enter') { event.preventDefault(); commit(event.target); }
     if (event.key === 'Escape') { event.preventDefault(); event.target.value = formatInventoryQuantity(quantity(event.target.closest('[data-resource]').dataset.resource)); clear(event.target); }
   });
-  return { read: inventory.read };
+  return { read: inventory.read, revision: inventory.revision };
 }

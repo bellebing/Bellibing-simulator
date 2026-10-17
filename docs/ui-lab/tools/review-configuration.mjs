@@ -1,3 +1,4 @@
+import manifest from '../../ui-prototypes/assets/echoes/manifest.json' with {type:'json'};
 import assert from 'node:assert/strict';
 import catalog from '../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 
@@ -28,9 +29,9 @@ async function choose(page,slot,echo,main,{keyboard=false,sonata=null}={}){
   assert.equal(await frame.locator('#echoSubstats').isVisible(),false);
   assert.equal(await frame.locator('#echoWorkspaceSlots').isVisible(),false);
   await frame.getByRole('button',{name:'Use Echo',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
-  const card=page.locator(`[data-slot="${slot}"]`);assert.match(await card.innerText(),new RegExp(echo.name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')));
+  const card=page.locator(`[data-slot="${slot}"]`);assert.ok((await card.innerText()).replace(/\s+/g,' ').includes(echo.name));
   assert.ok((await card.innerText()).includes(main));assert.ok((await card.innerText()).includes('CONFIGURED'));
-  assert.equal(await card.locator('.echo-art img').getAttribute('src'),'../../ui-prototypes/assets/echoes/icons/'+echo.id+'.webp');
+  assert.equal(await card.locator('.echo-art img').getAttribute('src'),'../../'+manifest.icons.find(row=>row.echoId===echo.id).targetPath.replace(/^docs\//,''));
   assert.equal((await snapshot(page)).slots[slot].simulatedCurrent,null);
 }
 export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}}){
@@ -38,10 +39,14 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
   await page.evaluate(()=>localStorage.setItem('bellibing-ui-checkpoint-v34',JSON.stringify({characters:['Augusta'],drafts:{Augusta:{character:'Augusta',build:{owner:'account-fixture',mustRemainUntouched:true}}}})));
   const sourceStorage=await page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)])));
-  const initial=await snapshot(page);assert.equal(initial.characterId,'augusta');assert.ok(initial.slots.every(row=>row.configuration===null&&row.simulatedCurrent===null&&!row.active));
+  const initial=await snapshot(page);assert.equal(initial.characterId,'augusta');assert.ok(initial.slots.every(row=>row.configuration&&row.simulatedCurrent===null&&row.active));
+  assert.equal(await page.locator('#slots .echo-art img').count(),5);assert.equal(await page.locator('#slots').getByText('CONFIGURED',{exact:true}).count(),5);
+  assert.equal(initial.defaultRecommendation.sourceId,'augusta-standard-echoes');
   assert.equal(await page.locator('[data-edit-echo]').count(),5);
   const overlap=await page.locator('.activation-slot').evaluateAll(nodes=>nodes.some(n=>{const a=n.querySelector('.echo-edit').getBoundingClientRect(),b=n.querySelector('.substat:last-child').getBoundingClientRect();return a.top<b.bottom&&a.bottom>b.top;}));assert.equal(overlap,false,'Edit Echo must not cover Substats');
-  assert.equal(await page.locator('#simulate').isDisabled(),true);
+  assert.equal(await page.locator('#simulate').isDisabled(),false);
+  // Preserve the independent manual activation scenario after checking defaults.
+  for(let index=0;index<5;index++)await page.locator(`[data-activation="${index}"]`).click();
   await ensureSettings(page);await page.locator('[data-resource="echoes"] input').fill('27');await page.locator('[data-resource="echoes"] input').press('Enter');
   await page.locator('[data-resource="tuners"] .resource-unlimited').click();
   const echo4=catalog.echoes.find(row=>row.name==='The False Sovereign');
@@ -49,6 +54,7 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await choose(page,0,echo4,'CRIT Rate',{keyboard:true});
   let selected=await snapshot(page);assert.equal(selected.slots[0].configuration.echoId,echo4.id);assert.equal(selected.slots[0].configuration.mainStatName,'CRIT Rate');
   assert.equal(selected.slots[0].simulatedCurrent,null);assert.equal(selected.slots[0].active,false);
+  const reopened=await openEditor(page,0);assert.equal(await reopened.locator('#echoPreviewName').textContent(),echo4.name);await reopened.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
   await page.locator('[data-activation="0"]').click();assert.equal((await snapshot(page)).slots[0].active,true);
   await choose(page,1,echo3,'Electro DMG',{sonata:echo3.sonataSetIds.at(-1)});
   await page.locator('[data-activation="1"]').focus();await page.keyboard.press('Space');
@@ -64,7 +70,7 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await staleFrame.locator('[data-echo-id="'+echo4.id+'"]').click();
   await page.evaluate(()=>document.querySelectorAll('.gate-options button')[1].click());
   await staleFrame.getByRole('button',{name:'Use Echo',exact:true}).click();
-  assert.equal((await snapshot(page)).slots[2].configuration,null,'Stale Settings must prevent commit');
+  assert.deepEqual((await snapshot(page)).slots[2].configuration,beforeCancel.slots[2].configuration,'Stale Settings must prevent commit');
   await staleFrame.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
   await ensureSettings(page);await page.locator('.gate-options button').filter({hasText:/^\+5$/}).click();
   await ensureSettings(page);await page.getByRole('slider',{name:'CRIT Rate minimum',exact:true}).focus();await page.keyboard.press('ArrowRight');
@@ -74,8 +80,8 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await page.locator('.mode-switch button').filter({hasText:'Simulate'}).click();
   await page.locator('#simulate').click();assert.match(await page.locator('#toast').innerText(),/Pending.*2 active slots/);
   assert.deepEqual((await snapshot(page)).slots,augusta.slots);
-  await selectCharacter(page,'aalto');const blank=await snapshot(page);assert.ok(blank.slots.every(row=>row.configuration===null));assert.deepEqual(blank.context.settings.hard,[]);assert.deepEqual(blank.context.settings.sonataPool,[]);
-  const echo1=catalog.echoes.find(row=>row.cost===1);await choose(page,3,echo1,'ATK%');await page.locator('[data-activation="3"]').click();
+  await selectCharacter(page,'aalto');const blank=await snapshot(page);assert.equal(blank.slots[0].configuration,null);assert.equal(blank.defaultRecommendation.sourceId,'PRYDWEN:aalto');assert.equal(blank.slots[1].configuration.mainStatName,'Aero DMG');assert.deepEqual(blank.context.settings.hard,[]);assert.deepEqual(blank.context.settings.sonataPool,[]);
+  const echo1=catalog.echoes.find(row=>row.cost===1);await choose(page,3,echo1,'ATK%');await page.locator('[data-activation="3"]').click();await page.locator('[data-activation="3"]').click();
   await ensureSettings(page);await page.locator('.gate-options button').filter({hasText:'+10'}).click();
   const aalto=await snapshot(page);assert.equal(aalto.characterId,'aalto');assert.equal(aalto.context.settings.gate,10);assert.equal(aalto.slots[3].configuration.cost,1);
   assert.equal(aalto.resourceInventory.echoes.count,27);assert.equal(aalto.resourceInventory.tuners.kind,'UNLIMITED');
@@ -86,5 +92,7 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   assert.deepEqual(await page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)]))),sourceStorage);
   assert.equal(await page.locator('.cost-comparison').isVisible(),true);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   assert.deepEqual(errors,[]);
-  await saveExamples({augusta,aalto});checks.push({label:'Source-backed Edit Echo configuration, four-state separation and two-Character isolation',width});
+  await saveExamples({augusta,aalto});
+  for(const slot of [2,3,4])await choose(page,slot,echo1,'ATK%');
+  assert.equal(await page.locator('#slots').getByText('CONFIGURED',{exact:true}).count(),5);checks.push({label:'Source-backed Edit Echo configuration, four-state separation and two-Character isolation',width});
 }

@@ -1,3 +1,4 @@
+import defaults from './default-loadouts.json' with {type:'json'};
 import {readResourceInventory} from '../../../assets/resourceInventory.js';
 import catalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import {validateEchoTemplateConfiguration} from '../../../ui-prototypes/assets/echo-template-configuration.mjs';
@@ -6,16 +7,19 @@ import {CHARACTER_CATALOG} from './catalog.js';
 
 const clone=value=>structuredClone(value);
 const indexOf=slot=>{if(!Number.isInteger(slot)||slot<0||slot>=5)throw Error('Slot must be 1–5.');return slot;};
-export function createConfigurationSession(characterId) {
+export function createConfigurationSession(characterId,{initializeDefaults=true}={}) {
   if(!CHARACTER_CATALOG.some(row=>row.id===characterId))throw Error('Unknown canonical Character.');
+  const recommendation=initializeDefaults?defaults.characters.find(row=>row.characterId===characterId):null;
+  const configurations=Array.from({length:5},(_,index)=>recommendation?.slots[index].configuration?validateEchoTemplateConfiguration(catalog,recommendation.slots[index].configuration):null);
+  const provenance=configurations.map((template,index)=>template?{kind:'RECOMMENDED_DEFAULT',sourceId:recommendation.sourceId,sourceUrl:recommendation.sourceUrl,sourceLinesSha256:recommendation.sourceLinesSha256,identityBasis:recommendation.slots[index].identityBasis,selectionRule:recommendation.slots[index].selectionRule,context:clone(recommendation.context)}:null);
   return {characterId,mode:'simulate',revision:0,sessionRevision:0,settingsRevision:0,selectionRevision:0,
-    configurations:Array(5).fill(null),active:Array(5).fill(false),current:Array(5).fill(null),candidates:Array(5).fill(null),histories:Array.from({length:5},()=>[])};
+    configurations,provenance,defaultRecommendation:recommendation?{sourceId:recommendation.sourceId,context:clone(recommendation.context),pending:clone(recommendation.pending),complete:recommendation.complete,sourceBindings:clone(defaults.sourceBindings)}:null,active:configurations.map(Boolean),current:Array(5).fill(null),candidates:Array(5).fill(null),histories:Array.from({length:5},()=>[])};
 }
 export function configureSlot(session,slot,input) {
   indexOf(slot);
   const template=validateEchoTemplateConfiguration(catalog,input);
-  if(JSON.stringify(session.configurations[slot])!==JSON.stringify(template)){
-    session.configurations[slot]=template;session.revision++;
+  if(JSON.stringify(session.configurations[slot])!==JSON.stringify(template)||session.provenance[slot]?.kind!=='CUSTOM_OVERRIDE'){
+    session.configurations[slot]=template;session.provenance[slot]={kind:'CUSTOM_OVERRIDE',replacesDefaultSourceId:session.defaultRecommendation?.sourceId??null};session.revision++;
   }
   return clone(template); // Never equip, activate, roll or replace Current/history.
 }
@@ -63,19 +67,19 @@ export async function configurationSnapshot(state,inventory,{inventoryRevision=n
   if(!loadout.valid)issues.push(loadout.status);
   if(detached.active.some((active,index)=>active&&!detached.configurations[index]))issues.push('ACTIVE_SLOT_NOT_CONFIGURED');
   const slots=await Promise.all(detached.configurations.map(async(template,index)=>({slot:index+1,active:detached.active[index],
-    configuration:template?{...validateEchoTemplateConfiguration(catalog,template),templateId:await digest(template)}:null,
+    configuration:template?{...validateEchoTemplateConfiguration(catalog,template),templateId:await digest(template)}:null,provenance:detached.provenance[index],
     simulatedCurrent:detached.current[index],candidate:detached.candidates[index],history:detached.histories[index]})));
   return {schemaVersion:1,kind:'PUBLIC_UI_SIMULATION_CONFIGURATION',characterId:state.id,
     context:{buildId:null,buildStatus:'PENDING_VERIFIED_BUILD_CONTEXT',modeId:null,modeStatus:'PENDING_CHARACTER_BUILD_MODE_BINDING',settings},
     source:{catalog:'docs/ui-prototypes/assets/echoes/browser-data.json',binding:await sourceBinding},
-    revisions,
+    revisions,defaultRecommendation:detached.defaultRecommendation,
     selectedSlot:selectedSlot+1,slots,selectedSlots:selected,resourceInventory:resources,
     validation:{status:issues.length?'INVALID_CONFIGURATION':'VALID_TEMPLATE_SELECTION',issues,loadout},
     capability:{status:'PENDING',reasons:['PRODUCTION_BUILD_AND_POLICY_BINDING_PENDING','PRIVATE_EXECUTION_ADAPTER_NOT_CONNECTED']}};
 }
 
 export function configuredSlotTitle(state,index){
-  const template=state.configurationSession?.configurations[index];if(!template)return 'Choose an Echo template';
+  const template=state.configurationSession?.configurations[index];if(!template)return 'Choose an Echo template · '+(state.configurationSession?.defaultRecommendation?.pending.filter(p=>p.startsWith(`Slot ${index+1}:`)||p.startsWith('MODE_')).join('; ')||'Not configured');
   const echo=catalog.echoes.find(row=>row.id===template.echoId),sonata=catalog.sonataSets.find(row=>row.id===template.selectedSonataSetId);
-  return `${echo.name} · Cost ${template.cost} · ${template.mainStatName} · ${sonata.name}`;
+  return `${echo.name} · Cost ${template.cost} · ${template.mainStatName} · ${sonata.name} · ${state.configurationSession.provenance[index]?.kind??'Configuration'}`;
 }

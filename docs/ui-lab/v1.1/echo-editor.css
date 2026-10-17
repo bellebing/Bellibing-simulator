@@ -1,6 +1,8 @@
-/* Only the authorized small per-slot Edit Echo entrypoint is new design. */
+/* Per-slot entrypoint and minimal configured-template metadata presentation. */
 .echo-edit { position:absolute; z-index:3; left:50%; bottom:4px; transform:translateX(-50%); padding:3px 5px; border:1px solid var(--line); border-radius:3px; background:#141a20e8; color:var(--gold); font-size:10px; line-height:1.2; }
 .echo-edit:disabled { opacity:.45; cursor:default; }
 .workshop-editor-host { position:fixed; inset:0; width:100vw; max-width:none; height:100dvh; max-height:none; margin:0; padding:0; border:0; background:transparent; }
 .workshop-editor-host::backdrop { background:transparent; }
 .workshop-editor-host iframe { width:100%; height:100%; border:0; display:block; }
+
+.echo-card.configured .echo-topline { text-shadow:0 1px 3px #000,0 0 5px #000; }

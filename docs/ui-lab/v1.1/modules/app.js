@@ -73,7 +73,9 @@ function renderFeedback() {
 
 function renderWorking() {
   const slot = state.selectedSlot;
-  $('#currentCard').innerHTML = echoCard(displayedEchoes()[slot], { footer: 'ACTIVE' });
+  const shown=displayedEchoes()[slot];
+  $('#currentCard').previousElementSibling.firstElementChild.textContent=shown?.configured?'CONFIGURED ECHO':'CURRENT ECHO';
+  $('#currentCard').innerHTML = echoCard(shown, { footer: 'ACTIVE' });
   $('#newCard').innerHTML = echoCard(displayedCandidates()[slot], { candidate: true, footer: 'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
@@ -87,7 +89,11 @@ function renderSlots() {
     return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${activationMarkup(index,active,available)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${editable?'':' disabled'}>Edit Echo</button>` : ''}</div>`;
   }).join('');
   positionActivationMarks($('#slots'));
-  $('.loadout-heading .small-muted').innerHTML = sonataSummary(activeEchoSlots(state));
+  const session=state.configurationSession;
+  if(session?.mode==='simulate'){
+    const chosen=session.configurations.filter((template,index)=>template&&session.active[index]);
+    $('.loadout-heading .small-muted').textContent=`${chosen.length} configured · ${chosen.reduce((sum,template)=>sum+template.cost,0)} / 12 Cost`;
+  }else $('.loadout-heading .small-muted').innerHTML = sonataSummary(activeEchoSlots(state));
 }
 
 function renderPiles() {

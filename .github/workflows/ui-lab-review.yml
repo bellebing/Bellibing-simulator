@@ -35,6 +35,7 @@ jobs:
           node docs/ui-lab/tools/export-catalog.mjs --check
           node docs/ui-lab/tools/export-targets.mjs --check
           node docs/ui-lab/tools/export-settings.mjs --check
+          node docs/ui-lab/tools/export-loadouts.mjs --check
       - name: Chromium layout and interaction review
         env:
           UI_LAB_CHROME_PATH: /usr/bin/google-chrome

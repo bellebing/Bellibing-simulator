@@ -1,3 +1,4 @@
+import {reviewBrowserContext} from './review-browser-context.mjs';
 import {reviewConfiguration} from './review-configuration.mjs';
 import {reviewActivation} from './review-activation.mjs';
 import { reviewResources } from './review-resources.mjs';
@@ -452,7 +453,7 @@ async function exerciseFeedback(page, width, prefix) {
 try {
   for (const width of [1440, 1920, 2560]) {
     const height = width === 1440 ? 900 : width === 1920 ? 1080 : 1440;
-    const context = await browser.newContext({ viewport: { width, height }, reducedMotion: 'reduce' });
+    const context = await reviewBrowserContext(browser,{ viewport: { width, height }, reducedMotion: 'reduce' });
     console.log(`Reviewing source at ${width}px`);
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
@@ -540,14 +541,14 @@ try {
       checks.push({ label: 'Full continuous catalog reachable one position at a time', count: seen.size });
     }
     await context.close();
-    const wheelContext = await browser.newContext({ viewport: { width, height } });
+    const wheelContext = await reviewBrowserContext(browser,{ viewport: { width, height } });
     const wheelPage = await wheelContext.newPage();
     wheelPage.on('pageerror', error => errors.push(error.message));
     await wheelPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
     await reviewCarousel(wheelPage, { width, checks });
     await wheelContext.close();
     for (const variant of ['elegant','cinematic']) {
-      const heroContext = await browser.newContext({ viewport:{width,height}, reducedMotion:'reduce' });
+      const heroContext = await reviewBrowserContext(browser,{ viewport:{width,height}, reducedMotion:'reduce' });
       const heroPage = await heroContext.newPage();
       heroPage.on('pageerror', error => errors.push(error.message));
       await heroPage.goto(`${origin}${selector}?demonstration=true&hero=${variant}`,{waitUntil:'networkidle'});
@@ -558,7 +559,7 @@ try {
 
   // Pointer behavior is also exercised with ordinary motion; reduced motion above
   // keeps geometry comparisons deterministic rather than skipping an end state.
-  const animated = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
+  const animated = await reviewBrowserContext(browser,{ viewport: { width: 1920, height: 1080 } });
   const motionPage = await animated.newPage();
   await motionPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
   await wait(motionPage);
@@ -567,7 +568,7 @@ try {
   await animated.close();
 
   for (const width of [1440,1920,2560]) {
-    const context = await browser.newContext({viewport:{width,height:width === 1440 ? 900 : 1440},reducedMotion:width === 1920 ? 'no-preference' : 'reduce'});
+    const context = await reviewBrowserContext(browser,{viewport:{width,height:width === 1440 ? 900 : 1440},reducedMotion:width === 1920 ? 'no-preference' : 'reduce'});
     const page = await context.newPage(); page.on('pageerror',error=>errors.push(error.message));
     await page.goto(`${origin}${selector}?demonstration=true`,{waitUntil:'networkidle'}); await wait(page);
     await reviewResults(page,{width,checks,animated:width===1920});
@@ -578,8 +579,8 @@ try {
     await context.close();
   }
 
-  const touch = await browser.newContext({ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
-  const configContext=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+  const touch = await reviewBrowserContext(browser,{ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
+  const configContext=await reviewBrowserContext(browser,{viewport:{width:1440,height:900},reducedMotion:'reduce'});
   const configPage=await configContext.newPage();
   await configPage.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'});
   await reviewConfiguration(configPage,{width:1440,checks});
@@ -599,7 +600,7 @@ try {
   if (process.env.UI_LAB_PORTABLE_REVIEW === 'true') {
     const portable = readFileSync(resolve(output, 'Bellibing-UI-Lab-V1.1.html'), 'utf8');
     for (const width of [1440, 1920, 2560]) {
-      const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 900 : width === 1920 ? 1080 : 1440 }, offline: true, reducedMotion: 'reduce' });
+      const context = await reviewBrowserContext(browser,{ viewport: { width, height: width === 1440 ? 900 : width === 1920 ? 1080 : 1440 }, offline: true, reducedMotion: 'reduce' });
       const page = await context.newPage();
       const network = [];
       page.on('request', request => { if (/^https?:/.test(request.url())) network.push(request.url()); });

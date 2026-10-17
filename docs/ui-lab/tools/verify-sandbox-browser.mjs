@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {reviewBrowserContext} from './review-browser-context.mjs';
 import {createServer} from 'node:http';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
@@ -26,7 +27,7 @@ async function selectCharacter(page,id){
 async function openEditor(page,slot){await page.locator(`[data-edit-echo="${slot}"]`).focus();await page.keyboard.press('Enter');const f=page.frameLocator('.workshop-editor-host iframe');await f.locator('#echoOverlay.open').waitFor();return f;}
 try{
  for(const width of (process.env.SANDBOX_REVIEW_WIDTHS??'1440,1920,2560').split(',').map(Number)){
-  const context=await browser.newContext({viewport:{width,height:width===1440?900:width===1920?1080:1440},reducedMotion:'reduce'});
+  const context=await reviewBrowserContext(browser,{viewport:{width,height:width===1440?900:width===1920?1080:1440},reducedMotion:'reduce'});
   await context.addInitScript(()=>{if(window.top===window){localStorage.setItem('bellibing-ui-checkpoint-v34','{"sentinel":"real-account-unchanged"}');localStorage.setItem('sandbox-test-inventory','{"sentinel":"real-inventory-unchanged"}');}});
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
   await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&settings=expanded`,{waitUntil:'domcontentloaded',timeout:60000});

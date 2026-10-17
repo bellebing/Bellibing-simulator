@@ -46,7 +46,7 @@ export function settingsSnapshot(state) {
     return {stat,minimum:source.tiers[tier]};
   });
   return {ownerCharacterId:state.id,mode:state.settingsMode,gate:Number(state.gate.replace('+','')),hard:rows('hard'),flex:rows('flex'),flexCount:state.flexCount,
-    erTarget:clone(state.erTarget),sonataPool:clone(state.sonataPool),bindingStatus:'UI_LAB_CONTEXT_NOT_PRODUCTION_POLICY_V3'};
+    erTarget:clone(state.erTarget),sonataPool:clone(state.sonataPool),canonicalSource:clone(state.canonicalSettingsSource??null),bindingStatus:'UI_LAB_CONTEXT_NOT_PERSISTED_PRODUCTION_SETTINGS'};
 }
 export function selectConfigurationSlot(state,slot){
   indexOf(slot);if(state.selectedSlot!==slot){state.selectedSlot=slot;if(state.configurationSession)state.configurationSession.selectionRevision++;}
@@ -54,12 +54,22 @@ export function selectConfigurationSlot(state,slot){
 export function settingsConfigurationChanged(state){if(state.configurationSession)state.configurationSession.settingsRevision++;}
 async function digest(value){const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value)));return 'sha256:'+Array.from(new Uint8Array(bytes),byte=>byte.toString(16).padStart(2,'0')).join('');}
 const sourceBinding=digest(catalog);
-export async function configurationSnapshot(state,inventory,{inventoryRevision=null}={}) {
+// Synchronous read of actual UI owners for a host lease guard. No copied state store.
+export function configurationLiveContext(state,inventory,{inventoryRevision,contextRevision}){
+ const session=state.configurationSession;
+ if(!session)return null;
+ return {schemaVersion:1,kind:'PUBLIC_UI_SIMULATION_CONFIGURATION',characterId:state.id,workspaceMode:session.mode,
+  selectedSlot:state.selectedSlot+1,context:{settings:settingsSnapshot(state)},
+  revisions:{context:contextRevision,configuration:session.revision,session:session.sessionRevision,selection:session.selectionRevision,settings:session.settingsRevision,inventory:inventoryRevision},
+  slots:session.configurations.map((configuration,index)=>({slot:index+1,active:session.active[index],configuration:clone(configuration)})),
+  resourceInventory:readResourceInventory(inventory)};
+}
+export async function configurationSnapshot(state,inventory,{inventoryRevision=null,contextRevision=null}={}) {
   const session=state.configurationSession;
   if(inventoryRevision!==null&&(!Number.isSafeInteger(inventoryRevision)||inventoryRevision<0))throw Error('Invalid inventory revision.');
   if(!session||session.characterId!==state.id)throw Error('Character/context mismatch.');
   const settings=settingsSnapshot(state),detached=clone(session),resources=readResourceInventory(inventory),selectedSlot=state.selectedSlot;
-  const revisions={build:null,configuration:detached.revision,session:detached.sessionRevision,selection:detached.selectionRevision,settings:detached.settingsRevision,inventory:inventoryRevision};
+  const revisions={context:contextRevision,build:null,configuration:detached.revision,session:detached.sessionRevision,selection:detached.selectionRevision,settings:detached.settingsRevision,inventory:inventoryRevision};
   const selected=detached.configurations.flatMap((template,index)=>detached.active[index]&&template?[{slot:index+1,template:validateEchoTemplateConfiguration(catalog,template)}]:[]);
   const loadout=validateEchoLoadout(selected.map(row=>row.template));
   const issues=[];
@@ -69,7 +79,7 @@ export async function configurationSnapshot(state,inventory,{inventoryRevision=n
   const slots=await Promise.all(detached.configurations.map(async(template,index)=>({slot:index+1,active:detached.active[index],
     configuration:template?{...validateEchoTemplateConfiguration(catalog,template),templateId:await digest(template)}:null,provenance:detached.provenance[index],
     simulatedCurrent:detached.current[index],candidate:detached.candidates[index],history:detached.histories[index]})));
-  return {schemaVersion:1,kind:'PUBLIC_UI_SIMULATION_CONFIGURATION',characterId:state.id,
+  return {schemaVersion:1,kind:'PUBLIC_UI_SIMULATION_CONFIGURATION',characterId:state.id,workspaceMode:detached.mode,
     context:{buildId:null,buildStatus:'PENDING_VERIFIED_BUILD_CONTEXT',modeId:null,modeStatus:'PENDING_CHARACTER_BUILD_MODE_BINDING',settings},
     source:{catalog:'docs/ui-prototypes/assets/echoes/browser-data.json',binding:await sourceBinding},
     revisions,defaultRecommendation:detached.defaultRecommendation,

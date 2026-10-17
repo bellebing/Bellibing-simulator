@@ -37,9 +37,12 @@ async function choose(page,slot,echo,main,{keyboard=false,sonata=null}={}){
 export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}}){
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
-  await page.evaluate(()=>localStorage.setItem('bellibing-ui-checkpoint-v34',JSON.stringify({characters:['Augusta'],drafts:{Augusta:{character:'Augusta',build:{owner:'account-fixture',mustRemainUntouched:true}}}})));
+  await page.evaluate(()=>localStorage.setItem('bellibing-ui-checkpoint-v34',JSON.stringify({characters:['Augusta'],drafts:{Augusta:{character:'Augusta',build:{owner:'account-fixture',mustRemainUntouched:true,weaponId:'thunderflare-dominion',echoSets:{activeSetId:'test-real-set',sets:{'test-real-set':{slots:['echo-60001215',null,null,null,null]}}}}}}})));
+  const evidence=await page.evaluate(()=>window.bellibingLabConfiguration.productionEvidence());assert.equal(evidence.status,'OBSERVED_PRODUCTION_BUILD_RECORD');assert.equal(evidence.buildId,null);assert.equal(evidence.modeId,null);assert.equal(evidence.buildState.echoSets.sets['test-real-set'].slots[0],'echo-60001215');
   const sourceStorage=await page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)])));
-  const initial=await snapshot(page);assert.equal(initial.characterId,'augusta');assert.ok(initial.slots.every(row=>row.configuration&&row.simulatedCurrent===null&&row.active));
+  const live=()=>page.evaluate(()=>window.bellibingLabConfiguration.readContext());
+  const initial=await snapshot(page);
+  const initialLive=await live();assert.deepEqual(initialLive.context.settings.flex.map(r=>r.stat),['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);assert.equal(initialLive.context.settings.canonicalSource.persisted,false);assert.equal(initial.characterId,'augusta');assert.ok(initial.slots.every(row=>row.configuration&&row.simulatedCurrent===null&&row.active));
   assert.equal(await page.locator('#slots .echo-art img').count(),5);assert.equal(await page.locator('#slots').getByText('CONFIGURED',{exact:true}).count(),5);
   assert.equal(initial.defaultRecommendation.sourceId,'augusta-standard-echoes');
   assert.equal(await page.locator('[data-edit-echo]').count(),5);
@@ -77,13 +80,14 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await staleFrame.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
   await ensureSettings(page);await page.locator('.gate-options button').filter({hasText:/^\+5$/}).click();
   await ensureSettings(page);await page.getByRole('slider',{name:'CRIT Rate minimum',exact:true}).focus();await page.keyboard.press('ArrowRight');
-  const augusta=await snapshot(page);assert.equal(augusta.context.settings.mode,'Customize');
+  const augusta=await snapshot(page);
+  assert.ok(augusta.revisions.settings>initial.revisions.settings);assert.ok(augusta.revisions.configuration>initial.revisions.configuration);assert.ok(augusta.revisions.inventory>initial.revisions.inventory);assert.equal((await live()).revisions.context,augusta.revisions.context);assert.equal(augusta.context.settings.mode,'Customize');
   await page.locator('.mode-switch button').filter({hasText:'Current'}).click();
   const savedCurrent=await page.locator('#currentCard').innerHTML();assert.equal(await page.locator('.echo-edit:disabled').count(),5);
   await page.locator('.mode-switch button').filter({hasText:'Simulate'}).click();
   await page.locator('#simulate').click();assert.match(await page.locator('#toast').innerText(),/Pending.*2 active slots/);
   assert.deepEqual((await snapshot(page)).slots,augusta.slots);
-  await selectCharacter(page,'aalto');const blank=await snapshot(page);assert.equal(blank.slots[0].configuration,null);assert.equal(blank.defaultRecommendation.sourceId,'PRYDWEN:aalto');assert.equal(blank.slots[1].configuration.mainStatName,'Aero DMG');assert.deepEqual(blank.context.settings.hard,[]);assert.deepEqual(blank.context.settings.sonataPool,[]);
+  await selectCharacter(page,'aalto');const blank=await snapshot(page);assert.ok(blank.revisions.context>augusta.revisions.context);assert.equal(blank.slots[0].configuration,null);assert.equal(blank.defaultRecommendation.sourceId,'PRYDWEN:aalto');assert.equal(blank.slots[1].configuration.mainStatName,'Aero DMG');assert.deepEqual(blank.context.settings.hard,[]);assert.deepEqual(blank.context.settings.sonataPool,[]);
   const echo1=catalog.echoes.find(row=>row.cost===1);await choose(page,3,echo1,'ATK%');await page.locator('[data-activation="3"]').click();await page.locator('[data-activation="3"]').click();
   await ensureSettings(page);await page.locator('.gate-options button').filter({hasText:'+10'}).click();
   const aalto=await snapshot(page);assert.equal(aalto.characterId,'aalto');assert.equal(aalto.context.settings.gate,10);assert.equal(aalto.slots[3].configuration.cost,1);
@@ -91,7 +95,7 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await selectCharacter(page,'augusta');const restored=await snapshot(page);assert.deepEqual(restored.slots,augusta.slots);assert.deepEqual(restored.context.settings,augusta.context.settings);
   await page.locator('.mode-switch button').filter({hasText:'Current'}).click();assert.equal(await page.locator('#currentCard').innerHTML(),savedCurrent);
   await page.locator('.mode-switch button').filter({hasText:'Simulate'}).click();await page.locator('#reset').click();
-  const reset=await snapshot(page);assert.deepEqual(reset.slots.map(row=>row.configuration),augusta.slots.map(row=>row.configuration));assert.ok(reset.slots.every(row=>row.simulatedCurrent===null&&row.history.length===0));
+  const reset=await snapshot(page);assert.ok(reset.revisions.session>restored.revisions.session);assert.ok(reset.revisions.context>initial.revisions.context);assert.deepEqual(reset.slots.map(row=>row.configuration),augusta.slots.map(row=>row.configuration));assert.ok(reset.slots.every(row=>row.simulatedCurrent===null&&row.history.length===0));
   assert.deepEqual(await page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)]))),sourceStorage);
   assert.equal(await page.locator('.cost-comparison').isVisible(),true);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
   assert.deepEqual(errors,[]);

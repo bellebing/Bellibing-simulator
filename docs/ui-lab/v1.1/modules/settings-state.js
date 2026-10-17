@@ -1,3 +1,4 @@
+import {restoreCanonicalSettings} from './canonical-settings.js';
 import { ECHO_SETTING_STATS, selectedFlexRequirement, SELECTED_FLEX_GROUP_ID } from './settings-catalog.js';
 export const STAT_SECTIONS = ['hard','flex','other'];
 export const MINIMUM_TIERS = Object.fromEntries(ECHO_SETTING_STATS.map(stat=>[stat.id,stat.labels]));
@@ -30,6 +31,7 @@ export function editFlexCount(state,count) {
   state.flexCount=count; state.settingsMode='Customize';
 }
 export function restoreRecommendedSettings(state) {
+  if(state.canonicalSettingsSource)return restoreCanonicalSettings(state);
   if(state.id!=='augusta')return false;
   const pool=[...state.sonataPool];
   Object.assign(state,initialSettings(state.id));

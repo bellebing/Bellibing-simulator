@@ -22,7 +22,7 @@ See [Settings contract](SETTINGS.md) for the 13 canonical movable rows, explicit
 
 ## Functional Echo configuration
 
-The default V1.1 entrypoint now provides per-slot **Edit Echo** through the existing Workshop and a Character-isolated, canonical template configuration. Simulated Current starts empty and remains empty until a real accepted result exists. Configure a slot, explicitly activate it, and reopen Edit Echo to review its identity/Main/Sonata. Current mode is read-only illustrative source equipment; no real account integration is implied. `window.bellibingLabConfiguration.snapshot()` exposes the structured selection and explicit Pending bindings for the next adapter phase. See [Echo configuration ownership and boundaries](ECHO_CONFIGURATION.md). The earlier fixture-only review surface requires `?demonstration=true`.
+The default V1.1 entrypoint now provides per-slot **Edit Echo** through the existing Workshop and a Character-isolated, canonical template configuration. Source-supported starting templates appear immediately; unresolved choices remain Pending. Confirmed edits immediately update the existing card with canonical artwork/name/Cost/Main/Sonata and a CONFIGURED label. Actual Simulated Current remains empty until a real accepted result exists. Defaults and Custom overrides remain independent of activation and selection. [All 59 Characters and exact gaps](DEFAULT_LOADOUT_COVERAGE.md). Current mode is read-only illustrative source equipment; no real account integration is implied. `window.bellibingLabConfiguration.snapshot()` exposes the structured selection and explicit Pending bindings for the next adapter phase. See [Echo configuration ownership and boundaries](ECHO_CONFIGURATION.md). The earlier fixture-only review surface requires `?demonstration=true`.
 
 ## What to try
 
@@ -81,6 +81,7 @@ Node 22+, installed Chromium/Chrome and Playwright are needed for maintainer che
 ```sh
 node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs
 node docs/ui-lab/tools/export-catalog.mjs --check
+node docs/ui-lab/tools/export-loadouts.mjs --check
 UI_LAB_CHROME_PATH=/usr/bin/google-chrome node docs/ui-lab/tools/verify-browser.mjs
 ```
 
@@ -88,7 +89,7 @@ The browser review covers 1440×900, 1920×1080 and 2560×1440, normal/reduced m
 
 The comparison revision is `66d72f339e3c1aa363a1794ff243128d63bc3f28`; CI fetches it explicitly for approved geometry checks. V1 files remain immutable. The current center-focused design is recoverable at `6400eecef41abe963cc997449164e3f9dd7d87bb`.
 
-Optional portable packaging remains in `tools/build-review.mjs`; `UI_LAB_PORTABLE_REVIEW=true` also tests a previously packaged file offline. Neither packaging nor media generation runs in the current review workflow. Results are written to ignored `artifacts/ui-lab-review/verification.json`, with exact revision and dirty-tree status.
+The historical single-file `tools/build-review.mjs` packager does not cover the configuration iframe/imports. For the functional review, use the exact-commit source tree (or its portable source ZIP) with the documented HTTP server; no npm/build is needed. Media generation is not part of CI. Results are written to ignored `artifacts/ui-lab-review/verification.json`, with exact revision and dirty-tree status.
 
 This is a Draft visual-review lane. FULL/merge readiness and production integration are outside this task. Do not merge or alter the production deployment to make the Lab reviewable.
 

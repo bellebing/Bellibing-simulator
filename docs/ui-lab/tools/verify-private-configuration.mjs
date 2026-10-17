@@ -1,0 +1,41 @@
+// Optional operator-run contract test. Never checkout private code in public CI.
+// The external adapter stays private and must implement the reviewed in-process
+// compile/preflight and V1 transport facade. No network or rolling is requested.
+import assert from 'node:assert/strict';
+import {pathToFileURL} from 'node:url';
+import {resolve} from 'node:path';
+import {configurationFixture} from '../../../test/helpers/simulationConfigurationFixture.mjs';
+import {adaptUiSettingsV3} from '../../../src/simulationConfigurationBridge.mjs';
+import {updateImprovePolicyState} from '../../../src/improvePolicyState.ts';
+const index=process.argv.indexOf('--adapter');
+if(index<0||!process.argv[index+1])throw Error('Provide --adapter /absolute/path/to/approved/private-adapter.mjs; this is not a public CI dependency.');
+const adapter=await import(pathToFileURL(resolve(process.argv[index+1])).href);
+const f=await configurationFixture(),before=structuredClone(f.production);
+const prepared=await f.bridge.prepare(adapter.contract,{seed:'phase6b1-canonical-ui-contract'});
+assert.equal(prepared.result.bindingStatus,'BOUND_TO_TRUSTED_HOST');
+let privateOwner;
+const proof=await f.bridge.probe(prepared.lease,async input=>{privateOwner=await adapter.preflight(input,{assertCurrent:()=>f.bridge.assertCurrent(prepared.lease),readProductionContext:f.readProductionContext});return {status:privateOwner.status};});
+assert.equal(proof.status,'PRIVATE_CONTRACT_ACCEPTED');
+assert.deepEqual(privateOwner.accepted.selectedSlots,prepared.result.input.selectedSlots);
+assert.equal(privateOwner.accepted.characterId,'augusta');assert.equal(privateOwner.accepted.modeId,'default');
+assert.deepEqual(privateOwner.accepted.flex.map(r=>r.name),['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+const initial=f.bridge.guard(prepared.lease,()=>privateOwner.prepare());
+const request={...initial,requestId:'phase6b1-no-spend-abort',action:'ABORT'};
+const response=f.bridge.guard(prepared.lease,()=>privateOwner.dispatch(request));privateOwner.receive(response);
+assert.deepEqual(privateOwner.dispatch(request),response);assert.throws(()=>privateOwner.receive(response));
+const presentation=privateOwner.snapshot();assert.deepEqual(presentation.inventory,f.inventory);assert.ok(presentation.slots.every(s=>s.current===null&&s.candidate===null));assert.deepEqual(f.production,before);
+f.state.configurationSession.active[1]=false;f.state.configurationSession.revision++;
+assert.throws(()=>privateOwner.prepare());assert.throws(()=>privateOwner.dispatch(request));
+const subset=await f.bridge.prepare(adapter.contract,{seed:'phase6b1-active-subset'});
+const subsetOwner=await adapter.preflight(subset.result.input,{assertCurrent:()=>f.bridge.assertCurrent(subset.lease),readProductionContext:f.readProductionContext});
+assert.deepEqual(subsetOwner.accepted.selectedSlots.map(s=>s.slot),[1,3,4,5]);
+f.state.gate='+10';f.state.configurationSession.settingsRevision++;
+f.production.improvePolicyStorage.characters.augusta=updateImprovePolicyState(f.policy,{type:'gate',value:10},f.source);f.production.revisions.settings++;
+const valid=await f.bridge.prepare(adapter.contract,{seed:'phase6b1-unsupported-settings'});assert.equal(valid.result.uiStatus,'VALID_UI_CONFIGURATION');
+const unsupported=await f.bridge.probe(valid.lease,input=>adapter.preflight(input,{assertCurrent:()=>f.bridge.assertCurrent(valid.lease),readProductionContext:f.readProductionContext}));assert.equal(unsupported.status,'PENDING_PRIVATE_CAPABILITY');
+f.state.gate='+5';f.state.settingsMode='Customize';f.state.minima['CRIT Rate']=1;f.state.configurationSession.settingsRevision++;
+const higherProposal=await adaptUiSettingsV3({characterId:'augusta',presetId:f.production.presetId,settings:f.readUiContext().context.settings});f.production.improvePolicyStorage.characters.augusta=higherProposal.state;f.production.revisions.settings++;
+const higher=await f.bridge.prepare(adapter.contract,{seed:'phase6b1-higher-minimum'});assert.equal(higher.result.bindingStatus,'BOUND_TO_TRUSTED_HOST');assert.equal((await f.bridge.probe(higher.lease,input=>adapter.preflight(input,{assertCurrent:()=>f.bridge.assertCurrent(higher.lease),readProductionContext:f.readProductionContext}))).status,'PENDING_PRIVATE_CAPABILITY');
+const other=await configurationFixture('aalto');assert.notEqual(other.production.buildState.weaponId,f.production.buildState.weaponId);
+assert.equal((await other.bridge.prepare(adapter.contract,{seed:'phase6b1-source-missing'})).lease,null);
+console.log('PASS: canonical UI -> Settings v3 -> actual private preflight; five templates/four Flex; inactive exclusion; unsupported Pending; V1 abort/idempotency/stale; no real gear/inventory mutation. No rolling or HTTP.');

@@ -1,5 +1,7 @@
+import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
+import {initializeCanonicalSettings} from './canonical-settings.js';
 import {configuredCard} from './configured-card.js';
-import {createConfigurationSession,configurationSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
+import {createConfigurationSession,configurationSnapshot,configurationLiveContext,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
 import {createWorkshopEditor} from './workshop-editor.js';
 import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
 import { mountResourceCost } from './resource-cost.js';
@@ -24,12 +26,13 @@ const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () =
 const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
+let uiContextRevision=0;
 const query = new URLSearchParams(location.search);
 const demonstration = query.get('demonstration') === 'true';
 function characterState(id) {
   const value=getDemoState(id);
   if(!demonstration&&!value.configurationSession){
-    value.configurationSession=createConfigurationSession(id);
+    value.configurationSession=createConfigurationSession(id);initializeCanonicalSettings(value);
     // The old two-row Sonata fixture is not a recommendation for other Characters.
     if(id!=='augusta')value.sonataPool=[];
   }
@@ -37,7 +40,7 @@ function characterState(id) {
 }
 let state = characterState(selectedId);
 const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);}});
-window.bellibingLabConfiguration=Object.freeze({snapshot:()=>configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision()})});
+window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:()=>configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision})});
 function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){return state.configurationSession?state.configurationSession.candidates:state.candidates;}
 function displayedHistories(){return state.configurationSession?state.configurationSession.histories:state.histories;}
@@ -288,7 +291,9 @@ $('#reviewScenario').onchange = event => {
 $('.mode-switch').addEventListener('click', event => {
   if(event.target.tagName!=='BUTTON')return;
   if(!state.configurationSession){notify('UI Lab uses isolated Simulate fixtures · no real account is connected');return;}
-  workshopEditor.close();state.configurationSession.mode=event.target.textContent==='Current'?'current':'simulate';state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
+  workshopEditor.close();const mode=event.target.textContent==='Current'?'current':'simulate';
+  if(state.configurationSession.mode!==mode)uiContextRevision++;
+  state.configurationSession.mode=mode;state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 $('#reset').onclick = () => { workshopEditor.close();if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
@@ -297,7 +302,7 @@ $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {
-  selectedId = id;
+  uiContextRevision++;selectedId = id;
   workshopEditor.close();state = characterState(id);
   renderWorkspace();
 } });

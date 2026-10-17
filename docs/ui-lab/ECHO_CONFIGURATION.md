@@ -11,6 +11,8 @@ The default Lab entrypoint configures future simulation inputs. Each of five exi
 
 The card presenter shows a configured template whenever no accepted Simulated Current exists. It reads canonical artwork/name/Cost/Main/Sonata directly from the saved configuration, labels it **CONFIGURED** in the existing top metadata position, and leaves numeric stats unavailable and all substats Not rolled. The working-card caption becomes CONFIGURED ECHO. These objects never enter actual result/stat projection inputs. The existing card dimensions, artwork area and five rows are retained; Edit Echo remains in its footer without covering the configured label. Reopening reads the confirmed choice, while Cancel leaves both state and visible cards unchanged.
 
+The reused Workshop filter follows the selected source context plus the confirmed custom Sonata, rather than selecting one of the six profiles solely by Character ID. Custom filter inclusion never receives a source-recommended star.
+
 Current mode remains a read-only view of the Lab's existing illustrative source cards, not an integration with real account equipment. Its Edit/activation controls are disabled. Switching mode/Character retains that Character's explicit choices and Customize settings. Non-Augusta functional contexts start without the Lab's illustrative Augusta Sonata-pool default. Reset clears simulated results, candidates and simulation histories, while retaining template selections, activation, Settings and shared resources. No account state or production persistence is written.
 
 ## Source-bound initial choices

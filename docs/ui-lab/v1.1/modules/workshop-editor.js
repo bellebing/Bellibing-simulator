@@ -23,7 +23,9 @@ export function createWorkshopEditor({getState,onCommit}) {
         if(!isCurrent()){close();return;}
         const port=frame.contentWindow.bellibingConfigurationWorkshop;
         if(!port)throw Error('Existing Echo Workshop is unavailable.');
-        await port.open({characterId:state.id,slot,configuration:state.configurationSession.configurations[slot],isCurrent,
+        const sourceSetIds=state.configurationSession.defaultRecommendation?.sonataSetIds??[];
+        const filterSetIds=[...new Set([...sourceSetIds,state.configurationSession.configurations[slot]?.selectedSonataSetId].filter(Boolean))];
+        await port.open({characterId:state.id,slot,sourceSetIds,filterSetIds,configuration:state.configurationSession.configurations[slot],isCurrent,
           onChoose:template=>{if(!isCurrent())throw Error('Stale Character/Settings/slot context.');configureSlot(state.configurationSession,slot,template);onCommit();},
           onClose:()=>{if(pending===owner)close();}});
         frame.style.visibility='visible';frame.contentWindow.document.querySelector('#echoClose').focus();

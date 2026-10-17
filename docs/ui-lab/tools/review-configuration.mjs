@@ -58,6 +58,9 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   await page.locator('[data-activation="0"]').click();assert.equal((await snapshot(page)).slots[0].active,true);
   await choose(page,1,echo3,'Electro DMG',{sonata:echo3.sonataSetIds.at(-1)});
   await page.locator('[data-activation="1"]').focus();await page.keyboard.press('Space');
+  const customFrame=await openEditor(page,1);
+  assert.equal(await customFrame.locator(`#echoSonataOptions [data-sonata-id="${echo3.sonataSetIds.at(-1)}"]`).getAttribute('data-recommended'),'false');
+  await customFrame.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
   selected=await snapshot(page);assert.equal(selected.slots[1].configuration.selectedSonataSetId,echo3.sonataSetIds.at(-1));assert.ok(selected.slots.every(row=>row.simulatedCurrent===null));
   await choose(page,0,echo4,'CRIT DMG');assert.equal((await snapshot(page)).slots[0].configuration.mainStatName,'CRIT DMG');
   await page.locator('[data-slot="4"]').click();assert.equal((await snapshot(page)).selectedSlot,5);
@@ -94,5 +97,13 @@ export async function reviewConfiguration(page,{width,checks,saveExamples=()=>{}
   assert.deepEqual(errors,[]);
   await saveExamples({augusta,aalto});
   for(const slot of [2,3,4])await choose(page,slot,echo1,'ATK%');
-  assert.equal(await page.locator('#slots').getByText('CONFIGURED',{exact:true}).count(),5);checks.push({label:'Source-backed Edit Echo configuration, four-state separation and two-Character isolation',width});
+  assert.equal(await page.locator('#slots').getByText('CONFIGURED',{exact:true}).count(),5);
+  for(const [id,set] of [['iuno','sonata-20'],['rover-aero','sonata-7']]){
+    await selectCharacter(page,id);const scoped=await openEditor(page,0);
+    assert.deepEqual(await scoped.locator('#echoSonataOptions [aria-pressed="true"]').evaluateAll(nodes=>nodes.map(n=>n.dataset.sonataId)),[set]);
+    await scoped.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
+  }
+  assert.deepEqual(errors,[]);
+  assert.deepEqual(await page.evaluate(()=>Object.fromEntries(Object.keys(localStorage).map(k=>[k,localStorage.getItem(k)]))),sourceStorage);
+  checks.push({label:'Visible source-backed Edit Echo, four states and four-Character context isolation',width});
 }

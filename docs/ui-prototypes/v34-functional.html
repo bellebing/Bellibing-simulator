@@ -1236,7 +1236,7 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
-  workspaceProfile(){return ['candidate','configuration'].includes(this.context.kind)?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
+  workspaceProfile(){if(this.context.kind==='configuration')return {sonataSetIds:this.configurationOwner.sourceSetIds};return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
   contextValid(){return this.context.kind==='configuration'?!!this.configurationOwner?.isCurrent():this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
   previewCommitted(){if(this.context.kind==='configuration')return this.configurationOwner?.card??null;return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.currentSlot()},
   activeSet(){
@@ -1556,7 +1556,7 @@ const echoUi={
     this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
     document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',this.context.kind==='configuration'?'Simulation template Sonata assignment':candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
     this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
-    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
+    this.selectedSonataIds=new Set(this.context.kind==='configuration'?this.configurationOwner.filterSetIds:this.workspaceProfile()?.sonataSetIds||[]);
     const recommendedCost=candidate||this.context.kind==='configuration'?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
@@ -1603,6 +1603,7 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
       await echoDataReady;
       if(!window.bellibingEchoTemplateConfiguration)throw Error('Canonical template validator unavailable.');
       const catalog={echoes:echoCatalog,sonataSets:[...echoSonataById.values()],statEditor:echoStatContract};
+      if([owner.filterSetIds,owner.sourceSetIds].some(ids=>!Array.isArray(ids)||ids.some(id=>!echoSonataById.has(id))))throw Error('Invalid configuration Sonata context.');
       const card=owner.configuration?window.bellibingEchoTemplateConfiguration.templateSelectionCard(catalog,owner.configuration):null;
       await echoUi.showConfiguration({...owner,card});
     },

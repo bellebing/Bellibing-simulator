@@ -13,7 +13,7 @@ export function createConfigurationSession(characterId,{initializeDefaults=true}
   const configurations=Array.from({length:5},(_,index)=>recommendation?.slots[index].configuration?validateEchoTemplateConfiguration(catalog,recommendation.slots[index].configuration):null);
   const provenance=configurations.map((template,index)=>template?{kind:'RECOMMENDED_DEFAULT',sourceId:recommendation.sourceId,sourceUrl:recommendation.sourceUrl,sourceLinesSha256:recommendation.sourceLinesSha256,identityBasis:recommendation.slots[index].identityBasis,selectionRule:recommendation.slots[index].selectionRule,context:clone(recommendation.context)}:null);
   return {characterId,mode:'simulate',revision:0,sessionRevision:0,settingsRevision:0,selectionRevision:0,
-    configurations,provenance,defaultRecommendation:recommendation?{sourceId:recommendation.sourceId,context:clone(recommendation.context),pending:clone(recommendation.pending),complete:recommendation.complete,sourceBindings:clone(defaults.sourceBindings)}:null,active:configurations.map(Boolean),current:Array(5).fill(null),candidates:Array(5).fill(null),histories:Array.from({length:5},()=>[])};
+    configurations,provenance,defaultRecommendation:recommendation?{sourceId:recommendation.sourceId,sonataSetIds:clone(recommendation.sonataSetIds),context:clone(recommendation.context),pending:clone(recommendation.pending),complete:recommendation.complete,sourceBindings:clone(defaults.sourceBindings)}:null,active:configurations.map(Boolean),current:Array(5).fill(null),candidates:Array(5).fill(null),histories:Array.from({length:5},()=>[])};
 }
 export function configureSlot(session,slot,input) {
   indexOf(slot);

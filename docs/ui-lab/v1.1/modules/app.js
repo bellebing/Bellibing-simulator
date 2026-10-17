@@ -1,4 +1,5 @@
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
+import {createSandboxWorkspace,setSandboxWeapon,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
 import {configuredCard} from './configured-card.js';
 import {createConfigurationSession,configurationSnapshot,configurationLiveContext,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
@@ -10,7 +11,7 @@ import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
 import { mountSonataSelection } from './sonata-selection.js';
 import { restoreRecommendedSettings } from './settings-state.js';
-import { CHARACTER_CATALOG } from './catalog.js';
+import { CHARACTER_CATALOG,WEAPON_CATALOG } from './catalog.js';
 import { getDemoState, resetDemoState } from './lab-state.js';
 import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
 import { mountWorkshopFeedback } from './workshop-feedback.js';
@@ -19,17 +20,28 @@ import { echoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
+const query = new URLSearchParams(location.search);
+const sandbox=query.get('sandbox')==='true';
+const sandboxWorkspace=sandbox?createSandboxWorkspace():null;
+if(sandbox){
+ document.body.classList.add('sandbox-preview');$('.sonata-section').remove();$('.settings-compact img')?.remove();
+ $('.page-heading .eyebrow').textContent='CHARACTER SANDBOX';
+ $('#demoDescription').textContent='Standalone Sandbox · source-bound standard templates. No account connection, rolls or resource spending. Simulation and DPS Pending.';
+ $('#focusDemo').disabled=true;
+ document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
+}
 const resources = mountResourceInventory($('#resourceInventory'));
 mountResourceCost($('#resourceCost')); // No verified cost producer is connected yet.
+if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
-const sonataSelection = mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
+const sonataSelection = sandbox?null:mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = 'augusta';
 let uiContextRevision=0;
-const query = new URLSearchParams(location.search);
-const demonstration = query.get('demonstration') === 'true';
+const demonstration = !sandbox&&query.get('demonstration') === 'true';
 function characterState(id) {
+  if(sandbox)return sandboxWorkspace.select(id);
   const value=getDemoState(id);
   if(!demonstration&&!value.configurationSession){
     value.configurationSession=createConfigurationSession(id);initializeCanonicalSettings(value);
@@ -40,7 +52,11 @@ function characterState(id) {
 }
 let state = characterState(selectedId);
 const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);}});
-window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:()=>configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision})});
+window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{status:'NOT_APPLICABLE',kind:'SANDBOX_BUILD'}:readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:async()=>{
+ const snapshot=await configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision});
+ if(sandbox){snapshot.context={...snapshot.context,kind:'SANDBOX_BUILD',buildId:state.sandboxBuild.id,buildStatus:'DETACHED_SANDBOX',modeId:state.sandboxBuild.presetId,modeStatus:'EXPLICIT_SANDBOX_CONTEXT',build:structuredClone(state.sandboxBuild)};snapshot.capability={status:'PENDING',reasons:['PRIVATE_SANDBOX_EXECUTION_NOT_CONNECTED']};}
+ return snapshot;
+}});
 function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){return state.configurationSession?state.configurationSession.candidates:state.candidates;}
 function displayedHistories(){return state.configurationSession?state.configurationSession.histories:state.histories;}
@@ -120,6 +136,12 @@ function renderPiles() {
 function renderCharacter() {
   const person = people.get(selectedId);
   characterCard.render(person, state);
+  if(sandbox){
+    const label=$('.character-content .weapon-copy strong');
+    const select=document.createElement('select');select.className='sandbox-weapon-select';select.setAttribute('aria-label','Sandbox Weapon');
+    select.innerHTML=SANDBOX_WEAPONS.filter(w=>w.weaponType===person.weaponType).map(w=>`<option value="${escapeHtml(w.id)}"${w.id===state.sandboxBuild.weaponId?' selected':''}>${escapeHtml(w.name)}</option>`).join('');
+    label.replaceWith(select);select.onchange=()=>{workshopEditor.close();setSandboxWeapon(state,select.value);renderWorkspace();};
+  }
   $('.character-compact img').src = assetURL(person.face);
   $('.character-compact img').alt = person.name;
   $('.character-compact .vertical-label').textContent = person.name.toUpperCase();
@@ -130,7 +152,7 @@ function renderSettings() {
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   improveSettings.render();
-  sonataSelection.render();
+  sonataSelection?.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = selectedId !== 'augusta';
@@ -293,6 +315,7 @@ $('.mode-switch').addEventListener('click', event => {
   if(!state.configurationSession){notify('UI Lab uses isolated Simulate fixtures · no real account is connected');return;}
   workshopEditor.close();const mode=event.target.textContent==='Current'?'current':'simulate';
   if(state.configurationSession.mode!==mode)uiContextRevision++;
+  if(sandbox&&state.configurationSession.mode!==mode)sandboxWorkspace.advanceContext();
   state.configurationSession.mode=mode;state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
@@ -305,7 +328,7 @@ carousel = mountCarousel({ selectedId, onSelect: id => {
   uiContextRevision++;selectedId = id;
   workshopEditor.close();state = characterState(id);
   renderWorkspace();
-} });
+}, preview:sandbox?id=>sandboxWorkspace.preview(id):undefined,standalone:sandbox });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }
 if (query.get('compact') === 'true') { $('#settings').classList.remove('expanded'); $('#character').classList.remove('expanded'); layout(); }
 if (globalThis.BELLIBING_LAB_REVIEW) {

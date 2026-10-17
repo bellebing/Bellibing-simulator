@@ -1,0 +1,16 @@
+/* S1 changes are scoped to the standalone preview, preserving the Lab baseline. */
+.sandbox-preview .sonata-section { display:none; }
+.sandbox-preview .sandbox-dps { margin-top:20px; padding:17px 16px 0; border-top:1px solid var(--line); }
+.sandbox-preview .dps-concept-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+.sandbox-preview .dps-concept-heading h3 { margin:0; font-size:13px; }
+.sandbox-preview .dps-concept-heading small { font-size:8px; color:var(--muted); letter-spacing:.08em; }
+.sandbox-preview .dps-columns { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); }
+.sandbox-preview .dps-contribution { display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 2px; min-width:0; }
+.sandbox-preview .dps-contribution+div { border-left:1px solid var(--line); }
+.sandbox-preview .dps-contribution span { font-size:9px; white-space:nowrap; color:var(--muted); }
+.sandbox-preview .dps-contribution strong { font-size:25px; font-weight:500; font-variant-numeric:tabular-nums; line-height:1; }
+.sandbox-preview .dps-contribution small { color:var(--muted); font-size:8px; }
+.sandbox-preview .team-total { background:linear-gradient(180deg,rgba(186,157,94,.09),transparent); }
+.sandbox-preview .team-total strong,.sandbox-preview .team-total span { color:var(--gold); }
+.sandbox-preview .sandbox-weapon-select { max-width:100%; width:100%; border:0; border-bottom:1px solid var(--line); border-radius:0; background:#181e23; color:var(--ink); font:inherit; font-size:12px; padding:4px 2px; }
+.sandbox-preview .sandbox-weapon-select:focus-visible { outline:1px solid var(--gold); outline-offset:3px; }

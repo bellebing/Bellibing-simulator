@@ -10,7 +10,7 @@ Status vocabulary: **NOT STARTED**, **IN PROGRESS**, **BLOCKED**, **READY FOR RE
 
 ## S1 — Sandbox foundation
 
-- **Status:** IN PROGRESS. **Current PR:** separate candidate stacked on #311; linked in GitHub when created.
+- **Status:** READY FOR REVIEW. **Current PR:** [Draft #312](https://github.com/bellebing/Bellibing-simulator/pull/312), stacked on #311. Source/configuration coverage is 59/59; implementation/browser evidence and remaining independent readiness dimensions are in the [foundation contract](ui-lab/SANDBOX_FOUNDATION.md) and [coverage matrix](ui-lab/SANDBOX_COVERAGE.md). Owner review of the DPS concept is still required; this is not a merged/production or S2 execution claim.
 - **Goal:** source-bound standard Character/Weapon/five-Echo configurations for all 59 released identities; independent sessions/settings/resources and slot-aware existing Workshop.
 - **Sources:** canonical Character/signature/guide/weapon/Echo/Sonata catalogs, reviewed loadout profiles, stat editor, source reviews and Settings v3; inherited Phase 6A.1/6B.1 contracts.
 - **Dependencies:** verified identity/type/Main/Cost/set composition rules and explicit build context. Missing facts are Pending, never Augusta fallback.

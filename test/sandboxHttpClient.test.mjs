@@ -9,8 +9,9 @@ test('experimental DPS requires explicit matching context and same-run member to
  // Contract-only numbers, no gameplay fixture or result.
  const dps={context:evaluationContext,status:'EXPERIMENTAL',verification:'EXPERIMENTAL',provider:{kind:'DPS',sourceBinding:'UNIT_CONTRACT_ONLY'},teamTotal:6,characterContributions:[{characterId:'augusta',dps:1},{characterId:'iuno',dps:2},{characterId:'the-shorekeeper',dps:3}]};
  assert.match(dpsConceptMarkup({dps}),/data-status="PENDING"/);
- assert.match(dpsConceptMarkup({evaluationContext,dps}),/data-status="EXPERIMENTAL"/);
- assert.match(dpsConceptMarkup({evaluationContext,dps:{...dps,teamTotal:7}}),/data-status="PENDING"/);
+ assert.match(dpsConceptMarkup({expertMode:true,evaluationContext,dps}),/class="dps-expert-result" data-status="EXPERIMENTAL"/);
+ assert.doesNotMatch(dpsConceptMarkup({evaluationContext,dps}),/dps-expert-result/);
+ assert.match(dpsConceptMarkup({expertMode:true,evaluationContext,dps:{...dps,teamTotal:7}}),/class="dps-expert-result" data-status="PENDING"/);
  assert.doesNotMatch(dpsConceptMarkup({characterId:'aalto'}),/Experimental reference team/);
 });
 test('evaluation context changes invalidate a pending metrics response',async()=>{

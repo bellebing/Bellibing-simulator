@@ -29,7 +29,7 @@ jobs:
       - name: Install browser driver without changing dependency manifests
         run: npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.56.1
       - name: Preserved baseline, isolation and discard boundaries
-        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs
+        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs test/characterContext.test.mjs
       - name: Reviewed catalog parity
         run: |
           node docs/ui-lab/tools/export-catalog.mjs --check
@@ -38,6 +38,7 @@ jobs:
           node docs/ui-lab/tools/export-loadouts.mjs --check
           node docs/ui-lab/tools/export-production-settings.mjs --check
           node docs/ui-lab/tools/export-sandbox.mjs --check
+          node docs/ui-lab/tools/export-character-contexts.mjs --check
       - name: Canonical configuration source pin
         run: |
           git fetch --depth=1 origin 259f4881271b5cc84cec5bf2e7f085e6a106a8e3

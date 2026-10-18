@@ -70,5 +70,5 @@ test('Sandbox host compiler reuses Settings/production contract without requirin
  w.select('hsin');assert.match((await compileSandboxConfiguration(w.readContext(r.read(),r.revision()),contract,{})).reasons[0],/PRESET_CONTEXT_MAPPING_PENDING/);
 });
 test('DPS concept cannot misrepresent demonstration numbers as real results',()=>{
- const markup=dpsConceptMarkup({characterContributions:[2000000,650000,50000],teamTotal:2700000,calculationStatus:'VERIFIED'});assert.equal((markup.match(/<strong /g)??[]).length,4);assert.ok(!markup.includes('2700000'));assert.match(markup,/CONCEPT · PENDING/);assert.match(markup,/team-total/);
+ const markup=dpsConceptMarkup({characterContributions:[2000000,650000,50000],teamTotal:2700000,calculationStatus:'VERIFIED'});assert.equal((markup.match(/<td/g)??[]).length,12);assert.ok(!markup.includes('2700000'));assert.match(markup,/data-status="PENDING"/);assert.match(markup,/team-total/);
 });

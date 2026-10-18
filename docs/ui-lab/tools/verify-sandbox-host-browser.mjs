@@ -47,6 +47,7 @@ try{
  });
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true`,{waitUntil:'domcontentloaded',timeout:60000});
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ await page.locator('.sandbox-diagnostics summary').click();
  const host=page.locator('#sandboxHostStatus'),button=page.locator('#simulate');
  await page.locator('#sandboxHostStatus[data-status="UNAVAILABLE"]').waitFor({timeout:15000});
  assert.match(await host.innerText(),/Local simulation host unavailable.*Preview only/);

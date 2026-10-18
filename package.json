@@ -45,6 +45,7 @@
     "report:character-truth": "node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts && node --experimental-strip-types scripts/summarize-character-truth.ts"
   },
   "devDependencies": {
+    "esbuild": "^0.27.3",
     "typescript": "^5.8.3"
   }
 }

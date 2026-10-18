@@ -1,3 +1,4 @@
+import {buildSandbox} from './build-sandbox.mjs';
 import { compilePublicBrowserModules } from './public-web-boundary.mjs';
 import { verifyPublicArtifact } from './verify-public-artifact.mjs';
 import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -86,4 +87,5 @@ cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-u
 for (const asset of ['character-build-card.js', 'character-build-card.css', 'echo-simulator.js', 'echo-simulator.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
 for (const asset of ['echo-template-configuration.mjs', 'improve-settings.js', 'improve-settings.css', 'character-target-presentation.js', 'echo-policy-presentation.mjs', 'improve-settings']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset, { recursive: true });
 
+await buildSandbox();
 verifyPublicArtifact();

@@ -1,3 +1,4 @@
+import {createBrowserSandboxClient} from './browser-client.js';
 import {rotationAcceptanceText} from './rotation-acceptance.js';
 import {dpsConceptMarkup} from './dps-concept.js';
 import {sandboxStats} from './sandbox-stats.js';
@@ -31,12 +32,14 @@ import { $, assetURL, escapeHtml, notify } from './util.js';
 
 const query = new URLSearchParams(location.search);
 const sandbox=query.get('sandbox')==='true';
-const expertMode=sandbox&&query.get('review')==='expert';
+const browserBeta=sandbox&&query.get('execution')==='browser';
+const expertMode=sandbox&&!browserBeta&&query.get('review')==='expert';
 const sandboxWorkspace=sandbox?createSandboxWorkspace():null;
 if(sandbox){
  document.body.classList.add('sandbox-preview');$('.sonata-section').remove();$('.settings-compact img')?.remove();
  $('.page-heading .eyebrow').textContent='CHARACTER SANDBOX';
  $('#demoDescription').textContent='Standalone Sandbox · source-bound standard templates. Detached simulation · no account connection or real resource spending. Requires the local Sandbox host.';
+ if(browserBeta){document.body.classList.add('browser-beta');$('#demoDescription').textContent='Sandbox beta · hypothetical builds and resources · no account changes.';$('.study-label').textContent='SANDBOX BETA';$('.page-heading h1').textContent='Sandbox Simulator';document.title='Bellibing Sandbox';}
  $('#focusDemo').disabled=true;
  document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
 }
@@ -70,7 +73,7 @@ window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{
 let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMetrics=null,metricsBinding=null,metricsTimer=null;
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
-const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
+const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
 if(sandbox){
  const controls=document.createElement('div');controls.className='sandbox-run-controls';
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
@@ -108,8 +111,8 @@ function renderFeedback() {
   if (!request.slots.length || state.configurationSession?.mode==='current') $('#simulate').disabled = true;
   $('#simulate').dataset.status = request.status;
   if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||preflightStatus.status!=='READY'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
-  $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?'Preview only · local simulation host not connected':preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':'Run detached simulation through the local host'):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
-  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:rotationAcceptanceText(sandboxRun)??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`Server reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
+  $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?(browserBeta?'Pending · browser simulation unavailable':'Preview only · local simulation host not connected'):preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':(browserBeta?'Simulate hypothetical Echoes':'Run detached simulation through the local host')):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
+  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=browserBeta?'Browser engine · hypothetical · no account changes':hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.runId=sandboxRun?.runId??'';$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:rotationAcceptanceText(sandboxRun)??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`${browserBeta?'Simulation':'Server'} reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -373,7 +376,7 @@ $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
   if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
-  try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,30));}}catch(error){if(error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError)hostStatus='UNAVAILABLE';if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
+  try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,browserBeta?0:30));}}catch(error){if(error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError)hostStatus='UNAVAILABLE';if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
   finally{runLoop=false;renderFeedback();}
 };
 $('#reviewScenario').onchange = event => {

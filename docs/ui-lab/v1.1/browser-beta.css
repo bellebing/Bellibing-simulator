@@ -1,0 +1,10 @@
+/* Pages beta only; preserve the approved desktop/local-host review surfaces. */
+.browser-beta .demo-note{display:none}.browser-beta .beta-boundary{font-size:12px;color:var(--muted);margin-top:8px}.browser-beta .site-header .study-label{white-space:nowrap}
+@media(max-width:1000px){
+ .browser-beta main{padding:0 12px}.browser-beta .site-header{display:flex;padding:0 12px;height:auto;min-height:68px;flex-wrap:wrap;gap:12px}.browser-beta .brand{font-size:15px}.browser-beta .brand-sub,.browser-beta .brand-divider{display:none}.browser-beta .site-header nav{height:42px;grid-template-columns:repeat(3,75px)}
+ .browser-beta .page-heading{display:flex;flex-wrap:wrap;gap:12px;padding:22px 0}.browser-beta .heading-carousel{width:100%;height:75px}.browser-beta .page-heading h1{font-size:25px}
+ .browser-beta #composition{grid-template-columns:minmax(0,1fr)!important}.browser-beta .side{position:static;width:100%}.browser-beta .settings-compact,.browser-beta .character-compact{height:60px;padding:8px;flex-direction:row;justify-content:center}.browser-beta .vertical-label{writing-mode:horizontal-tb;transform:none}
+ .browser-beta .workshop{padding:16px 12px}.browser-beta .workshop-header{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}.browser-beta .workshop-context{gap:8px}.browser-beta .workshop-context h2{font-size:18px}.browser-beta .current-name{min-width:0;padding-left:8px}
+ .browser-beta .working-area{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;max-width:100%;margin:20px 0}.browser-beta .interaction{grid-column:1/-1;grid-row:2;min-height:180px}.browser-beta .working-card{min-width:0}.browser-beta .echo-card{width:100%;min-width:0}.browser-beta .slots,.browser-beta .piles{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.browser-beta .loadout-heading{flex-wrap:wrap;gap:8px}
+ .browser-beta .character-ribbon,.browser-beta .gallery{max-width:100%}.browser-beta .resource-cost-layout{max-width:100%}.browser-beta .trash-panel{padding:16px 12px}.browser-beta .inspection-body{grid-template-columns:minmax(0,1fr);gap:16px}.browser-beta dialog{max-width:calc(100vw - 20px)}
+}

@@ -18,3 +18,10 @@ test('browser adapter refuses an unpublished release before fetching executable 
  globalThis.fetch=async url=>{calls.push(String(url));return {json:async()=>({status:'PENDING_REVIEW',files:[]})};};
  try{const client=createBrowserSandboxClient({readContext:()=>({characterId:'baizhi'})});const response=await client.metrics();assert.equal(response.status,'PENDING');assert.deepEqual(response.reasons,['BROWSER_RUNTIME_RELEASE_PENDING']);assert.equal(calls.length,1);assert.ok(calls[0].endsWith('/engine-release.json'));assert.equal(client.snapshot(),null);}finally{globalThis.fetch=original;}
 });
+
+test('a worker computation limit clears export identity and exposes Pending rather than a completed run',async()=>{
+ const originalFetch=globalThis.fetch,OriginalWorker=globalThis.Worker,bytes=new TextEncoder().encode('review worker'),digest=[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');let terminated=0;
+ globalThis.fetch=async url=>String(url).endsWith('.json')?{json:async()=>({status:'APPROVED_FOR_PUBLICATION',files:[{path:'sandbox-engine.worker.js',sha256:digest}]})}:{ok:true,arrayBuffer:async()=>bytes.buffer};
+ globalThis.Worker=class{postMessage(){}terminate(){terminated++;}};
+ try{const client=createBrowserSandboxClient({readContext:()=>({characterId:'baizhi'}),id:()=> 'test-id',timeoutMs:5});await assert.rejects(client.start(),/BROWSER_COMPUTATION_LIMIT_PENDING/);assert.equal(client.snapshot().status,'PENDING');assert.equal(client.snapshot().runId,null);assert.equal(client.isBusy(),false);await assert.rejects(client.export(),/SANDBOX_RUN_REQUIRED/);assert.ok(terminated>=1);}finally{globalThis.fetch=originalFetch;globalThis.Worker=OriginalWorker;}
+});

@@ -90,7 +90,7 @@ function renderFeedback() {
   const request = simulationRequest(state);
   if (!request.slots.length || state.configurationSession?.mode==='current') $('#simulate').disabled = true;
   $('#simulate').dataset.status = request.status;
-  $('#simulate').disabled=runLoop||!request.slots.length||state.configurationSession?.mode==='current';
+  if(sandbox)$('#simulate').disabled=runLoop||!request.slots.length||state.configurationSession?.mode==='current';
   $('#simulate').title = sandbox?'Run detached simulation through the local host':request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   if(sandbox){$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;$('#sandboxRunStatus').textContent=sandboxRun?.status==='PENDING'?`Pending · ${(sandboxRun.reasons??[]).join(', ')}`:sandboxRun?.status??'No run started';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:`DPR Pending · DPS ${(sandboxRun?.metrics?.dps??preRunMetrics?.dps)?.status==='EXPERIMENTAL'?'EXPERIMENTAL reference team':'Pending'}`;}
   $('#reviewScenario').value = state.feedbackScenario;

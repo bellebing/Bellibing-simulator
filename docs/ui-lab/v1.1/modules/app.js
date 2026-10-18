@@ -1,3 +1,6 @@
+import {dpsConceptMarkup} from './dps-concept.js';
+import {createSandboxClient} from './sandbox-client.js';
+import {observedSlots,expectedResourceRecord,sandboxCostDetails} from './sandbox-presentation.js';
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
 import {createSandboxWorkspace,setSandboxWeapon,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
@@ -26,12 +29,12 @@ const sandboxWorkspace=sandbox?createSandboxWorkspace():null;
 if(sandbox){
  document.body.classList.add('sandbox-preview');$('.sonata-section').remove();$('.settings-compact img')?.remove();
  $('.page-heading .eyebrow').textContent='CHARACTER SANDBOX';
- $('#demoDescription').textContent='Standalone Sandbox · source-bound standard templates. No account connection, rolls or resource spending. Simulation and DPS Pending.';
+ $('#demoDescription').textContent='Standalone Sandbox · source-bound standard templates. Detached simulation · no account connection or real resource spending. Requires the local Sandbox host.';
  $('#focusDemo').disabled=true;
  document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
 }
 const resources = mountResourceInventory($('#resourceInventory'));
-mountResourceCost($('#resourceCost')); // No verified cost producer is connected yet.
+const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
@@ -57,10 +60,13 @@ window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{
  if(sandbox){snapshot.context={...snapshot.context,kind:'SANDBOX_BUILD',buildId:state.sandboxBuild.id,buildStatus:'DETACHED_SANDBOX',modeId:state.sandboxBuild.presetId,modeStatus:'EXPLICIT_SANDBOX_CONTEXT',build:structuredClone(state.sandboxBuild)};snapshot.capability={status:'PENDING',reasons:['PRIVATE_SANDBOX_EXECUTION_NOT_CONNECTED']};}
  return snapshot;
 }});
-function displayedEchoes(){return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
-function displayedCandidates(){return state.configurationSession?state.configurationSession.candidates:state.candidates;}
-function displayedHistories(){return state.configurationSession?state.configurationSession.histories:state.histories;}
-let carousel;
+let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMetrics=null,metricsBinding=null,metricsTimer=null;
+const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??null,onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
+if(sandbox){const controls=document.createElement('div');controls.className='sandbox-run-controls';controls.innerHTML='<span id="sandboxRunStatus" role="status">No run started</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><span id="sandboxQuality"></span><div id="sandboxCostDetails"></div>';$('#resourceCost').after(controls);}
+function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
+function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}
+function displayedHistories(){if(runSlots)return runSlots.map(s=>s.trash);return state.configurationSession?state.configurationSession.histories:state.histories;}
+var carousel;
 let inspection = null;
 let inspectorSource = null;
 let closingInspection = false;
@@ -84,17 +90,19 @@ function renderFeedback() {
   const request = simulationRequest(state);
   if (!request.slots.length || state.configurationSession?.mode==='current') $('#simulate').disabled = true;
   $('#simulate').dataset.status = request.status;
-  $('#simulate').title = request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
+  $('#simulate').disabled=runLoop||!request.slots.length||state.configurationSession?.mode==='current';
+  $('#simulate').title = sandbox?'Run detached simulation through the local host':request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
+  if(sandbox){$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;$('#sandboxRunStatus').textContent=sandboxRun?.status==='PENDING'?`Pending · ${(sandboxRun.reasons??[]).join(', ')}`:sandboxRun?.status??'No run started';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:`DPR Pending · DPS ${(sandboxRun?.metrics?.dps??preRunMetrics?.dps)?.status==='EXPERIMENTAL'?'EXPERIMENTAL reference team':'Pending'}`;}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
 }
 
 function renderWorking() {
-  const slot = state.selectedSlot;
+  const slot = runInspectionSlot??state.selectedSlot;
   const shown=displayedEchoes()[slot];
-  $('#currentCard').previousElementSibling.firstElementChild.textContent=shown?.configured?'CONFIGURED ECHO':'CURRENT ECHO';
-  $('#currentCard').innerHTML = echoCard(shown, { footer: 'ACTIVE' });
+  $('#currentCard').previousElementSibling.firstElementChild.textContent=shown?.configured?'CONFIGURED ECHO':runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY ECHO':'CURRENT ECHO';
+  $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
   $('#newCard').innerHTML = echoCard(displayedCandidates()[slot], { candidate: true, footer: 'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
@@ -105,7 +113,7 @@ function renderSlots() {
     const session=state.configurationSession, editable=!!session&&session.mode==='simulate';
     const active = session ? session.active[index] : !!echo && state.echoActive[index];
     const available=session ? editable&&!!session.configurations[index] : !!echo;
-    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === state.selectedSlot ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === state.selectedSlot}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${activationMarkup(index,active,available)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${editable?'':' disabled'}>Edit Echo</button>` : ''}</div>`;
+    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${activationMarkup(index,active,available)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${editable?'':' disabled'}>Edit Echo</button>` : ''}</div>`;
   }).join('');
   positionActivationMarks($('#slots'));
   const session=state.configurationSession;
@@ -119,9 +127,10 @@ function renderPiles() {
   $('#piles').innerHTML = displayedHistories().map((history, slot) => history.length
     ? `<div class="pile" data-pile="${slot}" aria-label="Echo ${slot + 1} Trash Pile, ${history.length} historical cards">
         <span class="pile-count"><span>ECHO 0${slot + 1}</span><b>× ${history.length}</b></span>
-        <div class="pile-stack" style="--pile-extra:${(history.length - 1) * 16}px">
-          ${history.map((echo, index) => {
-            const depth = history.length - index - 1;
+        <div class="pile-stack" style="--pile-extra:${(Math.min(history.length,5) - 1) * 16}px">
+          ${history.slice(-5).map((echo, visibleIndex) => {
+            const index=Math.max(0,history.length-5)+visibleIndex;
+            const depth = Math.min(history.length,5) - visibleIndex - 1;
             const checkpoint = Number.isInteger(echo.level) ? `+${echo.level}` : 'checkpoint unknown';
             return `<button type="button" class="pile-card" data-history-index="${index}"
               style="--pile-offset:${depth * 16}px;--pile-lift:-${depth * 16 + 10}px;--pile-z:${index + 1}"
@@ -137,6 +146,7 @@ function renderCharacter() {
   const person = people.get(selectedId);
   characterCard.render(person, state);
   if(sandbox){
+    const dps=$('.sandbox-dps');dps.outerHTML=dpsConceptMarkup({characterId:person.id,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null});const dpsSelector=$('.sandbox-dps-context');if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.value==='reference'?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
     const label=$('.character-content .weapon-copy strong');
     const select=document.createElement('select');select.className='sandbox-weapon-select';select.setAttribute('aria-label','Sandbox Weapon');
     select.innerHTML=SANDBOX_WEAPONS.filter(w=>w.weaponType===person.weaponType).map(w=>`<option value="${escapeHtml(w.id)}"${w.id===state.sandboxBuild.weaponId?' selected':''}>${escapeHtml(w.name)}</option>`).join('');
@@ -163,6 +173,8 @@ function renderSettings() {
 }
 
 function renderWorkspace() {
+  sandboxClient?.checkFresh();
+  if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;resourceCost.present();clearTimeout(metricsTimer);metricsTimer=setTimeout(async()=>{try{const result=await sandboxClient.metrics();if(binding!==metricsBinding)return;preRunMetrics=result.metrics;renderCharacter();$('#sandboxCostDetails').innerHTML=sandboxCostDetails(preRunMetrics,sandboxRun?.simulatedCost);resourceCost.present({expected:expectedResourceRecord(preRunMetrics),simulated:sandboxRun?.simulatedCost?{status:'VERIFIED',...sandboxRun.simulatedCost.gross}:null});}catch{/* Absent local host leaves truthful Pending cells. */}},350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
   renderSlots();
@@ -212,7 +224,7 @@ function renderInspection() {
   $('#historyPosition').textContent = `${inspection.index + 1} / ${history.length}`;
   $('#previousCard').disabled = inspection.index === 0;
   $('#nextCard').disabled = inspection.index === history.length - 1;
-  $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · rejection reason unavailable`;
+  $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · ${echo.reason??'rejection reason unavailable'}`;
 }
 
 function inspectPile(slot, index, source) {
@@ -263,6 +275,7 @@ $('#slots').addEventListener('click', event => {
   }
   const button = event.target.closest('[data-slot]');
   if (!button) return;
+  if(runSlots){runInspectionSlot=Number(button.dataset.slot);renderWorking();renderSlots();$(`[data-slot="${runInspectionSlot}"]`).focus({preventScroll:true});return;}
   selectConfigurationSlot(state,Number(button.dataset.slot));
   renderWorking();
   renderSlots();
@@ -300,10 +313,12 @@ $('.setting-mode').addEventListener('click', event => {
   renderSettings();
   settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);
 });
-$('#simulate').onclick = () => {
+$('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
-  const request = simulationRequest(state);
-  notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);
+  if(!sandbox){notify('Pending · simulation host is not connected');return;}
+  runLoop=true;renderFeedback();
+  try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,30));}}catch(error){if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
+  finally{runLoop=false;renderFeedback();}
 };
 $('#reviewScenario').onchange = event => {
   if(!demonstration)return;
@@ -319,7 +334,8 @@ $('.mode-switch').addEventListener('click', event => {
   state.configurationSession.mode=mode;state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
-$('#reset').onclick = () => { workshopEditor.close();if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
+if(sandbox){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(sandboxClient.isBusy())await new Promise(r=>setTimeout(r,10));await sandboxClient.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await sandboxClient.export(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`Bellibing_Sandbox_${sandboxRun.runId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
+$('#reset').onclick = () => {runLoop=false;sandboxClient?.reset().catch(error=>notify(error.message)); workshopEditor.close();if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
 
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
@@ -336,4 +352,5 @@ if (globalThis.BELLIBING_LAB_REVIEW) {
   $('.page-footer > span:last-child').textContent = `Visual Concept V1.1 · ${review.revision.slice(0, 12)}${review.workingTreeDirty ? ' · working copy' : ''}`;
   document.documentElement.dataset.reviewRevision = review.revision;
 }
+if(sandbox)setInterval(()=>{sandboxClient.checkFresh();if(metricsBinding!==JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null}))renderWorkspace();},100);
 document.documentElement.dataset.uiLabReady = 'true';

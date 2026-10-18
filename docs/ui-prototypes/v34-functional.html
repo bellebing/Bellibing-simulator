@@ -380,7 +380,7 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
 .echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:flex;gap:8px;align-items:baseline}
 .echo-secondary-name{min-width:0}
 .echo-secondary-number{font-variant-numeric:tabular-nums;color:#f0e8d8}
-.echo-substats{display:grid;gap:4px;margin-top:4px}
+.echo-roll-undo{background:transparent;color:#d7bc83;border:0;text-align:left;padding:4px 0;font-size:10px;cursor:pointer}.echo-roll-undo:disabled{color:#70757c;cursor:default}.echo-roll-checkpoint{border:1px solid #3f4148;border-radius:5px;padding:5px}.echo-roll-checkpoint summary{cursor:pointer;color:#c8c7c1;font-size:11px;padding:4px}.echo-roll-checkpoint[open] summary{margin-bottom:5px}.echo-substats{display:grid;gap:4px;margin-top:4px}
 .echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
 .bb-combobox{position:relative;min-width:0}
 .bb-combobox-trigger{position:relative;width:100%;min-width:0;min-height:29px;padding:4px 22px 4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px;line-height:1.08;text-align:left;display:flex;align-items:center;cursor:pointer}
@@ -1465,15 +1465,20 @@ const echoUi={
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
     const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
+    if(this.context.kind==='equipped'){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
     for(let index=0;index<echoStatContract.maxSubstats;index++){
       const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
-      const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name,disabled:used.has(option.name)&&current?.name!==option.name}))];
+      const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name+(used.has(option.name)&&current?.name!==option.name?' · already used':''),disabled:false}))];
       const nameCombo=makeBellibingCombobox({
         id:'echoSubstat'+index+'Name',ariaLabel:'Substat '+(index+1)+' name',value:current?.name||'',options:nameOptions,
         onSelect:(nextName)=>{
+          const duplicate=this.editorSubstatRows.findIndex((pair,i)=>i!==index&&pair?.name===nextName);
+          if(duplicate>=0){if(!isCompleteEchoSubstat(current)||!isCompleteEchoSubstat(this.editorSubstatRows[duplicate])){document.getElementById('echoEditorError').textContent='Complete both stat/value pairs before swapping. Moving an incomplete pair is Pending.';return;}
+            const context=this.context,previewId=this.previewId;openConfirmation({kind:'roll-swap',title:'Swap observed roll pairs?',body:`Swap +${(index+1)*5} ${current.name} and +${(duplicate+1)*5} ${nextName}? Each stat keeps its original value.`,confirm:'Swap pairs',onConfirm:()=>{if(this.context!==context||!this.contextValid()||this.previewId!==previewId||!this.open)return;this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));[this.editorSubstatRows[index],this.editorSubstatRows[duplicate]]=[this.editorSubstatRows[duplicate],this.editorSubstatRows[index]];this.activeRoll=index;this.renderEditor();document.getElementById('echoSubstat'+index+'Name-trigger')?.focus();}});return;}
+          this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));this.activeRoll=index;
           if(!nextName)this.editorSubstatRows[index]=null;
           else this.editorSubstatRows[index]={name:nextName,value:current?.name===nextName?current.value:null};
-          this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+          this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();queueMicrotask(()=>document.getElementById('echoSubstat'+index+(nextName?'Value':'Name')+'-trigger')?.focus({preventScroll:true}));
         }
       });
       const option=current?.name?echoSubstatOption(current.name):null;
@@ -1484,15 +1489,17 @@ const echoUi={
           const rowState=this.editorSubstatRows[index];if(!rowState?.name)return;
           const source=echoSubstatOption(rowState.name),value=nextValue===''?null:Number(nextValue);
           if(value!==null&&!source?.values.some(candidate=>echoExact(candidate,value)))return;
-          this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+          this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));this.activeRoll=value!==null?index+1:index;
+          this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();queueMicrotask(()=>document.getElementById(value!==null&&index<4?'echoSubstat'+(index+1)+'Name-trigger':value!==null?'echoEquip':'echoSubstat'+index+'Value-trigger')?.focus({preventScroll:true}));
         }
       });
-      row.append(nameCombo,valueCombo);host.appendChild(row);
+      row.append(nameCombo,valueCombo);
+      if(this.context.kind==='equipped'){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
     }
     this.renderInfo();this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.infoExpanded=false;
+    this.previewId=item.id;this.infoExpanded=false;this.rollUndo=[];this.activeRoll=null;
     if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
     else{this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null)}
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
@@ -1503,7 +1510,7 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
-  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
+  previewValidation(){if(this.context.kind==='equipped'&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
@@ -1569,7 +1576,7 @@ const echoUi={
   },
   hide(){
     if(!this.open||this.closing)return;this.open=false;this.closing=true;
-    if(activeConfirmation?.kind==='sonata')closeConfirmation();
+    if(['sonata','roll-swap'].includes(activeConfirmation?.kind))closeConfirmation();
     const candidate=this.context.kind==='candidate';
     const source=captureEchoMotion(candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);

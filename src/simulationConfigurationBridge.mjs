@@ -1,4 +1,5 @@
 // Public, server/host-side configuration contract. No evaluator, network or storage writer.
+import {projectSandboxEchoSettings} from './sandboxEchoSettings.mjs';
 import {CHARACTER_CATALOG} from './data/characters.ts';
 import {ECHO_CATALOG} from './data/echoes.ts';
 import {SONATA_CATALOG} from './data/sonatas.ts';
@@ -74,9 +75,9 @@ export function validateUiSimulationConfiguration(ui){
  }catch(error){return {status:'INVALID_UI_CONFIGURATION',reasons:[error.message]};}
 }
 /** Detached v3 proposal through canonical state actions; never persists or invents provider requirements. */
-export async function adaptUiSettingsV3({characterId,presetId,settings}){
+export async function adaptUiSettingsV3({characterId,presetId,settings,sandboxEchoOnly=false}){
  uiSettings({characterId,context:{settings}});
- const recommended=await projectRecommendedImprovePolicy({characterId,presetId});
+ const recommended=sandboxEchoOnly?await projectSandboxEchoSettings(characterId):await projectRecommendedImprovePolicy({characterId,presetId});
  if(!recommended.applicability||recommended.sourceReviewStatus!=='CURRENT')return {status:'PENDING',reason:'CANONICAL_CHARACTER_SETTINGS_CONTEXT_UNAVAILABLE'};
  let state=createImprovePolicyState(characterId,recommended);
  state=updateImprovePolicyState(state,{type:'gate',value:settings.gate},recommended);
@@ -121,9 +122,9 @@ export async function compileSimulationConfiguration(ui,production,engineContrac
   const revisionBinding=revisions(ui,production);
   requireThat(engineContract?.protocol===SIMULATION_TRANSPORT_PROTOCOL&&engineContract.publicSourceRevision===CANONICAL_CONFIGURATION_SOURCE,'SOURCE_OR_TRANSPORT_CONTRACT_MISMATCH');
   text(engineContract.engineVersion,'ENGINE_VERSION');text(seed,'SEED');
-  const adapted=await adaptUiSettingsV3({characterId:ui.characterId,presetId:production.presetId,settings:valid.settings});
+  const adapted=await adaptUiSettingsV3({characterId:ui.characterId,presetId:production.presetId,settings:valid.settings,sandboxEchoOnly:production.kind==='SANDBOX_HOST_CONTEXT'&&production.echoOnlyContext===true});
   if(adapted.status!=='VALID_SETTINGS_V3')return pending(adapted.reason);
-  const canonicalDefault=await projectRecommendedImprovePolicy({characterId:ui.characterId});
+  const canonicalDefault=production.kind==='SANDBOX_HOST_CONTEXT'&&production.echoOnlyContext===true?await projectSandboxEchoSettings(ui.characterId):await projectRecommendedImprovePolicy({characterId:ui.characterId});
   requireThat(production.modeId==='default'?adapted.recommended.presetId===canonicalDefault.presetId:production.modeId===adapted.recommended.applicability.modeKey,'MODE_PRESET_CONTEXT_MISMATCH');
   const store=production.improvePolicyStorage;
   requireThat(store?.version===3&&store.characters?.[ui.characterId],'PERSISTED_SETTINGS_V3_OWNER_MISSING');
@@ -142,7 +143,7 @@ export async function compileSimulationConfiguration(ui,production,engineContrac
   const sandbox=startEchoSimulator(ui.characterId,build,session.id).simulatedBuild;
   const buildState={echoSets:sandbox.echoSets};
   for(const key of ['weaponId','weaponRefinement','sequenceLevel','forte'])if(Object.hasOwn(sandbox,key))buildState[key]=clone(sandbox[key]);
-  const input={schemaVersion:1,publicSourceRevision:CANONICAL_CONFIGURATION_SOURCE,engineVersion:engineContract.engineVersion,
+  const input={...(adapted.recommended.sandboxEchoContext?{sandboxEchoContext:adapted.recommended.sandboxEchoContext}:{}),schemaVersion:1,publicSourceRevision:CANONICAL_CONFIGURATION_SOURCE,engineVersion:engineContract.engineVersion,
    characterId:ui.characterId,modeId:production.modeId,presetId:production.presetId,seed,
    revisions:{build:production.revisions.build,settings:production.revisions.settings,inventory:production.revisions.inventory,selection:ui.revisions.selection},
    buildState,improvePolicyStorage:{version:3,characters:{[ui.characterId]:clone(adapted.state)},pendingV2Characters:{},resourceInventory:valid.inventory},selectedSlots:valid.selectedSlots};

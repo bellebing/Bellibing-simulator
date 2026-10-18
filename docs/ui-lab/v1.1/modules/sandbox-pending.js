@@ -1,6 +1,8 @@
 // UI-only explanations of server-owned public Sandbox HTTP reason codes.
 // The server may report generic configuration Pending; do not guess the failed field.
 const messages=Object.freeze({
+ EXPLICIT_CUSTOM_ECHO_REQUIREMENTS_REQUIRED:'Choose Customize and set your own supported Echo requirements. Recommended numeric requirements are Pending.',
+ FLEX_COUNT_NOT_CONFIGURED:'Choose Customize and set how many selected Flex Stats an Echo must have.',
  INVALID_SANDBOX_CONFIGURATION:'The selected configuration did not pass server validation. Review active Echo slots and Settings.',
  CONFIGURATION_CAPABILITY_PENDING:'This Character, Weapon or Settings combination is not yet executable.',
  TOTAL_ER_UNREACHABLE_WITH_CURRENT_SHELL_AND_REQUIREMENTS:'The requested total ER cannot be reached with this equipment and Echo requirements. No simulation was started.',

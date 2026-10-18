@@ -53,3 +53,6 @@
 .sandbox-run-controls #sandboxHostStatus[data-status="UNAVAILABLE"],.sandbox-run-controls #sandboxHostStatus[data-status="ERROR"]{color:#d2b27e}
 
 .observed-echo-comparison{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}.observed-echo-comparison>small{display:block;overflow-wrap:anywhere}.observed-echo-comparison select{max-width:100%;margin:6px 0}.observed-echo-comparison td small{display:block;opacity:.7}
+
+.cost-scope{max-width:270px;font-size:10px;line-height:1.45;color:var(--muted);text-align:center;margin:8px auto}
+.dps-experimental{font-size:10px;line-height:1.45;color:var(--muted);margin-top:12px}.dps-experimental summary{color:var(--gold);cursor:pointer}.sandbox-unlimited-resources{font-size:10px;margin-top:6px}

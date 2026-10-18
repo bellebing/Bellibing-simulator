@@ -40,7 +40,7 @@ if(sandbox){
  $('#focusDemo').disabled=true;
  document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
 }
-const resources = mountResourceInventory($('#resourceInventory'));
+const resources = mountResourceInventory($('#resourceInventory'),undefined,{sandbox});
 const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
@@ -70,7 +70,7 @@ window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{
 let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMetrics=null,metricsBinding=null,metricsTimer=null;
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
-const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??null,onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
+const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
 if(sandbox){
  const controls=document.createElement('div');controls.className='sandbox-run-controls';
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
@@ -212,7 +212,7 @@ async function probeSandboxHost(binding){
   if(result.status!=='READY'&&result.status!=='PENDING')throw Error('INVALID_SANDBOX_METRICS_STATUS');hostStatus='CONNECTED';preflightStatus={status:result.status,reasons:result.reasons??[]};preRunMetrics=result.status==='READY'?result.metrics:null;
   renderCharacter();
   $('#sandboxCostDetails').innerHTML=sandboxCostDetails(preRunMetrics,sandboxRun?.simulatedCost);
-  resourceCost.present({expected:expectedResourceRecord(preRunMetrics),simulated:sandboxRun?.simulatedCost?{status:'VERIFIED',...sandboxRun.simulatedCost.gross}:null});
+  resourceCost.present({comparison:sandboxRun?.metrics?.costComparison??preRunMetrics?.costComparison,expected:expectedResourceRecord(preRunMetrics),simulated:sandboxRun?.simulatedCost?{status:'VERIFIED',...sandboxRun.simulatedCost.gross}:null});
  }catch(error){
   if(binding!==metricsBinding||error.message==='STALE_SANDBOX_RESPONSE')return;
   hostStatus=error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError?'UNAVAILABLE':'ERROR';

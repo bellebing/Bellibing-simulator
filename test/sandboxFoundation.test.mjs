@@ -67,7 +67,7 @@ test('Sandbox host compiler reuses Settings/production contract without requirin
  const req=result.input.improvePolicyStorage.characters.augusta;assert.ok(req);assert.equal(result.input.buildState.weaponId,'thunderflare-dominion');assert.ok(Object.values(result.input.buildState.echoSets.sets).every(set=>set.slots.every(x=>x===null)));
  const invalid=structuredClone(ui);invalid.buildContext.kind='ACCOUNT_BUILD';assert.match((await compileSandboxConfiguration(invalid,contract,{})).reasons[0],/EXPLICIT_SANDBOX/);
  const wrong=structuredClone(ui);wrong.buildContext.weaponId='the-last-dance';assert.match((await compileSandboxConfiguration(wrong,contract,{})).reasons[0],/WEAPON/);
- w.select('hsin');assert.match((await compileSandboxConfiguration(w.readContext(r.read(),r.revision()),contract,{})).reasons[0],/PRESET_CONTEXT_MAPPING_PENDING/);
+ w.select('hsin');assert.match((await compileSandboxConfiguration(w.readContext(r.read(),r.revision()),contract,{})).reasons[0],/EXPLICIT_CUSTOM_ECHO_REQUIREMENTS_REQUIRED/);
 });
 test('DPS concept cannot misrepresent demonstration numbers as real results',()=>{
  const markup=dpsConceptMarkup({characterContributions:[2000000,650000,50000],teamTotal:2700000,calculationStatus:'VERIFIED'});assert.equal((markup.match(/<td/g)??[]).length,12);assert.ok(!markup.includes('2700000'));assert.match(markup,/data-status="PENDING"/);assert.match(markup,/team-total/);

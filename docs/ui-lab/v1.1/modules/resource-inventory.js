@@ -2,7 +2,7 @@ import { ECHO_TUBES, formatInventoryQuantity } from '../../../assets/resourceInv
 import { createLabResourceInventory } from './resource-state.js';
 import { assetURL, escapeHtml } from './util.js';
 
-export function mountResourceInventory(host, inventory = createLabResourceInventory()) {
+export function mountResourceInventory(host, inventory = createLabResourceInventory(), {sandbox=false}={}) {
   const initial = inventory.read();
   const quantity = id => { const current = inventory.read(); return current[id] ?? current.tubes[id]; };
   function field(id, name, caption, icon = true, prominent = false) {
@@ -12,6 +12,7 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
   host.innerHTML = `<div class="resource-grid-headings" aria-hidden="true"><span>Echoes</span><span>Tuners</span><span>Tubes</span></div>
     <div class="resource-compact-grid">${field('echoes','Echoes','',false,true)}${field('tuners','Premium Tuner','',true,true)}${ECHO_TUBES.map(tube=>field(tube.id,tube.name,'',true)).join('')}</div>
     <p id="resourceError" class="resource-error" role="alert" hidden></p>`;
+  if(sandbox){const button=document.createElement('button');button.type='button';button.className='sandbox-unlimited-resources';button.textContent='Unlimited for cost comparison';button.onclick=()=>{for(const id of ['echoes','tuners',...ECHO_TUBES.map(t=>t.id)])inventory.set(id,'∞');host.querySelectorAll('input').forEach(input=>{input.value='∞';sync(input);});host.dispatchEvent(new Event('change',{bubbles:true}));};host.append(button);}
   const error = host.querySelector('#resourceError');
   function sync(input) {
     const field = input.closest('[data-resource]'), active = quantity(field.dataset.resource).kind === 'UNLIMITED';

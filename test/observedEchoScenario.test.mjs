@@ -15,9 +15,9 @@ test('stale view, foreign cards, source/clock/provider drift and forged deltas c
  for(const mutate of [i=>i.view.revision++,i=>i.view.sessionId+='other',i=>i.view.slots[0].current.id+='other',i=>i.dps.beforeAfter.measurement.durationSeconds++,i=>i.dps.beforeAfter.measurement.clock='real seconds',i=>i.dps.provider.sourceRevision='other',i=>i.dps.beforeAfter.measurement.hitEvidenceSha256='other',i=>i.dps.beforeAfter.baseline.teamTotal++]){const i=observedScenarioFixture();mutate(i);assert.equal(observedEchoScenario(i),null);}
  for(const mutate of [i=>i.view.slots[0].trash=[],i=>i.view.slots[0].trash[0].card.level=20,i=>i.view.slots[0].trash[0].card.selectedSonataSetId='other',i=>i.dps.beforeAfter.alternatives[0].delta.teamTotal.absolute=100]){const i=observedScenarioFixture();mutate(i);const a=observedEchoScenario(i).alternatives[0];assert.equal(a.status,'PENDING');assert.equal(a.teamTotal,null);assert.equal(a.delta,null);}
 });
-test('experimental comparisons require opt-in expert mode and leave all three normal rows Pending',()=>{
+test('experimental reference remains separate from all three normal qualified rows',()=>{
  const i=observedScenarioFixture(),args={characterId:'augusta',dps:i.dps,view:i.view,evaluationContext:i.dps.context};
- assert.ok(!dpsConceptMarkup(args).includes('class="observed-echo-comparison"'));
+ assert.match(dpsConceptMarkup(args),/Experimental Simulated/);assert.match(dpsConceptMarkup(args),/Expected DPS: Pending/);
  const markup=dpsConceptMarkup({...args,expertMode:true});assert.match(markup,/Experimental Echo comparison/);assert.match(markup,/data-observed-row="DELTA"/);
  assert.equal((markup.match(/data-dps-scenario=/g)??[]).length,3);assert.ok(!markup.includes('data-status="VERIFIED"'));
  assert.ok(!dpsConceptMarkup({...args,expertMode:true,evaluationContext:null}).includes('class="observed-echo-comparison"'));

@@ -87,3 +87,5 @@ await import('./verify-sandbox-host-browser.mjs');
 await import('./verify-sandbox-export-browser.mjs');
 
 await import('./verify-character-context-browser.mjs');
+
+await import('./verify-observed-echo-browser.mjs');

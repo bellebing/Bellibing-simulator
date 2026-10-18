@@ -114,4 +114,6 @@ Do not infer missing values, timing, ownership, stacking, scope, rotations or da
 
 Historical PR/checkpoint/CI evidence belongs in GitHub and the Handoff update log. It is intentionally not duplicated here.
 
+The [fixed-scenario Echo comparison](ui-lab/OBSERVED_ECHO_SCENARIO.md) adds experimental same-run observed-build/one-Echo-alternative deltas in the existing opt-in expert review. The existing Augusta pilot replays the same bounded source rotation for both builds; unsupported equipment/ER remains Pending. This does not qualify normal product DPS or add a general rotation engine.
+
 The [Sandbox static-stats follow-up](ui-lab/SANDBOX_BUILD_STATS.md), stacked on #320, projects Character/Weapon/max-minor-Forte baseline facts for all 59 identities and complete observed five-card static builds through the existing canonical projector. Permanent eligible self Sonata bonuses are included; conditional combat mechanics remain Pending. Recommended maps source stat priorities for all 59 without inferring per-Echo minima/counts or ER thresholds. A versioned team comparison contract admits numbers only from explicitly qualified same-context providers; the public registry remains empty and all normal DPS cells remain Pending. This candidate does not add account integration or promote experimental team DPS.

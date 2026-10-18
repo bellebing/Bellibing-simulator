@@ -48,7 +48,7 @@ Pilot assumptions and remaining requirements:
 - Shared Tune Break damage is explicitly excluded from both scenarios and not assigned to Augusta or a partner. Enemy reaction/toughness, misses, interruption and survival are outside this pilot.
 - The clock is source model game frames at 60 FPS excluding timestop. It must not be mixed with an unspecified-clock published timeline or labeled measured real-time gameplay DPS.
 
-The next engine step is to replace observed state schedules with native source-backed events/reducers, complete raw-game Echo scaling/impact bindings and coordinated-attack/resource parity, then satisfy full verification before registering public team DPS or upgrade verdicts.
+Issue #319 now prioritizes reusing this fixed source scenario for observed Echo-build comparisons rather than building a general native rotation engine. The [Sandbox adapter](ui-lab/OBSERVED_ECHO_SCENARIO.md) adds same-run experimental comparisons without changing this pilot. Qualifying numeric product rows still requires resolving the relevant fixed-scenario hit/buff/resource evidence and independent review; unsupported changes remain Pending. Native general scheduling is not the next required product deliverable.
 
 ## API and reproduction
 

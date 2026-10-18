@@ -51,3 +51,5 @@
 .sandbox-run-controls #sandboxRunStatus{flex-basis:100%;min-width:0;overflow-wrap:anywhere;line-height:1.45}
 .sandbox-run-controls #sandboxRunStatus[data-status="PENDING"]{color:#d2b27e}
 .sandbox-run-controls #sandboxHostStatus[data-status="UNAVAILABLE"],.sandbox-run-controls #sandboxHostStatus[data-status="ERROR"]{color:#d2b27e}
+
+.observed-echo-comparison{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}.observed-echo-comparison>small{display:block;overflow-wrap:anywhere}.observed-echo-comparison select{max-width:100%;margin:6px 0}.observed-echo-comparison td small{display:block;opacity:.7}

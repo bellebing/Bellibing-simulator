@@ -1,0 +1,16 @@
+import scenario from './echo-scenario.json' with {type:'json'};
+import {observedEchoScenario} from '../../../../src/observedEchoScenario.mjs';
+import {escapeHtml} from './util.js';
+const names=['Augusta','Iuno','The Shorekeeper','Team Total'];
+const format=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(n);
+const signed=n=>(n>0?'+':'')+format(n);
+const values=r=>[...scenario.actorIds.map(id=>r.characterContributions.find(m=>m.characterId===id).dps),r.teamTotal];
+const reasons={NO_COMPLETE_OBSERVED_ALTERNATIVE:'No other complete +25 Echo was observed in this slot.',OBSERVED_ALTERNATIVE_ENERGY_REQUIREMENT_NOT_MET:'The alternative does not meet this fixed rotation’s ER requirement.',OBSERVED_ALTERNATIVE_EQUIPMENT_MISMATCH:'The observed alternative does not match this scenario’s equipment.',OBSERVED_ALTERNATIVE_CANONICAL_VALIDATION_FAILED:'The observed alternative could not be validated.'};
+export function observedEchoComparisonMarkup({dps,view,selectedSlot=null}={}){
+ const comparison=observedEchoScenario({dps,view,scenario});if(!comparison)return '';
+ const selected=comparison.alternatives.find(a=>a.slot===selectedSlot)??comparison.alternatives.find(a=>a.status==='EXPERIMENTAL')??comparison.alternatives[0];
+ const row=(label,cells,kind)=>`<tr data-observed-row="${kind}"><th scope="row">${label}</th>${cells.map((text,i)=>`<td${i===3?' class="team-total"':''}>${text}</td>`).join('')}</tr>`;
+ const available=selected.status==='EXPERIMENTAL';
+ const delta=available?[...scenario.actorIds.map(id=>selected.delta.characterContributions.find(m=>m.characterId===id)),selected.delta.teamTotal]:[];
+ return `<div class="observed-echo-comparison" data-status="EXPERIMENTAL"><p>Experimental Echo comparison · same run, one changed Echo</p><label>Observed Echo alternative<select class="observed-echo-slot" aria-label="Observed Echo alternative">${comparison.alternatives.map(a=>`<option value="${a.slot}"${a.slot===selected.slot?' selected':''}>Echo 0${a.slot} · ${a.status==='EXPERIMENTAL'?'complete alternative':'Pending'}</option>`).join('')}</select></label><table class="team-dps-table" aria-label="Experimental observed Echo DPS comparison"><thead class="carousel-announcement"><tr><th scope="col">Build</th>${names.map(n=>`<th scope="col">${n}</th>`).join('')}</tr></thead><tbody>${row('Observed build',values(comparison.baseline).map(format),'BASELINE')}${row('Echo alternative',available?values(selected).map(format):Array(4).fill('—'),'ALTERNATIVE')}${row('Change',available?delta.map(d=>`${signed(d.absolute)}${d.relative===null?'':` <small>(${signed(d.relative*100)}%)</small>`}`):Array(4).fill('—'),'DELTA')}</tbody></table><small${available?` title="${escapeHtml(selected.fromCardId)} → ${escapeHtml(selected.toCardId)}"`:""}>${available?`Echo 0${selected.slot} · two complete cards observed in this run`:escapeHtml(reasons[selected.reason]??'The observed alternative is Pending validation.')}</small><p>Fixed source cycle ${scenario.cycle} · ${format(scenario.durationSeconds)} source-model seconds, excluding timestop. Iuno/Shorekeeper retain the existing synthetic reference builds. This is scenario sensitivity, with no verified upgrade recommendation.</p></div>`;
+}

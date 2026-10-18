@@ -79,3 +79,6 @@ try{
  }
  assert.deepEqual(errors,[]);console.log('Sandbox Chromium PASS',JSON.stringify(checks));
 }finally{await writeFile(resolve(out,'verification.json'),JSON.stringify({checks,errors},null,2));await browser.close();await new Promise(r=>server.close(r));}
+
+// Small export-race Chromium regression is also runnable independently.
+await import('./verify-sandbox-export-browser.mjs');

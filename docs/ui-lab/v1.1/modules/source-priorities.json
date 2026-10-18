@@ -1,0 +1,4423 @@
+{
+  "schemaVersion": 1,
+  "owner": "REVIEWED_GUIDE_PRIORITY_PRESENTATION",
+  "characters": [
+    {
+      "characterId": "aalto",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aalto",
+      "sourceLinesSha256": "162a75082448c12ff90452382faa3fc0eb60de4f6c551f23e1716d0c2cfcfd3f",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Basic Attack DMG%",
+          "sourceLine": 499
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 499
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLinesSha256": "27b65dd07904e93f1a5f31b0ecc5428d6446102cc140987dc2620cc19a532f38",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 811
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 811
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 811
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 811
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 811
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 811
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "CRIT Rate",
+        "ATK%",
+        "Liberation DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "sourceLinesSha256": "9d999220d2de1a4aba4c98d9286cab2c1af57604b6728feb4c7463469e5bfbb7",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Heavy Attack DMG%",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 703
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 703
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Heavy Attack DMG",
+        "Flat ATK",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "baizhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/baizhi",
+      "sourceLinesSha256": "f82e72978fc446c43501b87c1a6641ec7c443b42fba08c54fa9ce5bb880de18d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 463
+        },
+        {
+          "stats": [
+            "HP%"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "HP%",
+          "sourceLine": 463
+        },
+        {
+          "stats": [
+            "Flat HP"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Flat HP",
+          "sourceLine": 463
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "HP%",
+        "Flat HP"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "brant",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/brant",
+      "sourceLinesSha256": "5a34916e1999796d45a9e4528dffed08cb22ab850f25363012b98ecc80e1389d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until 250%",
+          "sourceToken": "Energy Regen (Until 250%)",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 3,
+          "condition": "Above 250%",
+          "sourceToken": "Energy Regen (Above 250%)",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic Attack DMG%",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 553
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 553
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "Basic Attack DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "buling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/buling",
+      "sourceLinesSha256": "9b6baf0004ead39c1cdf3e75c7e8e4bc9ce25840b49cf7ee04f691716f92120b",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 481
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 481
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 481
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 481
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 481
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "calcharo",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/calcharo",
+      "sourceLinesSha256": "501f045026a2c416e60fcf0371c901d8756fc63997957fe0fa16827f580f2450",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 488
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Liberation DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "camellya",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya",
+      "sourceLinesSha256": "0d960ab34033bbe7b41968668415c3f6a295981d1973f28d6246869a4d268052",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 584
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Basic Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "cantarella",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cantarella",
+      "sourceLinesSha256": "160cb58b81697e3c02a0eff28e45a105b9506242f9caaa62b25938be757ff54c",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 609
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT RATE",
+          "sourceLine": 609
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 609
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 609
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 609
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic ATK DMG%",
+          "sourceLine": 609
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "carlotta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/carlotta",
+      "sourceLinesSha256": "9eea574661a7ada0f882e4a380fb4d43131552325a92149e3742a0b5d5428dc4",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 572
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 572
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 572
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 572
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG",
+          "sourceLine": 572
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 572
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+      "sourceLinesSha256": "ad737ad17c67a6d2dc138d502ce9ee210a36c8d362fa17fe5e91b0d978fa5fe8",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "HP%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "HP%",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic Attack DMG%",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 622
+        },
+        {
+          "stats": [
+            "Flat HP"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "HP",
+          "sourceLine": 622
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "HP%",
+        "Basic Attack DMG",
+        "Liberation DMG",
+        "Flat HP"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "changli",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli",
+      "sourceLinesSha256": "1ae5673c3ef12b859e0a2f1a99918500c622d3a9c1f7db3a45280d40f8b4d5c7",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 513
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "chisa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chisa",
+      "sourceLinesSha256": "03e44fe2838bbe5fe8dae34592683faa76d16653cb3df84368c59505a6259941",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 794
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 794
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 794
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 794
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 794
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 794
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Liberation DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "chixia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chixia",
+      "sourceLinesSha256": "093ce35f7e6a6387c9020c7b4395bb7fdef24f70377e7e9561faace27060bfad",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 460
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 460
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 460
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 460
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 460
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "ciaccona",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/ciaccona",
+      "sourceLinesSha256": "8fc2462c54cdfd5f6f4dc2ace7c646a0d423d5770b7e48894adbf0417dc2f87c",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 576
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 576
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 576
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 576
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 576
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "danjin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/danjin",
+      "sourceLinesSha256": "5d73a776a2c610484132d5a3e57826d2bd28d6e4896bcf7920476a9c73720ff2",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Heavy DMG%",
+          "sourceLine": 513
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 513
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Heavy Attack DMG",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "denia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/denia",
+      "sourceLinesSha256": "b0644699f86c7f9396abefd28c33f7c11697642b114f32d09476b5d6622f4abb",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 734
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 734
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 734
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 734
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 734
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 734
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "Liberation DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "encore",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/encore",
+      "sourceLinesSha256": "b161f4700ab674af92435ddba5bd8af6a529f994815f639897543980ed1f930f",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 525
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 525
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+      "sourceLinesSha256": "2317f8d00e724d1340fb53b3db0ab2459dea918dc7cc5b0cb740c1919a3e24ff",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 641
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 641
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 641
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 641
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 641
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Heavy Attack DMG%",
+          "sourceLine": 641
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Heavy Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "hiyuki",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki",
+      "sourceLinesSha256": "4f71830a32782675fa91b60e0c7518e2e7b4a0c3f666e7864fecd27fddbe597d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 640
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 640
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": "until 75%",
+          "sourceToken": "CRIT Rate (until 75%)",
+          "sourceLine": 640
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 640
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 640
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 640
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "CRIT Rate",
+        "ATK%",
+        "Liberation DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLinesSha256": "d209ffaf2f0ffb1ec9813b174e37effbecaf6a4c5e4d24829331742406a2ceca",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 775
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 775
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 775
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 775
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 775
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 775
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "iuno",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno",
+      "sourceLinesSha256": "7ea640d2828e0716a1e34d3d234b4bd77942861128ccff54f3933b48c0477463",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 740
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 740
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 740
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Resonance Liberation DMG%",
+          "sourceLine": 740
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 740
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 740
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "Liberation DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "jianxin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jianxin",
+      "sourceLinesSha256": "b3b601bf47274f2fc6adddd08d763053adb83a384051afc8c6648d2635bf265d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Heavy Attack DMG%",
+          "sourceLine": 510
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 7,
+          "condition": null,
+          "sourceToken": "Basic Attack DMG%",
+          "sourceLine": 510
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Liberation DMG",
+        "Heavy Attack DMG",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "jingran",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran",
+      "sourceLinesSha256": "0e235101bacc55ffba65ee5d03eb7ba2e9bc16ee5aa75e5a67d425b9508a2f87",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 652
+        },
+        {
+          "stats": [],
+          "buildMetric": "TOTAL_HP",
+          "rank": 2,
+          "condition": "Until 50000",
+          "sourceToken": "HP (Until 50000)",
+          "sourceLine": 652
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 652
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 652
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Heavy DMG%",
+          "sourceLine": 652
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 652
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 652
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "Heavy Attack DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "jinhsi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jinhsi",
+      "sourceLinesSha256": "3501719b92a4b5fcd37c11e51393d1bdcca18d920caeeea91d002fc024c3363c",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 539
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 539
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 539
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 539
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 539
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 539
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "jiyan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan",
+      "sourceLinesSha256": "3f9c3b23248e2987b77f261d29b09f0924ae78e6fa27c4f1c911e0b6abe96615",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 533
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 533
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 533
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 533
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 533
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Heavy DMG%",
+          "sourceLine": 533
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Heavy Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lingyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+      "sourceLinesSha256": "1a36fceee6a4f4b0bb1692cbdfea71d97a538c52e5f9e1e269450c75606a8dcd",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 521
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 521
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 521
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 521
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 521
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lucilla",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucilla",
+      "sourceLinesSha256": "7a6b8e6da0edd2e9bc238eca9535d7784d66a80580814dd632c18aa43fccf3a0",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 1,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 732
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 1,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 732
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 732
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 732
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 732
+        }
+      ],
+      "orderedStats": [
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lucy",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy",
+      "sourceLinesSha256": "41cb4448b97b57d332a0f6924cb51f21817c1ec19f9af8cfde24a1a5edd85d3a",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 707
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 707
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 707
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 707
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Heavy DMG%",
+          "sourceLine": 707
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 707
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Heavy Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lumi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+      "sourceLinesSha256": "10f0e6993fd5b8b3baa9507ed1dc308c43c9c23005866b781a86b69729ee7cdb",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 535
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lupa",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lupa",
+      "sourceLinesSha256": "f1c2cc883f9b93a33d262e194950109278d4fdb42f324b4c6a7723e8d46eacc4",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 637
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 637
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 637
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 637
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 637
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [
+        {
+          "sourceToken": "Liberation ATK DMG%",
+          "sourceLine": 637,
+          "reason": "UNREVIEWED_STAT_ALIAS_OR_CAPTURE_SYNTAX"
+        }
+      ],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "luuk-herssen",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen",
+      "sourceLinesSha256": "386e3065cd065663f143e5ef834d2cf9dc834e3170b1f953e1e986276c68bcd4",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 620
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 620
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 620
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 620
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 620
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 620
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "CRIT Rate",
+        "ATK%",
+        "Basic Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "lynae",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lynae",
+      "sourceLinesSha256": "eab2849bf73e1bd97d1a91d648938096b80f211b301b1f55e9ab39a60cbe7bbb",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 647
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 647
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 647
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 647
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 647
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic Attack DMG%",
+          "sourceLine": 647
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "mornye",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mornye",
+      "sourceLinesSha256": "851206e8e13d5e3839f132f440410f9046473ca450b40d3077e7d4c6fa6ec2d0",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until 260%",
+          "sourceToken": "Energy Regen (Until 260%)",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "DEF%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "DEF%",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 5,
+          "condition": "until 20%",
+          "sourceToken": "CRIT Rate (until 20%)",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "Flat DEF"
+          ],
+          "rank": 7,
+          "condition": null,
+          "sourceToken": "DEF",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 8,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 594
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "Liberation DMG",
+        "CRIT DMG",
+        "DEF%",
+        "CRIT Rate",
+        "ATK%",
+        "Flat DEF",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "mortefi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/mortefi",
+      "sourceLinesSha256": "4a4437e5b9cd5008a8c223be33086c2579b6083d399f5a864d46af0e13379adf",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 464
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 464
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 464
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 464
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 464
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "phoebe",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe",
+      "sourceLinesSha256": "4b4c6d026069f72436b2d31da9abd8a1d63d3f59e37ce5b2371e28b360a25120",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 636
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 636
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 636
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 636
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 636
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Heavy ATK DMG%",
+          "sourceLine": 636
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Heavy Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "sourceLinesSha256": "22ba718597d7cb88770f06157d71ecb4e6aacd854d375eba2caf67ac968d6e88",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 1,
+          "condition": null,
+          "sourceToken": "CRIT RATE",
+          "sourceLine": 674
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 1,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 674
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 674
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 674
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 674
+        }
+      ],
+      "orderedStats": [
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "qingxiao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qingxiao",
+      "sourceLinesSha256": "cffda5eb7c3f978ec67b6c2c822a28746ef22159e7577962d882e9ae2433bcd6",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 623
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 623
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 623
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 623
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 623
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG",
+            "Liberation DMG",
+            "Basic Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Heavy/Liberation/Basic DMG%",
+          "sourceLine": 623
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Heavy Attack DMG",
+        "Liberation DMG",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "qiuyuan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qiuyuan",
+      "sourceLinesSha256": "7754257c76dff59f9f235fc08ad5bc59f3aef40116b8173d587147df0410a06e",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 595
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 595
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 595
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 595
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Heavy Attack DMG%",
+          "sourceLine": 595
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 595
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Heavy Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "rebecca",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rebecca",
+      "sourceLinesSha256": "af5d1322c5244356ea167b0dc9c4fd4400e895a43cce9d73306146414ec2138e",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 714
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 714
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 714
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 714
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 714
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 714
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "Basic Attack DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "roccia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia",
+      "sourceLinesSha256": "47ad5e8fe9ad9899189449c2d2c855910d9db6530faf276ff27bc156e4a8ec2d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 545
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 545
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 545
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 545
+        },
+        {
+          "stats": [
+            "Heavy Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Heavy ATK DMG%",
+          "sourceLine": 545
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 545
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Heavy Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "rover-aero",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-aero",
+      "sourceLinesSha256": "1e9a885ff4cbd70abf6e2d731fbb4b4aeb0ad6f5ca9182e7fa36c218dd58d1c6",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 468
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 468
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 468
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 468
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 468
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 468
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "rover-electro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-electro",
+      "sourceLinesSha256": "d9da074190325a117dbe9b8e041db570c9814ed9734f042639d57ee0baef454d",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 494
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 494
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Skill DMG",
+        "Flat ATK",
+        "Liberation DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "rover-havoc",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc",
+      "sourceLinesSha256": "7b1c98692a286d2d6deea6ed48dbd420742b38de0c80b1ef60a249363ce6d09c",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 473
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 473
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Basic Attack DMG",
+        "Liberation DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "rover-spectro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro",
+      "sourceLinesSha256": "fa2b852bd6850d93689252846212b73ac28fa0398b47efec9f02e9ab2f59d133",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 488
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 488
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Skill DMG",
+        "Liberation DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "sanhua",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sanhua",
+      "sourceLinesSha256": "a33fb491885fe8385bdfc8dca7f1b4aca9b2915eeb45d090f56ffa8ae0f3ce33",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 462
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 462
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 462
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 462
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 462
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+      "sourceLinesSha256": "36725afae892e2ad6cd9f0a56d413cbf08069f6b9aa89d8880aed33ba007fd59",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 581
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 581
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 581
+        },
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 3,
+          "condition": "above 125% until 150%",
+          "sourceToken": "Energy Regen (above 125% until 150%)",
+          "sourceLine": 581
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 581
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 581
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "CRIT Rate",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "suisui",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/suisui",
+      "sourceLinesSha256": "92c1f20cffbd722f857e1723683540469270a17643f69749ebfcf9bb08c823b5",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until 260%",
+          "sourceToken": "Energy Regen (Until 260%)",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "HP%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "HP%",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 535
+        },
+        {
+          "stats": [
+            "Flat HP"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "HP",
+          "sourceLine": 535
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "HP%",
+        "CRIT Rate",
+        "Basic Attack DMG",
+        "Flat HP"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "taoqi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi",
+      "sourceLinesSha256": "feb7b7f7ccc3f9de1069ac3a75c72ee8d2e1e6a527de4d437fe891d904b9f218",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 451
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 451
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 451
+        },
+        {
+          "stats": [
+            "DEF%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "DEF%",
+          "sourceLine": 451
+        },
+        {
+          "stats": [
+            "Flat DEF"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "DEF",
+          "sourceLine": 451
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "DEF%",
+        "Flat DEF"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper",
+      "sourceLinesSha256": "f1a16c088fc23ff7f91ee2de5084c410a7963bf8643e3bef38a430c99edc01c5",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until 230%",
+          "sourceToken": "Energy Regen (Until 230%)",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "HP%"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "HP%",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "Flat HP"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "HP",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 7,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 496
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 7,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 496
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT DMG",
+        "Liberation DMG",
+        "HP%",
+        "CRIT Rate",
+        "Flat HP",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "verina",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/verina",
+      "sourceLinesSha256": "016339af935aa07f206bd23670dde563b4a0e51ebc4f8ccb1899a92a9a780e68",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 426
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 426
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 426
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 426
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 426
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "xiangli-yao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao",
+      "sourceLinesSha256": "fe184c68aa627227496c993764759013bad13399ad52a29d26fc9979a0eab675",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 584
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 584
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Liberation DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "yangyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang",
+      "sourceLinesSha256": "962c46518480a68173b19fa28870f9799f646427b03922924ab35c785e3c7da7",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "Liberation DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Liberation DMG%",
+          "sourceLine": 456
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 6,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 456
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Liberation DMG",
+        "Basic Attack DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "sourceLinesSha256": "c0fe4ea722b59688321f1c8db51136564f7c6de40b9541f40b6f88929bd9c382",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 566
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 566
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 566
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 566
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%"
+      ],
+      "unresolved": [
+        {
+          "sourceToken": "Heavy DMG% ATK",
+          "sourceLine": 566,
+          "reason": "UNREVIEWED_STAT_ALIAS_OR_CAPTURE_SYNTAX"
+        }
+      ],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "yinlin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yinlin",
+      "sourceLinesSha256": "52de5bda09ea64c5f67281c2f9fbf85de02eb02f1a197650a3d9b8e59ce35d5c",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 536
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 536
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 536
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 536
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 536
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Resonance Skill DMG%",
+          "sourceLine": 536
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "youhu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu",
+      "sourceLinesSha256": "a0dd34983a58f5c3971c7fa4e9f7ccd37fdf6b4e6dcc1e0a86cf0c805798a495",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 528
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 528
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 528
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 528
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 528
+        },
+        {
+          "stats": [
+            "Skill DMG"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Skill DMG%",
+          "sourceLine": 528
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK",
+        "Skill DMG"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "yuanwu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yuanwu",
+      "sourceLinesSha256": "a5402e737069dece12fd67808a47f02514623864faf48dcb504e1f19306882fd",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 504
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 504
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 504
+        },
+        {
+          "stats": [
+            "DEF%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "DEF%",
+          "sourceLine": 504
+        },
+        {
+          "stats": [
+            "Flat DEF"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Flat DEF",
+          "sourceLine": 504
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "DEF%",
+        "Flat DEF"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "zani",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani",
+      "sourceLinesSha256": "2e8306ad082c29675a69037e8140fbd6efb31af269a2bb4680f052e27c98c06f",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 594
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "ATK",
+          "sourceLine": 594
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    },
+    {
+      "characterId": "zhezhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zhezhi",
+      "sourceLinesSha256": "d7768fff2b44446640a1f62f87f20ca4c5ad7397548a3303c466457087247d0e",
+      "kind": "SOURCE_PRIORITY_GUIDANCE_ONLY",
+      "entries": [
+        {
+          "stats": [
+            "Energy Regen"
+          ],
+          "rank": 1,
+          "condition": "Until Satisfied",
+          "sourceToken": "Energy Regen (Until Satisfied)",
+          "sourceLine": 556
+        },
+        {
+          "stats": [
+            "CRIT Rate"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT Rate",
+          "sourceLine": 556
+        },
+        {
+          "stats": [
+            "CRIT DMG"
+          ],
+          "rank": 2,
+          "condition": null,
+          "sourceToken": "CRIT DMG",
+          "sourceLine": 556
+        },
+        {
+          "stats": [
+            "ATK%"
+          ],
+          "rank": 3,
+          "condition": null,
+          "sourceToken": "ATK%",
+          "sourceLine": 556
+        },
+        {
+          "stats": [
+            "Basic Attack DMG"
+          ],
+          "rank": 4,
+          "condition": null,
+          "sourceToken": "Basic DMG%",
+          "sourceLine": 556
+        },
+        {
+          "stats": [
+            "Flat ATK"
+          ],
+          "rank": 5,
+          "condition": null,
+          "sourceToken": "Flat ATK",
+          "sourceLine": 556
+        }
+      ],
+      "orderedStats": [
+        "Energy Regen",
+        "CRIT Rate",
+        "CRIT DMG",
+        "ATK%",
+        "Basic Attack DMG",
+        "Flat ATK"
+      ],
+      "unresolved": [],
+      "hardRequirements": "PENDING_REVIEWED_PER_ECHO_THRESHOLDS",
+      "flexCount": null,
+      "erThreshold": "PENDING_EXACT_APPLICABLE_TARGET",
+      "authorizesExecution": false
+    }
+  ]
+}

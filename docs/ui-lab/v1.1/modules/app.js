@@ -1,4 +1,5 @@
 import {dpsConceptMarkup} from './dps-concept.js';
+import {sandboxStats} from './sandbox-stats.js';
 import {selectCharacterTeam} from './character-context.js';
 import {recommendedGuidance} from './recommended-guidance.js';
 import {CHARACTER_TARGETS} from './targets.js';
@@ -159,6 +160,7 @@ function renderPiles() {
 
 function renderCharacter() {
   const person = people.get(selectedId);
+  if(sandbox)state.sandboxStatProjection=sandboxStats(state,sandboxRun);
   characterCard.render(person, state);
   if(sandbox){
     const panel=$('#sandboxTeamPanel');
@@ -189,7 +191,7 @@ function renderSettings() {
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = !sandbox&&selectedId !== 'augusta';
-  buttons[0].title = sandbox ? 'View source guidance; restore approved Echo settings where available' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
+  buttons[0].title = sandbox ? 'Restore source priorities or approved Echo settings; missing thresholds remain Pending' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
   if(sandbox){const guide=$('#recommendedGuidance'),open=guide.querySelector('details')?.open;guide.innerHTML=recommendedGuidance(selectedId);guide.querySelector('details').open=!!open;}
   const target = $('.target');
   const reference=CHARACTER_TARGETS.find(r=>r.characterId===selectedId&&(sandbox||selectedId==='augusta'));
@@ -358,8 +360,8 @@ $('.setting-mode').addEventListener('click', event => {
     const restored=restoreRecommendedSettings(state);
     renderSettings();
     if(sandbox)$('#recommendedGuidance details').open=true;
-    // Guidance cannot silently replace explicit Custom intent or imply a
-    // reviewed executable policy when canonical requirements are missing.
+    // Explicit Recommended restores source guidance. Unavailable guidance
+    // cannot imply a reviewed executable policy or erase Custom state.
     if(!restored)return;
   }else{state.settingsMode='Customize';renderSettings();}
   settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);

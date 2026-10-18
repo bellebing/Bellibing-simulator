@@ -61,10 +61,10 @@ test('source choices retain Character ownership, retire expert context and rejec
 test('Phrolova exposes exact conditional CR/CD source guidance without manufacturing ER or Echo Hard/Flex',()=>{
  const w=createSandboxWorkspace(),f=w.select('phrolova');
  const before=structuredClone(f.statSections);f.settingsMode='Customize';f.erTarget={enabled:true,valuePercent:123};
- assert.equal(restoreRecommendedSettings(f),false);assert.deepEqual(f.statSections,before);assert.equal(f.settingsMode,'Customize');assert.equal(f.erTarget.valuePercent,123);
+ assert.equal(restoreRecommendedSettings(f),true);assert.deepEqual(f.statSections.hard,[]);assert.deepEqual(f.statSections.flex,['CRIT Rate','CRIT DMG','ATK%','Skill DMG','Flat ATK']);assert.equal(f.flexCount,null);assert.equal(f.erTarget.valuePercent,123);
  const markup=recommendedGuidance('phrolova');
  assert.match(markup,/60%\+ \(before Echo set bonuses\)/);assert.match(markup,/215-260%\+ \(before any Aftersound stacks\)/);
- assert.match(markup,/ER target Pending/);assert.match(markup,/Hard\/Flex mapping Pending/);
+ assert.match(markup,/ER target Pending/);assert.match(markup,/Hard\/Flex thresholds Pending/);
 });
 test('comparison rows stay Pending even when passed synthetic, stale or flat values',()=>{
  const markup=dpsConceptMarkup({characterId:'chixia',teamTotal:123,calculationStatus:'VERIFIED'});

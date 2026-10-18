@@ -4,13 +4,14 @@ import { SETTING_METRICS } from './simulation-model.js';
 import { CHARACTER_TARGETS } from './targets.js';
 import { erTotalFixture } from './result-fixtures.js';
 import { escapeHtml } from './util.js';
+import {sourcePriorityMode} from './source-priorities.js';
 
 const statById = new Map(ECHO_SETTING_STATS.map(stat=>[stat.id,stat]));
 const labels={hard:'Hard Requirements',flex:'Flex Stats',other:'Other Stats'};
 export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   host.innerHTML = `<span class="carousel-announcement" id="settingsKeys">Drag to reorder or move between sections. Alt Left or Right changes section. Alt Up or Down reorders.</span>
     <section class="er-target" id="erTarget"><div class="er-target-heading"><label><input id="erEnabled" type="checkbox" aria-label="Enable ER Target" aria-describedby="erTargetBadge">ER Target</label><output id="erTargetValue" class="er-target-readout"></output><label id="erTargetEditor" class="er-target-inline-editor" hidden><input id="erTargetInput" type="number" min="0" step="0.1" inputmode="decimal" aria-label="ER Target percent" aria-describedby="erTargetBadge"><span aria-hidden="true">%</span></label><span id="erTargetBadge" role="status" aria-live="polite"></span></div></section>
-    <section><h3>Hard Requirements</h3><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div></section>
+    <section><h3>Hard Requirements</h3><p id="sourcePriorityStatus" class="settings-validation" hidden></p><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div></section>
     <section><h3>Flex Stats</h3><label class="flex-count"><output id="flexCountLabel"></output><input id="flexCount" type="range" aria-label="Required distinct Flex Stats" aria-describedby="flexCountLabel flexCountError"></label><p id="flexCountError" class="settings-validation" role="alert" hidden></p><div id="flexRows" class="stat-list" data-stat-section="flex" aria-label="Flex Stats"></div></section>
     <details id="otherStats"><summary>Other Stats</summary><div id="otherRows" class="stat-list" data-stat-section="other" aria-label="Other Stats"></div></details>`;
   const find=selector=>host.querySelector(selector);
@@ -25,10 +26,18 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   function edited(action,source=null) {getState().settingsMode='Customize';mode();onEdit(action,source);}
   function row(id,section) {
     const stat=statById.get(id), tier=getState().minima[id], active=section!=='other';
+    if(active&&sourcePriorityMode(getState())){
+      const entries=getState().sourcePreferenceGuidance.entries.filter(e=>e.stats.includes(id));
+      return `<div class="setting-row source-priority-row" draggable="true" data-minimum="${escapeHtml(id)}" data-stat-id="${escapeHtml(id)}" data-section="${section}" tabindex="-1"><button class="handle" draggable="true" aria-label="Move ${escapeHtml(stat.label)}" aria-describedby="settingsKeys">≡</button><span class="stat-label">${escapeHtml(stat.label)}</span><span title="${escapeHtml(entries.map(e=>e.sourceToken).join(' · '))}">Priority ${entries[0]?.rank??'—'}${entries.some(e=>e.condition)?' · conditional':''}</span></div>`;
+    }
     return `<div class="setting-row ${active?'':'neutral'}" draggable="true" data-minimum="${escapeHtml(id)}" data-stat-id="${escapeHtml(id)}" data-section="${section}" tabindex="-1"><button class="handle" draggable="true" aria-label="Move ${escapeHtml(stat.label)}" aria-describedby="settingsKeys" title="Drag or use Alt + Arrow keys">≡</button><span class="stat-label">${escapeHtml(stat.label)}</span>${active?`<input aria-label="${escapeHtml(stat.label)} minimum" type="range" min="0" max="${stat.tiers.length-1}" value="${tier}" aria-valuetext="${stat.labels[tier]}"><output>${stat.labels[tier]}</output>`:'<span class="inactive-state">Inactive</span>'}</div>`;
   }
   function count() {
     const state=getState(), view=flexCountPresentation(state), slider=find('#flexCount');
+    const guidance=sourcePriorityMode(state);find('.flex-count').hidden=guidance;
+    find('#sourcePriorityStatus').hidden=!guidance;
+    find('#sourcePriorityStatus').textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`:'';
+    if(guidance){find('#flexCountError').hidden=true;return;}
     find('#flexCountLabel').textContent=state.flexCount===null?view.message:`At least ${state.flexCount} of ${state.statSections.flex.length}`;
     slider.min=state.flexCount===null?'0':'1';slider.max=String(Math.max(1,view.maximum));
     slider.value=String(Math.min(state.flexCount??0,Math.max(1,view.maximum)));slider.disabled=view.maximum===0;

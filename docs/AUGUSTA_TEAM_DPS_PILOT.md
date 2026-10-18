@@ -2,7 +2,7 @@
 
 This experimental pilot joins actual legal Echo stat cards, fixed gear/sequence presets, a continuous four-cycle standard timing/state schedule, canonical damage facts and Bellibing's existing damage kernel. It compares Augusta / Iuno / Shorekeeper with Augusta / Mortefi / Shorekeeper and reports each actor's own damage, share and DPS contribution using the **team cycle** as denominator.
 
-It is an explicit reference scenario, not a production-ready native combat simulator. `scenarioDps` is numeric; `teamDpsReady` and `authorizesUpgradeVerdict` remain false. Public engine registration and Reference Team 01 readiness/dependencies are unchanged. No UI is enabled.
+It is an explicit reference scenario, not a production-ready native combat simulator. `scenarioDps` is numeric; `teamDpsReady` and `authorizesUpgradeVerdict` remain false. Public engine registration and Reference Team 01 readiness/dependencies are unchanged. The isolated Sandbox expert adapter can expose experimental comparisons; normal product DPS remains Pending.
 
 ## Controlled comparison
 

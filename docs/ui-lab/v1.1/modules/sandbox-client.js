@@ -31,6 +31,14 @@ export function createSandboxClient({readContext,readEvaluationContext=()=>null,
   snapshot:()=>clone(run),isBusy:()=>busy,
   async metrics(){const g=generation,b=current();await authorize();assertCurrent(g,b);const data=await request('metrics',{body:{context:clone(readContext()),evaluationContext:clone(readEvaluationContext()),clientGeneration:g}});assertCurrent(g,b);if(data.protocol!==SANDBOX_HTTP_PROTOCOL||data.clientGeneration!==g)throw Error('INVALID_SANDBOX_METRICS');return data;},
   async reset(){const old=run;invalidate();if(old&&guest)await request(`runs/${encodeURIComponent(old.runId)}/reset`,{body:{expectedRevision:old.serverRevision}});},
-  async export(){if(!run||!this.checkFresh())throw Error('SANDBOX_RUN_REQUIRED');const g=generation,b=current();const data=await request(`runs/${encodeURIComponent(run.runId)}/export`);assertCurrent(g,b);return data;}
+  async export(){
+   if(!run||!this.checkFresh())throw Error('SANDBOX_RUN_REQUIRED');
+   const g=generation,b=current(),{runId,serverRevision}=run;
+   const data=await request(`runs/${encodeURIComponent(runId)}/export`);
+   assertCurrent(g,b);
+   if(run?.runId!==runId||run.serverRevision!==serverRevision)throw Error('STALE_SANDBOX_RESPONSE');
+   if(data?.schemaVersion!==1||data.kind!=='BELLIBING_SANDBOX_HTTP_EXPORT_V1'||data.run?.kind!=='BELLIBING_SANDBOX_RUN_EXPORT_V1')throw Error('INVALID_SANDBOX_EXPORT');
+   return data;
+  }
  };
 }

@@ -86,7 +86,8 @@ integration remain Pending.
 review control for Augusta. Explicit opt-in retains the existing private host's
 strict qualification and same-call contribution/total guard. Its experimental
 values never populate the normal comparison rows or define a default source
-team. Normal product mode has no synthetic DPS selector.
+team. The [observed Echo comparison](OBSERVED_ECHO_SCENARIO.md) reuses this fixed
+scenario for same-run one-Echo alternatives and experimental aggregate deltas. Normal product mode has no synthetic DPS selector.
 
 ## Verification boundary
 

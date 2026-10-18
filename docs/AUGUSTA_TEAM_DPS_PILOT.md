@@ -2,7 +2,7 @@
 
 This experimental pilot joins actual legal Echo stat cards, fixed gear/sequence presets, a continuous four-cycle standard timing/state schedule, canonical damage facts and Bellibing's existing damage kernel. It compares Augusta / Iuno / Shorekeeper with Augusta / Mortefi / Shorekeeper and reports each actor's own damage, share and DPS contribution using the **team cycle** as denominator.
 
-It is an explicit reference scenario, not a production-ready native combat simulator. `scenarioDps` is numeric; `teamDpsReady` and `authorizesUpgradeVerdict` remain false. Public engine registration and Reference Team 01 readiness/dependencies are unchanged. No UI is enabled.
+It is an explicit reference scenario, not a production-ready native combat simulator. `scenarioDps` is numeric; `teamDpsReady` and `authorizesUpgradeVerdict` remain false. Public engine registration and Reference Team 01 readiness/dependencies are unchanged. The isolated Sandbox expert adapter can expose experimental comparisons; normal product DPS remains Pending.
 
 ## Controlled comparison
 
@@ -48,7 +48,7 @@ Pilot assumptions and remaining requirements:
 - Shared Tune Break damage is explicitly excluded from both scenarios and not assigned to Augusta or a partner. Enemy reaction/toughness, misses, interruption and survival are outside this pilot.
 - The clock is source model game frames at 60 FPS excluding timestop. It must not be mixed with an unspecified-clock published timeline or labeled measured real-time gameplay DPS.
 
-The next engine step is to replace observed state schedules with native source-backed events/reducers, complete raw-game Echo scaling/impact bindings and coordinated-attack/resource parity, then satisfy full verification before registering public team DPS or upgrade verdicts.
+Issue #319 now prioritizes reusing this fixed source scenario for observed Echo-build comparisons rather than building a general native rotation engine. The [Sandbox adapter](ui-lab/OBSERVED_ECHO_SCENARIO.md) adds same-run experimental comparisons without changing this pilot. Qualifying numeric product rows still requires resolving the relevant fixed-scenario hit/buff/resource evidence and independent review; unsupported changes remain Pending. Native general scheduling is not the next required product deliverable.
 
 ## API and reproduction
 

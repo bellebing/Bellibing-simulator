@@ -165,10 +165,12 @@ function renderCharacter() {
   if(sandbox){
     const panel=$('#sandboxTeamPanel');
     const open=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
-    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null});
+    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null,view:sandboxRun?.view??null,comparisonSlot:state.sandboxComparisonSlot??null});
     panel.querySelectorAll('details').forEach(n=>{n.open=open.includes(n.className);});
     const teamSelector=panel.querySelector('.sandbox-team-context');
     if(teamSelector)teamSelector.onchange=()=>{selectCharacterTeam(state,teamSelector.value);sandboxWorkspace.advanceContext();sandboxClient.invalidate();renderWorkspace();};
+    const comparisonSelector=panel.querySelector('.observed-echo-slot');
+    if(comparisonSelector)comparisonSelector.onchange=()=>{state.sandboxComparisonSlot=Number(comparisonSelector.value);renderCharacter();};
     const dpsSelector=panel.querySelector('.sandbox-dps-context');
     if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.checked?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
 

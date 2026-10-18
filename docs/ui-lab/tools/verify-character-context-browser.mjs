@@ -25,9 +25,9 @@ try{
  const index=await page.locator('[data-art]').evaluateAll(nodes=>nodes.findIndex(n=>n.dataset.art==='phrolova'));
  await page.locator('#galleryArt').focus();await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
  await page.waitForFunction(()=>document.querySelector('#characterCarousel').dataset.focusedCharacter==='phrolova'&&document.querySelector('#characterCarousel').dataset.motion==='settled');await page.keyboard.press('Enter');
- await page.waitForFunction(()=>document.querySelector('.sandbox-dps').dataset.contextStatus==='PENDING_AMBIGUOUS_TEAM');
+ await page.waitForFunction(()=>document.querySelector('.dps-contribution span')?.textContent==='Phrolova');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
- assert.deepEqual(await page.locator('.dps-contribution span').allTextContents(),['Phrolova','Teammate Pending','Teammate Pending','Team Total']);
+ assert.deepEqual(await page.locator('.dps-contribution span').allTextContents(),['Phrolova','Lucilla','Qiuyuan','Team Total']);
  if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
  await page.getByRole('button',{name:'Recommended',exact:true}).click();
  assert.match(await page.locator('.recommended-guidance').innerText(),/60%\+ \(before Echo set bonuses\)/);

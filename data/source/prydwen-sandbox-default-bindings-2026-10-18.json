@@ -1,0 +1,1501 @@
+{
+  "schemaVersion": 1,
+  "role": "reviewed-sandbox-default-context-bindings",
+  "reviewedAt": "2026-10-18",
+  "productDecision": "https://github.com/bellebing/Bellibing-simulator/issues/319",
+  "guideArtifact": "data/source/prydwen-character-recommendations-2026-10-11.json",
+  "guideSha256": "e616abe67973c6c0068ccacfe2f2fe5ff61f20f7b0855451c655156082e63876",
+  "policy": "Explicit reviewed context IDs and source decisions; never first-array, alphabetical, unique-only, or DPS rank inference. Member standards need not equal the carry's own default. Image-only Team #1 rosters are not claimed verified.",
+  "records": [
+    {
+      "characterId": "aalto",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-aalto-ciaccona-rover-aero-aalto-slots-1",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "aalto",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aalto",
+      "sourceLinesSha256": "162a75082448c12ff90452382faa3fc0eb60de4f6c551f23e1716d0c2cfcfd3f",
+      "sourceLines": [
+        582,
+        585
+      ],
+      "sourceExampleLabels": [
+        "Best Team (DPS)",
+        "Best Team (Hybrid)",
+        "F2P Team (DPS)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Ciaccona is the named best DPS partner; Aero Rover completes the explicitly described mono-Aero core.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "aemeath",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-aemeath-denia-chisa-aemeath-slots-3",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLinesSha256": "27b65dd07904e93f1a5f31b0ecc5428d6446102cc140987dc2620cc19a532f38",
+      "sourceLines": [
+        1025,
+        1030,
+        1033
+      ],
+      "sourceExampleLabels": [
+        "Fusion Burst Team",
+        "Tune Rupture Team",
+        "Mono Fusion"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the first published mode example, Fusion Burst: Denia plus Chisa. Tune Rupture remains selectable.",
+      "modeRequirements": {
+        "aemeath": "fusion-burst",
+        "denia": "fusion-burst"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "augusta",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-augusta-iuno-the-shorekeeper-augusta-slots-4",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "sourceLinesSha256": "9d999220d2de1a4aba4c98d9286cab2c1af57604b6728feb4c7463469e5bfbb7",
+      "sourceLines": [
+        878,
+        879
+      ],
+      "sourceExampleLabels": [
+        "Team #1 - Best Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Retain the established Augusta/Iuno/Shorekeeper source-bound default and owner presentation choice.",
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "baizhi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-camellya-sanhua-baizhi-camellya-slots-6",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "baizhi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/baizhi",
+      "sourceLinesSha256": "f82e72978fc446c43501b87c1a6641ec7c443b42fba08c54fa9ce5bb880de18d",
+      "sourceLines": [
+        552
+      ],
+      "sourceExampleLabels": [],
+      "exactImageTrioVerified": false,
+      "decision": "Use the existing reviewed non-coordinated Camellya/Sanhua budget context; no universal best-team rank is asserted.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "brant",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-special-galbrena-lupa-brant",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+      "sourceLinesSha256": "2317f8d00e724d1340fb53b3db0ab2459dea918dc7cc5b0cb740c1919a3e24ff",
+      "sourceLines": [
+        796,
+        797,
+        809
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Echo Hypercarry Team",
+        "Team #3: Mono Fusion Alternatives",
+        "Team #4: Alt Premium Teams",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly reviewed Galbrena/Lupa/Brant mono-Fusion composition, retaining its investment condition.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "buling",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-hsin-rover-electro-buling-hsin-slots-17",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLinesSha256": "d209ffaf2f0ffb1ec9813b174e37effbecaf6a4c5e4d24829331742406a2ceca",
+      "sourceLines": [
+        913
+      ],
+      "sourceExampleLabels": [
+        "Best Team (Flare)",
+        "Best Team (Unison)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly named Electro Flare F2P support context with Hsin and Electro Rover.",
+      "modeRequirements": {
+        "hsin": "electro-flare"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "calcharo",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-calcharo-lynae-mornye-calcharo-slots-5",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "calcharo",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/calcharo",
+      "sourceLinesSha256": "501f045026a2c416e60fcf0371c901d8756fc63997957fe0fa16827f580f2450",
+      "sourceLines": [
+        677,
+        679,
+        685
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Budget Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lynae is explicitly best overall; Mornye is best when paired with Lynae.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "camellya",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-camellya-lynae-mornye-camellya-slots-6",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "camellya",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya",
+      "sourceLinesSha256": "0d960ab34033bbe7b41968668415c3f6a295981d1973f28d6246869a4d268052",
+      "sourceLines": [
+        766,
+        768,
+        773
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lynae is explicitly generally best, despite Roccia appearing earlier in the group; Mornye is best with Lynae.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "cantarella",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-phrolova-cantarella-qiuyuan-phrolova-slots-29",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "sourceLinesSha256": "22ba718597d7cb88770f06157d71ecb4e6aacd854d375eba2caf67ac968d6e88",
+      "sourceLines": [
+        837,
+        839
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Alternative Teams",
+        "Team #3: Dual DPS",
+        "Team #4: Phoebe Dual DPS",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Phrolova/Cantarella/Qiuyuan alternative as Cantarella's member standard, not Phrolova's first choice.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "carlotta",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "carlotta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/carlotta",
+      "sourceLinesSha256": "9eea574661a7ada0f882e4a380fb4d43131552325a92149e3742a0b5d5428dc4",
+      "sourceLines": [
+        664,
+        668,
+        674
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Choose the reviewed Zhezhi standard with Shorekeeper and the documented consistent rotation; Mornye is restricted to the Lynae alternative.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "cartethyia",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+      "sourceLinesSha256": "ad737ad17c67a6d2dc138d502ce9ee210a36c8d362fa17fe5e91b0d978fa5fe8",
+      "sourceLines": [
+        784,
+        785
+      ],
+      "sourceExampleLabels": [
+        "Team #1",
+        "Team #2: Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Retain the existing reviewed default profile: Ciaccona and Aero Rover; the signature-dependent Chisa variant remains an alternative.",
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "changli",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-aemeath-231",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "changli",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/changli",
+      "sourceLinesSha256": "1ae5673c3ef12b859e0a2f1a99918500c622d3a9c1f7db3a45280d40f8b4d5c7",
+      "sourceLines": [
+        692,
+        694
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Brant Dual DPS Team",
+        "Expert Team",
+        "Dual Fusion Team",
+        "Budget Dual DPS Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the established Aemeath/Changli/Lupa mono-Fusion quickswap context. This is a member standard, not a new global rank.",
+      "modeRequirements": {
+        "aemeath": "tune-rupture"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": [
+        "Advanced quickswap; this is not the casual Brant variant."
+      ]
+    },
+    {
+      "characterId": "chisa",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-yangyang-xuanling-134",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "sourceLinesSha256": "c0fe4ea722b59688321f1c8db51136564f7c6de40b9541f40b6f88929bd9c382",
+      "sourceLines": [
+        651,
+        652
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Premium Teams",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Chisa participates in the explicitly best Yangyang Xuanling/Suisui composition.",
+      "modeRequirements": {},
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": []
+    },
+    {
+      "characterId": "chixia",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-source-default-chixia-brant-lupa",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "chixia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/chixia",
+      "sourceLinesSha256": "093ce35f7e6a6387c9020c7b4395bb7fdef24f70377e7e9561faace27060bfad",
+      "sourceLines": [
+        527,
+        529
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Brant Dual DPS Team",
+        "Changli Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "The guide explicitly names Chixia/Brant/Lupa as the newest best mono-Fusion archetype.",
+      "modeRequirements": {},
+      "compositionReview": "APPROVED_EXPLICIT_GUIDE_TRIO_ADDITION",
+      "conditions": []
+    },
+    {
+      "characterId": "ciaccona",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-sigrika-193",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+      "sourceLinesSha256": "36725afae892e2ad6cd9f0a56d413cbf08069f6b9aa89d8880aed33ba007fd59",
+      "sourceLines": [
+        753,
+        754
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Ciaccona participates in the explicitly recommended Qiuyuan/Sigrika composition with her Signature condition.",
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": [
+        "Ciaccona Signature required for the source's strongest third-slot comparison."
+      ]
+    },
+    {
+      "characterId": "danjin",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-phrolova-cantarella-danjin-phrolova-slots-29",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "sourceLinesSha256": "22ba718597d7cb88770f06157d71ecb4e6aacd854d375eba2caf67ac968d6e88",
+      "sourceLines": [
+        839,
+        840
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Alternative Teams",
+        "Team #3: Dual DPS",
+        "Team #4: Phoebe Dual DPS",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Phrolova/Cantarella/Danjin third-slot alternative for Danjin's hybrid standard.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "denia",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-aemeath-denia-chisa-aemeath-slots-3",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLinesSha256": "27b65dd07904e93f1a5f31b0ecc5428d6446102cc140987dc2620cc19a532f38",
+      "sourceLines": [
+        1025,
+        1030,
+        1033
+      ],
+      "sourceExampleLabels": [
+        "Fusion Burst Team",
+        "Tune Rupture Team",
+        "Mono Fusion"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the first published Fusion Burst example with Aemeath and Chisa.",
+      "modeRequirements": {
+        "aemeath": "fusion-burst",
+        "denia": "fusion-burst"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "encore",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-encore-lupa-mornye-encore-slots-14",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "encore",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/encore",
+      "sourceLinesSha256": "b161f4700ab674af92435ddba5bd8af6a529f994815f639897543980ed1f930f",
+      "sourceLines": [
+        719,
+        724
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "With Sanhua",
+        "Best Team (Dual DPS)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lupa replaces Sanhua as the named best partner; Mornye is explicitly best with this Fusion pair.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "galbrena",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-special-galbrena-lupa-mornye",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+      "sourceLinesSha256": "2317f8d00e724d1340fb53b3db0ab2459dea918dc7cc5b0cb740c1919a3e24ff",
+      "sourceLines": [
+        796,
+        800
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Echo Hypercarry Team",
+        "Team #3: Mono Fusion Alternatives",
+        "Team #4: Alt Premium Teams",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "The guide explicitly calls Lupa/Mornye the best available hypercarry support combination.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "hiyuki",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-hiyuki-lucilla-suisui-hiyuki-slots-16",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "hiyuki",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki",
+      "sourceLinesSha256": "4f71830a32782675fa91b60e0c7518e2e7b4a0c3f666e7864fecd27fddbe597d",
+      "sourceLines": [
+        934,
+        936
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lucilla wins the second-slot comparison; Suisui is explicitly first in the ranked support list.",
+      "modeRequirements": {
+        "lucilla": "glacio-chafe"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "hsin",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-hsin-rover-electro-suisui-hsin-slots-17",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLinesSha256": "d209ffaf2f0ffb1ec9813b174e37effbecaf6a4c5e4d24829331742406a2ceca",
+      "sourceLines": [
+        912,
+        913
+      ],
+      "sourceExampleLabels": [
+        "Best Team (Flare)",
+        "Best Team (Unison)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Default to Electro Flare: Electro Rover is the named best partner and Suisui generally strongest support; Unison remains an option.",
+      "modeRequirements": {
+        "hsin": "electro-flare"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "iuno",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-jingran-iuno-the-shorekeeper-jingran-slots-21",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "jingran",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran",
+      "sourceLinesSha256": "0e235101bacc55ffba65ee5d03eb7ba2e9bc16ee5aa75e5a67d425b9508a2f87",
+      "sourceLines": [
+        770,
+        772,
+        777
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Mono Fusion",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use Jingran's reviewed shield-team standard with hybrid Iuno and Shorekeeper; retain Iuno's own DPS contexts as alternatives.",
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "jianxin",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-iuno-jianxin-the-shorekeeper-iuno-slots-19",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "iuno",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/iuno",
+      "sourceLinesSha256": "7ea640d2828e0716a1e34d3d234b4bd77942861128ccff54f3933b48c0477463",
+      "sourceLines": [
+        943,
+        947
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Main DPS Iuno",
+        "Team #3: Jiyan Team",
+        "Team #4: Galbrena Team",
+        "Team #5: Frazzle Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the source's explicit F2P Liberation-buffer option with DPS Iuno and Shorekeeper.",
+      "modeRequirements": {
+        "iuno": "dps"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "jingran",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-jingran-iuno-the-shorekeeper-jingran-slots-21",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "jingran",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jingran",
+      "sourceLinesSha256": "0e235101bacc55ffba65ee5d03eb7ba2e9bc16ee5aa75e5a67d425b9508a2f87",
+      "sourceLines": [
+        770,
+        772,
+        777
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Mono Fusion",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Choose the named best shield archetype: Iuno plus ideal Shorekeeper; Mono Fusion remains an alternative.",
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "jinhsi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "jinhsi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jinhsi",
+      "sourceLinesSha256": "3501719b92a4b5fcd37c11e51393d1bdcca18d920caeeea91d002fc024c3363c",
+      "sourceLines": [
+        858,
+        862
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Quickswap Team",
+        "Budget Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Zhezhi core and the guide's highest generalist support, Shorekeeper.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "jiyan",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-jiyan-533",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "jiyan",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/jiyan",
+      "sourceLinesSha256": "3f9c3b23248e2987b77f261d29b09f0924ae78e6fa27c4f1c911e0b6abe96615",
+      "sourceLines": [
+        644,
+        646
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Erosion team",
+        "Lynae Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Iuno is best overall and Ciaccona is explicitly best third with Iuno in the casual mono-Aero standard.",
+      "modeRequirements": {
+        "iuno": "hybrid",
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": []
+    },
+    {
+      "characterId": "lingyang",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-source-default-lingyang-lynae-mornye",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "lingyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+      "sourceLinesSha256": "1a36fceee6a4f4b0bb1692cbdfea71d97a538c52e5f9e1e269450c75606a8dcd",
+      "sourceLines": [
+        600
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "The guide explicitly identifies Lynae with Mornye as Lingyang's strongest general-buff core.",
+      "modeRequirements": {},
+      "compositionReview": "APPROVED_EXPLICIT_GUIDE_TRIO_ADDITION",
+      "conditions": []
+    },
+    {
+      "characterId": "lucilla",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-hiyuki-lucilla-suisui-hiyuki-slots-16",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "hiyuki",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hiyuki",
+      "sourceLinesSha256": "4f71830a32782675fa91b60e0c7518e2e7b4a0c3f666e7864fecd27fddbe597d",
+      "sourceLines": [
+        934,
+        936
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use Lucilla's Glacio Chafe partnership with Hiyuki and the first-ranked support Suisui.",
+      "modeRequirements": {
+        "lucilla": "glacio-chafe"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "lucy",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-lucy-rebecca-mornye-lucy-slots-25",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "lucy",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lucy",
+      "sourceLinesSha256": "41cb4448b97b57d332a0f6924cb51f21817c1ec19f9af8cfde24a1a5edd85d3a",
+      "sourceLines": [
+        799,
+        800
+      ],
+      "sourceExampleLabels": [
+        "Best Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Rebecca is explicitly best by far; Mornye is ideal for the Hack-focused standard.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "lumi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-jinhsi-lumi-the-shorekeeper-jinhsi-slots-41",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "lumi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/lumi",
+      "sourceLinesSha256": "10f0e6993fd5b8b3baa9507ed1dc308c43c9c23005866b781a86b69729ee7cdb",
+      "sourceLines": [
+        602
+      ],
+      "sourceExampleLabels": [
+        "Best Team (Jinhsi)",
+        "Best Team (Carlotta)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the existing reviewed Jinhsi/Lumi/Shorekeeper context from Lumi's named Jinhsi synergy.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "lupa",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-special-galbrena-lupa-mornye",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "galbrena",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/galbrena",
+      "sourceLinesSha256": "2317f8d00e724d1340fb53b3db0ab2459dea918dc7cc5b0cb740c1919a3e24ff",
+      "sourceLines": [
+        796,
+        800
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Echo Hypercarry Team",
+        "Team #3: Mono Fusion Alternatives",
+        "Team #4: Alt Premium Teams",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly best Galbrena/Lupa/Mornye hypercarry core; Lupa remains a buffer despite leading the visual columns.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "luuk-herssen",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-luuk-herssen-denia-mornye-luuk-herssen-slots-26",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "luuk-herssen",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/luuk-herssen",
+      "sourceLinesSha256": "386e3065cd065663f143e5ef834d2cf9dc834e3170b1f953e1e986276c68bcd4",
+      "sourceLines": [
+        713,
+        715
+      ],
+      "sourceExampleLabels": [
+        "Best Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Denia is explicitly strongest; the reviewed Tune Strain composition requires Mornye.",
+      "modeRequirements": {
+        "denia": "tune-strain"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "lynae",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-aemeath-lynae-mornye-aemeath-slots-2",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLinesSha256": "27b65dd07904e93f1a5f31b0ecc5428d6446102cc140987dc2620cc19a532f38",
+      "sourceLines": [
+        1025,
+        1029,
+        1037
+      ],
+      "sourceExampleLabels": [
+        "Fusion Burst Team",
+        "Tune Rupture Team",
+        "Mono Fusion"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the published Tune Rupture standard with Aemeath and Mornye; do not substitute the Fusion Burst default from Aemeath's page.",
+      "modeRequirements": {
+        "aemeath": "tune-rupture",
+        "lynae": "tune-rupture"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "mornye",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-aemeath-lynae-mornye-aemeath-slots-2",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "aemeath",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/aemeath",
+      "sourceLinesSha256": "27b65dd07904e93f1a5f31b0ecc5428d6446102cc140987dc2620cc19a532f38",
+      "sourceLines": [
+        1025,
+        1029,
+        1037
+      ],
+      "sourceExampleLabels": [
+        "Fusion Burst Team",
+        "Tune Rupture Team",
+        "Mono Fusion"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the published Lynae/Tune Rupture standard with Aemeath, preserving source roles.",
+      "modeRequirements": {
+        "aemeath": "tune-rupture",
+        "lynae": "tune-rupture"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "mortefi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-augusta-mortefi-the-shorekeeper-augusta-slots-4",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "augusta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/augusta",
+      "sourceLinesSha256": "9d999220d2de1a4aba4c98d9286cab2c1af57604b6728feb4c7463469e5bfbb7",
+      "sourceLines": [
+        878,
+        879
+      ],
+      "sourceExampleLabels": [
+        "Team #1 - Best Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the existing reviewed Augusta/Mortefi/Shorekeeper F2P-accessible buffer context.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "phoebe",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-phoebe-rover-spectro-lynae-phoebe-slots-28",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "phoebe",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phoebe",
+      "sourceLinesSha256": "4b4c6d026069f72436b2d31da9abd8a1d63d3f59e37ce5b2371e28b360a25120",
+      "sourceLines": [
+        780,
+        781,
+        787
+      ],
+      "sourceExampleLabels": [
+        "Best Team (Absolution)",
+        "Alternative Team (Absolution)",
+        "Best Team (Confession)",
+        "Expert Quickswap (Absolution)",
+        "Triple Spectro Team (Absolution)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "First published Absolution standard: Lynae is the named strongest second slot; Spectro Rover is the single-wave applier.",
+      "modeRequirements": {
+        "phoebe": "absolution"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "phrolova",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-phrolova-lucilla-qiuyuan-phrolova-slots-29",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "phrolova",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/phrolova",
+      "sourceLinesSha256": "22ba718597d7cb88770f06157d71ecb4e6aacd854d375eba2caf67ac968d6e88",
+      "sourceLines": [
+        837,
+        839,
+        849
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Alternative Teams",
+        "Team #3: Dual DPS",
+        "Team #4: Phoebe Dual DPS",
+        "Team #5: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lucilla is best only with Qiuyuan; Qiuyuan is explicitly strongest third slot. Use Echo Skill Lucilla.",
+      "modeRequirements": {
+        "lucilla": "echo-skill"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "qingxiao",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-qingxiao-denia-mornye-qingxiao-slots-30",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "qingxiao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/qingxiao",
+      "sourceLinesSha256": "cffda5eb7c3f978ec67b6c2c822a28746ef22159e7577962d882e9ae2433bcd6",
+      "sourceLines": [
+        707,
+        708,
+        714
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Lynae Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "The source explicitly identifies Denia plus Mornye as the strongest Tune Strain core.",
+      "modeRequirements": {
+        "denia": "tune-strain"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "qiuyuan",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-sigrika-193",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+      "sourceLinesSha256": "36725afae892e2ad6cd9f0a56d413cbf08069f6b9aa89d8880aed33ba007fd59",
+      "sourceLines": [
+        753,
+        754
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use Qiuyuan in the source's strongest Sigrika/Ciaccona core; this does not select his own DPS mode.",
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": [
+        "Ciaccona Signature required for the source's strongest third-slot comparison."
+      ]
+    },
+    {
+      "characterId": "rebecca",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-yangyang-xuanling-rebecca-suisui-yangyang-xuanling-slots-36",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "sourceLinesSha256": "c0fe4ea722b59688321f1c8db51136564f7c6de40b9541f40b6f88929bd9c382",
+      "sourceLines": [
+        652,
+        653
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Premium Teams",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Heavy Attack buffer variant with Yangyang Xuanling and Suisui, not the Chisa second-slot default.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "roccia",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-phrolova-cantarella-roccia-phrolova-slots-29",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "roccia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/roccia",
+      "sourceLinesSha256": "47ad5e8fe9ad9899189449c2d2c855910d9db6530faf276ff27bc156e4a8ec2d",
+      "sourceLines": [
+        668
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Camellya Team",
+        "Havoc Rover Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly named Phrolova/Cantarella trio with Roccia as the third-slot Outro recipient.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "rover-aero",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "cartethyia",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/cartethyia",
+      "sourceLinesSha256": "ad737ad17c67a6d2dc138d502ce9ee210a36c8d362fa17fe5e91b0d978fa5fe8",
+      "sourceLines": [
+        784,
+        785
+      ],
+      "sourceExampleLabels": [
+        "Team #1",
+        "Team #2: Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the established Cartethyia/Ciaccona/Aero Rover default, retaining Aero Rover's actual support role.",
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "rover-electro",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-hsin-rover-electro-suisui-hsin-slots-17",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "hsin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/hsin",
+      "sourceLinesSha256": "d209ffaf2f0ffb1ec9813b174e37effbecaf6a4c5e4d24829331742406a2ceca",
+      "sourceLines": [
+        912,
+        913
+      ],
+      "sourceExampleLabels": [
+        "Best Team (Flare)",
+        "Best Team (Unison)"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the named Electro Flare Hsin/Suisui composition as Electro Rover's support standard.",
+      "modeRequirements": {
+        "hsin": "electro-flare"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "rover-havoc",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-rover-havoc-roccia-the-shorekeeper-rover-havoc-slots-33",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "rover-havoc",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-havoc",
+      "sourceLinesSha256": "7b1c98692a286d2d6deea6ed48dbd420742b38de0c80b1ef60a249363ce6d09c",
+      "sourceLines": [
+        633,
+        640
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Phrolova Team",
+        "F2P Team",
+        "Cantarella Alternative"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the named best buffer Roccia with reviewed generalist Shorekeeper for the single-carry standard.",
+      "modeRequirements": {
+        "rover-havoc": "single-carry"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "rover-spectro",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-zani-441",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "rover-spectro",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/rover-spectro",
+      "sourceLinesSha256": "fa2b852bd6850d93689252846212b73ac28fa0398b47efec9f02e9ab2f59d133",
+      "sourceLines": [
+        567
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Premium Phoebe Teams",
+        "F2P Phoebe Team",
+        "Quickswap Phoebe Team",
+        "Phoebe Triple Spectro Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly named Zani/Phoebe/Spectro Rover composition with Confession Phoebe; no rotation readiness is implied.",
+      "modeRequirements": {
+        "phoebe": "confession"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": []
+    },
+    {
+      "characterId": "sanhua",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-camellya-sanhua-the-shorekeeper-camellya-slots-6",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "camellya",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/camellya",
+      "sourceLinesSha256": "0d960ab34033bbe7b41968668415c3f6a295981d1973f28d6246869a4d268052",
+      "sourceLines": [
+        766,
+        767,
+        768
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Camellya/Sanhua/Shorekeeper accessible alternative for Sanhua's member standard.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "sigrika",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-sigrika-193",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "sigrika",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/sigrika",
+      "sourceLinesSha256": "36725afae892e2ad6cd9f0a56d413cbf08069f6b9aa89d8880aed33ba007fd59",
+      "sourceLines": [
+        753,
+        754
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use Qiuyuan with the explicitly best third-slot Ciaccona; her Signature is a source condition.",
+      "modeRequirements": {
+        "ciaccona": "aero-erosion"
+      },
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": [
+        "Ciaccona Signature required for the source's strongest third-slot comparison."
+      ]
+    },
+    {
+      "characterId": "suisui",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-yangyang-xuanling-134",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "sourceLinesSha256": "c0fe4ea722b59688321f1c8db51136564f7c6de40b9541f40b6f88929bd9c382",
+      "sourceLines": [
+        651,
+        652
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Premium Teams",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Suisui participates in the explicitly best Yangyang Xuanling/Chisa composition.",
+      "modeRequirements": {},
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": []
+    },
+    {
+      "characterId": "taoqi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-carlotta-taoqi-the-shorekeeper-carlotta-slots-7",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "taoqi",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/taoqi",
+      "sourceLinesSha256": "feb7b7f7ccc3f9de1069ac3a75c72ee8d2e1e6a527de4d437fe891d904b9f218",
+      "sourceLines": [
+        539,
+        542
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Jinhsi Nuke Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use Taoqi's explicitly best DPS-to-support Carlotta in the reviewed Shorekeeper context.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-augusta-iuno-the-shorekeeper-augusta-slots-4",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "the-shorekeeper",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/the-shorekeeper",
+      "sourceLinesSha256": "f1a16c088fc23ff7f91ee2de5084c410a7963bf8643e3bef38a430c99edc01c5",
+      "sourceLines": [
+        790
+      ],
+      "sourceExampleLabels": [
+        "Augusta Team",
+        "Carlotta Team",
+        "Zani Team",
+        "Camellya Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the existing canonical Augusta/Iuno/Shorekeeper profile, matching Shorekeeper's first named Augusta team example.",
+      "modeRequirements": {
+        "iuno": "hybrid"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "verina",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-calcharo-yinlin-verina-calcharo-slots-5",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "verina",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/verina",
+      "sourceLinesSha256": "016339af935aa07f206bd23670dde563b4a0e51ebc4f8ccb1899a92a9a780e68",
+      "sourceLines": [
+        583
+      ],
+      "sourceExampleLabels": [],
+      "exactImageTrioVerified": false,
+      "decision": "Use the established reviewed Calcharo/Yinlin/Verina budget context; generic support guidance is not a global team rank.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "xiangli-yao",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-xiangli-yao-lynae-mornye-xiangli-yao-slots-35",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "xiangli-yao",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/xiangli-yao",
+      "sourceLinesSha256": "fe184c68aa627227496c993764759013bad13399ad52a29d26fc9979a0eab675",
+      "sourceLines": [
+        676,
+        680
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Expert Team",
+        "Budget Team",
+        "Budget Expert Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Lynae is explicitly the best partner; Mornye is explicitly best with Lynae.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "yangyang",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yangyang",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang",
+      "sourceLinesSha256": "962c46518480a68173b19fa28870f9799f646427b03922924ab35c785e3c7da7",
+      "sourceLines": [
+        533,
+        537
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Budget Expert Team",
+        "Budget Expert Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the existing reviewed Carlotta/Yangyang/Shorekeeper accessible non-quickswap context.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "model-yangyang-xuanling-134",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "yangyang-xuanling",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yangyang-xuanling",
+      "sourceLinesSha256": "c0fe4ea722b59688321f1c8db51136564f7c6de40b9541f40b6f88929bd9c382",
+      "sourceLines": [
+        651,
+        652
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Alternative Premium Teams",
+        "F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "The guide explicitly calls Chisa plus Suisui the best possible team.",
+      "modeRequirements": {},
+      "compositionReview": "APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO",
+      "conditions": []
+    },
+    {
+      "characterId": "yinlin",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-iuno-yinlin-the-shorekeeper-iuno-slots-19",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yinlin",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yinlin",
+      "sourceLinesSha256": "52de5bda09ea64c5f67281c2f9fbf85de02eb02f1a197650a3d9b8e59ce35d5c",
+      "sourceLines": [
+        600,
+        608
+      ],
+      "sourceExampleLabels": [
+        "Main DPS Iuno",
+        "Jinhsi Team",
+        "Electro Teams"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly strongest Main DPS Iuno synergy with Shorekeeper; Iuno remains the carry.",
+      "modeRequirements": {
+        "iuno": "dps"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "youhu",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-special-calcharo-yinlin-youhu",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "youhu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/youhu",
+      "sourceLinesSha256": "a0dd34983a58f5c3971c7fa4e9f7ccd37fdf6b4e6dcc1e0a86cf0c805798a495",
+      "sourceLines": [
+        628,
+        635
+      ],
+      "sourceExampleLabels": [
+        "Best Team",
+        "Zhezhi Team",
+        "Mortefi Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly reviewed Calcharo/Yinlin/Youhu composition; Youhu's Outro recipient remains Yinlin.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "yuanwu",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-jinhsi-yuanwu-verina-jinhsi-slots-22",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "yuanwu",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/yuanwu",
+      "sourceLinesSha256": "a5402e737069dece12fd67808a47f02514623864faf48dcb504e1f19306882fd",
+      "sourceLines": [
+        574,
+        575
+      ],
+      "sourceExampleLabels": [
+        "Best Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the explicitly named budget Jinhsi use case in the existing Jinhsi/Yuanwu/Verina context.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "zani",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-zani-phoebe-the-shorekeeper-zani-slots-37",
+      "kind": "EXPLICIT_GUIDE_STANDARD",
+      "sourceOwnerId": "zani",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/zani",
+      "sourceLinesSha256": "2e8306ad082c29675a69037e8140fbd6efb31af269a2bb4680f052e27c98c06f",
+      "sourceLines": [
+        717,
+        720
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: Premium Alternatives",
+        "Team #3: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Normal non-quickswap standard: Confession Phoebe plus Shorekeeper. The fully optimized Spectro Rover quickswap variant remains selectable.",
+      "modeRequirements": {
+        "phoebe": "confession"
+      },
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    },
+    {
+      "characterId": "zhezhi",
+      "status": "REVIEWED_SOURCE_DEFAULT",
+      "contextId": "guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7",
+      "kind": "REVIEWED_MEMBER_STANDARD",
+      "sourceOwnerId": "carlotta",
+      "sourceUrl": "https://www.prydwen.gg/wuthering-waves/characters/carlotta",
+      "sourceLinesSha256": "9eea574661a7ada0f882e4a380fb4d43131552325a92149e3742a0b5d5428dc4",
+      "sourceLines": [
+        664,
+        668
+      ],
+      "sourceExampleLabels": [
+        "Team #1: Best Team",
+        "Team #2: F2P Team"
+      ],
+      "exactImageTrioVerified": false,
+      "decision": "Use the reviewed Carlotta/Zhezhi/Shorekeeper standard; Carlotta remains the carry.",
+      "modeRequirements": {},
+      "compositionReview": "EXISTING_REVIEWED_GUIDE_CONTEXT",
+      "conditions": []
+    }
+  ],
+  "additionalCompositions": [
+    {
+      "id": "guide-source-default-chixia-brant-lupa",
+      "anchorCharacterId": "chixia",
+      "characterIds": [
+        "chixia",
+        "brant",
+        "lupa"
+      ],
+      "relationship": "SOURCE_RECOMMENDED_CORE_VARIANT",
+      "evidenceBasis": "REVIEWED_GUIDE_TRIO",
+      "modeRequirements": {},
+      "roleAssignment": {
+        "partner": "brant",
+        "support": "lupa"
+      },
+      "whySv": "The guide explicitly names Chixia/Brant/Lupa as the newest best mono-Fusion archetype.",
+      "conditionsSv": [
+        "Source composition only; numerical baselines, buffs, resources and rotation timing remain Pending."
+      ],
+      "sourceRefs": [
+        {
+          "provider": "PRYDWEN",
+          "url": "https://www.prydwen.gg/wuthering-waves/characters/chixia",
+          "locator": "Explicit trio in Synergies; lines 527, 529"
+        }
+      ],
+      "reviewedRuleIds": [
+        "source-default-chixia"
+      ],
+      "publisherRowIds": [],
+      "sourceModes": [],
+      "ranking": "NO_INFERRED_DPS_RANK",
+      "rotationTimingStatus": "NOT_RESEARCHED_FOR_THIS_ALTERNATIVE_CONTEXT"
+    },
+    {
+      "id": "guide-source-default-lingyang-lynae-mornye",
+      "anchorCharacterId": "lingyang",
+      "characterIds": [
+        "lingyang",
+        "lynae",
+        "mornye"
+      ],
+      "relationship": "SOURCE_RECOMMENDED_CORE_VARIANT",
+      "evidenceBasis": "REVIEWED_GUIDE_TRIO",
+      "modeRequirements": {},
+      "roleAssignment": {
+        "partner": "lynae",
+        "support": "mornye"
+      },
+      "whySv": "The guide explicitly identifies Lynae with Mornye as Lingyang's strongest general-buff core.",
+      "conditionsSv": [
+        "Source composition only; numerical baselines, buffs, resources and rotation timing remain Pending."
+      ],
+      "sourceRefs": [
+        {
+          "provider": "PRYDWEN",
+          "url": "https://www.prydwen.gg/wuthering-waves/characters/lingyang",
+          "locator": "Explicit trio in Synergies; lines 600"
+        }
+      ],
+      "reviewedRuleIds": [
+        "source-default-lingyang"
+      ],
+      "publisherRowIds": [],
+      "sourceModes": [],
+      "ranking": "NO_INFERRED_DPS_RANK",
+      "rotationTimingStatus": "NOT_RESEARCHED_FOR_THIS_ALTERNATIVE_CONTEXT"
+    }
+  ]
+}

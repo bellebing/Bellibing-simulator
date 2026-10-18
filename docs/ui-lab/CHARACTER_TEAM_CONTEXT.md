@@ -15,11 +15,31 @@ metrics, Recommended UI mapping, Hard/Flex, ER and DPS boundaries.
 - All 59 Characters have reviewed source team options. The selected Character is
   always the first displayed member, including when a support selects a context
   whose original anchor is another Character. Model-only discovery is excluded.
-- Default selection requires an existing reviewed primary-Character Team Profile
-  matching exactly one guide context, or exactly one source BiS/core context.
-  This currently resolves Augusta, Cartethyia, Luuk Herssen and Qingxiao. The
-  remaining 55 defaults are `PENDING_AMBIGUOUS_TEAM`; no arbitrary first option
-  is promoted. User-selected reviewed alternatives are labelled separately.
+- Default selection uses explicit reviewed context-ID/source/mode bindings from
+  `data/source/prydwen-sandbox-default-bindings-2026-10-18.json`, resolved by
+  `src/characterDefaultTeams.mjs`. Multiple alternatives never block a reviewed
+  default. All 59 have one: 27 explicit guide standards and 32 member standards.
+  Member standards need not equal the carry's own default or be globally ranked.
+- The first published source mode is used where the guide distinguishes modes
+  (Aemeath: Fusion Burst; Tune Rupture remains selectable). Explicit source
+  rationale resolves choices such as Camellya/Lynae/Mornye, Phrolova/Lucilla/
+  Qiuyuan, and hybrid Iuno in Jingran/Iuno/Shorekeeper. Source array order is
+  never treated as a rank; Roccia appearing before Lynae does not override the
+  guide's explicit preference for Lynae in Camellya teams.
+- Support/Sub-DPS pages include contexts anchored by another carry. The selected
+  Character leads the visible columns only; original carry, roles and mode are
+  retained. Lupa uses Galbrena/Lupa/Mornye, for example, without becoming carry.
+- The 390 existing reviewed guide contexts remain available. Five existing
+  catalog trios previously labelled model-only receive explicit Prydwen prose
+  composition bindings; unrelated model discovery remains excluded. Original
+  model evidence and modes are not promoted to verified execution. Two missing
+  source-explicit trios extend the same context registry: Chixia/Brant/Lupa and
+  Lingyang/Lynae/Mornye. Their timing variants remain empty/Pending. The browser
+  projection exposes 397 source-bound contexts, with no duplicate team roster.
+- Each default retains source owner, URL, source-lines hash, locators, decision,
+  modes and conditions. The capture's image-only Example Team rosters remain
+  unverified: these bindings use explicit guide prose/reviewed standard or member
+  context decisions, and do not claim image extraction for all Team #1 panels.
 - The same Team DPS panel follows both Character Stats and Simulation Stats.
   Portraits/names appear once above four equal value columns. Recommended,
   Expected and Simulated are horizontal rows, with per-cell Pending reasons.
@@ -66,14 +86,15 @@ team. Normal product mode has no synthetic DPS selector.
 
 ## Verification boundary
 
-FAST: generated parity, focused context/ownership/Custom/Pending tests and the
-strict build. One focused Chromium interaction checks panel sharing, explicit
+FAST: generated parity and focused default/context/ownership/Custom/Pending
+tests; the existing strict build evidence covers the unchanged build pipeline. One focused Chromium interaction checks panel sharing, explicit
 team selection, Character changes and Phrolova guidance. Existing automatic UI
 Lab Review retains its width/host/export gates and includes the new regression.
 Independent final source/visual/runtime review remains required. No extra FULL,
 private research reproduction, merge, deployment or account write is performed.
 
-Next independent review should inspect default-source semantics, mode/gear
+Next independent review should inspect the explicit default-source decisions
+(particularly source-standard versus member-standard choices), mode/gear
 compatibility, per-Character switching and panel layout at the existing desktop
 widths. Actual private-host qualification is needed before introducing numeric
 comparison rows; a public UI test cannot establish that qualification.

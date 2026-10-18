@@ -313,7 +313,7 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
 .echo-choice-art img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
 .echo-choice-copy{display:grid;place-items:center;min-height:36px;margin:0;padding:4px 2px 0;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .echo-choice-copy strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-family:var(--font-display);font-size:12px;font-weight:400;line-height:1.16;white-space:normal;overflow-wrap:anywhere}
-.echo-preview-pane{position:relative;min-width:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
+.echo-preview-pane{position:relative;min-width:0;min-height:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
 .echo-preview-pane:has(.echo-info-card.is-expanded){z-index:3;overflow:visible}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
@@ -354,7 +354,7 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
 .echo-active-heading img{width:18px;height:18px;object-fit:contain}
 .echo-active-effect p{padding-left:22px;color:#d2d6dc}
 .echo-info-toggle{align-self:start;flex:none;margin-top:6px;padding:2px 0;border:0;background:none;color:#e3bd6b;font:inherit;font-size:10px;font-weight:800;cursor:pointer}
-.echo-info-card.is-expanded{position:absolute;z-index:6;inset:12px 12px 54px -280px;width:auto;height:auto;padding:16px 22px;background:rgba(17,20,26,.72);border-color:rgba(224,187,109,.6);box-shadow:0 22px 55px rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.echo-info-card.is-expanded{position:absolute;z-index:6;inset:12px 12px 60px -280px;width:auto;height:auto;padding:8px 22px;background:rgba(17,20,26,.72);border-color:rgba(224,187,109,.6);box-shadow:0 22px 55px rgba(0,0,0,.55);backdrop-filter:blur(4px)}
 .echo-info-card.is-expanded .echo-info-copy{overflow:hidden}
 .echo-info-card.is-expanded .echo-info-section+.echo-info-section{margin-top:17px}
 .echo-info-card.is-expanded .echo-info-section h4{font-size:14px}
@@ -380,7 +380,7 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
 .echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:flex;gap:8px;align-items:baseline}
 .echo-secondary-name{min-width:0}
 .echo-secondary-number{font-variant-numeric:tabular-nums;color:#f0e8d8}
-.echo-roll-undo{background:transparent;color:#d7bc83;border:0;text-align:left;padding:4px 0;font-size:10px;cursor:pointer}.echo-roll-undo:disabled{color:#70757c;cursor:default}.echo-roll-checkpoint{border:1px solid #3f4148;border-radius:5px;padding:5px}.echo-roll-checkpoint summary{cursor:pointer;color:#c8c7c1;font-size:11px;padding:4px}.echo-roll-checkpoint[open] summary{margin-bottom:5px}.echo-substats{display:grid;gap:4px;margin-top:4px}
+.echo-roll-undo{background:transparent;color:#d7bc83;border:0;text-align:left;padding:4px 0;font-size:10px;cursor:pointer}.echo-roll-undo:disabled{color:#70757c;cursor:default}.echo-roll-checkpoint{border:1px solid #3f4148;border-radius:5px;padding:3px 5px}.echo-roll-checkpoint summary{cursor:pointer;color:#c8c7c1;font-size:11px;padding:4px}.echo-roll-checkpoint[open] summary{margin-bottom:5px}.echo-substats{display:grid;gap:4px;margin-top:4px}
 .echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
 .bb-combobox{position:relative;min-width:0}
 .bb-combobox-trigger{position:relative;width:100%;min-width:0;min-height:29px;padding:4px 22px 4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px;line-height:1.08;text-align:left;display:flex;align-items:center;cursor:pointer}

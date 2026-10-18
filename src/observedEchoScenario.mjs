@@ -10,8 +10,9 @@ const difference=(a,b)=>({absolute:b-a,relative:a===0?null:(b-a)/a});
 function delta(before,after){return {teamTotal:difference(before.teamTotal,after.teamTotal),characterContributions:actors.map(characterId=>({characterId,...difference(before.characterContributions.find(m=>m.characterId===characterId).dps,after.characterContributions.find(m=>m.characterId===characterId).dps)}))};}
 const deltaValid=(a,b)=>near(a?.absolute,b.absolute)&&(b.relative===null?a?.relative===null:near(a?.relative,b.relative));
 const clean=r=>({teamTotal:r.teamTotal,characterContributions:actors.map(characterId=>({characterId,dps:r.characterContributions.find(m=>m.characterId===characterId).dps}))});
-export function observedEchoScenario({dps,view,scenario}={}){
+export function observedEchoScenario({dps,view,scenario,characterId='augusta'}={}){
  const c=dps?.beforeAfter,m=c?.measurement,p=dps?.provider;
+ if(!actors.includes(characterId)||dps?.characterId!==characterId||m?.selectedCharacterId!==characterId)return null;
  if(!scenario||dps?.status!=='EXPERIMENTAL'||dps.verification!=='EXPERIMENTAL'||p?.kind!=='DPS'||p.version!==scenario.providerVersion||p.profileId!==scenario.scenarioId||p.sourceRevision!==scenario.publicSourceRevision||!identity(p.sourceBinding)||c?.version!==scenario.version||c.status!=='EXPERIMENTAL'||c.teamDpsReady!==false||c.authorizesCharacterUpgrade!==false)return null;
  if(dps.context?.id!==scenario.scenarioId||dps.context?.kind!=='SYNTHETIC_REFERENCE_TEAM'||dps.context?.version!==1||m?.scenarioId!==scenario.scenarioId||m.sourceBinding!==p.sourceBinding||m.sourceRevision!==p.sourceRevision||!same(m.actorIds,actors)||m.scheduleSourceCommit!==scenario.sourceCommit||m.hitEvidenceSha256!==scenario.hitEvidenceSha256||m.clock!==scenario.clock||m.cycle!==scenario.cycle||m.durationSeconds!==scenario.durationSeconds)return null;
  const slots=view?.slots,observation=c.observation;

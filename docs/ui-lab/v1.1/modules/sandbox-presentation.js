@@ -25,7 +25,7 @@ export function expectedResourceRecord(metrics){
 }
 export function sandboxCostDetails(metrics,cost){
  const e=metrics?.expectedCost;
- const expected=e?`<details><summary>Expected · fresh-start scope and assumptions</summary><p>${escapeHtml(e.scope)} · live remaining: Pending</p><ul>${(e.assumptions??[]).map(a=>`<li>${escapeHtml(a)}</li>`).join('')}</ul><p>Echoes: ${escapeHtml(e.selectedSet?.echoes?.status??'PENDING')} · Tuners: ${escapeHtml(e.selectedSet?.tuners?.status??'PENDING')} · Tubes: ${escapeHtml(e.selectedSet?.tubes?.status??'PENDING')}</p></details>`:'';
+ const expected=e?`<details><summary>Expected · fresh-start scope and assumptions</summary><p>${escapeHtml(e.scope)} · live remaining: Pending</p>${metrics?.qualifiedBuildExpectedCost?'<p>These expectations cover Echo targets only. Expected cost for a rotation-ER-qualified build: Pending.</p>':''}<ul>${(e.assumptions??[]).map(a=>`<li>${escapeHtml(a)}</li>`).join('')}</ul><p>Echoes: ${escapeHtml(e.selectedSet?.echoes?.status??'PENDING')} · Tuners: ${escapeHtml(e.selectedSet?.tuners?.status??'PENDING')} · Tubes: ${escapeHtml(e.selectedSet?.tubes?.status??'PENDING')}</p></details>`:'';
  if(!cost)return expected;
  const amount=v=>v?.kind==='UNLIMITED'?'∞':typeof v==='object'&&v!==null&&'count' in v?String(v.count):typeof v==='number'?new Intl.NumberFormat('en-US',{maximumFractionDigits:6}).format(v):'—';
  const columns=['echoes','tuners','premium','advanced','medium','basic'];

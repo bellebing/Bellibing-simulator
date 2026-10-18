@@ -1,7 +1,7 @@
 {
   "version": "BELLIBING_OBSERVED_ECHO_SCENARIO_V1",
   "scenarioId": "AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1",
-  "providerVersion": "AUGUSTA_REFERENCE_SCENARIO_ADAPTER_V1",
+  "providerVersion": "AUGUSTA_REFERENCE_SCENARIO_ADAPTER_V2",
   "publicSourceRevision": "259f4881271b5cc84cec5bf2e7f085e6a106a8e3",
   "sourceCommit": "195a22f1b7a1b55b953224e26742b896a719e1c3",
   "hitEvidenceSha256": "12b18f93e47ef9854450b6c8e7d50066dc603d4974f2f5eccbeed8e7b370799c",
@@ -10,6 +10,23 @@
   "startFrame": 1828,
   "endFrame": 3494,
   "durationSeconds": 27.766666666666666,
+  "energyRequirements": [
+    {
+      "characterId": "the-shorekeeper",
+      "minimumRatio": 2.1008321273516644,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    },
+    {
+      "characterId": "iuno",
+      "minimumRatio": 1.231830500123183,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    },
+    {
+      "characterId": "augusta",
+      "minimumRatio": 1.1629529701818861,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    }
+  ],
   "enemy": {
     "defense": 1520,
     "resistanceByElement": {
@@ -55,5 +72,5 @@
       "equipmentPresetId": "shorekeeper-rejuvenating5-fallacy"
     }
   ],
-  "boundary": "EXPERIMENTAL_FIXED_STATE_REPLAY; SYNTHETIC_FIXED_IUNO_SHOREKEEPER; NO_VERIFIED_UPGRADE"
+  "boundary": "EXPERIMENTAL_FIXED_STATE_REPLAY; SYNTHETIC_FIXED_NON_SELECTED_MEMBERS; NO_VERIFIED_UPGRADE"
 }

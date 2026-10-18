@@ -16,12 +16,12 @@ export function createSandboxClient({readContext,readEvaluationContext=()=>null,
  }
  async function authorize(){if(!guest||(Number.isFinite(guest.expiresAt)?guest.expiresAt:Date.parse(guest.expiresAt))<=Date.now()){guestRequest??=request('guest',{body:{}}).then(data=>{if(data.protocol!==SANDBOX_HTTP_PROTOCOL||typeof data.csrfToken!=='string')throw Error('INVALID_SANDBOX_GUEST');guest=data;}).finally(()=>{guestRequest=null;});await guestRequest;}}
  function accept(data,g,b){assertCurrent(g,b);if(data.protocol!==SANDBOX_HTTP_PROTOCOL||data.clientGeneration!==g||(typeof data.runId!=='string'&&data.status!=='PENDING')||(data.status!=='PENDING'&&!Number.isSafeInteger(data.serverRevision)))throw Error('INVALID_SANDBOX_RESPONSE');run=clone(data);onChange(clone(run));return clone(run);}
- async function action(kind,{seed='phase5-augusta-5'}={}){
+ async function action(kind,{seed}={}){
   if(busy)throw Error('SANDBOX_REQUEST_IN_PROGRESS');
   if(binding!==null&&binding!==current())invalidate();
   const g=generation,b=current();binding=b;busy=true;controller=new AbortController();const signal=controller.signal;
   try{await authorize(signal);assertCurrent(g,b);
-   if(kind==='create')return accept(await request('runs',{body:{context:clone(readContext()),evaluationContext:clone(readEvaluationContext()),seed,clientGeneration:g},signal}),g,b);
+   if(kind==='create')return accept(await request('runs',{body:{context:clone(readContext()),evaluationContext:clone(readEvaluationContext()),seed:seed===undefined?id():seed,clientGeneration:g},signal}),g,b);
    if(!run)throw Error('SANDBOX_RUN_REQUIRED');
    const prior=clone(run),data=await request(`runs/${encodeURIComponent(prior.runId)}/${kind}`,{body:{expectedRevision:prior.serverRevision},signal});if(data.runId!==prior.runId||data.serverRevision!==prior.serverRevision+1)throw Error('INVALID_SANDBOX_REVISION');return accept(data,g,b);
   }finally{if(g===generation){busy=false;controller=null;}}

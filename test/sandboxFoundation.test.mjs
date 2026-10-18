@@ -76,7 +76,7 @@ test('DPS concept cannot misrepresent demonstration numbers as real results',()=
 test('Iuno and Shorekeeper bind their own canonical presets only with explicit Custom Echo requirements',async()=>{
  for(const id of ['iuno','the-shorekeeper']){
   const w=createSandboxWorkspace(),s=w.select(id),r=createLabResourceInventory();
-  s.settingsMode='Customize';s.statSections={hard:[],flex:['ATK%'],other:Object.keys(s.minima).filter(id=>id!=='ATK%')};s.flexCount=1;
+  s.erTarget={enabled:true,valuePercent:120};s.settingsMode='Customize';s.statSections={hard:[],flex:['ATK%'],other:Object.keys(s.minima).filter(id=>id!=='ATK%')};s.flexCount=1;
   settingsConfigurationChanged(s);
   const ui=w.readContext(r.read(),r.revision()),before=JSON.stringify(ui),out=await compileSandboxConfiguration(ui,contract,{seed:'explicit-custom-source-test'});
   assert.equal(out.status,'BOUND_TO_SANDBOX_HOST');assert.equal(out.input.characterId,id);assert.equal(out.input.presetId,id==='iuno'?'iuno-augusta-hybrid':'shorekeeper-augusta-support');

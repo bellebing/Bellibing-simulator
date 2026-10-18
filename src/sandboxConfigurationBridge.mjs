@@ -28,7 +28,7 @@ export async function compileSandboxConfiguration(ui,engineContract,options){
  const publicSession=startEchoSimulator(person.id,buildState,build.id+':'+captured.revisions.session);publicSession.selectedSlot=captured.selectedSlot;
  // Reuse the production compiler's *contract* with an explicit Sandbox host.
  // This detached v3 envelope is Sandbox intent, never persisted account Settings.
- const host={kind:'SANDBOX_HOST_CONTEXT',characterId:person.id,buildId:build.id,modeId:'default',presetId:mapping.presetId,buildState,publicSession,
+ const host={kind:'SANDBOX_HOST_CONTEXT',totalBuildErAcceptance:'SOURCE_ROTATION_ER_V1',characterId:person.id,buildId:build.id,modeId:'default',presetId:mapping.presetId,buildState,publicSession,
   improvePolicyStorage:{version:3,characters:{[person.id]:adapted.state},pendingV2Characters:{},resourceInventory:captured.resourceInventory},
   revisions:{character:captured.revisions.context,build:build.revision+captured.revisions.configuration,settings:captured.revisions.settings,inventory:captured.revisions.inventory,session:captured.revisions.session}};
  const result=await compileSimulationConfiguration(captured,host,engineContract,options);

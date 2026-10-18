@@ -132,7 +132,7 @@ export async function compileSimulationConfiguration(ui,production,engineContrac
   requireThat(same(selectedPolicy(saved,adapted.recommended),selectedPolicy(adapted.state,adapted.recommended)),'UI_SETTINGS_NOT_COMMITTED_TO_PRODUCTION_OWNER');
   requireThat(saved.migration===null,'SETTINGS_MIGRATION_PENDING');
   requireThat(same(readResourceInventory(store.resourceInventory),valid.inventory),'UI_INVENTORY_NOT_COMMITTED_TO_PRODUCTION_OWNER');
-  if(valid.settings.erTarget?.enabled)return pending('ER_CONSTRAINT_ADAPTER_PENDING');
+  if(valid.settings.erTarget?.enabled&&!(production.kind==='SANDBOX_HOST_CONTEXT'&&production.totalBuildErAcceptance==='SOURCE_ROTATION_ER_V1'))return pending('ER_CONSTRAINT_ADAPTER_PENDING');
   const build=production.buildState;
   requireThat(build?.echoSets?.sets?.[build.echoSets.activeSetId]?.slots?.length===5,'STRUCTURED_REAL_BUILD_MISSING');
   const session=production.publicSession;

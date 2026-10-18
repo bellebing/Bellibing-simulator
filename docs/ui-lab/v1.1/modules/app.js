@@ -315,7 +315,7 @@ $('.setting-mode').addEventListener('click', event => {
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
-  if(!sandbox){notify('Pending · simulation host is not connected');return;}
+  if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
   try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,30));}}catch(error){if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
   finally{runLoop=false;renderFeedback();}

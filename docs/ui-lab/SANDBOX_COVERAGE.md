@@ -2,7 +2,7 @@
 
 Generated from canonical sources by `node docs/ui-lab/tools/export-sandbox.mjs`. See [full machine-readable matrix](v1.1/modules/sandbox-defaults.json) for exact five templates, original alternatives, source hashes/URLs, context conditions, baseline, signature/alternative evidence and independent readiness.
 
-**59/59 valid standard builds; 59/59 complete Echo shells; 59/59 canonical Weapons.** This is configuration coverage, not private simulation, DPR or DPS readiness. All three execution dimensions remain Pending. Missing reviewed non-Augusta Echo requirements remain Pending separately from template validity (BUG-042).
+**59/59 valid standard builds; 59/59 complete Echo shells; 59/59 canonical Weapons.** This is configuration coverage, not private simulation, DPR or DPS readiness. These generated source-only rows do not qualify a runtime provider; their Pending fields are separate from the connected host's versioned capabilities. See the [current roadmap](../SANDBOX_SIMULATOR_ROADMAP.md). Missing reviewed non-Augusta Echo requirements remain Pending separately from template validity (BUG-042).
 
 - **id:** SANDBOX_STANDARD_V1
 - **mainStats:** Prefer source-ranked tier, then first written tied/slash alternative. Preserve all original alternatives. This is a Sandbox convention, not a guide ranking.

@@ -107,7 +107,24 @@ async function pointerClick(send, selector) {
   await sleep(70);
 }
 
+async function pointerClickBuildEchoSlot(send, index) {
+  // Closing the modal exposes the full-width Character wheel under its Close
+  // button. Move the real pointer away so its hover expansion can finish before
+  // targeting an Echo; an expanded wheel otherwise covers the first Build slot.
+  const height = await evaluate(send, 'innerHeight');
+  await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:8,y:height-8});
+  await waitForUi(send, `(()=>{
+    const shell=document.getElementById('buildShell'),wheel=document.getElementById('buildWheel'),slot=document.querySelector('.echo[data-echo-slot="${index}"]');
+    if(echoUi.open||echoUi.closing||shell.classList.contains('hover-expanded')||wheel.getAnimations().some(a=>a.playState==='running')||!slot)return false;
+    const r=slot.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+    return r.width>0&&r.height>0&&(hit===slot||slot.contains(hit));
+  })()`, `Build Echo slot ${index+1} did not become physically reachable after Character-wheel collapse`);
+  await pointerClick(send, `.echo[data-echo-slot="${index}"]`);
+}
+
 async function openBellibingCombo(send, id) {
+  const row=await evaluate(send,`(()=>{const d=document.getElementById('${id}-trigger')?.closest('details:not([open])');return d?[...document.querySelectorAll('.echo-roll-checkpoint')].indexOf(d):null})()`);
+  if(row!==null)await pointerClick(send,`.echo-roll-checkpoint:nth-of-type(${row+1}) summary`);
   await pointerClick(send, `#${id}-trigger`);
   await waitForUi(send, `(()=>{const root=document.querySelector('[data-combobox-id="${id}"]'),list=document.getElementById('${id}-listbox');return !!root?.classList.contains('is-open')&&!!list&&!list.hidden&&list.getAttribute('role')==='listbox'})()`, `Bellibing combobox ${id} did not open its owned listbox`);
 }
@@ -244,7 +261,7 @@ async function verifyDesktop(send) {
 
   await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');const equip=event.target?.closest?.('#echoEquip');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null,equip:!!equip});},true);return true})()`);
 
-  await pointerClick(send, '.echo[data-echo-slot="0"]');
+  await pointerClickBuildEchoSlot(send, 0);
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
   await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===187&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
   await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===37&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
@@ -314,12 +331,12 @@ async function verifyDesktop(send) {
   await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Build slot did not animate into Echo Workspace');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Workspace close did not return to Build slot');
-  await pointerClick(send, '.echo[data-echo-slot="2"]');
+  await pointerClickBuildEchoSlot(send, 2);
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&document.querySelector('#echoWorkspaceSlots .echo-workspace-slot.active-target')?.dataset.echoTarget==='2'`, 'Build Slot 3 did not activate Slot 3');
   await assertFixedDock(send,'Build Slot 3 opening',2,desktopDock);
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
-  await pointerClick(send, '.echo[data-echo-slot="0"]');
+  await pointerClickBuildEchoSlot(send, 0);
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
 
   const cardAudit = await evaluate(send, `(()=>{
@@ -580,6 +597,7 @@ async function verifyDesktop(send) {
     const expectedName=await evaluate(send,`echoStatContract.substats[${index}].name`);
     await chooseBellibingComboOption(send,'echoSubstat'+index+'Name',index+1);
     await waitForUi(send,`echoUi.editorSubstatRows[${index}]?.name===${JSON.stringify(expectedName)}`,`Physical Substat ${index+1} name selection failed`);
+    if(!(await evaluate(send,"document.getElementById('echoEquip').disabled")))throw new Error('Incomplete selected observed pair can commit');
     const expectedValue=await evaluate(send,`String(echoStatContract.substats[${index}].values[0])`);
     await chooseBellibingComboOption(send,'echoSubstat'+index+'Value',1);
     await waitForUi(send,`String(echoUi.editorSubstatRows[${index}]?.value)===${JSON.stringify(expectedValue)}`,`Physical Substat ${index+1} value selection failed`);
@@ -598,8 +616,20 @@ async function verifyDesktop(send) {
   await assertLevel(0);
   for(let index=0;index<5;index++){await setSubstatRow(index);await assertLevel(index+1)}
 
+  // Source-bound observed pairs: visibility is not permission to duplicate.
+  const originalPairs=await evaluate(send,'JSON.stringify(echoUi.editorSubstatRows)');
+  await chooseBellibingComboOption(send,'echoSubstat0Name',2);
+  if(await evaluate(send,"activeConfirmation?.kind!=='roll-swap'||document.activeElement.id!=='cancelSwitch'"))throw new Error('Duplicate observed pair did not request explicit confirmation');
+  await pointerClick(send,'#cancelSwitch');
+  if(await evaluate(send,'JSON.stringify(echoUi.editorSubstatRows)')!==originalPairs)throw new Error('Cancelled pair swap changed observed values');
+  await chooseBellibingComboOption(send,'echoSubstat0Name',2);await pointerClick(send,'#confirmSwitch');
+  const swappedPairs=JSON.parse(await evaluate(send,'JSON.stringify(echoUi.editorSubstatRows)')),beforePairs=JSON.parse(originalPairs);
+  if(JSON.stringify(swappedPairs[0])!==JSON.stringify(beforePairs[1])||JSON.stringify(swappedPairs[1])!==JSON.stringify(beforePairs[0]))throw new Error('Confirmed swap did not retain each original stat/value pair');
+  await pointerClick(send,'#echoSubstats .echo-roll-undo');
+  if(await evaluate(send,'JSON.stringify(echoUi.editorSubstatRows)')!==originalPairs)throw new Error('Undo did not restore original observed pairs');
+
   const desktopFit=await evaluate(send,`(()=>{
-    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),editor=pane.querySelector('.echo-editor'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),sr=shell.getBoundingClientRect(),hr=hero.getBoundingClientRect(),dr=editor.getBoundingClientRect(),fr=footer.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-substat-row')].map(x=>x.getBoundingClientRect()),last=rows.at(-1);
+    const pane=document.getElementById('echoPreviewPane'),shell=pane.querySelector('.echo-preview-shell'),hero=pane.querySelector('.echo-preview-hero'),editor=pane.querySelector('.echo-editor'),footer=pane.querySelector('.echo-preview-footer'),equip=document.getElementById('echoEquip'),pr=pane.getBoundingClientRect(),sr=shell.getBoundingClientRect(),hr=hero.getBoundingClientRect(),dr=editor.getBoundingClientRect(),fr=footer.getBoundingClientRect(),er=equip.getBoundingClientRect(),rows=[...document.querySelectorAll('#echoSubstats .echo-roll-checkpoint')].map(x=>x.getBoundingClientRect()),last=rows.at(-1);
     return {
       scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,scrollTop:pane.scrollTop,
       equipTop:er.top,equipBottom:er.bottom,paneBottom:pr.bottom,shellBottom:sr.bottom,heroHeight:hr.height,editorHeight:dr.height,
@@ -803,7 +833,7 @@ async function verifyMobileSmoke(send) {
     const names=[...document.querySelectorAll('#echoPreviewSonataChoices .echo-preview-sonata-option span')].map(node=>{const style=getComputedStyle(node),line=parseFloat(style.lineHeight);return{clientWidth:node.clientWidth,scrollWidth:node.scrollWidth,clientHeight:node.clientHeight,scrollHeight:node.scrollHeight,text:node.textContent.trim(),lines:Number.isFinite(line)&&line>0?node.scrollHeight/line:null}});
     const combos=[...document.querySelectorAll('#echoPreviewPane .echo-editor .bb-combobox-trigger')].map(node=>node.getBoundingClientRect());
     pane.scrollTop=pane.scrollHeight;
-    const equip=document.getElementById('echoEquip').getBoundingClientRect(),last=document.querySelector('#echoSubstats .echo-substat-row:last-child').getBoundingClientRect();
+    const equip=document.getElementById('echoEquip').getBoundingClientRect(),last=document.querySelector('#echoSubstats .echo-roll-checkpoint:last-child').getBoundingClientRect();
     return{
       paneLeft:pr.left,paneRight:pr.right,panelLeft:wr.left,panelRight:wr.right,overflow:getComputedStyle(pane).overflowY,scrollHeight:pane.scrollHeight,clientHeight:pane.clientHeight,
       heroContained:hr.left>=pr.left-1&&hr.right<=pr.right+1,copyAboveContext:cr.bottom<=xr.top+1,artLeftOfSonata:ar.right<=sr.left-2,namesFit:names.every(x=>x.text&&x.scrollWidth<=x.clientWidth+1&&x.scrollHeight<=x.clientHeight+1&&x.lines<=2.05),

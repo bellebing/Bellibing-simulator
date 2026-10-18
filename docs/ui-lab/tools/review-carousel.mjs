@@ -1,7 +1,10 @@
 import assert from 'node:assert/strict';
 
 const flowSettled = page => page.waitForFunction(() => { const ribbon = document.querySelector('#characterCarousel'); return getComputedStyle(ribbon).height === (ribbon.classList.contains('expanded') ? '482px' : '0px'); });
-const settle = page => page.waitForFunction(() => document.querySelector('#characterCarousel').dataset.motion === 'settled');
+const settle = page => page.waitForFunction(() => {
+  const ribbon=document.querySelector('#characterCarousel');
+  return ribbon.dataset.motion==='settled' && ribbon.getAnimations({subtree:true}).every(animation=>animation.playState!=='running'||!Number.isFinite(animation.effect?.getComputedTiming().iterations));
+});
 const focusId = page => page.locator('#characterCarousel').getAttribute('data-focused-character');
 const selectedName = page => page.locator('.hero-copy h2').innerText();
 const geometry = page => page.evaluate(() => Object.fromEntries(['.workshop', '.working-area', '.slots', '.trash-panel'].map(selector => { const r = document.querySelector(selector).getBoundingClientRect(); return [selector, [r.x + scrollX, r.y + scrollY, r.width, r.height]]; })));

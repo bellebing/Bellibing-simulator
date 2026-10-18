@@ -1,4 +1,5 @@
 // Host-side S2 preparation. No account reader, persistence, ingress or evaluator.
+import {SANDBOX_SCENARIO_CONTEXTS} from './sandboxScenarioContexts.mjs';
 import standards from '../docs/ui-lab/v1.1/modules/sandbox-defaults.json' with {type:'json'};
 import {CHARACTER_CATALOG} from './data/characters.ts';
 import {WEAPON_CATALOG} from './data/weapons.ts';
@@ -17,16 +18,17 @@ export async function compileSandboxConfiguration(ui,engineContract,options){
  if(typeof build.id!=='string'||!build.id||!['revision','weaponRevision'].every(k=>Number.isSafeInteger(build[k])&&build[k]>=0))return pending('SANDBOX_OWNER_REVISION_REQUIRED');
  const weapon=WEAPON_CATALOG.find(w=>w.id===build.weaponId&&w.releaseStatus==='RELEASED'&&w.weaponType===person.weaponType);
  if(!weapon||!Number.isFinite(weapon.level90BaseAtk))return pending('CANONICAL_SANDBOX_WEAPON_REQUIRED');
- // Only this explicit source-context → engine-preset mapping was proven in 6B.1.
- // Other 58 valid Sandbox templates are not silently bound to a different mode.
- if(standard.characterId!=='augusta'||standard.sourceId!=='augusta-standard-echoes')return pending('SANDBOX_PRIVATE_PRESET_CONTEXT_MAPPING_PENDING');
- const adapted=await adaptUiSettingsV3({characterId:person.id,presetId:'augusta-standard',settings:captured.context.settings});
+ // Only explicit canonical source-context → preset joins bind this bounded trio.
+ // Other templates remain Pending; Custom intent supplies missing Echo goals.
+ const mapping=SANDBOX_SCENARIO_CONTEXTS[person.id];
+ if(!mapping||standard.sourceId!==mapping.sourceId)return pending('SANDBOX_PRIVATE_PRESET_CONTEXT_MAPPING_PENDING');
+ const adapted=await adaptUiSettingsV3({characterId:person.id,presetId:mapping.presetId,settings:captured.context.settings});
  if(adapted.status!=='VALID_SETTINGS_V3')return pending(adapted.reason);
  const buildState={weaponId:weapon.id,weaponRefinement:build.baseline.weaponRefinement,sequenceLevel:build.baseline.sequenceLevel,forte:structuredClone(build.baseline.forte),echoSets:{activeSetId:'sandbox',sets:{sandbox:{slots:Array(5).fill(null)}}}};
  const publicSession=startEchoSimulator(person.id,buildState,build.id+':'+captured.revisions.session);publicSession.selectedSlot=captured.selectedSlot;
  // Reuse the production compiler's *contract* with an explicit Sandbox host.
  // This detached v3 envelope is Sandbox intent, never persisted account Settings.
- const host={kind:'SANDBOX_HOST_CONTEXT',characterId:person.id,buildId:build.id,modeId:'default',presetId:'augusta-standard',buildState,publicSession,
+ const host={kind:'SANDBOX_HOST_CONTEXT',totalBuildErAcceptance:'SOURCE_ROTATION_ER_V1',characterId:person.id,buildId:build.id,modeId:'default',presetId:mapping.presetId,buildState,publicSession,
   improvePolicyStorage:{version:3,characters:{[person.id]:adapted.state},pendingV2Characters:{},resourceInventory:captured.resourceInventory},
   revisions:{character:captured.revisions.context,build:build.revision+captured.revisions.configuration,settings:captured.revisions.settings,inventory:captured.revisions.inventory,session:captured.revisions.session}};
  const result=await compileSimulationConfiguration(captured,host,engineContract,options);

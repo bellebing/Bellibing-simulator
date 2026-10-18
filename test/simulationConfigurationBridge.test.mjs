@@ -83,3 +83,10 @@ test('existing production account records are observed read-only without synthes
  assert.equal(readProductionBuildRecord(storage,{id:'aalto',name:'Aalto'}).reason,'CHARACTER_NOT_OWNED_IN_PRODUCTION_ACCOUNT');
  bytes='{corrupt';assert.equal(readProductionBuildRecord(storage,{id:'augusta',name:'Augusta'}).status,'PENDING');assert.equal(bytes,'{corrupt');assert.equal(reads,3);
 });
+
+
+test('ordinary production ER still fails closed without the trusted Sandbox whole-build adapter',async()=>{
+ const f=await configurationFixture();f.state.erTarget={enabled:true,valuePercent:120};settingsConfigurationChanged(f.state);
+ const out=await compileSimulationConfiguration(f.readUiContext(),f.production,f.contract,options);
+ assert.ok(out.reasons.includes('ER_CONSTRAINT_ADAPTER_PENDING'));assert.equal(out.input,null);
+});

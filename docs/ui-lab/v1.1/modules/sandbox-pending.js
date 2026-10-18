@@ -3,6 +3,8 @@
 const messages=Object.freeze({
  INVALID_SANDBOX_CONFIGURATION:'The selected configuration did not pass server validation. Review active Echo slots and Settings.',
  CONFIGURATION_CAPABILITY_PENDING:'This Character, Weapon or Settings combination is not yet executable.',
+ TOTAL_ER_UNREACHABLE_WITH_CURRENT_SHELL_AND_REQUIREMENTS:'The requested total ER cannot be reached with this equipment and Echo requirements. No simulation was started.',
+ INVALID_CUSTOM_TOTAL_ER:'Enter a valid whole-build ER percentage.',
  PRIVATE_CAPABILITY_PENDING:'This configuration cannot currently be executed by the local simulator.'
 });
 export function sandboxPendingCopy(reasons){

@@ -1,0 +1,1633 @@
+{
+  "schemaVersion": 1,
+  "owner": "CANONICAL_IMPROVE_SETTINGS_V3_PROJECTION",
+  "characters": [
+    {
+      "characterId": "aalto",
+      "presetId": "aalto-hybrid-jiyan",
+      "applicability": {
+        "characterId": "aalto",
+        "presetId": "aalto-hybrid-jiyan",
+        "modeKey": "hybrid-jiyan",
+        "sequence": 6,
+        "weaponRecommendationProfileId": "aalto-hybrid-jiyan-weapons",
+        "echoLoadoutProfileId": "aalto-hybrid-moonlit-heron",
+        "teamProfileId": "jiyan-aalto-shorekeeper",
+        "rotationProfileId": "aalto-hybrid-jiyan-shorekeeper",
+        "contextBinding": "bca0b0f8eeee8bf2724cacf99993e4978186d15e6f10dec366de0bd5bb1cfafb"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "aemeath",
+      "presetId": "aemeath-standard",
+      "applicability": {
+        "characterId": "aemeath",
+        "presetId": "aemeath-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "aemeath-standard-weapons",
+        "echoLoadoutProfileId": "aemeath-standard-echoes",
+        "teamProfileId": "aemeath-denia-chisa",
+        "rotationProfileId": "aemeath-standard-source-sequence",
+        "contextBinding": "772e15e5fcf94089613890594c248730b9fbbf32476748391da4b830e6939ef2"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "augusta",
+      "presetId": "augusta-standard",
+      "applicability": {
+        "characterId": "augusta",
+        "presetId": "augusta-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "augusta-standard-weapons",
+        "echoLoadoutProfileId": "augusta-standard-echoes",
+        "teamProfileId": "augusta-iuno-shorekeeper",
+        "rotationProfileId": "augusta-standard-iuno-shorekeeper",
+        "contextBinding": "39fdfcb56f24932271c0fcfc6f24f25c36ca7fe8faa8b8ecd146080d7ce0e923"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": true,
+      "requirements": {
+        "status": "USER_DEFINED",
+        "origin": "USER",
+        "content": "PRESENT",
+        "value": {
+          "requiredOnEveryEcho": [
+            {
+              "stat": "CRIT Rate",
+              "minimum": 0.063
+            },
+            {
+              "stat": "CRIT DMG",
+              "minimum": 0.126
+            }
+          ],
+          "groups": [
+            {
+              "id": "selected-flex",
+              "minimumCount": 1,
+              "members": [
+                {
+                  "stat": "ATK%",
+                  "minimum": 0.064
+                },
+                {
+                  "stat": "Heavy Attack DMG",
+                  "minimum": 0.064
+                },
+                {
+                  "stat": "Energy Regen",
+                  "minimum": 0.068
+                },
+                {
+                  "stat": "Flat ATK",
+                  "minimum": 30
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "preferences": {
+        "status": "USER_DEFINED",
+        "origin": "USER",
+        "content": "PRESENT",
+        "value": [
+          {
+            "stat": "ATK%",
+            "priorityGroup": 1,
+            "minimum": 0.064
+          },
+          {
+            "stat": "Heavy Attack DMG",
+            "priorityGroup": 2,
+            "minimum": 0.064
+          },
+          {
+            "stat": "Energy Regen",
+            "priorityGroup": 3,
+            "minimum": 0.068
+          },
+          {
+            "stat": "Flat ATK",
+            "priorityGroup": 4,
+            "minimum": 30
+          }
+        ]
+      }
+    },
+    {
+      "characterId": "baizhi",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "brant",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "buling",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "calcharo",
+      "presetId": "calcharo-standard",
+      "applicability": {
+        "characterId": "calcharo",
+        "presetId": "calcharo-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "calcharo-standard-weapons",
+        "echoLoadoutProfileId": "calcharo-standard-echoes",
+        "teamProfileId": "calcharo-standard-team",
+        "rotationProfileId": "calcharo-standard-rotation",
+        "contextBinding": "79f5b54f8d7b128c08b84952dab585702b7c5ba6d1ecd2beb39c3aac7cba7a63"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "camellya",
+      "presetId": "camellya-standard",
+      "applicability": {
+        "characterId": "camellya",
+        "presetId": "camellya-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "camellya-standard-weapons",
+        "echoLoadoutProfileId": "camellya-standard-echoes",
+        "teamProfileId": "camellya-lynae-mornye",
+        "rotationProfileId": "camellya-standard-source-sequence",
+        "contextBinding": "635ae8f18eed900306cfeb6453b6449a529ef73460fe893af79cbc1fd62771e5"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "cantarella",
+      "presetId": "cantarella-standard",
+      "applicability": {
+        "characterId": "cantarella",
+        "presetId": "cantarella-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "cantarella-standard-weapons",
+        "echoLoadoutProfileId": "cantarella-standard-echoes",
+        "teamProfileId": "cantarella-standard-team",
+        "rotationProfileId": "cantarella-standard-rotation",
+        "contextBinding": "ee0f40bb76b2998682f9e28dab0e1982d1cc312bee7b7bca60c56b7ab15fb5c7"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "carlotta",
+      "presetId": "carlotta-standard",
+      "applicability": {
+        "characterId": "carlotta",
+        "presetId": "carlotta-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "carlotta-standard-weapons",
+        "echoLoadoutProfileId": "carlotta-standard-echoes",
+        "teamProfileId": "carlotta-standard-team",
+        "rotationProfileId": "carlotta-standard-rotation",
+        "contextBinding": "dbfe7851357c0e16f4854312bbdc71b557eafcd753387815087f339facdb5bb0"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "cartethyia",
+      "presetId": "cartethyia-aero-erosion",
+      "applicability": {
+        "characterId": "cartethyia",
+        "presetId": "cartethyia-aero-erosion",
+        "modeKey": "aero-erosion",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "cartethyia-aero-erosion-weapons",
+        "echoLoadoutProfileId": "cartethyia-windward-fleurdelys",
+        "teamProfileId": "cartethyia-ciaccona-rover-aero",
+        "rotationProfileId": "cartethyia-basic-ciaccona-rover-aero",
+        "contextBinding": "7e11d339595e5621752b7997dadba4f452fc158df4382d74640754eb176e2a1f"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "changli",
+      "presetId": "changli-standard",
+      "applicability": {
+        "characterId": "changli",
+        "presetId": "changli-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "changli-standard-weapons",
+        "echoLoadoutProfileId": "changli-standard-echoes",
+        "teamProfileId": "changli-standard-team",
+        "rotationProfileId": "changli-standard-rotation",
+        "contextBinding": "613d7fb709cb414336bfac9382de1ab849a30938bbd0e8583315462a134a40d5"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "chisa",
+      "presetId": "chisa-standard",
+      "applicability": {
+        "characterId": "chisa",
+        "presetId": "chisa-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "chisa-standard-weapons",
+        "echoLoadoutProfileId": "chisa-standard-echoes",
+        "teamProfileId": "chisa-standard-team",
+        "rotationProfileId": "chisa-standard-rotation",
+        "contextBinding": "b1390c8461e6f7695d6493ba203ae27e4aed6b77d3f36b8a60641de1a7e906d2"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "chixia",
+      "presetId": "chixia-standard",
+      "applicability": {
+        "characterId": "chixia",
+        "presetId": "chixia-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "chixia-standard-weapons",
+        "echoLoadoutProfileId": "chixia-standard-echoes",
+        "teamProfileId": "chixia-standard-team",
+        "rotationProfileId": "chixia-standard-rotation",
+        "contextBinding": "24e67f0d533a45629903b34db3c7010fa5257aaa40c8f27faa8881e839e82912"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "ciaccona",
+      "presetId": "ciaccona-cartethyia-aero",
+      "applicability": {
+        "characterId": "ciaccona",
+        "presetId": "ciaccona-cartethyia-aero",
+        "modeKey": "cartethyia-aero",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "ciaccona-cartethyia-aero-weapons",
+        "echoLoadoutProfileId": "ciaccona-gusts-kelpie-cartethyia",
+        "teamProfileId": "cartethyia-ciaccona-rover-aero",
+        "rotationProfileId": "ciaccona-basic-cartethyia-rover-aero",
+        "contextBinding": "39c186b81759ec80c54a38780cf0902778fd2883598d98ea5fbc8d08b3bae3ed"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "danjin",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "denia",
+      "presetId": "denia-fusion-burst-aemeath",
+      "applicability": {
+        "characterId": "denia",
+        "presetId": "denia-fusion-burst-aemeath",
+        "modeKey": "fusion-burst",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "denia-multimode-weapons",
+        "echoLoadoutProfileId": "denia-fusion-burst-echoes",
+        "teamProfileId": "aemeath-denia-chisa",
+        "rotationProfileId": "denia-fusion-burst-aemeath-standard",
+        "contextBinding": "7b4ebac6d1b95f136413b8b719fdf499badd17a428149ab670356cab03ff160a"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "encore",
+      "presetId": "encore-standard",
+      "applicability": {
+        "characterId": "encore",
+        "presetId": "encore-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "encore-standard-weapons",
+        "echoLoadoutProfileId": "encore-standard-echoes",
+        "teamProfileId": "encore-standard-team",
+        "rotationProfileId": "encore-standard-rotation",
+        "contextBinding": "25ca66439f2d5bd68bed1563c8ad68627a7691d101cb8554512656bd702fb9a9"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "galbrena",
+      "presetId": "galbrena-standard",
+      "applicability": {
+        "characterId": "galbrena",
+        "presetId": "galbrena-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "galbrena-standard-weapons",
+        "echoLoadoutProfileId": "galbrena-standard-echoes",
+        "teamProfileId": "galbrena-qiuyuan-shorekeeper",
+        "rotationProfileId": "galbrena-standard-source-sequence",
+        "contextBinding": "66744f68e3d4f8aa4dfbd2c2e303f76b249754282ef2351b0b939b71335cac5d"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "hiyuki",
+      "presetId": "hiyuki-standard",
+      "applicability": {
+        "characterId": "hiyuki",
+        "presetId": "hiyuki-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "hiyuki-standard-weapons",
+        "echoLoadoutProfileId": "hiyuki-standard-echoes",
+        "teamProfileId": "hiyuki-lucilla-chisa",
+        "rotationProfileId": "hiyuki-standard-source-sequence",
+        "contextBinding": "6f61fca9f48560a29bb944e560ae6da3a07941e4bdf1a0e001ccab20d4b2f5c7"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "hsin",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "iuno",
+      "presetId": "iuno-augusta-hybrid",
+      "applicability": {
+        "characterId": "iuno",
+        "presetId": "iuno-augusta-hybrid",
+        "modeKey": "augusta-hybrid",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "iuno-augusta-hybrid-weapons",
+        "echoLoadoutProfileId": "iuno-augusta-moonlit-heron",
+        "teamProfileId": "augusta-iuno-shorekeeper",
+        "rotationProfileId": "iuno-augusta-sub-dps-standard",
+        "contextBinding": "5431a34322f37ed90bb527ece667b792f9de1926cf52c0e05a7c77c661648d68"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "jianxin",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "jingran",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "jinhsi",
+      "presetId": "jinhsi-standard-opener",
+      "applicability": {
+        "characterId": "jinhsi",
+        "presetId": "jinhsi-standard-opener",
+        "modeKey": "standard-opener",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "jinhsi-standard-weapons",
+        "echoLoadoutProfileId": "jinhsi-standard-echoes",
+        "teamProfileId": "jinhsi-zhezhi-verina",
+        "rotationProfileId": "jinhsi-standard-opener-source-sequence",
+        "contextBinding": "69f0af4fae8753a0bfdb9e8d9414273677b6c25c2bf60ad51e3861113c31802f"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "jiyan",
+      "presetId": "jiyan-standard",
+      "applicability": {
+        "characterId": "jiyan",
+        "presetId": "jiyan-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "jiyan-standard-weapons",
+        "echoLoadoutProfileId": "jiyan-standard-echoes",
+        "teamProfileId": "jiyan-standard-team",
+        "rotationProfileId": "jiyan-standard-rotation",
+        "contextBinding": "206028a3e7e0bc96dbea0b2da02bacf90f73ddb38d38e756e4846759ca78582d"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lingyang",
+      "presetId": "lingyang-standard",
+      "applicability": {
+        "characterId": "lingyang",
+        "presetId": "lingyang-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lingyang-standard-weapons",
+        "echoLoadoutProfileId": "lingyang-standard-echoes",
+        "teamProfileId": "lingyang-standard-team",
+        "rotationProfileId": "lingyang-standard-rotation",
+        "contextBinding": "65c145d211c45b92d33de1ad67664ced47137cfe8d2d34fc8b60dba04e7e4289"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lucilla",
+      "presetId": "lucilla-standard",
+      "applicability": {
+        "characterId": "lucilla",
+        "presetId": "lucilla-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lucilla-standard-weapons",
+        "echoLoadoutProfileId": "lucilla-standard-echoes",
+        "teamProfileId": "lucilla-standard-team",
+        "rotationProfileId": "lucilla-standard-rotation",
+        "contextBinding": "cd3daab3afbd868adf089b0a3bafdc0a66d0c8edd4e11df553ff684c215bab73"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lucy",
+      "presetId": "lucy-standard",
+      "applicability": {
+        "characterId": "lucy",
+        "presetId": "lucy-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lucy-standard-weapons",
+        "echoLoadoutProfileId": "lucy-standard-echoes",
+        "teamProfileId": "lucy-standard-team",
+        "rotationProfileId": "lucy-standard-rotation",
+        "contextBinding": "82614ea8b5877fcf38c7ef291508bb2582fce2b6b923cc360d54c2f0d690d054"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lumi",
+      "presetId": "lumi-hybrid",
+      "applicability": {
+        "characterId": "lumi",
+        "presetId": "lumi-hybrid",
+        "modeKey": "hybrid",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lumi-hybrid-weapons",
+        "echoLoadoutProfileId": "lumi-hybrid-echoes",
+        "teamProfileId": "lumi-hybrid-team",
+        "rotationProfileId": "lumi-hybrid-rotation",
+        "contextBinding": "190a5e5cb17af789b59a26f35b7370fc9dae1470cc401b55d9fe4b09367fb3cf"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lupa",
+      "presetId": "lupa-standard",
+      "applicability": {
+        "characterId": "lupa",
+        "presetId": "lupa-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lupa-standard-weapons",
+        "echoLoadoutProfileId": "lupa-standard-echoes",
+        "teamProfileId": "lupa-standard-team",
+        "rotationProfileId": "lupa-standard-rotation",
+        "contextBinding": "86fe4476e5d0e04856080c6b474907b28c640ca21d44676af8951aac354682b9"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "luuk-herssen",
+      "presetId": "luuk-herssen-standard",
+      "applicability": {
+        "characterId": "luuk-herssen",
+        "presetId": "luuk-herssen-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "luuk-herssen-standard-weapons",
+        "echoLoadoutProfileId": "luuk-herssen-standard-echoes",
+        "teamProfileId": "luuk-herssen-denia-mornye",
+        "rotationProfileId": "luuk-herssen-standard-source-sequence",
+        "contextBinding": "81a1af1eb86648d3847f1da2c8ca680383541deac513e754be8d0f3730bd04b3"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "lynae",
+      "presetId": "lynae-standard",
+      "applicability": {
+        "characterId": "lynae",
+        "presetId": "lynae-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "lynae-standard-weapons",
+        "echoLoadoutProfileId": "lynae-standard-echoes",
+        "teamProfileId": "lynae-aemeath-mornye",
+        "rotationProfileId": "lynae-standard-source-sequence",
+        "contextBinding": "b3c2b46254f65a0876745f1e63970afe2a12d04c7780eca68c1e4bcc6558a697"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "mornye",
+      "presetId": "mornye-standard",
+      "applicability": {
+        "characterId": "mornye",
+        "presetId": "mornye-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "mornye-standard-weapons",
+        "echoLoadoutProfileId": "mornye-standard-echoes",
+        "teamProfileId": "mornye-standard-team",
+        "rotationProfileId": "mornye-standard-rotation",
+        "contextBinding": "d788e0cf093cfc9fa28d96e756209b10728337622908c04f42a15eab2f894798"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "mortefi",
+      "presetId": "mortefi-standard",
+      "applicability": {
+        "characterId": "mortefi",
+        "presetId": "mortefi-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "mortefi-standard-weapons",
+        "echoLoadoutProfileId": "mortefi-standard-echoes",
+        "teamProfileId": "mortefi-standard-team",
+        "rotationProfileId": "mortefi-standard-rotation",
+        "contextBinding": "d6abab9928e7a4627c04df0b518c1ad19d4b59e5ef8968390ea545339655d56d"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "phoebe",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "phrolova",
+      "presetId": "phrolova-standard",
+      "applicability": {
+        "characterId": "phrolova",
+        "presetId": "phrolova-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "phrolova-standard-weapons",
+        "echoLoadoutProfileId": "phrolova-standard-echoes",
+        "teamProfileId": "phrolova-standard-team",
+        "rotationProfileId": "phrolova-standard-rotation",
+        "contextBinding": "5c9cfa6efd7adc4408e0354f48b76003077d324ac6f8a45c66ca64ae77c5a0fd"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "qingxiao",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "qiuyuan",
+      "presetId": "qiuyuan-standard",
+      "applicability": {
+        "characterId": "qiuyuan",
+        "presetId": "qiuyuan-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "qiuyuan-standard-weapons",
+        "echoLoadoutProfileId": "qiuyuan-standard-echoes",
+        "teamProfileId": "qiuyuan-standard-team",
+        "rotationProfileId": "qiuyuan-standard-rotation",
+        "contextBinding": "4c80ea7cbade64ca8856a5da309962ff28ed5dfbae8d3d7a80142d1589b492a8"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "rebecca",
+      "presetId": "rebecca-standard",
+      "applicability": {
+        "characterId": "rebecca",
+        "presetId": "rebecca-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "rebecca-standard-weapons",
+        "echoLoadoutProfileId": "rebecca-standard-echoes",
+        "teamProfileId": "rebecca-standard-team",
+        "rotationProfileId": "rebecca-standard-rotation",
+        "contextBinding": "1e7f5886298c85404884b0ba9d49dd357a4eee32648248e691daba009477bf61"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "roccia",
+      "presetId": "roccia-standard",
+      "applicability": {
+        "characterId": "roccia",
+        "presetId": "roccia-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "roccia-standard-weapons",
+        "echoLoadoutProfileId": "roccia-standard-echoes",
+        "teamProfileId": "roccia-standard-team",
+        "rotationProfileId": "roccia-standard-rotation",
+        "contextBinding": "6ea79b114053555fcec87d0ab56e27a401d20f88d75b3afc8b7738ccf2cb7fd9"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "rover-aero",
+      "presetId": "rover-aero-cartethyia-ciaccona",
+      "applicability": {
+        "characterId": "rover-aero",
+        "presetId": "rover-aero-cartethyia-ciaccona",
+        "modeKey": "cartethyia-ciaccona-support",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "rover-aero-cartethyia-ciaccona-weapons",
+        "echoLoadoutProfileId": "rover-aero-windward-fleurdelys",
+        "teamProfileId": "cartethyia-ciaccona-rover-aero",
+        "rotationProfileId": "rover-aero-cartethyia-ciaccona-standard",
+        "contextBinding": "0b67e1e8a7d6bb972a8a91c8d0012c5c2af5b1363d569badf400feebd0f02781"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "rover-electro",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "rover-havoc",
+      "presetId": "rover-havoc-standard",
+      "applicability": {
+        "characterId": "rover-havoc",
+        "presetId": "rover-havoc-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "rover-havoc-standard-weapons",
+        "echoLoadoutProfileId": "rover-havoc-standard-echoes",
+        "teamProfileId": "rover-havoc-standard-team",
+        "rotationProfileId": "rover-havoc-standard-rotation",
+        "contextBinding": "7c82899fd518e79923dec85b302dc09ebe9f49c586c543db12a9e6da2ff77d3c"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "rover-spectro",
+      "presetId": "rover-spectro-standard",
+      "applicability": {
+        "characterId": "rover-spectro",
+        "presetId": "rover-spectro-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "rover-spectro-standard-weapons",
+        "echoLoadoutProfileId": "rover-spectro-standard-echoes",
+        "teamProfileId": "rover-spectro-standard-team",
+        "rotationProfileId": "rover-spectro-standard-rotation",
+        "contextBinding": "3692ed1eea5eb7263988d193dd1811f105b720826e2db6186fc584cba87ca528"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "sanhua",
+      "presetId": "sanhua-standard",
+      "applicability": {
+        "characterId": "sanhua",
+        "presetId": "sanhua-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "sanhua-standard-weapons",
+        "echoLoadoutProfileId": "sanhua-standard-echoes",
+        "teamProfileId": "sanhua-standard-team",
+        "rotationProfileId": "sanhua-standard-rotation",
+        "contextBinding": "26b18f4bc090b76a72fe543157800c49e9317d7c93a10cf6b38b1bcf173400b2"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "sigrika",
+      "presetId": "sigrika-standard",
+      "applicability": {
+        "characterId": "sigrika",
+        "presetId": "sigrika-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "sigrika-standard-weapons",
+        "echoLoadoutProfileId": "sigrika-standard-echoes",
+        "teamProfileId": "sigrika-qiuyuan-ciaccona",
+        "rotationProfileId": "sigrika-standard-source-sequence",
+        "contextBinding": "57b5b2973c5176b28cdd1c0201dd2a22a3e63769a51fd81bfa859737d48d894e"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "suisui",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "taoqi",
+      "presetId": "taoqi-standard",
+      "applicability": {
+        "characterId": "taoqi",
+        "presetId": "taoqi-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "taoqi-standard-weapons",
+        "echoLoadoutProfileId": "taoqi-standard-echoes",
+        "teamProfileId": "taoqi-standard-team",
+        "rotationProfileId": "taoqi-standard-rotation",
+        "contextBinding": "5332d403184543418190dcd5e2f0006f82530a94c0fb28491c0f91076d72f5a2"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "presetId": "shorekeeper-augusta-support",
+      "applicability": {
+        "characterId": "the-shorekeeper",
+        "presetId": "shorekeeper-augusta-support",
+        "modeKey": "augusta-iuno-support",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "shorekeeper-augusta-iuno-weapons",
+        "echoLoadoutProfileId": "shorekeeper-rejuvenating-fallacy",
+        "teamProfileId": "augusta-iuno-shorekeeper",
+        "rotationProfileId": "shorekeeper-augusta-support-standard",
+        "contextBinding": "f5d75d978ef7629ffb575051e1a99a8425db60b7c2bc91e11a9f4506b3e70b7f"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "verina",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "xiangli-yao",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "yangyang",
+      "presetId": "yangyang-standard",
+      "applicability": {
+        "characterId": "yangyang",
+        "presetId": "yangyang-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "yangyang-standard-weapons",
+        "echoLoadoutProfileId": "yangyang-standard-echoes",
+        "teamProfileId": "yangyang-standard-team",
+        "rotationProfileId": "yangyang-standard-rotation",
+        "contextBinding": "c5276cfa32620eadb91112ca33a97aebb0c48e0eb740caf497a6251df39d77ef"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "yangyang-xuanling",
+      "presetId": "yangyang-xuanling-standard",
+      "applicability": {
+        "characterId": "yangyang-xuanling",
+        "presetId": "yangyang-xuanling-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "yangyang-xuanling-standard-weapons",
+        "echoLoadoutProfileId": "yangyang-xuanling-standard-echoes",
+        "teamProfileId": "yangyang-xuanling-lynae-chisa",
+        "rotationProfileId": "yangyang-xuanling-standard-source-sequence",
+        "contextBinding": "e12154571f458bdeb0a0eb8ee58dc188bd907d4c3ced42cfdf1a2c08c3539b36"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "yinlin",
+      "presetId": "yinlin-moonlit",
+      "applicability": {
+        "characterId": "yinlin",
+        "presetId": "yinlin-moonlit",
+        "modeKey": "moonlit",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "yinlin-moonlit-weapons",
+        "echoLoadoutProfileId": "yinlin-moonlit-echoes",
+        "teamProfileId": "yinlin-moonlit-team",
+        "rotationProfileId": "yinlin-moonlit-rotation",
+        "contextBinding": "98eb1fe835260c94d6c6ac67e2f6aa6499a20551bfe1775458619ac4c2545d7b"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "youhu",
+      "presetId": "youhu-standard",
+      "applicability": {
+        "characterId": "youhu",
+        "presetId": "youhu-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "youhu-standard-weapons",
+        "echoLoadoutProfileId": "youhu-standard-echoes",
+        "teamProfileId": "youhu-standard-team",
+        "rotationProfileId": "youhu-standard-rotation",
+        "contextBinding": "6b0a326bfe8b018b2d69e1cdb8e046235c6b9a8bdf7d6f12d0b1dc14b079d1e1"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "yuanwu",
+      "presetId": null,
+      "applicability": null,
+      "sourceReviewStatus": "PENDING",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No verified default preset."
+      }
+    },
+    {
+      "characterId": "zani",
+      "presetId": "zani-standard",
+      "applicability": {
+        "characterId": "zani",
+        "presetId": "zani-standard",
+        "modeKey": "standard",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "zani-standard-weapons",
+        "echoLoadoutProfileId": "zani-standard-echoes",
+        "teamProfileId": "zani-phoebe-rover-spectro",
+        "rotationProfileId": "zani-standard-source-sequence",
+        "contextBinding": "1614c1c3183966794dfed0afb75956bcc51669274a9fae08e0fcfe35e2b38156"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    },
+    {
+      "characterId": "zhezhi",
+      "presetId": "zhezhi-empyrean-endgame",
+      "applicability": {
+        "characterId": "zhezhi",
+        "presetId": "zhezhi-empyrean-endgame",
+        "modeKey": "empyrean-endgame",
+        "sequence": 0,
+        "weaponRecommendationProfileId": "zhezhi-carlotta-weapons",
+        "echoLoadoutProfileId": "zhezhi-empyrean-endgame-echoes",
+        "teamProfileId": "carlotta-zhezhi-shorekeeper",
+        "rotationProfileId": "zhezhi-empyrean-carlotta-standard",
+        "contextBinding": "60b8ffc435f1d15193602123c57d988bdafa863aea0fe06210e86c289f7ca54d"
+      },
+      "sourceReviewStatus": "CURRENT",
+      "userApprovedEchoDefault": false,
+      "requirements": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      },
+      "preferences": {
+        "status": "PENDING",
+        "origin": "PROFILE",
+        "value": null,
+        "reason": "No reviewed Echo policy."
+      }
+    }
+  ]
+}

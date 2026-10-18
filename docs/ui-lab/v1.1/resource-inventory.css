@@ -1,0 +1,26 @@
+/* Six resource quantities stay distinct. Compact visual grouping only:
+   full canonical item names remain in accessible input labels and tooltips. */
+#settings .resource-section { padding-top:4px; }
+#resourceInventory { min-width:0; }
+#resourceInventory .resource-grid-headings,
+#resourceInventory .resource-compact-grid {
+  display:grid; grid-template-columns:1.25fr 1.25fr repeat(4,minmax(0,1fr));
+  gap:5px; min-width:0;
+}
+#resourceInventory .resource-grid-headings { align-items:end; margin-bottom:2px; }
+#resourceInventory .resource-grid-headings span { font-size:var(--type-body); color:#aeb6bd; white-space:nowrap; }
+#resourceInventory .resource-grid-headings span:last-child { grid-column:3 / -1; text-align:center; }
+#resourceInventory .resource-field { display:flex; flex-direction:column; min-width:0; gap:2px; }
+#resourceInventory .resource-caption {
+  min-height:24px; display:flex; align-items:center; justify-content:center;
+  color:#a5afb8; font-size:var(--type-meta);
+}
+#resourceInventory .resource-caption img { width:22px; height:22px; flex:none; object-fit:contain; }
+#resourceInventory input {
+  box-sizing:border-box; width:100%; min-width:0; height:29px; padding:4px 4px;
+  border:1px solid var(--line); border-radius:4px; background:#10161b;
+  color:#d8cba9; font:inherit; font-size:var(--type-body); font-variant-numeric:tabular-nums;
+}
+#resourceInventory input:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+#resourceInventory input[aria-invalid=true] { border-color:#ba8279; }
+#resourceInventory .resource-error { color:#d59c93; font-size:var(--type-body); line-height:1.4; margin:8px 0 0; }

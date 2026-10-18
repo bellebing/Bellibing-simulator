@@ -1,0 +1,76 @@
+{
+  "version": "BELLIBING_OBSERVED_ECHO_SCENARIO_V1",
+  "scenarioId": "AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1",
+  "providerVersion": "AUGUSTA_REFERENCE_SCENARIO_ADAPTER_V2",
+  "publicSourceRevision": "259f4881271b5cc84cec5bf2e7f085e6a106a8e3",
+  "sourceCommit": "195a22f1b7a1b55b953224e26742b896a719e1c3",
+  "hitEvidenceSha256": "12b18f93e47ef9854450b6c8e7d50066dc603d4974f2f5eccbeed8e7b370799c",
+  "clock": "PROVIDER_MODEL_GAME_FRAMES_AT_60FPS_EXCLUDING_TIMESTOP",
+  "cycle": 2,
+  "startFrame": 1828,
+  "endFrame": 3494,
+  "durationSeconds": 27.766666666666666,
+  "energyRequirements": [
+    {
+      "characterId": "the-shorekeeper",
+      "minimumRatio": 2.1008321273516644,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    },
+    {
+      "characterId": "iuno",
+      "minimumRatio": 1.231830500123183,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    },
+    {
+      "characterId": "augusta",
+      "minimumRatio": 1.1629529701818861,
+      "basis": "PINNED_FIXED_SCENARIO_RESOURCE_REQUIREMENT"
+    }
+  ],
+  "enemy": {
+    "defense": 1520,
+    "resistanceByElement": {
+      "Electro": 0.1,
+      "Aero": 0.1,
+      "Fusion": 0.1,
+      "Spectro": 0.1,
+      "Havoc": 0.1
+    },
+    "damageReduction": 0
+  },
+  "actorIds": [
+    "augusta",
+    "iuno",
+    "the-shorekeeper"
+  ],
+  "equipment": [
+    {
+      "characterId": "augusta",
+      "sequence": 0,
+      "weapon": {
+        "id": "thunderflare-dominion",
+        "rank": 1
+      },
+      "equipmentPresetId": "augusta-cov3-void2-false-sovereign"
+    },
+    {
+      "characterId": "iuno",
+      "sequence": 0,
+      "weapon": {
+        "id": "moongazers-sigil",
+        "rank": 1
+      },
+      "equipmentPresetId": "iuno-cov3-sierra2-lady"
+    },
+    {
+      "characterId": "the-shorekeeper",
+      "sequence": 0,
+      "weapon": {
+        "id": "stellar-symphony",
+        "rank": 1
+      },
+      "equipmentPresetId": "shorekeeper-rejuvenating5-fallacy"
+    }
+  ],
+  "boundary": "EXPERIMENTAL_FIXED_STATE_REPLAY; SYNTHETIC_FIXED_NON_SELECTED_MEMBERS; NO_VERIFIED_UPGRADE"
+}

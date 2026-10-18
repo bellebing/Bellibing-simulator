@@ -1,12 +1,12 @@
 name: Verify
 
 on:
-  # Exact-head FULL can run on a draft branch before PM UI review.
+  # Exact-head FULL can run on a draft branch through dispatch or the full-verification label.
   workflow_dispatch:
   push:
     branches: [main]
   pull_request:
-    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft]
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, labeled, unlabeled]
 
 permissions:
   contents: read
@@ -20,7 +20,7 @@ jobs:
   verify:
     # A skipped draft job is not FULL evidence. Required-check enforcement is
     # outside this split; main FULL remains the transition backstop.
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.draft == false)
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && (github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification')))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -98,6 +98,9 @@ jobs:
 
       - name: Tests
         run: npm test
+
+      - name: Detached Sandbox configuration and HTTP client regression
+        run: node --experimental-strip-types --test test/sandboxFoundation.test.mjs test/sandboxHttpClient.test.mjs
 
       - name: Strict web build
         run: npm run build
@@ -322,7 +325,7 @@ jobs:
           retention-days: 7
 
   fast:
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'full-verification')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

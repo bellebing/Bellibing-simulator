@@ -1,0 +1,59 @@
+/* Contextual status lives in the approved open space, without another panel. */
+.ui-lab [hidden] { display: none !important; }
+.ui-lab .feedback {
+  width: 100%; height: 107px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  --feedback-ink: #e1d7bd;
+}
+.ui-lab .feedback h3 { max-width: 230px; margin: 0 auto 8px; line-height: 1.2; color: var(--feedback-ink); }
+.ui-lab .feedback p { max-width: 230px; font-size: var(--type-body); line-height: 1.5; }
+.ui-lab .feedback[data-severity="warning"] { --feedback-ink: #ceb17a; }
+.ui-lab .feedback[data-severity="error"] { --feedback-ink: #d09a90; }
+.ui-lab .feedback-action { font-size: var(--type-body); padding: 4px 2px; color: var(--feedback-ink); border-bottom: 1px solid #bda87a50; }
+.ui-lab .feedback-action:hover { color: #f0d9aa; border-color: currentColor; }
+.ui-lab .simulate:active { filter: brightness(.96); transform: translateY(0); box-shadow: inset 0 2px 5px #2f251b80, 0 4px 15px #0003; }
+.ui-lab .simulate:disabled { cursor: not-allowed; filter: saturate(.28) brightness(.65); transform: none; box-shadow: inset 0 1px #fff2, 0 4px 12px #0003; }
+.ui-lab .loadout-heading .small-muted { display: flex; align-items: center; gap: 10px; font-size: var(--type-body); white-space: nowrap; }
+.ui-lab .summary-separator { color: #958253; }
+.ui-lab .sonata-count { display: inline-flex; gap: 4px; align-items: center; color: #b9b8ad; }
+.ui-lab .sonata-count img { width: 20px; height: 20px; object-fit: contain; }
+.ui-lab .discarded .card-bottom { padding-block: 7px; }
+.ui-lab .slot .discarded .card-bottom, .ui-lab .pile .discarded .card-bottom { padding-block: 4px; }
+.ui-lab .discarded .card-bottom>span:last-child { font-size: var(--type-body); font-weight: 500; letter-spacing: .35px; color: #cb998e; }
+
+.ui-lab .workshop-explanation {
+  position: fixed; inset: auto; margin: 0; width: 360px; max-width: calc(100vw - 32px);
+  padding: 20px; border: 1px solid #ae91644d; border-radius: 7px;
+  background: linear-gradient(140deg,#222932,#141c24 80%); color: #c3c8cc;
+  box-shadow: inset 0 1px #ffffff08, 0 14px 40px #02060c99;
+  font-size: var(--type-body); line-height: 1.6;
+}
+.ui-lab .workshop-explanation[data-severity="error"] { border-color: #b57e735f; }
+.ui-lab .workshop-explanation::backdrop { background: transparent; }
+.ui-lab .explanation-heading { display: flex; gap: 12px; align-items: flex-start; justify-content: space-between; }
+.ui-lab .explanation-heading h2 { font-size: var(--type-item); line-height: 1.3; margin: 0; color: #dfc69b; }
+.ui-lab .workshop-explanation[data-severity="error"] h2 { color: #dda69a; }
+.ui-lab .explanation-heading button { min-width: 28px; min-height: 28px; margin: -4px -6px 0 0; color: #a9a59b; }
+.ui-lab .explanation-heading button:hover { color: #f0dbb5; }
+.ui-lab .workshop-explanation p { margin: 12px 0; }
+.ui-lab .workshop-explanation dl { margin: 14px 0; padding-block: 10px; border-block: 1px solid #b7a17b26; }
+.ui-lab .workshop-explanation dl:empty { display: none; }
+.ui-lab .workshop-explanation dl>div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin: 5px 0; }
+.ui-lab .workshop-explanation dt { color: #8998a5; }
+.ui-lab .workshop-explanation dd { margin: 0; color: #dbd1bd; font-variant-numeric: tabular-nums; text-align: right; }
+.ui-lab .workshop-explanation .explanation-note { font-size: var(--type-meta); color: #94a0aa; margin-bottom: 0; }
+.ui-lab .feedback-affected { --affected-ink: #c0a36c; }
+.ui-lab .feedback-affected[data-feedback-severity="error"] { --affected-ink: #bc8175; }
+.ui-lab .feedback-affected .echo-card { border-color: var(--affected-ink); box-shadow: 0 0 0 2px color-mix(in srgb,var(--affected-ink) 25%,transparent),0 0 20px #b7895018; }
+@media (prefers-reduced-motion: no-preference) {
+  .ui-lab .feedback-affected .echo-card { animation: feedback-emphasis .8s ease-out; }
+  @keyframes feedback-emphasis { from { filter: brightness(1.12); } to { filter: none; } }
+  .ui-lab .workshop-explanation:popover-open { animation: explanation-enter .16s ease-out; }
+  @keyframes explanation-enter { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+}
+/* Review-only scenario selection is disclosed, never permanent Workshop chrome. */
+.ui-lab .demo-disclosure { position: absolute; top: 20px; right: 0; width: 290px; padding: 16px; text-align: left; background: #141c26; border: 1px solid var(--line); box-shadow: 0 10px 24px #0005; }
+.ui-lab .demo-note p { position: static; width: auto; padding: 0; margin: 0 0 14px; letter-spacing: normal; background: none; border: 0; }
+.ui-lab .scenario-picker { display: block; font-size: var(--type-meta); letter-spacing: .3px; }
+.ui-lab .scenario-picker select { display: block; width: 100%; margin-top: 6px; padding: 7px 10px; border: 1px solid #9e895a60; border-radius: 3px; background: #141b23; color: #d1c5aa; font: inherit; font-size: var(--type-body); }
+.ui-lab .scenario-picker select:focus-visible { outline: 2px solid #c6ac74; outline-offset: 3px; }

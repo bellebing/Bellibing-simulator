@@ -1,0 +1,645 @@
+import {reviewBrowserContext} from './review-browser-context.mjs';
+import {reviewConfiguration} from './review-configuration.mjs';
+import {reviewActivation} from './review-activation.mjs';
+import { reviewResources } from './review-resources.mjs';
+import { reviewSettings } from './review-settings.mjs';
+import { reviewResults } from './review-results.mjs';
+import { reviewHero } from './review-hero.mjs';
+import { reviewCharacterCard } from './review-character-card.mjs';
+import assert from 'node:assert/strict';
+import { reviewCarousel } from './review-carousel.mjs';
+import { createRequire } from 'node:module';
+import { createServer } from 'node:http';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { resolve, extname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+
+const require = createRequire(import.meta.url);
+const { chromium } = require('playwright');
+const root = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
+const output = resolve(process.env.UI_LAB_ARTIFACTS ?? resolve(root, 'artifacts/ui-lab-review'));
+mkdirSync(output, { recursive: true });
+const executablePath = process.env.UI_LAB_CHROME_PATH ?? ['/usr/bin/google-chrome', '/usr/bin/chromium'].find(existsSync);
+if (!executablePath) throw new Error('Set UI_LAB_CHROME_PATH to an installed Chromium/Chrome executable');
+const errors = [];
+const checks = [];
+const result = {
+  revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
+  workingTreeDirty: !!execFileSync('git', ['status', '--porcelain', '--untracked-files=all'], { cwd: root, encoding: 'utf8' }).trim(),
+  chromium: null, checks, errors,
+};
+const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
+const approvedFiles = new Map();
+const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
+const server = createServer((request, response) => {
+  try {
+    let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    const before = pathname.startsWith('/__approved__/');
+    if (before) pathname = pathname.slice('/__approved__'.length);
+    const path = resolve(root, '.' + pathname + (pathname.endsWith('/') ? 'index.html' : ''));
+    if (!path.startsWith(root + '/')) { response.writeHead(403).end(); return; }
+    let body;
+    if (before && /\.(html|css|js)$/.test(path)) {
+      const file = path.slice(root.length + 1);
+      if (!approvedFiles.has(file)) approvedFiles.set(file, execFileSync('git', ['show', `${approvedRevision}:${file}`], { cwd: root, maxBuffer: 8 * 1024 * 1024 }));
+      body = approvedFiles.get(file);
+    } else body = readFileSync(path);
+    response.writeHead(200, { 'Content-Type': contentTypes[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
+    response.end(body);
+  } catch { response.writeHead(404).end(); }
+});
+await new Promise(resolveReady => server.listen(0, '127.0.0.1', resolveReady));
+const origin = `http://127.0.0.1:${server.address().port}`;
+const browser = await chromium.launch({ executablePath, headless: true, args: ['--no-sandbox'] });
+result.chromium = browser.version();
+const selector = '/docs/ui-lab/v1.1/';
+const wait = page => page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+const selectedName = page => page.locator('.hero-copy h2').innerText();
+const geometry = page => page.evaluate(() => Object.fromEntries(['.workshop', '.working-area', '.slots', '.trash-panel'].map(selector => {
+  const { x, y, width, height } = document.querySelector(selector).getBoundingClientRect();
+  return [selector, { x: x + scrollX, y: y + scrollY, width, height }];
+})));
+const settle = page => page.waitForTimeout(520);
+
+async function checkLayout(page, width, label) {
+  const data = await page.evaluate(() => ({
+    pageWidth: document.documentElement.scrollWidth, viewport: innerWidth,
+    workshopWidth: document.querySelector('.workshop').clientWidth,
+    slotRows: [...document.querySelectorAll('.slot')].map(slot => slot.querySelectorAll('.substat').length),
+    brokenImages: [...document.images].filter(image => !image.complete || !image.naturalWidth).map(image => image.getAttribute('src')?.slice(0, 100)),
+    font: [...document.fonts].map(font => ({ family: font.family, status: font.status })),
+  }));
+  assert.equal(data.pageWidth, width, `${label}: horizontal overflow`);
+  assert.ok(data.workshopWidth >= 1000, `${label}: Workshop was squeezed`);
+  // Header center follows Workshop, not the unequal title/Reset widths.
+  const headerGeometry = await page.evaluate(() => {
+    const box = selector => document.querySelector(selector).getBoundingClientRect();
+    const center = rect => rect.left + rect.width / 2;
+    const workshop = box('.workshop');
+    const header = box('.workshop-header');
+    const mode = box('.workshop-header .mode-switch');
+    const context = box('.workshop-header .workshop-context');
+    const reset = box('.workshop-header #reset');
+    const simulate = box('#simulate');
+    return {
+      modeOffset: Math.abs(center(mode) - center(workshop)),
+      actionOffset: Math.abs(center(simulate) - center(workshop)),
+      leftGap: mode.left - context.right,
+      rightGap: reset.left - mode.right,
+      contained: mode.left >= header.left && mode.right <= header.right,
+    };
+  });
+  assert.ok(headerGeometry.modeOffset < 1, `${label}: Current / Simulate off Workshop center by ${headerGeometry.modeOffset}px`);
+  assert.ok(headerGeometry.actionOffset < 1, `${label}: SIMULATE off Workshop center by ${headerGeometry.actionOffset}px`);
+  assert.ok(headerGeometry.leftGap >= 4 && headerGeometry.rightGap >= 4 && headerGeometry.contained,
+    `${label}: Workshop header controls collide or escape the header`);
+  assert.ok(await page.evaluate(() => {
+    const midpoint = document.documentElement.clientWidth / 2;
+    const center = selector => { const r = document.querySelector(selector).getBoundingClientRect(); return r.x + r.width / 2; };
+    return ['.site-header nav .active','#portraits','.portrait.selected'].every(selector => Math.abs(center(selector) - midpoint) < 1);
+  }), `${label}: Improve tab and compact Character portrait must share the page centerline`);
+  assert.deepEqual(data.slotRows, [5, 5, 5, 5, 5], `${label}: hidden stat structure`);
+  assert.ok(await page.locator('.echo-card .substats').evaluateAll(groups => groups.every(group => group.children.length === 5)), `${label}: every card variant needs five rows`);
+  assert.deepEqual(data.brokenImages, [], `${label}: missing art`);
+
+  // elementFromPoint uses viewport coordinates; the Trash Piles are below the fold.
+  await page.locator('#piles').scrollIntoViewIfNeeded();
+  const trashStack = await page.evaluate(() => {
+    const piles = [...document.querySelectorAll('#piles .pile')];
+    const records = piles.map(pile => {
+      const buttons = [...pile.querySelectorAll('.pile-card')];
+      const count = Number(pile.querySelector('.pile-count b')?.textContent.replace(/[^0-9]/g, ''));
+      const stack = pile.querySelector('.pile-stack');
+      const bounds = stack?.getBoundingClientRect();
+      const tabVisible = buttons.every(button => {
+        const b = button.getBoundingClientRect();
+        const hit = document.elementFromPoint(b.right - 35, b.bottom - 6);
+        return hit?.closest('.pile-card') === button;
+      });
+      return {
+        length: buttons.length,
+        count,
+        indices: buttons.map(b => Number(b.dataset.historyIndex)),
+        footers: buttons.map(b => b.querySelector('.card-bottom')?.textContent.trim()),
+        tabVisible,
+        insideColumn: !bounds || buttons.every(b => b.getBoundingClientRect().right <= bounds.right + 1),
+      };
+    });
+    const footer = document.querySelector('.trash-footer').getBoundingClientRect();
+    const cardBottom = Math.max(...[...document.querySelectorAll('#piles .pile-stack')].map(s => s.getBoundingClientRect().bottom));
+    return {records,footerGap:footer.top - cardBottom,pseudoCards: getComputedStyle(piles[0],'::before').content};
+  });
+  assert.deepEqual(trashStack.records.map(p=>p.length),[5,3,4,2,4], `${label}: history records missing from physical piles`);
+  trashStack.records.forEach((pile,slot) => {
+    assert.equal(pile.count,pile.length, `${label}: pile ${slot + 1} history count incorrect`);
+    assert.deepEqual(pile.indices,Array.from({length:pile.length},(_,i)=>i), `${label}: pile card indices reordered`);
+    assert.ok(pile.footers.every(text => /DISCARDED AT \+/.test(text)), `${label}: missing individual discard footer`);
+    assert.ok(pile.tabVisible && pile.insideColumn, `${label}: pile ${slot+1} tab not individually reachable`);
+  });
+  assert.ok(trashStack.footerGap >= 0, `${label}: Trash footer is covered`);
+  assert.equal(trashStack.pseudoCards, 'none', `${label}: decorative pile cards still showing`);
+  await page.evaluate(() => scrollTo(0,0));
+  // Large cards and the five narrower Loadout cards have different type scales.
+  const typeScale = await page.evaluate(() => {
+    const size = (card, selector) => parseFloat(getComputedStyle(document.querySelector(`${card} ${selector}`)).fontSize);
+    return {
+      large: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#currentCard',sel)),
+      compact: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#slots .slot:first-child',sel)),
+      trash: ['.echo-name','.main-stat>span','.main-stat strong','.secondary-stat','.substat'].map(sel => size('#piles .pile:first-child',sel)),
+    };
+  });
+  assert.deepEqual(typeScale.large, [14,14,24,13,11], `${label}: large Echo typography drift`);
+  assert.deepEqual(typeScale.compact, [11,12,20,11,10], `${label}: compact Loadout typography drift`);
+  assert.deepEqual(typeScale.trash, [11,12,20,11,10], `${label}: compact Trash typography drift`);
+  // Check number/unit presentation in all card sizes without assuming fixed card widths.
+  const suffixes = await page.evaluate(() => {
+    const pureNumber = value => /^[+-]?\d[\d,]*(?:\.\d+)?$/.test(value.trim());
+    return ['#currentCard .echo-card','#newCard .echo-card','#slots .slot:first-child .echo-card','#piles .pile:first-child .echo-card'].map(selector => {
+      const card = document.querySelector(selector);
+      const values = [...card.querySelectorAll('.main-stat strong,.secondary-stat strong,.substat strong')];
+      const correct = values.every(el => el.classList.contains('stat-unitless') === pureNumber(el.textContent));
+      const noOverlap = [...card.querySelectorAll('.main-stat,.secondary-stat,.substat')].every(row => row.scrollWidth <= row.clientWidth + 1);
+      const main = card.querySelector('.main-stat strong');
+      const secondary = card.querySelector('.secondary-stat strong');
+      const padding = parseFloat(getComputedStyle(secondary).paddingRight);
+      return { selector, correct, noOverlap, main:main.textContent, secondary:secondary.textContent, padding };
+    });
+  });
+  for (const row of suffixes) {
+    assert.ok(row.correct, `${label}: numeric suffix classification changed in ${row.selector}`);
+    assert.ok(row.noOverlap, `${label}: numeric spacing overlaps in ${row.selector}`);
+    if (/^[\d,.]+$/.test(row.secondary)) assert.ok(row.padding >= 17, `${label}: missing unit-space after ${row.secondary}`);
+  }
+
+  // Verify labels against their sibling values, not just page overflow.
+  const collisions = await page.evaluate(() => {
+    const problems = [];
+    for (const row of document.querySelectorAll('.main-stat,.secondary-stat,.substat')) {
+      const label = row.firstElementChild.getBoundingClientRect();
+      const value = row.lastElementChild.getBoundingClientRect();
+      if (label.right > value.left + .5) problems.push(row.textContent);
+    }
+    for (const row of document.querySelectorAll('.character td:first-child')) {
+      if (!row.getBoundingClientRect().height) continue;
+      const range = document.createRange(); range.selectNodeContents(row);
+      if (range.getClientRects().length !== 1 || row.scrollWidth > row.clientWidth) problems.push(row.textContent);
+    }
+    const title = document.querySelector('h1').getBoundingClientRect();
+    const name = document.querySelector('.current-name').getBoundingClientRect();
+    if (title.right > name.left && title.top < name.bottom && name.top < title.bottom) problems.push('Page title / current Character');
+
+    return problems;
+  });
+  assert.deepEqual(collisions, [], `${label}: stat label/value overlap or wrapped Character label`);
+  checks.push({ label, width, ...data, collisions });
+}
+
+async function carouselSettled(page, id) {
+  await page.waitForFunction(expected => {
+    const carousel = document.querySelector('#characterCarousel');
+    return carousel.dataset.motion === 'settled' && (!expected || carousel.dataset.focusedCharacter === expected);
+  }, id);
+}
+async function browseCharacter(page, id) {
+  if (await page.locator('#openGallery').getAttribute('aria-expanded') !== 'true') await page.locator('.portrait[tabindex="0"]').click();
+  const index = await page.locator('.portrait').evaluateAll((buttons, id) => buttons.findIndex(button => button.dataset.person === id), id);
+  assert.ok(index >= 0, `Character ${id} is in the active filter`);
+  await page.locator('#galleryArt').focus();
+  await page.keyboard.press('Home');
+  for (let i = 0; i < index; i++) await page.keyboard.press('ArrowRight');
+  await carouselSettled(page, id);
+}
+async function selectCharacter(page, id) {
+  await browseCharacter(page, id);
+  await page.locator(`[data-art="${id}"]`).click();
+}
+
+async function exercise(page, width, prefix) {
+  await page.evaluate(() => scrollTo(0, 0));
+  const originalGeometry = await geometry(page);
+  const candidate = await page.locator('#newCard').innerHTML();
+  assert.equal(await page.locator('.interaction-options').count(), 0);
+  const activation=page.locator('[data-activation="1"]');
+  await activation.focus();await page.keyboard.press('Space');
+  assert.equal(await page.locator('[data-activation="1"]').getAttribute('aria-pressed'),'false');
+  assert.equal(await page.locator('[data-slot="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('#newCard').innerHTML(),candidate,'Activation must not replace the selected candidate');
+  await page.keyboard.press('Space');
+  assert.equal(await page.locator('[data-activation="1"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await page.locator('#consumption').isVisible(), false, 'Ready must omit unused materials');
+  assert.equal(await page.locator('#materialRows .material-row').count(), 0);
+  assert.equal(await page.locator('.settings .resource-section h3').count(), 0, 'Resources heading should be removed');
+  assert.equal(await page.locator('#resourceInventory input').count(), 6, 'Resource values remain individually editable');
+  assert.equal(await page.locator('#slots .slot-number[aria-hidden="true"]').count(), 5, 'Preserve approved card spacing with silent headers');
+  assert.equal(await page.locator('#slots .slot-number > *').count(), 0, 'No visible numbers or passive status labels');
+  assert.equal(await page.locator('#slots .selected-slot[aria-pressed="true"]').count(), 1, 'Selected slot remains accessible');
+  assert.match(await page.locator('#slots .selected-slot').getAttribute('aria-label'), /^Select Echo slot 1(?:,|$)/);
+  const originalStats = await page.locator('#characterStats').innerText();
+  await page.locator('[data-person="iuno"]').hover();
+  await page.locator('[data-person="iuno"]').click();
+  await carouselSettled(page, 'iuno');
+  await settle(page);
+  assert.equal(await selectedName(page), 'Augusta', 'Hover must never select');
+  assert.equal(await page.locator('#focusedInfo .focus-name').innerText(), 'Iuno');
+  assert.equal((await geometry(page))['.workshop'].y, originalGeometry['.workshop'].y + 482, 'Gallery must occupy layout space');
+  assert.equal(await page.locator('#characterStats').innerText(), originalStats);
+  await selectCharacter(page, 'iuno');
+  assert.equal(await selectedName(page), 'Iuno', 'Click must select the real Lab workspace');
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  assert.equal(await page.locator('.slot .empty-echo').count(), 2);
+  assert.match(await page.locator('#characterStats').innerText(), /1,940/);
+  await page.locator('#settingsToggle').click();
+  if (await page.locator('#settingsToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#settingsToggle').click();
+  await page.locator('.gate-options button', { hasText: '+15' }).click();
+  await page.locator('[data-slot="2"]').click();
+  assert.equal(await page.locator('#slotLabel').innerText(), '03');
+  await selectCharacter(page, 'augusta');
+  assert.equal(await page.locator('#gateLabel').innerText(), '+5', 'Settings leaked between Characters');
+  assert.equal(await page.locator('#slotLabel').innerText(), '01');
+  await selectCharacter(page, 'iuno');
+  assert.equal(await page.locator('#gateLabel').innerText(), '+15', 'Session settings were lost on return');
+  assert.equal(await page.locator('#slotLabel').innerText(), '03');
+  await selectCharacter(page, 'augusta');
+  await browseCharacter(page, 'augusta');
+  await page.locator('[data-filter="account"]').click();
+  assert.equal(await page.locator('.portrait').count(), 6);
+  assert.equal(await page.locator('[data-person="jinhsi"]').count(), 0);
+  await page.locator('[data-filter="all"]').click();
+  await browseCharacter(page, 'jinhsi');
+  await settle(page);
+  assert.match(await page.locator('.focus-meta').innerText(), /No saved demo build/);
+  assert.deepEqual(await page.locator('.focus-stats strong').allInnerTexts(), ['—', '—', '—']);
+  assert.equal(await selectedName(page), 'Augusta');
+  await selectCharacter(page, 'jinhsi');
+  assert.equal(await selectedName(page), 'Jinhsi');
+  assert.equal(await page.locator('.slot .empty-echo').count(), 5);
+  await selectCharacter(page, 'augusta');
+  await page.locator('[data-person="augusta"]').focus();
+  await page.keyboard.press('ArrowRight');
+  await carouselSettled(page, 'iuno');
+  assert.equal(await page.locator('.focus-name').innerText(), 'Iuno');
+  assert.equal(await selectedName(page), 'Augusta');
+  await page.keyboard.press('Enter');
+  assert.equal(await selectedName(page), 'Iuno');
+  await selectCharacter(page, 'augusta');
+  await page.locator('[data-slot="3"]').click();
+  assert.equal(await page.locator('#slotLabel').innerText(), '04');
+  const workingBeforeHistory = await page.locator('.working-area').innerText();
+  const statsBeforeHistory = await page.locator('#characterStats').innerText();
+  // The visible footer of an older record must open THAT record, not the last.
+  const first = page.locator('[data-pile="0"] .pile-card[data-history-index="0"]');
+  // The card's center is correctly covered by later cards. Interact with its
+  // individually exposed footer tab, as a person would, not its occluded center.
+  await first.scrollIntoViewIfNeeded();
+  const firstBox = await first.boundingBox();
+  const tabX = firstBox.right ?? (firstBox.x + firstBox.width - 35);
+  const tabY = firstBox.y + firstBox.height - 6;
+  await page.mouse.move(tabX - 35, tabY);
+  await page.waitForTimeout(80);
+  assert.ok(await first.evaluate(node => getComputedStyle(node.querySelector('.echo-card')).transform !== 'none'),
+    'Hover did not lift the specific historical card');
+  await page.mouse.click(tabX - 35, tabY);
+  assert.equal(await page.locator('#historyPosition').innerText(), '1 / 5');
+  assert.match(await page.locator('#inspectedCard .card-bottom').innerText(), /DISCARDED AT \+10/);
+  assert.equal(await page.locator('#previousCard').isDisabled(), true);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#inspection').open);
+  assert.equal(await first.evaluate(node => document.activeElement === node), true, 'Close must return focus to original historical card');
+  // Make sure the original lifted focus/hover no longer covers the front-card center.
+  await page.mouse.move(1, 1);
+  await first.evaluate(node => node.blur());
+  await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
+  await settle(page);
+  assert.equal(await page.locator('#inspection').isVisible(), true);
+  assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
+  assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED AT \+15/);
+  assert.equal(await page.locator('#inspectedCard .substat.empty').count(), 2);
+  assert.equal(await page.locator('#checkpoints .checkpoint').count(), 3);
+  const inspectionSizes = await page.locator('#inspectedCard').evaluate(node => ['.main-stat strong', '.secondary-stat', '.substat'].map(selector => parseFloat(getComputedStyle(node.querySelector(selector)).fontSize)));
+  assert.ok(inspectionSizes[0] > inspectionSizes[1] && inspectionSizes[1] > inspectionSizes[2]);
+  await page.locator('#previousCard').click();
+  assert.equal(await page.locator('#historyPosition').innerText(), '4 / 5');
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#inspection').open);
+  assert.equal(await page.locator('.is-lifted').count(), 0);
+  assert.equal(await page.locator('.working-area').innerText(), workingBeforeHistory);
+  assert.equal(await page.locator('#characterStats').innerText(), statsBeforeHistory);
+  await page.locator('#characterToggle').click();
+  if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
+  assert.equal(await page.locator('#characterToggle').getAttribute('aria-expanded'), 'true');
+  await page.locator('#settingsToggle').click();
+  if (await page.locator('#settingsToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#settingsToggle').click();
+  assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'), 'true');
+  await page.locator('[data-slot="0"]').click();
+  const workingCard = await page.locator('#currentCard').innerHTML();
+  const candidateCard = await page.locator('#newCard').innerHTML();
+  const comparison = await page.locator('#characterStats').innerText();
+  await chooseScenario(page, 'result');
+  assert.equal(await page.locator('#currentCard').innerHTML(), workingCard);
+  assert.equal(await page.locator('#newCard').innerHTML(), candidateCard);
+  assert.equal(await page.locator('#characterStats').innerText(), comparison);
+  assert.equal(await page.locator('#consumption h3').innerText(), 'Materials Used');
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  await page.locator('#simulate').click();
+  assert.match(await page.locator('#toast').innerText(), /Pending.*not connected/);
+  assert.deepEqual(await page.evaluate(() => Object.keys(localStorage)), [], 'Lab wrote persistent data');
+  await checkLayout(page, width, `${prefix}: interactions complete`);
+}
+
+async function chooseScenario(page, value) {
+  if (!await page.locator('.demo-note').evaluate(node => node.open)) await page.locator('.demo-note summary').click();
+  await page.locator('#reviewScenario').selectOption(value);
+  await page.locator('.demo-note summary').click();
+}
+
+async function exerciseFeedback(page, width, prefix) {
+  await page.locator('#reset').click();
+  await page.evaluate(() => scrollTo(0, 0));
+  const stable = await geometry(page);
+  const buttonBounds = () => page.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return { x: r.x + scrollX, y: r.y + scrollY, width: r.width, height: r.height }; });
+  const actionPosition = await buttonBounds();
+  async function captureState(name) {
+    await settle(page); // Measure after existing button-hover and layout transitions.
+    assert.deepEqual(await buttonBounds(), actionPosition, `${name}: primary action moved`);
+    assert.deepEqual(await geometry(page), stable, `${name}: Workshop/slots resized`);
+    await checkLayout(page, width, `${prefix}: ${name}`);
+  }
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Ready to Simulate');
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  assert.equal(await page.locator('.sonata-count').count(), 2);
+  assert.deepEqual(await page.locator('.sonata-count').allInnerTexts(), ['×3', '×2']);
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  await captureState('ready');
+  for (const group of ['.mode-switch', '.setting-mode']) {
+    const selected = page.locator(`${group} button.selected`);
+    assert.equal(await selected.getAttribute('aria-pressed'), 'true');
+    assert.match(await selected.evaluate(node => getComputedStyle(node).backgroundImage), /linear-gradient/);
+  }
+  await page.locator('.mode-switch button', { hasText: 'Current' }).click();
+  assert.match(await page.locator('#toast').innerText(), /isolated Simulate fixtures/);
+  assert.equal(await page.locator('.mode-switch .selected').innerText(), 'Simulate');
+  const settingsWasExpanded = await page.locator('#settingsToggle').getAttribute('aria-expanded') === 'true';
+  const characterWasExpanded = await page.locator('#characterToggle').getAttribute('aria-expanded') === 'true';
+  if (!settingsWasExpanded) await page.locator('#settingsToggle').click();
+  await page.locator('.setting-mode button', { hasText: 'Customize' }).click();
+  assert.equal(await page.locator('.setting-mode .selected').innerText(), 'Customize');
+  await page.locator('.setting-mode button', { hasText: 'Recommended' }).click();
+  if (!settingsWasExpanded) await page.locator('#settingsToggle').click();
+  if (characterWasExpanded && await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
+  await chooseScenario(page, 'warning');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Sonata Target Not Met');
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  assert.deepEqual(await page.locator('.sonata-count').allInnerTexts(), ['×2', '×2']);
+  await captureState('warning');
+  await page.locator('#howToFix').focus(); await page.keyboard.press('Enter');
+  assert.equal(await page.locator('#workshopExplanation').isVisible(), true);
+  assert.equal(await page.locator('.feedback-affected').count(), 3);
+  assert.equal(await page.locator('#closeExplanation').evaluate(node => node === document.activeElement), true);
+  await page.keyboard.press('Escape');
+  await page.waitForFunction(() => !document.querySelector('#workshopExplanation').matches(':popover-open'));
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  assert.equal(await page.locator('#howToFix').evaluate(node => node === document.activeElement), true);
+  const warningEquipment = await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML));
+  const comparison = await page.locator('#characterStats').innerText();
+  await chooseScenario(page, 'result');
+  assert.deepEqual(await page.locator('#slots .echo-card').evaluateAll(cards => cards.map(card => card.outerHTML)), warningEquipment, 'Run record must not auto-fix warning');
+  assert.equal(await page.locator('#characterStats').innerText(), comparison);
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  const recorded = await page.locator('#materialRows').innerHTML();
+  await chooseScenario(page, 'error');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Cost Limit Exceeded');
+  assert.equal(await page.locator('#simulate').isDisabled(), true);
+  assert.equal(await page.locator('#materialRows').innerHTML(), recorded, 'Blocker erased recorded spending');
+  await captureState('error');
+  await page.locator('#howToFix').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 1);
+  assert.equal(await page.locator('[data-slot="4"]').getAttribute('data-feedback-severity'), 'error');
+  assert.match(await page.locator('#explanationFacts').innerText(), /15/);
+  assert.match(await page.locator('#explanationFacts').innerText(), /12/);
+  const noMotion = await page.evaluate(() => matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (noMotion) assert.equal(await page.locator('.feedback-affected .echo-card').evaluate(node => getComputedStyle(node).animationName), 'none');
+  await settle(page);
+  await page.locator('#closeExplanation').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  await page.locator('#howToFix').click();
+  await page.locator('[data-slot="1"]').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0, 'Outside/slot selection must clear highlights');
+  assert.equal(await page.locator('#workshopExplanation').isVisible(), false);
+  await page.locator('[data-slot="0"]').click();
+  await chooseScenario(page, 'result');
+  assert.equal(await page.locator('#feedbackTitle').innerText(), 'Run Record');
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  assert.equal(await page.locator('#materialRows .material-row').count(), 3);
+  await captureState('result');
+  await chooseScenario(page, 'combination');
+  assert.match(await page.locator('#feedbackTitle').innerText(), /Pending/);
+  assert.equal(await page.locator('#simulate').isEnabled(), true);
+  await page.locator('#howToFix').click();
+  assert.equal(await page.locator('.feedback-affected').count(), 0);
+  await page.keyboard.press('Escape');
+  await page.locator('#reset').click();
+  assert.equal(await page.locator('#consumption').isVisible(), false);
+  // Shared anatomy: primary value > secondary label/value > ordinary substats.
+  const hierarchy = await page.evaluate(() => [...document.querySelectorAll('.echo-card')].map(card => {
+    const size = selector => parseFloat(getComputedStyle(card.querySelector(selector)).fontSize);
+    return { main: size('.main-stat strong'), secondary: size('.secondary-stat'), substat: size('.substat') };
+  }));
+  hierarchy.forEach(level => assert.ok(level.main > level.secondary && level.secondary > level.substat));
+  checks.push({ label: `${prefix}: contextual feedback, highlighting, permission and recorded-consumption boundaries`, width, reducedMotion: noMotion, hierarchy });
+}
+
+try {
+  for (const width of [1440, 1920, 2560]) {
+    const height = width === 1440 ? 900 : width === 1920 ? 1080 : 1440;
+    const context = await reviewBrowserContext(browser,{ viewport: { width, height }, reducedMotion: 'reduce' });
+    console.log(`Reviewing source at ${width}px`);
+    const page = await context.newPage();
+    page.on('pageerror', error => errors.push(error.message));
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
+    await wait(page);
+    await page.evaluate(() => document.fonts.ready);
+    await checkLayout(page, width, 'repository source');
+    const current = await geometry(page);
+    // Resource Cost is approved in-flow content. Check the original geometry with
+    // only that addition removed, then constrain its actual vertical impact.
+    const cost = page.locator('#resourceCost');
+    assert.equal(await cost.isVisible(), true, `${width}: approved Resource Cost is missing`);
+    await cost.evaluate(node => { node.style.display = 'none'; });
+    const withoutCost = await geometry(page);
+    await cost.evaluate(node => { node.style.removeProperty('display'); });
+    const baseline = await context.newPage();
+    await baseline.goto(`${origin}/docs/ui-lab/v1/?settings=expanded`, { waitUntil: 'networkidle' });
+    await baseline.evaluate(() => document.fonts.ready);
+    const approved = await geometry(baseline);
+    for (const selector of ['.workshop', '.working-area', '.slots']) {
+      for (const key of ['y','height']) assert.ok(Math.abs(withoutCost[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed without Resource Cost (${withoutCost[selector][key]} vs ${approved[selector][key]})`);
+    }
+    const addedHeight = current['.working-area'].height - withoutCost['.working-area'].height;
+    assert.ok(addedHeight >= -1 && addedHeight < 16, `${width}: Resource Cost changed working-area height by ${addedHeight}px`);
+    assert.ok(Math.abs(current['.workshop'].height - withoutCost['.workshop'].height - addedHeight) < 2, `${width}: unrelated Workshop height change`);
+    assert.ok(Math.abs(current['.slots'].y - withoutCost['.slots'].y - addedHeight) < 2, `${width}: unexpected Loadout displacement`);
+    const costFlow = await page.evaluate(() => {
+      const cost = document.querySelector('#resourceCost').getBoundingClientRect();
+      const scope = document.querySelector('#simulate').getBoundingClientRect();
+      const slots = document.querySelector('.slots').getBoundingClientRect();
+      return cost.top >= scope.bottom && cost.bottom <= slots.top;
+    });
+    assert.ok(costFlow, `${width}: Resource Cost overlaps scope controls or Loadout`);
+    checks.push({ label: 'Preserved V1 composition with bounded, in-flow Resource Cost addition', width, approved, withoutCost, current, addedHeight });
+    await baseline.close();
+    if (width === 1920) {
+      const before = await context.newPage();
+      await before.goto(`${origin}/__approved__${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
+      await wait(before); await before.evaluate(() => document.fonts.ready);
+      const primaryPosition = target => target.locator('#simulate').evaluate(node => { const r = node.getBoundingClientRect(); return [r.x + scrollX, r.y + scrollY, r.width, r.height]; });
+      const beforeAction = await primaryPosition(before), currentAction = await primaryPosition(page);
+      beforeAction.forEach((value, index) => { if (index !== 0) assert.ok(Math.abs(value - currentAction[index]) < 2, 'Approved primary action size/vertical placement changed'); });
+      checks.push({ label: 'Approved primary action geometry', beforeRevision: approvedRevision, afterRevision: result.revision, workingTreeDirty: result.workingTreeDirty });
+      await before.close();
+    }
+    await reviewActivation(page, {width,checks});
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, {waitUntil:'networkidle'});
+    await wait(page);
+    await reviewCharacterCard(page, { width, checks });
+    await reviewCarousel(page, { width, checks });
+    await exerciseFeedback(page, width, 'source');
+    await exercise(page, width, 'source');
+    if (await page.locator('#characterToggle').getAttribute('aria-expanded') !== 'true') await page.locator('#characterToggle').click();
+    await checkLayout(page, width, 'expanded Character Card');
+    await page.goto(`${origin}${selector}?demonstration=true&compact=true`, { waitUntil: 'networkidle' });
+    await wait(page);
+    await checkLayout(page, width, 'compact panels');
+    await exerciseFeedback(page, width, 'compact');
+    if (width === 1920) {
+      const queryPage = await context.newPage();
+      await queryPage.goto(`${origin}${selector}?demonstration=true&feedback=error&recorded=true&compact=true`, { waitUntil: 'networkidle' });
+      await wait(queryPage);
+      assert.equal(await queryPage.locator('#simulate').isDisabled(), true);
+      assert.equal(await queryPage.locator('#materialRows .material-row').count(), 3);
+      assert.match(await queryPage.locator('.loadout-heading .small-muted').innerText(), /15 \/ 12 Cost/);
+      checks.push({ label: 'Review query parameters: blocked fixture plus preserved spending', width });
+      await queryPage.close();
+      await page.locator('[data-person="augusta"]').focus();
+      await page.keyboard.press('End');
+      assert.equal(await selectedName(page), 'Augusta');
+      await page.keyboard.press('Enter');
+      assert.equal(await selectedName(page), 'Zhezhi', 'End must keep keyboard focus for selection');
+      await page.keyboard.press('Home');
+      await page.keyboard.press('Enter');
+      assert.equal(await selectedName(page), 'Changli', 'Home must keep keyboard focus for selection');
+      const seen = new Set();
+      await page.locator('#galleryArt').focus(); await page.keyboard.press('Home');
+      await carouselSettled(page);
+      while (true) {
+        seen.add(await page.locator('#characterCarousel').getAttribute('data-focused-character'));
+        if (Number(await page.locator('#characterCarousel').getAttribute('data-position')) === 58) break;
+        await page.keyboard.press('ArrowRight'); await carouselSettled(page);
+      }
+      assert.equal(seen.size, 59, 'All 59 Characters must be reachable without page boundaries');
+      checks.push({ label: 'Full continuous catalog reachable one position at a time', count: seen.size });
+    }
+    await context.close();
+    const wheelContext = await reviewBrowserContext(browser,{ viewport: { width, height } });
+    const wheelPage = await wheelContext.newPage();
+    wheelPage.on('pageerror', error => errors.push(error.message));
+    await wheelPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' }); await wait(wheelPage);
+    await reviewCarousel(wheelPage, { width, checks });
+    await wheelContext.close();
+    for (const variant of ['elegant','cinematic']) {
+      const heroContext = await reviewBrowserContext(browser,{ viewport:{width,height}, reducedMotion:'reduce' });
+      const heroPage = await heroContext.newPage();
+      heroPage.on('pageerror', error => errors.push(error.message));
+      await heroPage.goto(`${origin}${selector}?demonstration=true&hero=${variant}`,{waitUntil:'networkidle'});
+      await reviewHero(heroPage,{width,variant,checks});
+      await heroContext.close();
+    }
+  }
+
+  // Pointer behavior is also exercised with ordinary motion; reduced motion above
+  // keeps geometry comparisons deterministic rather than skipping an end state.
+  const animated = await reviewBrowserContext(browser,{ viewport: { width: 1920, height: 1080 } });
+  const motionPage = await animated.newPage();
+  await motionPage.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
+  await wait(motionPage);
+  await exerciseFeedback(motionPage, 1920, 'animated');
+  await exercise(motionPage, 1920, 'animated');
+  await animated.close();
+
+  for (const width of [1440,1920,2560]) {
+    const context = await reviewBrowserContext(browser,{viewport:{width,height:width === 1440 ? 900 : 1440},reducedMotion:width === 1920 ? 'no-preference' : 'reduce'});
+    const page = await context.newPage(); page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(`${origin}${selector}?demonstration=true`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewResults(page,{width,checks,animated:width===1920});
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewSettings(page,{width,checks});
+    await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`,{waitUntil:'networkidle'}); await wait(page);
+    await reviewResources(page,{width,checks});
+    await context.close();
+  }
+
+  const touch = await reviewBrowserContext(browser,{ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
+  const configContext=await reviewBrowserContext(browser,{viewport:{width:1440,height:900},reducedMotion:'reduce'});
+  const configPage=await configContext.newPage();
+  await configPage.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'});
+  await reviewConfiguration(configPage,{width:1440,checks});
+  await configContext.close();
+  const touchPage = await touch.newPage();
+  await touchPage.goto(`${origin}${selector}?demonstration=true`, { waitUntil: 'networkidle' });
+  await wait(touchPage);
+  await touchPage.locator('[data-person="iuno"]').tap();
+  assert.equal(await selectedName(touchPage), 'Augusta', 'First touch must preview');
+  await touchPage.locator('[data-art="iuno"]').tap();
+  assert.equal(await selectedName(touchPage), 'Iuno', 'Second touch must select');
+  checks.push({ label: 'Desktop touch-pointer preview then selection', passed: true });
+  await touchPage.goto(`${origin}${selector}?demonstration=true`, { waitUntil: 'networkidle' }); await wait(touchPage);
+  await reviewCarousel(touchPage, { width: 1440, checks, touch: true });
+  await touch.close();
+
+  if (process.env.UI_LAB_PORTABLE_REVIEW === 'true') {
+    const portable = readFileSync(resolve(output, 'Bellibing-UI-Lab-V1.1.html'), 'utf8');
+    for (const width of [1440, 1920, 2560]) {
+      const context = await reviewBrowserContext(browser,{ viewport: { width, height: width === 1440 ? 900 : width === 1920 ? 1080 : 1440 }, offline: true, reducedMotion: 'reduce' });
+      const page = await context.newPage();
+      const network = [];
+      page.on('request', request => { if (/^https?:/.test(request.url())) network.push(request.url()); });
+      page.on('pageerror', error => errors.push(error.message));
+      // Opaque-origin document import exercises the self-contained file without a
+      // server or file-origin privileges. This executor administratively blocks
+      // browser file:// navigation; no such permission is needed by the artifact.
+      await page.setContent(portable, { waitUntil: 'load' });
+      await wait(page);
+      await page.evaluate(() => document.fonts.ready);
+      await checkLayout(page, width, 'portable HTML with networking disabled');
+      await reviewCarousel(page, { width, checks });
+      await exerciseFeedback(page, width, 'portable');
+      await selectCharacter(page, 'iuno');
+      assert.equal(await selectedName(page), 'Iuno');
+      await page.locator('#simulate').click();
+      assert.match(await page.locator('#toast').innerText(), /Pending/);
+      await selectCharacter(page, 'augusta');
+      await page.locator('[data-pile="0"] .pile-card[data-history-index="4"]').click();
+      assert.match(await page.locator('#inspectedCard').innerText(), /DISCARDED/);
+      await page.locator('#closeInspection').click();
+      assert.deepEqual(network, [], 'Portable artifact attempted a network request');
+      checks.push({ label: 'Portable HTML offline interactive; zero HTTP requests', width, passed: true });
+      await context.close();
+    }
+  }
+  assert.deepEqual(errors, []);
+  console.log(`UI Lab Chromium review passed: ${checks.length} checks; source ${result.revision}; dirty=${result.workingTreeDirty}`);
+} catch (error) {
+  result.failure = error.stack ?? String(error);
+  // Keep the actual assertion/encoder error accessible through GitHub's check
+  // API even when this executor cannot follow redirected Actions log downloads.
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    const diagnostic = result.failure.slice(0, 12000).replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A');
+    console.error(`::error title=UI Lab Chromium review::${diagnostic}`);
+  }
+  throw error;
+} finally {
+  writeFileSync(resolve(output, 'verification.json'), JSON.stringify(result, null, 2) + '\n');
+  await browser.close();
+  await new Promise(resolveClosed => server.close(resolveClosed));
+}

@@ -1,0 +1,186 @@
+/* Lab-only role scale. The approved V1 stylesheet remains immutable. */
+:root {
+  --type-meta: 10px;
+  --type-body: 12px;
+  --type-label: 14px;
+  --type-item: 16px;
+  --type-panel: 20px;
+  --type-value-compact: 22px;
+  --type-value: 26px;
+  --type-page: 28px;
+  --type-hero: 34px;
+  --type-symbol: 42px;
+}
+.ui-lab { font-size: var(--type-body); }
+.ui-lab h1 { font-size: var(--type-page); }
+.ui-lab h2, .ui-lab .side-title { font-size: var(--type-panel); }
+.ui-lab h3, .ui-lab summary { font-size: var(--type-body); }
+.ui-lab .eyebrow, .ui-lab .overline, .ui-lab .small-muted,
+.ui-lab .study-label, .ui-lab .study-label span, .ui-lab .brand-sub,
+.ui-lab nav small, .ui-lab .page-footer, .ui-lab .comparison-basis,
+.ui-lab .card-caption, .ui-lab .caption-detail, .ui-lab .slot-number,
+.ui-lab .pile-count, .ui-lab .trash-footer, .ui-lab .vertical-label,
+.ui-lab .character-context, .ui-lab .weapon small, .ui-lab .hero-copy>span,
+.ui-lab .settings h3>span, .ui-lab .target p, .ui-lab .character-pending,
+.ui-lab .evaluator { font-size: var(--type-meta); }
+.ui-lab .text-button, .ui-lab .mode-switch button,
+.ui-lab .setting-mode button, .ui-lab .gate-options button,
+.ui-lab .inventory, .ui-lab .sonata-choice, .ui-lab .setting-row label,
+.ui-lab .setting-row output, .ui-lab .settings details,
+.ui-lab .weapon strong, .ui-lab .weapon div>span,
+.ui-lab .target div, .ui-lab .checkpoint, .ui-lab .checkpoint-history p,
+.ui-lab .history-navigation { font-size: var(--type-body); }
+.ui-lab .hero-copy h2 { font-size: var(--type-hero); }
+.ui-lab .feedback h3 { font-size: var(--type-value); }
+.ui-lab .feedback p { font-size: var(--type-body); margin: 0; }
+.ui-lab .simulate>span:nth-child(2) { font-size: var(--type-label); }
+.ui-lab .loadout-heading .eyebrow { font-size: var(--type-body); letter-spacing: 1.2px; }
+.ui-lab .loadout-heading { height: 20px; margin-bottom: 6px; }
+
+/* Card variants set roles, rather than inventing independent hierarchies. */
+.ui-lab .echo-card {
+  --card-title: 14px;
+  --card-main-label: 14px;
+  --card-main-value: 24px;
+  --card-secondary: 13px;
+  --card-substat: 11px;
+  --card-row-height: 24.1px;
+}
+.ui-lab .slot .echo-card, .ui-lab .pile .echo-card {
+  --card-title: var(--type-body);
+  --card-main-label: var(--type-item);
+  --card-main-value: var(--type-value-compact);
+  --card-secondary: var(--type-label);
+  --card-row-height: 22.65px;
+}
+.ui-lab .pile .echo-card {
+  --card-title: 11px;
+  --card-main-label: 12px;
+  --card-main-value: 20px;
+  --card-secondary: 11px;
+  --card-substat: 10px;
+  --card-row-height: 20.1px;
+}
+/* Loadout and Trash follow the same compact typography without changing the card stack layout. */
+.ui-lab .slot .echo-card {
+  --card-title: 11px;
+  --card-main-label: 12px;
+  --card-main-value: 20px;
+  --card-secondary: 11px;
+  --card-substat: 10px;
+}
+.ui-lab .working-card .echo-name, .ui-lab .slot .echo-name, .ui-lab .pile .echo-name { font-weight: 500; }
+.ui-lab .working-card .main-stat>span, .ui-lab .slot .main-stat>span, .ui-lab .pile .main-stat>span { font-weight: 400; }
+.ui-lab .working-card .secondary-stat, .ui-lab .slot .secondary-stat, .ui-lab .pile .secondary-stat { font-weight: 400; }
+.ui-lab .working-card .main-stat { min-height: 31px; }
+.ui-lab .slot .main-stat { min-height: 26px; }
+.ui-lab .working-card .secondary-stat { min-height: 26.3px; }
+.ui-lab .slot .secondary-stat { min-height: 19.8px; }
+.ui-lab .pile .main-stat { min-height: 26px; }
+.ui-lab .pile .secondary-stat { min-height: 19px; }
+.ui-lab .echo-name { font-size: var(--card-title); line-height: 1.1; font-weight: 600; }
+.ui-lab .echo-name small, .ui-lab .cost, .ui-lab .level,
+.ui-lab .card-bottom { font-size: var(--type-meta); }
+.ui-lab .echo-name small { letter-spacing: 1px; }
+.ui-lab .main-stat { align-items: baseline; gap: 4px; }
+.ui-lab .main-stat>span { font-size: var(--card-main-label); color: #e0d1aa; font-weight: 500; }
+.ui-lab .main-stat strong { font-size: var(--card-main-value); }
+.ui-lab .secondary-stat { font-size: var(--card-secondary); line-height: 1.2; color: #d2d5d5; font-weight: 500; padding-bottom: 9px; }
+.ui-lab .secondary-stat strong { font-weight: 500; }
+.ui-lab .substat, .ui-lab .echo-card.discarded .substat.empty span,
+.ui-lab .echo-card.discarded .substat.empty strong { font-size: var(--card-substat, var(--type-body)); }
+.ui-lab .substat { height: var(--card-row-height); padding-block: 0; align-items: center; line-height: 1.2; }
+/* A unitless stat reserves one percent glyph's space, not a fixed value column.
+   The compact card variant needs a smaller unit width. */
+.ui-lab .echo-card { --main-percent-space: 21px; --substat-percent-space: 10px; }
+.ui-lab .slot .echo-card, .ui-lab .pile .echo-card { --main-percent-space: 18px; --substat-percent-space: 9px; }
+.ui-lab .main-stat strong.stat-unitless,
+.ui-lab .secondary-stat strong.stat-unitless { padding-inline-end:var(--main-percent-space); }
+.ui-lab .substat strong.stat-unitless { padding-inline-end:var(--substat-percent-space); }
+.ui-lab .echo-values { font-variant-numeric: tabular-nums; }
+.ui-lab .working-card .echo-identity { min-height: 48px; }
+.ui-lab .working-card .echo-values { padding-block: 10px 12px; }
+.ui-lab .working-card .secondary-stat { padding-bottom: 5px; }
+.ui-lab .card-bottom { padding-block: 8px; line-height: 1; }
+.ui-lab .slot .echo-values { padding-block: 9px; }
+.ui-lab .slot .secondary-stat { padding-bottom: 3px; }
+.ui-lab .slot .card-bottom, .ui-lab .pile .card-bottom { padding-block: 5px; }
+.ui-lab .pile .main-stat { margin-bottom: 3px; }
+.ui-lab .pile .secondary-stat { padding-bottom: 1px; }
+.ui-lab .pile .echo-values { padding-block: 6px 11px; }
+.ui-lab .slot-number { display: grid; grid-template-columns: 1fr auto 1fr; letter-spacing: 1px; height: 17px; padding-bottom: 5px; line-height: 12px; }
+.ui-lab .slot-number>span:first-child { text-align: left; }
+.ui-lab .slot-selection { color: var(--gold); text-align: center; }
+.ui-lab .slot-state { text-align: right; color: #87939e; }
+.ui-lab .selected-slot .slot-state { color: #87939e; }
+
+/* One connected selection component: quieter relatives of the primary action. */
+.ui-lab {
+  --action-gold: linear-gradient(120deg,#9b7d43,#cfb075 50%,#aa8b50);
+  --selection-gold: linear-gradient(120deg,#967a48,#b49a65 50%,#91774a);
+  --selection-border: #c5aa70;
+}
+.ui-lab .simulate { background: var(--action-gold); }
+.ui-lab .segmented { display: flex; padding: 3px; gap: 3px; border: 1px solid #a88d5140; border-radius: 4px; background: #070c1280; }
+.ui-lab .segmented button, .ui-lab .gate-options button {
+  font-size: var(--type-body); min-height: 30px; padding: 5px 12px;
+  border-radius: 2px; border: 1px solid transparent; color: #a1acb7;
+  background: linear-gradient(180deg,#1c232a60,#10171d60);
+  box-shadow: none; transition: filter .18s, background .18s, box-shadow .18s;
+}
+.ui-lab .segmented button.selected, .ui-lab .gate-options button.selected {
+  color: #151b21 !important; background: var(--selection-gold); border-color: var(--selection-border);
+  box-shadow: inset 0 1px #fff4, inset 0 -1px #382c3180, 0 2px 5px #0003;
+  font-weight: 600;
+}
+.ui-lab .segmented button:not(:disabled):hover, .ui-lab .gate-options button:not(:disabled):hover { filter: brightness(1.16); color: #d6c4a1; }
+.ui-lab .segmented button.selected:hover, .ui-lab .gate-options button.selected:hover { color: #151b21; }
+.ui-lab .segmented button:not(:disabled):active, .ui-lab .gate-options button:not(:disabled):active { filter: brightness(.95); box-shadow: inset 0 2px 4px #0006; }
+.ui-lab .segmented button:disabled { cursor: default; opacity: .38; }
+.ui-lab button:focus-visible, .ui-lab summary:focus-visible,
+.ui-lab input:focus-visible, .ui-lab [draggable]:focus-visible { outline: 2px solid #d0b478; outline-offset: 3px; }
+.ui-lab .interaction-options { margin-top: 10px; }
+.ui-lab .interaction .orbit-symbol { margin-bottom: 15px; font-size: var(--type-hero); }
+.ui-lab .interaction { padding-top: 23px; }
+.ui-lab .consumption { margin-top: 15px; max-width: 200px; }
+.ui-lab .consumption h3 { font-size: var(--type-label); font-weight: 500; letter-spacing: .3px; color: #c7c3b7; margin: 0 0 10px; }
+.ui-lab .consumption .material-row { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; font-size: var(--type-body); }
+.ui-lab .material-row>span { display: flex; align-items: center; gap: 8px; }
+.ui-lab .material-row img, .ui-lab .material-symbol { width: 24px; height: 24px; object-fit: contain; }
+.ui-lab .material-symbol { display: grid; place-items: center; color: #ac9b73; font-size: var(--type-item); }
+.ui-lab .consumption .material-row strong { font-size: var(--type-label); font-variant-numeric: tabular-nums; }
+.ui-lab .materials-unavailable { font-size: var(--type-body); color: #8d99a5; }
+.ui-lab .evaluator { margin-top: 12px; }
+.ui-lab .workshop-footer { height: 46px; padding: 0; }
+
+/* Dense side panels use readable rows without adding nested surfaces. */
+.ui-lab .character table { table-layout: auto; font-variant-numeric: tabular-nums; }
+.ui-lab .character th { font-size: var(--type-meta); padding-inline: 2px; letter-spacing: .5px; }
+.ui-lab .character td { font-size: var(--type-body); padding-inline: 2px; }
+.ui-lab .character td:first-child { font-size: var(--type-body); white-space: nowrap; }
+.ui-lab .character td:not(:first-child) { white-space: nowrap; }
+.ui-lab .settings h3 { letter-spacing: .3px; }
+.ui-lab .gate-options { gap: 4px; }
+.ui-lab .gate-options button { padding-inline: 6px; flex: 1; }
+.ui-lab .setting-mode button { padding-inline: 8px; }
+.ui-lab .setting-row { min-height: 52px; }
+.ui-lab .setting-row output { min-width: 45px; }
+.ui-lab .setting-row label { white-space: nowrap; }
+.ui-lab .filter { gap: 10px; }
+.ui-lab .filter button { font-size: var(--type-body); min-height: 32px; }
+.ui-lab .demo-note { position: relative; text-align: right; font-size: var(--type-body); z-index: 50; }
+.ui-lab .demo-note summary { cursor: pointer; color: #b0a583; }
+.ui-lab .demo-note p { position: absolute; right: 0; top: 20px; width: 290px; margin: 0; padding: 16px; color: #b7c0ca; background: #141c26; border: 1px solid var(--line); font-size: var(--type-body); line-height: 1.6; text-align: left; }
+@media (max-width: 1600px) {
+  .ui-lab .filter { gap: 8px; padding-left: 10px; }
+}
+/* Line-box compensation keeps the approved outer geometry. */
+.ui-lab .page-heading { padding-bottom: 25px; }
+.ui-lab .card-caption { margin-bottom: 10px; }
+.ui-lab .inventory>div { font-size: var(--type-body); }
+.ui-lab .inventory strong { font-size: var(--type-item); }
+.ui-lab .consumption>#materialRows { display: block; margin: 0; }
+.ui-lab .checkpoint>span, .ui-lab .checkpoint div { font-size: var(--type-body); }
+.ui-lab .checkpoint-history h3 { font-size: var(--type-panel); }
+.ui-lab .slot-number>.slot-state, .ui-lab .nightmare-prefix,
+.ui-lab .character-context b, .ui-lab #historyPosition { font-size: var(--type-meta); }

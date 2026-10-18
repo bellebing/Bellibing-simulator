@@ -1,0 +1,47 @@
+/* Saved-build presentation only, scoped to the existing right-hand panel. */
+#character .rarity-5 { --rarity:#d1b67c; --rarity-rgb:209,182,124; }
+#character .rarity-4 { --rarity:#b497d7; --rarity-rgb:180,151,215; }
+#character .rarity-3 { --rarity:#81aaca; --rarity-rgb:129,170,202; }
+#character .rarity-2 { --rarity:#8eae91; --rarity-rgb:142,174,145; }
+#character .rarity-1,#character .rarity-unknown { --rarity:#929ca7; --rarity-rgb:146,156,167; }
+#character .character-hero { background:radial-gradient(ellipse at 66% 40%,rgba(var(--rarity-rgb),.1),transparent 70%); }
+#character .hero-lines { border-color:rgba(var(--rarity-rgb),.16); background:radial-gradient(ellipse at 50% 35%,rgba(var(--rarity-rgb),.09),transparent 67%); }
+#character .rarity-stars { font-size:var(--type-meta); letter-spacing:3px; color:var(--rarity); margin-top:6px; line-height:1; }
+#character .rarity-unknown .rarity-stars { letter-spacing:normal; }
+#character .character-element { z-index:3; width:26px; height:26px; }
+#character .character-element img { width:100%; height:100%; object-fit:contain; }
+/* Existing Build Sequence visual family: S6 above S1, circular source icons,
+   warm active nodes, muted inactive nodes; unknown is explicit and read-only. */
+#character .card-sequence { position:absolute; top:15px; right:9px; z-index:3; display:flex; align-items:center; flex-direction:column; gap:6px; width:32px; }
+#character .card-sequence:before { content:''; position:absolute; top:12px; bottom:26px; width:1px; background:var(--line); z-index:-1; }
+#character .sequence-node { position:relative; display:grid; place-items:center; width:24px; height:24px; border:1px solid #ffffff24; background:#14171d; border-radius:50%; overflow:hidden; }
+#character .sequence-node img { position:absolute; inset:2px; width:calc(100% - 4px); height:calc(100% - 4px); border-radius:50%; object-fit:cover; opacity:.44; filter:grayscale(.82) brightness(.7); }
+#character .seq-tag { position:relative; font-size:var(--type-meta); text-shadow:0 1px 4px #000; color:#c3c8cc; }
+#character .sequence-node.is-active { border-color:#d6a948d1; box-shadow:0 0 8px #d6a94829; }
+#character .sequence-node.is-active img { opacity:.94; filter:grayscale(1) sepia(1) saturate(3.4) brightness(1.08); }
+#character .sequence-node.is-unknown { border-style:dashed; }
+#character .card-sequence small { font-size:var(--type-meta); color:var(--muted); }
+#character .weapon { padding:10px 17px 15px; gap:14px; }
+#character .weapon-art { flex:none; width:64px; height:78px; display:grid; place-items:center; border-bottom:1px solid var(--rarity); background:radial-gradient(ellipse at 50% 70%,rgba(var(--rarity-rgb),.13),transparent 75%); }
+#character .weapon-art img { width:58px; height:74px; object-fit:contain; }
+#character .weapon-copy { min-width:0; }
+#character .weapon-copy strong { line-height:1.5; margin:5px 0; color:#ded8c9; }
+#character .weapon small { color:var(--rarity); }
+#character .card-skills { margin:0 18px; border-block:1px solid var(--line); }
+#character .card-skills summary { display:flex; align-items:center; justify-content:space-between; padding:10px 0; cursor:pointer; font-size:var(--type-label); list-style:none; }
+#character .card-skills summary::-webkit-details-marker { display:none; }
+#character .card-skills .chevron { font-size:var(--type-item); transform:rotate(90deg); }
+#character .card-skills[open] .chevron { transform:rotate(-90deg); }
+#character .card-skills-body { padding-bottom:12px; }
+#character .card-forte { height:170px; position:relative; }
+#character .card-forte svg { position:absolute; inset:0; width:100%; height:100%; fill:none; stroke:#a29a843b; stroke-width:.4; }
+#character .card-forte-node { position:absolute; width:24px; height:24px; transform:translate(-50%,-50%); display:grid; place-items:center; border:1px solid #a19b8752; border-radius:50%; background:#151b22; }
+#character .card-forte-node img { width:80%; height:80%; object-fit:contain; opacity:.75; }
+#character .card-forte-node.stat { width:16px; height:16px; }
+#character .card-forte-node.inherent { width:21px; height:21px; }
+#character .card-forte-node.is-active { border-color:var(--gold); }
+#character .card-forte-node small { position:absolute; top:100%; margin-top:3px; font-size:var(--type-meta); color:#a8afb5; }
+#character .card-unavailable { color:var(--muted); text-align:center; font-size:var(--type-body); margin:6px 0 0; }
+#character table { width:calc(100% - 36px); margin:0 18px 20px; table-layout:auto; }
+#character td:first-child { white-space:nowrap; }
+#character td:last-child { text-align:right; color:#d6c6a0; }

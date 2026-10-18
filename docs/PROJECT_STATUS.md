@@ -8,7 +8,7 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 
 The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
 
-The Improve Settings review candidate retains main's compact four-column design, renames Echo Substat Target to Hard Requirements, narrows Target/Gate, equalizes the stat columns and removes the visible Build Need block. All 13 canonical stat rows appear once and remain draggable across Hard Requirements, Flex Stats and Show other stats; saved placements and dormant minimums preserve user intent. Augusta/default's five approved gold highlights are UI relevance guidance only. The user approved this UI as the V1 baseline. Fresh Augusta/default Echo settings use the user-approved CRIT Rate/CRIT DMG Hard Requirements and ATK%/Heavy Attack DMG/Energy Regen/Flat ATK Flex order at existing canonical minimum tiers; explicit custom intent takes precedence and Recommended reset restores this default. The user-configured final requirement is all Hard Requirements AND at least N distinct selected Flex Stats with their exact minima, represented by an explicit existing requirement group. Augusta's default count is 1; legacy count-less preferences retain their intent, and infeasible counts after moves remain visible for repair. Exact public acceptance/slot feasibility is separate from private economic optimization. Other Characters receive no added defaults. Reviewed provider Echo recommendations and evaluator readiness are unchanged.
+The Improve Settings review candidate retains main's compact four-column design, renames Echo Substat Target to Hard Requirements, narrows Target/Gate, equalizes the stat columns and removes the visible Build Need block. All 13 canonical stat rows appear once and remain draggable across Hard Requirements, Flex Stats and Show other stats; saved placements and dormant minimums preserve user intent. Augusta/default's five approved gold highlights are UI relevance guidance only. The user approved this UI as the V1 baseline. Fresh Augusta/default Echo settings use the user-approved CRIT Rate/CRIT DMG Hard Requirements and ATK%/Heavy Attack DMG/Energy Regen/Flat ATK Flex order at existing canonical minimum tiers; explicit custom intent takes precedence and Recommended reset restores this default. The user-configured final requirement is all Hard Requirements AND at least N distinct selected Flex Stats with their exact minima, represented by an explicit existing requirement group. Augusta's default count is 1; legacy count-less preferences retain their intent, and infeasible counts after moves remain visible for repair. Exact public acceptance/slot feasibility is separate from private economic optimization. Other Characters receive no added quantitative Hard/Flex defaults; the Issue #319 follow-up maps reviewed source stat priorities without inventing thresholds. Reviewed provider Echo recommendations and evaluator readiness are unchanged.
 
 Visible **Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
 
@@ -70,6 +70,27 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 ## Nearest roadmap
 
+The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
+
+The **standalone Sandbox candidate** now connects explicit supported Custom Echo goals
+for all 59 released Characters to the existing local RNG owner. Source-bound
+configuration and recommendation coverage remain distinct: 15 missing canonical
+Recommended policies receive only an Echo-only Custom identity, with no inferred
+targets. Existing source review, gate and minimum-tier capability limits remain.
+A bounded actual roster run completed five +25 cards per Character under one
+explicit supported goal. Real local browser runs cover Baizhi and Shorekeeper.
+See the [browser contract](ui-lab/SANDBOX_BROWSER_CONTRACT.md).
+
+Pre-run certified Expected Echoes/Tuners and actual gross receipt costs share an
+explicit selected-slot/target scope. Completed Unlimited runs show the difference
+from the statistical mean. Finite/incomplete comparisons, Expected Tubes, live
+remaining costs and statistical Expected DPS remain Pending. Normal selected
+Augusta/Iuno/Shorekeeper may show the existing separate experimental reference
+trio after equipment/source/whole-build ER checks: actual selected-member Echoes,
+two fixed reference builds and same-run observed-alternative deltas. Qualified
+normal Team DPS stays Pending. Further DPS-team expansion is paused while the
+core Sandbox loop is reviewed. No deployment or account integration is active.
+
 Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
 
 1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
@@ -107,3 +128,7 @@ Do not infer missing values, timing, ownership, stacking, scope, rotations or da
 - [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) — downstream team-selection product/architecture contract.
 
 Historical PR/checkpoint/CI evidence belongs in GitHub and the Handoff update log. It is intentionally not duplicated here.
+
+The [fixed-scenario Echo comparison](ui-lab/OBSERVED_ECHO_SCENARIO.md) supports selected Augusta, Iuno and Shorekeeper through the same trio/executor, with source-bound whole-build ER acceptance, preserved actual equipment/receipts on ER failure and separate Pending qualified-build expectations. Iuno/Shorekeeper need explicit Custom Echo goals. It adds experimental same-run observed-build/one-Echo-alternative deltas in the existing opt-in expert review. The existing Augusta pilot replays the same bounded source rotation for both builds; unsupported equipment/ER remains Pending. This does not qualify normal product DPS or add a general rotation engine.
+
+The [Sandbox static-stats follow-up](ui-lab/SANDBOX_BUILD_STATS.md), stacked on #320, projects Character/Weapon/max-minor-Forte baseline facts for all 59 identities and complete observed five-card static builds through the existing canonical projector. Permanent eligible self Sonata bonuses are included; conditional combat mechanics remain Pending. Recommended maps source stat priorities for all 59 without inferring per-Echo minima/counts or ER thresholds. A versioned team comparison contract admits numbers only from explicitly qualified same-context providers; the public registry remains empty and all normal DPS cells remain Pending. This candidate does not add account integration or promote experimental team DPS.

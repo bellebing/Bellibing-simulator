@@ -4,6 +4,16 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Bellibing UI checkpoint v34</title>
+<script>
+if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
+  const memory=()=>{const values=new Map();return {get length(){return values.size},key:i=>[...values.keys()][i]??null,getItem:key=>values.get(String(key))??null,setItem:(key,value)=>values.set(String(key),String(value)),removeItem:key=>values.delete(String(key)),clear:()=>values.clear()}};
+  Object.defineProperty(window,'localStorage',{value:memory(),configurable:false});
+  Object.defineProperty(window,'sessionStorage',{value:memory(),configurable:false});
+  document.documentElement.classList.add('configuration-workshop-host');
+  const style=document.createElement('style');style.textContent='.configuration-workshop-host{color-scheme:dark}.configuration-workshop-host,.configuration-workshop-host body{background:transparent}.configuration-workshop-host body> :not(#echoOverlay):not(#dialogBg):not(script){visibility:hidden}.configuration-workshop-host #echoOverlay .echo-workspace-slots[hidden],.configuration-workshop-host #echoOverlay .echo-info-section[hidden],.configuration-workshop-host #echoSubstats[hidden]{display:none}.configuration-workshop-host #echoOverlay .echo-main,.configuration-workshop-host #echoOverlay .echo-toolbar{grid-template-columns:minmax(0,1.5fr) minmax(320px,.85fr)}';document.head.append(style);
+}
+</script>
+
 <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">
 <style>
 :root{--bg:#050608;--panel:#11141a;--text:#f2f0eb;--muted:#8e949d;--line:rgba(255,255,255,.09);--font-display:"Etna",Inter,sans-serif;--font-ui:Inter,ui-sans-serif,system-ui,sans-serif;--app-shell-max:1280px;--build-side-width:290px;--build-sequence-gap:76px;--build-echo-width:132px}
@@ -303,7 +313,7 @@
 .echo-choice-art img{display:block;width:100%;height:100%;object-fit:contain;object-position:50% 50%;filter:drop-shadow(0 10px 15px rgba(0,0,0,.45));pointer-events:none}
 .echo-choice-copy{display:grid;place-items:center;min-height:36px;margin:0;padding:4px 2px 0;text-align:center;border-top:1px solid rgba(255,255,255,.06)}
 .echo-choice-copy strong{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;font-family:var(--font-display);font-size:12px;font-weight:400;line-height:1.16;white-space:normal;overflow-wrap:anywhere}
-.echo-preview-pane{position:relative;min-width:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
+.echo-preview-pane{position:relative;min-width:0;min-height:0;height:100%;padding:12px 14px;border:1px solid rgba(255,255,255,.09);border-radius:22px;background:rgba(10,13,18,.86);overflow:hidden}
 .echo-preview-pane:has(.echo-info-card.is-expanded){z-index:3;overflow:visible}
 .echo-preview-empty{position:absolute;inset:16px;display:grid;place-content:center;text-align:center;gap:8px;color:#707783}
 .echo-preview-empty strong{font-family:var(--font-display);font-size:24px;font-weight:400;color:#aab0b9}
@@ -344,7 +354,7 @@
 .echo-active-heading img{width:18px;height:18px;object-fit:contain}
 .echo-active-effect p{padding-left:22px;color:#d2d6dc}
 .echo-info-toggle{align-self:start;flex:none;margin-top:6px;padding:2px 0;border:0;background:none;color:#e3bd6b;font:inherit;font-size:10px;font-weight:800;cursor:pointer}
-.echo-info-card.is-expanded{position:absolute;z-index:6;inset:12px 12px 54px -280px;width:auto;height:auto;padding:16px 22px;background:rgba(17,20,26,.72);border-color:rgba(224,187,109,.6);box-shadow:0 22px 55px rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.echo-info-card.is-expanded{position:absolute;z-index:6;inset:12px 12px 60px -280px;width:auto;height:auto;padding:8px 22px;background:rgba(17,20,26,.72);border-color:rgba(224,187,109,.6);box-shadow:0 22px 55px rgba(0,0,0,.55);backdrop-filter:blur(4px)}
 .echo-info-card.is-expanded .echo-info-copy{overflow:hidden}
 .echo-info-card.is-expanded .echo-info-section+.echo-info-section{margin-top:17px}
 .echo-info-card.is-expanded .echo-info-section h4{font-size:14px}
@@ -370,7 +380,7 @@
 .echo-secondary-value{min-height:18px;padding:1px 0;border:0;background:transparent;color:#d8dce2;font-size:11px;font-weight:650;line-height:1.35;display:flex;gap:8px;align-items:baseline}
 .echo-secondary-name{min-width:0}
 .echo-secondary-number{font-variant-numeric:tabular-nums;color:#f0e8d8}
-.echo-substats{display:grid;gap:4px;margin-top:4px}
+.echo-roll-undo{background:transparent;color:#d7bc83;border:0;text-align:left;padding:4px 0;font-size:10px;cursor:pointer}.echo-roll-undo:disabled{color:#70757c;cursor:default}.echo-roll-checkpoint{border:1px solid #3f4148;border-radius:5px;padding:3px 5px}.echo-roll-checkpoint summary{cursor:pointer;color:#c8c7c1;font-size:11px;padding:4px}.echo-roll-checkpoint[open] summary{margin-bottom:5px}.echo-substats{display:grid;gap:4px;margin-top:4px}
 .echo-substat-row{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);gap:4px}
 .bb-combobox{position:relative;min-width:0}
 .bb-combobox-trigger{position:relative;width:100%;min-width:0;min-height:29px;padding:4px 22px 4px 7px;border:1px solid rgba(255,255,255,.11);border-radius:8px;background:#151920;color:#e5e7ea;font:inherit;font-size:10px;line-height:1.08;text-align:left;display:flex;align-items:center;cursor:pointer}
@@ -621,6 +631,8 @@
 </div>
 <script src="./assets/character-build-card.js"></script>
 <script type="module">
+import {validateEchoTemplateConfiguration,templateSelectionCard} from './assets/echo-template-configuration.mjs';
+window.bellibingEchoTemplateConfiguration={validateEchoTemplateConfiguration,templateSelectionCard};
 import * as forteModel from './assets/forte-ui.mjs';
 window.bellibingForte=forteModel;
 window.dispatchEvent(new Event('bellibing-forte-ready'));
@@ -1224,11 +1236,11 @@ const echoUi={
     if(this.characterName)this.currentSets=readEchoSets(this.characterName);
     this.rebuildChoices();this.renderBuildSlots();this.renderWorkspaceSlots();this.renderSonataSelector();this.applyFilter();this.renderInfo();
   },
-  workspaceProfile(){return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
-  contextValid(){return this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
-  previewCommitted(){return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.currentSlot()},
+  workspaceProfile(){if(this.context.kind==='configuration')return {sonataSetIds:this.configurationOwner.sourceSetIds};return this.context.kind==='candidate'?echoLoadoutByCharacterId.get(this.context.characterId)||null:this.loadoutProfile},
+  contextValid(){return this.context.kind==='configuration'?!!this.configurationOwner?.isCurrent():this.context.kind==='equipped'||(this.context.kind==='candidate'&&this.context.characterName===improveUi.characterName&&this.context.version===improveUi.contextVersion)},
+  previewCommitted(){if(this.context.kind==='configuration')return this.configurationOwner?.card??null;return this.context.kind==='candidate'?improveUi.workspaceCandidate():this.currentSlot()},
   activeSet(){
-    if(this.context.kind==='candidate')return emptyEchoSet();
+    if(['candidate','configuration'].includes(this.context.kind))return emptyEchoSet();
     if(!this.currentSets)return emptyEchoSet();
     return this.currentSets.sets[this.currentSets.activeSetId]||this.currentSets.sets[ECHO_DEFAULT_SET_ID]||emptyEchoSet();
   },
@@ -1412,7 +1424,7 @@ const echoUi={
       button.disabled=ordered.length===1;button.addEventListener('click',()=>{
         if(!this.editorDraft||!item.sonataSetIds.includes(id)||id===this.editorDraft.selectedSonataSetId)return;
         const current=echoSonataById.get(this.editorDraft.selectedSonataSetId),next=echoSonataById.get(id),previewId=this.previewId,context=this.context;
-        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='candidate'?'Choose Echo':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
+        openConfirmation({kind:'sonata',title:'Switch Sonata Set?',body:`Switch ${item.name} from ${current.name} to ${next.name}? This change stays in Preview until you choose ${this.context.kind==='configuration'?'Use Echo':this.context.kind==='candidate'?'Choose Echo':'Equip Echo'}.`,confirm:'Switch Set',onConfirm:()=>{
           if(this.context!==context||!this.contextValid()||!this.open||this.previewId!==previewId||!this.editorDraft)return;
           this.editorDraft.selectedSonataSetId=id;this.renderIdentity(item);this.syncEquipAction();
           host.querySelector(`[data-sonata-id="${id}"]`)?.focus();
@@ -1432,6 +1444,7 @@ const echoUi={
     if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
+    document.getElementById('echoSubstats').hidden=this.context.kind==='configuration';
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
     const mainOptions=echoMainOptions(item.cost,card.level),currentMain=mainOptions.find(option=>option.name===card.mainStat.name)||mainOptions[0];
     const mainName=makeBellibingCombobox({
@@ -1452,15 +1465,20 @@ const echoUi={
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
     const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
+    if(this.context.kind==='equipped'){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
     for(let index=0;index<echoStatContract.maxSubstats;index++){
       const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
-      const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name,disabled:used.has(option.name)&&current?.name!==option.name}))];
+      const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name+(used.has(option.name)&&current?.name!==option.name?' · already used':''),disabled:false}))];
       const nameCombo=makeBellibingCombobox({
         id:'echoSubstat'+index+'Name',ariaLabel:'Substat '+(index+1)+' name',value:current?.name||'',options:nameOptions,
         onSelect:(nextName)=>{
+          const duplicate=this.editorSubstatRows.findIndex((pair,i)=>i!==index&&pair?.name===nextName);
+          if(duplicate>=0){if(!isCompleteEchoSubstat(current)||!isCompleteEchoSubstat(this.editorSubstatRows[duplicate])){document.getElementById('echoEditorError').textContent='Complete both stat/value pairs before swapping. Moving an incomplete pair is Pending.';return;}
+            const context=this.context,previewId=this.previewId;openConfirmation({kind:'roll-swap',title:'Swap observed roll pairs?',body:`Swap +${(index+1)*5} ${current.name} and +${(duplicate+1)*5} ${nextName}? Each stat keeps its original value.`,confirm:'Swap pairs',onConfirm:()=>{if(this.context!==context||!this.contextValid()||this.previewId!==previewId||!this.open)return;this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));[this.editorSubstatRows[index],this.editorSubstatRows[duplicate]]=[this.editorSubstatRows[duplicate],this.editorSubstatRows[index]];this.activeRoll=index;this.renderEditor();document.getElementById('echoSubstat'+index+'Name-trigger')?.focus();}});return;}
+          this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));this.activeRoll=index;
           if(!nextName)this.editorSubstatRows[index]=null;
           else this.editorSubstatRows[index]={name:nextName,value:current?.name===nextName?current.value:null};
-          this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+          this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();queueMicrotask(()=>document.getElementById('echoSubstat'+index+(nextName?'Value':'Name')+'-trigger')?.focus({preventScroll:true}));
         }
       });
       const option=current?.name?echoSubstatOption(current.name):null;
@@ -1471,15 +1489,17 @@ const echoUi={
           const rowState=this.editorSubstatRows[index];if(!rowState?.name)return;
           const source=echoSubstatOption(rowState.name),value=nextValue===''?null:Number(nextValue);
           if(value!==null&&!source?.values.some(candidate=>echoExact(candidate,value)))return;
-          this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();
+          this.rollUndo??=[];this.rollUndo.push(structuredClone(this.editorSubstatRows));this.activeRoll=value!==null?index+1:index;
+          this.editorSubstatRows[index]={name:rowState.name,value};this.syncDraftFromSubstatRows();this.renderEditor();this.syncEquipAction();queueMicrotask(()=>document.getElementById(value!==null&&index<4?'echoSubstat'+(index+1)+'Name-trigger':value!==null?'echoEquip':'echoSubstat'+index+'Value-trigger')?.focus({preventScroll:true}));
         }
       });
-      row.append(nameCombo,valueCombo);host.appendChild(row);
+      row.append(nameCombo,valueCombo);
+      if(this.context.kind==='equipped'){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
     }
     this.renderInfo();this.syncEquipAction();
   },
   setPreview(item,committed=null){
-    this.previewId=item.id;this.infoExpanded=false;
+    this.previewId=item.id;this.infoExpanded=false;this.rollUndo=[];this.activeRoll=null;
     if(this.context.kind==='candidate'){this.editorDraft={echoId:item.id,selectedSonataSetId:committed?.echoId===item.id&&item.sonataSetIds.includes(committed.selectedSonataSetId)?committed.selectedSonataSetId:this.defaultSonataSetId(item)};this.editorSubstatRows=null}
     else{this.editorDraft=makeEchoStatCard(item,this.defaultSonataSetId(item),committed);this.editorSubstatRows=Array.from({length:echoStatContract.maxSubstats},(_,index)=>this.editorDraft.substats[index]?{...this.editorDraft.substats[index]}:null)}
     this.panel.classList.add('has-preview');document.getElementById('echoPreviewPane').setAttribute('aria-hidden','false');this.renderEditor();
@@ -1490,13 +1510,13 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
-  previewValidation(){const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
+  previewValidation(){if(this.context.kind==='equipped'&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
     const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
-    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=this.context.kind==='configuration'?'Use Echo':candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
@@ -1516,6 +1536,15 @@ const echoUi={
     this.context={kind:'equipped'};this.characterId=characterByName.get(name)?.id||null;this.loadoutProfile=this.characterId?echoLoadoutByCharacterId.get(this.characterId)||null:null;
     this.currentSets=readEchoSets(name);this.openWorkspace(index);
   },
+  async showConfiguration(owner){
+    await Promise.all([echoDataReady,characterManifestReady]);
+    if(this.open||this.closing||!owner.isCurrent())throw Error('Workshop context changed.');
+    const character=[...characterByName.values()].find(row=>row.id===owner.characterId);
+    if(!character)throw Error('Character identity unavailable.');
+    this.configurationOwner=owner;
+    this.context={kind:'configuration',characterId:owner.characterId};
+    this.openWorkspace(owner.slot);
+  },
   async showCandidate(){
     const name=improveUi.characterName,version=improveUi.contextVersion;
     if(!name||this.open||this.closing)return;
@@ -1528,14 +1557,14 @@ const echoUi={
   openWorkspace(index){
     this.targetSlot=Number.isInteger(index)&&index>=0&&index<5?index:0;this.lastFocus=document.activeElement;
     const candidate=this.context.kind==='candidate';this.overlay.dataset.context=this.context.kind;
-    this.workspaceSlots.hidden=candidate;this.panel.querySelector('.echo-editor-stats').hidden=candidate;
-    this.panel.querySelector('#echoActiveEffects').closest('.echo-info-section').hidden=candidate;
+    this.workspaceSlots.hidden=candidate||this.context.kind==='configuration';this.panel.querySelector('.echo-editor-stats').hidden=candidate;
+    this.panel.querySelector('#echoActiveEffects').closest('.echo-info-section').hidden=candidate||this.context.kind==='configuration';
     document.getElementById('echoTitle').textContent=candidate?'Echo Workspace · Candidate':'Echo Workspace';
     this.panel.querySelector('.echo-preview-empty strong').textContent=candidate?'No Candidate selected':'No Echo Equipped';
-    document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
+    document.getElementById('echoPreviewSonataChoices').setAttribute('aria-label',this.context.kind==='configuration'?'Simulation template Sonata assignment':candidate?'Candidate Sonata assignment':'Owned Echo Sonata assignment');
     this.workspaceSlots.setAttribute('aria-label','Build Echo slots');
-    this.selectedSonataIds=new Set(this.workspaceProfile()?.sonataSetIds||[]);
-    const recommendedCost=candidate?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
+    this.selectedSonataIds=new Set(this.context.kind==='configuration'?this.configurationOwner.filterSetIds:this.workspaceProfile()?.sonataSetIds||[]);
+    const recommendedCost=candidate||this.context.kind==='configuration'?null:this.recommendedCost(this.targetSlot);this.filter=recommendedCost?String(recommendedCost):'all';
     this.setSonataMenuOpen(false);this.clearPreview();this.rebuildChoices();this.renderSonataSelector();this.applyFilter();this.renderWorkspaceSlots();this.loadTargetCommitted();this.infoExpanded=false;this.renderInfo();
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
     const source=captureEchoMotion(buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus'));
@@ -1547,20 +1576,26 @@ const echoUi={
   },
   hide(){
     if(!this.open||this.closing)return;this.open=false;this.closing=true;
-    if(activeConfirmation?.kind==='sonata')closeConfirmation();
+    if(['sonata','roll-swap'].includes(activeConfirmation?.kind))closeConfirmation();
     const candidate=this.context.kind==='candidate';
     const source=captureEchoMotion(candidate?document.getElementById('echoPreviewArt'):this.workspaceSlots.querySelector(`[data-echo-target="${this.targetSlot}"] .echo-dock-art img, [data-echo-target="${this.targetSlot}"] .echo-dock-visual`));
     const buildSlot=candidate?document.getElementById('improveCandidateEcho'):document.querySelector(`.echo[data-echo-slot="${this.targetSlot}"]`);
     const destination=buildSlot?.querySelector('.echo-slot-art, .improve-echo-large-art img')||buildSlot?.querySelector('.echo-slot-plus, .improve-new-plus');
     this.overlay.classList.remove('open');this.setSonataMenuOpen(false);
     playEchoMotion(source,destination).then(()=>{
-      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;this.context={kind:'equipped'};
+      this.clearPreview();this.overlay.classList.remove('mounted');this.overlay.setAttribute('aria-hidden','true');this.closing=false;const owner=this.configurationOwner;this.configurationOwner=null;this.context={kind:'equipped'};owner?.onClose();
       const focus=candidate?document.getElementById('improveNewEcho'):this.lastFocus;if(focus&&document.contains(focus))focus.focus({preventScroll:true});
     });
   },
   equipPreview(){
     if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
     const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
+    if(this.context.kind==='configuration'){
+      if(this.editorDraft.level!==0||this.editorDraft.substats.length)throw Error('Configuration cannot contain rolled Substats.');
+      const item=echoById.get(this.editorDraft.echoId);
+      const template=window.bellibingEchoTemplateConfiguration.validateEchoTemplateConfiguration({echoes:echoCatalog,sonataSets:[...echoSonataById.values()],statEditor:echoStatContract},{echoId:item.id,cost:item.cost,rank:echoStatContract.rank,mainStatName:this.editorDraft.mainStat.name,selectedSonataSetId:this.editorDraft.selectedSonataSetId});
+      this.configurationOwner.onChoose(template);this.hide();return;
+    }
     if(this.context.kind==='candidate'){improveUi.chooseCandidate({echoId:this.editorDraft.echoId,selectedSonataSetId:this.editorDraft.selectedSonataSetId});this.hide();return}
     if(!this.characterName)return;
     const promoted=captureEchoMotion(document.getElementById('echoPreviewArt'));
@@ -1569,6 +1604,19 @@ const echoUi={
   }
 };
 
+if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
+  window.bellibingConfigurationWorkshop=Object.freeze({
+    async open(owner){
+      await echoDataReady;
+      if(!window.bellibingEchoTemplateConfiguration)throw Error('Canonical template validator unavailable.');
+      const catalog={echoes:echoCatalog,sonataSets:[...echoSonataById.values()],statEditor:echoStatContract};
+      if([owner.filterSetIds,owner.sourceSetIds].some(ids=>!Array.isArray(ids)||ids.some(id=>!echoSonataById.has(id))))throw Error('Invalid configuration Sonata context.');
+      const card=owner.configuration?window.bellibingEchoTemplateConfiguration.templateSelectionCard(catalog,owner.configuration):null;
+      await echoUi.showConfiguration({...owner,card});
+    },
+    cancel(){if(echoUi.context.kind==='configuration')echoUi.hide();}
+  });
+}
 weaponDataReady=loadWeaponBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.weaponCatalogError=String(error.message||error)});
 echoDataReady=loadEchoBrowserData().catch(error=>{console.error(error);document.documentElement.dataset.echoCatalogError=String(error.message||error)});
 const BUILD_STAT_PRIMARY_ROWS=[

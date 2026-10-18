@@ -1,0 +1,7 @@
+/* Approved activation presentation. The marker is outside the dimmed card. */
+.activation-slot { position:relative; min-width:0; display:grid; }
+.activation-slot > .slot { width:100%; min-width:0; }
+.activation-slot.is-inactive > .slot { filter:brightness(.6); }
+.activation-mark { position:absolute; z-index:2; top:0; right:0; width:13.75px; height:13.75px; padding:1.25px; transform:translateY(-5.5px); display:grid; place-items:center; border:1px solid #83b99475; border-radius:50%; background:#12181df0; color:#83b994; }
+.activation-mark svg { width:8.75px; height:8.75px; }
+.activation-mark.is-off { color:#e17e78; border-color:#e17e7875; background:#12181df0; }

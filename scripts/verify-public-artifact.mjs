@@ -1,3 +1,4 @@
+import {verifySandboxRelease} from './sandbox-release.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve, dirname, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -14,7 +15,7 @@ export function artifactFiles(directory) {
 export function verifyPublicArtifact(directory = 'dist') {
   const root = resolve(directory);
   const approved = new Set([...JSON.parse(readFileSync(new URL('./public-web-assets.json', import.meta.url), 'utf8')),
-    ...PUBLIC_BROWSER_MODULES.map(name => 'assets/' + name + '.js')]);
+    ...PUBLIC_BROWSER_MODULES.map(name => 'assets/' + name + '.js'), ...verifySandboxRelease(directory)]);
   const inventory = artifactFiles(root);
   const present = new Set(inventory);
   for (const path of inventory) {

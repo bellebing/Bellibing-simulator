@@ -1,4 +1,7 @@
 import {dpsConceptMarkup} from './dps-concept.js';
+import {selectCharacterTeam} from './character-context.js';
+import {recommendedGuidance} from './recommended-guidance.js';
+import {CHARACTER_TARGETS} from './targets.js';
 import {createSandboxClient} from './sandbox-client.js';
 import {sandboxPendingCopy} from './sandbox-pending.js';
 import {observedSlots,expectedResourceRecord,sandboxCostDetails} from './sandbox-presentation.js';
@@ -26,6 +29,7 @@ import { $, assetURL, escapeHtml, notify } from './util.js';
 
 const query = new URLSearchParams(location.search);
 const sandbox=query.get('sandbox')==='true';
+const expertMode=sandbox&&query.get('review')==='expert';
 const sandboxWorkspace=sandbox?createSandboxWorkspace():null;
 if(sandbox){
  document.body.classList.add('sandbox-preview');$('.sonata-section').remove();$('.settings-compact img')?.remove();
@@ -65,7 +69,15 @@ let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMet
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??null,onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
-if(sandbox){const controls=document.createElement('div');controls.className='sandbox-run-controls';controls.innerHTML='<span id="sandboxHostStatus" role="status" data-status="CHECKING">Checking local simulation host · Preview only</span><span id="sandboxRunStatus" role="status">No run started</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><span id="sandboxQuality"></span><div id="sandboxCostDetails"></div>';$('#resourceCost').after(controls);}
+if(sandbox){
+ const controls=document.createElement('div');controls.className='sandbox-run-controls';
+ controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
+ $('#simulate').after(controls);
+ const costs=document.createElement('div');costs.id='sandboxCostDetails';$('#resourceCost').after(costs);
+ const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';$('.simulation-content').after(teamPanel);
+ const guidance=document.createElement('div');guidance.id='recommendedGuidance';$('.setting-mode').after(guidance);
+}
+
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}
 function displayedHistories(){if(runSlots)return runSlots.map(s=>s.trash);return state.configurationSession?state.configurationSession.histories:state.histories;}
@@ -95,7 +107,7 @@ function renderFeedback() {
   $('#simulate').dataset.status = request.status;
   if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||preflightStatus.status!=='READY'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
   $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?'Preview only · local simulation host not connected':preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':'Run detached simulation through the local host'):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
-  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:sandboxRun?.status??(preflightStatus.status==='CHECKING'?'Checking selected configuration':'No run started');$('#sandboxRunStatus').title=pending?.codes.length?`Server reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:`DPR Pending · DPS ${(sandboxRun?.metrics?.dps??preRunMetrics?.dps)?.status==='EXPERIMENTAL'?'EXPERIMENTAL reference team':'Pending'}`;}
+  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:sandboxRun?.status??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`Server reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -149,7 +161,15 @@ function renderCharacter() {
   const person = people.get(selectedId);
   characterCard.render(person, state);
   if(sandbox){
-    const dps=$('.sandbox-dps');dps.outerHTML=dpsConceptMarkup({characterId:person.id,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null});const dpsSelector=$('.sandbox-dps-context');if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.value==='reference'?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
+    const panel=$('#sandboxTeamPanel');
+    const open=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
+    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null});
+    panel.querySelectorAll('details').forEach(n=>{n.open=open.includes(n.className);});
+    const teamSelector=panel.querySelector('.sandbox-team-context');
+    if(teamSelector)teamSelector.onchange=()=>{selectCharacterTeam(state,teamSelector.value);sandboxWorkspace.advanceContext();sandboxClient.invalidate();renderWorkspace();};
+    const dpsSelector=panel.querySelector('.sandbox-dps-context');
+    if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.checked?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
+
     const label=$('.character-content .weapon-copy strong');
     const select=document.createElement('select');select.className='sandbox-weapon-select';select.setAttribute('aria-label','Sandbox Weapon');
     select.innerHTML=SANDBOX_WEAPONS.filter(w=>w.weaponType===person.weaponType).map(w=>`<option value="${escapeHtml(w.id)}"${w.id===state.sandboxBuild.weaponId?' selected':''}>${escapeHtml(w.name)}</option>`).join('');
@@ -168,11 +188,13 @@ function renderSettings() {
   sonataSelection?.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
-  buttons[0].disabled = selectedId !== 'augusta';
-  buttons[0].title = selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
+  buttons[0].disabled = !sandbox&&selectedId !== 'augusta';
+  buttons[0].title = sandbox ? 'View source guidance; restore approved Echo settings where available' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
+  if(sandbox){const guide=$('#recommendedGuidance'),open=guide.querySelector('details')?.open;guide.innerHTML=recommendedGuidance(selectedId);guide.querySelector('details').open=!!open;}
   const target = $('.target');
-  target.querySelector('p').textContent = selectedId === 'augusta' ? 'Augusta · DEFAULT Calc reference' : 'Character Target Pending in this visual study';
-  target.querySelectorAll('div').forEach((row, index) => { row.querySelector('strong').textContent = selectedId === 'augusta' ? ['2,407', '84.7%', '225%'][index] : '—'; });
+  const reference=CHARACTER_TARGETS.find(r=>r.characterId===selectedId&&(sandbox||selectedId==='augusta'));
+  target.querySelector('p').textContent = reference?.status==='READY'?`${people.get(selectedId).name} · DEFAULT Calc reference`:sandbox?'Character Target Pending':'Character Target Pending in this visual study';
+  target.querySelectorAll('div').forEach((row,index)=>{row.querySelector('strong').textContent=reference?.rows.find(r=>r.metric===['TOTAL_ATK','TOTAL_CRIT_RATE','TOTAL_CRIT_DAMAGE'][index]&&r.status==='READY')?.displayValue??'—';});
 }
 
 // A valid metrics response proves reachability, not executable capability for every Character.
@@ -332,11 +354,14 @@ $('.gate-options').addEventListener('click', event => {
 });
 $('.setting-mode').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
-  state.settingsMode = event.target.textContent;
-  if (state.settingsMode === 'Recommended') {
-    restoreRecommendedSettings(state);
-  }
-  renderSettings();
+  if(event.target.textContent==='Recommended'){
+    const restored=restoreRecommendedSettings(state);
+    renderSettings();
+    if(sandbox)$('#recommendedGuidance details').open=true;
+    // Guidance cannot silently replace explicit Custom intent or imply a
+    // reviewed executable policy when canonical requirements are missing.
+    if(!restored)return;
+  }else{state.settingsMode='Customize';renderSettings();}
   settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);
 });
 $('#simulate').onclick = async () => {

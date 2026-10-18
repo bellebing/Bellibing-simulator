@@ -85,3 +85,5 @@ await import('./verify-sandbox-host-browser.mjs');
 
 // Small export-race Chromium regression is also runnable independently.
 await import('./verify-sandbox-export-browser.mjs');
+
+await import('./verify-character-context-browser.mjs');

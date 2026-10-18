@@ -107,6 +107,21 @@ async function pointerClick(send, selector) {
   await sleep(70);
 }
 
+async function pointerClickBuildEchoSlot(send, index) {
+  // Closing the modal exposes the full-width Character wheel under its Close
+  // button. Move the real pointer away so its hover expansion can finish before
+  // targeting an Echo; an expanded wheel otherwise covers the first Build slot.
+  const height = await evaluate(send, 'innerHeight');
+  await send('Input.dispatchMouseEvent', {type:'mouseMoved',x:8,y:height-8});
+  await waitForUi(send, `(()=>{
+    const shell=document.getElementById('buildShell'),wheel=document.getElementById('buildWheel'),slot=document.querySelector('.echo[data-echo-slot="${index}"]');
+    if(echoUi.open||echoUi.closing||shell.classList.contains('hover-expanded')||wheel.getAnimations().some(a=>a.playState==='running')||!slot)return false;
+    const r=slot.getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+    return r.width>0&&r.height>0&&(hit===slot||slot.contains(hit));
+  })()`, `Build Echo slot ${index+1} did not become physically reachable after Character-wheel collapse`);
+  await pointerClick(send, `.echo[data-echo-slot="${index}"]`);
+}
+
 async function openBellibingCombo(send, id) {
   const row=await evaluate(send,`(()=>{const d=document.getElementById('${id}-trigger')?.closest('details:not([open])');return d?[...document.querySelectorAll('.echo-roll-checkpoint')].indexOf(d):null})()`);
   if(row!==null)await pointerClick(send,`.echo-roll-checkpoint:nth-of-type(${row+1}) summary`);
@@ -246,7 +261,7 @@ async function verifyDesktop(send) {
 
   await evaluate(send, `(()=>{window.__echoPointerAudit=[];for(const type of ['pointerdown','pointerup','click'])document.addEventListener(type,event=>{const choice=event.target?.closest?.('.echo-choice');const slot=event.target?.closest?.('[data-echo-slot],[data-echo-target]');const sonata=event.target?.closest?.('[data-sonata-id],#echoSonataToggle,#echoSonataAll');const equip=event.target?.closest?.('#echoEquip');window.__echoPointerAudit.push({type,echoId:choice?.dataset.echoId||null,slot:slot?.dataset.echoSlot??slot?.dataset.echoTarget??null,sonata:sonata?.dataset.sonataId||sonata?.id||null,equip:!!equip});},true);return true})()`);
 
-  await pointerClick(send, '.echo[data-echo-slot="0"]');
+  await pointerClickBuildEchoSlot(send, 0);
   await waitForUi(send, `echoUi.open&&document.getElementById('echoOverlay').classList.contains('mounted')`, 'Physical Build Echo-slot click did not open workspace');
   await waitForUi(send, `[...document.querySelectorAll('#echoChoices .echo-choice-art img')].length===187&&[...document.querySelectorAll('#echoChoices .echo-choice img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Echo/Sonata artwork did not fully resolve in browser', 12000);
   await waitForUi(send, `[...document.querySelectorAll('#echoSonataOptions img')].length===37&&[...document.querySelectorAll('#echoSonataOptions img')].every(img=>img.complete&&img.naturalWidth>0)`, 'Canonical Sonata artwork did not fully resolve in selector', 12000);
@@ -316,12 +331,12 @@ async function verifyDesktop(send) {
   await waitForUi(send, `document.documentElement.dataset.echoMotion==='shared-object'`, 'Build slot did not animate into Echo Workspace');
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Workspace close did not return to Build slot');
-  await pointerClick(send, '.echo[data-echo-slot="2"]');
+  await pointerClickBuildEchoSlot(send, 2);
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===2&&document.querySelector('#echoWorkspaceSlots .echo-workspace-slot.active-target')?.dataset.echoTarget==='2'`, 'Build Slot 3 did not activate Slot 3');
   await assertFixedDock(send,'Build Slot 3 opening',2,desktopDock);
   await pointerClick(send, '#echoClose');
   await waitForUi(send, `!document.getElementById('echoOverlay').classList.contains('mounted')`, 'Slot 3 close did not finish');
-  await pointerClick(send, '.echo[data-echo-slot="0"]');
+  await pointerClickBuildEchoSlot(send, 0);
   await waitForUi(send, `echoUi.open&&echoUi.targetSlot===0`, 'Build Slot 1 did not reopen Slot 1');
 
   const cardAudit = await evaluate(send, `(()=>{

@@ -72,9 +72,24 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
 
-The **standalone Sandbox program** preserves 59 released source-bound Character/Weapon/five-Echo configurations. Master Program V2 adds a local browser→private-engine review candidate for Augusta/default, one to five slots, real ownership/Trash/history, actual resource receipts and safe export. Isolated server-owned guest sessions use persistent atomic authority; full-context browser freshness rejects stale results. No account data is changed. [S1–S6 roadmap](SANDBOX_SIMULATOR_ROADMAP.md) owns coverage and remaining gates; [browser contract](ui-lab/SANDBOX_BROWSER_CONTRACT.md) owns the public boundary.
+The **standalone Sandbox candidate** now connects explicit supported Custom Echo goals
+for all 59 released Characters to the existing local RNG owner. Source-bound
+configuration and recommendation coverage remain distinct: 15 missing canonical
+Recommended policies receive only an Echo-only Custom identity, with no inferred
+targets. Existing source review, gate and minimum-tier capability limits remain.
+A bounded actual roster run completed five +25 cards per Character under one
+explicit supported goal. Real local browser runs cover Baizhi and Shorekeeper.
+See the [browser contract](ui-lab/SANDBOX_BROWSER_CONTRACT.md).
 
-Supported fresh-start Expected Echoes/Tuners are individually verified under the existing policy with a proven selected-slot sum; Tubes and finite-budget/live-remaining expectations remain Pending. Existing observed-substat DPR is explicitly experimental and separate from DPS. DPS is Pending by default. An explicit named experimental reference scenario can calculate same-run contributions/Team Total from five actual finished Augusta Echoes plus fixed existing synthetic Iuno/Shorekeeper reference builds, after source/equipment/baseline/ER checks. It is not optimal or verified live-team DPS; unsupported contexts remain Pending. The approved inline Workshop preserves canonical pairs, validation, Cancel and Undo. Local browser verification does not activate a deployed service: production hosting, persistence/runtime and endpoint approval remain separate.
+Pre-run certified Expected Echoes/Tuners and actual gross receipt costs share an
+explicit selected-slot/target scope. Completed Unlimited runs show the difference
+from the statistical mean. Finite/incomplete comparisons, Expected Tubes, live
+remaining costs and statistical Expected DPS remain Pending. Normal selected
+Augusta/Iuno/Shorekeeper may show the existing separate experimental reference
+trio after equipment/source/whole-build ER checks: actual selected-member Echoes,
+two fixed reference builds and same-run observed-alternative deltas. Qualified
+normal Team DPS stays Pending. Further DPS-team expansion is paused while the
+core Sandbox loop is reviewed. No deployment or account integration is active.
 
 Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
 

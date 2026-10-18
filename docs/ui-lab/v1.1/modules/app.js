@@ -1,5 +1,6 @@
 import {dpsConceptMarkup} from './dps-concept.js';
 import {createSandboxClient} from './sandbox-client.js';
+import {sandboxPendingCopy} from './sandbox-pending.js';
 import {observedSlots,expectedResourceRecord,sandboxCostDetails} from './sandbox-presentation.js';
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
 import {createSandboxWorkspace,setSandboxWeapon,SANDBOX_WEAPONS} from './sandbox-state.js';
@@ -62,6 +63,7 @@ window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{
 }});
 let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMetrics=null,metricsBinding=null,metricsTimer=null;
 let hostStatus='CHECKING',hostProbeBinding=null;
+let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?createSandboxClient({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??null,onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
 if(sandbox){const controls=document.createElement('div');controls.className='sandbox-run-controls';controls.innerHTML='<span id="sandboxHostStatus" role="status" data-status="CHECKING">Checking local simulation host · Preview only</span><span id="sandboxRunStatus" role="status">No run started</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><span id="sandboxQuality"></span><div id="sandboxCostDetails"></div>';$('#resourceCost').after(controls);}
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
@@ -91,9 +93,9 @@ function renderFeedback() {
   const request = simulationRequest(state);
   if (!request.slots.length || state.configurationSession?.mode==='current') $('#simulate').disabled = true;
   $('#simulate').dataset.status = request.status;
-  if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
-  $('#simulate').title = sandbox?(hostStatus==='CONNECTED'?'Run detached simulation through the local host':'Preview only · local simulation host not connected'):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
-  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;$('#sandboxRunStatus').textContent=sandboxRun?.status==='PENDING'?`Pending · ${(sandboxRun.reasons??[]).join(', ')}`:sandboxRun?.status??'No run started';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:`DPR Pending · DPS ${(sandboxRun?.metrics?.dps??preRunMetrics?.dps)?.status==='EXPERIMENTAL'?'EXPERIMENTAL reference team':'Pending'}`;}
+  if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||preflightStatus.status!=='READY'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
+  $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?'Preview only · local simulation host not connected':preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':'Run detached simulation through the local host'):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
+  if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:sandboxRun?.status??(preflightStatus.status==='CHECKING'?'Checking selected configuration':'No run started');$('#sandboxRunStatus').title=pending?.codes.length?`Server reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:`DPR Pending · DPS ${(sandboxRun?.metrics?.dps??preRunMetrics?.dps)?.status==='EXPERIMENTAL'?'EXPERIMENTAL reference team':'Pending'}`;}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -180,14 +182,14 @@ async function probeSandboxHost(binding){
  try{
   const result=await sandboxClient.metrics();
   if(binding!==metricsBinding)return;
-  hostStatus='CONNECTED';preRunMetrics=result.metrics;
+  if(result.status!=='READY'&&result.status!=='PENDING')throw Error('INVALID_SANDBOX_METRICS_STATUS');hostStatus='CONNECTED';preflightStatus={status:result.status,reasons:result.reasons??[]};preRunMetrics=result.status==='READY'?result.metrics:null;
   renderCharacter();
   $('#sandboxCostDetails').innerHTML=sandboxCostDetails(preRunMetrics,sandboxRun?.simulatedCost);
   resourceCost.present({expected:expectedResourceRecord(preRunMetrics),simulated:sandboxRun?.simulatedCost?{status:'VERIFIED',...sandboxRun.simulatedCost.gross}:null});
  }catch(error){
   if(binding!==metricsBinding||error.message==='STALE_SANDBOX_RESPONSE')return;
   hostStatus=error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError?'UNAVAILABLE':'ERROR';
-  preRunMetrics=null; // Never invent Expected values when the service is absent.
+  preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]}; // Never invent Expected values when the service is absent.
  }finally{
   if(hostProbeBinding===binding)hostProbeBinding=null;
   if(binding===metricsBinding)renderFeedback();
@@ -196,7 +198,7 @@ async function probeSandboxHost(binding){
 
 function renderWorkspace() {
   sandboxClient?.checkFresh();
-  if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
+  if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]};resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
   renderSlots();

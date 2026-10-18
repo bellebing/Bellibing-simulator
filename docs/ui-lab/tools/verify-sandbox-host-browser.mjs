@@ -23,7 +23,7 @@ try{
  browser=await chromium.launch({executablePath:process.env.UI_LAB_CHROME_PATH??'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
  const page=await browser.newPage({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
- let hostOnline=false,guestCalls=0,metricCalls=0,runCalls=0;
+ let hostOnline=false,guestCalls=0,metricCalls=0,runCalls=0,configPending=false;
  const protocol='BELLIBING_SANDBOX_HTTP_V1';
  await page.route('**/sandbox/v1/**',async route=>{
   const req=route.request(),path=new URL(req.url()).pathname;
@@ -36,7 +36,7 @@ try{
   const body=JSON.parse(req.postData());
   if(path==='/sandbox/v1/metrics'){
    metricCalls++;
-   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({protocol,clientGeneration:body.clientGeneration,status:'READY',metrics:{}})});
+   return route.fulfill({status:200,contentType:'application/json',body:JSON.stringify({protocol,clientGeneration:body.clientGeneration,status:configPending?'PENDING':'READY',...(configPending?{reasons:['CONFIGURATION_CAPABILITY_PENDING'],metrics:null}:{metrics:{}})})});
   }
   if(path==='/sandbox/v1/runs'){
    runCalls++;
@@ -62,10 +62,49 @@ try{
  assert.equal(await button.isEnabled(),true,'SIMULATE must recover without reload');
  assert.ok(guestCalls>=1&&metricCalls>=1,'Reachability requires real protocol-shaped metrics response');
  await button.click();
- await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.textContent.includes('PRIVATE_CAPABILITY_PENDING'));
+ await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.textContent.includes('cannot currently be executed'));
+ assert.equal(await page.locator('#sandboxRunStatus').getAttribute('title'),'Server reason: PRIVATE_CAPABILITY_PENDING');
  assert.equal(runCalls,1,'Button calls the host instead of running fake results');
  assert.ok((await page.evaluate(()=>window.bellibingLabConfiguration.snapshot())).slots.every(s=>s.simulatedCurrent===null));
  assert.deepEqual(await page.locator('[data-cost-role="simulated"]').allTextContents(),['—','—','—']);
+
+ // Host reachability alone must not enable SIMULATE for an unsupported context.
+ configPending=true;
+ await page.getByRole('combobox',{name:'Sandbox Weapon',exact:true}).selectOption('verdant-summit');
+ await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.textContent.includes('Character, Weapon or Settings combination'));
+ assert.equal(await button.isDisabled(),true);
+ assert.equal(await page.locator('#sandboxRunStatus').getAttribute('title'),'Server reason: CONFIGURATION_CAPABILITY_PENDING');
+ assert.equal(runCalls,1,'Pending preflight must not start a run');
+ configPending=false;
+ await page.getByRole('combobox',{name:'Sandbox Weapon',exact:true}).selectOption('thunderflare-dominion');
+ await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.dataset.status==='READY');
+ assert.equal(await button.isEnabled(),true);
+
+ // Source-bound Characters stay selectable, but their execution is determined by the host.
+ configPending=true;
+ await page.locator('.portrait.selected').click();
+ await page.locator('[data-filter="all"]').click();
+ const index=await page.locator('[data-art]').evaluateAll((nodes,id)=>nodes.findIndex(n=>n.dataset.art===id),'iuno');
+ assert.ok(index>=0,'Source-bound Iuno must remain selectable');
+ await page.locator('#galleryArt').focus();
+ await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
+ await page.waitForFunction(()=>document.querySelector('#characterCarousel').dataset.focusedCharacter==='iuno'&&document.querySelector('#characterCarousel').dataset.motion==='settled');
+ await page.keyboard.press('Enter');
+ await page.waitForFunction(()=>window.bellibingLabConfiguration.readContext().characterId==='iuno');
+ await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.textContent.includes('Character, Weapon or Settings combination'));
+ assert.equal(await button.isDisabled(),true);
+ assert.equal(runCalls,1);
+ // Restore canonical source context.
+ await page.locator('.portrait.selected').click();
+ await page.locator('[data-filter="all"]').click();
+ const augustaIndex=await page.locator('[data-art]').evaluateAll((nodes,id)=>nodes.findIndex(n=>n.dataset.art===id),'augusta');
+ await page.locator('#galleryArt').focus();await page.keyboard.press('Home');
+ for(let i=0;i<augustaIndex;i++)await page.keyboard.press('ArrowRight');
+ await page.waitForFunction(()=>document.querySelector('#characterCarousel').dataset.focusedCharacter==='augusta'&&document.querySelector('#characterCarousel').dataset.motion==='settled');
+ configPending=false;
+ await page.keyboard.press('Enter');
+ await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.dataset.status==='READY');
+ assert.equal(await button.isEnabled(),true);
 
  // A lost host on the next action must return to preview-only, then recover.
  hostOnline=false;

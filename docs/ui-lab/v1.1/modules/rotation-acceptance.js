@@ -12,5 +12,5 @@ export function rotationGateMarkup(characterId,dps){
  if(!source)return '';
  const pct=n=>(n*100).toFixed(4).replace(/0+$/,'').replace(/\.$/,'')+'%';
  const valid=gate?.scope==='TOTAL_CHARACTER_BUILD'&&gate.characterId===characterId&&gate.scenarioId===scenario.scenarioId&&gate.sourceMinimumRatio===source.minimumRatio;
- return `<p class="rotation-er-gate" data-status="${valid?escapeHtml(gate.status):'PENDING'}">Rotation ER · ${pct(source.minimumRatio)} total build minimum${valid&&Number.isFinite(gate.actualRatio)?` · observed ${pct(gate.actualRatio)} · ${gate.status==='MET'?'met':'not met'}`:' · observed build Pending'}. This is not an ER roll requirement on each Echo.</p>`;
+ return `<p class="rotation-er-gate" data-status="${valid?escapeHtml(gate.status):'PENDING'}">Rotation ER · ${pct(source.minimumRatio)} total build minimum${valid&&gate.requiredRatio>source.minimumRatio?` · Custom total minimum ${pct(gate.requiredRatio)}`:''}${valid&&Number.isFinite(gate.actualRatio)?` · observed ${pct(gate.actualRatio)} · ${gate.status==='MET'?'met':'not met'}`:' · observed build Pending'}. This is not an ER roll requirement on each Echo.</p>`;
 }

@@ -1,6 +1,6 @@
 # Local Sandbox browser contract
 
-The Sandbox preview connects asynchronously to a separately started **local, same-origin** host. Static previews retain Pending results when that host is absent. This contract does not authorize a production endpoint or deployment.
+The Sandbox preview connects asynchronously to a separately started **local, same-origin** host. Static previews retain Pending results when that host is absent. The Sandbox UI shows a persistent `Preview only` status and disables SIMULATE until a valid response from the local host's existing metrics contract. While unavailable it retries at a bounded interval, enabling SIMULATE if the host becomes reachable; server capability and run validation remain authoritative. This contract does not authorize a production endpoint or deployment.
 
 `BELLIBING_SANDBOX_HTTP_V1` supplies `POST /sandbox/v1/guest`, then CSRF-protected `POST /metrics`, `POST /runs`, and `POST /runs/:id/{step,abort,reset}`. Mutating calls carry a scoped `Idempotency-Key`; an uncertain network retry retains the same key. Each new `start()` without an explicit seed generates a fresh random UUID seed; an explicitly provided seed stays reproducible. A network retry of that `POST /runs` reuses the same serialized body (including seed) and the same idempotency key. `GET /runs/:id/export` also carries the CSRF token. Cookies are same-origin credentials; server ownership, authentication, limits and atomic commit validation remain host responsibilities.
 

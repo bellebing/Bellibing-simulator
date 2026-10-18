@@ -24,3 +24,8 @@
 .sandbox-preview .sandbox-dps[data-status="EXPERIMENTAL"] .dps-contribution strong{font-size:11px;max-width:100%;overflow-wrap:anywhere;line-height:1.2;text-align:center}.sandbox-preview .dps-contribution span{white-space:normal;text-align:center;overflow-wrap:anywhere;line-height:1.2}
 
 .history-select-label{display:grid;gap:5px;margin:12px 0;color:#aaa;font-size:11px}.history-select-label select{max-width:100%;min-width:0;background:#202126;color:#ddd;border:1px solid #484344;border-radius:5px;padding:7px;font-size:11px}
+
+/* Local-only connectivity state; a static preview never implies a live simulation. */
+.sandbox-run-controls #sandboxHostStatus{flex-basis:100%;margin-right:0;font-size:10px;letter-spacing:.01em}
+.sandbox-run-controls #sandboxHostStatus[data-status="CONNECTED"]{color:#a7c6b0}
+.sandbox-run-controls #sandboxHostStatus[data-status="UNAVAILABLE"],.sandbox-run-controls #sandboxHostStatus[data-status="ERROR"]{color:#d2b27e}

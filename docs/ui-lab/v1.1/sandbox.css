@@ -22,3 +22,5 @@
 .sandbox-dps-context{max-width:100%;width:100%;background:#202126;color:#c8bd9f;border:1px solid #484344;border-radius:4px;font-size:9px;padding:5px;margin:0 0 5px}.dps-context-note{display:block;font-size:9px;line-height:1.4;color:#9e9b93;margin-bottom:7px}
 
 .sandbox-preview .sandbox-dps[data-status="EXPERIMENTAL"] .dps-contribution strong{font-size:11px;max-width:100%;overflow-wrap:anywhere;line-height:1.2;text-align:center}.sandbox-preview .dps-contribution span{white-space:normal;text-align:center;overflow-wrap:anywhere;line-height:1.2}
+
+.history-select-label{display:grid;gap:5px;margin:12px 0;color:#aaa;font-size:11px}.history-select-label select{max-width:100%;min-width:0;background:#202126;color:#ddd;border:1px solid #484344;border-radius:5px;padding:7px;font-size:11px}

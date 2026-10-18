@@ -222,9 +222,10 @@ function renderInspection() {
   $('#inspectionSlot').textContent = String(inspection.slot + 1).padStart(2, '0');
   $('#checkpoints').innerHTML = echo.stats.map(([name, value], index) => `<div class="checkpoint"><span>+${(index + 1) * 5}</span><div>${escapeHtml(name)}</div><strong>${escapeHtml(value)}</strong></div>`).join('');
   $('#historyPosition').textContent = `${inspection.index + 1} / ${history.length}`;
+  $('#discardedEcho').innerHTML=history.map((card,index)=>`<option value="${index}"${index===inspection.index?' selected':''}>${index+1} / ${history.length} · ${escapeHtml(card.name)} · ${Number.isInteger(card.level)?'+'+card.level:'checkpoint unknown'}</option>`).join('');
   $('#previousCard').disabled = inspection.index === 0;
   $('#nextCard').disabled = inspection.index === history.length - 1;
-  $('.checkpoint-history p').textContent = `Discarded at +${echo.level} · ${echo.reason??'rejection reason unavailable'}`;
+  $('.checkpoint-history p').textContent = `${runSlots?'Observed simulation history · ':''}Discarded at +${echo.level} · ${echo.reason??'rejection reason unavailable'}`;
 }
 
 function inspectPile(slot, index, source) {
@@ -288,6 +289,7 @@ $('#piles').addEventListener('click', event => {
 $('#closeInspection').onclick = () => closeInspection();
 $('#inspection').addEventListener('cancel', event => { event.preventDefault(); closeInspection(); });
 $('#inspection').addEventListener('click', event => { if (event.target === $('#inspection')) closeInspection(); });
+$('#discardedEcho').onchange=event=>{const index=Number(event.target.value);if(inspection&&Number.isInteger(index)&&displayedHistories()[inspection.slot]?.[index]){inspection.index=index;renderInspection();}};
 $('#previousCard').onclick = () => { if (inspection.index > 0) { inspection.index--; renderInspection(); } };
 $('#nextCard').onclick = () => { if (inspection.index < displayedHistories()[inspection.slot].length - 1) { inspection.index++; renderInspection(); } };
 

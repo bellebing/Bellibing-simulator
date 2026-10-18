@@ -1,10 +1,11 @@
 import contexts from './production-settings.json' with {type:'json'};
 import {ECHO_SETTING_STATS} from './settings-catalog.js';
+import {restoreSourcePriorities} from './source-priorities.js';
 // Canonical projection only. This is not the production persisted Settings owner.
 export function initializeCanonicalSettings(state){
  const row=contexts.characters.find(row=>row.characterId===state.id);
  state.canonicalSettingsSource=row?{owner:contexts.owner,presetId:row.presetId,applicability:structuredClone(row.applicability),persisted:false}:null;
- return restoreCanonicalSettings(state);
+ return restoreCanonicalSettings(state)||restoreSourcePriorities(state);
 }
 export function restoreCanonicalSettings(state){
  if(!state.canonicalSettingsSource)return false;
@@ -16,5 +17,5 @@ export function restoreCanonicalSettings(state){
  const tier=rule=>{const i=ECHO_SETTING_STATS.find(row=>row.id===rule.stat)?.tiers.indexOf(rule.minimum);if(i===undefined||i<0)throw Error('Canonical minimum tier missing');return i;};
  state.statSections={hard:hard.map(r=>r.stat),flex:flex.map(r=>r.stat),other:ECHO_SETTING_STATS.map(r=>r.id).filter(id=>![...hard,...flex].some(r=>r.stat===id))};
  state.minima=Object.fromEntries(ECHO_SETTING_STATS.map(r=>[r.id,0]));for(const rule of [...hard,...flex])state.minima[rule.stat]=tier(rule);
- state.flexCount=groups[0].minimumCount;state.settingsMode='Recommended';state.erTarget={enabled:false,valuePercent:null};state.otherExpanded=false;return true;
+ state.flexCount=groups[0].minimumCount;state.settingsMode='Recommended';state.erTarget={enabled:false,valuePercent:null};state.otherExpanded=false;state.sourcePreferenceGuidance=null;return true;
 }

@@ -45,7 +45,7 @@ const characters=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(c
   defaultStatus:resolved.status,contextIds:candidates.map(t=>t.id),
   coverage:{standardBuild:defaults.characters.find(s=>s.characterId===c.id)?.configurationValidity??'PENDING',sourceRankedStats:guide.substatPriorities.length?'AVAILABLE':'PENDING',
    exactCalcTargets:CHARACTER_TARGETS.find(t=>t.characterId===c.id)?.rows.filter(r=>r.status==='READY').map(r=>r.metric)??[],
-   recommendedUI:requirements&&['VERIFIED','USER_DEFINED'].includes(requirements.status)?'CANONICAL_SETTINGS_RESET':'SOURCE_GUIDANCE_ONLY',
+   recommendedUI:requirements&&['VERIFIED','USER_DEFINED'].includes(requirements.status)?'CANONICAL_SETTINGS_RESET':'SOURCE_PRIORITIES_WITH_PENDING_REQUIREMENTS',
    hardFlex:requirements?.status??'PENDING',er:guide.endgameStats.some(s=>/energy|regen/i.test(s.sourceStatName))?'SOURCE_GUIDANCE_ONLY_NO_AUTOMATIC_THRESHOLD':'PENDING_NO_NUMERIC_ER_SOURCE',dps:'PENDING_VERIFIED_TEAM_EXECUTION'},
   recommendations:{sourceUrl:guide.sourceUrl,sourceLinesSha256:guide.sourceLinesSha256,substatPriorities:guide.substatPriorities,endgameStats:guide.endgameStats,context:guide.endgameContext,
    hardFlexStatus:requirements&&['VERIFIED','USER_DEFINED'].includes(requirements.status)?requirements.status:'PENDING_REVIEWED_ECHO_REQUIREMENTS',

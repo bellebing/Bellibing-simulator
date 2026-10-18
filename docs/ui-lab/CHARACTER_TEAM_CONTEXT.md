@@ -52,8 +52,11 @@ metrics, Recommended UI mapping, Hard/Flex, ER and DPS boundaries.
   context. These reference choices are not passed off as executable host teams.
 - Recommended opens source guidance for all 59 Characters, including original
   priorities, endgame strings, conditions and source measurement/sequence basis.
-  It resets Hard/Flex only when the existing canonical approved policy supports
-  it (currently Augusta). Otherwise Custom intent and ER are preserved.
+  Augusta retains its approved quantitative Hard/Flex policy. For the other
+  Characters, Recommended maps reviewed source labels to ordered Flex priorities
+  without inventing minima, counts or ER targets. Original conditions and ties
+  remain attached; unknown aliases stay unresolved. Explicit Customize enables
+  canonical per-Echo controls. Dormant minima and custom ER intent are preserved.
 - The compact Character Target now uses each Character's existing modern DEFAULT
   Calc projection (19 covered identities), without a guide fallback.
 - Host diagnostics live under Simulation details beside SIMULATE. Resource Cost
@@ -74,9 +77,10 @@ BUG-042 is not closed.
 All three normal DPS rows remain Pending: no approved complete Recommended
 baseline, statistical Expected team-DPS producer or qualified Simulated team
 provider is introduced. There is no DPS delta, E[DPS] approximation or implied
-buff uptime. Full Character/Simulation Stats projection is a separate remaining
-work area. Current/Candidate comparison contract and account integration are not
-implemented by this slice.
+buff uptime. The follow-up [static stats and comparison contract](SANDBOX_BUILD_STATS.md)
+adds source-backed static components and a shared versioned comparison boundary.
+Full conditional combat stats, qualified numeric team comparisons and account
+integration remain Pending.
 
 `?sandbox=true&review=expert` exposes a separate collapsed synthetic-reference
 review control for Augusta. Explicit opt-in retains the existing private host's

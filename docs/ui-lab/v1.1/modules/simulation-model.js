@@ -15,17 +15,18 @@ export const SETTING_METRICS = Object.freeze({
   'ATK%':'TOTAL_ATK', 'Flat ATK':'TOTAL_ATK', 'Heavy Attack DMG':'HEAVY_ATTACK_DMG_BONUS',
 });
 export function simulationModel(person, saved, expected = {}) {
-  const incompleteProjection = hasInactiveEchoes(saved);
+  const sandboxObserved=saved.sandboxBuild&&saved.sandboxStatProjection?.observed?.status==='SOURCE_BACKED_STATIC_COMPONENT';
+  const incompleteProjection = saved.sandboxBuild?!sandboxObserved:hasInactiveEchoes(saved);
   const stats = characterCardModel(person, saved).stats;
   const target = CHARACTER_TARGETS.find(row => row.characterId === person.id);
-  return { characterId:person.id, name:person.name, recorded:saved.hasRecordedRun && !incompleteProjection, pending:incompleteProjection ? 'ACTIVE_BUILD_PROJECTION_PENDING' : null,
+  return { characterId:person.id, name:person.name, recorded:saved.sandboxBuild?!!sandboxObserved:saved.hasRecordedRun && !incompleteProjection, scopeLabel:saved.sandboxBuild?sandboxObserved?'Observed static stats · conditional effects Pending':'Awaiting five completed observed Echoes':null, pending:incompleteProjection ? 'ACTIVE_BUILD_PROJECTION_PENDING' : null,
     rows:RESULT_STATS.map(([id,index]) => {
       const metric = id === 'ELEMENT_DMG_BONUS' ? `${person.identityElement?.toUpperCase()}_DMG_BONUS` : id;
       const recommendation = target?.rows.find(row => row.metric === metric);
-      const observed = saved.hasRecordedRun && !incompleteProjection ? saved.stats[index]?.[1] : null;
+      const observed = saved.sandboxBuild?sandboxObserved?saved.sandboxStatProjection.observedValues[metric]??null:null:saved.hasRecordedRun && !incompleteProjection ? saved.stats[index]?.[1] : null;
       return { id:metric, label:stats[index][0], recommended:recommendation?.status === 'READY' ? recommendation.displayValue : null,
         source:recommendation?.sourceValue ?? null, expected:incompleteProjection ? null : expected[metric] ?? null,
-        simulated:observed && observed !== '—' ? observed : null };
+        simulated:observed!==undefined&&observed!==null&&observed!=='—'?observed:null };
     }) };
 }
 // An external presentation producer must supply exact result IDs AND changed values.

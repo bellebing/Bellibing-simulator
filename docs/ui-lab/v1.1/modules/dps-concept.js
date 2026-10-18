@@ -1,6 +1,7 @@
 import {CHARACTER_CATALOG,WEAPON_CATALOG} from './catalog.js';
 import {characterContext,teamMemberStandards} from './character-context.js';
 import {assetURL,escapeHtml} from './util.js';
+import {teamDpsComparison,TEAM_COMPARISON_VERSION} from '../../../../src/teamDpsComparison.mjs';
 
 const fmt=v=>Number.isFinite(v)?new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(v):'—';
 const name=id=>CHARACTER_CATALOG.find(c=>c.id===id)?.name??'Pending';
@@ -13,13 +14,14 @@ function expertValues(characterId,evaluationContext,dps,expertMode){
 }
 // Source selection never qualifies runtime output. The current host has no
 // qualified comparison producer; synthetic output has its own review surface.
-export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMode=false,evaluationContext=null,dps=null}={}){
+export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMode=false,evaluationContext=null,dps=null,comparisonMode='SANDBOX'}={}){
  const context=characterContext(characterId,contextId);
  if(!context)return '';
  const {character,options,team,memberIds}=context;
  const headers=memberIds.map(id=>{const person=CHARACTER_CATALOG.find(c=>c.id===id);return `<th scope="col" class="dps-contribution">${person?`<img class="dps-portrait" alt="" src="${assetURL(person.face)}"><span>${escapeHtml(person.name)}</span>`:'<span>Teammate Pending</span>'}</th>`;}).join('');
  const reasons={Recommended:'Pending: a numerically complete approved reference build and qualified team provider are required.',Expected:'Pending: no qualified statistical team-DPS expectation model for the selected settings.',Simulated:'Pending: actual generated loadout, legal rotation, buffs, equipment and qualified team execution are required.'};
- const rows=Object.entries(reasons).map(([scenario,reason])=>`<tr data-dps-scenario="${scenario.toUpperCase()}"><th scope="row">${scenario}</th>${Array.from({length:4},(_,i)=>`<td${i===3?' class="team-total"':''} title="${reason}" aria-label="${scenario} ${escapeHtml(i===3?'Team Total':name(memberIds[i]))}: Pending">—</td>`).join('')}</tr>`).join('');
+ const comparison=teamDpsComparison({mode:comparisonMode,context:{version:TEAM_COMPARISON_VERSION,selectedCharacterId:characterId,teamContextId:team?.id??null,characterIds:memberIds.filter(Boolean),sourceRevision:character.defaultBasis?.sourceLinesSha256??null}});
+ const rows=comparison.rows.map(row=>{const scenario=row.scenario[0]+row.scenario.slice(1).toLowerCase(),reason=reasons[scenario]??'Pending: comparable qualified equipped/candidate team runs are required.';return `<tr data-dps-scenario="${row.scenario}"><th scope="row">${scenario}</th>${Array.from({length:4},(_,i)=>`<td${i===3?' class="team-total"':''} title="${reason}" aria-label="${scenario} ${escapeHtml(i===3?'Team Total':name(memberIds[i]))}: Pending">—</td>`).join('')}</tr>`;}).join('');
  const select=options.length?`<label class="team-context-label">Source team context<select class="sandbox-team-context" aria-label="Source team context"><option value="">${character.defaultContextId?`Recommended · ${escapeHtml(memberIds.map(name).join(' / '))}`:'Default source binding Pending'}</option>${options.map(t=>`<option value="${escapeHtml(t.id)}"${contextId===t.id?' selected':''}>${escapeHtml([characterId,...t.characterIds.filter(id=>id!==characterId)].map(name).join(' / '))}${Object.keys(t.modeRequirements).length?` · ${escapeHtml(Object.entries(t.modeRequirements).map(([id,mode])=>`${name(id)}: ${mode}`).join(', '))}`:''}</option>`).join('')}</select></label>`:'';
  const standards=teamMemberStandards(context);
  const basis=!contextId?character.defaultBasis:null;

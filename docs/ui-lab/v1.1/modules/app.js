@@ -1,3 +1,6 @@
+import {createImproveCandidateSession} from './improve-candidate.js';
+import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
+import {createLabResourceInventory} from './resource-state.js';
 import {accountProjection} from './account-projection.js';
 import {openSelectionDialog} from './selection-dialog.js';
 import {characterContext,teamSlotAlternatives,selectTeamSlot} from './character-context.js';
@@ -34,7 +37,7 @@ import { $, assetURL, escapeHtml, notify } from './util.js';
 function echoCard(echo,options={}){return renderEchoCard(echo,{...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:compactReview&&accountMode&&!options.candidate});}
 
 const query = new URLSearchParams(location.search);
-const compactReview=query.get('layout')==='compact';
+const compactReview=query.get('layout')!=='legacy'&&query.get('demonstration')!=='true'&&query.get('review')!=='configuration';
 if(compactReview)document.body.classList.add('compact-review');
 const sandbox=query.get('sandbox')==='true';
 const browserBeta=sandbox&&query.get('execution')==='browser';
@@ -48,7 +51,7 @@ if(sandbox){
  $('#focusDemo').disabled=true;
  document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
 }
-const resources = mountResourceInventory($('#resourceInventory'),undefined,{sandbox});
+const resources = mountResourceInventory($('#resourceInventory'),sandbox?undefined:createLabResourceInventory(readOwnedResourceBudget(localStorage)),{sandbox});
 const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
@@ -85,12 +88,27 @@ let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMet
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
-if(sandbox){
+let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
+function readImproveOwner(){return {kind:'ACCOUNT_BUILD',record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
+const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
+ candidateRun=run;
+ if(run?.status==='PENDING')candidatePreflight={status:'PENDING',reasons:run.reasons};
+ if(run?.view){
+  const projected=observedSlots(run.view),chosen=run.view.selectedSlots??run.view.slots.map(s=>s.slot);
+  for(const n of chosen){const i=n-1,slot=run.view.slots.find(s=>s.slot===n),card=slot?.candidate??slot?.current;
+   if(card)state.accountCandidates[i]={echoId:card.speciesId,rank:card.rank,cost:card.cost,selectedSonataSetId:card.selectedSonataSetId,level:card.level,mainStat:structuredClone(card.mainStat),secondaryMainStat:structuredClone(card.secondaryMainStat),substats:structuredClone(card.substats)};
+   state.configurationSession.histories[i]=projected[i].trash;
+  }
+ }
+ resourceCost.present({simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});
+ if(carousel)renderWorkspace();
+}}):null;
+if(sandbox||accountMode){
  const controls=document.createElement('div');controls.className='sandbox-run-controls';
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
  $('.workshop-footer').removeAttribute('aria-hidden');$('.workshop-footer').append(controls);
  const costs=document.createElement('div');costs.id='sandboxCostDetails';controls.append(costs);
- const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';if(compactReview)$('.character-content').after(teamPanel);else $('.simulation-content').after(teamPanel);
+ if(sandbox){const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';if(compactReview)$('.character-content').after(teamPanel);else $('.simulation-content').after(teamPanel);}
 
 }
 
@@ -126,7 +144,17 @@ function renderFeedback() {
   if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||preflightStatus.status!=='READY'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
   $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?(browserBeta?'Pending · browser simulation unavailable':'Preview only · local simulation host not connected'):preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':(browserBeta?'Simulate hypothetical Echoes':'Run detached simulation through the local host')):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=browserBeta?'Browser engine · hypothetical · no account changes':hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.runId=sandboxRun?.runId??'';$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:rotationAcceptanceText(sandboxRun)??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`${browserBeta?'Simulation':'Server'} reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
-  if(!demonstration&&!configurationReview){$('#feedbackTitle').textContent=sandbox?(runLoop?'Simulating…':preflightStatus.status==='READY'?'Ready to Simulate':preflightStatus.status==='PENDING'?'Simulation Pending':'Preparing simulation'):state.onAccount?'Compare a Candidate':'Choose an owned Character';if(!sandbox)$('#simulate').disabled=!state.onAccount;}
+  if(accountMode){
+   $('#simulate').disabled=!state.onAccount||candidatePreflight.status!=='READY'||runLoop;
+   $('#simulate').title=candidatePreflight.reasons.join(', ');
+   $('#sandboxRunStatus').textContent=runLoop?'RUNNING':candidateRun?.status==='ABORTED'?'ABORTED':candidatePreflight.status==='READY'?'Compare a Candidate':'Simulation Pending';
+   $('#sandboxRunStatus').dataset.runId=candidateRun?.runId??'';$('#sandboxRunStatus').dataset.runState=candidateRun?.status??'';
+   $('#sandboxAbort').disabled=!runLoop||!candidateRun;$('#sandboxExport').disabled=!candidateRun?.runId;
+   $('#sandboxHostStatus').textContent='Browser engine · hypothetical · no account changes';$('#sandboxHostStatus').dataset.status=candidatePreflight.status;
+   $('#sandboxCostDetails').innerHTML=sandboxCostDetails(null,candidateRun?.simulatedCost);
+   document.body.classList.toggle('has-candidate-run',!!candidateRun?.view);
+  }
+  if(!demonstration&&!configurationReview){$('#feedbackTitle').textContent=sandbox?(runLoop?'Simulating…':preflightStatus.status==='READY'?'Ready to Simulate':preflightStatus.status==='PENDING'?'Simulation Pending':'Preparing simulation'):runLoop?'Simulating…':state.onAccount?(candidatePreflight.status==='PENDING'?'Simulation Pending':'Compare a Candidate'):'Choose an owned Character';if(!sandbox)$('#simulate').disabled=!state.onAccount||candidatePreflight.status!=='READY'||runLoop;}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -218,7 +246,7 @@ function renderSettings() {
   sonataSelection?.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
-  buttons[0].disabled = !sandbox&&selectedId !== 'augusta';
+  buttons[0].disabled = !sandbox&&!accountMode&&selectedId !== 'augusta';
   buttons[0].title = sandbox ? 'Restore source priorities or approved Echo settings; missing thresholds remain Pending' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
   const target = $('.target');
   const reference=CHARACTER_TARGETS.find(r=>r.characterId===selectedId&&(sandbox||selectedId==='augusta'));
@@ -251,13 +279,18 @@ function syncAccountState(){
  const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
  const binding=JSON.stringify(projection.record.buildState??null);
  if(state.accountBinding&&state.accountBinding!==binding){state.accountCandidates=Array(5).fill(null);projection.candidate=null;projection.candidateValues={};projection.delta={};}
- state.accountBinding=binding;state.accountProjection=projection;state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
+ state.accountBinding=binding;state.accountProjection=projection;
+ restoreOwnedSettings(state,localStorage);
+ if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state);state.accountSourcesInitialized=true;}
+state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
  const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
  state.echoes=(projection.slots??Array(5).fill(null)).map(present);state.configurationSession.candidates=state.accountCandidates.map(present);state.onAccount=projection.record.status==='OBSERVED_PRODUCTION_BUILD_RECORD';
 }
 function renderWorkspace() {
   if(accountMode)syncAccountState();
   sandboxClient?.checkFresh();
+  candidateSession?.checkFresh();
+  if(accountMode){const b=JSON.stringify(readImproveOwner());if(b!==candidateMetricsBinding){candidateMetricsBinding=b;candidatePreflight={status:'CHECKING',reasons:[]};clearTimeout(candidateMetricsTimer);candidateMetricsTimer=setTimeout(async()=>{const result=await candidateSession.metrics();if(b===JSON.stringify(readImproveOwner())){candidatePreflight=result;renderFeedback();}},200);}}
   if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]};resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
@@ -346,9 +379,9 @@ async function closeInspection({ immediate = false } = {}) {
   }
 }
 
-window.addEventListener('pagehide',()=>{runLoop=false;sandboxClient?.invalidate();workshopEditor.close();});
+window.addEventListener('pagehide',()=>{runLoop=false;sandboxClient?.invalidate();candidateSession?.invalidate();workshopEditor.close();});
 window.addEventListener('pageshow',()=>{if(accountMode)renderWorkspace();});
-window.addEventListener('storage',event=>{if(accountMode&&event.key==='bellibing-ui-checkpoint-v34'){workshopEditor.close();renderWorkspace();}});
+window.addEventListener('storage',event=>{if(accountMode&&['bellibing-ui-checkpoint-v34','bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].includes(event.key)){workshopEditor.close();renderWorkspace();}});
 window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {
   const edit=event.target.closest('[data-edit-echo]');
@@ -400,11 +433,13 @@ $('.setting-mode').addEventListener('click', event => {
     // Explicit Recommended restores source guidance. Unavailable guidance
     // cannot imply a reviewed executable policy or erase Custom state.
     if(!restored)return;
+    if(accountMode)state.accountSettingsPending=null;
   }else{state.settingsMode='Customize';renderSettings();}
   settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
+  if(accountMode){workshopEditor.close();runLoop=true;renderFeedback();try{await candidateSession.start();while(runLoop&&candidateSession.checkFresh()&&candidateSession.snapshot()?.status==='RUNNING'){await candidateSession.step();await new Promise(r=>setTimeout(r,0));}}catch(error){if(!['STALE_ACCOUNT_CANDIDATE','STALE_SANDBOX_RESPONSE'].includes(error.message))candidatePreflight={status:'PENDING',reasons:[error.message]};}finally{runLoop=false;renderFeedback();}return;}
   if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
   try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,browserBeta?0:30));}}catch(error){if(error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError)hostStatus='UNAVAILABLE';if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
@@ -424,18 +459,20 @@ $('.mode-switch').addEventListener('click', event => {
   state.configurationSession.mode=mode;state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
+if(accountMode){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(candidateSession.isBusy())await new Promise(r=>setTimeout(r,10));await candidateSession.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await candidateSession.export();data.staticComparison=structuredClone(state.accountProjection?.comparison??{status:'PENDING'});const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='Bellibing_Candidate_'+candidateRun.runId+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
 if(sandbox){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(sandboxClient.isBusy())await new Promise(r=>setTimeout(r,10));await sandboxClient.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await sandboxClient.export(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`Bellibing_Sandbox_${sandboxRun.runId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
-$('#reset').onclick = () => {runLoop=false;workshopEditor.close();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
+$('#reset').onclick = () => {runLoop=false;workshopEditor.close();candidateSession?.reset();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
 
 if(!demonstration&&!configurationReview){
  document.title=sandbox?'Bellibing Sandbox':'Bellibing · Improve a Character';$('.page-heading h1').textContent=sandbox?'Sandbox Simulator':'Improve a Character';$('.study-label').textContent=sandbox?'SANDBOX BETA':'IMPROVE';$('#workshopFeedback').removeAttribute('aria-describedby');document.body.classList.add('product-workspace');document.body.classList.toggle('account-workspace',!sandbox);document.body.dataset.buildKind=sandbox?'SANDBOX_BUILD':'ACCOUNT_BUILD';
  $('.demo-note').hidden=true;$('.target').hidden=true;$('.mode-switch').hidden=true;$('.settings-compact img')?.remove();document.querySelector('.beta-boundary')?.remove();
- if(!sandbox){$('.sonata-section').hidden=true;$('.page-heading h1').textContent='Improve a Character';$('.page-heading .eyebrow').textContent='YOUR EQUIPPED BUILD';$('.loadout-heading .eyebrow').textContent='CURRENT LOADOUT';$('#simulate').querySelector('span:nth-child(2)').textContent='EDIT CANDIDATE';$('.loadout-heading .small-muted').textContent='Equipped Echoes';$('#simulate').onclick=()=>workshopEditor.openObserved(state.selectedSlot,$('#simulate'));}
+ if(!sandbox){$('.sonata-section').hidden=true;$('.page-heading h1').textContent='Improve a Character';$('.page-heading .eyebrow').textContent='YOUR EQUIPPED BUILD';$('.loadout-heading .eyebrow').textContent='CURRENT LOADOUT';$('#simulate').querySelector('span:nth-child(2)').textContent='IMPROVE ECHO';$('.loadout-heading .small-muted').textContent='Equipped Echoes';}
  const routes=globalThis.BELLIBING_WORKSPACE_ROUTES;
  const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
  $('.site-header nav').innerHTML=`<a href="${href('improve')}"${!sandbox?' aria-current="page"':''}>Improve a Character</a><a href="${href('sandbox')}"${sandbox?' aria-current="page"':''}>Sandbox</a>`;
  const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
 }
+if(accountMode)setInterval(()=>{candidateSession.checkFresh();const b=JSON.stringify(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();

@@ -46,7 +46,7 @@
 .weapon-picker-trigger .weapon-copy small,.weapon-picker-trigger .weapon-copy>span{font-size:9px}
 .character-stat-section[open]>summary .chevron{transform:rotate(90deg)}
 .sandbox-preview #character .team-dps-table tbody th{font-size:8.5px;white-space:nowrap;overflow-wrap:normal;padding-inline:1px}
-/* Opt-in compact review: ?layout=compact. Existing product composition is retained. */
+/* Approved V1 card; older UI Lab consumers retain explicit legacy fixtures. */
 .compact-review #character .result-modes{display:none}
 .compact-review #character .character-hero[data-hero]{height:184px;overflow:hidden;background:linear-gradient(110deg,#171e25,#1c252d)}
 .compact-review #character [data-hero] .hero-visual{height:184px}
@@ -108,3 +108,5 @@
 .compact-review #character .team-member>span{grid-row:2;display:flex;align-items:flex-start;justify-content:center;min-width:0;width:100%;height:26px;padding-top:2px}
 .compact-review #character .team-member>small{grid-row:3;margin:0;font-size:7px}
 .compact-review #character .team-dps-table thead .team-total>span{display:flex;align-items:center;justify-content:center;height:81px}
+
+.account-workspace.has-candidate-run .trash-panel{display:block}

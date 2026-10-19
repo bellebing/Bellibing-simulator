@@ -8,6 +8,19 @@ import {STATIC_STAT_FIELDS,staticSonataRows} from '../../../../src/sandboxStatic
 
 export function statValues(projection,person){return Object.fromEntries(STATIC_STAT_FIELDS.map(([id,key,whole])=>{const value=projection?.[key],metric=id==='ELEMENT_DMG_BONUS'?person.identityElement.toUpperCase()+'_DMG_BONUS':id;return [metric,Number.isFinite(value)?whole?Math.round(value).toLocaleString('en-US'):`${Number((value*100).toFixed(1))}%`:null];}));}
 
+// Bounded actual-stat comparison only. No scalar weights, private policy or
+// invented cost/utility ranking. Identity-changing effects and ER trades stay Pending.
+export function assessStaticReplacement(current,candidate,oldCard,newCard){
+ const base={scope:'STATIC_BUILD_STATS_ONLY',authorizesUpgradeVerdict:false,authorizesAutomaticEquip:false,authorizesDps:false,authorizesCostRanking:false};
+ if(!current||!candidate)return {...base,status:'PENDING',reason:'COMPLETE_CURRENT_AND_CANDIDATE_REQUIRED'};
+ if(!oldCard?.echoId||!oldCard?.selectedSonataSetId||oldCard.echoId!==newCard?.echoId||oldCard?.selectedSonataSetId!==newCard?.selectedSonataSetId)return {...base,status:'PENDING',reason:'ECHO_EFFECT_CONTEXT_CHANGED'};
+ const changes=STATIC_STAT_FIELDS.map(([,key])=>({key,value:candidate[key]-current[key]}));
+ if(changes.some(row=>!Number.isFinite(row.value)))return {...base,status:'PENDING',reason:'STATIC_COMPONENT_UNAVAILABLE'};
+ const epsilon=1e-10;
+ if(Math.abs(changes.find(row=>row.key==='energyRegen').value)>epsilon)return {...base,status:'PENDING',reason:'FUNCTIONAL_ER_COMPARISON_PENDING'};
+ const gains=changes.filter(row=>row.value>epsilon).map(row=>row.key),losses=changes.filter(row=>row.value< -epsilon).map(row=>row.key);
+ return {...base,status:gains.length&&losses.length?'PENDING':gains.length?'STATIC_DOMINANCE':losses.length?'STATIC_INFERIOR':'EQUAL',reason:gains.length&&losses.length?'CROSS_STAT_TRADES_PENDING':null,gains,losses};
+}
 // Read-only ACCOUNT_BUILD projection. Four unchanged owned slots + one observed
 // candidate use the same canonical projector and identical investment inputs.
 export function accountProjection(person,storage,{candidate=null,slot=0}={}){
@@ -31,7 +44,7 @@ export function accountProjection(person,storage,{candidate=null,slot=0}={}){
    const next=structuredClone(slots);next[slot]=structuredClone(candidate);if(next.reduce((n,c)=>n+c.cost,0)>12)throw Error('CANDIDATE_LOADOUT_COST_EXCEEDED');
    result.candidate=project(next);result.candidateValues=statValues(result.candidate,person);
    for(const [,key]of STATIC_STAT_FIELDS)result.delta[key]=result.candidate[key]-result.current[key];
-   result.status='STATIC_COMPARISON';result.reason=null;
+   result.status='STATIC_COMPARISON';result.reason=null;result.comparison=assessStaticReplacement(result.current,result.candidate,slots[slot],candidate);
   }
  }catch(error){result.reason=error.message;}
  return result;

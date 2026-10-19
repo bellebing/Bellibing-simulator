@@ -35,7 +35,7 @@ try{
   if(path.endsWith('/reset'))return send({status:'RESET'});
   throw Error('Unexpected endpoint '+path);
  });
- await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&review=expert&character=expanded`);
+ await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&review=expert&character=expanded`);
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();

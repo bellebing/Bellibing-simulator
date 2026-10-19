@@ -27,7 +27,7 @@ try{
   }
   throw Error('Unexpected contract endpoint: '+path);
  });
- await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&character=expanded`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&character=expanded`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('[data-dps-scenario]').count(),3);assert.equal(await page.locator('.team-dps-table td').count(),12);
  assert.equal(await page.locator('.sandbox-dps-context').count(),0);

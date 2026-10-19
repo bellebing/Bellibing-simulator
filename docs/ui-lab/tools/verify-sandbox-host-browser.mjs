@@ -45,7 +45,7 @@ try{
   }
   throw Error('Unexpected host endpoint '+path);
  });
- await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true`,{waitUntil:'domcontentloaded',timeout:60000});
+ await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy`,{waitUntil:'domcontentloaded',timeout:60000});
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  await page.locator('.sandbox-diagnostics summary').click();
  const host=page.locator('#sandboxHostStatus'),button=page.locator('#simulate');

@@ -42,7 +42,8 @@
     "audit:character-outro-effects": "node --experimental-strip-types scripts/report-character-outro-effects.ts --check",
     "capture:character-truth": "python scripts/export-prydwen-character-truth.py",
     "test:character-truth": "node --experimental-strip-types --test test/factoryCharacterTruthCapture.test.ts test/characterTruthDataset.test.ts",
-    "report:character-truth": "node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts && node --experimental-strip-types scripts/summarize-character-truth.ts"
+    "report:character-truth": "node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts && node --experimental-strip-types scripts/summarize-character-truth.ts",
+    "preview:v1": "node scripts/preview-simulator-v1.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.27.3",

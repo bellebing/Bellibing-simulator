@@ -30,7 +30,7 @@ try{
   const context=await reviewBrowserContext(browser,{viewport:{width,height:width===1440?900:width===1920?1080:1440},reducedMotion:'reduce'});
   await context.addInitScript(()=>{if(window.top===window){localStorage.setItem('bellibing-ui-checkpoint-v34','{"sentinel":"real-account-unchanged"}');localStorage.setItem('sandbox-test-inventory','{"sentinel":"real-inventory-unchanged"}');}});
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&settings=expanded`,{waitUntil:'domcontentloaded',timeout:60000});
+  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&settings=expanded`,{waitUntil:'domcontentloaded',timeout:60000});
   await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
   assert.equal(await page.locator('.sonata-section').count(),0);assert.equal(await page.locator('[data-filter="account"]').isVisible(),false);
   let state=await snapshot(page);assert.equal(state.context.kind,'SANDBOX_BUILD');assert.equal(state.slots.filter(s=>s.configuration).length,5);assert.ok(state.slots.every(s=>s.simulatedCurrent===null));

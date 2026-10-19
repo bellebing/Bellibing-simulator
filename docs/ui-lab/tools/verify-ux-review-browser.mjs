@@ -102,6 +102,8 @@ try{
  await page.locator('#reset').click();assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
  assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
  if(process.env.BELLIBING_UX_REVIEW_RUNTIME==='1'){
+  // The unchanged private economic policy qualifies Gate +5; +10 above tests retirement only.
+  await page.locator('.gate-options').getByRole('button',{name:'+5',exact:true}).click();
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
   await page.getByRole('button',{name:'Customize',exact:true}).click();
   for(const stat of ['CRIT Rate','CRIT DMG'])if(await page.locator(`[data-stat-section="hard"] [data-stat-id="${stat}"]`).count()){await page.getByRole('button',{name:'Move '+stat,exact:true}).focus();await page.keyboard.press('Alt+ArrowRight');}
@@ -135,4 +137,4 @@ try{
  await checkNavigation();await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
  assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
  assert.deepEqual(errors,[]);await writeFile(resolve(out,'verification.json'),JSON.stringify({identity,checks,errors},null,2));console.log('UX review Chromium PASS',JSON.stringify(checks));
-}catch(error){if(page){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(JSON.stringify({errors,status:await page.locator('#sandboxRunStatus').textContent().catch(()=>null)}));}throw error;}finally{await browser.close();await new Promise(r=>server.close(r));}
+}catch(error){if(page){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(JSON.stringify({errors,configurationReason:await page.locator('#simulate').getAttribute('title').catch(()=>null),status:await page.locator('#sandboxRunStatus').textContent().catch(()=>null)}));}throw error;}finally{await browser.close();await new Promise(r=>server.close(r));}

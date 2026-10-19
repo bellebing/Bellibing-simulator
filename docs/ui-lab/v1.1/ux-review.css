@@ -22,7 +22,7 @@
 .weapon-picker-trigger:after{content:'Choose ▾';margin-left:auto;color:var(--gold);font-size:9px}
 .weapon-picker-trigger .weapon-art{height:64px;width:54px;flex:none}.weapon-picker-trigger img{max-width:100%;max-height:100%;object-fit:contain}
 .weapon-copy{min-width:0}.weapon-copy strong{overflow-wrap:anywhere}
-.item-selector{width:min(720px,calc(100vw - 24px));max-height:85vh;padding:20px;color:var(--ink,#eee);border:1px solid #716246;border-radius:14px;background:linear-gradient(140deg,rgba(19,22,28,.94),rgba(10,12,16,.92));backdrop-filter:blur(5px) saturate(.88)}
+.item-selector{width:min(720px,calc(100vw - 24px));max-height:85vh;padding:20px;color:var(--ink,#eee);border:1px solid #716246;border-radius:14px;background:linear-gradient(140deg,rgba(19,22,28,.74),rgba(10,12,16,.70));backdrop-filter:blur(5px) saturate(.88)}
 .item-selector::backdrop{background:rgba(4,5,8,.48)}
 .item-selector header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.item-selector h2{margin:0;font-size:18px}.item-selector [data-close]{min-width:44px;min-height:44px;background:none;color:inherit;border:1px solid #666;border-radius:8px}
 .item-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}

@@ -21,7 +21,7 @@ try{
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
- await page.goto(origin+'/Bellibing-simulator/sandbox/');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('.demo-note').isVisible(),false);assert.equal(await page.locator('.target').isVisible(),false);assert.equal(await page.locator('#recommendedGuidance,.sandbox-team-context,.sandbox-weapon-select,.team-context-details,.sandbox-stat-sources').count(),0);
  assert.equal(await page.locator('#characterSkills').count(),1);assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),1);

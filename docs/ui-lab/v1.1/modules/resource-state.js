@@ -2,8 +2,8 @@ import { emptyResourceInventory, readResourceInventory, parseInventoryQuantity, 
 
 // One instance belongs to the page, outside all Character/reset/simulation state.
 // No persistence or consumption API is connected to this inventory.
-export function createLabResourceInventory() {
-  let inventory = emptyResourceInventory();
+export function createLabResourceInventory(initial=emptyResourceInventory()) {
+  let inventory = readResourceInventory(initial);
   let revision = 0;
   const finiteCounts = new Map();
   const quantity = resource => inventory[resource] ?? inventory.tubes[resource];

@@ -2,7 +2,7 @@ import priorities from './source-priorities.json' with {type:'json'};
 import {ECHO_SETTING_STATS} from './settings-catalog.js';
 export function restoreSourcePriorities(state){
  const source=priorities.characters.find(c=>c.characterId===state.id);
- if(!state.sandboxBuild||!source?.orderedStats.length)return false;
+ if(!(state.sandboxBuild||state.accountProjection)||!source?.orderedStats.length)return false;
  state.sourcePreferenceGuidance=structuredClone(source);
  state.statSections={hard:[],flex:[...source.orderedStats],other:ECHO_SETTING_STATS.map(s=>s.id).filter(id=>!source.orderedStats.includes(id))};
  // Canonical tier selectors retain dormant user values. The source does not

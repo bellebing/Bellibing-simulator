@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Bellibing UI checkpoint v34</title>
 <script>
+if(new URLSearchParams(location.search).get('workspace')==='build'&&new URLSearchParams(location.search).get('workshopOwner')!=='ui-lab')document.documentElement.classList.add('direct-build-workspace');
 if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
   const memory=()=>{const values=new Map();return {get length(){return values.size},key:i=>[...values.keys()][i]??null,getItem:key=>values.get(String(key))??null,setItem:(key,value)=>values.set(String(key),String(value)),removeItem:key=>values.delete(String(key)),clear:()=>values.clear()}};
   Object.defineProperty(window,'localStorage',{value:memory(),configurable:false});
@@ -16,6 +17,9 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
 
 <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">
 <style>
+.direct-build-workspace #home{display:none!important}
+.direct-build-workspace #build>.menu{display:none}
+.direct-build-workspace #build:has(.picker-shell.has-selection)>.menu{display:block}
 :root{--bg:#050608;--panel:#11141a;--text:#f2f0eb;--muted:#8e949d;--line:rgba(255,255,255,.09);--font-display:"Etna",Inter,sans-serif;--font-ui:Inter,ui-sans-serif,system-ui,sans-serif;--app-shell-max:1280px;--build-side-width:290px;--build-sequence-gap:76px;--build-echo-width:132px}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:var(--font-ui);overflow:hidden}button{font:inherit}.page{position:fixed;inset:0;display:none;overflow:hidden}.page.active{display:block}.menu{position:absolute;z-index:90;left:18px;top:16px;width:44px;height:44px;border-radius:14px;border:1px solid var(--line);background:#101319;color:#fff;font-size:20px}.dev{position:absolute;z-index:90;right:16px;bottom:14px;border:0;background:transparent;color:#555;font-size:11px}.home-stage{position:absolute;left:50%;top:0;bottom:0;width:min(calc(100% - 32px),var(--app-shell-max));transform:translateX(-50%);display:flex;align-items:center;justify-content:center;perspective:1200px;overflow:hidden;touch-action:pan-y;user-select:none;outline:none}.home-card{--x:0px;--s:1;position:absolute;left:50%;top:50%;width:min(390px,calc(100vw - 64px));height:500px;transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));border:1px solid var(--line);border-radius:26px;background:linear-gradient(180deg,#171a21,#0c0f13);box-shadow:0 28px 80px rgba(0,0,0,.48);color:#fff;cursor:pointer;overflow:hidden;transition:transform .42s cubic-bezier(.16,.84,.24,1),opacity .35s ease}.home-card-art{position:absolute;inset:0;overflow:hidden;pointer-events:none}.home-card-art img{position:absolute;width:auto;max-width:none}.home-card.card-build img{height:98%;bottom:0;left:50%;transform:translateX(-38%)}.home-card.card-improve img{height:98%;bottom:0;left:50%;transform:translateX(-62.5%)}.home-card.card-team img{height:132%;bottom:-80px;left:50%;transform:translateX(-49%);filter:none;mix-blend-mode:normal}.home-card-title{position:absolute;z-index:2;top:23px;left:10px;right:10px;text-align:center;font-family:var(--font-display);font-size:32px;font-weight:400;line-height:1;white-space:nowrap;text-shadow:0 2px 18px rgba(0,0,0,.72)}.home-leaving .home-card{opacity:0}.home-leaving .home-card.major-source{transform:translate(-50%,-50%) translateX(var(--x)) scale(1.16)}.major-enter .picker-shell,.major-enter .team-placeholder{opacity:0;transform:scale(.84)}.major-enter.go .picker-shell,.major-enter.go .team-placeholder{opacity:1;transform:scale(1);transition:transform .72s cubic-bezier(.16,.84,.24,1),opacity .5s ease}
 .picker-shell{position:absolute;inset:0;padding-top:74px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:justify-content .62s cubic-bezier(.16,.84,.24,1)}.question{margin:0 0 30px;font-family:var(--font-display);font-size:52px;line-height:1;transition:opacity .46s ease,transform .7s cubic-bezier(.16,.84,.24,1),height .7s ease,margin .7s ease}.wheel{--cw:252px;--ch:352px;position:relative;width:100%;height:410px;touch-action:pan-y;user-select:none;cursor:grab;z-index:30;transition:height .72s cubic-bezier(.16,.84,.24,1)}.choice{--x:0px;--s:1;--o:1;position:absolute;left:50%;top:50%;width:var(--cw);height:var(--ch);transform:translate(-50%,-50%) translateX(var(--x)) scale(var(--s));opacity:var(--o);border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#171a21,#0d1015);color:#fff;box-shadow:0 20px 60px rgba(0,0,0,.45);cursor:pointer;transition:transform .62s cubic-bezier(.16,.84,.24,1),width .62s cubic-bezier(.16,.84,.24,1),height .62s cubic-bezier(.16,.84,.24,1),border-radius .62s cubic-bezier(.16,.84,.24,1),opacity .48s ease}.choice-name{position:absolute;z-index:4;top:12px;left:2px;right:2px;min-height:39px;display:flex;align-items:flex-start;justify-content:center;padding:0 2px 5px;text-align:center;font-family:var(--font-display);font-size:27px;font-weight:400;line-height:1.22;white-space:nowrap;overflow:visible;text-shadow:0 2px 14px rgba(0,0,0,.75)}.choice-portrait{position:absolute;top:62px;left:12px;right:12px;aspect-ratio:1;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 68%)}.choice-portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 50%;pointer-events:none;user-select:none;-webkit-user-drag:none}.wheel.dragging .choice{transition:none}.picker-shell.has-selection{justify-content:flex-start}.picker-shell.has-selection .question{opacity:0;height:0;margin:0;overflow:hidden;transform:translateY(-10px)}.picker-shell.has-selection .wheel{--cw:82px;--ch:82px;height:122px}.picker-shell.has-selection .choice{border-radius:50%}.picker-shell.has-selection .choice-name{top:auto;bottom:-31px;left:50%;right:auto;width:max-content;max-width:170px;min-height:23px;transform:translateX(-50%);padding:0 3px 4px;font-size:14px;line-height:1.22;color:#9aa0a9;text-shadow:none}.picker-shell.has-selection .choice-portrait{inset:0;aspect-ratio:auto;border-radius:50%}.picker-shell.hover-expanded .wheel{--cw:160px;--ch:210px;height:250px}.picker-shell.hover-expanded .choice{border-radius:16px}.picker-shell.hover-expanded .choice-name{top:8px;bottom:auto;left:2px;right:auto;width:calc(100% - 4px);max-width:none;min-height:30px;transform:none;padding:0 1px 4px;font-size:17px;line-height:1.22;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.75)}.picker-shell.hover-expanded .choice-portrait{top:44px;left:8px;right:8px;bottom:auto;aspect-ratio:1;border-radius:12px}.build-stage{visibility:hidden;opacity:0;pointer-events:none;position:absolute;inset:0;z-index:2}.picker-shell.has-selection .build-stage{visibility:visible;opacity:1}.focus{position:absolute;left:50%;top:50%;transform:translate(-50%,-43%);width:min(540px,45vw);height:min(590px,60vh);display:flex;flex-direction:column;align-items:center;justify-content:center}.focus h1{margin:0 0 8px;font-family:var(--font-display);font-size:48px}.focus-art{position:relative;width:82%;flex:1;min-height:0;display:grid;place-items:center;overflow:hidden;isolation:isolate;transform:translateX(clamp(24px,calc(108px - 4vw),45px));background:radial-gradient(ellipse at 50% 48%,rgba(255,165,70,.10),transparent 60%);color:#8f949d;font-size:12px;letter-spacing:.18em;pointer-events:none}
@@ -1444,7 +1448,7 @@ const echoUi={
     if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
-    document.getElementById('echoSubstats').hidden=this.context.kind==='configuration';
+    document.getElementById('echoSubstats').hidden=this.context.kind==='configuration'&&!this.configurationOwner?.observed;
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
     const mainOptions=echoMainOptions(item.cost,card.level),currentMain=mainOptions.find(option=>option.name===card.mainStat.name)||mainOptions[0];
     const mainName=makeBellibingCombobox({
@@ -1465,7 +1469,7 @@ const echoUi={
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
     const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
-    if(this.context.kind==='equipped'){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
+    if(this.context.kind==='equipped'||this.configurationOwner?.observed){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
     for(let index=0;index<echoStatContract.maxSubstats;index++){
       const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
       const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name+(used.has(option.name)&&current?.name!==option.name?' · already used':''),disabled:false}))];
@@ -1494,7 +1498,7 @@ const echoUi={
         }
       });
       row.append(nameCombo,valueCombo);
-      if(this.context.kind==='equipped'){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
+      if(this.context.kind==='equipped'||this.configurationOwner?.observed){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
     }
     this.renderInfo();this.syncEquipAction();
   },
@@ -1510,13 +1514,14 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
-  previewValidation(){if(this.context.kind==='equipped'&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
+  previewValidation(){if((this.context.kind==='equipped'||this.configurationOwner?.observed)&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
+    if(this.configurationOwner?.observed&&this.contextValid())this.configurationOwner.onPreview?.(reason?null:cloneEchoSlot(this.editorDraft));
     const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
-    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=this.context.kind==='configuration'?'Use Echo':candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=this.context.kind==='configuration'?(this.configurationOwner?.observed?'Use Candidate':'Use Echo'):candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
@@ -1591,6 +1596,7 @@ const echoUi={
     if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
     const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
     if(this.context.kind==='configuration'){
+      if(this.configurationOwner?.observed){this.configurationOwner.onChoose(cloneEchoSlot(this.editorDraft));this.hide();return;}
       if(this.editorDraft.level!==0||this.editorDraft.substats.length)throw Error('Configuration cannot contain rolled Substats.');
       const item=echoById.get(this.editorDraft.echoId);
       const template=window.bellibingEchoTemplateConfiguration.validateEchoTemplateConfiguration({echoes:echoCatalog,sonataSets:[...echoSonataById.values()],statEditor:echoStatContract},{echoId:item.id,cost:item.cost,rank:echoStatContract.rank,mainStatName:this.editorDraft.mainStat.name,selectedSonataSetId:this.editorDraft.selectedSonataSetId});
@@ -1613,6 +1619,14 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
       if([owner.filterSetIds,owner.sourceSetIds].some(ids=>!Array.isArray(ids)||ids.some(id=>!echoSonataById.has(id))))throw Error('Invalid configuration Sonata context.');
       const card=owner.configuration?window.bellibingEchoTemplateConfiguration.templateSelectionCard(catalog,owner.configuration):null;
       await echoUi.showConfiguration({...owner,card});
+    },
+    async openObservedCandidate(owner){
+      await echoDataReady;
+      if(!owner.isCurrent()||![...characterByName.values()].some(c=>c.id===owner.characterId))throw Error('Observed Candidate context unavailable.');
+      if(owner.card){const item=echoById.get(owner.card.echoId);const reason=validateEchoStatCard(owner.card,item);if(reason)throw Error(reason);}
+      await echoUi.showConfiguration({...owner,observed:true,filterSetIds:[],sourceSetIds:[]});
+      document.getElementById('echoTitle').textContent='Observed Candidate';
+      document.getElementById('echoEquip').textContent='Use Candidate';
     },
     cancel(){if(echoUi.context.kind==='configuration')echoUi.hide();}
   });
@@ -2362,7 +2376,7 @@ let characterHeroArtDataReady=loadCharacterHeroArtRuntimeData().catch(error=>{
   heroArtUi.refresh();
 });
 
-function show(id){if(id!=='improve'&&improveUi.simulator)improveUi.closeSimulation();characterBuildCardUi.hide();document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render()}}
+function show(id){if(id==='home'&&document.documentElement.classList.contains('direct-build-workspace'))id='build';if(id!=='improve'&&improveUi.simulator)improveUi.closeSimulation();characterBuildCardUi.hide();document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));if(id==='home')renderHome();if(id==='build'){buildPicker.reset();buildPicker.render()}if(id==='improve'){improvePicker.reset();improvePicker.render()}}
 let majorBusy=false;function major(target,card){if(majorBusy)return;majorBusy=true;const home=document.querySelector('#home');card.classList.add('major-source');home.classList.add('home-leaving');setTimeout(()=>{const dest=document.getElementById(target);dest.classList.add('major-enter');show(target);requestAnimationFrame(()=>requestAnimationFrame(()=>dest.classList.add('go')));setTimeout(()=>{dest.classList.remove('major-enter','go');home.classList.remove('home-leaving');card.classList.remove('major-source');majorBusy=false},650)},450)}
 
 let homeCarousel=null;
@@ -2540,7 +2554,7 @@ buildStatsDataReady=loadBuildStatsRuntimeData().catch(error=>{console.error(erro
 characterMechanicsDataReady=loadCharacterMechanicsRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.skillsMechanicsError=String(error.message||error);skillsUi.render();improveUi.refresh()});
 sequenceDataReady=loadSequenceRuntimeData().catch(error=>{console.error(error);document.documentElement.dataset.sequenceCatalogError=String(error.message||error);sequenceUi.render()});
 Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady,characterHeroArtDataReady]).then(()=>window.dispatchEvent(new Event('bellibing-build-sources-ready')));
-renderHome();
+if(document.documentElement.classList.contains('direct-build-workspace')){show('build');const back=document.querySelector('#build [data-home]');back.setAttribute('aria-label','Choose Character');back.textContent='‹';}else renderHome();
 if(IMPROVE_LAYOUT_PREVIEW){
   Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady,characterHeroArtDataReady]).then(()=>{
     show('improve');

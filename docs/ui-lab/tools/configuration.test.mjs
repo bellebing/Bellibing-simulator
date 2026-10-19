@@ -34,7 +34,7 @@ test('invalid identities, Cost, Rank, Main Stat, Sonata and rolled-card fields a
   }
   const echo=catalog.echoes.find(row=>row.id===valid.echoId),incompatible=catalog.sonataSets.find(row=>!echo.sonataSetIds.includes(row.id));
   assert.throws(()=>configureSlot(state,0,{...valid,selectedSonataSetId:incompatible.id}));
-  assert.throws(()=>configureSlot(state,5,valid));assert.throws(()=>activateConfigurationSlot(state,2,true));
+  assert.throws(()=>configureSlot(state,5,valid));activateConfigurationSlot(state,2,true);assert.equal(state.active[2],true);assert.equal(state.configurations[2],null);activateConfigurationSlot(state,2,false);
 });
 test('Selected, Configured, Active and actual Simulated Current remain four independent states',async()=>{
   const state=owner('augusta'),session=state.configurationSession,inventory=emptyResourceInventory();

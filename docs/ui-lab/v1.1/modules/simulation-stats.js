@@ -7,6 +7,7 @@ import { assetURL, escapeHtml } from './util.js';
 const roles = ['recommended','expected','simulated'];
 const title = role => role[0].toUpperCase() + role.slice(1);
 export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
+  const compact=document.body.classList.contains('compact-review');
   const card = mountCharacterCard(host);
   const control = document.createElement('div');
   control.className = 'result-modes side-content segmented';
@@ -17,6 +18,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
   view.className = 'side-content simulation-content'; view.hidden = true;
   view.innerHTML = '<header class="results-heading"><img class="results-art" alt=""><div class="results-identity"><h2></h2></div></header><span class="results-origin"></span><div class="results-key" aria-hidden="true"><span>Stat</span><span>Recommended</span><span>Expected</span><span>Simulated</span></div><div class="result-rows" role="list" aria-label="Recommended, Expected and Simulated Character results"></div><span class="result-announcement carousel-announcement" role="status" aria-live="polite"></span>';
   host.after(view);
+  if(compact){control.remove();view.remove();}
   let mode = 'character', manual = false, revealed = false, person, saved, model;
   let demo = false, expected = {}, fadeTimer, announceTimer, settling = false;
   const animations = new Map();
@@ -27,6 +29,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
   }
   function stopCounters() { animations.forEach(frame => cancelAnimationFrame(frame)); animations.clear(); }
   function setMode(next, explicit = false) {
+    if(compact){host.hidden=false;view.hidden=false;document.querySelector('#character').dataset.resultMode='character';return;}
     mode = next; if (explicit) manual = true;
     host.hidden = mode !== 'character'; view.hidden = mode !== 'simulation';
     control.querySelectorAll('button').forEach(button => { const selected = button.dataset.resultMode === mode; button.classList.toggle('selected',selected); button.setAttribute('aria-pressed',selected); });

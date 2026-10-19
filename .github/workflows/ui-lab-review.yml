@@ -29,7 +29,7 @@ jobs:
       - name: Install browser driver without changing dependency manifests
         run: npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.56.1
       - name: Preserved baseline, isolation and discard boundaries
-        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs test/characterContext.test.mjs test/sandboxStaticStats.test.mjs test/sourcePriorityGuidance.test.mjs test/teamDpsComparison.test.mjs test/observedEchoScenario.test.mjs test/rotationBuildAcceptance.test.mjs test/sandboxLoop.test.mjs
+        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs test/characterContext.test.mjs test/sandboxStaticStats.test.mjs test/sourcePriorityGuidance.test.mjs test/teamDpsComparison.test.mjs test/observedEchoScenario.test.mjs test/rotationBuildAcceptance.test.mjs test/sandboxLoop.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs
       - name: Reviewed catalog parity
         run: |
           node docs/ui-lab/tools/export-catalog.mjs --check
@@ -54,3 +54,16 @@ jobs:
         env:
           UI_LAB_CHROME_PATH: /usr/bin/google-chrome
         run: node docs/ui-lab/tools/verify-sandbox-browser.mjs
+
+      - name: Build static Sandbox and Improve workspaces
+        run: npm run build
+      - name: User UX observations - desktop and mobile Chromium
+        env:
+          UI_LAB_CHROME_PATH: /usr/bin/google-chrome
+        run: node docs/ui-lab/tools/verify-ux-review-browser.mjs
+      - name: Upload UX review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux-review-326
+          path: artifacts/ux-review-326/

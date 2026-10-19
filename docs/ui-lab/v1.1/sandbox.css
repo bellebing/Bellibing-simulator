@@ -1,17 +1,17 @@
 /* S1 changes are scoped to the standalone preview, preserving the Lab baseline. */
 .sandbox-preview .sonata-section { display:none; }
-.sandbox-preview .sandbox-dps { margin-top:20px; padding:17px 16px 0; border-top:1px solid var(--line); }
-.sandbox-preview .dps-concept-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
-.sandbox-preview .dps-concept-heading h3 { margin:0; font-size:13px; }
-.sandbox-preview .dps-concept-heading small { font-size:8px; color:var(--muted); letter-spacing:.08em; }
-.sandbox-preview #sandboxTeamPanel { min-width:0; }
-.sandbox-preview #character .team-dps-table { width:100%; margin:12px 0; table-layout:fixed; border-collapse:collapse; }
-.sandbox-preview #character .team-dps-table th:first-child { width:84px; text-align:left; }
-.sandbox-preview #character .team-dps-table th,.sandbox-preview #character .team-dps-table td { padding:9px 3px; font-size:10px; font-weight:400; white-space:normal; text-align:center; vertical-align:middle; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
-.sandbox-preview #character .team-dps-table td { font-variant-numeric:tabular-nums; color:var(--ink); }
-.sandbox-preview #character .team-dps-table .team-total { color:var(--gold); }
-.sandbox-preview .dps-contribution { min-width:0; }
-.sandbox-preview .dps-contribution span { display:block; font-size:8px; }
+:is(.sandbox-preview,.compact-review) .sandbox-dps { margin-top:20px; padding:17px 16px 0; border-top:1px solid var(--line); }
+:is(.sandbox-preview,.compact-review) .dps-concept-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px; }
+:is(.sandbox-preview,.compact-review) .dps-concept-heading h3 { margin:0; font-size:13px; }
+:is(.sandbox-preview,.compact-review) .dps-concept-heading small { font-size:8px; color:var(--muted); letter-spacing:.08em; }
+:is(.sandbox-preview,.compact-review) #sandboxTeamPanel { min-width:0; }
+:is(.sandbox-preview,.compact-review) #character .team-dps-table { width:100%; margin:12px 0; table-layout:fixed; border-collapse:collapse; }
+:is(.sandbox-preview,.compact-review) #character .team-dps-table th:first-child { width:84px; text-align:left; }
+:is(.sandbox-preview,.compact-review) #character .team-dps-table th,:is(.sandbox-preview,.compact-review) #character .team-dps-table td { padding:9px 3px; font-size:10px; font-weight:400; white-space:normal; text-align:center; vertical-align:middle; border-bottom:1px solid var(--line); overflow-wrap:anywhere; }
+:is(.sandbox-preview,.compact-review) #character .team-dps-table td { font-variant-numeric:tabular-nums; color:var(--ink); }
+:is(.sandbox-preview,.compact-review) #character .team-dps-table .team-total { color:var(--gold); }
+:is(.sandbox-preview,.compact-review) .dps-contribution { min-width:0; }
+:is(.sandbox-preview,.compact-review) .dps-contribution span { display:block; font-size:8px; }
 .team-context-label { display:grid; gap:5px; color:var(--muted); font-size:10px; }
 .sandbox-team-context { min-width:0; width:100%; color:var(--ink); background:#181e23; border:1px solid var(--line); padding:6px; font:inherit; }
 .team-context-details,.dps-expert,.recommended-guidance { margin:10px 0; font-size:10px; line-height:1.5; color:var(--muted); overflow-wrap:anywhere; }
@@ -27,11 +27,11 @@
 .sandbox-stat-scope{display:block;color:var(--muted);font-size:9px;line-height:1.4;margin-top:5px}
 .sandbox-stat-sources{font-size:10px;line-height:1.5;color:var(--muted);margin:0 17px 16px}
 .sandbox-stat-sources summary{cursor:pointer;color:var(--gold)}
-.sandbox-preview .dps-contribution span { font-size:9px; white-space:nowrap; color:var(--muted); }
-.sandbox-preview .dps-contribution strong { font-size:25px; font-weight:500; font-variant-numeric:tabular-nums; line-height:1; }
-.sandbox-preview .dps-contribution small { color:var(--muted); font-size:8px; }
-.sandbox-preview .team-total { background:linear-gradient(180deg,rgba(186,157,94,.09),transparent); }
-.sandbox-preview .team-total strong,.sandbox-preview .team-total span { color:var(--gold); }
+:is(.sandbox-preview,.compact-review) .dps-contribution span { font-size:9px; white-space:nowrap; color:var(--muted); }
+:is(.sandbox-preview,.compact-review) .dps-contribution strong { font-size:25px; font-weight:500; font-variant-numeric:tabular-nums; line-height:1; }
+:is(.sandbox-preview,.compact-review) .dps-contribution small { color:var(--muted); font-size:8px; }
+:is(.sandbox-preview,.compact-review) .team-total { background:linear-gradient(180deg,rgba(186,157,94,.09),transparent); }
+:is(.sandbox-preview,.compact-review) .team-total strong,:is(.sandbox-preview,.compact-review) .team-total span { color:var(--gold); }
 .sandbox-preview .sandbox-weapon-select { max-width:100%; width:100%; border:0; border-bottom:1px solid var(--line); border-radius:0; background:#181e23; color:var(--ink); font:inherit; font-size:12px; padding:4px 2px; }
 .sandbox-preview .sandbox-weapon-select:focus-visible { outline:1px solid var(--gold); outline-offset:3px; }
 
@@ -41,7 +41,7 @@
 
 .sandbox-dps-context{accent-color:var(--gold)}
 
-.sandbox-preview .sandbox-dps[data-status="EXPERIMENTAL"] .dps-contribution strong{font-size:11px;max-width:100%;overflow-wrap:anywhere;line-height:1.2;text-align:center}.sandbox-preview .dps-contribution span{white-space:normal;text-align:center;overflow-wrap:anywhere;line-height:1.2}
+:is(.sandbox-preview,.compact-review) .sandbox-dps[data-status="EXPERIMENTAL"] .dps-contribution strong{font-size:11px;max-width:100%;overflow-wrap:anywhere;line-height:1.2;text-align:center}:is(.sandbox-preview,.compact-review) .dps-contribution span{white-space:normal;text-align:center;overflow-wrap:anywhere;line-height:1.2}
 
 .history-select-label{display:grid;gap:5px;margin:12px 0;color:#aaa;font-size:11px}.history-select-label select{max-width:100%;min-width:0;background:#202126;color:#ddd;border:1px solid #484344;border-radius:5px;padding:7px;font-size:11px}
 

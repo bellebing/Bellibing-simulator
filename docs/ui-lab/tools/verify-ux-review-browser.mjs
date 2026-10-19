@@ -1,0 +1,163 @@
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {createServer} from 'node:http';
+import {readFile,mkdir,writeFile} from 'node:fs/promises';
+import {resolve,extname} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {chromium} from 'playwright';
+import {accountProjection} from '../v1.1/modules/account-projection.js';
+import {CHARACTER_CATALOG} from '../v1.1/modules/catalog.js';
+import echoData from '../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
+import {uxAccountFixture} from '../../../test/helpers/uxAccountFixture.mjs';
+const root=resolve(fileURLToPath(new URL('../../../',import.meta.url))),out=resolve(root,'artifacts/ux-review-326');await mkdir(out,{recursive:true});
+const types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.json':'application/json','.css':'text/css','.webp':'image/webp','.png':'image/png','.svg':'image/svg+xml'};
+const server=createServer(async(req,res)=>{try{let p=decodeURIComponent(new URL(req.url,'http://localhost').pathname);p=p.startsWith('/Bellibing-simulator/')?'/dist/'+p.slice('/Bellibing-simulator/'.length):p;if(p.endsWith('/'))p+='index.html';const path=resolve(root,'.'+p);if(!path.startsWith(root+'/'))throw Error();res.setHeader('Content-Type',types[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}});
+await new Promise(r=>server.listen(0,'127.0.0.1',r));
+const browser=await chromium.launch({headless:true,executablePath:process.env.UI_LAB_CHROME_PATH??'/usr/bin/chromium',args:['--no-sandbox']});
+const identity={publicHead:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),workingTreeDirty:!!execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim(),privateHead:process.env.BELLIBING_PRIVATE_REVIEW_HEAD??null,workerSha256:JSON.parse(await readFile(resolve(root,'dist/sandbox/engine-release.json'))).files[0]?.sha256??null};
+const origin=`http://127.0.0.1:${server.address().port}`,checks=[],errors=[];let page;
+async function checkNavigation(){
+ const nav=page.locator('.site-header nav');
+ assert.deepEqual(await nav.locator('[data-workspace]').allTextContents(),['Build a Character','Improve a Character','Team Builder SOON','Echo Sandbox']);
+ assert.equal(await nav.locator('[data-workspace="teams"]').isDisabled(),true);
+ assert.equal(new URL(await nav.locator('[data-workspace="build"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/build/');
+ assert.equal(await nav.locator('[aria-current="page"]').count(),1);
+ const primary=await nav.locator('.workspace-primary').boundingBox(),sandbox=await nav.locator('[data-workspace="sandbox"]').boundingBox();
+ assert.ok(Math.abs(primary.x+primary.width/2-page.viewportSize().width/2)<1,'Primary workspace group is centered on the page');
+ assert.ok(sandbox.x-primary.x-primary.width>=5&&sandbox.x-primary.x-primary.width<=11,'Echo Sandbox is adjacent to the primary group');
+}
+async function observeCandidate(slot){
+ await page.locator(`[data-edit-echo="${slot}"]`).click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();
+ await frame.locator(`[data-echo-id="${uxAccountFixture().cards[slot].echoId}"]`).click();
+ await frame.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await frame.getByRole('option',{name:uxAccountFixture().cards[slot].mainStat.name,exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 name',exact:true}).click();await frame.getByRole('option',{name:'CRIT DMG',exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 value',exact:true}).click();await frame.getByRole('option').nth(1).click();await frame.getByRole('button',{name:'Use Candidate',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
+ assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));
+}
+
+try{
+ const fixture=uxAccountFixture(),initial=JSON.stringify(fixture.account);
+ const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
+ await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
+ page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ for(const entry of ['', 'echo-lab.html', 'roll-assistant.html']){
+  await page.goto(origin+'/Bellibing-simulator/'+entry);
+  const buildLink=page.getByRole('link',{name:'Character Build / Improve',exact:true});
+  await page.waitForFunction(()=>document.querySelector('a[href="./build/"]'));
+  assert.equal(await buildLink.getAttribute('href'),'./build/');
+  assert.equal(await page.locator('a[href="./ui-preview/"]').count(),0);
+  await buildLink.click();await checkNavigation();
+  const workspace=page.frameLocator('iframe[title="Character Builder"]');await workspace.locator('#build.active').waitFor();assert.equal(await workspace.locator('#home').isVisible(),false);
+ }
+ await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ await checkNavigation();
+ const headerBefore=await page.locator('.workspace-header').boundingBox();
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();const builder=page.frameLocator('iframe[title="Character Builder"]');await builder.locator('#build.active').waitFor();await checkNavigation();assert.equal((await page.locator('.workspace-header').boundingBox()).height,headerBefore.height);assert.equal(await builder.locator('#home').isVisible(),false);assert.equal(await builder.locator('#homeStage .home-card').count(),0);
+ await builder.locator('#buildWheel .choice').first().waitFor();await page.screenshot({path:resolve(out,'build-desktop.png'),fullPage:true});
+ await page.reload();await builder.locator('#build.active').waitFor();await checkNavigation();assert.equal(await builder.locator('#build [data-home]').isVisible(),false);
+ await builder.locator('#buildWheel .choice').first().waitFor();const desktopFocus=Number(await builder.locator('#buildWheel').getAttribute('data-focus-index'));await builder.locator('#buildWheel .choice').nth(desktopFocus).click();await builder.locator('#buildShell.has-selection').waitFor();await builder.locator('#build .echo[data-echo-slot="0"]').click();await builder.locator('#echoOverlay.open').waitFor();await page.screenshot({path:resolve(out,'build-workshop-desktop.png'),fullPage:true});await builder.locator('#echoClose').click();await builder.getByRole('button',{name:'Choose Character',exact:true}).click();assert.equal(await builder.locator('#home').isVisible(),false);assert.equal(await builder.locator('#build [data-home]').isVisible(),false);
+ const afterBuild=JSON.parse(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')));assert.deepEqual(afterBuild.characters,fixture.account.characters);assert.deepEqual(afterBuild.drafts.Augusta.build.echoSets.sets.owned.slots,fixture.cards);assert.equal(afterBuild.drafts.Augusta.build.weaponId,fixture.build.weaponId);
+
+ await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();await page.goForward();await builder.locator('#build.active').waitFor();await checkNavigation();await page.getByRole('link',{name:'Echo Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
+
+ if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+ assert.equal(await page.locator('.demo-note').isVisible(),false);assert.equal(await page.locator('.target').isVisible(),false);assert.equal(await page.locator('#recommendedGuidance,.sandbox-team-context,.sandbox-weapon-select,.team-context-details,.sandbox-stat-sources').count(),0);
+ assert.equal(await page.locator('#characterSkills').count(),1);assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);
+ await page.locator('[data-team-slot="1"]').click();const teamDialog=page.getByRole('dialog',{name:'Choose teammate'});assert.ok(await teamDialog.isVisible());await teamDialog.getByRole('button',{name:/^Mortefi/}).first().click();
+ assert.deepEqual(await page.locator('.team-member>span').allTextContents(),['Augusta','Mortefi','The Shorekeeper']);assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\d/}).count(),0);
+ await page.getByRole('button',{name:'Choose Sandbox Weapon',exact:true}).click();let weaponDialog=page.getByRole('dialog',{name:'Choose Weapon'});assert.equal(await weaponDialog.locator('.item-choice.selected strong').innerText(),'Thunderflare Dominion');
+ await weaponDialog.locator('.item-choice:not(.selected)').first().click();await page.getByRole('button',{name:'Choose Sandbox Weapon',exact:true}).click();weaponDialog=page.getByRole('dialog',{name:'Choose Weapon'});await weaponDialog.getByRole('button',{name:/^Thunderflare Dominion/}).click();assert.match(await page.locator('.weapon-picker-trigger').innerText(),/Thunderflare Dominion/);
+ assert.equal(await page.locator('.simulation-disclosure,.simulation-content,.result-modes').count(),0);assert.equal(await page.locator('#characterStats').getAttribute('data-stat-view'),'relevant');assert.deepEqual(await page.locator('.compact-stat-table thead th').allTextContents(),['Stat','Current','Expected','Simulated']);await page.getByRole('button',{name:'Show all stats',exact:true}).click();assert.deepEqual((await page.locator('#characterStats th').allTextContents()).slice(0,3),['HP','ATK','DEF']);await page.getByRole('button',{name:'Show relevant stats',exact:true}).click();
+ const statusRect=await page.locator('.sandbox-run-controls').boundingBox(),slotRect=await page.locator('#slots').boundingBox();assert.ok(statusRect.y>=slotRect.y+slotRect.height,'Utilities belong below the loadout, outside primary controls');
+ const toggle=page.locator('[data-activation="0"]');assert.ok((await toggle.boundingBox()).width===26);await toggle.click();assert.equal(await toggle.getAttribute('aria-pressed'),'false');await page.locator('[data-activation="0"]').click();assert.equal(await page.locator('[data-edit-echo="0"]').innerText(),'Edit');
+ if(process.env.BELLIBING_UX_REVIEW_RUNTIME==='1'){
+  page.on('request',r=>assert.ok(!r.url().includes('/sandbox/v1/'),'Static candidate must not call a private API'));
+  if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();await page.getByRole('button',{name:'Customize',exact:true}).click();
+  for(const stat of ['CRIT Rate','CRIT DMG'])if(await page.locator(`[data-stat-section="hard"] [data-stat-id="${stat}"]`).count()){await page.getByRole('button',{name:'Move '+stat,exact:true}).focus();await page.keyboard.press('Alt+ArrowRight');}
+  await page.locator('#flexCount').evaluate(n=>{n.value='1';n.dispatchEvent(new Event('input',{bubbles:true}));});await page.getByRole('button',{name:'Unlimited for cost comparison',exact:true}).click();
+  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();await page.waitForFunction(()=>document.querySelector('.cost-scope')?.textContent.match(/under expected|over expected|from expected/),null,{timeout:30000});
+  const downloadPromise=page.waitForEvent('download');await page.locator('#sandboxExport').click();const downloaded=await downloadPromise;await downloaded.saveAs(resolve(out,'actual-static-run.json'));const exported=JSON.parse(await readFile(resolve(out,'actual-static-run.json')));
+  assert.equal(exported.run.presentation.status,'GOAL_SUCCESS');assert.equal(exported.run.presentation.slots.filter(s=>s.complete&&s.current?.level===25).length,5);assert.equal(exported.metrics.costComparison.status,'COMPARABLE');assert.equal(exported.metrics.dps.status,'PENDING');
+  await page.locator('#reset').click();await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);
+  await page.evaluate(()=>{const observer=new MutationObserver(()=>{if(document.querySelector('#sandboxRunStatus').textContent==='RUNNING'&&!document.querySelector('#sandboxAbort').disabled){observer.disconnect();document.querySelector('#sandboxAbort').click();}});observer.observe(document.querySelector('#sandboxRunStatus'),{childList:true});});
+  await page.locator('#simulate').click();await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus').textContent==='ABORTED');await page.locator('#reset').click();
+  checks.push('Private local review only: real Worker RNG, five +25 cards, exact-scope cost comparison, export, actual Abort and Reset');
+  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+ }
+ await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'sandbox-desktop.png'),fullPage:true});checks.push('Sandbox: source-only portrait choices, icon Weapon selector, compact stats, secondary controls');
+ await page.getByRole('link',{name:'Improve a Character',exact:true}).click();await page.waitForFunction(()=>document.body.dataset.buildKind==='ACCOUNT_BUILD'&&document.documentElement.dataset.uiLabReady==='true');
+ assert.equal(await page.evaluate(()=>window.bellibingLabConfiguration.readContext().kind),'ACCOUNT_BUILD');if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+ await page.getByRole('button',{name:'Show all stats',exact:true}).click();const before=await page.locator('#characterStats td:nth-child(2)').allTextContents();assert.ok(before.every(v=>!v.includes('Pending')),'Complete owned build has real Current stats');
+ await page.locator('[data-edit-echo="0"]').click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();assert.equal(await frame.locator('html').evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),null,'The editor uses its existing isolated storage host');
+ await frame.locator(`[data-echo-id="${fixture.cards[0].echoId}"]`).click();
+ await frame.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await frame.getByRole('option',{name:'CRIT Rate',exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 name',exact:true}).click();await frame.getByRole('option',{name:'CRIT DMG',exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 value',exact:true}).click();await frame.getByRole('option').nth(1).click();
+ const editor=echoData.statEditor,raw={...fixture.cards[0],level:5,mainStat:editor.mainStatsByCostAndLevel[4]['5'].find(s=>s.name==='CRIT Rate'),secondaryMainStat:editor.secondaryMainStatsByCostAndLevel[4]['5'],substats:[{name:'CRIT DMG',value:editor.substats.find(s=>s.name==='CRIT DMG').values[0]}]};
+ const expected=accountProjection(CHARACTER_CATALOG.find(c=>c.id==='augusta'),{getItem:()=>initial},{candidate:raw,slot:0});
+ await page.waitForFunction(()=>document.querySelector('#characterStats [data-stat-key="critDamage"] td:last-child').textContent.includes('%'));
+ assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
+ assert.equal(await page.locator('#characterStats [data-stat-key="critDamage"] td:last-child').evaluate(n=>n.firstChild.textContent),expected.candidateValues.TOTAL_CRIT_DAMAGE);
+ await frame.getByRole('button',{name:'Use Candidate',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
+ const committed=await page.locator('#characterStats td:last-child').allTextContents();assert.ok(committed.every(v=>!v.includes('Pending')));
+ await page.locator('[data-edit-echo="0"]').click();const again=page.frameLocator('.workshop-editor-host iframe');await again.locator('#echoOverlay.open').waitFor();if(await again.locator('.echo-roll-checkpoint').nth(1).getAttribute('open')===null)await again.locator('.echo-roll-checkpoint').nth(1).locator('summary').click();await again.getByRole('combobox',{name:'Substat 2 name',exact:true}).click();await again.getByRole('option',{name:'Energy Regen',exact:true}).click();await again.getByRole('combobox',{name:'Substat 2 value',exact:true}).click();await again.getByRole('option').nth(1).click();assert.notDeepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed,'Next observed checkpoint refreshes the 4+1 projection');await again.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});assert.deepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed);
+ assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);checks.push('Improve: actual five-Echo Current and observed +5 Candidate projection, cancel and no account writes');
+ await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'improve-desktop.png'),fullPage:true});await page.locator('#character').screenshot({path:resolve(out,'current-candidate-card.png')});
+ await checkNavigation();
+ await observeCandidate(1);
+ for(const slot of [0,1,0]){await page.locator(`[data-slot="${slot}"]`).click();assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);}
+ const pendingCandidate=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('#characterStats td:last-child')].every(n=>n.textContent.includes('Pending')));assert.equal(await page.locator('#sandboxExport').isDisabled(),true);};
+ if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
+ await page.locator('.gate-options button').filter({hasText:'+10'}).click();await pendingCandidate();await observeCandidate(0);
+ await page.locator('#resourceInventory input').first().fill('1');await page.locator('#resourceInventory input').first().dispatchEvent('change');await pendingCandidate();await observeCandidate(0);
+ await page.locator('[data-activation="4"]').click();await pendingCandidate();await observeCandidate(0);
+ // An external real owner change closes an open editor without restoring its stale rollback card.
+ await page.locator('[data-edit-echo="0"]').click();await page.frameLocator('.workshop-editor-host iframe').locator('#echoOverlay.open').waitFor();
+ const peer=await context.newPage();await peer.goto(origin+'/Bellibing-simulator/improve/');const changedOwner=structuredClone(fixture.account);changedOwner.drafts.Augusta.build.sequenceLevel=1;
+ await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),JSON.stringify(changedOwner));await page.locator('.workshop-editor-host').waitFor({state:'detached'});await pendingCandidate();assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),JSON.stringify(changedOwner));
+ await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),initial);await peer.close();await pendingCandidate();await observeCandidate(0);
+ const other=await page.locator('#portraits [data-person]').evaluateAll(nodes=>nodes.find(n=>n.dataset.person!=='augusta'&&getComputedStyle(n).visibility!=='hidden')?.dataset.person);
+ for(const id of [other,'augusta']){await page.locator(`#portraits [data-person="${id}"]`).click();await page.waitForFunction(id=>document.querySelector('#characterCarousel').dataset.focusedCharacter===id&&document.querySelector('#characterCarousel').dataset.motion==='settled',id);await page.locator('#galleryArt').focus();await page.keyboard.press('Enter');await page.waitForFunction(id=>window.bellibingLabConfiguration.readContext().characterId===id,id);await pendingCandidate();}assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
+ checks.push('Navigation retains Build/Improve/disabled Teams/rightmost Sandbox; slot inspection preserves Candidates; Settings/resources/activation/Character/owner drift clears results and stale editor rollback');
+ await page.locator('#reset').click();assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
+ assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
+ if(process.env.BELLIBING_UX_REVIEW_RUNTIME==='1'){
+  // The unchanged private economic policy qualifies Gate +5; +10 above tests retirement only.
+  await page.locator('.gate-options').getByRole('button',{name:'+5',exact:true}).click();
+  if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
+  await page.getByRole('button',{name:'Customize',exact:true}).click();
+  for(const stat of ['CRIT Rate','CRIT DMG'])if(await page.locator(`[data-stat-section="hard"] [data-stat-id="${stat}"]`).count()){await page.getByRole('button',{name:'Move '+stat,exact:true}).focus();await page.keyboard.press('Alt+ArrowRight');}
+  await page.locator('#flexCount').evaluate(n=>{n.value='1';n.dispatchEvent(new Event('input',{bubbles:true}));});
+  for(const button of await page.locator('#resourceInventory .resource-unlimited').all())if(await button.getAttribute('aria-pressed')!=='true')await button.click();
+  const current=await page.locator('[data-stat-role="current"]').allTextContents(),times=[];
+  for(const chosen of [[0],[0,2,4],[0,1,2,3,4]]){
+   for(let i=0;i<5;i++){const button=page.locator(`[data-activation="${i}"]`);if((await button.getAttribute('aria-pressed')==='true')!==chosen.includes(i))await button.click();}
+   await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);const started=Date.now();await page.locator('#simulate').click();
+   await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus').dataset.runState==='GOAL_SUCCESS'&&document.querySelector('#sandboxAbort').disabled,null,{timeout:60000});times.push({slots:chosen.length,ms:Date.now()-started});
+   const download=page.waitForEvent('download');await page.locator('#sandboxExport').click();const result=await download;const name=`actual-improve-${chosen.length}.json`;await result.saveAs(resolve(out,name));const data=JSON.parse(await readFile(resolve(out,name)));
+   assert.equal(data.kind,'BELLIBING_ACCOUNT_CANDIDATE_EXPORT_V1');assert.equal(data.owner.kind,'ACCOUNT_BUILD');assert.equal(data.owner.buildId,null);assert.deepEqual(data.search.run.presentation.selectedSlots,chosen.map(i=>i+1));assert.equal(data.search.run.presentation.status,'GOAL_SUCCESS');
+   assert.equal(data.improvementExpectedCost.status,'PENDING');assert.equal(data.ranking.status,'PENDING');
+   assert.deepEqual(await page.locator('[data-stat-role="current"]').allTextContents(),current);assert.ok((await page.locator('[data-stat-role="expected"]').allTextContents()).every(v=>v==='Pending'));
+   assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
+   assert.ok((await page.locator('[data-cost-role="expected"]').allTextContents()).every(v=>v==='—'),'Generation economics must not masquerade as improvement Expected');
+  }
+  for(const slot of [4,1,3,0]){await page.locator(`[data-slot="${slot}"]`).click();assert.equal(await page.locator('#sandboxExport').isDisabled(),false);assert.ok((await page.locator('[data-stat-role="candidate"]').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('[data-stat-role="current"]').allTextContents(),current);}
+  await writeFile(resolve(out,'improve-performance.json'),JSON.stringify(times,null,2));
+  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  assert.deepEqual(await page.locator('.compact-stat-table thead th').allTextContents(),['Stat','Current','Expected','Candidate']);
+  await page.locator('#character').screenshot({path:resolve(out,'actual-improve-card.png')});await page.locator('#slots').screenshot({path:resolve(out,'actual-improve-slots.png')});
+  await page.locator('#reset').click();await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);
+  await page.evaluate(()=>{const observer=new MutationObserver(()=>{if(document.querySelector('#sandboxRunStatus').textContent==='RUNNING'&&!document.querySelector('#sandboxAbort').disabled){observer.disconnect();document.querySelector('#sandboxAbort').click();}});observer.observe(document.querySelector('#sandboxRunStatus'),{childList:true});});
+  await page.locator('#simulate').click();await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus').textContent==='ABORTED');await page.locator('#reset').click();
+  checks.push('Improve: actual 1/3/5-slot Worker candidates, unchanged Current, scoped receipts/export, actual Abort/Reset; improvement Expected and rank remain Pending');
+ }
+ for(const width of [1920,2560,390]){await page.setViewportSize({width,height:width===390?844:1080});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,`improve-${width}.png`),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Improve overflow at ${width}`);}
+ await page.getByRole('link',{name:'Echo Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'sandbox-mobile.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.goBack();await page.waitForFunction(()=>document.body.dataset.buildKind==='ACCOUNT_BUILD');await page.goForward();await page.waitForFunction(()=>document.body.dataset.buildKind==='SANDBOX_BUILD');
+ await checkNavigation();await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
+ assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();await builder.locator('#build.active').waitFor();await builder.locator('#buildWheel .choice').first().waitFor();await checkNavigation();assert.equal((await page.locator('.workspace-header').boundingBox()).height,104);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:resolve(out,'build-mobile.png'),fullPage:true});
+ const focus=await builder.locator('#buildWheel').getAttribute('data-focus-index');await builder.locator('#buildWheel .choice').nth(Number(focus)).click();await builder.locator('#buildShell.has-selection').waitFor();await builder.locator('#build .echo[data-echo-slot="0"]').click();await builder.locator('#echoOverlay.open').waitFor();await page.screenshot({path:resolve(out,'build-workshop-mobile.png'),fullPage:true});await builder.locator('#echoClose').click();await builder.locator('#build [data-home]').click();assert.equal(await builder.locator('#home').isVisible(),false);await page.reload();await builder.locator('#build.active').waitFor();await checkNavigation();
+ checks.push('Shared centered header on Build/Improve/Echo Sandbox; direct real Builder, no old menu, refresh/history and existing equipment Workshop on mobile');
+ assert.deepEqual(errors,[]);await writeFile(resolve(out,'verification.json'),JSON.stringify({identity,checks,errors},null,2));console.log('UX review Chromium PASS',JSON.stringify(checks));
+}catch(error){if(page){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(JSON.stringify({errors,configurationReason:await page.locator('#simulate').getAttribute('title').catch(()=>null),status:await page.locator('#sandboxRunStatus').textContent().catch(()=>null)}));}throw error;}finally{await browser.close();await new Promise(r=>server.close(r));}

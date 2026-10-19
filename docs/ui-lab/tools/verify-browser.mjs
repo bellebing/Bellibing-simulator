@@ -582,7 +582,7 @@ try {
   const touch = await reviewBrowserContext(browser,{ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
   const configContext=await reviewBrowserContext(browser,{viewport:{width:1440,height:900},reducedMotion:'reduce'});
   const configPage=await configContext.newPage();
-  await configPage.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'});
+  await configPage.goto(`${origin}${selector}?settings=expanded&review=configuration`,{waitUntil:'networkidle'});
   await reviewConfiguration(configPage,{width:1440,checks});
   await configContext.close();
   const touchPage = await touch.newPage();

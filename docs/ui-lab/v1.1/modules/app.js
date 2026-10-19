@@ -1,15 +1,16 @@
+import {accountProjection} from './account-projection.js';
+import {openSelectionDialog} from './selection-dialog.js';
+import {characterContext,teamSlotAlternatives,selectTeamSlot} from './character-context.js';
 import {createBrowserSandboxClient} from './browser-client.js';
 import {rotationAcceptanceText} from './rotation-acceptance.js';
 import {dpsConceptMarkup} from './dps-concept.js';
 import {sandboxStats} from './sandbox-stats.js';
-import {selectCharacterTeam} from './character-context.js';
-import {recommendedGuidance} from './recommended-guidance.js';
 import {CHARACTER_TARGETS} from './targets.js';
 import {createSandboxClient} from './sandbox-client.js';
 import {sandboxPendingCopy} from './sandbox-pending.js';
 import {observedSlots,expectedResourceRecord,sandboxCostDetails} from './sandbox-presentation.js';
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
-import {createSandboxWorkspace,setSandboxWeapon,SANDBOX_WEAPONS} from './sandbox-state.js';
+import {createSandboxWorkspace,setSandboxWeapon,sandboxStandard,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
 import {configuredCard} from './configured-card.js';
 import {createConfigurationSession,configurationSnapshot,configurationLiveContext,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
@@ -50,22 +51,27 @@ const characterCard = mountResultsPanel($('.character-content'), {onReveal: () =
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
 const sonataSelection = sandbox?null:mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
-let selectedId = 'augusta';
+let selectedId = CHARACTER_CATALOG.some(p=>p.id===query.get('character'))?query.get('character'):'augusta';
 let uiContextRevision=0;
 const demonstration = !sandbox&&query.get('demonstration') === 'true';
+const configurationReview=!sandbox&&query.get('review')==='configuration';
+const accountMode=!sandbox&&!demonstration&&!configurationReview;
 function characterState(id) {
   if(sandbox)return sandboxWorkspace.select(id);
   const value=getDemoState(id);
+  if(configurationReview){if(!value.configurationSession){value.configurationSession=createConfigurationSession(id);initializeCanonicalSettings(value);if(id!=='augusta')value.sonataPool=[];}return value;}
   if(!demonstration&&!value.configurationSession){
-    value.configurationSession=createConfigurationSession(id);initializeCanonicalSettings(value);
+    value.configurationSession=createConfigurationSession(id,{initializeDefaults:false});value.configurationSession.mode='current';initializeCanonicalSettings(value);value.echoes=Array(5).fill(null);value.candidates=Array(5).fill(null);value.histories=Array.from({length:5},()=>[]);value.stats=value.stats.map(()=>['—','—']);value.accountCandidates=Array(5).fill(null);value.echoActive=Array(5).fill(true);value.configurationSession.active=Array(5).fill(true);
     // The old two-row Sonata fixture is not a recommendation for other Characters.
     if(id!=='augusta')value.sonataPool=[];
   }
   return value;
 }
 let state = characterState(selectedId);
-const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);}});
-window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{status:'NOT_APPLICABLE',kind:'SANDBOX_BUILD'}:readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:async()=>{
+function accountView(){const record=readProductionBuildRecord(localStorage,people.get(selectedId));return {schemaVersion:1,kind:'ACCOUNT_BUILD',characterId:selectedId,selectedSlot:state.selectedSlot+1,ownerRecord:record.ownerRecord??null,build:record.buildState??null,buildId:null,modeId:null,revisions:null,capability:{status:'PENDING',reasons:['ACCOUNT_STAT_COMPARISON_ONLY']}};}
+const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);},onPreview:()=>{syncAccountState();renderWorking();renderCharacter();},readAccountBinding:()=>JSON.stringify(readProductionBuildRecord(localStorage,people.get(selectedId)))});
+window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{status:'NOT_APPLICABLE',kind:'SANDBOX_BUILD'}:readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):accountMode?accountView():configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:async()=>{
+ if(accountMode)return accountView();
  const snapshot=await configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision});
  if(sandbox){snapshot.context={...snapshot.context,kind:'SANDBOX_BUILD',buildId:state.sandboxBuild.id,buildStatus:'DETACHED_SANDBOX',modeId:state.sandboxBuild.presetId,modeStatus:'EXPLICIT_SANDBOX_CONTEXT',build:structuredClone(state.sandboxBuild)};snapshot.capability={status:'PENDING',reasons:['PRIVATE_SANDBOX_EXECUTION_NOT_CONNECTED']};}
  return snapshot;
@@ -77,10 +83,10 @@ const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandbo
 if(sandbox){
  const controls=document.createElement('div');controls.className='sandbox-run-controls';
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
- $('#simulate').after(controls);
- const costs=document.createElement('div');costs.id='sandboxCostDetails';$('#resourceCost').after(costs);
+ $('.workshop-footer').removeAttribute('aria-hidden');$('.workshop-footer').append(controls);
+ const costs=document.createElement('div');costs.id='sandboxCostDetails';controls.append(costs);
  const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';$('.simulation-content').after(teamPanel);
- const guidance=document.createElement('div');guidance.id='recommendedGuidance';$('.setting-mode').after(guidance);
+
 }
 
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
@@ -113,6 +119,7 @@ function renderFeedback() {
   if(sandbox)$('#simulate').disabled=hostStatus!=='CONNECTED'||preflightStatus.status!=='READY'||runLoop||!request.slots.length||state.configurationSession?.mode==='current';
   $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?(browserBeta?'Pending · browser simulation unavailable':'Preview only · local simulation host not connected'):preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':(browserBeta?'Simulate hypothetical Echoes':'Run detached simulation through the local host')):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=browserBeta?'Browser engine · hypothetical · no account changes':hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.runId=sandboxRun?.runId??'';$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:rotationAcceptanceText(sandboxRun)??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`${browserBeta?'Simulation':'Server'} reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
+  if(!demonstration&&!configurationReview){$('#feedbackTitle').textContent=sandbox?(runLoop?'Simulating…':preflightStatus.status==='READY'?'Ready to Simulate':preflightStatus.status==='PENDING'?'Simulation Pending':'Preparing simulation'):state.onAccount?'Compare a Candidate':'Choose an owned Character';if(!sandbox)$('#simulate').disabled=!state.onAccount;}
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -131,13 +138,13 @@ function renderWorking() {
 function renderSlots() {
   $('#slots').innerHTML = displayedEchoes().map((echo, index) => {
     const session=state.configurationSession, editable=!!session&&session.mode==='simulate';
-    const active = session ? session.active[index] : !!echo && state.echoActive[index];
-    const available=session ? editable&&!!session.configurations[index] : !!echo;
-    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${activationMarkup(index,active,available)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${editable?'':' disabled'}>Edit Echo</button>` : ''}</div>`;
+    const active = session ? session.active[index] : state.echoActive[index];
+    const available=true;
+    return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${demonstration?'':'<div class="slot-controls">'}${activationMarkup(index,active,available,demonstration)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${(editable||(accountMode&&state.onAccount))?'':' disabled'}>Edit</button>` : ''}${demonstration?'':'</div>'}</div>`;
   }).join('');
   positionActivationMarks($('#slots'));
   const session=state.configurationSession;
-  if(session?.mode==='simulate'){
+  if(state.accountProjection){const cards=state.accountProjection.slots??[];$('.loadout-heading .small-muted').textContent=`${cards.filter(Boolean).length} equipped · ${cards.reduce((n,c)=>n+(c?.cost??0),0)} / 12 Cost`;}else if(session?.mode==='simulate'){
     const chosen=session.configurations.filter((template,index)=>template&&session.active[index]);
     $('.loadout-heading .small-muted').textContent=`${chosen.length} configured · ${chosen.reduce((sum,template)=>sum+template.cost,0)} / 12 Cost`;
   }else $('.loadout-heading .small-muted').innerHTML = sonataSummary(activeEchoSlots(state));
@@ -169,19 +176,25 @@ function renderCharacter() {
   if(sandbox){
     const panel=$('#sandboxTeamPanel');
     const open=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
-    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null,view:sandboxRun?.view??null,comparisonSlot:state.sandboxComparisonSlot??null});
+    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null,view:sandboxRun?.view??null,comparisonSlot:state.sandboxComparisonSlot??null,memberOrder:state.sandboxTeamMemberOrder??null});
     panel.querySelectorAll('details').forEach(n=>{n.open=open.includes(n.className);});
-    const teamSelector=panel.querySelector('.sandbox-team-context');
-    if(teamSelector)teamSelector.onchange=()=>{selectCharacterTeam(state,teamSelector.value);sandboxWorkspace.advanceContext();sandboxClient.invalidate();renderWorkspace();};
+    panel.querySelectorAll('[data-team-slot]').forEach(button=>{button.onclick=()=>{
+     const slot=Number(button.dataset.teamSlot),context=characterContext(state.id,state.sandboxTeamContextId,state.sandboxTeamMemberOrder),options=teamSlotAlternatives(context,slot);
+     const captured=state;
+     openSelectionDialog({title:`Choose teammate`,trigger:button,selectedId:context.team?.id,choices:options.map(option=>{const p=people.get(option.characterId);return {id:option.contextId,name:p.name,art:p.face,note:Object.values(option.modeRequirements).join(' · ')};}),onChoose:id=>{if(state!==captured||id===context.team?.id)return;selectTeamSlot(state,slot,id);sandboxWorkspace.advanceContext();sandboxClient.invalidate();renderWorkspace();}});
+    };});
     const comparisonSelector=panel.querySelector('.observed-echo-slot');
     if(comparisonSelector)comparisonSelector.onchange=()=>{state.sandboxComparisonSlot=Number(comparisonSelector.value);renderCharacter();};
     const dpsSelector=panel.querySelector('.sandbox-dps-context');
     if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.checked?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
 
-    const label=$('.character-content .weapon-copy strong');
-    const select=document.createElement('select');select.className='sandbox-weapon-select';select.setAttribute('aria-label','Sandbox Weapon');
-    select.innerHTML=SANDBOX_WEAPONS.filter(w=>w.weaponType===person.weaponType).map(w=>`<option value="${escapeHtml(w.id)}"${w.id===state.sandboxBuild.weaponId?' selected':''}>${escapeHtml(w.name)}</option>`).join('');
-    label.replaceWith(select);select.onchange=()=>{workshopEditor.close();setSandboxWeapon(state,select.value);renderWorkspace();};
+    const weaponButton=document.createElement('button');weaponButton.className=$('.character-content .weapon').className+' weapon-picker-trigger';weaponButton.type='button';weaponButton.setAttribute('aria-label','Choose Sandbox Weapon');weaponButton.setAttribute('aria-haspopup','dialog');weaponButton.innerHTML=$('.character-content .weapon').innerHTML;
+    $('.character-content .weapon').replaceWith(weaponButton);
+    weaponButton.onclick=()=>{const captured=state;
+     const current=state.sandboxBuild.weaponId,defaultId=sandboxStandard(state.id)?.weapon?.weaponId;
+     const choices=SANDBOX_WEAPONS.filter(w=>w.weaponType===person.weaponType).sort((a,b)=>((a.id===current?0:a.id===defaultId?1:2)-(b.id===current?0:b.id===defaultId?1:2))).map(w=>({id:w.id,name:w.name,art:WEAPON_CATALOG.find(c=>c.id===w.id)?.art,note:w.id===current?'Selected':w.id===defaultId?'Standard':''}));
+     openSelectionDialog({title:'Choose Weapon',choices,selectedId:current,trigger:weaponButton,onChoose:id=>{if(state!==captured)return;workshopEditor.close();setSandboxWeapon(state,id);renderWorkspace();}});
+    };
   }
   $('.character-compact img').src = assetURL(person.face);
   $('.character-compact img').alt = person.name;
@@ -198,7 +211,6 @@ function renderSettings() {
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = !sandbox&&selectedId !== 'augusta';
   buttons[0].title = sandbox ? 'Restore source priorities or approved Echo settings; missing thresholds remain Pending' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
-  if(sandbox){const guide=$('#recommendedGuidance'),open=guide.querySelector('details')?.open;guide.innerHTML=recommendedGuidance(selectedId);guide.querySelector('details').open=!!open;}
   const target = $('.target');
   const reference=CHARACTER_TARGETS.find(r=>r.characterId===selectedId&&(sandbox||selectedId==='augusta'));
   target.querySelector('p').textContent = reference?.status==='READY'?`${people.get(selectedId).name} · DEFAULT Calc reference`:sandbox?'Character Target Pending':'Character Target Pending in this visual study';
@@ -226,7 +238,16 @@ async function probeSandboxHost(binding){
  }
 }
 
+function syncAccountState(){
+ const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
+ const binding=JSON.stringify(projection.record.buildState??null);
+ if(state.accountBinding&&state.accountBinding!==binding){state.accountCandidates=Array(5).fill(null);projection.candidate=null;projection.candidateValues={};projection.delta={};}
+ state.accountBinding=binding;state.accountProjection=projection;state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
+ const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
+ state.echoes=(projection.slots??Array(5).fill(null)).map(present);state.configurationSession.candidates=state.accountCandidates.map(present);state.onAccount=projection.record.status==='OBSERVED_PRODUCTION_BUILD_RECORD';
+}
 function renderWorkspace() {
+  if(accountMode)syncAccountState();
   sandboxClient?.checkFresh();
   if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]};resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
@@ -316,15 +337,18 @@ async function closeInspection({ immediate = false } = {}) {
   }
 }
 
+window.addEventListener('pagehide',()=>{runLoop=false;sandboxClient?.invalidate();workshopEditor.close();});
+window.addEventListener('pageshow',()=>{if(accountMode)renderWorkspace();});
+window.addEventListener('storage',event=>{if(accountMode&&event.key==='bellibing-ui-checkpoint-v34'){workshopEditor.close();renderWorkspace();}});
 window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {
   const edit=event.target.closest('[data-edit-echo]');
-  if(edit){const slot=Number(edit.dataset.editEcho);selectConfigurationSlot(state,slot);renderWorking();renderSlots();workshopEditor.open(slot,$(`[data-edit-echo="${slot}"]`));return;}
+  if(edit){const slot=Number(edit.dataset.editEcho);selectConfigurationSlot(state,slot);renderWorking();renderSlots();if(accountMode)workshopEditor.openObserved(slot,$(`[data-edit-echo="${slot}"]`));else workshopEditor.open(slot,$(`[data-edit-echo="${slot}"]`));return;}
   const toggle = event.target.closest('[data-activation]');
   if (toggle) {
     const index = Number(toggle.dataset.activation);
     setEchoActive(state,index,state.configurationSession ? !state.configurationSession.active[index] : !state.echoActive[index]);
-    renderSlots();renderCharacter();renderFeedback();
+    renderWorkspace();
     $(`[data-activation="${index}"]`).focus({preventScroll:true});
     return;
   }
@@ -332,8 +356,7 @@ $('#slots').addEventListener('click', event => {
   if (!button) return;
   if(runSlots){runInspectionSlot=Number(button.dataset.slot);renderWorking();renderSlots();$(`[data-slot="${runInspectionSlot}"]`).focus({preventScroll:true});return;}
   selectConfigurationSlot(state,Number(button.dataset.slot));
-  renderWorking();
-  renderSlots();
+  if(accountMode){renderWorkspace();}else{renderWorking();renderSlots();}
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
 $('#piles').addEventListener('click', event => {
@@ -365,7 +388,6 @@ $('.setting-mode').addEventListener('click', event => {
   if(event.target.textContent==='Recommended'){
     const restored=restoreRecommendedSettings(state);
     renderSettings();
-    if(sandbox)$('#recommendedGuidance details').open=true;
     // Explicit Recommended restores source guidance. Unavailable guidance
     // cannot imply a reviewed executable policy or erase Custom state.
     if(!restored)return;
@@ -394,8 +416,17 @@ $('.mode-switch').addEventListener('click', event => {
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 if(sandbox){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(sandboxClient.isBusy())await new Promise(r=>setTimeout(r,10));await sandboxClient.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await sandboxClient.export(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`Bellibing_Sandbox_${sandboxRun.runId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
-$('#reset').onclick = () => {runLoop=false;sandboxClient?.reset().catch(error=>notify(error.message)); workshopEditor.close();if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
+$('#reset').onclick = () => {runLoop=false;workshopEditor.close();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
 
+if(!demonstration&&!configurationReview){
+ document.title=sandbox?'Bellibing Sandbox':'Bellibing · Improve a Character';$('.page-heading h1').textContent=sandbox?'Sandbox Simulator':'Improve a Character';$('.study-label').textContent=sandbox?'SANDBOX BETA':'IMPROVE';$('#workshopFeedback').removeAttribute('aria-describedby');document.body.classList.add('product-workspace');document.body.classList.toggle('account-workspace',!sandbox);document.body.dataset.buildKind=sandbox?'SANDBOX_BUILD':'ACCOUNT_BUILD';
+ $('.demo-note').hidden=true;$('.target').hidden=true;$('.mode-switch').hidden=true;$('.settings-compact img')?.remove();document.querySelector('.beta-boundary')?.remove();
+ if(!sandbox){$('.sonata-section').hidden=true;$('.page-heading h1').textContent='Improve a Character';$('.page-heading .eyebrow').textContent='YOUR EQUIPPED BUILD';$('.loadout-heading .eyebrow').textContent='CURRENT LOADOUT';$('#simulate').querySelector('span:nth-child(2)').textContent='EDIT CANDIDATE';$('.loadout-heading .small-muted').textContent='Equipped Echoes';$('#simulate').onclick=()=>workshopEditor.openObserved(state.selectedSlot,$('#simulate'));}
+ const routes=globalThis.BELLIBING_WORKSPACE_ROUTES;
+ const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
+ $('.site-header nav').innerHTML=`<a href="${href('improve')}"${!sandbox?' aria-current="page"':''}>Improve a Character</a><a href="${href('sandbox')}"${sandbox?' aria-current="page"':''}>Sandbox</a>`;
+ const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
+}
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();
@@ -403,7 +434,7 @@ carousel = mountCarousel({ selectedId, onSelect: id => {
   uiContextRevision++;selectedId = id;
   workshopEditor.close();state = characterState(id);
   renderWorkspace();
-}, preview:sandbox?id=>sandboxWorkspace.preview(id):undefined,standalone:sandbox });
+}, preview:sandbox?id=>sandboxWorkspace.preview(id):accountMode?id=>{const record=readProductionBuildRecord(localStorage,people.get(id));return {onAccount:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',hasBuild:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',slots:record.buildState?.echoSets?.sets?.[record.buildState.echoSets.activeSetId]?.slots?.filter(Boolean).length??0,weapon:WEAPON_CATALOG.find(w=>w.id===record.buildState?.weaponId)?.name??null,stats:['—','—','—']};}:undefined,standalone:sandbox,accountLabel:accountMode?'account':undefined });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }
 if (query.get('compact') === 'true') { $('#settings').classList.remove('expanded'); $('#character').classList.remove('expanded'); layout(); }
 if (globalThis.BELLIBING_LAB_REVIEW) {

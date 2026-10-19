@@ -25,8 +25,7 @@ export function configureSlot(session,slot,input) {
 }
 export function activateConfigurationSlot(session,slot,active) {
   indexOf(slot);if(typeof active!=='boolean')throw Error('Invalid activation.');
-  if(!session.configurations[slot])throw Error('Configure this Echo before activation.');
-  validateEchoTemplateConfiguration(catalog,session.configurations[slot]);
+  if(session.configurations[slot])validateEchoTemplateConfiguration(catalog,session.configurations[slot]);
   if(session.active[slot]!==active){session.active[slot]=active;session.revision++;}
 }
 export function resetSimulationResults(session) {

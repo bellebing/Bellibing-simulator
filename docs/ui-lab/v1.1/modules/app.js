@@ -32,6 +32,8 @@ import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
 const query = new URLSearchParams(location.search);
+const compactReview=query.get('layout')==='compact';
+if(compactReview)document.body.classList.add('compact-review');
 const sandbox=query.get('sandbox')==='true';
 const browserBeta=sandbox&&query.get('execution')==='browser';
 const expertMode=sandbox&&!browserBeta&&query.get('review')==='expert';
@@ -86,9 +88,11 @@ if(sandbox){
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
  $('.workshop-footer').removeAttribute('aria-hidden');$('.workshop-footer').append(controls);
  const costs=document.createElement('div');costs.id='sandboxCostDetails';controls.append(costs);
- const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';$('.simulation-content').after(teamPanel);
+ const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';if(compactReview)document.querySelector('.simulation-disclosure').before(teamPanel);else $('.simulation-content').after(teamPanel);
 
 }
+
+if(compactReview&&!sandbox){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.simulation-disclosure').before(panel);}
 
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}
@@ -174,6 +178,7 @@ function renderCharacter() {
   const person = people.get(selectedId);
   if(sandbox)state.sandboxStatProjection=sandboxStats(state,sandboxRun);
   characterCard.render(person, state);
+  if(compactReview&&!sandbox){const panel=$('#compactAccountTeamPanel');panel.innerHTML=dpsConceptMarkup({characterId:person.id});panel.querySelectorAll('button').forEach(button=>{button.disabled=true;button.querySelector('small')?.remove();});}
   if(sandbox){
     const panel=$('#sandboxTeamPanel');
     const open=[...panel.querySelectorAll('details[open]')].map(n=>n.className);

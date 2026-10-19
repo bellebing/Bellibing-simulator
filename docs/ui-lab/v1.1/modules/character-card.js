@@ -68,12 +68,15 @@ function refinedHero(model, saved, variant) {
 
 export function mountCharacterCard(host, { hero = heroVariation(location.search) } = {}) {
   const expanded = new Map();
-  let current;
+  let current,allStats=false;
+  host.addEventListener('click',event=>{if(event.target.closest('[data-stat-view]')?.tagName!=='BUTTON')return;allStats=!allStats;thisCard.render(lastPerson,lastSaved);host.querySelector('button[data-stat-view]').focus({preventScroll:true});});
+  let lastPerson,lastSaved;
   host.addEventListener('toggle', event => {
     if (event.target.id === 'characterSkills' && current) expanded.set(current, event.target.open);
   }, true);
-  return {
+  const thisCard={
     render(person, saved) {
+      lastPerson=person;lastSaved=saved;
       const statOpen=[...host.querySelectorAll('.character-stat-section[open]')].map(n=>n.dataset.statSection);
       const previous = host.querySelector('#characterSkills');
       if (current && previous) expanded.set(current, previous.open);
@@ -84,8 +87,9 @@ export function mountCharacterCard(host, { hero = heroVariation(location.search)
       host.innerHTML = `${hero === 'baseline' ? baselineHero : refinedHero(model, saved, hero)}
       <div class="weapon ${rarityClass(weapon?.rarity)}" data-weapon-id="${weapon?.id ?? ''}" data-rarity="${weapon?.rarity ?? 'unknown'}">${weapon?.art ? `<div class="weapon-art">${image(weapon.art, weapon.name)}</div>` : ''}<div class="weapon-copy"><small>WEAPON</small><strong>${escapeHtml(weapon?.name ?? 'Weapon unavailable')}</strong><span>${context ? `Lv. ${context.level} · R${context.rank}` : weapon ? 'Level / refinement unavailable' : '—'}</span></div></div>
       <details id="characterSkills" class="card-skills"${expanded.get(person.id) ? ' open' : ''}><summary>Skills <span class="chevron" aria-hidden="true">›</span></summary><div class="card-skills-body">${forteMarkup(person, model.forte)}</div></details>
-      ${saved.sandboxBuild||saved.accountProjection?statDisclosure(model,saved,{open:statOpen}):`<div class="stats-heading"><h3>Character Stats</h3></div><table aria-label="Current equipped Character stats"><tbody id="characterStats">${model.stats.map(([label,value])=>`<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>`}`;
+      ${saved.sandboxBuild||saved.accountProjection?statDisclosure(model,saved,{open:statOpen,compact:document.body.classList.contains('compact-review'),all:allStats}):`<div class="stats-heading"><h3>Character Stats</h3></div><table aria-label="Current equipped Character stats"><tbody id="characterStats">${model.stats.map(([label,value])=>`<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value)}</td></tr>`).join('')}</tbody></table>`}`;
       host.querySelector('.character-hero > img, .hero-visual > img').classList.toggle('portrait-fallback', person.artStatus !== 'HERO');
     },
   };
+  return thisCard;
 }

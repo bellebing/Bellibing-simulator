@@ -18,6 +18,7 @@ export async function buildSandbox(directory='dist'){
  html=html.replace('</h1>','</h1><p class="beta-boundary">Hypothetical builds · no account changes</p>');
  // The beta is hypothetical and has a real route back to the existing site.
  html=html.replace('class="brand" href="#"','class="brand" href="../"');
+ html=html.replace('data-workspace="build" href="../../ui-prototypes/v34-functional.html"','data-workspace="build" href="../ui-preview/"').replace('data-workspace="improve" href="?sandbox=false"','data-workspace="improve" href="../improve/"').replace('data-workspace="sandbox" href="?sandbox=true"','data-workspace="sandbox" href="../sandbox/"');
  writeFileSync(join(out,'index.html'),html);installSandboxRelease(out);
  const improve=resolve(directory,'improve');mkdirSync(improve,{recursive:true});writeFileSync(join(improve,'index.html'),html.replace("url.searchParams.set('sandbox','true')","url.searchParams.set('sandbox','false')").replace('href="sandbox.css"','href="../sandbox/sandbox.css"').replace('src="app.js"','src="../sandbox/app.js"'));
  return ['improve/index.html','sandbox/app.js','sandbox/index.html','sandbox/sandbox.css','sandbox/engine-release.json',...readdirSync('docs/ui-lab/v1/assets').map(p=>'sandbox/assets/'+p)];

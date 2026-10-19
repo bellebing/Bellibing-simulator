@@ -63,7 +63,11 @@ let uiContextRevision=0;
 const demonstration = !sandbox&&query.get('demonstration') === 'true';
 const configurationReview=!sandbox&&query.get('review')==='configuration';
 const accountMode=!sandbox&&!demonstration&&!configurationReview;
-if(demonstration||configurationReview)for(const selector of ['.demo-note','.target','.mode-switch'])$(selector).hidden=false;
+if(demonstration||configurationReview){
+ for(const selector of ['.demo-note','.target','.mode-switch'])$(selector).hidden=false;
+ // Isolated historical fixtures retain their approved three-tab geometry.
+ $('.site-header nav').innerHTML='<button>Build</button><button class="active">Improve</button><button>Teams <small>SOON</small></button>';
+}
 function characterState(id) {
   if(sandbox)return sandboxWorkspace.select(id);
   const value=getDemoState(id);

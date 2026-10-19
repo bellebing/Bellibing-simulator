@@ -39,7 +39,7 @@ try{
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  await checkNavigation();
- await page.getByRole('link',{name:'Build a Character',exact:true}).click();await page.locator('#home.active').waitFor();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.locator('#build.active').waitFor();await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();await page.locator('#home.active').waitFor();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.locator('#build.active').waitFor();await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('.demo-note').isVisible(),false);assert.equal(await page.locator('.target').isVisible(),false);assert.equal(await page.locator('#recommendedGuidance,.sandbox-team-context,.sandbox-weapon-select,.team-context-details,.sandbox-stat-sources').count(),0);
  assert.equal(await page.locator('#characterSkills').count(),1);assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);

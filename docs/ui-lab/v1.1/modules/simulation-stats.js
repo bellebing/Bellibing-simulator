@@ -18,7 +18,7 @@ export function mountResultsPanel(host, {onReveal = () => {}} = {}) {
   view.className = 'side-content simulation-content'; view.hidden = true;
   view.innerHTML = '<header class="results-heading"><img class="results-art" alt=""><div class="results-identity"><h2></h2></div></header><span class="results-origin"></span><div class="results-key" aria-hidden="true"><span>Stat</span><span>Recommended</span><span>Expected</span><span>Simulated</span></div><div class="result-rows" role="list" aria-label="Recommended, Expected and Simulated Character results"></div><span class="result-announcement carousel-announcement" role="status" aria-live="polite"></span>';
   host.after(view);
-  if(compact){control.hidden=true;const disclosure=document.createElement('details');disclosure.className='side-content simulation-disclosure';disclosure.innerHTML='<summary>Simulation Stats <span aria-hidden="true">⌄</span></summary>';view.before(disclosure);disclosure.append(view);view.hidden=false;}
+  if(compact){control.remove();view.remove();}
   let mode = 'character', manual = false, revealed = false, person, saved, model;
   let demo = false, expected = {}, fadeTimer, announceTimer, settling = false;
   const animations = new Map();

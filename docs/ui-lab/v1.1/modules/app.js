@@ -27,9 +27,11 @@ import { getDemoState, resetDemoState } from './lab-state.js';
 import { applyFeedbackScenario, workshopFeedbackFixture } from './feedback-fixtures.js';
 import { mountWorkshopFeedback } from './workshop-feedback.js';
 import { sonataSummary } from './sonata-summary.js';
-import { echoCard } from './echo-card.js';
+import { echoCard as renderEchoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
+
+function echoCard(echo,options={}){return renderEchoCard(echo,{...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:compactReview&&accountMode&&!options.candidate});}
 
 const query = new URLSearchParams(location.search);
 const compactReview=query.get('layout')==='compact';
@@ -88,11 +90,11 @@ if(sandbox){
  controls.innerHTML='<span id="sandboxRunStatus" role="status">Preview only</span><button id="sandboxAbort" type="button" disabled>Abort</button><button id="sandboxExport" type="button" disabled>Export JSON</button><details class="sandbox-diagnostics"><summary>Simulation details</summary><span id="sandboxHostStatus" role="status" data-status="CHECKING"></span><span id="sandboxQuality"></span></details>';
  $('.workshop-footer').removeAttribute('aria-hidden');$('.workshop-footer').append(controls);
  const costs=document.createElement('div');costs.id='sandboxCostDetails';controls.append(costs);
- const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';if(compactReview)document.querySelector('.simulation-disclosure').before(teamPanel);else $('.simulation-content').after(teamPanel);
+ const teamPanel=document.createElement('div');teamPanel.id='sandboxTeamPanel';teamPanel.className='side-content';if(compactReview)$('.character-content').after(teamPanel);else $('.simulation-content').after(teamPanel);
 
 }
 
-if(compactReview&&!sandbox){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.simulation-disclosure').before(panel);}
+if(compactReview&&!sandbox){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.character-content').after(panel);}
 
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}

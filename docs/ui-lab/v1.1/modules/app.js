@@ -1,4 +1,4 @@
-import {createImproveCandidateSession} from './improve-candidate.js';
+import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
 import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
 import {createLabResourceInventory} from './resource-state.js';
 import {accountProjection} from './account-projection.js';
@@ -77,7 +77,7 @@ function characterState(id) {
 }
 let state = characterState(selectedId);
 function accountView(){const record=readProductionBuildRecord(localStorage,people.get(selectedId));return {schemaVersion:1,kind:'ACCOUNT_BUILD',characterId:selectedId,selectedSlot:state.selectedSlot+1,ownerRecord:record.ownerRecord??null,build:record.buildState??null,buildId:null,modeId:null,revisions:null,capability:{status:'PENDING',reasons:['ACCOUNT_STAT_COMPARISON_ONLY']}};}
-const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);},onPreview:()=>{syncAccountState();renderWorking();renderCharacter();},readAccountBinding:()=>JSON.stringify(readProductionBuildRecord(localStorage,people.get(selectedId)))});
+const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);},onPreview:()=>{syncAccountState();renderWorking();renderCharacter();},readAccountBinding:()=>improveCandidateContext(readImproveOwner())});
 window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{status:'NOT_APPLICABLE',kind:'SANDBOX_BUILD'}:readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):accountMode?accountView():configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:async()=>{
  if(accountMode)return accountView();
  const snapshot=await configurationSnapshot(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision});
@@ -89,9 +89,10 @@ let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
 let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
-function readImproveOwner(){return {kind:'ACCOUNT_BUILD',record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
+function readImproveOwner(){return {kind:'ACCOUNT_BUILD',policyStorage:['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].map(key=>localStorage.getItem(key)),record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
 const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
  candidateRun=run;
+ if(!run)clearImproveCandidates(state);
  if(run?.status==='PENDING')candidatePreflight={status:'PENDING',reasons:run.reasons};
  if(run?.view){
   const projected=observedSlots(run.view),chosen=run.view.selectedSlots??run.view.slots.map(s=>s.slot);
@@ -276,13 +277,16 @@ async function probeSandboxHost(binding){
 }
 
 function syncAccountState(){
- const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
- const binding=JSON.stringify(projection.record.buildState??null);
- if(state.accountBinding&&state.accountBinding!==binding){state.accountCandidates=Array(5).fill(null);projection.candidate=null;projection.candidateValues={};projection.delta={};}
- state.accountBinding=binding;state.accountProjection=projection;
  restoreOwnedSettings(state,localStorage);
  if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state);state.accountSourcesInitialized=true;}
-state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
+ // Retire presentation before projecting, including manually observed Candidates.
+ if(syncImproveCandidateContext(state,readImproveOwner())){
+  workshopEditor.close();
+  if(inspection)closeInspection({immediate:true});
+ }
+ const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
+ state.accountProjection=projection;
+ state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
  const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
  state.echoes=(projection.slots??Array(5).fill(null)).map(present);state.configurationSession.candidates=state.accountCandidates.map(present);state.onAccount=projection.record.status==='OBSERVED_PRODUCTION_BUILD_RECORD';
 }
@@ -290,7 +294,7 @@ function renderWorkspace() {
   if(accountMode)syncAccountState();
   sandboxClient?.checkFresh();
   candidateSession?.checkFresh();
-  if(accountMode){const b=JSON.stringify(readImproveOwner());if(b!==candidateMetricsBinding){candidateMetricsBinding=b;candidatePreflight={status:'CHECKING',reasons:[]};clearTimeout(candidateMetricsTimer);candidateMetricsTimer=setTimeout(async()=>{const result=await candidateSession.metrics();if(b===JSON.stringify(readImproveOwner())){candidatePreflight=result;renderFeedback();}},200);}}
+  if(accountMode){const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding){candidateMetricsBinding=b;candidatePreflight={status:'CHECKING',reasons:[]};clearTimeout(candidateMetricsTimer);candidateMetricsTimer=setTimeout(async()=>{const result=await candidateSession.metrics();if(b===improveCandidateContext(readImproveOwner())){candidatePreflight=result;renderFeedback();}},200);}}
   if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]};resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
@@ -439,7 +443,7 @@ $('.setting-mode').addEventListener('click', event => {
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
-  if(accountMode){workshopEditor.close();runLoop=true;renderFeedback();try{await candidateSession.start();while(runLoop&&candidateSession.checkFresh()&&candidateSession.snapshot()?.status==='RUNNING'){await candidateSession.step();await new Promise(r=>setTimeout(r,0));}}catch(error){if(!['STALE_ACCOUNT_CANDIDATE','STALE_SANDBOX_RESPONSE'].includes(error.message))candidatePreflight={status:'PENDING',reasons:[error.message]};}finally{runLoop=false;renderFeedback();}return;}
+  if(accountMode){workshopEditor.close();candidateSession.invalidate();runLoop=true;renderFeedback();try{await candidateSession.start();while(runLoop&&candidateSession.checkFresh()&&candidateSession.snapshot()?.status==='RUNNING'){await candidateSession.step();await new Promise(r=>setTimeout(r,0));}}catch(error){if(!['STALE_ACCOUNT_CANDIDATE','STALE_SANDBOX_RESPONSE'].includes(error.message))candidatePreflight={status:'PENDING',reasons:[error.message]};}finally{runLoop=false;renderFeedback();}return;}
   if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
   try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,browserBeta?0:30));}}catch(error){if(error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError)hostStatus='UNAVAILABLE';if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
@@ -469,16 +473,19 @@ if(!demonstration&&!configurationReview){
  if(!sandbox){$('.sonata-section').hidden=true;$('.page-heading h1').textContent='Improve a Character';$('.page-heading .eyebrow').textContent='YOUR EQUIPPED BUILD';$('.loadout-heading .eyebrow').textContent='CURRENT LOADOUT';$('#simulate').querySelector('span:nth-child(2)').textContent='IMPROVE ECHO';$('.loadout-heading .small-muted').textContent='Equipped Echoes';}
  const routes=globalThis.BELLIBING_WORKSPACE_ROUTES;
  const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
- $('.site-header nav').innerHTML=`<a href="${href('improve')}"${!sandbox?' aria-current="page"':''}>Improve a Character</a><a href="${href('sandbox')}"${sandbox?' aria-current="page"':''}>Sandbox</a>`;
+ const nav=$('.site-header nav');
+ nav.querySelector('[data-workspace="build"]').href=routes?.build??assetURL('../../ui-prototypes/v34-functional.html');
+ for(const mode of ['improve','sandbox']){const link=nav.querySelector(`[data-workspace="${mode}"]`);link.href=href(mode);if((mode==='sandbox')===sandbox)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
  const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
 }
-if(accountMode)setInterval(()=>{candidateSession.checkFresh();const b=JSON.stringify(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
+if(accountMode)setInterval(()=>{candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId, onSelect: id => {
+  workshopEditor.close();if(accountMode)candidateSession.invalidate();
   uiContextRevision++;selectedId = id;
-  workshopEditor.close();state = characterState(id);
+  state = characterState(id);
   renderWorkspace();
 }, preview:sandbox?id=>sandboxWorkspace.preview(id):accountMode?id=>{const record=readProductionBuildRecord(localStorage,people.get(id));return {onAccount:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',hasBuild:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',slots:record.buildState?.echoSets?.sets?.[record.buildState.echoSets.activeSetId]?.slots?.filter(Boolean).length??0,weapon:WEAPON_CATALOG.find(w=>w.id===record.buildState?.weaponId)?.name??null,stats:['—','—','—']};}:undefined,standalone:sandbox,accountLabel:accountMode?'account':undefined });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }

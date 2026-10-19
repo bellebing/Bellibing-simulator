@@ -1,8 +1,11 @@
 /* Product controls remain in the component that owns their action. */
 [hidden]{display:none!important}
-.product-workspace .site-header nav{display:flex;gap:8px;align-items:center;justify-content:center}
+.product-workspace .site-header{grid-template-columns:auto minmax(0,1fr) auto}
+.product-workspace .site-header nav{display:flex;gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap;width:100%;max-width:100%}
 .product-workspace .site-header nav a{display:flex;align-items:center;min-height:44px;padding:8px 12px;color:var(--muted);font-size:12px;text-decoration:none;border-bottom:2px solid transparent}
 .product-workspace .site-header nav a[aria-current]{color:var(--gold);border-color:var(--gold)}
+.product-workspace .site-header nav [data-workspace="sandbox"]{margin-left:auto}
+.product-workspace .site-header nav [data-workspace="teams"]{font-size:12px;min-height:44px;padding:8px 12px;cursor:default;opacity:.55}
 .workspace-identity{font-size:12px;color:var(--muted);margin:8px 0 0}
 .product-workspace.sandbox-preview main{background:linear-gradient(125deg,rgba(192,163,99,.045),transparent 70%)}
 .slot-controls{display:flex;justify-content:center;align-items:center;gap:8px;margin:9px 0 0;position:relative;z-index:2}

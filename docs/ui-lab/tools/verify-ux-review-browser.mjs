@@ -16,12 +16,30 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,executablePath:process.env.UI_LAB_CHROME_PATH??'/usr/bin/chromium',args:['--no-sandbox']});
 const identity={publicHead:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),workingTreeDirty:!!execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim(),privateHead:process.env.BELLIBING_PRIVATE_REVIEW_HEAD??null,workerSha256:JSON.parse(await readFile(resolve(root,'dist/sandbox/engine-release.json'))).files[0]?.sha256??null};
 const origin=`http://127.0.0.1:${server.address().port}`,checks=[],errors=[];let page;
+async function checkNavigation(){
+ const nav=page.locator('.site-header nav');
+ assert.deepEqual(await nav.locator('[data-workspace]').allTextContents(),['Build a Character','Improve a Character','Team Builder SOON','Sandbox']);
+ assert.equal(await nav.locator('[data-workspace="teams"]').isDisabled(),true);
+ assert.equal(new URL(await nav.locator('[data-workspace="build"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/ui-preview/');
+ assert.equal(await nav.locator('[aria-current="page"]').count(),1);
+}
+async function observeCandidate(slot){
+ await page.locator(`[data-edit-echo="${slot}"]`).click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();
+ await frame.locator(`[data-echo-id="${uxAccountFixture().cards[slot].echoId}"]`).click();
+ await frame.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await frame.getByRole('option',{name:uxAccountFixture().cards[slot].mainStat.name,exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 name',exact:true}).click();await frame.getByRole('option',{name:'CRIT DMG',exact:true}).click();
+ await frame.getByRole('combobox',{name:'Substat 1 value',exact:true}).click();await frame.getByRole('option').nth(1).click();await frame.getByRole('button',{name:'Use Candidate',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
+ assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));
+}
+
 try{
  const fixture=uxAccountFixture(),initial=JSON.stringify(fixture.account);
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ await checkNavigation();
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();await page.locator('#home.active').waitFor();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.locator('#build.active').waitFor();await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('.demo-note').isVisible(),false);assert.equal(await page.locator('.target').isVisible(),false);assert.equal(await page.locator('#recommendedGuidance,.sandbox-team-context,.sandbox-weapon-select,.team-context-details,.sandbox-stat-sources').count(),0);
  assert.equal(await page.locator('#characterSkills').count(),1);assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);
@@ -65,6 +83,22 @@ try{
  await page.locator('[data-edit-echo="0"]').click();const again=page.frameLocator('.workshop-editor-host iframe');await again.locator('#echoOverlay.open').waitFor();if(await again.locator('.echo-roll-checkpoint').nth(1).getAttribute('open')===null)await again.locator('.echo-roll-checkpoint').nth(1).locator('summary').click();await again.getByRole('combobox',{name:'Substat 2 name',exact:true}).click();await again.getByRole('option',{name:'Energy Regen',exact:true}).click();await again.getByRole('combobox',{name:'Substat 2 value',exact:true}).click();await again.getByRole('option').nth(1).click();assert.notDeepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed,'Next observed checkpoint refreshes the 4+1 projection');await again.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});assert.deepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed);
  assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);checks.push('Improve: actual five-Echo Current and observed +5 Candidate projection, cancel and no account writes');
  await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'improve-desktop.png'),fullPage:true});await page.locator('#character').screenshot({path:resolve(out,'current-candidate-card.png')});
+ await checkNavigation();
+ await observeCandidate(1);
+ for(const slot of [0,1,0]){await page.locator(`[data-slot="${slot}"]`).click();assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);}
+ const pendingCandidate=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('#characterStats td:last-child')].every(n=>n.textContent.includes('Pending')));assert.equal(await page.locator('#sandboxExport').isDisabled(),true);};
+ if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
+ await page.locator('.gate-options button').filter({hasText:'+10'}).click();await pendingCandidate();await observeCandidate(0);
+ await page.locator('#resourceInventory input').first().fill('1');await page.locator('#resourceInventory input').first().dispatchEvent('change');await pendingCandidate();await observeCandidate(0);
+ await page.locator('[data-activation="4"]').click();await pendingCandidate();await observeCandidate(0);
+ // An external real owner change closes an open editor without restoring its stale rollback card.
+ await page.locator('[data-edit-echo="0"]').click();await page.frameLocator('.workshop-editor-host iframe').locator('#echoOverlay.open').waitFor();
+ const peer=await context.newPage();await peer.goto(origin+'/Bellibing-simulator/improve/');const changedOwner=structuredClone(fixture.account);changedOwner.drafts.Augusta.build.sequenceLevel=1;
+ await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),JSON.stringify(changedOwner));await page.locator('.workshop-editor-host').waitFor({state:'detached'});await pendingCandidate();assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),JSON.stringify(changedOwner));
+ await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),initial);await peer.close();await pendingCandidate();await observeCandidate(0);
+ const other=await page.locator('#portraits [data-person]').evaluateAll(nodes=>nodes.find(n=>n.dataset.person!=='augusta'&&getComputedStyle(n).visibility!=='hidden')?.dataset.person);
+ for(const id of [other,'augusta']){await page.locator(`#portraits [data-person="${id}"]`).click();await page.waitForFunction(id=>document.querySelector('#characterCarousel').dataset.focusedCharacter===id&&document.querySelector('#characterCarousel').dataset.motion==='settled',id);await page.locator('#galleryArt').focus();await page.keyboard.press('Enter');await page.waitForFunction(id=>window.bellibingLabConfiguration.readContext().characterId===id,id);await pendingCandidate();}assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
+ checks.push('Navigation retains Build/Improve/disabled Teams/rightmost Sandbox; slot inspection preserves Candidates; Settings/resources/activation/Character/owner drift clears results and stale editor rollback');
  await page.locator('#reset').click();assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);
  assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
  if(process.env.BELLIBING_UX_REVIEW_RUNTIME==='1'){
@@ -85,6 +119,7 @@ try{
    assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
    assert.ok((await page.locator('[data-cost-role="expected"]').allTextContents()).every(v=>v==='—'),'Generation economics must not masquerade as improvement Expected');
   }
+  for(const slot of [4,1,3,0]){await page.locator(`[data-slot="${slot}"]`).click();assert.equal(await page.locator('#sandboxExport').isDisabled(),false);assert.ok((await page.locator('[data-stat-role="candidate"]').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('[data-stat-role="current"]').allTextContents(),current);}
   await writeFile(resolve(out,'improve-performance.json'),JSON.stringify(times,null,2));
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
   assert.deepEqual(await page.locator('.compact-stat-table thead th').allTextContents(),['Stat','Current','Expected','Candidate']);
@@ -97,6 +132,7 @@ try{
  for(const width of [1920,2560,390]){await page.setViewportSize({width,height:width===390?844:1080});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,`improve-${width}.png`),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Improve overflow at ${width}`);}
  await page.getByRole('link',{name:'Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'sandbox-mobile.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  await page.goBack();await page.waitForFunction(()=>document.body.dataset.buildKind==='ACCOUNT_BUILD');await page.goForward();await page.waitForFunction(()=>document.body.dataset.buildKind==='SANDBOX_BUILD');
+ await checkNavigation();await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
  assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
  assert.deepEqual(errors,[]);await writeFile(resolve(out,'verification.json'),JSON.stringify({identity,checks,errors},null,2));console.log('UX review Chromium PASS',JSON.stringify(checks));
 }catch(error){if(page){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(JSON.stringify({errors,status:await page.locator('#sandboxRunStatus').textContent().catch(()=>null)}));}throw error;}finally{await browser.close();await new Promise(r=>server.close(r));}

@@ -41,7 +41,7 @@ export function createWorkshopEditor({getState,onCommit,onPreview=()=>{},readAcc
     const owner={dialog,frame,trigger};pending=owner;
     const isCurrent=()=>pending===owner&&getState()===state&&state.selectedSlot===slot&&binding===readAccountBinding();
     const update=card=>{if(!isCurrent()||committed)return;state.accountCandidates[slot]=structuredClone(card);onPreview();};
-    owner.rollback=()=>{if(!committed&&getState()===state){state.accountCandidates[slot]=before;onPreview();}};
+    owner.rollback=()=>{if(!committed&&getState()===state&&binding===readAccountBinding()){state.accountCandidates[slot]=before;onPreview();}};
     dialog.addEventListener('cancel',()=>close());
     frame.onload=async()=>{try{if(!isCurrent()){close();return;}await frame.contentWindow.bellibingConfigurationWorkshop.openObservedCandidate({characterId:state.id,slot,card:before,isCurrent,onPreview:update,onChoose:card=>{if(!isCurrent())throw Error('Stale account build');update(card);committed=true;onCommit();},onClose:()=>{if(pending===owner)close();}});}catch(error){close();onCommit(error);}};
     dialog.showModal();

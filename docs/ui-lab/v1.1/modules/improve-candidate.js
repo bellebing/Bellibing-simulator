@@ -8,10 +8,27 @@ const clone=value=>structuredClone(value);
 // ACCOUNT_BUILD remains the real read-only owner. The existing worker receives
 // a distinct detached Echo-target search, never the account as SANDBOX_BUILD.
 // That search certifies generation goals/receipts, not account improvement cost.
+export function improveCandidateContext(owner){
+ const value=clone(owner);
+ // Inspecting another result slot does not change the generation/owner lease.
+ value.state=Object.fromEntries(['id','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(key=>[key,value.state[key]]).concat([['configurationSession',{active:value.state.configurationSession.active}]]));
+ return JSON.stringify(value);
+}
+export function clearImproveCandidates(state){
+ state.accountCandidates=Array(5).fill(null);
+ state.configurationSession.candidates=Array(5).fill(null);
+ state.configurationSession.histories=Array.from({length:5},()=>[]);
+}
+export function syncImproveCandidateContext(state,owner){
+ const binding=improveCandidateContext(owner),changed=state.accountCandidateBinding!==undefined&&state.accountCandidateBinding!==binding;
+ if(changed)clearImproveCandidates(state);
+ state.accountCandidateBinding=binding;
+ return changed;
+}
 export function createImproveCandidateSession({readOwner,onChange=()=>{},clientFactory=createBrowserSandboxClient}={}){
  let client=null,binding=null,search=null,run=null,generation=0;
  const read=()=>{const value=readOwner();if(value?.kind!=='ACCOUNT_BUILD')throw Error('ACCOUNT_BUILD_REQUIRED');return clone(value);};
- const identity=owner=>JSON.stringify(owner);
+ const identity=improveCandidateContext;
  function invalidate(){generation++;const previous=client;client=null;binding=null;search=null;run=null;previous?.invalidate();onChange(null);}
  function checkFresh(){if(binding!==null&&identity(read())!==binding){invalidate();return false;}return true;}
  function prepare(){

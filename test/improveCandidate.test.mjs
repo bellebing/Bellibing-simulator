@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createImproveCandidateSession} from '../docs/ui-lab/v1.1/modules/improve-candidate.js';
+import {createImproveCandidateSession,improveCandidateContext,syncImproveCandidateContext} from '../docs/ui-lab/v1.1/modules/improve-candidate.js';
 import {createSandboxState} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
 import {readProductionBuildRecord} from '../src/productionBuildRecord.mjs';
 import {CHARACTER_CATALOG} from '../docs/ui-lab/v1.1/modules/catalog.js';
@@ -25,8 +25,8 @@ test('real ACCOUNT_BUILD leases a separate bounded Echo search without exporting
  assert.equal(session.snapshot().ownerKind,'ACCOUNT_BUILD');assert.equal(session.snapshot().dps.status,'PENDING');assert.equal(session.snapshot().improvementExpectedCost.status,'PENDING');
  assert.equal((await session.export()).owner.kind,'ACCOUNT_BUILD');assert.equal(JSON.stringify(f.owner),before);assert.ok(changes.length>0);
 });
-test('owner/settings/resources/selection drift invalidates async results and export',async()=>{
- for(const mutate of [f=>f.owner.record.buildState.weaponId='changed',f=>f.owner.state.minima['CRIT Rate']++,f=>f.owner.inventoryRevision++,f=>f.owner.state.selectedSlot++]){
+test('owner/settings/resources/activation drift invalidates async results and export',async()=>{
+ for(const mutate of [f=>f.owner.record.buildState.weaponId='changed',f=>f.owner.state.minima['CRIT Rate']++,f=>f.owner.inventoryRevision++,f=>f.owner.inventory.echoes.count++,f=>f.owner.state.configurationSession.active[1]=true]){
   const f=fixture(),changes=[];let late;
   const session=createImproveCandidateSession({readOwner:()=>f.owner,onChange:r=>changes.push(r),clientFactory:o=>{late=o.onChange;return {metrics:async()=>({status:'READY'}),start:async()=>{},invalidate(){},export:async()=>({})};}});
   await session.metrics();mutate(f);assert.equal(session.checkFresh(),false);const count=changes.length;late({status:'GOAL_SUCCESS'});assert.equal(changes.length,count);await assert.rejects(()=>session.export(),/ACCOUNT_CANDIDATE_RUN_REQUIRED/);
@@ -51,4 +51,25 @@ test('saved Custom settings are observed without resetting intent or writing per
  const bytes=JSON.stringify(raw),storage={getItem:key=>key==='bellibing.improve.policy.v3'?bytes:null,setItem:()=>assert.fail('Read-only observation')},state=createSandboxState('augusta');
  restoreOwnedSettings(state,storage);assert.equal(state.accountSettingsPending,null);assert.equal(state.settingsMode,'Customize');assert.deepEqual(state.statSections.hard,['CRIT Rate']);assert.deepEqual(state.statSections.flex,['CRIT DMG']);assert.equal(JSON.stringify(raw),bytes);
  raw.characters.augusta.contextBinding='stale';const old=JSON.stringify(state.statSections);restoreOwnedSettings(state,{getItem:key=>key==='bellibing.improve.policy.v3'?JSON.stringify(raw):null});assert.equal(state.accountSettingsPending,'ACCOUNT_SETTINGS_CONTEXT_PENDING');assert.equal(JSON.stringify(state.statSections),old);
+});
+
+
+test('inspecting multiple Candidate slots retains the same live run and export lease',async()=>{
+ const f=fixture();let wire;
+ const session=createImproveCandidateSession({readOwner:()=>f.owner,clientFactory:o=>{wire=o;return {metrics:async()=>({status:'READY'}),start:async()=>o.onChange({status:'RUNNING',runId:'lease',view:{slots:[]}}),invalidate(){},export:async()=>({kind:'SEARCH_EXPORT'})};}});
+ await session.start();const binding=improveCandidateContext(f.owner);
+ for(const slot of [1,4,2,0]){f.owner.state.selectedSlot=slot;assert.equal(session.checkFresh(),true);assert.equal(improveCandidateContext(f.owner),binding);assert.equal(session.snapshot().status,'RUNNING');}
+ wire.onChange({status:'GOAL_SUCCESS',runId:'lease',view:{slots:[]}});
+ f.owner.state.selectedSlot=3;assert.equal(session.checkFresh(),true);assert.equal((await session.export()).search.kind,'SEARCH_EXPORT');
+});
+test('context drift clears manual and generated presentation before reprojection, with Current unchanged',()=>{
+ for(const mutate of [f=>f.owner.state.id='iuno',f=>f.owner.record.ownerRecord.storageKey='other',f=>f.owner.record.buildState.weaponId='changed',f=>f.owner.state.minima['CRIT Rate']++,f=>f.owner.inventoryRevision++,f=>f.owner.inventory.echoes.count++,f=>f.owner.state.configurationSession.active[1]=true]){
+  const f=fixture(),state=f.owner.state;
+  state.accountCandidates=Array(5).fill(null);state.accountCandidates[0]=structuredClone(f.cards[0]);state.accountCandidates[4]=structuredClone(f.cards[4]);state.configurationSession.candidates=structuredClone(state.accountCandidates);state.configurationSession.histories[0]=[{}];
+  assert.equal(syncImproveCandidateContext(state,f.owner),false);
+  state.selectedSlot=4;assert.equal(syncImproveCandidateContext(state,f.owner),false);assert.ok(state.accountCandidates[0]);assert.ok(state.accountCandidates[4]);
+  const old=structuredClone(f.owner);mutate(f);const source=JSON.stringify(f.owner.record);assert.equal(syncImproveCandidateContext(state,f.owner),true);
+  assert.ok(state.accountCandidates.every(c=>c===null));assert.ok(state.configurationSession.candidates.every(c=>c===null));assert.ok(state.configurationSession.histories.every(h=>h.length===0));assert.equal(JSON.stringify(f.owner.record),source);
+  assert.equal(syncImproveCandidateContext(state,old),true);assert.ok(state.accountCandidates.every(c=>c===null));
+ }
 });

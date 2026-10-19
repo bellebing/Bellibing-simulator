@@ -56,6 +56,7 @@ let uiContextRevision=0;
 const demonstration = !sandbox&&query.get('demonstration') === 'true';
 const configurationReview=!sandbox&&query.get('review')==='configuration';
 const accountMode=!sandbox&&!demonstration&&!configurationReview;
+if(demonstration||configurationReview)for(const selector of ['.demo-note','.target','.mode-switch'])$(selector).hidden=false;
 function characterState(id) {
   if(sandbox)return sandboxWorkspace.select(id);
   const value=getDemoState(id);

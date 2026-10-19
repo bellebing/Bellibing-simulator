@@ -4,7 +4,7 @@ import { artworkOffset, artworkScale } from './carousel-layout.js';
 import { createCarouselMotion, clampPosition } from './carousel-motion.js';
 import { $, assetURL, escapeHtml } from './util.js';
 
-export function mountCarousel({ selectedId, onSelect,preview:readPreview=previewSnapshot,standalone=false }) {
+export function mountCarousel({ selectedId, onSelect,preview:readPreview=previewSnapshot,standalone=false,accountLabel='demo account' }) {
   const ribbon = $('#characterCarousel');
   const art = $('#galleryArt');
   const portraits = $('#portraits');
@@ -103,7 +103,7 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     const compactIds = ordered.filter(id => id === selected || ids.includes(id));
     portraits.innerHTML = compactIds.map((id, index) => {
       const person = catalog.get(id);
-      return `<button class="portrait ${standalone||DEMO_ACCOUNT_IDS.includes(id) ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${standalone?'Sandbox standard':DEMO_ACCOUNT_IDS.includes(id) ? 'on demo account' : 'not on demo account'}, ${index + 1} of ${compactIds.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
+      return `<button class="portrait ${standalone||readPreview(id).onAccount ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${standalone?'Sandbox standard':readPreview(id).onAccount ? 'on '+accountLabel : 'not on '+accountLabel}, ${index + 1} of ${compactIds.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
     }).join('');
     art.innerHTML = ids.map(id => {
       const person = catalog.get(id);
@@ -262,7 +262,7 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     cancelDrag(); motion.stop(); clearTimeout(wheelTimer);
     if (button.dataset.filter) filter = button.dataset.filter;
     if (button.dataset.element) element = button.dataset.element;
-    ids = ordered.filter(id => (filter === 'all' || DEMO_ACCOUNT_IDS.includes(id)) && (element === 'all' || catalog.get(id).element === element));
+    ids = ordered.filter(id => (filter === 'all' || readPreview(id).onAccount) && (element === 'all' || catalog.get(id).element === element));
     const next = ids.includes(focused) ? focused : ids.includes(selected) ? selected : ids[0];
     ribbon.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active', item.dataset.filter === filter); item.classList.toggle('selected', item.dataset.filter === filter); item.setAttribute('aria-pressed', item.dataset.filter === filter); });
     ribbon.querySelectorAll('[data-element]').forEach(item => { item.classList.toggle('selected', item.dataset.element === element); item.setAttribute('aria-pressed', item.dataset.element === element); });

@@ -331,6 +331,6 @@ test('Echo activation excludes projection inputs without deleting cards, histori
   assert.deepEqual(activeEchoSlots(augusta),Array(5).fill(null));assert.deepEqual(simulationRequest(augusta).slots,[]);
   for(let index=0;index<5;index++)setEchoActive(augusta,index,true);
   assert.deepEqual(augusta.echoes,retained.echoes);assert.deepEqual(augusta.histories,retained.histories);
-  assert.throws(()=>setEchoActive(iuno,4,true));assert.throws(()=>setEchoActive(augusta,5,false));
+  setEchoActive(iuno,4,true);assert.equal(iuno.echoActive[4],true);assert.equal(iuno.echoes[4],null,'An active empty slot must not synthesize an Echo');assert.throws(()=>setEchoActive(augusta,5,false));
   assert.deepEqual(resetDemoState('augusta').echoActive,Array(5).fill(true));
 });

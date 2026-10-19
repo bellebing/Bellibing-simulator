@@ -62,7 +62,7 @@ try{
   const saved=await snapshot(page);const cancel=await openEditor(page,1);await cancel.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await cancel.getByRole('option',{name:'HP%',exact:true}).click();await page.keyboard.press('Escape');await page.locator('.workshop-editor-host').waitFor({state:'detached'});assert.deepEqual((await snapshot(page)).slots[1].configuration,saved.slots[1].configuration);
   await page.locator('[data-activation="1"]').click();assert.equal((await snapshot(page)).slots[1].active,false);assert.ok((await snapshot(page)).slots[1].configuration);
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
-  await page.getByRole('combobox',{name:'Sandbox Weapon',exact:true}).selectOption('verdant-summit');assert.equal((await snapshot(page)).context.build.weaponId,'verdant-summit');
+  await page.getByRole('button',{name:'Choose Sandbox Weapon',exact:true}).click();await page.getByRole('dialog',{name:'Choose Weapon'}).locator('[data-choice="verdant-summit"]').click();assert.equal((await snapshot(page)).context.build.weaponId,'verdant-summit');
   const beforeGallery=await page.locator('.workshop').boundingBox();await page.locator('.portrait.selected').click();const expanded=await page.locator('.workshop').boundingBox();for(const key of ['x','width','height'])assert.equal(expanded[key],beforeGallery[key]);await page.keyboard.press('Escape');
   for(const id of width===1440?coverage.characters.map(c=>c.characterId):['hsin','iuno','cartethyia','jingran']){
    await selectCharacter(page,id);const actual=await snapshot(page),expected=coverage.characters.find(c=>c.characterId===id);assert.equal(actual.characterId,id);assert.equal(actual.slots.filter(s=>s.configuration).length,5);
@@ -71,7 +71,7 @@ try{
   }
   await selectCharacter(page,'augusta');state=await snapshot(page);assert.equal(state.context.build.weaponId,'verdant-summit');assert.equal(state.slots[1].configuration.mainStatName,'ATK%');assert.equal(state.slots[1].active,false);
   await page.locator('#reset').click();const reset=await snapshot(page);assert.deepEqual(reset.slots.map(s=>s.configuration),state.slots.map(s=>s.configuration));assert.equal(reset.resourceInventory.echoes.count,27);assert.ok(reset.revisions.session>state.revisions.session);
-  await page.getByRole('button',{name:'Current',exact:true}).click();assert.ok((await snapshot(page)).slots.every(s=>s.simulatedCurrent===null));await page.getByRole('button',{name:'Simulate',exact:true}).click();
+  assert.equal(await page.locator('.mode-switch').isVisible(),false);assert.equal(await page.getByRole('link',{name:'Improve a Character',exact:true}).count(),1);assert.equal((await snapshot(page)).context.kind,'SANDBOX_BUILD');assert.ok((await snapshot(page)).slots.every(s=>s.simulatedCurrent===null));
   assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),'{"sentinel":"real-account-unchanged"}');
   assert.equal(await page.evaluate(()=>localStorage.getItem('sandbox-test-inventory')),'{"sentinel":"real-inventory-unchanged"}');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

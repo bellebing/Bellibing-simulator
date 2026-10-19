@@ -14,6 +14,14 @@ const supported=new Set(['HP%','ATK%','DEF%','Energy Regen','CRIT Rate','CRIT DM
 const pending=reason=>({version:SANDBOX_STATIC_STATS_VERSION,status:'PENDING',reason,values:null,sources:null});
 const canonicalStat=name=>aliases[name]??name.replace(/ DMG Bonus$/,' DMG');
 
+// Shared source-bound permanent self effects; equipment ownership stays with callers.
+export function staticSonataRows(cards,{echoes,sonataSets,sonataEffects=[]}){
+ const eligible=inspectSandboxSonata(cards.map(c=>({echoId:c.speciesId??c.echoId,selectedSonataSetId:c.selectedSonataSetId})),{echoes,sonataSets});
+ const active=sonataEffects.filter(e=>eligible.some(s=>s.setId===e.sonataSetId&&s.eligiblePieceBonuses.includes(e.pieces)));
+ const permanent=active.filter(e=>e.effectType==='PERMANENT'&&e.valueMode==='FLAT'&&e.appliesTo==='SELF'&&e.mechanicsStatus==='VERIFIED_MODELED'&&supported.has(canonicalStat(e.statOrEffect)));
+ return {active,permanent,rows:permanent.map(e=>({stat:canonicalStat(e.statOrEffect),value:e.value}))};
+}
+
 /** Public facts only. Reuse the canonical static projector for all arithmetic.
  * The shared projector's additive stat-row input is reused for reviewed self
  * Sonata rows; output attribution keeps Weapon and Sonata sources separate.
@@ -26,10 +34,7 @@ export function projectSandboxStaticStats({character,weapon,baseline,echoSlots=n
   const observed=echoSlots!==null;
   if(observed&&(!Array.isArray(echoSlots)||echoSlots.length!==5||echoSlots.some(c=>!c||c.level!==25)||new Set(echoSlots.map(c=>c.id)).size!==5))return pending('FIVE_ACTUAL_COMPLETE_CARDS_REQUIRED');
   if(observed&&echoSlots.some(c=>echoes.find(e=>e.id===c.speciesId)?.cost!==c.cost))return pending('ECHO_SPECIES_COST_MISMATCH');
-  const eligible=observed?inspectSandboxSonata(echoSlots.map(c=>({echoId:c.speciesId,selectedSonataSetId:c.selectedSonataSetId})),{echoes,sonataSets}):[];
-  const active=sonataEffects.filter(e=>eligible.some(s=>s.setId===e.sonataSetId&&s.eligiblePieceBonuses.includes(e.pieces)));
-  const permanent=active.filter(e=>e.effectType==='PERMANENT'&&e.valueMode==='FLAT'&&e.appliesTo==='SELF'&&e.mechanicsStatus==='VERIFIED_MODELED'&&supported.has(canonicalStat(e.statOrEffect)));
-  const sonataStats=permanent.map(e=>({stat:canonicalStat(e.statOrEffect),value:e.value}));
+  const {active,permanent,rows:sonataStats}=staticSonataRows(observed?echoSlots:[],{echoes,sonataSets,sonataEffects});
   const numeric=projectStaticBuildStats({character,weapon,echoSlots:echoSlots??[],echoStatContract,
    activeForteStats:character.intrinsicStats,activeSequenceStats:[],activeWeaponStats:[...(weapon.staticBuildStats??[]),...sonataStats]});
   const values=Object.fromEntries(STATIC_STAT_FIELDS.map(([id,key])=>[id==='ELEMENT_DMG_BONUS'?character.element.toUpperCase()+'_DMG_BONUS':id,numeric[key]]));

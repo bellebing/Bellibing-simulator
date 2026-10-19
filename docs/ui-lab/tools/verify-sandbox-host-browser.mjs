@@ -71,13 +71,13 @@ try{
 
  // Host reachability alone must not enable SIMULATE for an unsupported context.
  configPending=true;
- await page.getByRole('combobox',{name:'Sandbox Weapon',exact:true}).selectOption('verdant-summit');
+ await page.getByRole('button',{name:'Choose Sandbox Weapon',exact:true}).click();await page.getByRole('dialog',{name:'Choose Weapon'}).locator('[data-choice="verdant-summit"]').click();
  await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.textContent.includes('Character, Weapon or Settings combination'));
  assert.equal(await button.isDisabled(),true);
  assert.equal(await page.locator('#sandboxRunStatus').getAttribute('title'),'Server reason: CONFIGURATION_CAPABILITY_PENDING');
  assert.equal(runCalls,1,'Pending preflight must not start a run');
  configPending=false;
- await page.getByRole('combobox',{name:'Sandbox Weapon',exact:true}).selectOption('thunderflare-dominion');
+ await page.getByRole('button',{name:'Choose Sandbox Weapon',exact:true}).click();await page.getByRole('dialog',{name:'Choose Weapon'}).locator('[data-choice="thunderflare-dominion"]').click();
  await page.waitForFunction(()=>document.querySelector('#sandboxRunStatus')?.dataset.status==='READY');
  assert.equal(await button.isEnabled(),true);
 

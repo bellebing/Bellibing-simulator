@@ -1444,7 +1444,7 @@ const echoUi={
     if(this.context.kind==='candidate'){const item=echoById.get(this.previewId);if(item)this.renderIdentity(item);this.renderInfo();this.syncEquipAction();return}
     const item=echoById.get(this.previewId),card=this.editorDraft;if(!item||!card)return;
     this.syncDraftFromSubstatRows();this.renderIdentity(item);
-    document.getElementById('echoSubstats').hidden=this.context.kind==='configuration';
+    document.getElementById('echoSubstats').hidden=this.context.kind==='configuration'&&!this.configurationOwner?.observed;
     const mainHost=document.getElementById('echoMainStat');mainHost.replaceChildren();
     const mainOptions=echoMainOptions(item.cost,card.level),currentMain=mainOptions.find(option=>option.name===card.mainStat.name)||mainOptions[0];
     const mainName=makeBellibingCombobox({
@@ -1465,7 +1465,7 @@ const echoUi={
 
     const host=document.getElementById('echoSubstats');host.replaceChildren();
     const used=new Set(this.editorSubstatRows.filter(Boolean).map(row=>row.name).filter(Boolean));
-    if(this.context.kind==='equipped'){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
+    if(this.context.kind==='equipped'||this.configurationOwner?.observed){const undo=document.createElement('button');undo.type='button';undo.className='echo-roll-undo';undo.textContent='Undo last roll edit';undo.disabled=!this.rollUndo?.length;undo.onclick=()=>{this.editorSubstatRows=this.rollUndo.pop();this.activeRoll=this.editorSubstatRows.findIndex(row=>!isCompleteEchoSubstat(row));this.renderEditor();};host.append(undo);}
     for(let index=0;index<echoStatContract.maxSubstats;index++){
       const current=this.editorSubstatRows[index]||null,row=document.createElement('div');row.className='echo-substat-row';row.dataset.substatIndex=String(index);
       const nameOptions=[{value:'',label:'Substat '+(index+1)},...echoStatContract.substats.map(option=>({value:option.name,label:option.name+(used.has(option.name)&&current?.name!==option.name?' · already used':''),disabled:false}))];
@@ -1494,7 +1494,7 @@ const echoUi={
         }
       });
       row.append(nameCombo,valueCombo);
-      if(this.context.kind==='equipped'){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
+      if(this.context.kind==='equipped'||this.configurationOwner?.observed){const details=document.createElement('details');details.className='echo-roll-checkpoint';details.open=index===(this.activeRoll??this.editorSubstatRows.findIndex(pair=>!isCompleteEchoSubstat(pair)));const summary=document.createElement('summary');summary.textContent=`+${(index+1)*5} · ${current?.name??'Choose stat'}${isCompleteEchoSubstat(current)?' · '+echoStatValueText(current.name,current.value):''}`;details.append(summary,row);host.append(details);}else host.appendChild(row);
     }
     this.renderInfo();this.syncEquipAction();
   },
@@ -1510,13 +1510,14 @@ const echoUi={
     if(!item){this.clearPreview();return}
     this.setPreview(item,isPlainObject(slot)?slot:null);
   },
-  previewValidation(){if(this.context.kind==='equipped'&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
+  previewValidation(){if((this.context.kind==='equipped'||this.configurationOwner?.observed)&&this.editorSubstatRows?.some(row=>row&&!isCompleteEchoSubstat(row)))return 'Complete every selected substat value before committing.';const item=echoById.get(this.previewId);return this.context.kind==='candidate'?validateEchoCandidate(this.editorDraft,item):validateEchoStatCard(this.editorDraft,item)},
   syncEquipAction(){
     const button=document.getElementById('echoEquip');if(!button)return;
     const item=echoById.get(this.previewId),reason=item&&this.editorDraft?this.previewValidation():'';
     const error=document.getElementById('echoEditorError');if(error)error.textContent=reason;
+    if(this.configurationOwner?.observed&&this.contextValid())this.configurationOwner.onPreview?.(reason?null:cloneEchoSlot(this.editorDraft));
     const committed=this.previewCommitted(),alreadyCommitted=!reason&&echoCardsEqual(committed,this.editorDraft),candidate=this.context.kind==='candidate';
-    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=this.context.kind==='configuration'?'Use Echo':candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
+    button.disabled=!this.contextValid()||!item||!this.editorDraft||!!reason||(!candidate&&alreadyCommitted);button.textContent=this.context.kind==='configuration'?(this.configurationOwner?.observed?'Use Candidate':'Use Echo'):candidate?'Choose Echo':alreadyCommitted?'Equipped':'Equip Echo';
   },
   setTarget(index){
     if(this.context.kind==='candidate'||!Number.isInteger(index)||index<0||index>4||index===this.targetSlot)return;
@@ -1591,6 +1592,7 @@ const echoUi={
     if(!this.open||!this.contextValid()||!this.previewId||!this.editorDraft)return;
     const reason=this.previewValidation();if(reason){this.syncEquipAction();return}
     if(this.context.kind==='configuration'){
+      if(this.configurationOwner?.observed){this.configurationOwner.onChoose(cloneEchoSlot(this.editorDraft));this.hide();return;}
       if(this.editorDraft.level!==0||this.editorDraft.substats.length)throw Error('Configuration cannot contain rolled Substats.');
       const item=echoById.get(this.editorDraft.echoId);
       const template=window.bellibingEchoTemplateConfiguration.validateEchoTemplateConfiguration({echoes:echoCatalog,sonataSets:[...echoSonataById.values()],statEditor:echoStatContract},{echoId:item.id,cost:item.cost,rank:echoStatContract.rank,mainStatName:this.editorDraft.mainStat.name,selectedSonataSetId:this.editorDraft.selectedSonataSetId});
@@ -1613,6 +1615,14 @@ if(new URLSearchParams(location.search).get('workshopOwner')==='ui-lab'){
       if([owner.filterSetIds,owner.sourceSetIds].some(ids=>!Array.isArray(ids)||ids.some(id=>!echoSonataById.has(id))))throw Error('Invalid configuration Sonata context.');
       const card=owner.configuration?window.bellibingEchoTemplateConfiguration.templateSelectionCard(catalog,owner.configuration):null;
       await echoUi.showConfiguration({...owner,card});
+    },
+    async openObservedCandidate(owner){
+      await echoDataReady;
+      if(!owner.isCurrent()||![...characterByName.values()].some(c=>c.id===owner.characterId))throw Error('Observed Candidate context unavailable.');
+      if(owner.card){const item=echoById.get(owner.card.echoId);const reason=validateEchoStatCard(owner.card,item);if(reason)throw Error(reason);}
+      await echoUi.showConfiguration({...owner,observed:true,filterSetIds:[],sourceSetIds:[]});
+      document.getElementById('echoTitle').textContent='Observed Candidate';
+      document.getElementById('echoEquip').textContent='Use Candidate';
     },
     cancel(){if(echoUi.context.kind==='configuration')echoUi.hide();}
   });

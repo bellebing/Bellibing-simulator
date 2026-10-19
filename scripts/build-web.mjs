@@ -57,6 +57,7 @@ const characterExport = spawnSync(process.execPath, [
 if (characterExport.status !== 0) process.exit(characterExport.status ?? 1);
 
 cpSync('web/index.html', 'dist/index.html');
+cpSync('web/workspace-entry.js', 'dist/workspace-entry.js');
 cpSync('web/alpha-entry.css', 'dist/alpha-entry.css');
 cpSync('web/echo-lab.html', 'dist/echo-lab.html');
 cpSync('web/styles.css', 'dist/styles.css');

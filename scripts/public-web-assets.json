@@ -1510,5 +1510,6 @@
   "ui-preview/assets/weapons/icons/wildfire-mark.png",
   "ui-preview/assets/weapons/icons/woodland-aria.png",
   "ui-preview/assets/weapons/manifest.json",
-  "ui-preview/index.html"
+  "ui-preview/index.html",
+  "workspace-entry.js"
 ]

@@ -7,7 +7,7 @@ const lab = new EchoLab(new VerifiedWuwaEchoRuntime());
 let session = lab.createSession();
 let rng = createSeededRng('bellibing-echo-lab');
 app.innerHTML = `<main class="alpha-shell"><h1>Bellibing Echo Lab</h1>
-<a href="./">Home</a> · <a href="./build/">Character Build / Improve</a>
+<a href="./">Home</a> · <a href="./ui-preview/">Character Build / Improve</a>
 <h2>Evaluation / strategy</h2><p data-decision-status="${PUBLIC_DECISION_AVAILABILITY.status}">Pending</p>
 <p>Character evaluation and improvement estimates are currently unavailable.</p>
 <h2>Echo mechanics</h2>

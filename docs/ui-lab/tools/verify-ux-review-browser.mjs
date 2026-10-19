@@ -40,6 +40,15 @@ try{
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ for(const entry of ['', 'echo-lab.html', 'roll-assistant.html']){
+  await page.goto(origin+'/Bellibing-simulator/'+entry);
+  const buildLink=page.getByRole('link',{name:'Character Build / Improve',exact:true});
+  await page.waitForFunction(()=>document.querySelector('a[href="./build/"]'));
+  assert.equal(await buildLink.getAttribute('href'),'./build/');
+  assert.equal(await page.locator('a[href="./ui-preview/"]').count(),0);
+  await buildLink.click();await checkNavigation();
+  const workspace=page.frameLocator('iframe[title="Character Builder"]');await workspace.locator('#build.active').waitFor();assert.equal(await workspace.locator('#home').isVisible(),false);
+ }
  await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  await checkNavigation();
  const headerBefore=await page.locator('.workspace-header').boundingBox();

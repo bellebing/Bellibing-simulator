@@ -178,6 +178,7 @@ function renderCharacter() {
   const person = people.get(selectedId);
   if(sandbox)state.sandboxStatProjection=sandboxStats(state,sandboxRun);
   characterCard.render(person, state);
+  if(compactReview)$('#character .side-title').textContent=person.name;
   if(compactReview&&!sandbox){const panel=$('#compactAccountTeamPanel');panel.innerHTML=dpsConceptMarkup({characterId:person.id});panel.querySelectorAll('button').forEach(button=>{button.disabled=true;button.querySelector('small')?.remove();});}
   if(sandbox){
     const panel=$('#sandboxTeamPanel');

@@ -53,8 +53,11 @@
 .compact-review #character [data-hero] .hero-visual>img:not(.portrait-fallback){width:265px;height:270px;left:auto;right:13px;top:-14px;object-fit:contain;object-position:top}
 .compact-review #character [data-hero] .hero-visual:after{background:linear-gradient(90deg,#171e25bb,transparent 65%),linear-gradient(0deg,#171e25,transparent 30%)}
 .compact-review #character [data-hero] .hero-copy{position:absolute;left:16px;top:16px;bottom:auto;padding:0;max-width:65%;background:none;pointer-events:none}
-.compact-review #character [data-hero] .hero-copy h2{font-size:27px}
-.compact-review #character [data-hero] .hero-copy .eyebrow,.compact-review #character [data-hero] .rarity-stars{display:none}
+.compact-review #character [data-hero] .hero-copy h2{display:none}
+.compact-review #character [data-hero] .rarity-stars{display:none}
+.compact-review #character [data-hero] .hero-copy .eyebrow{display:block;font-size:11px;letter-spacing:1.2px;margin:0 0 8px}
+.compact-review #character .hero-weapon-type{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center}
+.compact-review #character .hero-weapon-type img{width:20px;height:20px;object-fit:contain;filter:grayscale(1) brightness(1.6)}
 .compact-review #character [data-hero] .hero-meta-row{margin-top:7px;gap:0}
 .compact-review #character [data-hero] .hero-metadata{font-size:9px;gap:4px}
 .compact-review #character [data-hero] .card-sequence{width:38px;top:3px;bottom:auto;right:5px;gap:4px}
@@ -75,15 +78,16 @@
 .compact-review #character .simulation-disclosure{margin:4px 16px 12px;border-top:1px solid var(--line)}
 .compact-review #character .simulation-disclosure>summary{display:flex;justify-content:space-between;cursor:pointer;padding:12px 0;color:var(--muted);font-size:10px}
 .compact-review #character .simulation-disclosure .simulation-content{padding:0 0 8px}.compact-review #character .simulation-disclosure .results-heading{display:none}
-.compact-review .slot-controls{position:absolute;top:7px;right:7px;display:flex;gap:5px;align-items:center;margin:0}
-.compact-review .slot-controls .echo-edit{order:0;min-height:30px;padding:4px 7px;background:#171d23eF;font-size:10px}
-.compact-review .slot-controls .activation-mark{order:1;width:32px;height:32px;min-width:32px;min-height:32px;padding:7px;border-radius:50%;color:#8bc5a7;border:1px solid #51836b;background:#14271feF}
+.compact-review .activation-slot{grid-template-rows:26px auto;row-gap:7px}
+.compact-review .activation-slot>.slot{grid-row:2;grid-column:1}
+.compact-review .slot-controls{position:static;grid-row:1;grid-column:1;justify-self:end;display:flex;gap:5px;align-items:center;margin:0}
+.compact-review .slot-controls .echo-edit{order:0;min-height:24px;padding:3px 6px;background:#171d23eF;font-size:9px}
+.compact-review .slot-controls .activation-mark{order:1;width:26px;height:26px;min-width:26px;min-height:26px;padding:5px;border-radius:50%;color:#8bc5a7;border:1px solid #51836b;background:#14271feF}
 .compact-review .slot-controls .activation-mark.is-off{color:#ec9391;border-color:#a55756;background:#321d21ef}
 .compact-review .slot-controls .activation-mark span{display:none}
-.compact-review .slot-controls .activation-mark svg{width:17px;height:17px}
-.compact-review .slots .echo-topline{height:48px;align-items:flex-start;padding-top:11px}
-.compact-review .slots .echo-topline .level{position:absolute;right:9px;top:43px;font-size:8px}
-@media(max-width:1000px){.compact-review .slot-controls .activation-mark{width:44px;height:44px;min-width:44px;padding:11px}.compact-review .slot-controls .echo-edit{min-height:44px}.compact-review .slots .echo-topline .level{top:56px}.compact-review .slots .echo-topline{height:59px}}
+.compact-review .slot-controls .activation-mark svg{width:14px;height:14px}
+@media(max-width:1000px){.compact-review .activation-slot{grid-template-rows:35px auto}.compact-review .slot-controls .activation-mark{width:35px;height:35px;min-width:35px;min-height:35px!important;padding:8px}.compact-review .slot-controls .echo-edit{min-height:35px!important}}
 .compact-review #character .simulation-disclosure[open] .simulation-content{display:block}
 .compact-review #character .team-member>span{font-size:8px;line-height:1.35;overflow-wrap:normal;word-break:normal}
 .compact-review #character .sandbox-dps{margin-top:0;padding-top:10px}
+.compact-review .slots .slot-number{display:none}

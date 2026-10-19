@@ -18,10 +18,13 @@ const identity={publicHead:execFileSync('git',['rev-parse','HEAD'],{cwd:root,enc
 const origin=`http://127.0.0.1:${server.address().port}`,checks=[],errors=[];let page;
 async function checkNavigation(){
  const nav=page.locator('.site-header nav');
- assert.deepEqual(await nav.locator('[data-workspace]').allTextContents(),['Build a Character','Improve a Character','Team Builder SOON','Sandbox']);
+ assert.deepEqual(await nav.locator('[data-workspace]').allTextContents(),['Build a Character','Improve a Character','Team Builder SOON','Echo Sandbox']);
  assert.equal(await nav.locator('[data-workspace="teams"]').isDisabled(),true);
- assert.equal(new URL(await nav.locator('[data-workspace="build"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/ui-preview/');
+ assert.equal(new URL(await nav.locator('[data-workspace="build"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/build/');
  assert.equal(await nav.locator('[aria-current="page"]').count(),1);
+ const primary=await nav.locator('.workspace-primary').boundingBox(),sandbox=await nav.locator('[data-workspace="sandbox"]').boundingBox();
+ assert.ok(Math.abs(primary.x+primary.width/2-page.viewportSize().width/2)<1,'Primary workspace group is centered on the page');
+ assert.ok(sandbox.x-primary.x-primary.width>=5&&sandbox.x-primary.x-primary.width<=11,'Echo Sandbox is adjacent to the primary group');
 }
 async function observeCandidate(slot){
  await page.locator(`[data-edit-echo="${slot}"]`).click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();
@@ -39,7 +42,15 @@ try{
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
  await page.goto(origin+'/Bellibing-simulator/sandbox/?sandbox=false&demonstration=true&review=configuration');await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  await checkNavigation();
- await page.getByRole('link',{name:'Build a Character',exact:true}).click();await page.locator('#home.active').waitFor();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.getByRole('button',{name:'Build a Character',exact:true}).click();await page.locator('#build.active').waitFor();await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
+ const headerBefore=await page.locator('.workspace-header').boundingBox();
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();const builder=page.frameLocator('iframe[title="Character Builder"]');await builder.locator('#build.active').waitFor();await checkNavigation();assert.equal((await page.locator('.workspace-header').boundingBox()).height,headerBefore.height);assert.equal(await builder.locator('#home').isVisible(),false);assert.equal(await builder.locator('#homeStage .home-card').count(),0);
+ await builder.locator('#buildWheel .choice').first().waitFor();await page.screenshot({path:resolve(out,'build-desktop.png'),fullPage:true});
+ await page.reload();await builder.locator('#build.active').waitFor();await checkNavigation();assert.equal(await builder.locator('#build [data-home]').isVisible(),false);
+ await builder.locator('#buildWheel .choice').first().waitFor();const desktopFocus=Number(await builder.locator('#buildWheel').getAttribute('data-focus-index'));await builder.locator('#buildWheel .choice').nth(desktopFocus).click();await builder.locator('#buildShell.has-selection').waitFor();await builder.locator('#build .echo[data-echo-slot="0"]').click();await builder.locator('#echoOverlay.open').waitFor();await page.screenshot({path:resolve(out,'build-workshop-desktop.png'),fullPage:true});await builder.locator('#echoClose').click();await builder.getByRole('button',{name:'Choose Character',exact:true}).click();assert.equal(await builder.locator('#home').isVisible(),false);assert.equal(await builder.locator('#build [data-home]').isVisible(),false);
+ const afterBuild=JSON.parse(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')));assert.deepEqual(afterBuild.characters,fixture.account.characters);assert.deepEqual(afterBuild.drafts.Augusta.build.echoSets.sets.owned.slots,fixture.cards);assert.equal(afterBuild.drafts.Augusta.build.weaponId,fixture.build.weaponId);
+
+ await page.goBack();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();await page.goForward();await builder.locator('#build.active').waitFor();await checkNavigation();await page.getByRole('link',{name:'Echo Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
+
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('.demo-note').isVisible(),false);assert.equal(await page.locator('.target').isVisible(),false);assert.equal(await page.locator('#recommendedGuidance,.sandbox-team-context,.sandbox-weapon-select,.team-context-details,.sandbox-stat-sources').count(),0);
  assert.equal(await page.locator('#characterSkills').count(),1);assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);
@@ -132,9 +143,12 @@ try{
   checks.push('Improve: actual 1/3/5-slot Worker candidates, unchanged Current, scoped receipts/export, actual Abort/Reset; improvement Expected and rank remain Pending');
  }
  for(const width of [1920,2560,390]){await page.setViewportSize({width,height:width===390?844:1080});await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,`improve-${width}.png`),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`Improve overflow at ${width}`);}
- await page.getByRole('link',{name:'Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'sandbox-mobile.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.getByRole('link',{name:'Echo Sandbox',exact:true}).click();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'sandbox-mobile.png'),fullPage:true});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  await page.goBack();await page.waitForFunction(()=>document.body.dataset.buildKind==='ACCOUNT_BUILD');await page.goForward();await page.waitForFunction(()=>document.body.dataset.buildKind==='SANDBOX_BUILD');
  await checkNavigation();await page.reload();await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await checkNavigation();
  assert.equal(await page.getByRole('button',{name:'Simulation Stats',exact:true}).count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
+ await page.getByRole('link',{name:'Build a Character',exact:true}).click();await builder.locator('#build.active').waitFor();await builder.locator('#buildWheel .choice').first().waitFor();await checkNavigation();assert.equal((await page.locator('.workspace-header').boundingBox()).height,104);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:resolve(out,'build-mobile.png'),fullPage:true});
+ const focus=await builder.locator('#buildWheel').getAttribute('data-focus-index');await builder.locator('#buildWheel .choice').nth(Number(focus)).click();await builder.locator('#buildShell.has-selection').waitFor();await builder.locator('#build .echo[data-echo-slot="0"]').click();await builder.locator('#echoOverlay.open').waitFor();await page.screenshot({path:resolve(out,'build-workshop-mobile.png'),fullPage:true});await builder.locator('#echoClose').click();await builder.locator('#build [data-home]').click();assert.equal(await builder.locator('#home').isVisible(),false);await page.reload();await builder.locator('#build.active').waitFor();await checkNavigation();
+ checks.push('Shared centered header on Build/Improve/Echo Sandbox; direct real Builder, no old menu, refresh/history and existing equipment Workshop on mobile');
  assert.deepEqual(errors,[]);await writeFile(resolve(out,'verification.json'),JSON.stringify({identity,checks,errors},null,2));console.log('UX review Chromium PASS',JSON.stringify(checks));
 }catch(error){if(page){await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'failure.png'),fullPage:true}).catch(()=>{});console.error(JSON.stringify({errors,configurationReason:await page.locator('#simulate').getAttribute('title').catch(()=>null),status:await page.locator('#sandboxRunStatus').textContent().catch(()=>null)}));}throw error;}finally{await browser.close();await new Promise(r=>server.close(r));}

@@ -1,3 +1,4 @@
+import {mountWorkspaceHeader} from './workspace-navigation.js';
 import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
 import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
 import {createLabResourceInventory} from './resource-state.js';
@@ -477,9 +478,7 @@ if(!demonstration&&!configurationReview){
  if(!sandbox){$('.sonata-section').hidden=true;$('.page-heading h1').textContent='Improve a Character';$('.page-heading .eyebrow').textContent='YOUR EQUIPPED BUILD';$('.loadout-heading .eyebrow').textContent='CURRENT LOADOUT';$('#simulate').querySelector('span:nth-child(2)').textContent='IMPROVE ECHO';$('.loadout-heading .small-muted').textContent='Equipped Echoes';}
  const routes=globalThis.BELLIBING_WORKSPACE_ROUTES;
  const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
- const nav=$('.site-header nav');
- nav.querySelector('[data-workspace="build"]').href=routes?.build??assetURL('../../ui-prototypes/v34-functional.html');
- for(const mode of ['improve','sandbox']){const link=nav.querySelector(`[data-workspace="${mode}"]`);link.href=href(mode);if((mode==='sandbox')===sandbox)link.setAttribute('aria-current','page');else link.removeAttribute('aria-current');}
+ mountWorkspaceHeader($('.site-header'),{build:routes?.build??assetURL('../../ui-prototypes/v34-functional.html')+'?workspace=build',improve:href('improve'),sandbox:href('sandbox')},sandbox?'sandbox':'improve');
  const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
 }
 if(accountMode)setInterval(()=>{candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);

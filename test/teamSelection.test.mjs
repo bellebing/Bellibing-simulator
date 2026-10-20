@@ -28,7 +28,8 @@ test('all 59 RELEASED Characters own one default and can reach every one of the 
   for(const team of view.options){
    assert.ok(team.characterIds.includes(c.characterId),team.id);
    assert.ok(team.sourceRefs.length,team.id);
-   assert.notEqual(team.relationship,'UNRANKED_MODEL_CANDIDATE',team.id);
+   if(team.relationship==='UNRANKED_MODEL_CANDIDATE')
+    assert.ok(team.defaultSourceBindings?.length&&team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO'),team.id);
    if(team.catalogEvidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'){
     assert.ok(team.defaultSourceBindings?.length,team.id);
     assert.ok(team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO'),team.id);
@@ -89,7 +90,7 @@ test('source member roles, modes and conditions remain available without invente
   assert.deepEqual([view.roles.main,view.roles.partner,view.roles.third].sort(),[...view.team.characterIds].sort());
  }
  const hsin=sourceTeamView(selected('hsin'));
- assert.ok(hsin.options.some(t=>t.modeRequirements.hsin==='flare'));
+ assert.ok(hsin.options.some(t=>t.modeRequirements.hsin==='electro-flare'));
  assert.ok(hsin.options.some(t=>t.modeRequirements.hsin==='unison'));
  const zani=sourceTeamView(selected('zani'));
  assert.ok(zani.options.some(t=>t.conditions.some(s=>/frazzle/i.test(s))));

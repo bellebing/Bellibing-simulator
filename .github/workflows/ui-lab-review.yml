@@ -42,6 +42,8 @@ jobs:
           node docs/ui-lab/tools/export-sandbox-stat-sources.mjs --check
           node docs/ui-lab/tools/export-recommended-guidance.mjs --check
           node docs/ui-lab/tools/export-echo-scenario.mjs --check
+      - name: Source Team 59/397 auditable per-Character coverage report
+        run: node scripts/report-team-selection-coverage.mjs
       - name: Canonical configuration source pin
         run: |
           git fetch --depth=1 origin 259f4881271b5cc84cec5bf2e7f085e6a106a8e3

@@ -88,8 +88,8 @@ remaining costs and statistical Expected DPS remain Pending. Normal selected
 Augusta/Iuno/Shorekeeper may show the existing separate experimental reference
 trio after equipment/source/whole-build ER checks: actual selected-member Echoes,
 two fixed reference builds and same-run observed-alternative deltas. Qualified
-normal Team DPS stays Pending. Further DPS-team expansion is paused while the
-core Sandbox loop is reviewed. No deployment or account integration is active.
+normal Team DPS stays Pending. The active DPS direction reuses fixed source scenarios and
+canonical mechanics; no general rotation/damage engine is planned. No deployment or account integration is active.
 
 Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
 
@@ -105,6 +105,14 @@ Worker 13 Resource Inventory is COMPLETE, integrated and post-merge verified: a 
 Worker 15 Fas 1 is **COMPLETE**, integrated, merged and post-merge verified. The character-independent pure-domain engine provides exact cumulative Echo EXP, exact whole discrete Tube spending, intermediate EXP carry, finite/unlimited inventory semantics, separate Tuner checkpoint transactions, +25 overflow return and an exact transaction ledger. Its cost-aware, inventory-sensitive bounded optimizer preserves denomination transformations and reports explicit search limits. UNLIMITED affects feasibility, not spending cost. See the [exact resource engine contract](ECHO_EXACT_TUBE_SPENDING.md). Resource Inventory remains the sole persistent shared budget; runtime/evaluator integration is not inferred from this domain engine.
 
 Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, continue/reject/accept policy, completion criterion, Build Need, Improvement Cost, whole-build orchestration, Monte Carlo and production private ingress remain **Pending**. Farming remains Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+
+The [actual-team request contract](FIXED_TEAM_SCENARIO_CONTRACT.md) shares reviewed
+team/mode/owner capture between Sandbox and Improve. The paired private offline
+adapter evaluates three explicit S0 Augusta/Iuno/Shorekeeper builds and 1–5-slot
+Echo comparisons through the unchanged pilot, including whole-team ER. Native
+RNG observations are verified privately. Qualified product teams added: zero;
+normal UI/provider integration, S1/S2 state variants and Mortefi's S6-to-S0–S2
+rotation remain Pending. No new engine bundle or account integration is published.
 
 ## Real blockers and Pending boundaries
 

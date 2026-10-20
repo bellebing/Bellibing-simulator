@@ -29,7 +29,10 @@ test('all 59 RELEASED Characters own one default and can reach every one of the 
    assert.ok(team.characterIds.includes(c.characterId),team.id);
    assert.ok(team.sourceRefs.length,team.id);
    assert.notEqual(team.relationship,'UNRANKED_MODEL_CANDIDATE',team.id);
-   assert.notEqual(team.evidenceBasis,'PUBLISHED_MODEL_ROSTER_ONLY',team.id);
+   if(team.evidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'){
+    assert.ok(team.defaultSourceBindings?.length,team.id);
+    assert.ok(team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO'),team.id);
+   }
    assert.deepEqual([...new Set(team.characterIds)].sort(),[...team.characterIds].sort());
    const r=roles(team);
    assert.deepEqual([r.main,r.partner,r.third].sort(),[...team.characterIds].sort(),team.id);

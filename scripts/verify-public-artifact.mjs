@@ -1,9 +1,14 @@
 import {verifySandboxRelease} from './sandbox-release.mjs';
 import { readFileSync, readdirSync } from 'node:fs';
-import { resolve, dirname, relative } from 'node:path';
+import { resolve, dirname } from 'node:path';
+import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import ts from 'typescript';
 import { PUBLIC_BROWSER_MODULES, FORBIDDEN_PUBLIC_FIELDS } from './public-web-boundary.mjs';
+
+export function artifactRelative(root, file, paths = path) {
+  return paths.relative(root, file).split(paths.sep).join('/');
+}
 
 export function artifactFiles(directory) {
   return readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
@@ -46,7 +51,7 @@ export function verifyPublicArtifact(directory = 'dist') {
       if (specifier) {
         if (!ts.isStringLiteral(specifier)) throw new Error('Nonliteral public module import: ' + path);
         if (!specifier.text.startsWith('.')) throw new Error('External public module import: ' + path);
-        const target = relative(root, resolve(dirname(resolve(root, path)), specifier.text));
+        const target = artifactRelative(root, resolve(dirname(resolve(root, path)), specifier.text));
         if (!approved.has(target) || !present.has(target)) throw new Error('Unapproved/missing module dependency: ' + path + ' -> ' + target);
       }
       ts.forEachChild(node, walk);

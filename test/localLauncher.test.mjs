@@ -5,6 +5,7 @@ import {mkdtemp, mkdir, writeFile, rm, symlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {request} from 'node:http';
 import {isInside} from '../scripts/local-paths.mjs';
+import {artifactRelative} from '../scripts/verify-public-artifact.mjs';
 import {startPreview} from '../scripts/preview-simulator-v1.mjs';
 import {parseOptions, localGitEnvironment, findNpmCli} from '../scripts/start-bellibing-local.mjs';
 
@@ -12,6 +13,11 @@ test('Windows containment accepts spaces/Unicode; rejects siblings, traversal, U
   const root = 'C:\\Bellibing lokal åäö\\site';
   for (const file of [root+'\\build\\index.html', 'c:\\Bellibing lokal åäö\\site\\sandbox\\engine-release.json']) assert.equal(isInside(root, file, path.win32), true);
   for (const file of [root, root+'2\\private.txt', 'C:\\Bellibing lokal åäö\\secret', 'D:\\site\\index.html', '\\\\server\\share\\index.html']) assert.equal(isInside(root, file, path.win32), false);
+});
+test('Windows module imports use the unchanged POSIX public allowlist; escapes stay outside it', () => {
+  const root = 'C:\\Bellibing lokal\\dist';
+  assert.equal(artifactRelative(root, root+'\\assets\\echoCore.js', path.win32), 'assets/echoCore.js');
+  assert.equal(artifactRelative(root, 'C:\\Bellibing lokal\\private.js', path.win32), '../private.js');
 });
 test('launcher options and scoped Git configuration preserve unrelated configuration', () => {
   assert.equal(parseOptions(['--port','8877','--no-open']).port, 8877);

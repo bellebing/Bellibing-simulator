@@ -35,9 +35,9 @@ export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMod
  const pending=selection?.pendingSupport??false;
  const actualContext=team;
  const relation=actualContext?.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':actualContext?.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core variant':'Reviewed alternative';
- const provenance=actualContext?.evidenceBasis==='REVIEWED_GUIDE_TRIO'?'Explicit source trio':'Reviewed guide-slot synthesis';
+ const provenance=actualContext?.catalogEvidenceBasis==='REVIEWED_GUIDE_TRIO'?'Explicit source trio':'Reviewed guide-slot synthesis';
  const modeLabel=Object.entries(actualContext?.modeRequirements??{}).map(([id,mode])=>`${name(id)}: ${mode}`).join(' · ');
- const conditions=actualContext?.conditionsSv??[];
+ const conditions=actualContext?.conditions??[];
  const source=actualContext?.sourceRefs?.find(r=>/^https:\/\//.test(r.url));
  const sourceLink=source?`<a class="team-source-link" href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">Source ↗</a>`:'';
  const conditionMarkup=conditions.length?`<details class="team-conditions"><summary>Team conditions (${conditions.length})</summary><ul>${conditions.map(c=>`<li>${escapeHtml(c)}</li>`).join('')}</ul></details>`:'';

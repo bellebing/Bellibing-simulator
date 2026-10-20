@@ -4,10 +4,12 @@ import path from 'node:path';
 import {mkdtemp, mkdir, writeFile, rm, symlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {request} from 'node:http';
+import {execFileSync} from 'node:child_process';
+import {pathToFileURL} from 'node:url';
 import {isInside} from '../scripts/local-paths.mjs';
 import {artifactRelative} from '../scripts/verify-public-artifact.mjs';
 import {startPreview} from '../scripts/preview-simulator-v1.mjs';
-import {parseOptions, localGitEnvironment, findNpmCli} from '../scripts/start-bellibing-local.mjs';
+import {parseOptions, localGitEnvironment, findNpmCli, ensureCanonicalRevision} from '../scripts/start-bellibing-local.mjs';
 
 test('Windows containment accepts spaces/Unicode; rejects siblings, traversal, UNC/drive escape', () => {
   const root = 'C:\\Bellibing lokal åäö\\site';
@@ -27,6 +29,16 @@ test('launcher options and scoped Git configuration preserve unrelated configura
   const actual = localGitEnvironment(env);
   assert.equal(actual.GIT_CONFIG_COUNT,'2'); assert.equal(actual.GIT_CONFIG_VALUE_0,'example'); assert.equal(actual.GIT_CONFIG_KEY_1,'core.autocrlf'); assert.equal(actual.GIT_CONFIG_VALUE_1,'false');assert.equal(env.GIT_CONFIG_COUNT,'1');
   assert.match(findNpmCli(), /npm-cli\.js$/);
+});
+test('shallow checkout acquires the locked object without changing HEAD or working files', async () => {
+  const parent=await mkdtemp(path.join(tmpdir(),'Bellibing shallow ')),source=path.join(parent,'source'),checkout=path.join(parent,'checkout');
+  const env=localGitEnvironment(),git=(directory,args)=>execFileSync('git',args,{cwd:directory,env,encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim();
+  try {
+    await mkdir(source);git(source,['init']);await writeFile(path.join(source,'sample.txt'),'first\n');git(source,['add','.']);git(source,['-c','user.name=Local test','-c','user.email=local@example.invalid','commit','-m','first']);const pin=git(source,['rev-parse','HEAD']);
+    await writeFile(path.join(source,'sample.txt'),'current\n');git(source,['add','.']);git(source,['-c','user.name=Local test','-c','user.email=local@example.invalid','commit','-m','current']);const head=git(source,['rev-parse','HEAD']);
+    git(parent,['clone','--depth=1',pathToFileURL(source).href,checkout]);assert.throws(()=>git(checkout,['cat-file','-e',pin+'^{commit}']));
+    ensureCanonicalRevision(checkout,source,pin,env);assert.equal(git(checkout,['rev-parse','HEAD']),head);assert.equal(git(checkout,['status','--porcelain']),'');git(checkout,['cat-file','-e',pin+'^{commit}']);
+  } finally {await rm(parent,{recursive:true,force:true});}
 });
 function get(port, url, options={}) {
   return new Promise((ok,bad)=>{const req=request({host:'127.0.0.1',port,path:url,...options},res=>{let body='';res.on('data',d=>body+=d);res.on('end',()=>ok({status:res.statusCode,body,headers:res.headers}));});req.once('error',bad);req.end();});

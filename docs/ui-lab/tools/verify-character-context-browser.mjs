@@ -37,8 +37,8 @@ try{
  await page.getByRole('button',{name:'Character Stats',exact:true}).click();assert.equal(await page.locator('.sandbox-dps').isVisible(),true);
  assert.ok((await page.locator('[data-role="simulated"] strong').allTextContents()).every(v=>v==='—'));
  online=true;
- await page.locator('[data-team-slot="1"]').click();await page.getByRole('dialog',{name:'Choose teammate'}).locator('[data-choice="guide-augusta-mortefi-the-shorekeeper-augusta-slots-4"]').click();
- assert.deepEqual(await page.locator('.dps-contribution span').allTextContents(),['Augusta','Mortefi','The Shorekeeper','Team Total']);
+ await page.locator('[data-team-role="partner"]').click();await page.getByRole('dialog',{name:'Choose Sub DPS / partner'}).locator('[data-choice="guide-augusta-mortefi-the-shorekeeper-augusta-slots-4"]').click();
+ assert.deepEqual(await page.locator('.team-member>span').allTextContents(),['Augusta','Mortefi','The Shorekeeper']);
  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();
  await page.waitForFunction(()=>document.querySelector('.stat-scope').textContent==='Observed Echoes');
  await page.getByRole('button',{name:'Simulation Stats',exact:true}).click();
@@ -48,9 +48,9 @@ try{
  const index=await page.locator('[data-art]').evaluateAll(nodes=>nodes.findIndex(n=>n.dataset.art==='phrolova'));
  await page.locator('#galleryArt').focus();await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
  await page.waitForFunction(()=>document.querySelector('#characterCarousel').dataset.focusedCharacter==='phrolova'&&document.querySelector('#characterCarousel').dataset.motion==='settled');await page.keyboard.press('Enter');
- await page.waitForFunction(()=>document.querySelector('.dps-contribution span')?.textContent==='Phrolova');
+ await page.waitForFunction(()=>document.querySelector('.team-member>span')?.textContent==='Phrolova');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
- assert.deepEqual(await page.locator('.dps-contribution span').allTextContents(),['Phrolova','Lucilla','Qiuyuan','Team Total']);
+ assert.deepEqual(await page.locator('.team-member>span').allTextContents(),['Phrolova','Lucilla','Qiuyuan']);
  if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
  await page.getByRole('button',{name:'Recommended',exact:true}).click();
  assert.equal(await page.locator('.recommended-guidance').count(),0);assert.equal(await page.getByRole('link',{name:'Character guide'}).count(),0);assert.equal(await page.locator('.target').isVisible(),false);

@@ -1,4 +1,3 @@
-import {createInteractiveEchoSession} from '../../../../src/interactiveEchoSession.mjs';
 import {escapeHtml} from './util.js';
 const headers={'Content-Type':'application/json','X-Bellibing-Review':'1'},path='/local-review/echo-advisor';
 const number=(n,d=1)=>Number.isFinite(n)?n.toLocaleString('en-US',{maximumFractionDigits:d}):'—';
@@ -6,7 +5,8 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  let available=false,host=document.createElement('section'),message='',lastCard=null;host.className='echo-advisor';host.hidden=true;
  document.querySelector('#simulate').after(host);
  const post=async(body,signal)=>{const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body),signal});if(!r.ok)throw Error();return r.json();};
- const session=createInteractiveEchoSession({readContext,requestAdvice:post,onChange:value=>{if(value?.candidate){lastCard=value.candidate;onCard(value.candidate);}else{if(lastCard)onCard(null);lastCard=null;}draw();onRender();}});
+ let session=null;
+ function initialize(createInteractiveEchoSession){session=createInteractiveEchoSession({readContext,requestAdvice:post,onChange:value=>{if(value?.candidate){lastCard=value.candidate;onCard(value.candidate);}else{if(lastCard)onCard(null);lastCard=null;}draw();onRender();}});}
  function act(discard=false){message='';try{discard?session.discard():session.advance();}catch(error){message=error.message.startsWith('INSUFFICIENT_')?'Insufficient '+error.message.slice(13).toLowerCase():error.message;}draw();}
  function draw(){
   if(!available)return;const s=session.snapshot(),a=s?.advice,done=s?.candidate.level===25,winner=a?.winner;
@@ -17,6 +17,6 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   const buildButton=host.querySelector('.advice-full-build');if(buildButton)buildButton.onclick=()=>{const character=document.querySelector('#character');if(!character.classList.contains('expanded'))document.querySelector('#characterToggle').click();character.scrollIntoView({block:'start',behavior:'smooth'});};
   host.querySelectorAll('[data-echo-action]').forEach(b=>b.onclick=()=>act(b.dataset.echoAction==='DISCARD'));
  }
- if(['127.0.0.1','localhost'].includes(location.hostname))post({action:'status'}).then(r=>{if(r.protocol==='BELLIBING_ECHO_ADVICE_V1'){available=true;host.hidden=false;const heading=document.querySelector('.loadout-heading'),slots=document.querySelector('#slots'),details=document.createElement('details');details.className='advisor-equipment';details.innerHTML='<summary>Equipped Echoes</summary>';details.open=innerWidth>1000;heading.before(details);details.append(heading,slots);draw();onRender();}}).catch(()=>{});
- return {available:()=>available,sync(){if(available)session.sync();},start:()=>act(false),reset:()=>session.reset(),snapshot:session.snapshot,abort:()=>session.abort(),export:()=>({kind:'BELLIBING_INTERACTIVE_ECHO_REVIEW_V1',session:session.snapshot(),context:readContext(),accountMutation:false})};
+ if(['127.0.0.1','localhost'].includes(location.hostname))post({action:'status'}).then(async r=>{if(r.protocol==='BELLIBING_ECHO_ADVICE_V1'){const {createInteractiveEchoSession}=await import('../../../../src/interactiveEchoSession.mjs');initialize(createInteractiveEchoSession);available=true;host.hidden=false;const heading=document.querySelector('.loadout-heading'),slots=document.querySelector('#slots'),details=document.createElement('details');details.className='advisor-equipment';details.innerHTML='<summary>Equipped Echoes</summary>';details.open=innerWidth>1000;heading.before(details);details.append(heading,slots);draw();onRender();}}).catch(()=>{});
+ return {available:()=>available,sync(){if(available)session.sync();},start:()=>act(false),reset:()=>session?.reset(),snapshot:()=>session?.snapshot()??null,abort:()=>session?.abort(),export:()=>({kind:'BELLIBING_INTERACTIVE_ECHO_REVIEW_V1',session:session?.snapshot()??null,context:readContext(),accountMutation:false})};
 }

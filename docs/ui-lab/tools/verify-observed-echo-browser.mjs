@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
 import echoData from '../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import scenario from '../v1.1/modules/echo-scenario.json' with {type:'json'};
+import teamCatalog from '../v1.1/modules/character-contexts.json' with {type:'json'};
 import {observedScenarioFixture} from '../../../test/helpers/observedScenarioFixture.mjs';
 const root=resolve(fileURLToPath(new URL('../../../',import.meta.url))),types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml'};
 const server=createServer(async(req,res)=>{try{const path=resolve(root,'.'+new URL(req.url,'http://localhost').pathname);res.setHeader('Content-Type',types[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}});
@@ -59,6 +60,13 @@ try{
   await page.locator('#galleryArt').focus();await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
   await page.waitForFunction(id=>document.querySelector('#characterCarousel').dataset.focusedCharacter===id&&document.querySelector('#characterCarousel').dataset.motion==='settled',id);await page.keyboard.press('Enter');
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  // The elected Character's own source default may NOT be the pilot trio.
+  // Select the explicit reviewed Augusta reference context before enabling
+  // its opt-in bounded experiment; otherwise it must remain unavailable.
+  const approved=teamCatalog.characters.find(c=>c.characterId==='augusta').defaultContextId;
+  await page.locator('[data-team-context-menu]').click();
+  await page.getByRole('dialog',{name:'Reviewed teams / contexts'}).locator(`[data-choice="${approved}"]`).click();
+  assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),approved);
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
   await page.getByRole('button',{name:'Customize',exact:true}).click();
   await page.locator('#flexCount').evaluate(n=>{n.value='1';n.dispatchEvent(new Event('input',{bubbles:true}));});

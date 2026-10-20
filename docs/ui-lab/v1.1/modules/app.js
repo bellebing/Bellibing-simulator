@@ -214,7 +214,7 @@ function renderPiles() {
 // is Character-owned, not an account equipment/Settings/Candidate mutation.
 function teamChoiceNote(team){
  const mode=Object.entries(team.modeRequirements??{}).map(([id,value])=>`${people.get(id)?.name??id}: ${value}`).join(' · ');
- const note=[team.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':team.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core':'Reviewed alternative',mode,...(team.conditionsSv??[])].filter(Boolean).join(' · ');
+ const note=[team.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':team.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core':'Reviewed alternative',mode,...(team.conditions??[])].filter(Boolean).join(' · ');
  return note.length>220?note.slice(0,217)+'…':note;
 }
 function teamChoiceTitle(team){

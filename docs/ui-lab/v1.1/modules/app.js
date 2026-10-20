@@ -1,3 +1,6 @@
+import echoAdviceCatalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
+import {validateEchoTemplateConfiguration} from '../../../ui-prototypes/assets/echo-template-configuration.mjs';
+import {mountEchoAdvisor} from './echo-advisor.js';
 import {createLocalTeamReview} from './local-team-review.js';
 import {mountWorkspaceHeader} from './workspace-navigation.js';
 import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
@@ -18,7 +21,7 @@ import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.m
 import {createSandboxWorkspace,setSandboxWeapon,sandboxStandard,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
 import {configuredCard} from './configured-card.js';
-import {createConfigurationSession,configurationSnapshot,configurationLiveContext,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
+import {createConfigurationSession,configurationSnapshot,configurationLiveContext,settingsSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
 import {createWorkshopEditor} from './workshop-editor.js';
 import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
 import { mountResourceCost } from './resource-cost.js';
@@ -94,9 +97,11 @@ let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMet
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)&&!!sourceTeamView(state)?.selectedTeam&&['augusta','iuno','the-shorekeeper'].every(id=>sourceTeamView(state).selectedTeam.characterIds.includes(id))?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
+var echoAdvisor=null;
 let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
 function readImproveOwner(){let policyStorage;try{policyStorage=['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].map(key=>localStorage.getItem(key));}catch{policyStorage='ACCOUNT_SETTINGS_UNREADABLE';}return {kind:'ACCOUNT_BUILD',policyStorage,record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
 const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
+ if(echoAdvisor?.available())return;
  candidateRun=run;
  if(!run)clearImproveCandidates(state);
  if(run?.status==='PENDING')candidatePreflight={status:'PENDING',reasons:run.reasons};
@@ -120,6 +125,23 @@ if(sandbox||accountMode){
 }
 
 if(accountMode){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.character-content').after(panel);}
+function readEchoAdviceContext(){
+ const owner=readImproveOwner(),record=owner.record,slot=state.selectedSlot,build=record.buildState;
+ const card=build?.echoSets?.sets?.[build.echoSets.activeSetId]?.slots?.[slot];
+ let template=null;if(card)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:card.echoId,cost:card.cost,rank:card.rank,mainStatName:card.mainStat?.name,selectedSonataSetId:card.selectedSonataSetId});}catch{}
+ let settings;try{settings=settingsSnapshot(state);}catch{return {owner:{characterId:selectedId,slot,record},pending:'Settings Pending'};}
+ const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!card?'Choose an equipped Echo':!template?'Echo configuration Pending':!state.configurationSession.active[slot]?'Activate selected slot':state.accountSettingsPending?'Settings Pending':settings.erTarget.enabled?'Whole-build ER advice Pending':settings.flex.length&&!Number.isInteger(settings.flexCount)?'Choose Flex count':null;
+ return {owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record},template,
+  target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
+}
+let advisedOwner=null,advisorRenderQueued=false;
+if(accountMode)echoAdvisor=mountEchoAdvisor({readContext:readEchoAdviceContext,onRender:()=>{if(typeof feedback!=='undefined')renderFeedback();},onCard:card=>{
+ if(card){advisedOwner={state,slot:state.selectedSlot,id:card.id};state.accountCandidates[state.selectedSlot]=structuredClone(card);
+ const history=echoAdvisor?.snapshot()?.history??[];state.configurationSession.histories[state.selectedSlot]=observedSlots({slots:[{slot:1,trash:history.filter(e=>e.kind==='DISCARD').map(e=>({card:e.card,reason:'User discarded · no recovery applied'}))}]})[0].trash;document.body.classList.toggle('has-advisor-trash',history.some(e=>e.kind==='DISCARD'));}
+ else if(advisedOwner){if(advisedOwner.state.accountCandidates[advisedOwner.slot]?.id===advisedOwner.id)advisedOwner.state.accountCandidates[advisedOwner.slot]=null;advisedOwner=null;}
+ if(!advisorRenderQueued){advisorRenderQueued=true;queueMicrotask(()=>{advisorRenderQueued=false;renderWorkspace();});}
+}});
+
 
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}
@@ -162,6 +184,15 @@ function renderFeedback() {
    document.body.classList.toggle('has-candidate-run',!!candidateRun?.view);
   }
   if(!demonstration&&!configurationReview){$('#feedbackTitle').textContent=sandbox?(runLoop?'Simulating…':preflightStatus.status==='READY'?'Ready to Simulate':preflightStatus.status==='PENDING'?'Simulation Pending':'Preparing simulation'):runLoop?'Simulating…':state.onAccount?(candidatePreflight.status==='PENDING'?'Simulation Pending':'Compare a Candidate'):'Choose an owned Character';if(!sandbox)$('#simulate').disabled=!state.onAccount||candidatePreflight.status!=='READY'||runLoop;}
+  if(echoAdvisor?.available()){
+   const run=echoAdvisor.snapshot(),input=readEchoAdviceContext(),level=run?.candidate.level??0;
+   $('#simulate').disabled=!!input.pending||level===25||!!run?.aborted;
+   $('#simulate').querySelector('span:nth-child(2)').textContent='SIMULATE +'+Math.min(25,level+5);
+   $('#feedbackTitle').textContent=level===25?(run?.advice?.status==='TARGET_SUCCESS'?'Target met':'Echo complete'):'Single Echo';
+   $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Ready to simulate';
+   $('#sandboxAbort').disabled=!run||level===25||!!run.aborted;$('#sandboxExport').disabled=!run;
+   $('#sandboxCostDetails').innerHTML='';$('#sandboxHostStatus').textContent='Local Echo advice · gross Tuners';
+  }
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';
   $('#reviewScenario').title = selectedId === 'augusta' ? 'Isolated Augusta review fixtures' : 'Warning/error review fixtures are supplied for Augusta only';
@@ -172,7 +203,8 @@ function renderWorking() {
   const shown=displayedEchoes()[slot];
   $('#currentCard').previousElementSibling.firstElementChild.textContent=shown?.configured?'CONFIGURED ECHO':runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY ECHO':'CURRENT ECHO';
   $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
-  $('#newCard').innerHTML = echoCard(displayedCandidates()[slot], { candidate: true, footer: 'UNFINISHED' });
+  const proposed=displayedCandidates()[slot],advice=echoAdvisor?.snapshot()?.advice;
+  $('#newCard').innerHTML = echoCard(proposed, { candidate: true, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
@@ -368,8 +400,9 @@ function syncAccountState(){
 function renderWorkspace() {
   if(accountMode)syncAccountState();
   sandboxClient?.checkFresh();
-  candidateSession?.checkFresh();
-  if(accountMode){const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding){candidateMetricsBinding=b;candidatePreflight={status:'CHECKING',reasons:[]};clearTimeout(candidateMetricsTimer);candidateMetricsTimer=setTimeout(async()=>{const result=await candidateSession.metrics();if(b===improveCandidateContext(readImproveOwner())){candidatePreflight=result;renderFeedback();}},200);}}
+  if(!echoAdvisor?.available())candidateSession?.checkFresh();
+  echoAdvisor?.sync();
+  if(accountMode&&!echoAdvisor?.available()){const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding){candidateMetricsBinding=b;candidatePreflight={status:'CHECKING',reasons:[]};clearTimeout(candidateMetricsTimer);candidateMetricsTimer=setTimeout(async()=>{const result=await candidateSession.metrics();if(b===improveCandidateContext(readImproveOwner())){candidatePreflight=result;renderFeedback();}},200);}}
   if(sandbox){const binding=JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});if(binding!==metricsBinding){metricsBinding=binding;preRunMetrics=null;preflightStatus={status:'CHECKING',reasons:[]};resourceCost.present();if(hostStatus!=='CONNECTED')hostStatus='CHECKING';clearTimeout(metricsTimer);metricsTimer=setTimeout(()=>probeSandboxHost(binding),350);}}
   if(state.configurationSession)document.querySelectorAll('.mode-switch button').forEach(button=>{const selected=(button.textContent==='Current')===(state.configurationSession.mode==='current');button.classList.toggle('selected',selected);button.setAttribute('aria-pressed',selected);});
   renderWorking();
@@ -518,6 +551,7 @@ $('.setting-mode').addEventListener('click', event => {
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
+  if(echoAdvisor?.available()){workshopEditor.close();if(innerWidth<=1000){$('#settings').classList.remove('expanded');$('#settingsToggle').setAttribute('aria-expanded','false');}echoAdvisor.start();return;}
   if(accountMode){workshopEditor.close();candidateSession.invalidate();runLoop=true;renderFeedback();try{await candidateSession.start();while(runLoop&&candidateSession.checkFresh()&&candidateSession.snapshot()?.status==='RUNNING'){await candidateSession.step();await new Promise(r=>setTimeout(r,0));}}catch(error){if(!['STALE_ACCOUNT_CANDIDATE','STALE_SANDBOX_RESPONSE'].includes(error.message))candidatePreflight={status:'PENDING',reasons:[error.message]};}finally{runLoop=false;renderFeedback();}return;}
   if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
@@ -538,9 +572,9 @@ $('.mode-switch').addEventListener('click', event => {
   state.configurationSession.mode=mode;state.configurationSession.revision++;state.configurationSession.selectionRevision++;renderWorkspace();
 });
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
-if(accountMode){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(candidateSession.isBusy())await new Promise(r=>setTimeout(r,10));await candidateSession.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await candidateSession.export();data.staticComparison=structuredClone(state.accountProjection?.comparison??{status:'PENDING'});const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='Bellibing_Candidate_'+candidateRun.runId+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
+if(accountMode){$('#sandboxAbort').onclick=async()=>{if(echoAdvisor?.available()){echoAdvisor.abort();return;}runLoop=false;try{while(candidateSession.isBusy())await new Promise(r=>setTimeout(r,10));await candidateSession.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=echoAdvisor?.available()?echoAdvisor.export():await candidateSession.export();data.staticComparison=structuredClone(state.accountProjection?.comparison??{status:'PENDING'});const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='Bellibing_Candidate_'+(candidateRun?.runId??echoAdvisor.snapshot()?.id??'local')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
 if(sandbox){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(sandboxClient.isBusy())await new Promise(r=>setTimeout(r,10));await sandboxClient.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await sandboxClient.export(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`Bellibing_Sandbox_${sandboxRun.runId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
-$('#reset').onclick = () => {runLoop=false;workshopEditor.close();candidateSession?.reset();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
+$('#reset').onclick = () => {echoAdvisor?.reset();runLoop=false;workshopEditor.close();candidateSession?.reset();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
 
 if(!demonstration&&!configurationReview){
  document.title=sandbox?'Bellibing Sandbox':'Bellibing · Improve a Character';$('.page-heading h1').textContent=sandbox?'Sandbox Simulator':'Improve a Character';$('.study-label').textContent=sandbox?'SANDBOX BETA':'IMPROVE';$('#workshopFeedback').removeAttribute('aria-describedby');document.body.classList.add('product-workspace');document.body.classList.toggle('account-workspace',!sandbox);document.body.dataset.buildKind=sandbox?'SANDBOX_BUILD':'ACCOUNT_BUILD';
@@ -551,7 +585,7 @@ if(!demonstration&&!configurationReview){
  mountWorkspaceHeader($('.site-header'),{build:routes?.build??assetURL('../../ui-prototypes/v34-functional.html')+'?workspace=build',improve:href('improve'),sandbox:href('sandbox')},sandbox?'sandbox':'improve');
  const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
 }
-if(accountMode)setInterval(()=>{candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
+if(accountMode)setInterval(()=>{if(echoAdvisor?.available()){echoAdvisor.sync();return;}candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();

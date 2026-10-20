@@ -155,7 +155,9 @@ export async function startLocal(options) {
     const manifest = JSON.parse(readFileSync(join(site, 'sandbox/engine-release.json')));
     if (manifest.status !== 'LOCAL_REVIEW_ONLY' || manifest.files.length !== 1) throw Error('Lokal Worker kunde inte kvalificeras.');
     const reviewHandler=existsSync(join(engine,'scripts/team-dps/stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine}):null;
-    const server = await startPreview({directory: site, port: options.port, reviewHandler});
+    const advisorHandler=existsSync(join(engine,'scripts/echo-advisor-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',protocol:'BELLIBING_ECHO_ADVICE_V1'}):null;
+    const localHandler=async(req,res,context)=>(await advisorHandler?.(req,res,context))||(await reviewHandler?.(req,res,context));
+    const server = await startPreview({directory: site, port: options.port, reviewHandler:localHandler});
     const base = `http://127.0.0.1:${server.address().port}`;
     console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
     if (options.open) await openBrowser(base + '/build/').catch(() => console.log(`Webbläsaren kunde inte öppnas automatiskt. Öppna ${base}/build/`));

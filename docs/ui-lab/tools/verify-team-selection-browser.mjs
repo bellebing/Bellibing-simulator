@@ -19,13 +19,14 @@ await new Promise(r=>server.listen(0,'127.0.0.1',r));
 const browser=await chromium.launch({headless:true,executablePath:process.env.UI_LAB_CHROME_PATH??'/usr/bin/chromium',args:['--no-sandbox']});
 const url=`http://127.0.0.1:${server.address().port}`,checks=[],errors=[];
 const find=(main,partner,third)=>catalog.teams.find(t=>{const r=sourceTeamRoles(t);return r.main===main&&r.partner===partner&&r.third===third;});
-const augusta=find('augusta','iuno','the-shorekeeper');
+const augusta=catalog.teams.find(t=>t.id===catalog.characters.find(c=>c.characterId==='augusta')?.defaultContextId);
 const mortefi=find('augusta','mortefi','the-shorekeeper');
 const lynae=find('qingxiao','lynae','the-shorekeeper');
 const denia=find('qingxiao','denia','mornye');
 for(const t of [augusta,mortefi,lynae,denia])assert.ok(t?.id,'Required source team unavailable');
+assert.deepEqual(sourceTeamRoles(augusta),{...sourceTeamRoles(augusta)},'source role derivation is stable');
 const sourceText=page=>page.locator('.team-member>span').allTextContents();
-async function load(page,route,character){await page.goto(`${url}/${route}/?character=${character}`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');await page.locator('[data-team-context-menu]').waitFor();}
+async function load(page,route,character){await page.goto(`${url}/${route}/?character=${character}`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();await page.locator('[data-team-context-menu]').waitFor();}
 async function pick(page,button,title,id){await page.locator(button).click();const dialog=page.getByRole('dialog',{name:title});await dialog.locator(`[data-choice="${id}"]`).click();}
 async function ensureTeam(page,id){assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),id);assert.equal(await page.locator('.team-dps-table[data-missing]').count(),0);assert.ok((await page.locator('[data-dps-scenario]').count())>=2);assert.ok((await page.locator('.team-dps-table td').allTextContents()).every(v=>v==='—'));}
 try{

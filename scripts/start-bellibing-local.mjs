@@ -87,6 +87,26 @@ async function openBrowser(url) {
   child.unref();
 }
 
+export function waitForStop(server, input = process.stdin) {
+  return new Promise(ok => {
+    const terminal = createInterface({input, output: process.stdout});
+    let stopping = false;
+    const stop = () => {
+      if (stopping) return;
+      stopping = true;
+      terminal.close();
+      // Closing readline pauses stdin but leaves a piped Windows/CMD handle
+      // referenced. Close our input too so Enter actually terminates the launcher.
+      input.destroy();
+      server.closeAllConnections();
+      server.close(ok);
+    };
+    terminal.once('line', stop); terminal.once('SIGINT', stop);
+    process.once('SIGINT', stop); process.once('SIGTERM', stop);
+    server.once('close', () => { process.removeListener('SIGINT', stop); process.removeListener('SIGTERM', stop); });
+  });
+}
+
 export async function startLocal(options) {
   const [major, minor] = process.versions.node.split('.').map(Number);
   if (major < 22 || (major === 22 && minor < 16)) throw Error('Node.js 22.16 eller senare krävs. Installera aktuell LTS från nodejs.org.');
@@ -136,15 +156,7 @@ export async function startLocal(options) {
     const base = `http://127.0.0.1:${server.address().port}`;
     console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
     if (options.open) await openBrowser(base + '/build/').catch(() => console.log(`Webbläsaren kunde inte öppnas automatiskt. Öppna ${base}/build/`));
-    await new Promise(ok => {
-      const terminal = createInterface({input: process.stdin, output: process.stdout});
-      let stopping = false;
-      const stop = () => { if (stopping) return; stopping = true; terminal.close(); server.closeAllConnections(); server.close(ok); };
-      terminal.once('line', stop); terminal.once('SIGINT', stop);
-      const signal = () => stop();
-      process.once('SIGINT', signal); process.once('SIGTERM', signal);
-      server.once('close', () => { process.removeListener('SIGINT', signal); process.removeListener('SIGTERM', signal); });
-    });
+    await waitForStop(server);
   } finally { releaseLock(); }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {

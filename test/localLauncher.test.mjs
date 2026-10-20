@@ -3,13 +3,14 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import {mkdtemp, mkdir, writeFile, rm, symlink} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
-import {request} from 'node:http';
+import {request, createServer} from 'node:http';
+import {PassThrough} from 'node:stream';
 import {execFileSync} from 'node:child_process';
 import {pathToFileURL} from 'node:url';
 import {isInside} from '../scripts/local-paths.mjs';
 import {artifactRelative} from '../scripts/verify-public-artifact.mjs';
 import {startPreview} from '../scripts/preview-simulator-v1.mjs';
-import {parseOptions, localGitEnvironment, findNpmCli, ensureCanonicalRevision} from '../scripts/start-bellibing-local.mjs';
+import {parseOptions, localGitEnvironment, findNpmCli, ensureCanonicalRevision, waitForStop} from '../scripts/start-bellibing-local.mjs';
 
 test('Windows containment accepts spaces/Unicode; rejects siblings, traversal, UNC/drive escape', () => {
   const root = 'C:\\Bellibing lokal åäö\\site';
@@ -43,6 +44,13 @@ test('shallow checkout acquires the locked object without changing HEAD or worki
 function get(port, url, options={}) {
   return new Promise((ok,bad)=>{const req=request({host:'127.0.0.1',port,path:url,...options},res=>{let body='';res.on('data',d=>body+=d);res.on('end',()=>ok({status:res.statusCode,body,headers:res.headers}));});req.once('error',bad);req.end();});
 }
+test('Enter closes server AND stdin so a piped CMD launcher can exit', async () => {
+  const server=createServer((req,res)=>res.end('local'));
+  await new Promise(r=>server.listen(0,'127.0.0.1',r));
+  const input=new PassThrough(),listeners=process.listenerCount('SIGINT'),stopped=waitForStop(server,input);
+  input.write('\r\n');await stopped;
+  assert.equal(input.destroyed,true);assert.equal(server.listening,false);assert.equal(process.listenerCount('SIGINT'),listeners);
+});
 test('real preview serves a spaced directory and blocks host/method/path/symlink escapes', async () => {
   const parent=await mkdtemp(path.join(tmpdir(),'Bellibing local åäö ')),directory=path.join(parent,'site');
   let server;

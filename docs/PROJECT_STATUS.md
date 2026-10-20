@@ -106,13 +106,16 @@ Worker 15 Fas 1 is **COMPLETE**, integrated, merged and post-merge verified. The
 
 Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, continue/reject/accept policy, completion criterion, Build Need, Improvement Cost, whole-build orchestration, Monte Carlo and production private ingress remain **Pending**. Farming remains Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
 
-The [actual-team request contract](FIXED_TEAM_SCENARIO_CONTRACT.md) shares reviewed
-team/mode/owner capture between Sandbox and Improve. The paired private offline
-adapter evaluates three explicit S0 Augusta/Iuno/Shorekeeper builds and 1–5-slot
-Echo comparisons through the unchanged pilot, including whole-team ER. Native
-RNG observations are verified privately. Qualified product teams added: zero;
-normal UI/provider integration, S1/S2 state variants and Mortefi's S6-to-S0–S2
-rotation remain Pending. No new engine bundle or account integration is published.
+The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
+and Improve to the unchanged private fixed-team pilot through a loopback-only
+Node bridge. Three complete saved S0 Augusta/Iuno/Shorekeeper builds are required;
+Lv90/R1 is an explicit reference choice because account storage lacks those fields.
+Improve reviews one observed Candidate at a time; Sandbox compares completed active
+slot replacements against a detached account copy. Whole-team ER, source equipment
+and context freshness fail closed. Real Chromium evidence covers both workspaces.
+All numbers remain experimental; qualified teams added: zero. S1/S2, other gear,
+other schedules, Expected DPS and hosted runtime remain Pending. No new private
+algorithm is bundled or published; real Current and account storage remain unchanged.
 
 ## Real blockers and Pending boundaries
 

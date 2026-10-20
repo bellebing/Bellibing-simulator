@@ -10,8 +10,8 @@ for(const team of catalog.teams){
  teams.set(team.id,team);
  if(new Set(team.characterIds).size!==3||team.characterIds.length!==3)errors.push('Invalid trio '+team.id);
  if(!team.sourceRefs?.length||team.sourceRefs.some(r=>!r.url||!r.provider))errors.push('Source locator missing '+team.id);
- if(team.relationship==='UNRANKED_MODEL_CANDIDATE')errors.push('Unranked model promoted '+team.id);
- if(team.catalogEvidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'&&!team.defaultSourceBindings?.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO'))errors.push('Unapproved model '+team.id);
+ if(team.relationship==='UNRANKED_MODEL_CANDIDATE'&&(!team.defaultSourceBindings?.length||!team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO')))errors.push('Unreviewed model discovery promoted '+team.id);
+ if(team.catalogEvidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'&&(!team.defaultSourceBindings?.length||!team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO')))errors.push('Unapproved model '+team.id);
  const roles=sourceTeamRoles(team);
  if(!roles||[roles.main,roles.partner,roles.third].some(id=>!team.characterIds.includes(id))||new Set([roles.main,roles.partner,roles.third]).size!==3)errors.push('Role assignment invalid '+team.id);
  memberships.set(team.id,new Set());

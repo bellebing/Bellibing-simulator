@@ -59,7 +59,7 @@ export function sourceTeamChoices(state,role){
  // The returned unit is a reviewed, full context ID. Never independently
  // cross-product proposed partners and supports.
  return rows.map(t=>({contextId:t.id,characterId:sourceTeamRoles(t)[role],team:t,
-  modeRequirements:t.modeRequirements,conditions:t.conditionsSv,sourceRefs:t.sourceRefs}));
+  modeRequirements:t.modeRequirements,conditions:t.conditions,sourceRefs:t.sourceRefs}));
 }
 export function sourceTeamModeChoices(state){
  const current=sourceTeamView(state);

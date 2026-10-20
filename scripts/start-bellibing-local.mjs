@@ -141,6 +141,7 @@ export async function startLocal(options) {
       run('Hämtar låsta offentliga källor', process.execPath, [npm, 'run', 'pin:fetch'], engine, env);
     }
     for (const script of ['pin:verify', 'phase3:source', 'sandbox:source']) run('Kontrollerar låsta källor', process.execPath, [npm, 'run', script], engine, env);
+    if(existsSync(join(engine,'scripts/source-calculator-source.mjs'))){try{run('Kontrollerar låst lokal DPS-kalkylator',process.execPath,['scripts/source-calculator-source.mjs'],engine,env);}catch{console.log('Källbunden Team DPS är Pending; övriga lokala funktioner kan användas.');}}
     const canonical = execFileSync(process.execPath, ['--experimental-strip-types', '--input-type=module', '-e', "import {CANONICAL_CONFIGURATION_SOURCE} from './src/simulationConfigurationBridge.mjs';console.log(CANONICAL_CONFIGURATION_SOURCE)"], {cwd: publicRoot, env, encoding: 'utf8'}).trim();
     ensureCanonicalRevision(publicRoot, canonical, env);
     run('Kontrollerar kanonisk källintegritet', process.execPath, ['docs/ui-lab/tools/verify-configuration-source.mjs'], publicRoot, env);

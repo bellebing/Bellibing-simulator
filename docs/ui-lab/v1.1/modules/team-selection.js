@@ -24,7 +24,10 @@ export function sourceTeamRoles(team){
  };
 }
 const modeSignature=team=>JSON.stringify(Object.entries(team?.modeRequirements??{}).sort(([a],[b])=>a.localeCompare(b)));
-const sameMode=(a,b)=>modeSignature(a)===modeSignature(b);
+// Preserve modes of members who remain in the party. Requirements owned by
+// a removed partner must not block a documented replacement core.
+const compatibleSharedMode=(a,b)=>a.characterIds.filter(id=>b.characterIds.includes(id))
+ .every(id=>(a.modeRequirements?.[id]??null)===(b.modeRequirements?.[id]??null));
 const sameTrio=(a,b)=>a&&b&&a.characterIds.length===3&&b.characterIds.length===3&&a.characterIds.every(id=>b.characterIds.includes(id));
 
 export function sourceTeamView(state){
@@ -47,7 +50,7 @@ export function sourceTeamChoices(state,role){
  if(!r)return [];
  const rows=current.options.filter(t=>{
   const n=sourceTeamRoles(t);
-  if(!n||!t.sourceRefs?.length||!sameMode(current.team,t))return false;
+  if(!n||!t.sourceRefs?.length||!compatibleSharedMode(current.team,t))return false;
   if(role==='main')return n.partner===r.partner&&n.main!==r.main;
   if(role==='partner')return n.main===r.main&&n.partner!==r.partner;
   if(role==='third')return n.main===r.main&&n.partner===r.partner&&n.third!==r.third;
@@ -60,6 +63,7 @@ export function sourceTeamChoices(state,role){
 }
 export function sourceTeamModeChoices(state){
  const current=sourceTeamView(state);
+ if(current?.pendingSupport)return [];
  return current?.team?current.options.filter(t=>sameTrio(t,current.team)&&modeSignature(t)!==modeSignature(current.team)):[]; 
 }
 

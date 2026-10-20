@@ -29,7 +29,7 @@ test('all 59 RELEASED Characters own one default and can reach every one of the 
    assert.ok(team.characterIds.includes(c.characterId),team.id);
    assert.ok(team.sourceRefs.length,team.id);
    assert.notEqual(team.relationship,'UNRANKED_MODEL_CANDIDATE',team.id);
-   if(team.evidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'){
+   if(team.catalogEvidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'){
     assert.ok(team.defaultSourceBindings?.length,team.id);
     assert.ok(team.defaultSourceBindings.every(b=>b.compositionReview==='APPROVED_GUIDE_PROSE_MATCH_TO_EXISTING_CATALOG_TRIO'),team.id);
    }
@@ -92,14 +92,14 @@ test('source member roles, modes and conditions remain available without invente
  assert.ok(hsin.options.some(t=>t.modeRequirements.hsin==='flare'));
  assert.ok(hsin.options.some(t=>t.modeRequirements.hsin==='unison'));
  const zani=sourceTeamView(selected('zani'));
- assert.ok(zani.options.some(t=>t.conditionsSv.some(s=>/frazzle/i.test(s))));
+ assert.ok(zani.options.some(t=>t.conditions.some(s=>/frazzle/i.test(s))));
  const cart=sourceTeamView(selected('cartethyia'));
- assert.ok(cart.options.some(t=>t.conditionsSv.some(s=>/erosion/i.test(s))));
+ assert.ok(cart.options.some(t=>t.conditions.some(s=>/erosion/i.test(s))));
  const baizhi=sourceTeamView(selected('baizhi'));
  assert.ok(baizhi.options.length>0);
  assert.ok(!baizhi.options.some(t=>roles(t).third==='baizhi'&&t.characterIds.some(id=>['yinlin','zhezhi','mortefi'].includes(id))));
  const youhu=sourceTeamView(selected('youhu'));
- assert.ok(youhu.options.some(t=>t.conditionsSv.some(s=>/coordinated|yinlin|zhezhi/i.test(s))));
+ assert.ok(youhu.options.some(t=>t.conditions.some(s=>/coordinated|yinlin|zhezhi/i.test(s))));
 });
 
 test('team selections preserve independent Echo, Weapon, Settings and Improve Candidate state',()=>{

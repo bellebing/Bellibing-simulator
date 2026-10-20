@@ -1,6 +1,6 @@
 # Bellibing lokalt på Windows 11
 
-Placera två Git-kloner bredvid varandra, med tillhörande versioner av detta startpaket:
+Använd färska Git-kloner av startpaketets två tillhörande granskningsgrenar och placera dem bredvid varandra:
 
 ```
 Bellibing/
@@ -13,6 +13,9 @@ Installera **Node.js LTS 22.16 eller senare**, inklusive npm, samt **Git for Win
 Första hämtningen av låsta källor kräver även **GitHub CLI**, `gh auth login`,
 Windows inbyggda `tar.exe` och internet. Privat repositoryåtkomst behövs för kloningen.
 Startpaketet ändrar inga grenar, hämtar inte nya projektversioner och publicerar inget.
+Repositoryernas Git-attribut bevarar de exakta källbytesen även med Windows normala
+CRLF-inställning. Om en äldre klon redan har konverterat källor till CRLF, använd en
+ny ren klon; startaren skriver inte om dina arbetsfiler för att kringgå källskyddet.
 
 Dubbelklicka på `START_BELLIBING_LOCAL.bat`. Fönstret kontrollerar verktyg, installerar
 saknade npm-beroenden från respektive lockfil och verifierar de låsta källorna.

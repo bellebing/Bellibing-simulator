@@ -56,3 +56,24 @@
 
 .cost-scope{max-width:270px;font-size:10px;line-height:1.45;color:var(--muted);text-align:center;margin:8px auto}
 .dps-experimental{font-size:10px;line-height:1.45;color:var(--muted);margin-top:12px}.dps-experimental summary{color:var(--gold);cursor:pointer}.sandbox-unlimited-resources{font-size:10px;margin-top:6px}
+
+/* Source-bound Team choices shared by Sandbox and Improve. No separate Builder. */
+.team-source-controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:2px 0 9px}
+.team-source-controls button{min-height:34px;background:#1c2429;color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 8px;font:inherit;font-size:10px;cursor:pointer}
+.team-source-controls button:hover:not(:disabled),.team-source-controls button:focus-visible{border-color:var(--gold);outline-offset:2px}
+.team-source-controls button:disabled{opacity:.4;cursor:default}
+.team-source-summary{font-size:10px;line-height:1.45;color:var(--muted);margin:0 0 8px;overflow-wrap:anywhere}
+.team-source-link{color:var(--gold);white-space:nowrap}
+.team-support-pending{color:#d2b27e;border-left:2px solid #d2b27e;padding:6px 8px;margin:8px 0;font-size:10px;line-height:1.45}
+.team-conditions{font-size:10px;color:var(--muted);margin:5px 0 10px}
+.team-conditions summary{cursor:pointer;color:var(--gold)}
+.team-conditions ul{padding-left:17px;line-height:1.5}
+.team-role-label{display:block;font-size:9px;color:var(--muted);margin-bottom:6px}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member{width:100%;min-width:0;max-width:100%;display:flex;align-items:center;flex-direction:column;gap:2px;padding:5px 3px;background:transparent;border:1px solid transparent;border-radius:6px;color:var(--ink);font:inherit;cursor:pointer;white-space:normal}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member:disabled{cursor:default}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member:not(:disabled):hover,:is(.sandbox-preview,.compact-review) .team-dps-table .team-member:focus-visible{border-color:var(--gold)}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member.is-empty{min-height:78px;border-style:dashed;border-color:#b49b69;color:#d2b27e}
+.team-empty-slot{font-size:10px;line-height:1.3}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member img{display:block;width:35px;height:35px;object-fit:cover;border-radius:50%}
+:is(.sandbox-preview,.compact-review) .team-dps-table .team-member small{white-space:normal;color:var(--gold);font-size:9px}
+@media(max-width:700px){.team-source-controls button{min-height:44px}.team-dps-table .team-member{min-height:44px}}

@@ -1,0 +1,3 @@
+# Preserve canonical source, generated data and historical bytes on every OS.
+* -text
+START_BELLIBING_LOCAL.bat text eol=crlf

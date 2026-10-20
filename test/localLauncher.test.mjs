@@ -37,7 +37,7 @@ test('shallow checkout acquires the locked object without changing HEAD or worki
     await mkdir(source);git(source,['init']);await writeFile(path.join(source,'sample.txt'),'first\n');git(source,['add','.']);git(source,['-c','user.name=Local test','-c','user.email=local@example.invalid','commit','-m','first']);const pin=git(source,['rev-parse','HEAD']);
     await writeFile(path.join(source,'sample.txt'),'current\n');git(source,['add','.']);git(source,['-c','user.name=Local test','-c','user.email=local@example.invalid','commit','-m','current']);const head=git(source,['rev-parse','HEAD']);
     git(parent,['clone','--depth=1',pathToFileURL(source).href,checkout]);assert.throws(()=>git(checkout,['cat-file','-e',pin+'^{commit}']));
-    ensureCanonicalRevision(checkout,source,pin,env);assert.equal(git(checkout,['rev-parse','HEAD']),head);assert.equal(git(checkout,['status','--porcelain']),'');git(checkout,['cat-file','-e',pin+'^{commit}']);
+    ensureCanonicalRevision(checkout,pin,env);assert.equal(git(checkout,['rev-parse','HEAD']),head);assert.equal(git(checkout,['status','--porcelain']),'');git(checkout,['cat-file','-e',pin+'^{commit}']);
   } finally {await rm(parent,{recursive:true,force:true});}
 });
 function get(port, url, options={}) {

@@ -49,13 +49,13 @@ export function localGitEnvironment(env = process.env) {
   if (!Number.isInteger(count) || count < 0) throw Error('Ogiltig Git-konfiguration.');
   return {...env, GIT_CONFIG_COUNT: String(count + 1), [`GIT_CONFIG_KEY_${count}`]: 'core.autocrlf', [`GIT_CONFIG_VALUE_${count}`]: 'false'};
 }
-export function ensureCanonicalRevision(repository, sourceRepository, pin, env = localGitEnvironment()) {
+export function ensureCanonicalRevision(repository, pin, env = localGitEnvironment()) {
   if (!/^[a-f0-9]{40}$/.test(pin)) throw Error('Ogiltig kanonisk källrevision.');
   try { execFileSync('git', ['cat-file', '-e', pin + '^{commit}'], {cwd: repository, env, stdio: 'pipe'}); }
   catch {
-    // Shallow clones lack old objects. Reuse the already verified PUBLIC source
-    // cache; fetch adds Git objects only, never changes the checkout or its pin.
-    run('Hämtar det låsta revisionsobjektet', 'git', ['fetch', '--no-tags', '--depth=1', sourceRepository, pin], repository, env);
+    // Shallow clones lack old objects. Fetch exactly the locked public revision;
+    // this adds Git objects only, never changes the checkout or its pin.
+    run('Hämtar det låsta revisionsobjektet', 'git', ['fetch', '--no-tags', '--depth=1', 'origin', pin], repository, env);
   }
 }
 function run(step, executable, args, cwd, env) {
@@ -121,7 +121,7 @@ export async function startLocal(options) {
     }
     for (const script of ['pin:verify', 'phase3:source', 'sandbox:source']) run('Kontrollerar låsta källor', process.execPath, [npm, 'run', script], engine, env);
     const canonical = execFileSync(process.execPath, ['--experimental-strip-types', '--input-type=module', '-e', "import {CANONICAL_CONFIGURATION_SOURCE} from './src/simulationConfigurationBridge.mjs';console.log(CANONICAL_CONFIGURATION_SOURCE)"], {cwd: publicRoot, env, encoding: 'utf8'}).trim();
-    ensureCanonicalRevision(publicRoot, join(engine, '.cache/phase3-dps-source'), canonical, env);
+    ensureCanonicalRevision(publicRoot, canonical, env);
     run('Kontrollerar kanonisk källintegritet', process.execPath, ['docs/ui-lab/tools/verify-configuration-source.mjs'], publicRoot, env);
     run('Bygger den motorfria publika webbplatsen', process.execPath, [npm, 'run', 'build'], publicRoot, env);
     run('Bygger den privata lokala Workern', process.execPath, ['--experimental-strip-types', 'scripts/browser-beta/build.mjs'], engine, env);

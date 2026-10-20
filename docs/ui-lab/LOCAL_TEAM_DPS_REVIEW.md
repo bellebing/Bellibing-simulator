@@ -12,9 +12,10 @@ Run `START_BELLIBING_LOCAL.bat` on Windows or
 launcher verifies sources, builds the public site, stages the existing Worker
 under private ignored output and opens Build. Enter/Ctrl+C stops the server.
 
-1. Save all three complete Augusta / Iuno / Shorekeeper builds in Build.
+1. Save all three complete builds in Build. Supported local experiments are
+   Augusta / Iuno / Shorekeeper and Jinhsi / Zhezhi with Shorekeeper or Verina.
 2. Open Improve or Sandbox, retain their supported source team, and opt into
-   **Lv90 / R1 reference · fixed cycle 2** in Experimental DPS.
+   **Lv90 / R1 reference** in Experimental DPS (fixed cycle 2).
 3. Improve: use Workshop to inspect a legal +25 Candidate. Current, Candidate and
    Change show the three individual contributions and total. Select another
    Candidate slot to review it independently; this does not equip Candidates.
@@ -23,7 +24,7 @@ under private ignored output and opens Build. Enter/Ctrl+C stops the server.
    their account cards; this separate reference comparison is not the normal
    simulated-loadout activation projection. Reset retires the replacement.
 
-All three builds must meet the existing source-bound S0/signature/max-skill,
+All three builds must meet their source-bound S0/Weapon/max-skill,
 Echo species/Sonata shell and whole-build ER requirements. Missing builds, invalid
 cards, insufficient ER or incompatible equipment remain Pending. There is no
 synthetic teammate fallback and no requirement to fabricate missing account gear.
@@ -33,8 +34,10 @@ synthetic teammate fallback and no requirement to fabricate missing account gear
 The account reader supplies actual stored weapon IDs, Sequences, Fortes and Echo
 values. Legacy account storage has no Character/Weapon level or refinement fields:
 Lv90/R1 is therefore an explicit reference scenario, **not verified account
-investment**. Cycle 2, enemy DEF 1520 and 10% elemental resistance are fixed review
-parameters. Card IDs identify local measurement slots, not authenticated game items.
+investment**. Cycle 2 is fixed. Augusta retains DEF 1520 / 10% resistance; the two Jinhsi
+experiments explicitly use the source calculator enemy DEF 1592 / 20% resistance.
+The tooltip shows the selected reference. Verina uses source Variation; other
+Weapons retain their required signatures. Card IDs identify local measurement slots, not authenticated game items.
 Ownership binds observations and comparisons; it is not account authentication.
 
 Improve retains ACCOUNT_BUILD. Sandbox uses a detached SANDBOX_BUILD copy.
@@ -53,6 +56,22 @@ allowlisted aggregates, never source, coefficients, build dumps or diagnostics.
 Static preview/Pages has no executor; no new private browser code is shipped.
 The public dist remains engine-free with `PENDING_REVIEW` / empty release files.
 The existing Worker is staged only in private ignored LOCAL_REVIEW_ONLY output.
+
+## Additional source-model experiments
+
+The two Jinhsi/Zhezhi teams reuse the original pinned Riley calculator and its
+existing complete rotations privately. Only observed Echo main/substats replace
+its synthetic stat pieces; its solver cannot add rolls to the supplied build.
+Actual full-team ER, source gear and the fixed action/hit timeline are required.
+The UI labels these numbers **Experimental · Riley source model**. This is
+upstream-model execution, not canonical or live-game qualification. S0/Lv90/R1,
+max skills, Jué/Celestial Light, Nightmare Lampylumen/Empyrean Anthem and
+Fallacy/Rejuvenating Glow are the bounded profiles. Other contexts remain Pending.
+
+The paired private source setup is invoked by the existing local launcher and
+keeps source/runtime under private ignored cache. No new private algorithm is
+shipped to a browser or included in the public build. Both paths reuse the same
+read-only account capture, ownership, comparison and UI.
 
 ## Verification and reuse
 

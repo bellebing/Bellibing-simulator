@@ -1,5 +1,6 @@
 // Read-only account observations -> detached local reference requests.
 import {createFixedTeamScenarioRequest} from './fixedTeamScenario.mjs';
+import {localTeamReference} from './localTeamReference.mjs';
 const clone=v=>structuredClone(v);
 const hash=async value=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(JSON.stringify(value)))),b=>b.toString(16).padStart(2,'0')).join('');
 const card=(value,id)=>value&&({id,speciesId:value.echoId??value.speciesId,selectedSonataSetId:value.selectedSonataSetId,rank:value.rank,cost:value.cost,level:value.level,
@@ -21,7 +22,7 @@ export async function captureLocalTeamBuilds(input){
    baseline:{characterLevel:90,weaponLevel:90,weaponRefinement:1,sequenceLevel:b.sequenceLevel,forte:clone(b.forte)},
    weapon:{id:b.weaponId,rank:1,level:90},echoes:slots?.map((c,i)=>card(c,`observation:${characterId}:${i}`))};
  });
- const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:{defense:1520,resistanceByElement:{Electro:0.1,Aero:0.1,Spectro:0.1},damageReduction:0},acceptReferenceStateSchedule:true};
+ const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:localTeamReference(team.id).enemy,acceptReferenceStateSchedule:true};
  const current=createFixedTeamScenarioRequest({...common,builds});if(current.status!=='CAPTURED')return fail(current.reason);
  if(builds.some(b=>b.echoes?.length!==5||b.echoes.some(c=>!c)))return fail('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
  const next=clone(builds),selected=next.find(b=>b.characterId===selectedCharacterId),slots=[];

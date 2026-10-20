@@ -108,7 +108,9 @@ Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, 
 
 The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
-Node bridge. Three complete saved S0 Augusta/Iuno/Shorekeeper builds are required;
+Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; two bounded
+Riley source-model experiments add Jinhsi/Zhezhi with Shorekeeper or Verina. Three
+complete saved S0 builds, source gear/rotation and whole-team ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active
 slot replacements against a detached account copy. Whole-team ER, source equipment

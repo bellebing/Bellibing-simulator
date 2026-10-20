@@ -34,8 +34,8 @@ export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMod
  const active=selection?.selectedTeam??team;
  const pending=selection?.pendingSupport??false;
  const actualContext=team;
- const relation=actualContext?.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':actualContext?.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core variant':'Reviewed alternative';
- const provenance=actualContext?.catalogEvidenceBasis==='REVIEWED_GUIDE_TRIO'?'Explicit source trio':'Reviewed guide-slot synthesis';
+ const relation=actualContext?.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':actualContext?.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core variant':actualContext?.relationship==='UNRANKED_MODEL_CANDIDATE'?'Unranked model identity · reviewed guide-prose binding':'Reviewed alternative';
+ const provenance=actualContext?.catalogEvidenceBasis==='REVIEWED_GUIDE_TRIO'?'Explicit source trio':actualContext?.catalogEvidenceBasis==='PUBLISHED_MODEL_ROSTER_ONLY'?'Approved source-prose composition match':'Reviewed guide-slot synthesis';
  const modeLabel=Object.entries(actualContext?.modeRequirements??{}).map(([id,mode])=>`${name(id)}: ${mode}`).join(' · ');
  const conditions=actualContext?.conditions??[];
  const source=actualContext?.sourceRefs?.find(r=>/^https:\/\//.test(r.url));

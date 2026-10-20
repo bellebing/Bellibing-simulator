@@ -4,7 +4,7 @@ import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.j
 import {createLabResourceInventory} from './resource-state.js';
 import {accountProjection} from './account-projection.js';
 import {openSelectionDialog} from './selection-dialog.js';
-import {characterContext,teamSlotAlternatives,selectTeamSlot} from './character-context.js';
+import {sourceTeamRoles,sourceTeamView,sourceTeamChoices,sourceTeamModeChoices,chooseSourceTeam,chooseSourceTeamRole} from './team-selection.js';
 import {createBrowserSandboxClient} from './browser-client.js';
 import {rotationAcceptanceText} from './rotation-acceptance.js';
 import {dpsConceptMarkup} from './dps-concept.js';
@@ -92,7 +92,7 @@ window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{
 let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMetrics=null,metricsBinding=null,metricsTimer=null;
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
-const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
+const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)&&!!sourceTeamView(state)?.selectedTeam&&['augusta','iuno','the-shorekeeper'].every(id=>sourceTeamView(state).selectedTeam.characterIds.includes(id))?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
 let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
 function readImproveOwner(){let policyStorage;try{policyStorage=['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].map(key=>localStorage.getItem(key));}catch{policyStorage='ACCOUNT_SETTINGS_UNREADABLE';}return {kind:'ACCOUNT_BUILD',policyStorage,record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
 const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
@@ -118,7 +118,7 @@ if(sandbox||accountMode){
 
 }
 
-if(compactReview&&!sandbox){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.character-content').after(panel);}
+if(accountMode){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.character-content').after(panel);}
 
 function displayedEchoes(){if(runSlots)return runSlots.map((s,i)=>s.current??configuredCard(state.configurationSession.configurations[i]));return state.configurationSession?.mode==='simulate'?state.configurationSession.current.map((card,index)=>card??configuredCard(state.configurationSession.configurations[index])):state.echoes;}
 function displayedCandidates(){if(runSlots)return runSlots.map(s=>s.candidate);return state.configurationSession?state.configurationSession.candidates:state.candidates;}
@@ -210,27 +210,74 @@ function renderPiles() {
   $('#historyCount').textContent = `${displayedHistories().reduce((sum, history) => sum + history.length, 0)} cards`;
 }
 
+// Both product routes use this one source-context controller. Team selection
+// is Character-owned, not an account equipment/Settings/Candidate mutation.
+function teamChoiceNote(team){
+ const mode=Object.entries(team.modeRequirements??{}).map(([id,value])=>`${people.get(id)?.name??id}: ${value}`).join(' · ');
+ const note=[team.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':team.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core':team.relationship==='UNRANKED_MODEL_CANDIDATE'?'Unranked model · approved guide-prose match':'Reviewed alternative',mode,...(team.conditions??[])].filter(Boolean).join(' · ');
+ return note.length>220?note.slice(0,217)+'…':note;
+}
+function teamChoiceTitle(team){
+ const r=sourceTeamRoles(team);
+ return [r.main,r.partner,r.third].map(id=>people.get(id)?.name??id??'Pending').join(' / ');
+}
+function applyTeamChoice(fn){
+ fn();
+ if(sandbox){
+  // Invalidate the old owner/evaluation lease without resetting the user's
+  // independent Weapon, Echo templates, Settings or resource budget.
+  runLoop=false;
+  sandboxWorkspace.advanceContext();
+  sandboxClient.invalidate();
+  preRunMetrics=null;
+ } // Improve's Echo Candidate has its own equipment/source identity; preserve it.
+ renderWorkspace();
+}
+function renderTeamPanel(panel){
+ if(!panel)return;
+ const selection=sourceTeamView(state);
+ if(!selection)return;
+ selection.modeOptions=sourceTeamModeChoices(state);
+ const roleChoices=Object.fromEntries(['main','partner','third'].map(role=>[role,sourceTeamChoices(state,role)]));
+ const wasOpen=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
+ panel.innerHTML=dpsConceptMarkup({
+  characterId:selectedId,selection,roleChoices,comparisonMode:sandbox?'SANDBOX':'IMPROVE',
+  expertMode:sandbox&&expertMode,evaluationContext:sandbox?state.sandboxEvaluationContext:null,
+  dps:sandbox?sandboxRun?.metrics?.dps??preRunMetrics?.dps??null:null,
+  view:sandbox?sandboxRun?.view??null:null,comparisonSlot:state.sandboxComparisonSlot??null
+ });
+ panel.querySelectorAll('details').forEach(n=>{n.open=wasOpen.includes(n.className);});
+ const captured=state;
+ const dialog=(button,title,choices,onChoose,selected=selection.activeContextId)=>{
+  openSelectionDialog({title,trigger:button,selectedId:selected,choices:choices.map(t=>({
+   id:t.id,name:teamChoiceTitle(t),art:people.get(sourceTeamRoles(t).main)?.face,note:teamChoiceNote(t)
+  })),onChoose:id=>{if(state!==captured)return;onChoose(id);}});
+ };
+ const pickTeam=panel.querySelector('[data-team-context-menu]');
+ if(pickTeam)pickTeam.onclick=()=>dialog(pickTeam,'Reviewed teams / contexts',selection.options.filter(t=>t.sourceRefs?.length),id=>applyTeamChoice(()=>chooseSourceTeam(state,id)));
+ const standard=panel.querySelector('[data-team-default]');
+ if(standard)standard.onclick=()=>applyTeamChoice(()=>chooseSourceTeam(state,null));
+ const mode=panel.querySelector('[data-team-mode]');
+ if(mode)mode.onclick=()=>dialog(mode,'Reviewed mode / preset variants',selection.modeOptions,id=>applyTeamChoice(()=>chooseSourceTeam(state,id)));
+ panel.querySelectorAll('[data-team-role]').forEach(button=>{button.onclick=()=>{
+  const role=button.dataset.teamRole,choices=roleChoices[role];
+  if(!choices?.length)return;
+  dialog(button,`Choose ${role==='third'?(selection.roles?.thirdRole??'third member'):role==='main'?'Main DPS':'Sub DPS / partner'}`,choices.map(c=>c.team),id=>applyTeamChoice(()=>chooseSourceTeamRole(state,role,id)),selection.activeContextId);
+ };});
+ const comparisonSelector=panel.querySelector('.observed-echo-slot');
+ if(comparisonSelector&&sandbox)comparisonSelector.onchange=()=>{state.sandboxComparisonSlot=Number(comparisonSelector.value);renderCharacter();};
+ const dpsSelector=panel.querySelector('.sandbox-dps-context');
+ if(dpsSelector&&sandbox)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.checked?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
+}
+
 function renderCharacter() {
   const person = people.get(selectedId);
   if(sandbox)state.sandboxStatProjection=sandboxStats(state,sandboxRun);
   characterCard.render(person, state);
   if(compactReview)$('#character .side-title').textContent=person.name;
-  if(compactReview&&!sandbox){const panel=$('#compactAccountTeamPanel');panel.innerHTML=dpsConceptMarkup({characterId:person.id});panel.querySelectorAll('button').forEach(button=>{button.disabled=true;button.querySelector('small')?.remove();});}
+  if(accountMode)renderTeamPanel($('#compactAccountTeamPanel'));
   if(sandbox){
-    const panel=$('#sandboxTeamPanel');
-    const open=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
-    panel.innerHTML=dpsConceptMarkup({characterId:person.id,contextId:state.sandboxTeamContextId??null,expertMode,evaluationContext:state.sandboxEvaluationContext??null,dps:sandboxRun?.metrics?.dps??preRunMetrics?.dps??null,view:sandboxRun?.view??null,comparisonSlot:state.sandboxComparisonSlot??null,memberOrder:state.sandboxTeamMemberOrder??null});
-    panel.querySelectorAll('details').forEach(n=>{n.open=open.includes(n.className);});
-    panel.querySelectorAll('[data-team-slot]').forEach(button=>{button.onclick=()=>{
-     const slot=Number(button.dataset.teamSlot),context=characterContext(state.id,state.sandboxTeamContextId,state.sandboxTeamMemberOrder),options=teamSlotAlternatives(context,slot);
-     const captured=state;
-     openSelectionDialog({title:`Choose teammate`,trigger:button,selectedId:context.team?.id,choices:options.map(option=>{const p=people.get(option.characterId);return {id:option.contextId,name:p.name,art:p.face,note:Object.values(option.modeRequirements).join(' · ')};}),onChoose:id=>{if(state!==captured||id===context.team?.id)return;selectTeamSlot(state,slot,id);sandboxWorkspace.advanceContext();sandboxClient.invalidate();renderWorkspace();}});
-    };});
-    const comparisonSelector=panel.querySelector('.observed-echo-slot');
-    if(comparisonSelector)comparisonSelector.onchange=()=>{state.sandboxComparisonSlot=Number(comparisonSelector.value);renderCharacter();};
-    const dpsSelector=panel.querySelector('.sandbox-dps-context');
-    if(dpsSelector)dpsSelector.onchange=()=>{state.sandboxEvaluationContext=dpsSelector.checked?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null;sandboxClient.invalidate();renderWorkspace();};
-
+    renderTeamPanel($('#sandboxTeamPanel'));
     const weaponButton=document.createElement('button');weaponButton.className=$('.character-content .weapon').className+' weapon-picker-trigger';weaponButton.type='button';weaponButton.setAttribute('aria-label','Choose Sandbox Weapon');weaponButton.setAttribute('aria-haspopup','dialog');weaponButton.innerHTML=$('.character-content .weapon').innerHTML;
     $('.character-content .weapon').replaceWith(weaponButton);
     weaponButton.onclick=()=>{const captured=state;

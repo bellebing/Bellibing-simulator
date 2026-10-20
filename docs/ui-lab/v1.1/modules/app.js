@@ -1,3 +1,4 @@
+import {createLocalTeamReview} from './local-team-review.js';
 import {mountWorkspaceHeader} from './workspace-navigation.js';
 import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
 import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
@@ -233,6 +234,27 @@ function applyTeamChoice(fn){
  } // Improve's Echo Candidate has its own equipment/source identity; preserve it.
  renderWorkspace();
 }
+function readLocalTeamInput(){
+ const selection=sourceTeamView(state),team=selection?.selectedTeam;
+ const ids=team?.characterIds??[];
+ const records=ids.map(id=>readProductionBuildRecord(localStorage,people.get(id)));
+ let candidates=Array(5).fill(null),candidateBaseline=null,candidateWeapon=null;
+ if(accountMode)candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);
+ if(sandbox&&sandboxRun?.view?.status==='GOAL_SUCCESS'){
+  const selected=state.configurationSession.active.flatMap((active,i)=>active?[i]:[]),slots=sandboxRun.view.slots??[];
+  if(selected.length&&selected.every(i=>slots.some(s=>s.slot===i+1&&s.complete&&s.current?.level===25))){
+   for(const i of selected)candidates[i]=structuredClone(slots.find(s=>s.slot===i+1).current);
+   candidateBaseline=structuredClone(state.sandboxBuild.baseline);candidateWeapon={id:state.sandboxBuild.weaponId,level:state.sandboxBuild.baseline.weaponLevel,rank:state.sandboxBuild.baseline.weaponRefinement};
+  }
+ }
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,candidateBaseline,candidateWeapon,
+  names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
+  scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
+}
+const localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,onAvailable:()=>renderCharacter()});
+// Other member builds can change in Build/another tab; invalidate the entire
+// comparison immediately even if the selected member's Candidate is unchanged.
+if(sandbox||accountMode)setInterval(()=>localTeamReview.checkFresh(),200);
 function renderTeamPanel(panel){
  if(!panel)return;
  const selection=sourceTeamView(state);
@@ -247,6 +269,7 @@ function renderTeamPanel(panel){
   view:sandbox?sandboxRun?.view??null:null,comparisonSlot:state.sandboxComparisonSlot??null
  });
  panel.querySelectorAll('details').forEach(n=>{n.open=wasOpen.includes(n.className);});
+ localTeamReview.mount(panel);
  const captured=state;
  const dialog=(button,title,choices,onChoose,selected=selection.activeContextId)=>{
   openSelectionDialog({title,trigger:button,selectedId:selected,choices:choices.map(t=>({

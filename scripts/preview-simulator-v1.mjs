@@ -5,7 +5,7 @@ import {resolve, extname} from 'node:path';
 import {fileURLToPath, pathToFileURL} from 'node:url';
 import {isInside} from './local-paths.mjs';
 
-export async function startPreview({directory = fileURLToPath(new URL('../dist/', import.meta.url)), port = 8765} = {}) {
+export async function startPreview({directory = fileURLToPath(new URL('../dist/', import.meta.url)), port = 8765, reviewHandler = null} = {}) {
   directory = await realpath(resolve(directory));
   if (!Number.isInteger(port) || (port !== 0 && (port < 1024 || port > 65535))) throw Error('Ogiltig lokal port (1024–65535).');
   for (const file of ['index.html', 'build/index.html', 'sandbox/index.html', 'improve/index.html', 'review-build.json']) {
@@ -13,9 +13,13 @@ export async function startPreview({directory = fileURLToPath(new URL('../dist/'
   }
   const types = {'.html':'text/html; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.mjs':'text/javascript; charset=utf-8', '.css':'text/css; charset=utf-8', '.json':'application/json; charset=utf-8', '.png':'image/png', '.webp':'image/webp', '.svg':'image/svg+xml', '.txt':'text/plain; charset=utf-8'};
   const server = createServer(async (req, res) => {
-    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405).end(); return; }
     const actualPort = server.address().port;
     if (![`127.0.0.1:${actualPort}`, `localhost:${actualPort}`].includes(req.headers.host)) { res.writeHead(403).end(); return; }
+    if (reviewHandler) {
+      try { if (await reviewHandler(req,res,{origin:`http://${req.headers.host}`})) return; }
+      catch { res.writeHead(503).end(); return; }
+    }
+    if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405).end(); return; }
     try {
       let pathname = decodeURIComponent(new URL(req.url, `http://127.0.0.1:${actualPort}`).pathname);
       if (pathname.includes('\\') || pathname.includes('\0')) { res.writeHead(403).end(); return; }

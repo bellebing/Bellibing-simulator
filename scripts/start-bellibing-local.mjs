@@ -6,6 +6,7 @@ import {execFileSync, spawn} from 'node:child_process';
 import {createInterface} from 'node:readline';
 import {isInside} from './local-paths.mjs';
 import {startPreview} from './preview-simulator-v1.mjs';
+import {createLocalTeamDpsHandler} from './local-team-dps.mjs';
 
 export const publicRoot = fileURLToPath(new URL('../', import.meta.url));
 export function parseOptions(args) {
@@ -152,7 +153,8 @@ export async function startLocal(options) {
     run('Kontrollerar att publik dist fortfarande är motorfri', process.execPath, ['scripts/verify-public-artifact.mjs'], publicRoot, env);
     const manifest = JSON.parse(readFileSync(join(site, 'sandbox/engine-release.json')));
     if (manifest.status !== 'LOCAL_REVIEW_ONLY' || manifest.files.length !== 1) throw Error('Lokal Worker kunde inte kvalificeras.');
-    const server = await startPreview({directory: site, port: options.port});
+    const reviewHandler=existsSync(join(engine,'scripts/team-dps/stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine}):null;
+    const server = await startPreview({directory: site, port: options.port, reviewHandler});
     const base = `http://127.0.0.1:${server.address().port}`;
     console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
     if (options.open) await openBrowser(base + '/build/').catch(() => console.log(`Webbläsaren kunde inte öppnas automatiskt. Öppna ${base}/build/`));

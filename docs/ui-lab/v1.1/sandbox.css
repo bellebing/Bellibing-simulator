@@ -77,3 +77,6 @@
 :is(.sandbox-preview,.compact-review) .team-dps-table .team-member img{display:block;width:35px;height:35px;object-fit:cover;border-radius:50%}
 :is(.sandbox-preview,.compact-review) .team-dps-table .team-member small{white-space:normal;color:var(--gold);font-size:9px}
 @media(max-width:700px){.team-source-controls button{min-height:44px}.team-dps-table .team-member{min-height:44px}}
+
+.local-team-review{margin-top:12px;padding-top:10px;border-top:1px solid #454035}.local-team-review h4{margin:0}.local-team-enable{display:flex;gap:6px;align-items:center;font-size:11px;margin:8px 0}.local-team-status{display:block;color:var(--muted,#b8b1a4);font-size:11px;margin-bottom:6px}.local-team-review .team-dps-table{width:100%;font-size:10px;table-layout:fixed}.local-team-review th,.local-team-review td{padding:6px 2px;overflow-wrap:anywhere}.local-team-delta{border-top:1px solid #454035}
+.local-team-review .team-dps-table thead th:first-child{width:16%}.local-team-review .team-dps-table thead th{font-size:9px;line-height:1.35;overflow-wrap:normal;word-break:normal}.local-team-review .team-dps-table td{white-space:nowrap;font-variant-numeric:tabular-nums;font-size:10px}

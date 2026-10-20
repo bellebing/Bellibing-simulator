@@ -61,8 +61,18 @@ try{
    assert.deepEqual(await sourceText(page),['Qingxiao','Denia','Mornye']);
    assert.equal(await page.locator('.team-support-pending').count(),0);
    await page.screenshot({path:resolve(out,`${route}-qingxiao-mornye-${viewport.width}.png`),fullPage:true});
+   // Denia / Mornye may already be the source-bound standard context.
+   // A disabled reset is correct then; switch to a nonstandard reviewed team
+   // before checking that Standard team really restores the default.
+   const qingxiaoDefault=catalog.characters.find(c=>c.characterId==='qingxiao').defaultContextId;
+   if(denia.id===qingxiaoDefault){
+    assert.equal(await page.locator(`${panel} [data-team-default]`).isDisabled(),true,'Reset must be disabled on the standard context');
+   }
+   await pick(page,`${panel} [data-team-context-menu]`,'Reviewed teams / contexts',lynae.id);
+   await ensureTeam(page,lynae.id);
+   assert.equal(await page.locator(`${panel} [data-team-default]`).isEnabled(),true,'Reset must be available on a nonstandard context');
    await page.locator(`${panel} [data-team-default]`).click();
-   assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),catalog.characters.find(c=>c.characterId==='qingxiao').defaultContextId);
+   await ensureTeam(page,qingxiaoDefault);
    if(viewport.width===1440){
     // Every RELEASED Character has a visible 3-member default in both routes.
     for(const c of catalog.characters){

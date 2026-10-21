@@ -14,7 +14,7 @@ under private ignored output and opens Build. Enter/Ctrl+C stops the server.
 
 1. Save all three complete builds in Build. Supported local experiments include
    the preserved Augusta / Iuno / Shorekeeper pilot and 258 source-bound trios
-   across 43 Characters, including Carlotta / Zhezhi / Shorekeeper and
+   across 45 Characters, including Carlotta / Zhezhi / Shorekeeper and
    Aemeath / Denia / Lupa. Select the corresponding reviewed team and mode.
 2. Open Improve or Sandbox, retain their supported source team, and opt into
    **Lv90 / R1 reference** in Experimental DPS (fixed cycle 2).

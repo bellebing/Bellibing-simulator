@@ -298,7 +298,9 @@ function renderTeamPanel(panel){
  const variantDialog=button=>{
   const variants=sourceTeamVariantChoices(state);
   if(!variants.length)return;
-  openSelectionDialog({title:'Choose variant',trigger:button,choices:variants.map((t,i)=>({id:t.id,name:Object.entries(t.modeRequirements??{}).map(([id,mode])=>`${people.get(id)?.name??id} · ${mode}`).join(' / ')||`Variant ${i+1}`,note:(t.conditions??[]).join(' · ')})),onChoose:id=>{if(state===captured)applyTeamChoice(()=>chooseSourceTeamVariant(state,id));}});
+  const ids=state.sandboxTeamPendingChoice.memberIds.filter(Boolean),differing=ids.filter(id=>new Set(variants.map(t=>t.modeRequirements?.[id]??null)).size>1);
+  const title=(t,i)=>differing.map(id=>`${people.get(id)?.name??id} · ${t.modeRequirements?.[id]?.replaceAll('-',' ')??'Guide reference'}`).join(' / ')||`Source conditions ${i+1}`;
+  openSelectionDialog({title:'Choose variant',trigger:button,choices:variants.map((t,i)=>({id:t.id,name:title(t,i)})),details:variants.map((t,i)=>({name:title(t,i),lines:t.conditions??[]})),onChoose:id=>{if(state===captured)applyTeamChoice(()=>chooseSourceTeamVariant(state,id));}});
  };
  const pendingVariant=panel.querySelector('[data-team-variant]');if(pendingVariant)pendingVariant.onclick=()=>variantDialog(pendingVariant);
  panel.querySelectorAll('[data-team-role]').forEach(button=>{button.onclick=()=>{

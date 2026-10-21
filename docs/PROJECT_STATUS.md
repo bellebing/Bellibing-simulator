@@ -110,17 +110,18 @@ The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
 source-model adapter covers 258 independently benchmarked trios across 45 Characters.
-Reviewed role/mode and composed native profiles reuse the same calculator, including Encore/Havoc Rover. Three
-complete saved builds, canonical equipment, source effects/rotation and total ER are required.
-Lv90/R1 is an explicit reference choice because account storage lacks those fields.
-Both workspaces now use member-only choices and one Current/Candidate/Change DPS table; source details are collapsed and experimental references require explicit opt-in. Improve reviews one observed Candidate at a time; Sandbox compares completed active
-slot replacements against a detached account copy. Whole-team ER, source equipment
-and context freshness fail closed. Real Chromium evidence covers both workspaces.
-Riley supports S0–S2/equipped source R1 Weapons; Change includes relative DPS.
-All numbers stay experimental; qualified teams added: zero. Unsupported investment,
-schedules, four Hsin source conflicts, Expected DPS and hosted runtime stay Pending. No private
-algorithm is bundled or published; real Current and account storage remain unchanged.
-
+Reviewed role/mode and composed native profiles reuse the same calculator, including Encore/Havoc Rover.
+Sandbox now resolves source-native reference profiles independently of accounts and automatically
+shows Reference/Simulated/Change. Five actual completed selected-member cards replace its abstract
+reference Echo stats; two source-solved teammate profiles remain fixed. Partial replacements stay
+Pending because no individual reference cards exist. Augusta/Iuno/Shorekeeper has independent
+original-source parity and real desktop/mobile RNG evidence. Improve keeps actual saved
+Current/Candidate, with explicit unchecked Lv90/R1 model opt-in: v34 lacks real levels/refinement.
+Normal routes omit technical guide/details surfaces and round Expected Tuners; cost/math gates remain.
+Whole-team ER/Crit/casts, source equipment, schedules and freshness fail closed. All numbers
+stay model estimates/Experimental; qualified teams added: zero. Unsupported investment, source profiles,
+schedules, Expected DPS and hosted execution remain Pending. No private
+algorithm is bundled or published; Current and account storage remain unchanged.
 ## Real blockers and Pending boundaries
 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.

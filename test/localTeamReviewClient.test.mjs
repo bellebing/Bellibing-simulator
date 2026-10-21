@@ -54,3 +54,29 @@ test('empty or incomplete team builds show one next action instead of blank comp
  assert.equal(hasCompleteTeamBuilds(null),false);assert.equal(hasCompleteTeamBuilds({team:null,records}),false);assert.equal(hasCompleteTeamBuilds({team,records:[]}),false);
  const empty=structuredClone(records);empty[0].buildState.echoSets.sets.owned.slots=[];assert.equal(hasCompleteTeamBuilds({team,records:empty}),false);
 });
+
+for(const changed of ['weapon','team','settings','configuration','resources'])test('standalone Sandbox automatically rejects late '+changed+' results without account records',async()=>{
+ const originalLocation=globalThis.location;globalThis.location={hostname:'127.0.0.1'};
+ const {createSandboxWorkspace}=await import('../docs/ui-lab/v1.1/modules/sandbox-state.js');
+ const {emptyResourceInventory}=await import('../docs/assets/resourceInventory.js');
+ const workspace=createSandboxWorkspace();workspace.select('augusta');let input={mode:'SANDBOX',selectedCharacterId:'augusta',team,scope:workspace.readContext(emptyResourceInventory(),0)},release,started;
+ const first=new Promise(r=>started=r),parts={};
+ const child={isConnected:true,classList:{add(){}},dataset:{},querySelector(selector){return parts[selector]??=(selector==='.team-dps-table'?{dataset:{}}:{textContent:'',innerHTML:''});}};
+ let calls=0;
+ const fetchImpl=async(_,options)=>{
+  const q=JSON.parse(options.body);if(q.action==='status')return {ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'})};
+  assert.deepEqual(Object.keys(q),['sandbox']);calls++;
+  if(calls===1){started();return new Promise(ok=>{release=()=>ok({ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'EXPERIMENTAL',current:{status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:987654,characterContributions:team.characterIds.map(characterId=>({characterId,dps:329218}))},candidate:null}})});});}
+  return {ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'PENDING',reason:'SANDBOX_REFERENCE_SOURCE_PENDING'}})};
+ };
+ try{
+  const controller=createLocalTeamReview({readInput:()=>input,fetchImpl});await delay(0);controller.mount({querySelector:()=>child});await first;
+  assert.equal(parts['[data-team-reference]'].innerHTML,'','no opt-in');
+  input=structuredClone(input);
+  if(changed==='weapon')input.scope.buildContext.weaponId='unsupported';
+  else if(changed==='team')input.team={...team,id:'unknown'};
+  else input.scope.revisions[changed==='resources'?'inventory':changed]++;
+  controller.checkFresh();await delay(250);release();await delay(0);
+  assert.equal(calls,2);assert.ok(!parts['[data-team-dps-body]'].innerHTML.includes('987,654'));assert.equal(parts['[data-team-status]'].textContent,'DPS not supported');assert.equal(child.dataset.kind,'SANDBOX_BUILD');
+ }finally{globalThis.location=originalLocation;}
+});

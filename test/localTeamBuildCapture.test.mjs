@@ -47,3 +47,15 @@ test('Echo comparison captures equipped weapons and actual mixed Sequences witho
  assert.notEqual((await captureLocalTeamBuilds(other)).payload.current.ownership.revision,r.payload.current.ownership.revision);
  }
 });
+
+test('nonstandard actual Echo species/COST and declared replacements are transported without standard-gear substitution',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),{default:catalog}=await import('../docs/ui-prototypes/assets/echoes/browser-data.json',{with:{type:'json'}});
+ const context=contexts.teams.find(t=>t.id==='guide-galbrena-qiuyuan-the-shorekeeper-galbrena-slots-15'),{records}=own({context}),b=records.find(r=>r.characterId==='galbrena').buildState,slots=b.echoSets.sets.owned.slots;
+ const e=catalog.echoes.find(e=>e.name==='Corrosaurus'),main=catalog.statEditor.mainStatsByCostAndLevel['3']['25'].find(s=>s.name==='Energy Regen');
+ slots[0]={...slots[0],echoId:e.id,cost:e.cost,selectedSonataSetId:e.sonataSetIds[0],mainStat:structuredClone(main),secondaryMainStat:structuredClone(catalog.statEditor.secondaryMainStatsByCostAndLevel['3']['25'])};
+ const before=structuredClone(records),candidate=structuredClone(slots[1]);candidate.substats=candidate.substats.map(s=>s.name==='CRIT DMG'?{...s,value:0.21}:s);
+ for(const mode of ['IMPROVE','SANDBOX']){const r=await captureLocalTeamBuilds({mode,team:context,selectedCharacterId:'galbrena',records,scope:{},candidates:[null,candidate],acceptReferenceInvestment:true});assert.equal(r.status,'CAPTURED');assert.deepEqual(r.payload.slots,[1]);
+  for(const side of [r.payload.current,r.payload.candidate]){const c=side.builds.find(b=>b.characterId==='galbrena').echoes[0];assert.equal(c.speciesId,e.id);assert.equal(c.cost,3);assert.deepEqual(c.mainStat,main);assert.equal(c.selectedSonataSetId,e.sonataSetIds[0]);}
+ }
+ assert.deepEqual(records,before);
+});

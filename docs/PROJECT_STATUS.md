@@ -109,9 +109,9 @@ The [local interactive Echo advisor candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md
 The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
-source-model adapter adds 89 independently benchmarked trios across 34 Characters.
-It joins existing reviewed variants; 72 standard-gear profiles remain Pending. Three
-complete saved builds, source gear/rotation and whole-team ER are required.
+source-model adapter covers 135 independently benchmarked trios across 39 Characters.
+It resolves actual source equipment; inactive species/COST may vary legally. Three
+complete saved builds, canonical equipment, source effects/rotation and total ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active
 slot replacements against a detached account copy. Whole-team ER, source equipment

@@ -93,3 +93,5 @@ not another UI/calculator. S3–S6 state variants, Mortefi's incompatible S6 cap
 unsupported weapons/Main Echo/Sonata profiles/teams, statistical Expected DPS, native-state/live-game
 qualification and hosted runtime remain Pending. Experimental is not an upgrade
 verdict or permission to publish the engine.
+
+The source adapter also accepts Brant's reviewed native Bloodpact's Pledge R1 in six existing contexts, with no public runtime change. Independent evidence covers 58 source roles and all thirteen Echo substats/nineteen cost-mainstat combinations on stat-scaling representatives. Native conversion caps remain active: extra ER above Brant's cap gives zero damage gain; unmet whole-team ER/Crit/casts still withhold results. Coverage remains 154 trios/43 Characters, all Experimental. Brant/Sanhua/Shorekeeper passes desktop/mobile Chromium in both workspaces with account data unchanged.

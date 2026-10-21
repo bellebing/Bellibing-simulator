@@ -69,3 +69,16 @@ test('newly source-bound Echo identities and Aero Rover retain canonical IDs and
   }assert.deepEqual(records,before);
  }
 });
+
+test('Brant Echo comparison preserves equipped R1, S2 and actual HP/DEF stats on both sides',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),context=contexts.teams.find(t=>t.id==='guide-brant-sanhua-the-shorekeeper-brant-slots-42');
+ const {records}=own({context}),b=records.find(r=>r.characterId==='brant').buildState;b.weaponId='bloodpacts-pledge';b.sequenceLevel=2;
+ const candidate=structuredClone(b.echoSets.sets.owned.slots[0]);candidate.mainStat={name:'HP%',value:0.33};candidate.substats=[{name:'HP%',value:0.116},{name:'DEF%',value:0.147},{name:'Flat DEF',value:70},{name:'Energy Regen',value:0.124},{name:'CRIT Rate',value:0.105}];
+ const before=structuredClone(records);
+ for(const mode of ['IMPROVE','SANDBOX']){
+  const r=await captureLocalTeamBuilds({mode,team:context,selectedCharacterId:'brant',records,scope:{},acceptReferenceInvestment:true,candidates:[candidate]});assert.equal(r.status,'CAPTURED');
+  for(const side of [r.payload.current,r.payload.candidate]){const actual=side.builds.find(b=>b.characterId==='brant');assert.equal(actual.weapon.id,'bloodpacts-pledge');assert.equal(actual.weapon.rank,1);assert.equal(actual.baseline.sequenceLevel,2);}
+  const actual=r.payload.candidate.builds.find(b=>b.characterId==='brant').echoes[0];assert.deepEqual(actual.mainStat,candidate.mainStat);assert.deepEqual(actual.substats,candidate.substats);assert.deepEqual(r.payload.slots,[0]);
+ }
+ assert.deepEqual(records,before);
+});

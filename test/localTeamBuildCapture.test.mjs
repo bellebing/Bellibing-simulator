@@ -96,3 +96,13 @@ test('existing published role references capture the source enemy and exact mode
  const blocked=localTeamReference('guide-qiuyuan-sigrika-the-shorekeeper-qiuyuan-slots-32');assert.equal(blocked.defense,1592);assert.equal(blocked.teamDpsReady,undefined);assert.equal(blocked.status,undefined);
  assert.equal(localTeamReference('unknown').defense,1520);
 });
+
+test('existing composed Encore/Havoc references keep actual S2 and source enemy without a synthetic team',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
+ for(const [id,characterId]of [['guide-encore-sanhua-the-shorekeeper-encore-slots-14','encore'],['guide-rover-havoc-sanhua-the-shorekeeper-rover-havoc-slots-33','rover-havoc']]){
+  const team=contexts.teams.find(t=>t.id===id),{records}=own({context:team}),b=records.find(r=>r.characterId===characterId).buildState;b.sequenceLevel=2;const before=structuredClone(records);
+  for(const mode of ['IMPROVE','SANDBOX']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:characterId,records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(b.echoSets.sets.owned.slots[0])]});assert.equal(r.status,'CAPTURED');
+   for(const side of [r.payload.current,r.payload.candidate]){assert.equal(side.enemy.defense,1592);assert.equal(side.builds.find(b=>b.characterId===characterId).baseline.sequenceLevel,2);assert.equal(side.builds.length,3);}assert.deepEqual(r.payload.slots,[0]);
+  }assert.deepEqual(records,before);
+ }
+});

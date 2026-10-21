@@ -110,7 +110,7 @@ The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
 source-model adapter covers 154 independently benchmarked trios across 43 Characters.
-Reviewed identities/native Aero Rover R1 add 19 trios; inactive species/COST may vary. Three
+Reviewed identities/native Aero Rover R1 add 19 trios; Brant R1 and Echo-stat response are also tested. Three
 complete saved builds, canonical equipment, source effects/rotation and total ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active

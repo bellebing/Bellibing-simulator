@@ -82,3 +82,17 @@ test('Brant Echo comparison preserves equipped R1, S2 and actual HP/DEF stats on
  }
  assert.deepEqual(records,before);
 });
+
+test('existing published role references capture the source enemy and exact modes without claiming execution readiness',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),{localTeamReference}=await import('../src/localTeamReference.mjs');
+ const ids=['guide-augusta-iuno-mornye-augusta-slots-4','guide-augusta-iuno-verina-augusta-slots-4','guide-jingran-iuno-mornye-jingran-slots-21','guide-jingran-iuno-the-shorekeeper-jingran-slots-21','guide-jingran-iuno-verina-jingran-slots-21','guide-jiyan-iuno-mornye-jiyan-slots-23','guide-jiyan-iuno-the-shorekeeper-jiyan-slots-23','model-jiyan-533','model-sigrika-193','model-zani-441'];
+ for(const id of ids){const team=contexts.teams.find(t=>t.id===id),{records}=own({context:team}),before=structuredClone(records);
+  for(const mode of ['SANDBOX','IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:team.characterIds[0],records,scope:{},acceptReferenceInvestment:true});assert.equal(r.status,'CAPTURED');assert.equal(r.payload.current.enemy.defense,1592);assert.ok(Object.values(r.payload.current.enemy.resistanceByElement).every(r=>r===0.2));for(const b of r.payload.current.builds)assert.equal(b.modeId,team.modeRequirements?.[b.characterId]??'default');}
+  assert.deepEqual(records,before);
+ }
+ for(const id of ['guide-augusta-iuno-the-shorekeeper-augusta-slots-4','guide-augusta-mortefi-the-shorekeeper-augusta-slots-4'])assert.equal(localTeamReference(id).defense,1520);
+ // Reference routing owns no capability flag. A published model can still be
+ // mode-blocked; only the private evaluator can return actual Experimental DPS.
+ const blocked=localTeamReference('guide-qiuyuan-sigrika-the-shorekeeper-qiuyuan-slots-32');assert.equal(blocked.defense,1592);assert.equal(blocked.teamDpsReady,undefined);assert.equal(blocked.status,undefined);
+ assert.equal(localTeamReference('unknown').defense,1520);
+});

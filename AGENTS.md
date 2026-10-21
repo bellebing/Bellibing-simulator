@@ -4,6 +4,8 @@ Read [Development Process v2](docs/DEVELOPMENT_PROCESS.md) before work; it is th
 
 Recover current truth in order: GitHub `main`/code and relevant PR/CI state → `docs/PROJECT_STATUS.md` → Bellibing Echo Tool — AI Handoff, when available → relevant domain/UI contracts. Current implementation beats stale documents and chat history; an unmerged candidate is separate from main. Read only what the task needs.
 
+For the product owner's **complete goal and current milestone order**, read [Product Journey Roadmap](docs/PRODUCT_JOURNEY_ROADMAP.md). Read its [document authority audit](docs/ROADMAP_DOCUMENT_AUDIT.md) when an older roadmap, dated handoff, proposal or prompt appears to contradict it. The roadmap governs **what** to build, not permissions: Development Process v2 still governs **how** to work and stopping/merge rules. First Build redesign step is an **isolated interactive concept for owner review**, not a silent production rewrite.
+
 ## Clean-slate UI concept work
 
 When the user explicitly commissions a **new, isolated visual concept** (such as a Bellibing UI Lab prototype):

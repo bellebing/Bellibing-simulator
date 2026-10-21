@@ -59,3 +59,13 @@ test('nonstandard actual Echo species/COST and declared replacements are transpo
  }
  assert.deepEqual(records,before);
 });
+
+test('newly source-bound Echo identities and Aero Rover retain canonical IDs and explicit R1 in both workspaces',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
+ for(const [teamId,id,echoId]of [['guide-hiyuki-lucilla-suisui-hiyuki-slots-16','hiyuki','echo-60001995'],['guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8','rover-aero',null]]){
+  const team=contexts.teams.find(t=>t.id===teamId),{records}=own({context:team}),observed=records.find(r=>r.characterId===id),before=structuredClone(records);
+  for(const mode of ['SANDBOX','IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:id,records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(observed.buildState.echoSets.sets.owned.slots[0])]});assert.equal(r.status,'CAPTURED');
+   for(const side of [r.payload.current,r.payload.candidate]){const b=side.builds.find(b=>b.characterId===id);if(echoId)assert.equal(b.echoes[0].speciesId,echoId);else assert.equal(b.weapon.id,'bloodpacts-pledge');assert.equal(b.weapon.rank,1);assert.equal(b.baseline.weaponRefinement,1);assert.equal(side.enemy.defense,1592);}
+  }assert.deepEqual(records,before);
+ }
+});

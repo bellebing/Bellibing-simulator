@@ -109,8 +109,8 @@ The [local interactive Echo advisor candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md
 The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
-source-model adapter covers 135 independently benchmarked trios across 39 Characters.
-It resolves actual source equipment; inactive species/COST may vary legally. Three
+source-model adapter covers 154 independently benchmarked trios across 43 Characters.
+Reviewed identities/native Aero Rover R1 add 19 trios; inactive species/COST may vary. Three
 complete saved builds, canonical equipment, source effects/rotation and total ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active
@@ -118,7 +118,7 @@ slot replacements against a detached account copy. Whole-team ER, source equipme
 and context freshness fail closed. Real Chromium evidence covers both workspaces.
 Riley supports S0–S2/equipped source R1 Weapons; Change includes relative DPS.
 All numbers stay experimental; qualified teams added: zero. Unsupported investment,
-schedules, Expected DPS and hosted runtime remain Pending. No new private
+schedules, four Hsin source conflicts, Expected DPS and hosted runtime stay Pending. No private
 algorithm is bundled or published; real Current and account storage remain unchanged.
 
 ## Real blockers and Pending boundaries

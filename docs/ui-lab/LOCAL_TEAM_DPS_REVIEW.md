@@ -13,8 +13,8 @@ launcher verifies sources, builds the public site, stages the existing Worker
 under private ignored output and opens Build. Enter/Ctrl+C stops the server.
 
 1. Save all three complete builds in Build. Supported local experiments include
-   the preserved Augusta / Iuno / Shorekeeper pilot and 135 source-bound trios
-   across 39 Characters, including Carlotta / Zhezhi / Shorekeeper and
+   the preserved Augusta / Iuno / Shorekeeper pilot and 154 source-bound trios
+   across 43 Characters, including Carlotta / Zhezhi / Shorekeeper and
    Aemeath / Denia / Lupa. Select the corresponding reviewed team and mode.
 2. Open Improve or Sandbox, retain their supported source team, and opt into
    **Lv90 / R1 reference** in Experimental DPS (fixed cycle 2).
@@ -61,9 +61,11 @@ The existing Worker is staged only in private ignored LOCAL_REVIEW_ONLY output.
 
 ## Additional source-model experiments
 
-The shared adapter joins existing reviewed published rotation variants to the pinned Riley calculator. Automatic numeric evidence covers 135 distinct trios; no new team database or per-team calculator is added. Actual Main Echo, equipped Weapon and active distinct-species Sonata bonuses select matching source-declared options. The five observed cards must satisfy canonical species/COST/membership rules and the endgame COST limit; inactive species/order and 43311/44111 layouts need not equal a recommended standard. The same selected source equipment profile defines a fixed action/hit schedule; actual observed builds must preserve it, satisfy all-member ER/cast constraints and provide all 15 legal +25 cards. Missing native equipment/effects and unmet requirements stay Pending.
+The shared adapter joins existing reviewed published rotation variants to the pinned Riley calculator. Automatic numeric evidence covers 154 distinct trios; no new team database or per-team calculator is added. Actual Main Echo, equipped Weapon and active distinct-species Sonata bonuses select matching source-declared options. The five observed cards must satisfy canonical species/COST/membership rules and the endgame COST limit; inactive species/order and 43311/44111 layouts need not equal a recommended standard. The same selected source equipment profile defines a fixed action/hit schedule; actual observed builds must preserve it, satisfy all-member ER/cast constraints and provide all 15 legal +25 cards. Missing native equipment/effects and unmet requirements stay Pending.
 
 Only actual Echo main/substats replace synthetic stat pieces. No ER rolls or missing teammate stats are invented. The UI labels numbers **Experimental · Riley source model**. Support includes S0–S2 and source-supported actual equipped Weapons; explicit Lv90/R1, max skills and source-supported Main Echo/Sonata profiles remain required. Selecting another reviewed team uses the same Current/Candidate/Change or Account/Replacement table. The same equipped investment establishes the fixed reference timeline for Current and Candidate; an Echo change cannot silently use another schedule. Change shows absolute DPS and the percentage against each Current actor/total; a zero baseline has no percentage. A known composition or published timing reference alone does not make its DPS executable. There are no new qualified product teams.
+
+Three explicitly reviewed Echo identity mappings and the existing native Aero Rover R1 weapon object extend the same execution path without another calculator or public runtime change. This adds 19 source trios and unlocks thirteen canonical standard profiles (102 standards supported). All other actual profiles still require an exact native match. Source conflicts stay Pending; matching an abbreviated name does not qualify a mechanic. Hiyuki/Lucilla/Suisui and Cartethyia/Ciaccona/Aero Rover pass actual local browser review in both workspaces.
 
 The paired private source setup is invoked by the existing local launcher and
 keeps source/runtime under private ignored cache. No new private algorithm is

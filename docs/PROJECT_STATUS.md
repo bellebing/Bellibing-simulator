@@ -70,6 +70,8 @@ GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidenc
 
 ## Nearest roadmap
 
+The owner-approved **full Build → screenshot import → living Improve → standalone Sandbox → DPS/economics → Teams** journey is maintained in [PRODUCT_JOURNEY_ROADMAP](PRODUCT_JOURNEY_ROADMAP.md). Its immediate next step is a whole-flow UX/ownership audit and an **isolated interactive Build/Echo concept for owner approval**, before rewriting the accepted Build workspace. [Document authority audit](ROADMAP_DOCUMENT_AUDIT.md) identifies superseded ordering and protects process/source evidence. Current main product readiness below stays distinct from unmerged Draft features; old phase descriptions are historical, not task orders.
+
 The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
 
 The **standalone Sandbox candidate** now connects explicit supported Custom Echo goals

@@ -1,5 +1,7 @@
 # Standalone Sandbox Simulator roadmap
 
+> **Older standalone-program plan (historical).** The current owner-approved end-to-end priorities are in [PRODUCT_JOURNEY_ROADMAP](PRODUCT_JOURNEY_ROADMAP.md). Preserve the source/safety contracts below, but use the new roadmap for ordering work. Canonical worker rules remain in [DEVELOPMENT_PROCESS](DEVELOPMENT_PROCESS.md).
+
 ## Product decision and ownership
 
 Develop the standalone Character Sandbox before account integration. A released Character can be explored without owning a Character, saved build, Echo or resource inventory. `SANDBOX_BUILD` is an explicit detached, versioned context; `ACCOUNT_BUILD` retains its existing production contract. Neither is a fallback for the other. Canonical catalogs, validators and build projections remain shared. No second evaluator or public private-policy implementation is permitted.

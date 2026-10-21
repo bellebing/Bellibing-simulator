@@ -36,7 +36,7 @@ try{
   let state=await snapshot(page);assert.equal(state.context.kind,'SANDBOX_BUILD');assert.equal(state.slots.filter(s=>s.configuration).length,5);assert.ok(state.slots.every(s=>s.simulatedCurrent===null));
   const initial=await page.locator('.workshop').boundingBox();
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
-  assert.equal(await page.locator('.dps-contribution').count(),4);assert.ok((await page.locator('.sandbox-dps').innerText()).includes('PENDING'));
+  assert.equal(await page.locator('.dps-contribution').count(),4);assert.ok((await page.locator('.sandbox-dps').innerText()).includes('Local DPS unavailable'));
   const rects=await page.locator('.dps-contribution').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,right:r.right};}));
   assert.ok(rects.every(r=>Math.abs(r.y-rects[0].y)<1&&Math.abs(r.width-rects[0].width)<1));assert.ok(rects[3].right<=width);
   assert.deepEqual(await page.locator('[data-cost-role="simulated"]').allTextContents(),['—','—','—']);

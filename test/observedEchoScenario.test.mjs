@@ -17,7 +17,8 @@ test('stale view, foreign cards, source/clock/provider drift and forged deltas c
 });
 test('experimental reference remains separate from the shared qualified comparison rows',()=>{
  const i=observedScenarioFixture(),args={hasCurrentBuild:true,characterId:'augusta',dps:i.dps,view:i.view,evaluationContext:i.dps.context};
- assert.match(dpsConceptMarkup(args),/Experimental Simulated/);assert.match(dpsConceptMarkup(args),/Expected DPS: Pending/);
+ const normal=dpsConceptMarkup(args);assert.match(normal,/>Reference<.*>Simulated<.*>Change</s);assert.doesNotMatch(normal,/dps-experimental|data-observed-row|>6<|>7<|data-status="VERIFIED"/);
+ // Legacy research values cannot populate the normal unified product table.
  const markup=dpsConceptMarkup({...args,expertMode:true});assert.match(markup,/Experimental Echo comparison/);assert.match(markup,/data-observed-row="DELTA"/);
  assert.equal((markup.match(/data-dps-scenario=/g)??[]).length,2);assert.ok(!markup.includes('data-status="VERIFIED"'));
  assert.ok(!dpsConceptMarkup({...args,expertMode:true,evaluationContext:null}).includes('class="observed-echo-comparison"'));

@@ -1,103 +1,86 @@
-# Local actual-team DPS review
+# Local Team DPS
 
-This is an opt-in local experimental consumer of the existing fixed-scenario
-adapter, not qualified product DPS. Normal Character/Team DPS and Expected DPS
-remain Pending. No algorithm is added to the public application or Worker.
+The normal Improve and Sandbox routes share one comparison table. Numbers are
+**model estimates**, internally Experimental / not qualified gameplay DPS.
+Expected DPS and automatic Character-upgrade verdicts remain Pending.
 
-## Start and use
+## Local use
 
-Use the paired current Draft branches in sibling Git clones.
-Run `START_BELLIBING_LOCAL.bat` on Windows or
-`node scripts/start-bellibing-local.mjs` from the public repository. The existing
-launcher verifies sources, builds the public site, stages the existing Worker
-under private ignored output and opens Build. Enter/Ctrl+C stops the server.
+Use the paired current Draft branches in sibling Git clones. On Windows run
+`START_BELLIBING_LOCAL.bat`; otherwise run `node scripts/start-bellibing-local.mjs`
+from the public repository. Enter/Ctrl+C stops the loopback preview. The launcher
+stages the existing Worker only under private ignored `LOCAL_REVIEW_ONLY` output.
+No private engine is added to public build artifacts or deployed.
 
-1. Save all three complete builds in Build. Supported local experiments include
-   the preserved Augusta / Iuno / Shorekeeper pilot and 258 source-bound trios
-   across 45 Characters, including Carlotta / Zhezhi / Shorekeeper and
-   Aemeath / Denia / Lupa. Select the corresponding reviewed team and mode.
-2. Open Improve or Sandbox, retain their supported source team, and opt into
-   **Experimental · Lv90 / R1 reference** in Team DPS (fixed cycle 2).
-3. Improve: use Workshop to inspect a legal +25 Candidate. Current, Candidate and
-   Change show the three individual contributions and total. Select another
-   Candidate slot to review it independently; this does not equip Candidates.
-4. Sandbox: complete an actual RNG run. Current / Candidate compares the copied
-   account team with completed active-slot replacements. Both sides retain account Weapons, Sequences and Fortes, even when the independent
-   Sandbox loadout uses different investment. Unselected slots retain
-   their account cards; this separate reference comparison is not the normal
-   simulated-loadout activation projection. Reset retires the replacement.
+### Sandbox
 
-All three builds must meet their source-bound Sequence/Weapon/max-skill,
-Main Echo/active Sonata effects, canonical equipment legality and whole-build ER requirements. Missing builds, invalid
-cards, insufficient ER or incompatible equipment remain Pending. There is no
-synthetic teammate fallback and no requirement to fabricate missing account gear.
+Sandbox reads no saved account builds for DPS. Its `SANDBOX_BUILD` request carries
+the selected reviewed team, hypothetical investment/Weapon, Echo template identities,
+observed cards and a revision binding. The private source adapter resolves the
+existing native reference profiles and fixed rotation; no test Echo fixture or
+invented per-card substat allocation becomes a reference build.
 
-## Observation and reference boundaries
+`Reference / Simulated / Change` shows all three actor contributions and Team Total.
+A source-supported reference is calculated automatically before an RNG run, with
+no investment checkbox. Augusta/Iuno/Shorekeeper is independently checked against
+the original source TypeScript. Its native source model is distinct from the old
+Augusta actual-account pilot; it does not inherit that pilot's enemy or numbers.
+Other reviewed bindings use the same resolver only when their complete native
+profiles, supported equipment, reference stat requirements and rotation pass.
 
-The account reader supplies actual stored weapon IDs, Sequences, Fortes and Echo
-values. Legacy account storage has no Character/Weapon level or refinement fields:
-Lv90/R1 is therefore an explicit reference scenario, **not verified account
-investment**. Cycle 2 is fixed. Augusta retains DEF 1520 / 10% resistance; the source-model
-experiments explicitly use the source calculator enemy DEF 1592 / 20% resistance.
-The tooltip shows the selected reference. The shared Riley adapter supports S0–S2 and exact source-declared equipped R1 Weapon options. The original Augusta pilot retains its S0/signature requirements. Inactive Echo species or COST changes may compare when canonical legality, active source effects and the fixed schedule remain compatible; changing Main Echo/active Sonata effects remains a different reference. Card IDs identify local measurement slots, not authenticated game items.
-Ownership binds observations and comparisons; it is not account authentication.
+For Simulated, all five selected-member Echoes must be actual completed cards.
+The other two members keep the exact source-solved reference stat pieces on both
+sides: changing player ER never silently optimizes support gear. Canonical card,
+Main Echo/Sonata, investment, ER/Crit, cast and fixed-schedule gates stay active.
+The abstract source stat profile has no individual reference Echo cards. Partial
+replacements therefore stay Pending; missing cards are never synthesized.
+Unsupported reference scenarios show no numbers and a short contextual status.
 
-Improve retains ACCOUNT_BUILD. Sandbox uses a detached SANDBOX_BUILD copy.
-Neither calculation writes Current or account storage. Settings/resources/owner,
-Character/team/mode, active slots, investment and teammate changes invalidate the
-comparison. Aborted or late responses cannot restore retired values. Only the
-selected Improve Candidate is compared; independent Candidate slots remain intact.
+### Improve
 
-The member portraits are the only ordinary team selectors. Full-team/default/mode menus are removed; a scoped variant prompt resolves material mode ambiguity. Source conditions and reference/ownership limits are in Details. Empty builds show a Build action rather than empty comparison rows. The local consumer fills the same table as the qualified presentation, with distinct Experimental status; no second DPS table is mounted.
+Improve still reads three complete actual saved builds and one selected detached
+Candidate slot. Real Weapon IDs, Sequences, Fortes and Echoes are retained.
+Current is never equipped, changed or saved by this calculation.
 
-## Transport and separation
+The current v34 Build contract does **not** store Character level, Weapon level or
+refinement. Improve therefore retains an unchecked, explicit **Lv90 / R1 model**
+option. This is a review assumption, not known account investment or qualified
+Current DPS. It is never enabled automatically or borrowed from Sandbox. Missing
+builds/unsupported investment and source contexts remain Pending. Supporting real
+editable levels/refinements requires a future explicit Build-contract extension.
 
-Only the local launcher enables `/local-review/team-dps`. The existing preview
-binds loopback and validates Host; the handler requires same Origin, a custom
-header, JSON, bounded input/output and a single bounded private child process.
-No CORS access is granted. The child executes from the private checkout and returns
-allowlisted aggregates, never source, coefficients, build dumps or diagnostics.
-Static preview/Pages has no executor; no new private browser code is shipped.
-The public dist remains engine-free with `PENDING_REVIEW` / empty release files.
-The existing Worker is staged only in private ignored LOCAL_REVIEW_ONLY output.
+## Context and presentation
 
-## Additional source-model experiments
+Member portraits are the ordinary team selectors. Existing reviewed roles, modes,
+conditions and ambiguity gates remain authoritative. Team/mode, Character,
+Weapon, Echo, Settings/resource and owner changes retire the entire comparison;
+generation and snapshot guards reject late replies independently of abort.
 
-The shared adapter joins existing reviewed published rotation variants to the pinned Riley calculator. Automatic numeric evidence covers 258 distinct trios; no new team database or per-team calculator is added. Actual Main Echo, equipped Weapon and active distinct-species Sonata bonuses select matching source-declared options. The five observed cards must satisfy canonical species/COST/membership rules and the endgame COST limit; inactive species/order and 43311/44111 layouts need not equal a recommended standard. The same selected source equipment profile defines a fixed action/hit schedule; actual observed builds must preserve it, satisfy all-member ER/cast constraints and provide all 15 legal +25 cards. Missing native equipment/effects and unmet requirements stay Pending.
+Normal product routes have no source/rotation guides, Team Details, Cost basis,
+reference tooltip or simulation-diagnostics dropdown. Necessary statuses, functional
+selectors and inventory controls remain. The old explicit `layout=legacy&review=expert`
+UI Lab research route retains its existing isolated component/browser checks;
+it is not part of normal product navigation. Accounting assumptions remain in
+contracts/exports, not explanatory product prose. Expected Tuners use rounded
+`≈` values; actual spent Tuners display whole counts. Cost comparability still
+requires the original matching goal/resource/receipt scope.
 
-Only actual Echo main/substats replace synthetic stat pieces. No ER rolls or missing teammate stats are invented. The UI labels numbers **Experimental · Riley source model**. Support includes S0–S2 and source-supported actual equipped Weapons; explicit Lv90/R1, max skills and source-supported Main Echo/Sonata profiles remain required. Selecting another reviewed team uses the same Current/Candidate/Change table. The same equipped investment establishes the fixed reference timeline for Current and Candidate; an Echo change cannot silently use another schedule. Change shows absolute DPS and the percentage against each Current actor/total; a zero baseline has no percentage. A known composition or published timing reference alone does not make its DPS executable. There are no new qualified product teams.
+## Verification and separation
 
-Three explicitly reviewed Echo identity mappings and the existing native Aero Rover R1 weapon object extend the same execution path without another calculator or public runtime change. This adds 19 source trios and unlocks thirteen canonical standard profiles (102 standards supported). All other actual profiles still require an exact native match. Source conflicts stay Pending; matching an abbreviated name does not qualify a mechanic. Hiyuki/Lucilla/Suisui and Cartethyia/Ciaccona/Aero Rover pass actual local browser review in both workspaces.
+Focused public tests cover captures, reference ownership, account immutability,
+unsupported inputs, same-source comparison, stale resources/team/equipment/Settings
+responses and unchanged mathematical cost-scope gates. Existing canonical source
+parity, roster coverage, builds and browser review gates remain mandatory.
 
-The paired private source setup is invoked by the existing local launcher and
-keeps source/runtime under private ignored cache. No new private algorithm is
-shipped to a browser or included in the public build. Both paths reuse the same
-read-only account capture, ownership, comparison and UI.
+The paired private `scripts/team-dps/sandbox-reference-browser.mjs` exercises empty
+account reference, actual Worker RNG, per-actor/total parity, equipment/team changes,
+Export/Reset and real Improve Workshop Candidates on desktop/mobile. Independent
+original TypeScript observes the fixed native reference and actual-card replacement.
+Private account fixtures, exports and actual calculation screenshots stay private
+and ignored; public review pictures use an empty public preview only.
 
-## Verification and reuse
-
-Public capture/transport/client tests cover complete detached observations,
-workspace ownership, context revisions, same-origin bounds and a late successful
-response arriving after a newer Pending context. Existing team-selection and
-Improve ownership tests are retained. Canonical source parity and public artifact
-checks remain mandatory.
-
-The paired private `scripts/team-dps/browser-review.mjs` exercises genuine RNG,
-Build observations, real Workshop Candidates, unchanged Current/storage, teammate
-invalidation, Sandbox replacement/export/reset and direct-evaluator numeric parity
-in Chromium desktop/mobile. Evidence and test account exports stay private and
-ignored; they must not be uploaded as public artifacts. Stdio tests compare exact
-aggregates with the unchanged evaluator and reject malformed/oversized input.
-
-The same capture, bridge, stale-response guard and table serve both workspaces and
-future source-supported teams. New teams need private source-qualified execution,
-not another UI/calculator. S3–S6 state variants, Mortefi's incompatible S6 capture,
-unsupported weapons/Main Echo/Sonata profiles/teams, statistical Expected DPS, native-state/live-game
-qualification and hosted runtime remain Pending. Experimental is not an upgrade
-verdict or permission to publish the engine.
-
-The source adapter also accepts Brant's reviewed native Bloodpact's Pledge R1 in six existing contexts, with no public runtime change. Independent evidence covers 58 source roles and all thirteen Echo substats/nineteen cost-mainstat combinations on stat-scaling representatives. Native conversion caps remain active: extra ER above Brant's cap gives zero damage gain; unmet whole-team ER/Crit/casts still withhold results. Coverage is 258 trios/45 Characters, all Experimental. Brant/Sanhua/Shorekeeper passes desktop/mobile Chromium in both workspaces with account data unchanged.
-
-Ten existing native role/mode references now execute through the same adapter: Iuno hybrid remains separate from her main-DPS role, and exact named source modes are retained. An explicit published reference selects its source enemy context; it does not establish readiness. Private mode/profile/ER/cast/schedule checks still withhold numbers for unsupported contexts. Augusta/Iuno/Mornye and Zani/Phoebe/Spectro Rover pass desktop/mobile Chromium in both workspaces with actual RNG/Candidates and unchanged account data.
-
-Existing composed references now reuse original ordered Character modules through the same private calculator, expanding to Encore and Havoc Rover. These are fixed native-module experiments; the capture’s adapted timing and live-game parity are not qualified. Some Havoc Rover S0/S1 references stay Pending while tested S2 works. No rotation editing, new damage formula, recommendation change or synthetic teammate is added. Both new Characters pass real desktop/mobile Chromium with saved S2, RNG/Candidates, exact comparison and immutable accounts.
+The loopback Node bridge retains same-Origin/Host/header, schema, size, child-process
+and timeout boundaries. Only allowlisted aggregates return. Static Pages has no
+private DPS executor. Existing 59 Characters/team catalog, RNG, advisor mathematics,
+Worker/source pins and historical proof owners are unchanged. Experimental source
+coverage is separate from qualified gameplay coverage; this change adds none.

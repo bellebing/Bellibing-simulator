@@ -126,7 +126,7 @@ test('both Sandbox and Improve keep Team DPS Pending after reviewed selection or
   chooseSourceTeam(state,lynae.id);
   const before=dpsConceptMarkup({characterId:state.id,selection:sourceTeamView(state),comparisonMode:mode});
   assert.match(before,/data-context-status/);
-  assert.match(before,/Complete your team in Build/);
+  if(mode==='IMPROVE')assert.match(before,/Complete your team in Build/);else{assert.doesNotMatch(before,/Complete your team in Build/);assert.match(before,/>Reference<.*>Simulated</s);}
   assert.match(before,/data-status="PENDING"/);
   assert.doesNotMatch(before,/data-dps-scenario=".*?".*?\d[,.]\d/s);
   const denia=sourceTeamChoices(state,'partner').find(c=>c.characterId==='denia');

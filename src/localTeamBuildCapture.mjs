@@ -1,4 +1,4 @@
-// Read-only account observations -> detached local reference requests.
+// Workspace-owned inputs -> detached local experimental requests.
 import {createFixedTeamScenarioRequest} from './fixedTeamScenario.mjs';
 import {localTeamReference} from './localTeamReference.mjs';
 const clone=v=>structuredClone(v);
@@ -7,11 +7,24 @@ const card=(value,id)=>value&&({id,speciesId:value.echoId??value.speciesId,selec
  mainStat:clone(value.mainStat),secondaryMainStat:clone(value.secondaryMainStat),substats:clone(value.substats)});
 export async function captureLocalTeamBuilds(input){
  const fail=reason=>({status:'PENDING',reason});
- if(!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
- const {mode,selectedCharacterId,team,records,scope}=input;
+
+ const {mode,selectedCharacterId,team,scope}=input;
  if(!team?.id||!Array.isArray(team.characterIds)||team.characterIds.length!==3)return fail('SOURCE_TEAM_CONTEXT_PENDING');
+ if(mode==='SANDBOX'){
+  const build=scope?.buildContext;
+  if(build?.kind!=='SANDBOX_BUILD'||build.characterId!==selectedCharacterId||!team.characterIds.includes(selectedCharacterId))return fail('SANDBOX_REFERENCE_INPUT_PENDING');
+  // No account records or account-owned equipment enter the Sandbox payload.
+  const ownership={kind:'SANDBOX_BUILD',id:build.id,revision:await hash({team,scope,candidates:input.candidates})};
+  const configurations=scope.slots?.map(s=>s.configuration&&({speciesId:s.configuration.echoId,cost:s.configuration.cost,selectedSonataSetId:s.configuration.selectedSonataSetId}));
+  const observed=(input.candidates??[]).some(Boolean);
+  const cards=observed?Array.from({length:5},(_,i)=>card(input.candidates?.[i],`sandbox:${build.id}:${i}`)??null):null;
+  return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards}}};
+ }
+ if(mode!=='IMPROVE')return fail('BUILD_OWNERSHIP_PENDING');
+ if(!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
+ const records=input.records;
  if(!Array.isArray(records)||team.characterIds.some(id=>records.find(r=>r.characterId===id)?.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
- const kind=mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';
+ const kind='ACCOUNT_BUILD';
  const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:'EXPLICIT_LV90_R1_REFERENCE'})};
  const builds=team.characterIds.map(characterId=>{
   const b=records.find(r=>r.characterId===characterId).buildState,slots=b.echoSets?.sets?.[b.echoSets.activeSetId]?.slots;

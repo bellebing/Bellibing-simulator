@@ -68,7 +68,7 @@ test('Phrolova exposes exact conditional CR/CD source guidance without manufactu
 });
 test('comparison rows stay Pending even when passed synthetic, stale or flat values',()=>{
  const markup=dpsConceptMarkup({characterId:'chixia',hasCurrentBuild:true,teamTotal:123,calculationStatus:'VERIFIED'});
- assert.equal((markup.match(/data-dps-scenario=/g)??[]).length,2);
+ assert.match(markup,/>Reference<.*>Simulated</s);
  assert.equal((markup.match(/<td/g)??[]).length,12);
  assert.doesNotMatch(markup,/No DPS context|DMG\/s|synthetic reference scenario/);
  assert.match(markup,/Team Total/);

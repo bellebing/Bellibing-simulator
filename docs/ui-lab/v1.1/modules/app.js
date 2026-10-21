@@ -1,14 +1,14 @@
 import echoAdviceCatalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import {validateEchoTemplateConfiguration} from '../../../ui-prototypes/assets/echo-template-configuration.mjs';
 import {mountEchoAdvisor} from './echo-advisor.js';
-import {createLocalTeamReview} from './local-team-review.js';
+import {createLocalTeamReview,hasCompleteTeamBuilds} from './local-team-review.js';
 import {mountWorkspaceHeader} from './workspace-navigation.js';
 import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
 import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
 import {createLabResourceInventory} from './resource-state.js';
 import {accountProjection} from './account-projection.js';
 import {openSelectionDialog} from './selection-dialog.js';
-import {sourceTeamRoles,sourceTeamView,sourceTeamChoices,sourceTeamModeChoices,chooseSourceTeam,chooseSourceTeamRole} from './team-selection.js';
+import {sourceTeamView,sourceTeamChoices,chooseSourceTeamRole,sourceTeamVariantChoices,chooseSourceTeamVariant} from './team-selection.js';
 import {createBrowserSandboxClient} from './browser-client.js';
 import {rotationAcceptanceText} from './rotation-acceptance.js';
 import {dpsConceptMarkup} from './dps-concept.js';
@@ -245,15 +245,6 @@ function renderPiles() {
 
 // Both product routes use this one source-context controller. Team selection
 // is Character-owned, not an account equipment/Settings/Candidate mutation.
-function teamChoiceNote(team){
- const mode=Object.entries(team.modeRequirements??{}).map(([id,value])=>`${people.get(id)?.name??id}: ${value}`).join(' · ');
- const note=[team.relationship==='SOURCE_BIS_REFERENCE'?'Source BiS reference':team.relationship==='SOURCE_RECOMMENDED_CORE_VARIANT'?'Reviewed core':team.relationship==='UNRANKED_MODEL_CANDIDATE'?'Unranked model · approved guide-prose match':'Reviewed alternative',mode,...(team.conditions??[])].filter(Boolean).join(' · ');
- return note.length>220?note.slice(0,217)+'…':note;
-}
-function teamChoiceTitle(team){
- const r=sourceTeamRoles(team);
- return [r.main,r.partner,r.third].map(id=>people.get(id)?.name??id??'Pending').join(' / ');
-}
 function applyTeamChoice(fn){
  fn();
  if(sandbox){
@@ -293,11 +284,10 @@ function renderTeamPanel(panel){
  if(!panel)return;
  const selection=sourceTeamView(state);
  if(!selection)return;
- selection.modeOptions=sourceTeamModeChoices(state);
  const roleChoices=Object.fromEntries(['main','partner','third'].map(role=>[role,sourceTeamChoices(state,role)]));
  const wasOpen=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
  panel.innerHTML=dpsConceptMarkup({
-  characterId:selectedId,selection,roleChoices,comparisonMode:sandbox?'SANDBOX':'IMPROVE',
+  characterId:selectedId,selection,roleChoices,hasCurrentBuild:hasCompleteTeamBuilds(readLocalTeamInput()),comparisonMode:sandbox?'SANDBOX':'IMPROVE',
   expertMode:sandbox&&expertMode,evaluationContext:sandbox?state.sandboxEvaluationContext:null,
   dps:sandbox?sandboxRun?.metrics?.dps??preRunMetrics?.dps??null:null,
   view:sandbox?sandboxRun?.view??null:null,comparisonSlot:state.sandboxComparisonSlot??null
@@ -305,21 +295,16 @@ function renderTeamPanel(panel){
  panel.querySelectorAll('details').forEach(n=>{n.open=wasOpen.includes(n.className);});
  localTeamReview.mount(panel);
  const captured=state;
- const dialog=(button,title,choices,onChoose,selected=selection.activeContextId)=>{
-  openSelectionDialog({title,trigger:button,selectedId:selected,choices:choices.map(t=>({
-   id:t.id,name:teamChoiceTitle(t),art:people.get(sourceTeamRoles(t).main)?.face,note:teamChoiceNote(t)
-  })),onChoose:id=>{if(state!==captured)return;onChoose(id);}});
+ const variantDialog=button=>{
+  const variants=sourceTeamVariantChoices(state);
+  if(!variants.length)return;
+  openSelectionDialog({title:'Choose variant',trigger:button,choices:variants.map((t,i)=>({id:t.id,name:Object.entries(t.modeRequirements??{}).map(([id,mode])=>`${people.get(id)?.name??id} · ${mode}`).join(' / ')||`Variant ${i+1}`,note:(t.conditions??[]).join(' · ')})),onChoose:id=>{if(state===captured)applyTeamChoice(()=>chooseSourceTeamVariant(state,id));}});
  };
- const pickTeam=panel.querySelector('[data-team-context-menu]');
- if(pickTeam)pickTeam.onclick=()=>dialog(pickTeam,'Reviewed teams / contexts',selection.options.filter(t=>t.sourceRefs?.length),id=>applyTeamChoice(()=>chooseSourceTeam(state,id)));
- const standard=panel.querySelector('[data-team-default]');
- if(standard)standard.onclick=()=>applyTeamChoice(()=>chooseSourceTeam(state,null));
- const mode=panel.querySelector('[data-team-mode]');
- if(mode)mode.onclick=()=>dialog(mode,'Reviewed mode / preset variants',selection.modeOptions,id=>applyTeamChoice(()=>chooseSourceTeam(state,id)));
+ const pendingVariant=panel.querySelector('[data-team-variant]');if(pendingVariant)pendingVariant.onclick=()=>variantDialog(pendingVariant);
  panel.querySelectorAll('[data-team-role]').forEach(button=>{button.onclick=()=>{
   const role=button.dataset.teamRole,choices=roleChoices[role];
   if(!choices?.length)return;
-  dialog(button,`Choose ${role==='third'?(selection.roles?.thirdRole??'third member'):role==='main'?'Main DPS':'Sub DPS / partner'}`,choices.map(c=>c.team),id=>applyTeamChoice(()=>chooseSourceTeamRole(state,role,id)),selection.activeContextId);
+  openSelectionDialog({title:`Choose ${role==='third'?(selection.roles?.thirdRole??'third teammate'):role==='main'?'Main DPS':'Sub DPS / partner'}`,trigger:button,selectedId:selection.roles?.[role],choices:choices.map(c=>({id:c.characterId,name:people.get(c.characterId)?.name??c.characterId,art:people.get(c.characterId)?.face})),onChoose:id=>{if(state!==captured)return;applyTeamChoice(()=>chooseSourceTeamRole(state,role,id));if(state.sandboxTeamPendingChoice)queueMicrotask(()=>variantDialog(panel.querySelector('[data-team-variant]')));}});
  };});
  const comparisonSelector=panel.querySelector('.observed-echo-slot');
  if(comparisonSelector&&sandbox)comparisonSelector.onchange=()=>{state.sandboxComparisonSlot=Number(comparisonSelector.value);renderCharacter();};
@@ -401,6 +386,11 @@ function syncAccountState(){
 }
 function renderWorkspace() {
   if(accountMode)syncAccountState();
+  const emptyAccount=accountMode&&!state.accountProjection?.slots?.some(Boolean);
+  document.body.classList.toggle('account-build-empty',emptyAccount);
+  let buildAction=document.querySelector('.empty-build-action');
+  if(accountMode&&!buildAction){buildAction=document.createElement('a');buildAction.className='empty-build-action';buildAction.href='../build/';buildAction.textContent='Open Build';document.querySelector('#simulate').after(buildAction);}
+  if(buildAction)buildAction.hidden=!emptyAccount;
   sandboxClient?.checkFresh();
   if(!echoAdvisor?.available())candidateSession?.checkFresh();
   echoAdvisor?.sync();

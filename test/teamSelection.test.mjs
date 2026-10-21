@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import catalog from '../docs/ui-lab/v1.1/modules/character-contexts.json' with {type:'json'};
 import {characterContext} from '../docs/ui-lab/v1.1/modules/character-context.js';
 import {createSandboxWorkspace} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
-import {sourceTeamRoles,sourceTeamView,sourceTeamChoices,sourceTeamModeChoices,chooseSourceTeam,chooseSourceTeamRole} from '../docs/ui-lab/v1.1/modules/team-selection.js';
+import {sourceTeamRoles,sourceTeamView,sourceTeamChoices,sourceTeamModeChoices,chooseSourceTeam,chooseSourceTeamRole,sourceTeamVariantChoices,chooseSourceTeamVariant} from '../docs/ui-lab/v1.1/modules/team-selection.js';
 import {dpsConceptMarkup} from '../docs/ui-lab/v1.1/modules/dps-concept.js';
 
 const roles=sourceTeamRoles;
@@ -48,14 +48,14 @@ test('all 59 RELEASED Characters own one default and can reach every one of the 
 test('Augusta/Iuno/Shorekeeper -> Mortefi retains Shorekeeper only via reviewed full trio',()=>{
  const state=selected('augusta'),current=sourceTeamView(state);
  assert.deepEqual(current.memberIds,['augusta','iuno','the-shorekeeper']);
- const choice=sourceTeamChoices(state,'partner').find(c=>c.characterId==='mortefi'&&roles(c.team).third==='the-shorekeeper');
+ const choice=sourceTeamChoices(state,'partner').find(c=>c.characterId==='mortefi'&&c.contexts.some(t=>roles(t).third==='the-shorekeeper'));
  assert.ok(choice,'reviewed Augusta/Mortefi/Shorekeeper option exists');
- const view=chooseSourceTeamRole(state,'partner',choice.contextId);
+ const view=chooseSourceTeamRole(state,'partner',choice.characterId);
  assert.equal(view.pendingSupport,false);
  assert.deepEqual(view.memberIds,['augusta','mortefi','the-shorekeeper']);
- assert.equal(view.activeContextId,choice.contextId);
+ assert.ok(choice.contexts.some(t=>t.id===view.activeContextId));
  assert.ok(view.team.sourceRefs.length);
- assert.equal(view.selectedTeam.id,choice.contextId);
+ assert.equal(view.selectedTeam.id,view.activeContextId);
 });
 
 test('Qingxiao/Lynae/Shorekeeper -> Denia explicitly clears Support until Mornye is chosen',()=>{
@@ -126,15 +126,43 @@ test('both Sandbox and Improve keep Team DPS Pending after reviewed selection or
   chooseSourceTeam(state,lynae.id);
   const before=dpsConceptMarkup({characterId:state.id,selection:sourceTeamView(state),comparisonMode:mode});
   assert.match(before,/data-context-status/);
-  assert.match(before,/data-dps-scenario="(RECOMMENDED|CURRENT)"/);
+  assert.match(before,/Complete your team in Build/);
   assert.match(before,/data-status="PENDING"/);
   assert.doesNotMatch(before,/data-dps-scenario=".*?".*?\d[,.]\d/s);
   const denia=sourceTeamChoices(state,'partner').find(c=>c.characterId==='denia');
   chooseSourceTeamRole(state,'partner',denia.contextId);
   const after=dpsConceptMarkup({characterId:state.id,selection:sourceTeamView(state),comparisonMode:mode});
-  assert.match(after,/Support Pending/);
+  assert.match(after,/Choose a third teammate/);
   assert.match(after,/Choose a teammate/);
   assert.match(after,/data-active-context-id=""/);
   assert.match(after,/data-status="PENDING"/);
  }
+});
+
+test('member choices deduplicate all positions without losing source contexts or offering unavailable Characters',()=>{
+ for(const person of catalog.characters)for(const role of ['main','partner','third']){
+  const state=selected(person.characterId),choices=sourceTeamChoices(state,role);
+  assert.equal(new Set(choices.map(c=>c.characterId)).size,choices.length);
+  for(const c of choices){assert.ok(c.contexts.length);for(const t of c.contexts){assert.ok(person.contextIds.includes(t.id));assert.equal(roles(t)[role],c.characterId);assert.ok(t.sourceRefs.length);}}
+ }
+});
+
+test('a new core never picks a replacement third implicitly, even across multiple third-member contexts',()=>{
+ const state=selected('iuno');const choice=sourceTeamChoices(state,'main').find(c=>c.characterId==='yangyang-xuanling');assert.ok(choice.contexts.length>1);
+ const view=chooseSourceTeamRole(state,'main',choice.characterId);assert.equal(view.memberIds[2],null);assert.equal(view.activeContextId,null);assert.equal(view.selectedTeam,null);assert.equal(view.pendingChoice,null);
+ assert.ok(sourceTeamChoices(state,'third').length>1);
+});
+
+test('missing contexts reject without mutation and alternative third roles remain source-owned',()=>{
+ const state=selected('augusta'),before=structuredClone(state);assert.throws(()=>chooseSourceTeamRole(state,'partner','not-a-source-member'));assert.deepEqual(state,before);
+ const flex=catalog.teams.find(t=>!t.roleAssignment.support);assert.ok(flex);const s={id:flex.characterIds[0]};chooseSourceTeam(s,flex.id);assert.equal(sourceTeamView(s).roles.thirdRole,'Third member');assert.ok(sourceTeamView(s).roles.third);
+});
+
+
+test('materially different core modes stay Pending until an exact scoped variant is chosen',()=>{
+ const state={id:'ciaccona'};chooseSourceTeam(state,'guide-phoebe-ciaccona-lynae-phoebe-slots-28');
+ const view=chooseSourceTeamRole(state,'main','jiyan');assert.ok(view.pendingChoice);assert.equal(view.activeContextId,null);assert.equal(view.selectedTeam,null);assert.equal(view.memberIds[2],null);
+ const variants=sourceTeamVariantChoices(state);assert.equal(variants.length,2);assert.throws(()=>chooseSourceTeamVariant(state,'unreviewed'));
+ const next=chooseSourceTeamVariant(state,variants[0].id);assert.equal(next.pendingChoice,null);assert.equal(next.activeContextId,null,'mode selection cannot fill a third slot');assert.equal(next.selectedTeam,null);
+ const third=sourceTeamChoices(state,'third')[0];const done=chooseSourceTeamRole(state,'third',third.characterId);assert.equal(done.activeContextId,variants[0].id);assert.equal(done.selectedTeam.modeRequirements.ciaccona,variants[0].modeRequirements.ciaccona);
 });

@@ -6,14 +6,16 @@ remain Pending. No algorithm is added to the public application or Worker.
 
 ## Start and use
 
-Use both paired `feat/local-team-dps-end-to-end` branches in sibling Git clones.
+Use the paired current Draft branches in sibling Git clones.
 Run `START_BELLIBING_LOCAL.bat` on Windows or
 `node scripts/start-bellibing-local.mjs` from the public repository. The existing
 launcher verifies sources, builds the public site, stages the existing Worker
 under private ignored output and opens Build. Enter/Ctrl+C stops the server.
 
-1. Save all three complete builds in Build. Supported local experiments are
-   Augusta / Iuno / Shorekeeper and Jinhsi / Zhezhi with Shorekeeper or Verina.
+1. Save all three complete builds in Build. Supported local experiments include
+   the preserved Augusta / Iuno / Shorekeeper pilot and 89 source-bound trios
+   across 34 Characters, including Carlotta / Zhezhi / Shorekeeper and
+   Aemeath / Denia / Lupa. Select the corresponding reviewed team and mode.
 2. Open Improve or Sandbox, retain their supported source team, and opt into
    **Lv90 / R1 reference** in Experimental DPS (fixed cycle 2).
 3. Improve: use Workshop to inspect a legal +25 Candidate. Current, Candidate and
@@ -34,7 +36,7 @@ synthetic teammate fallback and no requirement to fabricate missing account gear
 The account reader supplies actual stored weapon IDs, Sequences, Fortes and Echo
 values. Legacy account storage has no Character/Weapon level or refinement fields:
 Lv90/R1 is therefore an explicit reference scenario, **not verified account
-investment**. Cycle 2 is fixed. Augusta retains DEF 1520 / 10% resistance; the two Jinhsi
+investment**. Cycle 2 is fixed. Augusta retains DEF 1520 / 10% resistance; the source-model
 experiments explicitly use the source calculator enemy DEF 1592 / 20% resistance.
 The tooltip shows the selected reference. Verina uses source Variation; other
 Weapons retain their required signatures. Card IDs identify local measurement slots, not authenticated game items.
@@ -59,14 +61,9 @@ The existing Worker is staged only in private ignored LOCAL_REVIEW_ONLY output.
 
 ## Additional source-model experiments
 
-The two Jinhsi/Zhezhi teams reuse the original pinned Riley calculator and its
-existing complete rotations privately. Only observed Echo main/substats replace
-its synthetic stat pieces; its solver cannot add rolls to the supplied build.
-Actual full-team ER, source gear and the fixed action/hit timeline are required.
-The UI labels these numbers **Experimental · Riley source model**. This is
-upstream-model execution, not canonical or live-game qualification. S0/Lv90/R1,
-max skills, Jué/Celestial Light, Nightmare Lampylumen/Empyrean Anthem and
-Fallacy/Rejuvenating Glow are the bounded profiles. Other contexts remain Pending.
+The shared adapter joins existing reviewed published rotation variants to the pinned Riley calculator. Automatic numeric evidence covers 89 distinct trios; no new team database or per-team calculator is added. Canonical standard gear selects matching source-declared options. The same selected source equipment profile defines a fixed action/hit schedule; actual observed builds must preserve it, satisfy all-member ER/cast constraints and provide all 15 legal +25 cards. Other profile bindings stay Pending.
+
+Only actual Echo main/substats replace synthetic stat pieces. No ER rolls or missing teammate stats are invented. The UI labels numbers **Experimental · Riley source model**. Support remains S0, explicit Lv90/R1, max skills and the supported existing ordered standard Echo species/Sonata shells. Selecting another reviewed team uses the same Current/Candidate/Change or Account/Replacement table. A known composition or published timing reference alone does not make its DPS executable. There are no new qualified product teams.
 
 The paired private source setup is invoked by the existing local launcher and
 keeps source/runtime under private ignored cache. No new private algorithm is

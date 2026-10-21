@@ -270,16 +270,18 @@ function readLocalTeamInput(){
  const selection=sourceTeamView(state),team=selection?.selectedTeam;
  const ids=team?.characterIds??[];
  const records=ids.map(id=>readProductionBuildRecord(localStorage,people.get(id)));
- let candidates=Array(5).fill(null),candidateBaseline=null,candidateWeapon=null;
+ let candidates=Array(5).fill(null);
  if(accountMode)candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);
  if(sandbox&&sandboxRun?.view?.status==='GOAL_SUCCESS'){
   const selected=state.configurationSession.active.flatMap((active,i)=>active?[i]:[]),slots=sandboxRun.view.slots??[];
   if(selected.length&&selected.every(i=>slots.some(s=>s.slot===i+1&&s.complete&&s.current?.level===25))){
    for(const i of selected)candidates[i]=structuredClone(slots.find(s=>s.slot===i+1).current);
-   candidateBaseline=structuredClone(state.sandboxBuild.baseline);candidateWeapon={id:state.sandboxBuild.weaponId,level:state.sandboxBuild.baseline.weaponLevel,rank:state.sandboxBuild.baseline.weaponRefinement};
+   // Account reference measures only these observed Echo replacements under
+   // the account's investment on both sides. The independent Sandbox Weapon
+   // and baseline still govern its normal hypothetical stat projection.
   }
  }
- return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,candidateBaseline,candidateWeapon,
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }

@@ -110,15 +110,15 @@ The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
 source-model adapter adds 89 independently benchmarked trios across 34 Characters.
-It joins existing reviewed published variants and source-compatible standard gear;
-72 incompatible joined profiles remain Pending. No new team database is added. Three
-complete saved S0 builds, source gear/rotation and whole-team ER are required.
+It joins existing reviewed variants; 72 standard-gear profiles remain Pending. Three
+complete saved builds, source gear/rotation and whole-team ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active
 slot replacements against a detached account copy. Whole-team ER, source equipment
 and context freshness fail closed. Real Chromium evidence covers both workspaces.
-All numbers remain experimental; qualified teams added: zero. S1/S2, other gear,
-other schedules, Expected DPS and hosted runtime remain Pending. No new private
+Riley supports S0–S2/equipped source R1 Weapons; Change includes relative DPS.
+All numbers stay experimental; qualified teams added: zero. Unsupported investment,
+schedules, Expected DPS and hosted runtime remain Pending. No new private
 algorithm is bundled or published; real Current and account storage remain unchanged.
 
 ## Real blockers and Pending boundaries

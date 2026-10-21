@@ -33,3 +33,17 @@ test('source-calculator contexts capture explicit source enemy without altering 
  const {records}=own(),pilot=await captureLocalTeamBuilds({mode:'SANDBOX',team,selectedCharacterId:'augusta',records,scope:{},acceptReferenceInvestment:true});
  assert.equal(pilot.payload.current.enemy.defense,1520);assert.equal(pilot.payload.current.enemy.resistanceByElement.Electro,0.1);
 });
+
+test('Echo comparison captures equipped weapons and actual mixed Sequences without replacing Current',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),context=contexts.teams.find(t=>t.id==='guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22');
+ const {records}=own({context}),jinhsi=records.find(r=>r.characterId==='jinhsi'),zhezhi=records.find(r=>r.characterId==='zhezhi');
+ jinhsi.buildState.sequenceLevel=2;jinhsi.buildState.weaponId='lustrous-razor';zhezhi.buildState.sequenceLevel=1;
+ for(const mode of ['IMPROVE','SANDBOX']){
+ const input={mode,team:context,selectedCharacterId:'jinhsi',records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(jinhsi.buildState.echoSets.sets.owned.slots[0])]},before=JSON.stringify(input);
+ const r=await captureLocalTeamBuilds(input);assert.equal(r.status,'CAPTURED');
+ for(const side of [r.payload.current,r.payload.candidate]){const b=side.builds.find(b=>b.characterId==='jinhsi');assert.equal(b.weapon.id,'lustrous-razor');assert.equal(b.baseline.sequenceLevel,2);assert.equal(side.builds.find(b=>b.characterId==='zhezhi').baseline.sequenceLevel,1);}
+ assert.equal(JSON.stringify(input),before);
+ const other=structuredClone(input);other.records.find(r=>r.characterId==='jinhsi').buildState.sequenceLevel=0;
+ assert.notEqual((await captureLocalTeamBuilds(other)).payload.current.ownership.revision,r.payload.current.ownership.revision);
+ }
+});

@@ -109,8 +109,8 @@ The [local interactive Echo advisor candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md
 The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
 and Improve to the unchanged private fixed-team pilot through a loopback-only
 Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
-source-model adapter covers 164 independently benchmarked trios across 43 Characters.
-Ten additional native role/mode joins preserve Iuno hybrid separately; Brant R1/stat responses are tested. Three
+source-model adapter covers 258 independently benchmarked trios across 45 Characters.
+Reviewed role/mode and composed native profiles reuse the same calculator, including Encore/Havoc Rover. Three
 complete saved builds, canonical equipment, source effects/rotation and total ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
 Improve reviews one observed Candidate at a time; Sandbox compares completed active

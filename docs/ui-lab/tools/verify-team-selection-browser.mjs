@@ -22,7 +22,7 @@ try{
   await page.screenshot({path:resolve(out,`${route}-augusta-${width}.png`),fullPage:true});await page.locator('.sandbox-dps').screenshot({path:resolve(out,`${route}-team-panel-${width}.png`)});
   await select(page,'third','verina');assert.deepEqual(await names(page),['Augusta','Mortefi','Verina']);
   await load(page,route,'qingxiao');await select(page,'partner','lynae');if((await names(page))[2]!=='The Shorekeeper')await select(page,'third','the-shorekeeper');
-  await select(page,'partner','denia');assert.deepEqual(await names(page),['Qingxiao','Denia','Choose a teammate']);assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'');
+  await select(page,'partner','denia');assert.deepEqual(await names(page),['Qingxiao','Denia','Choose a teammate']);assert.equal(await page.locator('.team-next-action a').count(),0,'incomplete team asks for a member, not a Build edit');assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'');
   await page.screenshot({path:resolve(out,`${route}-qingxiao-third-pending-${width}.png`),fullPage:true});await select(page,'third','mornye');assert.deepEqual(await names(page),['Qingxiao','Denia','Mornye']);assert.ok(await page.locator('.team-source-summary').getAttribute('data-active-context-id'));
   assert.equal(await page.locator('.team-details').getAttribute('open'),null);await page.locator('.team-details>summary').click();assert.ok(await page.locator('.team-source-link').isVisible());await page.locator('.team-details>summary').click();
   assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\d/}).count(),0,'selection never qualifies DPS');

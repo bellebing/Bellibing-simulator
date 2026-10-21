@@ -272,7 +272,7 @@ function readLocalTeamInput(){
    // and baseline still govern its normal hypothetical stat projection.
   }
  }
- return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }

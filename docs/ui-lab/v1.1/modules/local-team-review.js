@@ -5,7 +5,8 @@ import {escapeHtml} from './util.js';
 const path='/local-review/team-dps',headers={'Content-Type':'application/json','X-Bellibing-Review':'1'};
 const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n):'—';
 const labels={SOURCE_CALCULATOR_PROFILE_PENDING:'Source equipment / rotation Pending',SOURCE_BUILD_STAT_REQUIREMENT_UNMET:'Rotation stat requirement not met',SOURCE_REFERENCE_ROTATION_PENDING:'Source rotation Pending',SOURCE_CALCULATOR_DEPENDENCY_PENDING:'Local source model unavailable',SOURCE_CALCULATOR_ENEMY_CONTEXT_PENDING:'Reference enemy mismatch',CHANGED_REFERENCE_ROTATION_SCHEDULE_PENDING:'Changed rotation Pending',SOURCE_ROTATION_CAST_REQUIREMENTS_UNMET:'Rotation requirements not met',CONFIRM_REFERENCE_INVESTMENT:'Select Lv90 / R1 reference',COMPLETE_ACCOUNT_TEAM_REQUIRED:'Complete the team in Build',FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED:'Five complete Echoes per teammate required',WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET:'ER requirement not met',CHANGED_SEQUENCE_STATE_SCHEDULE_PENDING:'Sequence rotation Pending',SOURCE_SCHEDULE_REQUIRES_MORTEFI_S6:'S0–S2 rotation Pending',SOURCE_DAMAGE_SCHEDULE_PENDING:'Team rotation Pending',CHANGED_WEAPON_ROTATION_CONTEXT_PENDING:'Weapon rotation Pending',CHANGED_EQUIPMENT_ROTATION_CONTEXT_PENDING:'Echo / Sonata rotation Pending',CANONICAL_BUILD_VALIDATION_PENDING:'Complete legal +25 Echoes required',CHARACTER_INVESTMENT_CONTEXT_PENDING:'Max skills required',FIXED_COMPARISON_CONTEXT_MISMATCH:'Changed reference context',NO_ACTIVE_OBSERVED_SANDBOX_CARDS:'Simulate an active Echo first'};
-export function hasCompleteTeamBuilds({team,records}={}){
+export function hasCompleteTeamBuilds(input){
+ const {team,records}=input??{};
  return team?.characterIds?.length===3&&team.characterIds.every(id=>{const r=records?.find(r=>r.characterId===id),b=r?.buildState;return r?.status==='OBSERVED_PRODUCTION_BUILD_RECORD'&&b?.echoSets?.sets?.[b.echoSets.activeSetId]?.slots?.filter(c=>c?.level===25).length===5;});
 }
 export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fetch}={}){
@@ -22,13 +23,13 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
   const delta=comparable?ids.map(id=>result.candidate.characterContributions.find(m=>m.characterId===id).dps-result.current.characterContributions.find(m=>m.characterId===id).dps).concat(result.candidate.teamTotal-result.current.teamTotal):null;
   const changeCell=(value,index)=>{if(!delta)return '<td>—</td>';const base=index===ids.length?result.current.teamTotal:result.current.characterContributions.find(m=>m.characterId===ids[index]).dps,percent=base>0?value/base*100:null;return `<td data-change="${value>0?'up':value<0?'down':'equal'}">${value>0?'+':''}${fmt(value)}${Number.isFinite(percent)?`<small class="local-team-relative">${percent>0?'+':''}${new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(percent)}%</small>`:''}</td>`;};
   const complete=hasCompleteTeamBuilds(input);
-  const rows=complete?row('Current',result?.current)+row('Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':'Choose a teammate'}</td></tr>`;
+  const rows=complete?row('Current',result?.current)+row('Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
   const currentReady=valid(result?.current),status=currentReady?'EXPERIMENTAL':'PENDING';
   container.dataset.status=status;
   container.querySelector('[data-team-status]').textContent=currentReady?'Experimental':'Pending';
-  container.querySelector('[data-team-dps-body]').innerHTML=rows;
+  container.querySelector('[data-team-dps-body]').innerHTML=team?rows:'';
   const table=container.querySelector('.team-dps-table');table.dataset.status=comparable?'EXPERIMENTAL':'PENDING';
-  container.querySelector('.local-team-status').textContent=team?(complete?(message.startsWith('Experimental')&&!currentReady?'Pending':message):''):'Choose a teammate';
+  container.querySelector('.local-team-status').textContent=team?(complete?(message.startsWith('Experimental')&&!currentReady?'Pending':message):''):input?.pendingSelection==='VARIANT'?'':'Choose a teammate';
   container.querySelector('[data-team-reference]').innerHTML=`<label class="local-team-enable"><input type="checkbox" data-local-team-enable ${enabled?'checked':''}> Experimental · Lv90 / R1 reference <span title="${escapeHtml(reference.label)} · DEF ${reference.defense}, ${reference.resistance*100}% resistance · cycle 2" aria-label="Reference details">ⓘ</span></label>`;
 
   container.querySelector('[data-local-team-enable]').onchange=e=>{enabled=e.target.checked;binding=null;refresh();};

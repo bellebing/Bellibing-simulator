@@ -51,6 +51,6 @@ test('relative Echo changes use each actor baseline and omit undefined zero-base
 
 test('empty or incomplete team builds show one next action instead of blank comparisons',()=>{
  const {records}=own();assert.equal(hasCompleteTeamBuilds({team,records}),true);
- assert.equal(hasCompleteTeamBuilds({team:null,records}),false);assert.equal(hasCompleteTeamBuilds({team,records:[]}),false);
+ assert.equal(hasCompleteTeamBuilds(null),false);assert.equal(hasCompleteTeamBuilds({team:null,records}),false);assert.equal(hasCompleteTeamBuilds({team,records:[]}),false);
  const empty=structuredClone(records);empty[0].buildState.echoSets.sets.owned.slots=[];assert.equal(hasCompleteTeamBuilds({team,records:empty}),false);
 });

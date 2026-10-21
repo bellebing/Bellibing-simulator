@@ -134,7 +134,7 @@ test('both Sandbox and Improve keep Team DPS Pending after reviewed selection or
   const after=dpsConceptMarkup({characterId:state.id,selection:sourceTeamView(state),comparisonMode:mode});
   assert.match(after,/Choose a third teammate/);
   assert.match(after,/Choose a teammate/);
-  assert.match(after,/data-active-context-id=""/);
+  assert.match(after,/data-active-context-id=""/);assert.doesNotMatch(after,/Complete your team in Build/);
   assert.match(after,/data-status="PENDING"/);
  }
 });

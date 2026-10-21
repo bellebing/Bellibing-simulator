@@ -1,26 +1,26 @@
-# Source Team Selection — V1 review
+# Member-driven Team DPS — review contract
 
-The existing Sandbox and Improve workspaces use the same generated `character-contexts.json` and the single source-context/role selector in `docs/ui-lab/v1.1/modules/team-selection.js`. No separate Team Builder, new team database, combat rotation, DPS qualification or private engine change is part of this Draft.
+Improve and Sandbox reuse the unchanged 59-Character / 397-context catalog, source roles and private DPS chain. There is no full-team selector, Standard team reset, generic mode menu, new Teams page or editable team database.
 
-## What to review
+## Member selection
 
-- Both `/sandbox/` and `/improve/`: all 59 RELEASED Characters, with source-bound default team, roles from the selected context, portrait choices and source/context link.
-- A reviewed full-team choice is atomic. Role changes use complete reviewed context IDs, not independent partner/support lists. Source conditions and relevant mode labels are shown; published model-only discovery stays excluded, except five explicitly approved guide-prose matches (which retain their underlying unranked/model classification).
-- Augusta / Iuno / Shorekeeper → Mortefi keeps Shorekeeper only through the reviewed Augusta/Mortefi/Shorekeeper trio.
-- Qingxiao / Lynae / Shorekeeper → Denia creates a **Pending Support** slot. Mornye may be explicitly chosen. Denia + Shorekeeper is not inferred from unsupported discovery. A Pending selection is **not** a complete team.
-- Source-member identities that are normally sub-DPS or support retain the actual carry and member roles. Standard-team reset and source mode contexts remain selectable. No new supported combination is automatically invented.
-- Team changes don't edit Echoes, equipment, settings, account Current/Candidate or resource ownership. Sandbox invalidates old local team-evaluation leases; normal Team DPS is Pending in both workspaces.
+- Click Main DPS, Partner or the actual third role. Each candidate appears once with its own name and portrait; its reviewed context identities remain attached underneath.
+- A partner/carry replacement preserves the third member only when the complete reviewed combination exists. Otherwise the third slot is empty and has no active DPS context until the user selects a supported member. No automatic substitute.
+- Source roles and named modes remain exact. A third member without a source Support assignment is labeled Third member, not Support. Materially different core modes/conditions require an explicit scoped variant choice; closing it leaves Pending. Choosing a core variant never fills an unchosen third slot.
+- Existing shared modes are retained when supported. A missing context rejects without changing state. Team edits do not equip Echoes, spend resources, change Settings or mutate Current/Candidate ownership. Every changed/pending selection retires previous DPS, including late successful responses.
 
-## Source audit and tests
+## One comparison
 
-`node scripts/report-team-selection-coverage.mjs` generates `artifacts/team-selection/coverage.json` and `coverage.md` with a 59-row inventory, default context IDs and reviewed option/mode/condition counts, enforcing 397/397 context reachability through all three member pages, real roles/source references and no unapproved model discovery.
+The one Team DPS panel owns the portraits and Current / Candidate / Change rows, individual contributions and Team Total. The public qualified-provider registry remains unchanged and empty. The loopback-only experimental consumer fills that same table after explicit **Experimental · Lv90 / R1 reference** opt-in; it never promotes experimental output to qualified DPS. Both observed sides must have valid same-context/source results before deltas appear. Sandbox's Current is the copied account team; Candidate contains only selected completed replacements under the same account investment.
 
-`node --experimental-strip-types --test test/teamSelection.test.mjs` checks conditional role swaps, default reset, restricted status/modes, and independent user-owned state. The UI Lab Review gate runs these checks and native Chromium over both routes at 1440×900 and 390×844. It uploads the per-Character report and screenshots to `team-selection-review`. These are candidate checks, **not** user visual approval.
+Source links, modes, conditions, investment/ownership and qualification limits remain in collapsed Details. Legacy bounded synthetic research remains explicitly separate inside Details and cannot fill the account comparison. Empty account builds offer Open Build instead of empty Echo/cost/stat comparison surfaces. A team missing complete observed equipment gets one concrete Build action.
 
-## Windows local preview
+Continue/Discard retains identical private mathematics, genuine reveals and Gate behavior. The winner, same-attempt odds and Tuner saving remain visible; XP, unlimited replacement expectation, refunds/finite-budget boundaries are in Cost basis. Cost deltas still require the unchanged comparable scope; finite/incomplete runs remain reference-only/spent-so-far.
 
-Use the working Git clones **side by side** (not a GitHub ZIP), with public branch `feat/source-team-selection-sandbox-improve-20261020` and private branch `feat/windows-local-launcher`. Then run the existing `Bellibing-simulator/START_BELLIBING_LOCAL.bat`. It installs/verifies locked source dependencies, builds a motor-free public `dist`, stages the unchanged private Worker only under private ignored local output and opens Build. Use the navigation for Improve or Echo Sandbox. Close by pressing Enter in the launcher window.
+## Evidence
 
-Prerequisites: Node.js 22.16+, npm, Git for Windows and the private checkout; first-time private locked source fetch may require authenticated GitHub CLI. The local preview is loopback-only. No merge, deployment or Worker publication is authorized.
+Focused source/ownership/qualified-vs-experimental tests and Chromium cover both routes at 1440×900 and 390×844: deduplication, each candidate's portrait, retained Shorekeeper, cleared third slot, explicit Mornye, actual non-Support role, ambiguous mode Pending and all 59 defaults. The existing 397-context coverage report, canonical source pin, private/public artifact gates and CI remain mandatory. Tests for the superseded full-team menu now exercise the approved member flow; no roster loop or source/qualification assertion is skipped.
 
-**DPS**: all normal rows remain Pending. The existing bounded Augusta synthetic reference must not appear as qualified general Team DPS.
+Before/after screenshots are in [the visual review](reviews/member-team-dps/README.md). The unchanged private local browser runner is also exercised through an ignored adaptation to the new member selectors and shared status: genuine RNG + Workshop Candidates, exact per-actor/total/delta, immutable accounts, incompatible-context retirement and Sandbox export/reset. Private test accounts, screenshots and runtime stay private.
+
+Use the current paired public/private Draft branches with the existing local launcher. No hosted engine, merge, deployment or private motor publication is authorized. Experimental native-model parity is not independently qualified gameplay DPS.

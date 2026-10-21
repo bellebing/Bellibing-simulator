@@ -29,7 +29,7 @@ try{
  });
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&character=expanded`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
- assert.equal(await page.locator('[data-dps-scenario]').count(),3);assert.equal(await page.locator('.team-dps-table td').count(),12);
+ assert.equal(await page.locator('.team-dps-table').count(),1);assert.equal(await page.locator('.team-next-action').count(),1);
  assert.equal(await page.locator('.sandbox-dps-context').count(),0);
  assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>v!=='—'));
  assert.match(await page.locator('.stat-scope').innerText(),/Echoes Pending/);
@@ -37,13 +37,13 @@ try{
  await page.getByRole('button',{name:'Character Stats',exact:true}).click();assert.equal(await page.locator('.sandbox-dps').isVisible(),true);
  assert.ok((await page.locator('[data-role="simulated"] strong').allTextContents()).every(v=>v==='—'));
  online=true;
- await page.locator('[data-team-role="partner"]').click();await page.getByRole('dialog',{name:'Choose Sub DPS / partner'}).locator('[data-choice="guide-augusta-mortefi-the-shorekeeper-augusta-slots-4"]').click();
+ await page.locator('[data-team-role="partner"]').click();await page.getByRole('dialog',{name:'Choose Sub DPS / partner'}).locator('[data-choice="mortefi"]').click();
  assert.deepEqual(await page.locator('.team-member>span').allTextContents(),['Augusta','Mortefi','The Shorekeeper']);
  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();
  await page.waitForFunction(()=>document.querySelector('.stat-scope').textContent==='Observed Echoes');
  await page.getByRole('button',{name:'Simulation Stats',exact:true}).click();
  assert.equal(await page.locator('[data-result-id="ELECTRO_DMG_BONUS"] [data-role="simulated"] strong').innerText(),'70%');
- assert.ok((await page.locator('.team-dps-table td').allTextContents()).every(v=>v==='—'));
+ assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\d/}).count(),0);
  await page.locator('.portrait.selected').click();await page.locator('[data-filter="all"]').click();
  const index=await page.locator('[data-art]').evaluateAll(nodes=>nodes.findIndex(n=>n.dataset.art==='phrolova'));
  await page.locator('#galleryArt').focus();await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');

@@ -27,5 +27,5 @@ test('Improve reuses two rows and rejects hand-built or mutated comparison delta
  const c=teamDpsComparison({mode:'IMPROVE',context,qualifiedProviders,results:[row('CURRENT'),row('CANDIDATE',2)]});
  assert.deepEqual(c.rows.map(r=>r.scenario),['CURRENT','CANDIDATE']);assert.equal(teamDpsDelta(c,'CURRENT','CANDIDATE').status,'VERIFIED');
  assert.equal(teamDpsDelta(structuredClone(c),'CURRENT','CANDIDATE').status,'PENDING');c.context.durationSeconds=1;assert.equal(teamDpsDelta(c,'CURRENT','CANDIDATE').status,'PENDING');
- const markup=dpsConceptMarkup({characterId:'iuno',comparisonMode:'IMPROVE'});assert.equal((markup.match(/data-dps-scenario=/g)??[]).length,2);assert.doesNotMatch(markup,/data-dps-scenario="EXPECTED"/);
+ const markup=dpsConceptMarkup({hasCurrentBuild:true,characterId:'iuno',comparisonMode:'IMPROVE'});assert.equal((markup.match(/data-dps-scenario=/g)??[]).length,2);assert.doesNotMatch(markup,/data-dps-scenario="EXPECTED"/);
 });

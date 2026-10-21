@@ -39,7 +39,7 @@ try{
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&review=expert&character=expanded`);
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
- await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();
+ await page.locator('.team-details>summary').click();await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();
  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();
  await page.waitForSelector('.observed-echo-comparison');
  assert.deepEqual(await page.locator('[data-observed-row="BASELINE"] td').allTextContents(),['1','2','3','6']);
@@ -64,14 +64,17 @@ try{
   // Select the explicit reviewed Augusta reference context before enabling
   // its opt-in bounded experiment; otherwise it must remain unavailable.
   const approved=teamCatalog.characters.find(c=>c.characterId==='augusta').defaultContextId;
-  await page.locator('[data-team-context-menu]').click();
-  await page.getByRole('dialog',{name:'Reviewed teams / contexts'}).locator(`[data-choice="${approved}"]`).click();
+  for(const [role,member]of [['main','augusta'],['partner','iuno'],['third','the-shorekeeper']]){
+   if(await page.locator(`[data-team-role="${role}"] span`).textContent()===({'augusta':'Augusta','iuno':'Iuno','the-shorekeeper':'The Shorekeeper'})[member])continue;
+   await page.locator(`[data-team-role="${role}"]`).click();await page.getByRole('dialog').locator(`[data-choice="${member}"]`).click();
+  }
   assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),approved);
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
   await page.getByRole('button',{name:'Customize',exact:true}).click();
   await page.locator('#flexCount').evaluate(n=>{n.value='1';n.dispatchEvent(new Event('input',{bubbles:true}));});
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')==='true')await page.locator('#settingsToggle').click();
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  if(!await page.locator('.team-details').evaluate(n=>n.open))await page.locator('.team-details>summary').click();
   if(!await page.locator('.dps-expert').evaluate(n=>n.open))await page.locator('.dps-expert summary').click();
   await page.locator('.sandbox-dps-context').check();
   await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();await page.waitForSelector('.observed-echo-comparison');

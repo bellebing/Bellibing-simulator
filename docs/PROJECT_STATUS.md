@@ -113,7 +113,7 @@ source-model adapter covers 258 independently benchmarked trios across 45 Charac
 Reviewed role/mode and composed native profiles reuse the same calculator, including Encore/Havoc Rover. Three
 complete saved builds, canonical equipment, source effects/rotation and total ER are required.
 Lv90/R1 is an explicit reference choice because account storage lacks those fields.
-Improve reviews one observed Candidate at a time; Sandbox compares completed active
+Both workspaces now use member-only choices and one Current/Candidate/Change DPS table; source details are collapsed and experimental references require explicit opt-in. Improve reviews one observed Candidate at a time; Sandbox compares completed active
 slot replacements against a detached account copy. Whole-team ER, source equipment
 and context freshness fail closed. Real Chromium evidence covers both workspaces.
 Riley supports S0–S2/equipped source R1 Weapons; Change includes relative DPS.

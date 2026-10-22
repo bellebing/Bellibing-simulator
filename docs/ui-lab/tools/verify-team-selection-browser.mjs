@@ -31,7 +31,7 @@ try{
   await select(page,'third','the-shorekeeper');
   assert.deepEqual(await names(page),['Changli','Aemeath','The Shorekeeper']);
   assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'guide-changli-aemeath-the-shorekeeper-changli-slots-10');
-  assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\\d/}).count(),0,'a selected source context is not qualified DPS');
+  assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\d/}).count(),0,'a selected source context is not qualified DPS');
   await load(page,route,'qingxiao');await select(page,'partner','lynae');if((await names(page))[2]!=='The Shorekeeper')await select(page,'third','the-shorekeeper');
   await select(page,'partner','denia');assert.deepEqual(await names(page),['Qingxiao','Denia','Choose a teammate']);assert.equal(await page.locator('.team-next-action a').count(),0,'incomplete team asks for a member, not a Build edit');assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'');
   await page.screenshot({path:resolve(out,`${route}-qingxiao-third-pending-${width}.png`),fullPage:true});await select(page,'third','mornye');assert.deepEqual(await names(page),['Qingxiao','Denia','Mornye']);assert.ok(await page.locator('.team-source-summary').getAttribute('data-active-context-id'));

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "scope": "LOCAL_REFERENCE_TRANSPORT_ONLY_NOT_DPS_READINESS",
+  "contexts": [
+    {
+      "teamContextId": "guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7",
+      "characterIds": ["carlotta", "yangyang", "the-shorekeeper"],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Yangyang native Character extension reuses this already reviewed team. The private provider owns execution and all gates."
+    }
+  ]
+}

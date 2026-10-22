@@ -1,0 +1,537 @@
+{
+  "schemaVersion": 1,
+  "scope": "ORIGINAL_CLIENT_RAW_ECHO_EVIDENCE_NOT_ROTATION_OR_GAMEPLAY_QUALIFICATION",
+  "checkedAt": "2026-10-22",
+  "sourceRepository": "Arikatsu/WutheringWaves_Data",
+  "sourceCommit": "9218d612ad815e398e064e577e42aaf878899968",
+  "sourceFiles": [
+    {
+      "path": "BinData/phantom/phantomitem.json",
+      "blob": "1043498ffa6f1ec230550b8765151da666b897d9"
+    },
+    {
+      "path": "BinData/phantom/phantomskill.json",
+      "blob": "a686432c08eff6c83420dab818ef727b31ac90f1"
+    },
+    {
+      "path": "BinData/damage/damage.json",
+      "blob": "6bcd76d3f7f855b47ad2f5325848f99803ae821a"
+    }
+  ],
+  "item": {
+    "ItemId": 60002255,
+    "MonsterId": 6000225,
+    "MonsterName": "MonsterInfo_340000332_Name",
+    "SkillId": 280045,
+    "ElementType": [
+      5
+    ],
+    "QualityId": 5,
+    "FetterGroup": [
+      36,
+      37
+    ]
+  },
+  "skill": {
+    "Id": 280045,
+    "PhantomSkillId": 280045,
+    "SettleIds": [
+      280045010,
+      280045011,
+      280045012,
+      280045013
+    ],
+    "BuffEffects": [
+      280045001,
+      280045002,
+      280045003
+    ],
+    "ChargeEfficiency": 0,
+    "SkillCD": 20,
+    "DescriptionEx": "PhantomSkill_280045_DescriptionEx",
+    "LevelDescStrArray": [
+      {
+        "ArrayString": [
+          "15.20%",
+          "91.20%",
+          "4.56%",
+          "129.20%",
+          "10.00%",
+          "10.00%",
+          "30",
+          "20"
+        ]
+      },
+      {
+        "ArrayString": [
+          "18.24%",
+          "109.44%",
+          "5.47%",
+          "155.04%",
+          "10.00%",
+          "10.00%",
+          "30",
+          "20"
+        ]
+      },
+      {
+        "ArrayString": [
+          "21.28%",
+          "127.68%",
+          "6.38%",
+          "180.88%",
+          "10.00%",
+          "10.00%",
+          "30",
+          "20"
+        ]
+      },
+      {
+        "ArrayString": [
+          "24.32%",
+          "145.92%",
+          "7.29%",
+          "206.72%",
+          "10.00%",
+          "10.00%",
+          "30",
+          "20"
+        ]
+      },
+      {
+        "ArrayString": [
+          "27.36%",
+          "164.16%",
+          "8.20%",
+          "232.56%",
+          "10.00%",
+          "10.00%",
+          "30",
+          "20"
+        ]
+      }
+    ]
+  },
+  "damage": [
+    {
+      "Id": 280045010,
+      "Condition": "",
+      "ConstVariables": [],
+      "ExecutionTiming": 0,
+      "CalculateType": 0,
+      "Element": 3,
+      "DamageTextType": 0,
+      "DamageTextAreaId": 1,
+      "PayloadId": 0,
+      "Type": 5,
+      "SubType": [],
+      "SmashType": 5,
+      "CureBaseValue": [
+        100
+      ],
+      "RelatedProperty": 7,
+      "RateLv": [
+        456,
+        547,
+        638,
+        729,
+        820
+      ],
+      "HardnessLv": [
+        10000
+      ],
+      "ToughLv": [
+        456
+      ],
+      "Energy": [
+        11
+      ],
+      "SpecialEnergy1": [
+        0
+      ],
+      "SpecialEnergy2": [
+        0
+      ],
+      "SpecialEnergy3": [
+        0
+      ],
+      "SpecialEnergy4": [
+        0
+      ],
+      "SpecialEnergy5": [
+        0
+      ],
+      "ElementPowerType": 0,
+      "Dying": [
+        0
+      ],
+      "ElementPower": [
+        0
+      ],
+      "FormulaType": 0,
+      "FormulaParam1": [
+        0
+      ],
+      "FormulaParam2": [
+        0
+      ],
+      "FormulaParam3": [
+        0
+      ],
+      "FormulaParam4": [
+        0
+      ],
+      "FormulaParam5": [
+        0
+      ],
+      "FormulaParam6": [
+        0
+      ],
+      "FormulaParam7": [
+        0
+      ],
+      "FormulaParam8": [
+        0
+      ],
+      "FormulaParam9": [
+        0
+      ],
+      "FormulaParam10": [
+        0
+      ],
+      "ImmuneType": 0,
+      "Percent0": [
+        0
+      ],
+      "Percent1": [
+        0
+      ],
+      "FluctuationLower": [
+        10000
+      ],
+      "FluctuationUpper": [
+        10000
+      ],
+      "WeaknessLvl": [
+        0
+      ],
+      "WeaknessRatio": [],
+      "SpecialWeaknessDamageRatio": 0
+    },
+    {
+      "Id": 280045011,
+      "Condition": "",
+      "ConstVariables": [],
+      "ExecutionTiming": 0,
+      "CalculateType": 0,
+      "Element": 3,
+      "DamageTextType": 0,
+      "DamageTextAreaId": 1,
+      "PayloadId": 0,
+      "Type": 5,
+      "SubType": [],
+      "SmashType": 5,
+      "CureBaseValue": [
+        100
+      ],
+      "RelatedProperty": 7,
+      "RateLv": [
+        12920,
+        15504,
+        18088,
+        20672,
+        23256
+      ],
+      "HardnessLv": [
+        10000
+      ],
+      "ToughLv": [
+        12920
+      ],
+      "Energy": [
+        323
+      ],
+      "SpecialEnergy1": [
+        0
+      ],
+      "SpecialEnergy2": [
+        0
+      ],
+      "SpecialEnergy3": [
+        0
+      ],
+      "SpecialEnergy4": [
+        0
+      ],
+      "SpecialEnergy5": [
+        0
+      ],
+      "ElementPowerType": 0,
+      "Dying": [
+        0
+      ],
+      "ElementPower": [
+        0
+      ],
+      "FormulaType": 0,
+      "FormulaParam1": [
+        0
+      ],
+      "FormulaParam2": [
+        0
+      ],
+      "FormulaParam3": [
+        0
+      ],
+      "FormulaParam4": [
+        0
+      ],
+      "FormulaParam5": [
+        0
+      ],
+      "FormulaParam6": [
+        0
+      ],
+      "FormulaParam7": [
+        0
+      ],
+      "FormulaParam8": [
+        0
+      ],
+      "FormulaParam9": [
+        0
+      ],
+      "FormulaParam10": [
+        0
+      ],
+      "ImmuneType": 0,
+      "Percent0": [
+        0
+      ],
+      "Percent1": [
+        0
+      ],
+      "FluctuationLower": [
+        10000
+      ],
+      "FluctuationUpper": [
+        10000
+      ],
+      "WeaknessLvl": [
+        0
+      ],
+      "WeaknessRatio": [],
+      "SpecialWeaknessDamageRatio": 0
+    },
+    {
+      "Id": 280045012,
+      "Condition": "",
+      "ConstVariables": [],
+      "ExecutionTiming": 0,
+      "CalculateType": 0,
+      "Element": 3,
+      "DamageTextType": 0,
+      "DamageTextAreaId": 1,
+      "PayloadId": 0,
+      "Type": 5,
+      "SubType": [],
+      "SmashType": 5,
+      "CureBaseValue": [
+        100
+      ],
+      "RelatedProperty": 7,
+      "RateLv": [
+        1520,
+        1824,
+        2128,
+        2432,
+        2736
+      ],
+      "HardnessLv": [
+        10000
+      ],
+      "ToughLv": [
+        1520
+      ],
+      "Energy": [
+        38
+      ],
+      "SpecialEnergy1": [
+        0
+      ],
+      "SpecialEnergy2": [
+        0
+      ],
+      "SpecialEnergy3": [
+        0
+      ],
+      "SpecialEnergy4": [
+        0
+      ],
+      "SpecialEnergy5": [
+        0
+      ],
+      "ElementPowerType": 0,
+      "Dying": [
+        0
+      ],
+      "ElementPower": [
+        0
+      ],
+      "FormulaType": 0,
+      "FormulaParam1": [
+        0
+      ],
+      "FormulaParam2": [
+        0
+      ],
+      "FormulaParam3": [
+        0
+      ],
+      "FormulaParam4": [
+        0
+      ],
+      "FormulaParam5": [
+        0
+      ],
+      "FormulaParam6": [
+        0
+      ],
+      "FormulaParam7": [
+        0
+      ],
+      "FormulaParam8": [
+        0
+      ],
+      "FormulaParam9": [
+        0
+      ],
+      "FormulaParam10": [
+        0
+      ],
+      "ImmuneType": 0,
+      "Percent0": [
+        0
+      ],
+      "Percent1": [
+        0
+      ],
+      "FluctuationLower": [
+        10000
+      ],
+      "FluctuationUpper": [
+        10000
+      ],
+      "WeaknessLvl": [
+        0
+      ],
+      "WeaknessRatio": [],
+      "SpecialWeaknessDamageRatio": 0
+    },
+    {
+      "Id": 280045013,
+      "Condition": "",
+      "ConstVariables": [],
+      "ExecutionTiming": 0,
+      "CalculateType": 0,
+      "Element": 3,
+      "DamageTextType": 0,
+      "DamageTextAreaId": 1,
+      "PayloadId": 0,
+      "Type": 5,
+      "SubType": [],
+      "SmashType": 5,
+      "CureBaseValue": [
+        100
+      ],
+      "RelatedProperty": 7,
+      "RateLv": [
+        9120,
+        10944,
+        12768,
+        14592,
+        16416
+      ],
+      "HardnessLv": [
+        10000
+      ],
+      "ToughLv": [
+        9120
+      ],
+      "Energy": [
+        228
+      ],
+      "SpecialEnergy1": [
+        0
+      ],
+      "SpecialEnergy2": [
+        0
+      ],
+      "SpecialEnergy3": [
+        0
+      ],
+      "SpecialEnergy4": [
+        0
+      ],
+      "SpecialEnergy5": [
+        0
+      ],
+      "ElementPowerType": 0,
+      "Dying": [
+        0
+      ],
+      "ElementPower": [
+        0
+      ],
+      "FormulaType": 0,
+      "FormulaParam1": [
+        0
+      ],
+      "FormulaParam2": [
+        0
+      ],
+      "FormulaParam3": [
+        0
+      ],
+      "FormulaParam4": [
+        0
+      ],
+      "FormulaParam5": [
+        0
+      ],
+      "FormulaParam6": [
+        0
+      ],
+      "FormulaParam7": [
+        0
+      ],
+      "FormulaParam8": [
+        0
+      ],
+      "FormulaParam9": [
+        0
+      ],
+      "FormulaParam10": [
+        0
+      ],
+      "ImmuneType": 0,
+      "Percent0": [
+        0
+      ],
+      "Percent1": [
+        0
+      ],
+      "FluctuationLower": [
+        10000
+      ],
+      "FluctuationUpper": [
+        10000
+      ],
+      "WeaknessLvl": [
+        0
+      ],
+      "WeaknessRatio": [],
+      "SpecialWeaknessDamageRatio": 0
+    }
+  ]
+}

@@ -50,8 +50,8 @@ revision invalidation and ownership. No Build redesign is included.
 
 The deterministic private inventory has one row per current released identity.
 Using existing reviewed teams, native equipment profiles and the existing locked
-calculator yields **45/59 MODEL_EXECUTABLE** selected-member references and
-**45/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
+calculator yields **48/59 MODEL_EXECUTABLE** selected-member references and
+**48/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
 replays original TypeScript 5.6.3 State/rotation/hit accumulation and checks all
 three actor damage values, duration, Team Total, ER, Crit and casts. This is native
 model parity, not live-game qualification. The owner has resolved Danjin’s English full-power translation as full meter,
@@ -59,7 +59,7 @@ exactly 120 consuming 120. Native-model agreement remains distinct from
 gameplay qualification and does not resolve other source conflicts. **GAMEPLAY_QUALIFIED remains 0/59.**
 
 Ten identities lack an admitted execution source in the existing pinned pipeline;
-four more remain blocked by source/profile/investment constraints. The private
+Jianxin remains blocked on complete S0 action/timing mapping and verification. The private
 59-row report owns the exact requests, alternatives attempted, source modules,
 profiles, rotations, equipment, ER requirements, selected contribution, other two
 contributions and total. The public [coverage matrix](DPS_FIRST_TEAM_COVERAGE.md)
@@ -67,8 +67,8 @@ contains only canonical public identities/context references and safe blocker
 categories. Browser/reference/run support is reported separately from numerical
 execution; a catalog row or teammate appearance never counts as execution.
 
-Real per-selection Chromium covers all 59 selections, **44/59 reachable native
-references and 44/59 completed five-card comparisons**, with no account mutation.
+Real per-selection Chromium covers all 59 selections, **47/59 reachable native
+references and 47/59 completed five-card comparisons**, with no account mutation.
 Both ER/Crit failures and supported configurations are retained as regressions.
 
 There is also a selection-path limitation: the first executable Changli reference
@@ -88,7 +88,10 @@ team-selection Chromium covers every released selection in both workspaces.
 The implementing Draft PR records actual FAST, Review, FULL, private verification,
 Worker, browser and Windows results and omissions at its exact head.
 
-**M0 is incomplete.** Source-valid 59/59 has not been demonstrated. The owner must
-explicitly decide whether to commission further source/model investigation or
-accept a bounded experimental milestone before moving the main roadmap to Build.
+**M0 is incomplete.** Source-valid 59/59 has not been demonstrated. The owner has explicitly continued M0 toward 59/59; no scope exception or Build
+transition was accepted. Original Kin/Bilibili source access is still blocked;
+the admitted Hsin/Electro Rover/Buling scenarios use existing reviewed native
+rotations with an explicit source-backed Suhsin damage/Energy correction, not
+a claimed reproduction of those inaccessible guides. The native engine pin is unchanged.
+The supplemental original-client evidence is [captured here](../data/source/echo-suhsin-execution-2026-10-22.json).
 No merge, deployment or private-engine publication is authorized.

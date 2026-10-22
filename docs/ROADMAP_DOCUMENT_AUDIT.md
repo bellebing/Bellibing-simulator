@@ -1,6 +1,6 @@
 # Roadmap/document authority audit — 2026-10-21
 
-> **Scope:** reconcile *instructions and product sequencing*, not delete source/gameplay evidence. Read against current public main, public Draft candidates through the standalone Sandbox reference, private paired Draft execution, current AI Handoff, the dated Google Doc project-lead handoff and the product owner's October 21 walkthrough. The current end-to-end direction and **2026-10-22 execution priority update (bounded DPS V1 integration first; then Build concept and build)** is [PRODUCT_JOURNEY_ROADMAP](PRODUCT_JOURNEY_ROADMAP.md). GitHub still owns live PR/CI truth.
+> **Scope:** reconcile *instructions and product sequencing*, not delete source/gameplay evidence. Read against current public main, public Draft candidates through the standalone Sandbox reference, private paired Draft execution, current AI Handoff, the dated Google Doc project-lead handoff and the product owner's October 21 walkthrough. The current end-to-end direction and **2026-10-22 execution priority update (consolidated DPS V1 and evidence-backed first executable team for each of 59 released Characters, or documented blocker + owner scope decision; then Build concept and build)** is [PRODUCT_JOURNEY_ROADMAP](PRODUCT_JOURNEY_ROADMAP.md). GitHub still owns live PR/CI truth.
 
 ## Authority table — one fact, one owner
 

@@ -1,0 +1,2851 @@
+{
+  "schemaVersion": 1,
+  "role": "COMMUNITY_ACTION_AND_EFFECT_WINDOWS_REFERENCE_NOT_CANONICAL_PROMOTION",
+  "capturedAt": "2026-10-22",
+  "source": {
+    "url": "https://docs.google.com/spreadsheets/d/1vTbG2HfkVxyqvNXF2taikStK-vJJf40QrWa06Fgj17c/edit",
+    "author": "Maygi and credited contributors",
+    "versionLabel": "V6.15.1"
+  },
+  "reviewPolicy": [
+    "Intro/Outro action timing and raw effect/Sequence table cells only; action DPS cells are excluded.",
+    "Reconcile each consumed semantic/value with canonical and original-client facts. Community flags, durations, sentinels and investment assumptions are not automatically authoritative.",
+    "Original engine and canonical source pins remain unchanged; this artifact grants no execution readiness."
+  ],
+  "sheets": [
+    {
+      "name": "Baizhi",
+      "range": "Baizhi!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Overflowing Frost",
+            "B": 0.4,
+            "C": 1.47,
+            "E": "InGlHl",
+            "F": 1,
+            "G": 0,
+            "H": 10,
+            "I": 8
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Rejuvinating Flow",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Outro: Rejuvinating Flow (Regen)",
+            "B": "Dmg",
+            "C": "OuHl",
+            "D": "TickOverTime",
+            "E": 0,
+            "F": 32,
+            "G": true,
+            "H": "Outro: Rejuvinating Flow;Any",
+            "I": 0,
+            "J": 3,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Outro: Rejuvinating Flow (Deepen)",
+            "B": "Buff",
+            "C": "All",
+            "D": "Deepen",
+            "E": 0.15,
+            "F": 6,
+            "G": true,
+            "H": "Outro: Rejuvinating Flow (Regen)",
+            "I": 0,
+            "J": 0,
+            "K": "Active"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Forte: Cycle of Life",
+            "B": "Dmg",
+            "C": "HlHp",
+            "D": "TickOverTime",
+            "E": 0,
+            "F": 8,
+            "G": true,
+            "H": "Emergency Plan;Any",
+            "I": 4,
+            "J": 2,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 60,
+          "cells": {
+            "A": "Remnant Entities",
+            "B": "Dmg",
+            "C": "HlGlHpRlCo",
+            "D": "TickOverTime",
+            "E": 0.0205,
+            "F": 999,
+            "G": true,
+            "H": "Momentary Union;Any",
+            "I": 4,
+            "J": 2.5,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 61,
+          "cells": {
+            "A": "Eternal Verity",
+            "B": "Buff",
+            "C": "Remnant Entities",
+            "D": "Additive",
+            "E": 0.012,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 62,
+          "cells": {
+            "A": "Harmonic Range",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.15,
+            "F": 20,
+            "G": true,
+            "H": "Emergency Plan",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 63,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 2,
+            "G": true,
+            "H": "Emergency Plan;Forte>=1",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 64,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 4,
+            "G": true,
+            "H": "Emergency Plan;Forte>=2",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 65,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 6,
+            "G": true,
+            "H": "Emergency Plan;Forte>=3",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 66,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 8,
+            "G": true,
+            "H": "Emergency Plan;Forte>=4",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 67,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 2,
+            "G": true,
+            "H": "Heavy: Destined Promise;Forte>=1",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 68,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 4,
+            "G": true,
+            "H": "Heavy: Destined Promise;Forte>=2",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 69,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 6,
+            "G": true,
+            "H": "Heavy: Destined Promise;Forte>=3",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 70,
+          "cells": {
+            "A": "Concentration",
+            "B": "StackingBuff",
+            "C": "Hl",
+            "D": "Unique",
+            "E": 0,
+            "F": 8,
+            "G": true,
+            "H": "Heavy: Destined Promise;Forte>=4",
+            "I": 4,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 71,
+          "cells": {
+            "A": "Cycle of Life (Reset)",
+            "B": "ResetBuff",
+            "C": "Forte: Cycle of Life",
+            "D": "",
+            "E": "",
+            "F": 2,
+            "G": true,
+            "H": "Buff:Concentration x1",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 72,
+          "cells": {
+            "A": "Cycle of Life (Reset)",
+            "B": "ResetBuff",
+            "C": "Forte: Cycle of Life",
+            "D": "",
+            "E": "",
+            "F": 4,
+            "G": true,
+            "H": "Buff:Concentration x2",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 73,
+          "cells": {
+            "A": "Cycle of Life (Reset)",
+            "B": "ResetBuff",
+            "C": "Forte: Cycle of Life",
+            "D": "",
+            "E": "",
+            "F": 6,
+            "G": true,
+            "H": "Buff:Concentration x3",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 74,
+          "cells": {
+            "A": "Cycle of Life (Reset)",
+            "B": "ResetBuff",
+            "C": "Forte: Cycle of Life",
+            "D": "",
+            "E": "",
+            "F": 8,
+            "G": true,
+            "H": "Buff:Concentration x4",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S1: Complex Simplicity (Applied Dynamically)"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S2: Silent Tundra",
+            "B": "Buff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0.15,
+            "F": 12,
+            "G": false,
+            "H": "Emergency Plan 4",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Veritas Lux Mea",
+            "B": "Buff",
+            "C": "All",
+            "D": "Health",
+            "E": 0.12,
+            "F": 10,
+            "G": false,
+            "H": "Overflowing Frost",
+            "I": 0,
+            "J": 0,
+            "K": "Baizhi"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Eternal Verity (Applied Dynamically)"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: A Wish Answered (Not relevant for calculations)"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S6: Seeker`s Devotion",
+            "B": "Buff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0.12,
+            "F": 20,
+            "G": false,
+            "H": "Buff:Harmonic Range",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Yuanwu",
+      "range": "Yuanwu!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Thunder Bombardment",
+            "B": 0.32,
+            "C": 1.9,
+            "E": "ElInDf",
+            "F": 1,
+            "G": 0,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Lightning Manipulation",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Thunderweaver",
+            "B": "Buff",
+            "C": "Thunder Uprising",
+            "D": "Multiplier",
+            "E": 0.4,
+            "F": "Passive",
+            "G": true,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Yuanwu"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Yuanwu Coordinated Attack",
+            "B": "Dmg",
+            "C": "SkElDfCo",
+            "D": "Passive",
+            "E": 0.04,
+            "F": 13.5,
+            "G": true,
+            "H": "Leihuang Master;Any",
+            "I": 0,
+            "J": 1.2,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Passive Readiness Generation",
+            "B": "Dmg",
+            "C": "",
+            "D": "TickOverTime",
+            "E": 0,
+            "F": 12,
+            "G": true,
+            "H": "Leihuang Master;Any",
+            "I": 0,
+            "J": 1,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 60,
+          "cells": {
+            "A": "Detonate Thunder Wedge",
+            "B": "ConsumeBuff",
+            "C": "Yuanwu Coordinated Attack",
+            "D": "",
+            "E": 0,
+            "F": 0,
+            "G": true,
+            "H": "Rumbling Spark",
+            "I": 0,
+            "J": 0,
+            "K": "Yuanwu"
+          }
+        },
+        {
+          "sourceRow": 61,
+          "cells": {
+            "A": "Upholder of Integrity",
+            "B": "Buff",
+            "C": "Yuanwu Coordinated Attack",
+            "D": "Additive",
+            "E": 0.2,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S1: Steaming Cup of Justice"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S2: Fierce Heart, Serene Mind",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Resonance",
+            "E": 15,
+            "F": 0,
+            "G": false,
+            "H": "In",
+            "I": 0,
+            "J": 10,
+            "K": "Yuanwu"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Upholder of Integrity (Applied Dynamically)"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Retributive Knuckles"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: Neighborhood Protector",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": 13.5,
+            "G": false,
+            "H": "Leihuang Master",
+            "I": 0,
+            "J": 0,
+            "K": "Yuanwu"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S6: Defender of All Realms",
+            "B": "Buff",
+            "C": "All",
+            "D": "Defense",
+            "E": 0.32,
+            "F": 15,
+            "G": false,
+            "H": "Leihuang Master",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jianxin",
+      "range": "Jianxin!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Essence of Tao",
+            "B": 0.8500000000000001,
+            "C": 1,
+            "E": "InAe",
+            "F": 4,
+            "G": 41,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Transcendence",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Outro: Transcendence (Deepen)",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Deepen",
+            "E": 0.38,
+            "F": 14,
+            "G": true,
+            "H": "Outro: Transcendence",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Formless Release",
+            "B": "Buff",
+            "C": "Purification Force Field",
+            "D": "Bonus",
+            "E": 0.2,
+            "F": "Passive",
+            "G": true,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Jianxin"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Zhoutian Shield",
+            "B": "Dmg",
+            "C": "Hl",
+            "D": "TickOverTime",
+            "E": 0,
+            "F": 30,
+            "G": true,
+            "H": "Primordial Chi Spiral;Any",
+            "I": 0,
+            "J": 6,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S1: Verdant Branchlet",
+            "B": "Buff",
+            "C": "Basic",
+            "D": "Forte Gain",
+            "E": 1,
+            "F": 10,
+            "G": false,
+            "H": "Intro: Essence of Tao",
+            "I": 0,
+            "J": 0,
+            "K": "Jianxin"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S2: Calming Air (Applied Dynamically)"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Principles of Wuwei"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Multitude Reflection",
+            "B": "Buff",
+            "C": "Purification Force Field",
+            "D": "Bonus",
+            "E": 0.8,
+            "F": 14,
+            "G": false,
+            "H": "Primordial Chi Spiral",
+            "I": 0,
+            "J": 0,
+            "K": "Jianxin"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: Mirroring Introspection"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S6: Truth from Within",
+            "B": "Dmg",
+            "C": "HeAe",
+            "D": "Passive",
+            "E": 5.5667,
+            "F": 5,
+            "G": false,
+            "H": "Enhanced Chi Counter;Any",
+            "I": 1,
+            "J": 0,
+            "K": "Jianxin"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Calcharo",
+      "range": "Calcharo!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Wanted Outlaw",
+            "B": 1,
+            "C": 1.53,
+            "E": "InEl",
+            "F": 4,
+            "G": 0,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Shadowy Raid",
+            "B": 5.8794,
+            "C": 0,
+            "E": "OuEl",
+            "F": 2
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Inherent: Bloodshed Awaken",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Bonus",
+            "E": 0.1,
+            "F": 15,
+            "G": true,
+            "H": "Mercy",
+            "I": 0,
+            "J": 0,
+            "K": "Calcharo"
+          }
+        },
+        {
+          "sourceRow": 77,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "S1: Covert Negotiation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Resonance",
+            "E": 10,
+            "F": 0,
+            "G": false,
+            "H": "Extermination Order",
+            "I": 0,
+            "J": 10,
+            "K": "Calcharo"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Zero-Sum Game",
+            "B": "Buff",
+            "C": "Sk",
+            "D": "Bonus",
+            "E": 0.3,
+            "F": 15,
+            "G": false,
+            "H": "In",
+            "I": 0,
+            "J": 0,
+            "K": "Calcharo"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S3: Iron Fist Diplomacy",
+            "B": "Buff",
+            "C": "El",
+            "D": "Bonus",
+            "E": 0.25,
+            "F": 11,
+            "G": false,
+            "H": "Phantom Etching",
+            "I": 0,
+            "J": 0,
+            "K": "Calcharo"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S4: Dark Alliance",
+            "B": "Buff",
+            "C": "El",
+            "D": "Bonus",
+            "E": 0.2,
+            "F": 30,
+            "G": false,
+            "H": "Outro: Shadowy Raid",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S5: Unconventional Compact",
+            "B": "Buff",
+            "C": "In",
+            "D": "Multiplier",
+            "E": 0.5,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Calcharo"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S6: The Ultimatum",
+            "B": "Dmg",
+            "C": "RlEl",
+            "D": "Passive",
+            "E": 2,
+            "F": 0,
+            "G": false,
+            "H": "Death Messenger;Any",
+            "I": 1,
+            "J": 1,
+            "K": "Calcharo"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Chixia",
+      "range": "Chixia!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Grand Entrance",
+            "B": 0.9902,
+            "C": 1,
+            "E": "InFu",
+            "F": 6,
+            "G": 15,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Leaping Flames",
+            "B": 5.3,
+            "C": 0,
+            "E": "OuFu",
+            "F": 1,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Scorching Magazine",
+            "B": "Buff",
+            "C": "BOOM BOOM!",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": 0,
+            "G": true,
+            "H": "BOOM BOOM!",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Numbingly Spicy!",
+            "B": "StackingBuff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.01,
+            "F": 10,
+            "G": true,
+            "H": "DAKA DAKA!",
+            "I": 30,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S1: No.1 Hero Play Fan",
+            "B": "Buff",
+            "C": "BOOM BOOM!",
+            "D": "Crit",
+            "E": 1,
+            "F": 0,
+            "G": false,
+            "H": "BOOM BOOM!",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S2: Leaping Sparkles",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Resonance",
+            "E": 5,
+            "F": 0,
+            "G": false,
+            "H": "Blazing Flames",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Eternal Flames",
+            "B": "Buff",
+            "C": "Blazing Flames",
+            "D": "Bonus",
+            "E": 0.24,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Hero’s Ultimate Move",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 60,
+            "F": 0,
+            "G": false,
+            "H": "Blazing Flames",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: Triumphant Explosions",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.3,
+            "F": 0,
+            "G": false,
+            "H": "Buff:Numbingly Spicy! x30",
+            "I": 0,
+            "J": 0,
+            "K": "Chixia"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S6: Easter Egg Performance",
+            "B": "Buff",
+            "C": "No",
+            "D": "Bonus",
+            "E": 0.25,
+            "F": 15,
+            "G": false,
+            "H": "BOOM BOOM!",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lingyang",
+      "range": "Lingyang!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Lion Awakens",
+            "B": 1,
+            "C": 1.88,
+            "E": "GlIn",
+            "F": 2,
+            "G": 0,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Frosty Marks",
+            "B": 5.8794,
+            "C": 0,
+            "E": "GlOu",
+            "F": 1,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Lion's Pride",
+            "B": "Buff",
+            "C": "Lion Awakens",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": "Passive",
+            "G": true,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Diligent Practice",
+            "B": "Dmg",
+            "C": "SkGl",
+            "D": "Passive",
+            "E": 1.2507,
+            "F": 3,
+            "G": true,
+            "H": "Basic: Feral Gyrate;Mountain Roamer",
+            "I": 1,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Lion's Vigor",
+            "B": "Buff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": 14,
+            "G": true,
+            "H": "Strive - Lion's Vigor",
+            "I": 0,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 77,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "S1: Lion of Lights, Blessings Abound"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Dominant and Fierce, Power Unbound",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Resonance",
+            "E": 10,
+            "F": 0,
+            "G": false,
+            "H": "Intro: Lion Awakens",
+            "I": 0,
+            "J": 20,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S3: Jaw-Dropping Feats, Loud and Wide (Basic)",
+            "B": "Buff",
+            "C": "No",
+            "D": "Bonus",
+            "E": 0.2,
+            "F": 14,
+            "G": false,
+            "H": "Strive - Lion's Vigor",
+            "I": 0,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Jaw-Dropping Feats, Loud and Wide (Skill)",
+            "B": "Buff",
+            "C": "Sk",
+            "D": "Bonus",
+            "E": 0.1,
+            "F": 14,
+            "G": false,
+            "H": "Strive - Lion's Vigor",
+            "I": 0,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Immortals Bow, in Reverence Flawed",
+            "B": "Buff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0.2,
+            "F": 30,
+            "G": false,
+            "H": "Frosty Marks",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: Seven Stars Shine, Stepped upon High",
+            "B": "Dmg",
+            "C": "RlGl",
+            "D": "Passive",
+            "E": 2,
+            "F": "Passive",
+            "G": false,
+            "H": "Strive - Lion's Vigor;Any",
+            "I": 1,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S6: Demons Tremble, Divine Power Nigh",
+            "B": "Buff",
+            "C": "No",
+            "D": "Bonus",
+            "E": 1,
+            "F": 0.5,
+            "G": false,
+            "H": "Mountain Roamer",
+            "I": 0,
+            "J": 0,
+            "K": "Lingyang"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Lumi",
+      "range": "Lumi!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Special Delivery",
+            "B": 0.8502,
+            "C": 1,
+            "E": "InEl",
+            "F": 1,
+            "G": 100,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Escorting",
+            "B": 1.0000000000000001e-11,
+            "C": 0,
+            "E": "OuEl",
+            "F": 1,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Outro: Escorting",
+            "B": "BuffUntilSwap",
+            "C": "Sk",
+            "D": "Deepen",
+            "E": 0.38,
+            "F": 10,
+            "G": true,
+            "H": "Outro: Escorting",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Red Light",
+            "B": "BuffUntilSwap",
+            "C": "El",
+            "D": "Bonus",
+            "E": 0.1,
+            "F": 99999,
+            "G": true,
+            "H": "Pounce",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Red Light Remove",
+            "B": "ConsumeBuffInstant",
+            "C": "Red Light",
+            "D": "",
+            "E": "",
+            "F": "",
+            "G": true,
+            "H": "Intro: Special Delivery,Rebound",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 60,
+          "cells": {
+            "A": "Yellow Light",
+            "B": "BuffUntilSwap",
+            "C": "El",
+            "D": "Bonus",
+            "E": 0,
+            "F": 99999,
+            "G": true,
+            "H": "Intro: Special Delivery,Rebound",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 61,
+          "cells": {
+            "A": "Yellow Light Remove",
+            "B": "ConsumeBuffInstant",
+            "C": "Yellow Light",
+            "D": "",
+            "E": "",
+            "F": "",
+            "G": true,
+            "H": "Pounce",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 62,
+          "cells": {
+            "A": "Laser Beam",
+            "B": "Dmg",
+            "C": "NoEl",
+            "D": "Passive",
+            "E": 0.375,
+            "F": 1,
+            "G": true,
+            "H": "Outro;Outro",
+            "I": 1,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 63,
+          "cells": {
+            "A": "Inherent: Expediting",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.1,
+            "F": 5,
+            "G": true,
+            "H": "Energized;OnCast",
+            "I": 1,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 75,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "",
+            "D": 1.4992
+          }
+        },
+        {
+          "sourceRow": 77,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "S1: Parcel To Be Delivered"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Lollo Logistics, Ready to Help",
+            "B": "Buff",
+            "C": "Energized",
+            "D": "Ignore Defense",
+            "E": 0.2,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S3: Priority Parcel In Transit",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Bonus",
+            "E": 0.3,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S4: Captain Lumi, At Your Service",
+            "B": "Buff",
+            "C": "No",
+            "D": "Bonus",
+            "E": 0.3,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S5: Parcel Collected On Time",
+            "B": "Buff",
+            "C": "Laser Beam",
+            "D": "Multiplier",
+            "E": 1,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Lumi"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S6: Give Me A Five-star Rating",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.2,
+            "F": 20,
+            "G": false,
+            "H": "Liberation: Squeakie Express",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Taoqi",
+      "range": "Taoqi!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Defense Formation",
+            "B": 1.05,
+            "C": 1.75,
+            "E": "HaIn",
+            "F": 1,
+            "G": 0,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Iron Will",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Steadfast Protection",
+            "B": "Buff",
+            "C": "All",
+            "D": "Defense",
+            "E": 0.15,
+            "F": 999,
+            "G": true,
+            "H": "Fortified Defense",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Outro: Iron Will",
+            "B": "BuffUntilSwap",
+            "C": "Sk",
+            "D": "Deepen",
+            "E": 0.38,
+            "F": 14,
+            "G": true,
+            "H": "Outro: Iron Will",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Silent Strength (Crit)",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Crit",
+            "E": 0.2,
+            "F": 0,
+            "G": false,
+            "H": "Unmovable",
+            "I": 0,
+            "J": 0,
+            "K": "Taoqi"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S2: Silent Strength (Crit DMG)",
+            "B": "Buff",
+            "C": "Rl",
+            "D": "Crit Dmg",
+            "E": 0.2,
+            "F": 0,
+            "G": false,
+            "H": "Unmovable",
+            "I": 0,
+            "J": 0,
+            "K": "Taoqi"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S3: Keen-eyed Observer"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S4: Heavylifting Duty"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S5: Benevolent Guardian",
+            "B": "Buff",
+            "C": "Timed Counter",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Taoqi"
+          }
+        },
+        {
+          "sourceRow": 84,
+          "cells": {
+            "A": "S5: Benevolent Guardian (Energy)",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Resonance",
+            "E": 20,
+            "F": "Passive",
+            "G": false,
+            "H": "Timed Counter",
+            "I": 0,
+            "J": 0,
+            "K": "Taoqi"
+          }
+        },
+        {
+          "sourceRow": 85,
+          "cells": {
+            "A": "S6: Defender of Peace",
+            "B": "Buff",
+            "C": "NoHe",
+            "D": "Bonus",
+            "E": 0.4,
+            "F": 999,
+            "G": false,
+            "H": "Fortified Defense",
+            "I": 0,
+            "J": 0,
+            "K": "Taoqi"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Youhu",
+      "range": "Youhu!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Scroll of Wonders",
+            "B": 1,
+            "C": 1.5166666666666666,
+            "E": "InGl",
+            "F": 2,
+            "G": 45,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Timeless Classics",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Outro: Timeless Classics",
+            "B": "Buff",
+            "C": "Co",
+            "D": "Deepen",
+            "E": 1,
+            "F": 28,
+            "G": true,
+            "H": "Outro: Timeless Classics",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Inherent: Rare Find",
+            "B": "Buff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0.15,
+            "F": 14,
+            "G": true,
+            "H": "In",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Auspice Bonus (One Liberation)",
+            "B": "Buff",
+            "C": "Poetic Essence",
+            "D": "Bonus",
+            "E": 0,
+            "F": 999,
+            "G": true,
+            "H": "Liberation",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 60,
+          "cells": {
+            "A": "Auspice Bonus (Two Liberations)",
+            "B": "Buff",
+            "C": "Poetic Essence",
+            "D": "Bonus",
+            "E": 0.39375000000000004,
+            "F": 999,
+            "G": true,
+            "H": "Buff:Auspice Bonus (Stack Counter) x2&Liberation",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 61,
+          "cells": {
+            "A": "Reset Auspice Bonus (One Liberation)",
+            "B": "ConsumeBuffInstant",
+            "C": "Auspice Bonus (One Liberation)",
+            "D": "",
+            "E": 0,
+            "F": 0,
+            "G": true,
+            "H": "Buff:Auspice Bonus (One Liberation)&Liberation",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 62,
+          "cells": {
+            "A": "Reset Auspice Bonus",
+            "B": "ConsumeBuff",
+            "C": "Auspice Bonus",
+            "D": "",
+            "E": 0,
+            "F": 0,
+            "G": true,
+            "H": "Poetic Essence",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 63,
+          "cells": {
+            "A": "Auspice Bonus (Stack Counter)",
+            "B": "StackingBuff",
+            "C": "Gl",
+            "D": "Bonus",
+            "E": 0,
+            "F": 999,
+            "G": true,
+            "H": "Liberation",
+            "I": 2,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 64,
+          "cells": {
+            "A": "Auspice Base",
+            "B": "Buff",
+            "C": "Poetic Essence",
+            "D": "Bonus",
+            "E": 1.35625,
+            "F": "Passive",
+            "G": true,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 67,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "damage bonus",
+            "D": 0.3,
+            "E": "total",
+            "F": "relative",
+            "G": "",
+            "H": "observed",
+            "I": "",
+            "J": "% of origin"
+          }
+        },
+        {
+          "sourceRow": 68,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "no match",
+            "D": 0,
+            "E": "",
+            "F": 1.3,
+            "G": "",
+            "H": 396,
+            "I": 1,
+            "J": 1
+          }
+        },
+        {
+          "sourceRow": 69,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "2 match",
+            "D": 0.7,
+            "E": 1,
+            "F": 1.5384615384615383,
+            "G": "",
+            "H": 821,
+            "I": 2,
+            "J": 2.073232323232323
+          }
+        },
+        {
+          "sourceRow": 70,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "3 match",
+            "D": 1.75,
+            "E": 2.05,
+            "F": 2.346153846153846,
+            "G": "",
+            "H": 1460,
+            "I": 3,
+            "J": 3.686868686868687
+          }
+        },
+        {
+          "sourceRow": 71,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "2 match if 2x",
+            "D": 1.4,
+            "E": 1.7,
+            "F": 2.076923076923077,
+            "G": "",
+            "H": 396,
+            "I": "2+2",
+            "J": 1
+          }
+        },
+        {
+          "sourceRow": 72,
+          "cells": {
+            "A": "",
+            "B": "",
+            "C": "3 match if 2x",
+            "D": 3.5,
+            "E": 3.8,
+            "F": 3.692307692307692
+          }
+        },
+        {
+          "sourceRow": 77,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "S1: Waterside Respite"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Sunroom Siesta (Applied Dynamically)"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S3: Restless Sleep",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.2,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S4: Frosted Lullaby (RNG Skill Reset)"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S5: Dreamland Meander",
+            "B": "Buff",
+            "C": "All",
+            "D": "Crit",
+            "E": 0.15,
+            "F": 14,
+            "G": false,
+            "H": "In",
+            "I": 0,
+            "J": 0,
+            "K": "Youhu"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S6: Slumber Evermore",
+            "B": "StackingBuff",
+            "C": "All",
+            "D": "Crit Dmg",
+            "E": 0.15,
+            "F": 7,
+            "G": false,
+            "H": "Antique Appraisal;OnCast",
+            "I": 4,
+            "J": 0,
+            "K": "Youhu"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Aalto",
+      "range": "Aalto!A50:K85",
+      "rows": [
+        {
+          "sourceRow": 50,
+          "cells": {
+            "A": "Skill",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 51,
+          "cells": {
+            "A": "Intro: Feint Shot",
+            "B": 1.0002,
+            "C": 1,
+            "E": "InAe",
+            "F": 3,
+            "G": 0,
+            "H": 10,
+            "I": 10
+          }
+        },
+        {
+          "sourceRow": 53,
+          "cells": {
+            "A": "Outro",
+            "B": "DMG %",
+            "C": "Time",
+            "E": "Modifier",
+            "F": "Hits",
+            "G": "Forte",
+            "H": "Concerto",
+            "I": "Resonance"
+          }
+        },
+        {
+          "sourceRow": 54,
+          "cells": {
+            "A": "Outro: Dissolving Mist",
+            "B": 0,
+            "C": 0,
+            "E": "Ou",
+            "F": 0,
+            "G": 0,
+            "H": -100
+          }
+        },
+        {
+          "sourceRow": 56,
+          "cells": {
+            "A": "Inherent Skill",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 57,
+          "cells": {
+            "A": "Outro: Dissolving Mist (Deepen)",
+            "B": "BuffUntilSwap",
+            "C": "Ae",
+            "D": "Deepen",
+            "E": 0.23,
+            "F": 14,
+            "G": true,
+            "H": "Outro: Dissolving Mist",
+            "I": 0,
+            "J": 0,
+            "K": "Next"
+          }
+        },
+        {
+          "sourceRow": 58,
+          "cells": {
+            "A": "Mist (Effect)",
+            "B": "Buff",
+            "C": "Un",
+            "D": "Unique",
+            "E": 0,
+            "F": 3,
+            "G": true,
+            "H": "Mist Activation",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 59,
+          "cells": {
+            "A": "Mist Bullet (Skill)",
+            "B": "Dmg",
+            "C": "SkAe",
+            "D": "Passive",
+            "E": 0.59643,
+            "F": "Passive",
+            "G": true,
+            "H": "Skill;Any",
+            "I": 6,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 60,
+          "cells": {
+            "A": "Mist Bullet (Mistcloak Dash)",
+            "B": "StackingBuff",
+            "C": "Mistcloak Dash",
+            "D": "Additive",
+            "E": 0.59643,
+            "F": "Passive",
+            "G": true,
+            "H": "Mistcloak Dash;Forte>=1",
+            "I": 6,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 61,
+          "cells": {
+            "A": "Basic 1 Forte Generation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 1,
+            "F": 0,
+            "G": true,
+            "H": "Buff:Mist (Effect)&B1",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 62,
+          "cells": {
+            "A": "Basic 2 Forte Generation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 1,
+            "F": 0,
+            "G": true,
+            "H": "Buff:Mist (Effect)&B2",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 63,
+          "cells": {
+            "A": "Basic 3 Forte Generation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 1,
+            "F": 0,
+            "G": true,
+            "H": "Buff:Mist (Effect)&B3",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 64,
+          "cells": {
+            "A": "Basic 4 Forte Generation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 1,
+            "F": 0,
+            "G": true,
+            "H": "Buff:Mist (Effect)&B4",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 65,
+          "cells": {
+            "A": "Basic 5 Forte Generation",
+            "B": "BuffEnergy",
+            "C": "Misc",
+            "D": "Forte",
+            "E": 2,
+            "F": 0,
+            "G": true,
+            "H": "B5",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 66,
+          "cells": {
+            "A": "Perfect Performance",
+            "B": "Buff",
+            "C": "Heavy",
+            "D": "Crit",
+            "E": 1,
+            "F": 0,
+            "G": true,
+            "H": "Heavy",
+            "I": 0,
+            "J": 30,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 67,
+          "cells": {
+            "A": "Gate of Quandary",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.1,
+            "F": 10,
+            "G": true,
+            "H": "Flower in the Mist",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 68,
+          "cells": {
+            "A": "S6: Broker’s Secrets (Crit)",
+            "B": "Buff",
+            "C": "All",
+            "D": "Crit",
+            "E": 0.08,
+            "F": 10,
+            "G": false,
+            "H": "Flower in the Mist",
+            "I": 0,
+            "J": 0,
+            "K": "Team"
+          }
+        },
+        {
+          "sourceRow": 69,
+          "cells": {
+            "A": "S6: Broker’s Secrets (He)",
+            "B": "Buff",
+            "C": "He",
+            "D": "Bonus",
+            "E": 0.5,
+            "F": 0,
+            "G": false,
+            "H": "Buff:Gate of Quandary&He",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 70,
+          "cells": {
+            "A": "Mist Activation",
+            "B": "Dmg",
+            "C": "Sk",
+            "D": "Passive",
+            "E": 0,
+            "F": 0,
+            "G": true,
+            "H": "Un;Any",
+            "I": 1,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 71,
+          "cells": {
+            "A": "S3: Hazey Transition",
+            "B": "Buff",
+            "C": "No",
+            "D": "Multiplier",
+            "E": 0.5,
+            "F": 0,
+            "G": false,
+            "H": "B5",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 77,
+          "cells": {
+            "A": "Resonance Chain",
+            "B": "Type",
+            "C": "Type 2",
+            "D": "Type 3",
+            "E": "%",
+            "F": "Duration",
+            "G": "Active",
+            "H": "Procced By",
+            "I": "Stack Limit",
+            "J": "Stack Interval",
+            "K": "Applies To"
+          }
+        },
+        {
+          "sourceRow": 78,
+          "cells": {
+            "A": "S1: Trickster's Opening Show (Applied Dynamically)",
+            "B": "",
+            "C": "",
+            "D": "",
+            "E": "",
+            "F": "",
+            "G": false,
+            "H": "",
+            "I": "",
+            "J": "",
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 79,
+          "cells": {
+            "A": "S2: Mistweaver’s Debut",
+            "B": "Buff",
+            "C": "All",
+            "D": "Attack",
+            "E": 0.15,
+            "F": 8,
+            "G": false,
+            "H": "Skill",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 80,
+          "cells": {
+            "A": "S3: Hazey Transition",
+            "B": "Buff",
+            "C": "No",
+            "D": "Multiplier",
+            "E": 0.5,
+            "F": 0,
+            "G": false,
+            "H": "Buff:Mist (Effect)&Half Truths",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 81,
+          "cells": {
+            "A": "S4: Blake Bloom for Finale",
+            "B": "Buff",
+            "C": "Mist Bullet,Mistcloak Dash",
+            "D": "Bonus",
+            "E": 0.3,
+            "F": "Passive",
+            "G": false,
+            "H": "Passive",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 82,
+          "cells": {
+            "A": "S5: Applause of the Lost",
+            "B": "Buff",
+            "C": "Ae",
+            "D": "Bonus",
+            "E": 0.25,
+            "F": 6,
+            "G": false,
+            "H": "Mistcloak Dash",
+            "I": 0,
+            "J": 0,
+            "K": "Aalto"
+          }
+        },
+        {
+          "sourceRow": 83,
+          "cells": {
+            "A": "S6: Broker’s Secrets",
+            "B": "",
+            "C": "",
+            "D": "",
+            "E": "",
+            "F": "",
+            "G": false,
+            "H": " "
+          }
+        }
+      ]
+    }
+  ]
+}

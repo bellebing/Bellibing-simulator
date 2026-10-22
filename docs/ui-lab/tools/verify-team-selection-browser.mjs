@@ -21,6 +21,17 @@ try{
   await select(page,'partner','mortefi');assert.deepEqual(await names(page),['Augusta','Mortefi','The Shorekeeper']);assert.ok((await page.locator('.team-source-summary').getAttribute('data-active-context-id')).includes('mortefi-the-shorekeeper'));
   await page.screenshot({path:resolve(out,`${route}-augusta-${width}.png`),fullPage:true});await page.locator('.sandbox-dps').screenshot({path:resolve(out,`${route}-team-panel-${width}.png`)});
   await select(page,'third','verina');assert.deepEqual(await names(page),['Augusta','Mortefi','Verina']);
+  // Changli's guide-backed numeric reference exists but its old default
+  // treated Changli as a third member, trapping the member-only selector.
+  await load(page,route,'changli');
+  assert.deepEqual(await names(page),['Aemeath','Lupa','Changli']);
+  await select(page,'main','changli');
+  assert.deepEqual(await names(page),['Changli','Aemeath','Choose a teammate']);
+  assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'');
+  await select(page,'third','the-shorekeeper');
+  assert.deepEqual(await names(page),['Changli','Aemeath','The Shorekeeper']);
+  assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'guide-changli-aemeath-the-shorekeeper-changli-slots-10');
+  assert.equal(await page.locator('.team-dps-table td').filter({hasText:/\\d/}).count(),0,'a selected source context is not qualified DPS');
   await load(page,route,'qingxiao');await select(page,'partner','lynae');if((await names(page))[2]!=='The Shorekeeper')await select(page,'third','the-shorekeeper');
   await select(page,'partner','denia');assert.deepEqual(await names(page),['Qingxiao','Denia','Choose a teammate']);assert.equal(await page.locator('.team-next-action a').count(),0,'incomplete team asks for a member, not a Build edit');assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),'');
   await page.screenshot({path:resolve(out,`${route}-qingxiao-third-pending-${width}.png`),fullPage:true});await select(page,'third','mornye');assert.deepEqual(await names(page),['Qingxiao','Denia','Mornye']);assert.ok(await page.locator('.team-source-summary').getAttribute('data-active-context-id'));

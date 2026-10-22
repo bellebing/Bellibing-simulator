@@ -8,7 +8,8 @@ It does not qualify gameplay DPS, authorize landing, or advance the roadmap to B
 The audited public dependency chain is #331 → #332 → #333 → #334 → #335 → #336 →
 #337 → #338 → #339 → #340 → #341 → #342 → #343 → #344 → #345 → #346.
 The corresponding private chain is #26 → #27 → #28 → #29 → #30 → #31 → #32 →
-#33 → #34 → #35 → #36 → #37 → #38 → #39. The issue implementation is stacked
+#33 → #34 → #35 → #36 → #37 → #38 → #39. The [public review](https://github.com/bellebing/Bellibing-simulator/pull/349) and
+[private companion](https://github.com/bellebing/Bellibing-engine-private/pull/40) are stacked
 on the last pair. #347 is a separate documentation proposal on main, not a
 runtime dependency or permission to merge the stack.
 
@@ -53,7 +54,9 @@ calculator yields **45/59 MODEL_EXECUTABLE** selected-member references and
 **45/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
 replays original TypeScript 5.6.3 State/rotation/hit accumulation and checks all
 three actor damage values, duration, Team Total, ER, Crit and casts. This is native
-model parity, not live-game qualification. **GAMEPLAY_QUALIFIED remains 0/59.**
+model parity, not live-game qualification. Known canonical mechanics conflicts,
+including Danjin’s full-power threshold, remain unresolved and are not settled
+by native-model agreement. **GAMEPLAY_QUALIFIED remains 0/59.**
 
 Ten identities lack an admitted execution source in the existing pinned pipeline;
 four more remain blocked by source/profile/investment constraints. The private
@@ -63,6 +66,10 @@ contributions and total. The public [coverage matrix](DPS_FIRST_TEAM_COVERAGE.md
 contains only canonical public identities/context references and safe blocker
 categories. Browser/reference/run support is reported separately from numerical
 execution; a catalog row or teammate appearance never counts as execution.
+
+Real per-selection Chromium covers all 59 selections, **44/59 reachable native
+references and 44/59 completed five-card comparisons**, with no account mutation.
+Both ER/Crit failures and supported configurations are retained as regressions.
 
 There is also a selection-path limitation: the first executable Changli reference
 found by the existing engine is in a different source core that the current

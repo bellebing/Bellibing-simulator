@@ -41,6 +41,10 @@ try{
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ for(const query of ['character=aalto&echoSlot=0','character=augusta&echoSlot=5']){
+  await page.goto(origin+'/Bellibing-simulator/build/?'+query);const frame=page.frameLocator('iframe[title="Character Builder"]');await frame.locator('#buildWheel .choice').first().waitFor();assert.equal(await frame.locator('#echoOverlay.open').count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),initial);
+ }
+ const incomplete=JSON.stringify({...fixture.account,characters:['Augusta','Aalto']});await page.evaluate(raw=>localStorage.setItem('bellibing-ui-checkpoint-v34',raw),incomplete);await page.goto(origin+'/Bellibing-simulator/build/?character=aalto&echoSlot=0');await page.frameLocator('iframe[title="Character Builder"]').locator('#buildWheel .choice').first().waitFor();assert.equal(await page.frameLocator('iframe[title="Character Builder"]').locator('#echoOverlay.open').count(),0);assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),incomplete);await page.evaluate(raw=>localStorage.setItem('bellibing-ui-checkpoint-v34',raw),initial);
  // Current Edit must reach the real transactional Build owner; Candidate has its
  // own control. Cancel/reload cannot commit an observed draft.
  await page.goto(origin+'/Bellibing-simulator/improve/?character=augusta');
@@ -58,6 +62,7 @@ try{
  await currentEditor.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await currentEditor.getByRole('option',{name:'CRIT DMG',exact:true}).click();await currentEditor.locator('#echoEquip').click();
  const saved=await ownedBuild();assert.equal(saved.echoSets.sets.owned.slots[0].mainStat.name,'CRIT DMG');assert.deepEqual(saved.echoSets.sets.owned.slots.slice(1),fixture.cards.slice(1));
  await page.reload();await currentEditor.locator('#echoOverlay.open[data-context="equipped"]').waitFor();assert.deepEqual(await ownedBuild(),saved);
+ await currentEditor.locator('#echoClose').click();await page.setViewportSize({width:390,height:844});await page.goto(origin+'/Bellibing-simulator/improve/?character=augusta');await page.locator('[data-edit-echo="0"]').click();await page.waitForURL('**/build/?**');await currentEditor.locator('#echoOverlay.open[data-context="equipped"]').waitFor();assert.deepEqual(await ownedBuild(),saved);await currentEditor.locator('#echoClose').click();await page.setViewportSize({width:1440,height:900});
  await page.evaluate(raw=>localStorage.setItem('bellibing-ui-checkpoint-v34',raw),initial);
  checks.push('Improve Current Edit routes exact Character/slot to Build: cancel and reload preserve Current; explicit Equip persists only that slot');
  for(const entry of ['', 'echo-lab.html', 'roll-assistant.html']){

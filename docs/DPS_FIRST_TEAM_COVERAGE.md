@@ -6,8 +6,8 @@ candidate, not a production or gameplay-readiness statement.
 
 - MODEL_EXECUTABLE: **45/59** selected-member source-native references.
 - INDEPENDENTLY_PARITY_VERIFIED: **45/59** original-TypeScript model comparisons.
-- LIVE_BROWSER_REFERENCE_VERIFIED: **0/59**.
-- LIVE_BROWSER_OBSERVED_RUN_VERIFIED: **0/59**.
+- LIVE_BROWSER_REFERENCE_VERIFIED: **44/59**.
+- LIVE_BROWSER_OBSERVED_RUN_VERIFIED: **44/59**.
 - GAMEPLAY_QUALIFIED: **0/59**.
 
 The private companion's `docs/first-team-coverage.json` owns all 59 detailed rows,
@@ -25,64 +25,64 @@ require an explicit reviewed team or equipment alternative.
 | Character / canonical ID | First executable reviewed context | Model / parity | Browser reference / observed run | Blocker |
 |---|---|---|---|---|
 | Aalto / `aalto` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Aemeath / `aemeath` | `guide-aemeath-denia-chisa-aemeath-slots-3` | YES / YES | PENDING / PENDING | — |
-| Augusta / `augusta` | `guide-augusta-iuno-the-shorekeeper-augusta-slots-4` | YES / YES | PENDING / PENDING | — |
+| Aemeath / `aemeath` | `guide-aemeath-denia-chisa-aemeath-slots-3` | YES / YES | YES / YES | — |
+| Augusta / `augusta` | `guide-augusta-iuno-the-shorekeeper-augusta-slots-4` | YES / YES | YES / YES | — |
 | Baizhi / `baizhi` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Brant / `brant` | `guide-special-galbrena-lupa-brant` | YES / YES | PENDING / PENDING | — |
+| Brant / `brant` | `guide-special-galbrena-lupa-brant` | YES / YES | YES / YES | — |
 | Buling / `buling` | — | PENDING / PENDING | PENDING / PENDING | Source/profile/investment gate unresolved |
 | Calcharo / `calcharo` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Camellya / `camellya` | `guide-camellya-lynae-mornye-camellya-slots-6` | YES / YES | PENDING / PENDING | — |
-| Cantarella / `cantarella` | `guide-phrolova-cantarella-qiuyuan-phrolova-slots-29` | YES / YES | PENDING / PENDING | — |
-| Carlotta / `carlotta` | `guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7` | YES / YES | PENDING / PENDING | — |
-| Cartethyia / `cartethyia` | `guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8` | YES / YES | PENDING / PENDING | — |
+| Camellya / `camellya` | `guide-camellya-lynae-mornye-camellya-slots-6` | YES / YES | YES / YES | — |
+| Cantarella / `cantarella` | `guide-phrolova-cantarella-qiuyuan-phrolova-slots-29` | YES / YES | YES / YES | — |
+| Carlotta / `carlotta` | `guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7` | YES / YES | YES / YES | — |
+| Cartethyia / `cartethyia` | `guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8` | YES / YES | YES / YES | — |
 | Changli / `changli` | `guide-changli-aemeath-the-shorekeeper-changli-slots-10` | YES / YES | PENDING / PENDING | Reviewed alternative not reachable from current chooser |
-| Chisa / `chisa` | `model-yangyang-xuanling-134` | YES / YES | PENDING / PENDING | — |
+| Chisa / `chisa` | `model-yangyang-xuanling-134` | YES / YES | YES / YES | — |
 | Chixia / `chixia` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Ciaccona / `ciaccona` | `model-sigrika-193` | YES / YES | PENDING / PENDING | — |
-| Danjin / `danjin` | `guide-phrolova-cantarella-danjin-phrolova-slots-29` | YES / YES | PENDING / PENDING | — |
-| Denia / `denia` | `guide-aemeath-denia-chisa-aemeath-slots-3` | YES / YES | PENDING / PENDING | — |
-| Encore / `encore` | `guide-encore-lupa-mornye-encore-slots-14` | YES / YES | PENDING / PENDING | — |
-| Galbrena / `galbrena` | `guide-special-galbrena-lupa-mornye` | YES / YES | PENDING / PENDING | — |
-| Hiyuki / `hiyuki` | `guide-hiyuki-lucilla-suisui-hiyuki-slots-16` | YES / YES | PENDING / PENDING | — |
+| Ciaccona / `ciaccona` | `model-sigrika-193` | YES / YES | YES / YES | — |
+| Danjin / `danjin` | `guide-phrolova-cantarella-danjin-phrolova-slots-29` | YES / YES | YES / YES | Canonical mechanics conflict unresolved; native-model parity only |
+| Denia / `denia` | `guide-aemeath-denia-chisa-aemeath-slots-3` | YES / YES | YES / YES | — |
+| Encore / `encore` | `guide-encore-lupa-mornye-encore-slots-14` | YES / YES | YES / YES | — |
+| Galbrena / `galbrena` | `guide-special-galbrena-lupa-mornye` | YES / YES | YES / YES | — |
+| Hiyuki / `hiyuki` | `guide-hiyuki-lucilla-suisui-hiyuki-slots-16` | YES / YES | YES / YES | — |
 | Hsin / `hsin` | — | PENDING / PENDING | PENDING / PENDING | Source/profile/investment gate unresolved |
-| Iuno / `iuno` | `guide-jingran-iuno-the-shorekeeper-jingran-slots-21` | YES / YES | PENDING / PENDING | — |
+| Iuno / `iuno` | `guide-jingran-iuno-the-shorekeeper-jingran-slots-21` | YES / YES | YES / YES | — |
 | Jianxin / `jianxin` | — | PENDING / PENDING | PENDING / PENDING | Source/profile/investment gate unresolved |
-| Jingran / `jingran` | `guide-jingran-iuno-the-shorekeeper-jingran-slots-21` | YES / YES | PENDING / PENDING | — |
-| Jinhsi / `jinhsi` | `guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22` | YES / YES | PENDING / PENDING | — |
-| Jiyan / `jiyan` | `model-jiyan-533` | YES / YES | PENDING / PENDING | — |
+| Jingran / `jingran` | `guide-jingran-iuno-the-shorekeeper-jingran-slots-21` | YES / YES | YES / YES | — |
+| Jinhsi / `jinhsi` | `guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22` | YES / YES | YES / YES | — |
+| Jiyan / `jiyan` | `model-jiyan-533` | YES / YES | YES / YES | — |
 | Lingyang / `lingyang` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Lucilla / `lucilla` | `guide-hiyuki-lucilla-suisui-hiyuki-slots-16` | YES / YES | PENDING / PENDING | — |
-| Lucy / `lucy` | `guide-lucy-rebecca-mornye-lucy-slots-25` | YES / YES | PENDING / PENDING | — |
+| Lucilla / `lucilla` | `guide-hiyuki-lucilla-suisui-hiyuki-slots-16` | YES / YES | YES / YES | — |
+| Lucy / `lucy` | `guide-lucy-rebecca-mornye-lucy-slots-25` | YES / YES | YES / YES | — |
 | Lumi / `lumi` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Lupa / `lupa` | `guide-special-galbrena-lupa-mornye` | YES / YES | PENDING / PENDING | — |
-| Luuk Herssen / `luuk-herssen` | `guide-luuk-herssen-denia-mornye-luuk-herssen-slots-26` | YES / YES | PENDING / PENDING | — |
-| Lynae / `lynae` | `guide-aemeath-lynae-mornye-aemeath-slots-2` | YES / YES | PENDING / PENDING | — |
-| Mornye / `mornye` | `guide-aemeath-lynae-mornye-aemeath-slots-2` | YES / YES | PENDING / PENDING | — |
-| Mortefi / `mortefi` | `guide-augusta-mortefi-mornye-augusta-slots-4` | YES / YES | PENDING / PENDING | — |
-| Phoebe / `phoebe` | `guide-phoebe-rover-spectro-phrolova-phoebe-slots-28` | YES / YES | PENDING / PENDING | — |
-| Phrolova / `phrolova` | `guide-phrolova-lucilla-qiuyuan-phrolova-slots-29` | YES / YES | PENDING / PENDING | — |
-| Qingxiao / `qingxiao` | `guide-qingxiao-denia-mornye-qingxiao-slots-30` | YES / YES | PENDING / PENDING | — |
-| Qiuyuan / `qiuyuan` | `model-sigrika-193` | YES / YES | PENDING / PENDING | — |
-| Rebecca / `rebecca` | `guide-yangyang-xuanling-rebecca-suisui-yangyang-xuanling-slots-36` | YES / YES | PENDING / PENDING | — |
-| Roccia / `roccia` | `guide-phrolova-cantarella-roccia-phrolova-slots-29` | YES / YES | PENDING / PENDING | — |
-| Rover (Aero) / `rover-aero` | `guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8` | YES / YES | PENDING / PENDING | — |
+| Lupa / `lupa` | `guide-special-galbrena-lupa-mornye` | YES / YES | YES / YES | — |
+| Luuk Herssen / `luuk-herssen` | `guide-luuk-herssen-denia-mornye-luuk-herssen-slots-26` | YES / YES | YES / YES | — |
+| Lynae / `lynae` | `guide-aemeath-lynae-mornye-aemeath-slots-2` | YES / YES | YES / YES | — |
+| Mornye / `mornye` | `guide-aemeath-lynae-mornye-aemeath-slots-2` | YES / YES | YES / YES | — |
+| Mortefi / `mortefi` | `guide-augusta-mortefi-mornye-augusta-slots-4` | YES / YES | YES / YES | — |
+| Phoebe / `phoebe` | `guide-phoebe-rover-spectro-phrolova-phoebe-slots-28` | YES / YES | YES / YES | — |
+| Phrolova / `phrolova` | `guide-phrolova-lucilla-qiuyuan-phrolova-slots-29` | YES / YES | YES / YES | — |
+| Qingxiao / `qingxiao` | `guide-qingxiao-denia-mornye-qingxiao-slots-30` | YES / YES | YES / YES | — |
+| Qiuyuan / `qiuyuan` | `model-sigrika-193` | YES / YES | YES / YES | — |
+| Rebecca / `rebecca` | `guide-yangyang-xuanling-rebecca-suisui-yangyang-xuanling-slots-36` | YES / YES | YES / YES | — |
+| Roccia / `roccia` | `guide-phrolova-cantarella-roccia-phrolova-slots-29` | YES / YES | YES / YES | — |
+| Rover (Aero) / `rover-aero` | `guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8` | YES / YES | YES / YES | — |
 | Rover (Electro) / `rover-electro` | — | PENDING / PENDING | PENDING / PENDING | Source/profile/investment gate unresolved |
-| Rover (Havoc) / `rover-havoc` | `guide-rover-havoc-roccia-the-shorekeeper-rover-havoc-slots-33` | YES / YES | PENDING / PENDING | — |
-| Rover (Spectro) / `rover-spectro` | `model-zani-441` | YES / YES | PENDING / PENDING | — |
-| Sanhua / `sanhua` | `guide-camellya-sanhua-the-shorekeeper-camellya-slots-6` | YES / YES | PENDING / PENDING | — |
-| Sigrika / `sigrika` | `model-sigrika-193` | YES / YES | PENDING / PENDING | — |
-| Suisui / `suisui` | `model-yangyang-xuanling-134` | YES / YES | PENDING / PENDING | — |
+| Rover (Havoc) / `rover-havoc` | `guide-rover-havoc-roccia-the-shorekeeper-rover-havoc-slots-33` | YES / YES | YES / YES | — |
+| Rover (Spectro) / `rover-spectro` | `model-zani-441` | YES / YES | YES / YES | — |
+| Sanhua / `sanhua` | `guide-camellya-sanhua-the-shorekeeper-camellya-slots-6` | YES / YES | YES / YES | — |
+| Sigrika / `sigrika` | `model-sigrika-193` | YES / YES | YES / YES | — |
+| Suisui / `suisui` | `model-yangyang-xuanling-134` | YES / YES | YES / YES | — |
 | Taoqi / `taoqi` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| The Shorekeeper / `the-shorekeeper` | `guide-augusta-iuno-the-shorekeeper-augusta-slots-4` | YES / YES | PENDING / PENDING | — |
-| Verina / `verina` | `guide-aemeath-lynae-verina-aemeath-slots-2` | YES / YES | PENDING / PENDING | — |
-| Xiangli Yao / `xiangli-yao` | `guide-xiangli-yao-lynae-mornye-xiangli-yao-slots-35` | YES / YES | PENDING / PENDING | — |
+| The Shorekeeper / `the-shorekeeper` | `guide-augusta-iuno-the-shorekeeper-augusta-slots-4` | YES / YES | YES / YES | — |
+| Verina / `verina` | `guide-aemeath-lynae-verina-aemeath-slots-2` | YES / YES | YES / YES | — |
+| Xiangli Yao / `xiangli-yao` | `guide-xiangli-yao-lynae-mornye-xiangli-yao-slots-35` | YES / YES | YES / YES | — |
 | Yangyang / `yangyang` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Yangyang: Xuanling / `yangyang-xuanling` | `model-yangyang-xuanling-134` | YES / YES | PENDING / PENDING | — |
-| Yinlin / `yinlin` | `guide-iuno-yinlin-the-shorekeeper-iuno-slots-19` | YES / YES | PENDING / PENDING | — |
+| Yangyang: Xuanling / `yangyang-xuanling` | `model-yangyang-xuanling-134` | YES / YES | YES / YES | — |
+| Yinlin / `yinlin` | `guide-iuno-yinlin-the-shorekeeper-iuno-slots-19` | YES / YES | YES / YES | — |
 | Youhu / `youhu` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
 | Yuanwu / `yuanwu` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
-| Zani / `zani` | `guide-zani-phoebe-the-shorekeeper-zani-slots-37` | YES / YES | PENDING / PENDING | — |
-| Zhezhi / `zhezhi` | `guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7` | YES / YES | PENDING / PENDING | — |
+| Zani / `zani` | `guide-zani-phoebe-the-shorekeeper-zani-slots-37` | YES / YES | YES / YES | — |
+| Zhezhi / `zhezhi` | `guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7` | YES / YES | YES / YES | — |
 
 **M0 remains incomplete.** Fourteen rows lack admitted execution; an explicit owner
 scope decision is required before relaxing 59/59 or moving the main roadmap to

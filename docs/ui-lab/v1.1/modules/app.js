@@ -206,7 +206,7 @@ function renderWorking() {
   $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
   const proposed=displayedCandidates()[slot],advice=echoAdvisor?.snapshot()?.advice;
   $('#newCard').innerHTML = echoCard(proposed, { candidate: true, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
-  if(accountMode&&state.onAccount){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';$('#newCard').append(edit);}
+  if(accountMode){const caption=$('#newCard').previousElementSibling.querySelector('.caption-detail');caption.textContent='CANDIDATE';if(state.onAccount){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';caption.replaceChildren(edit);}}
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
@@ -507,7 +507,7 @@ $('#slots').addEventListener('click', event => {
   if(accountMode){renderWorkspace();}else{renderWorking();renderSlots();}
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
-$('#newCard').addEventListener('click',event=>{const edit=event.target.closest('[data-edit-candidate]');if(accountMode&&edit)workshopEditor.openObserved(Number(edit.dataset.editCandidate),edit);});
+$('#newCard').previousElementSibling.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-candidate]');if(accountMode&&edit)workshopEditor.openObserved(Number(edit.dataset.editCandidate),edit);});
 $('#piles').addEventListener('click', event => {
   const button = event.target.closest('button.pile-card');
   if (button) inspectPile(Number(button.closest('[data-pile]').dataset.pile), Number(button.dataset.historyIndex), button);

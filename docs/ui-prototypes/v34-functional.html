@@ -2558,7 +2558,7 @@ Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildSt
 // owned Character and an explicit valid slot may open the transactional editor.
 if(document.documentElement.classList.contains('direct-build-workspace'))Promise.allSettled([characterManifestReady,weaponDataReady,echoDataReady,buildStatsDataReady,characterMechanicsDataReady,sequenceDataReady]).then(()=>{
   const query=new URLSearchParams(location.search),person=releasedCharacters.find(c=>c.id===query.get('character')),slot=query.get('echoSlot');
-  if(person&&owned(person.name)&&/^[0-4]$/.test(slot??'')){buildPicker.select(person.name,{recordVisit:false});echoUi.show(Number(slot));}
+  if(person&&owned(person.name)&&isPlainObject(state.drafts[person.name]?.build)&&/^[0-4]$/.test(slot??'')){buildPicker.select(person.name,{recordVisit:false});echoUi.show(Number(slot));}
 });
 if(document.documentElement.classList.contains('direct-build-workspace')){show('build');const back=document.querySelector('#build [data-home]');back.setAttribute('aria-label','Choose Character');back.textContent='‹';}else renderHome();
 if(IMPROVE_LAYOUT_PREVIEW){

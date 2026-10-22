@@ -206,6 +206,7 @@ function renderWorking() {
   $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
   const proposed=displayedCandidates()[slot],advice=echoAdvisor?.snapshot()?.advice;
   $('#newCard').innerHTML = echoCard(proposed, { candidate: true, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
+  if(accountMode&&state.onAccount){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';$('#newCard').append(edit);}
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
@@ -490,7 +491,7 @@ window.addEventListener('storage',event=>{if(accountMode&&['bellibing-ui-checkpo
 window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {
   const edit=event.target.closest('[data-edit-echo]');
-  if(edit){const slot=Number(edit.dataset.editEcho);selectConfigurationSlot(state,slot);renderWorking();renderSlots();if(accountMode)workshopEditor.openObserved(slot,$(`[data-edit-echo="${slot}"]`));else workshopEditor.open(slot,$(`[data-edit-echo="${slot}"]`));return;}
+  if(edit){const slot=Number(edit.dataset.editEcho);if(accountMode){const url=new URL(globalThis.BELLIBING_WORKSPACE_ROUTES?.build??assetURL('../../ui-prototypes/v34-functional.html'),location.href);url.searchParams.set('workspace','build');url.searchParams.set('character',selectedId);url.searchParams.set('echoSlot',String(slot));location.assign(url);return;}selectConfigurationSlot(state,slot);renderWorking();renderSlots();workshopEditor.open(slot,$(`[data-edit-echo="${slot}"]`));return;}
   const toggle = event.target.closest('[data-activation]');
   if (toggle) {
     const index = Number(toggle.dataset.activation);
@@ -506,6 +507,7 @@ $('#slots').addEventListener('click', event => {
   if(accountMode){renderWorkspace();}else{renderWorking();renderSlots();}
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
+$('#newCard').addEventListener('click',event=>{const edit=event.target.closest('[data-edit-candidate]');if(accountMode&&edit)workshopEditor.openObserved(Number(edit.dataset.editCandidate),edit);});
 $('#piles').addEventListener('click', event => {
   const button = event.target.closest('button.pile-card');
   if (button) inspectPile(Number(button.closest('[data-pile]').dataset.pile), Number(button.dataset.historyIndex), button);

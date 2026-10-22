@@ -3,7 +3,6 @@
 Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover live branch/PR/SHA/CI/artifact/merge state from GitHub, not from this file. This document owns current product status, the nearest roadmap and real repo blockers only.
 
 ## Current product
-
 ### Improve / Character Target
 
 The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
@@ -66,9 +65,11 @@ Development Process v2 is integrated and canonical. CI 6A/6B is integrated: draf
 
 Sequence gate stabilization is integrated. The verifier now waits for settled open-state geometry before applying the unchanged spacing/viewport assertions; the earlier transition-timing false failure is not a current product blocker.
 
-GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidence. Do not copy those values into this current-status file.
+GitHub owns exact-head PR/CI evidence.
 
 ## Nearest roadmap
+
+**Current priority: Issue #348, DPS V1 integration and 59 selected-Character first-team coverage.** The [integration review](DPS_V1_INTEGRATION_REVIEW.md) distinguishes the unmerged 45/59 native-model/parity reference candidate, per-row browser/run support and 14 blocked rows. Gameplay-qualified coverage remains zero; Build follows only 59/59 or an explicit owner scope decision. Current Edit now routes to the existing Build owner in this candidate; Candidate observation remains separate. No landing/deployment is authorized.
 
 The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
 
@@ -132,7 +133,6 @@ algorithm is bundled or published; Current and account storage remain unchanged.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.
 
 Do not infer missing values, timing, ownership, stacking, scope, rotations or damage classifications. Missing is not zero.
-
 ## Canonical current contracts
 
 - [Development Process v2](DEVELOPMENT_PROCESS.md) — worker/process rules.

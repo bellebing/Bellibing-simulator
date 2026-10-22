@@ -28,7 +28,7 @@ async function checkNavigation(){
  assert.ok(sandbox.x-primary.x-primary.width>=5&&sandbox.x-primary.x-primary.width<=11,'Echo Sandbox is adjacent to the primary group');
 }
 async function observeCandidate(slot){
- await page.locator(`[data-edit-echo="${slot}"]`).click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();
+ await page.locator(`[data-slot="${slot}"]`).click();await page.locator(`[data-edit-candidate="${slot}"]`).click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();
  await frame.locator(`[data-echo-id="${uxAccountFixture().cards[slot].echoId}"]`).click();
  await frame.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await frame.getByRole('option',{name:uxAccountFixture().cards[slot].mainStat.name,exact:true}).click();
  await frame.getByRole('combobox',{name:'Substat 1 name',exact:true}).click();await frame.getByRole('option',{name:'CRIT DMG',exact:true}).click();
@@ -41,6 +41,25 @@ try{
  const context=await browser.newContext({viewport:{width:1440,height:900},reducedMotion:'reduce'});
  await context.addInitScript(value=>{if(!localStorage.getItem('bellibing-ui-checkpoint-v34'))localStorage.setItem('bellibing-ui-checkpoint-v34',value);},initial);
  page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
+ // Current Edit must reach the real transactional Build owner; Candidate has its
+ // own control. Cancel/reload cannot commit an observed draft.
+ await page.goto(origin+'/Bellibing-simulator/improve/?character=augusta');
+ await page.locator('[data-edit-echo="0"]').click();
+ await page.waitForURL('**/build/?**');
+ const currentEditor=page.frameLocator('iframe[title="Character Builder"]');
+ await currentEditor.locator('#echoOverlay.open[data-context="equipped"]').waitFor();
+ assert.equal(await currentEditor.locator('#buildName').textContent(),'Augusta');
+ assert.equal(await currentEditor.locator('#echoEquip').textContent(),'Equip Echo');
+ const ownedBuild=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('bellibing-ui-checkpoint-v34')).drafts.Augusta.build);
+ assert.deepEqual(await ownedBuild(),fixture.build);
+ await currentEditor.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await currentEditor.getByRole('option',{name:'CRIT DMG',exact:true}).click();
+ await currentEditor.locator('#echoClose').click();await currentEditor.locator('#echoOverlay').waitFor({state:'hidden'});assert.deepEqual(await ownedBuild(),fixture.build);
+ await page.reload();await currentEditor.locator('#echoOverlay.open[data-context="equipped"]').waitFor();assert.deepEqual(await ownedBuild(),fixture.build);
+ await currentEditor.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await currentEditor.getByRole('option',{name:'CRIT DMG',exact:true}).click();await currentEditor.locator('#echoEquip').click();
+ const saved=await ownedBuild();assert.equal(saved.echoSets.sets.owned.slots[0].mainStat.name,'CRIT DMG');assert.deepEqual(saved.echoSets.sets.owned.slots.slice(1),fixture.cards.slice(1));
+ await page.reload();await currentEditor.locator('#echoOverlay.open[data-context="equipped"]').waitFor();assert.deepEqual(await ownedBuild(),saved);
+ await page.evaluate(raw=>localStorage.setItem('bellibing-ui-checkpoint-v34',raw),initial);
+ checks.push('Improve Current Edit routes exact Character/slot to Build: cancel and reload preserve Current; explicit Equip persists only that slot');
  for(const entry of ['', 'echo-lab.html', 'roll-assistant.html']){
   await page.goto(origin+'/Bellibing-simulator/'+entry);
   const buildLink=page.getByRole('link',{name:'Character Build / Improve',exact:true});
@@ -89,7 +108,7 @@ try{
  await page.getByRole('link',{name:'Improve a Character',exact:true}).click();await page.waitForFunction(()=>document.body.dataset.buildKind==='ACCOUNT_BUILD'&&document.documentElement.dataset.uiLabReady==='true');
  assert.equal(await page.evaluate(()=>window.bellibingLabConfiguration.readContext().kind),'ACCOUNT_BUILD');if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  await page.getByRole('button',{name:'Show all stats',exact:true}).click();const before=await page.locator('#characterStats td:nth-child(2)').allTextContents();assert.ok(before.every(v=>!v.includes('Pending')),'Complete owned build has real Current stats');
- await page.locator('[data-edit-echo="0"]').click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();assert.equal(await frame.locator('html').evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),null,'The editor uses its existing isolated storage host');
+ await page.locator('[data-edit-candidate="0"]').click();const frame=page.frameLocator('.workshop-editor-host iframe');await frame.locator('#echoOverlay.open').waitFor();assert.equal(await frame.locator('html').evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),null,'The editor uses its existing isolated storage host');
  await frame.locator(`[data-echo-id="${fixture.cards[0].echoId}"]`).click();
  await frame.getByRole('combobox',{name:'Main Stat name',exact:true}).click();await frame.getByRole('option',{name:'CRIT Rate',exact:true}).click();
  await frame.getByRole('combobox',{name:'Substat 1 name',exact:true}).click();await frame.getByRole('option',{name:'CRIT DMG',exact:true}).click();
@@ -101,7 +120,7 @@ try{
  assert.equal(await page.locator('#characterStats [data-stat-key="critDamage"] td:last-child').evaluate(n=>n.firstChild.textContent),expected.candidateValues.TOTAL_CRIT_DAMAGE);
  await frame.getByRole('button',{name:'Use Candidate',exact:true}).click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});
  const committed=await page.locator('#characterStats td:last-child').allTextContents();assert.ok(committed.every(v=>!v.includes('Pending')));
- await page.locator('[data-edit-echo="0"]').click();const again=page.frameLocator('.workshop-editor-host iframe');await again.locator('#echoOverlay.open').waitFor();if(await again.locator('.echo-roll-checkpoint').nth(1).getAttribute('open')===null)await again.locator('.echo-roll-checkpoint').nth(1).locator('summary').click();await again.getByRole('combobox',{name:'Substat 2 name',exact:true}).click();await again.getByRole('option',{name:'Energy Regen',exact:true}).click();await again.getByRole('combobox',{name:'Substat 2 value',exact:true}).click();await again.getByRole('option').nth(1).click();assert.notDeepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed,'Next observed checkpoint refreshes the 4+1 projection');await again.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});assert.deepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed);
+ await page.locator('[data-edit-candidate="0"]').click();const again=page.frameLocator('.workshop-editor-host iframe');await again.locator('#echoOverlay.open').waitFor();if(await again.locator('.echo-roll-checkpoint').nth(1).getAttribute('open')===null)await again.locator('.echo-roll-checkpoint').nth(1).locator('summary').click();await again.getByRole('combobox',{name:'Substat 2 name',exact:true}).click();await again.getByRole('option',{name:'Energy Regen',exact:true}).click();await again.getByRole('combobox',{name:'Substat 2 value',exact:true}).click();await again.getByRole('option').nth(1).click();assert.notDeepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed,'Next observed checkpoint refreshes the 4+1 projection');await again.locator('#echoClose').click();await page.locator('.workshop-editor-host').waitFor({state:'detached'});assert.deepEqual(await page.locator('#characterStats td:last-child').allTextContents(),committed);
  assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);checks.push('Improve: actual five-Echo Current and observed +5 Candidate projection, cancel and no account writes');
  await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'improve-desktop.png'),fullPage:true});await page.locator('#character').screenshot({path:resolve(out,'current-candidate-card.png')});
  await checkNavigation();
@@ -113,7 +132,7 @@ try{
  await page.locator('#resourceInventory input').first().fill('1');await page.locator('#resourceInventory input').first().dispatchEvent('change');await pendingCandidate();await observeCandidate(0);
  await page.locator('[data-activation="4"]').click();await pendingCandidate();await observeCandidate(0);
  // An external real owner change closes an open editor without restoring its stale rollback card.
- await page.locator('[data-edit-echo="0"]').click();await page.frameLocator('.workshop-editor-host iframe').locator('#echoOverlay.open').waitFor();
+ await page.locator('[data-edit-candidate="0"]').click();await page.frameLocator('.workshop-editor-host iframe').locator('#echoOverlay.open').waitFor();
  const peer=await context.newPage();await peer.goto(origin+'/Bellibing-simulator/improve/');const changedOwner=structuredClone(fixture.account);changedOwner.drafts.Augusta.build.sequenceLevel=1;
  await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),JSON.stringify(changedOwner));await page.locator('.workshop-editor-host').waitFor({state:'detached'});await pendingCandidate();assert.equal(await page.evaluate(()=>localStorage.getItem('bellibing-ui-checkpoint-v34')),JSON.stringify(changedOwner));
  await peer.evaluate(value=>localStorage.setItem('bellibing-ui-checkpoint-v34',value),initial);await peer.close();await pendingCandidate();await observeCandidate(0);

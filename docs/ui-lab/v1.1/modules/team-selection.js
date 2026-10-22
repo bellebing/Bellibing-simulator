@@ -50,7 +50,15 @@ export function sourceTeamChoices(state,role){
  for(const team of current.options){
   const n=sourceTeamRoles(team);
   if(!n||!team.sourceRefs?.length)continue;
-  if(role==='main'&&n.partner!==r.partner||role==='partner'&&n.main!==r.main||role==='third'&&(n.main!==r.main||n.partner!==r.partner)||!['main','partner','third'].includes(role))continue;
+  // A selected Character in the flex/third slot may lead an *existing* source
+  // core with the former carry as partner. This unlocks Changli's reviewed
+  // alternate without building a synthetic trio or silently keeping a third.
+  const promoteSelectedThird=role==='main'&&!current.pendingCore&&r.third===state.id&&
+   n.main===state.id&&n.partner===r.main;
+  if(role==='main'&&n.partner!==r.partner&&!promoteSelectedThird||
+     role==='partner'&&n.main!==r.main||
+     role==='third'&&(n.main!==r.main||n.partner!==r.partner)||
+     !['main','partner','third'].includes(role))continue;
   // A blank third slot retains its explicitly chosen core modes.
   if(current.pendingCore&&[r.main,r.partner].some(id=>(current.pendingCore.modeRequirements?.[id]??null)!==(team.modeRequirements?.[id]??null)))continue;
   const id=n[role];if(!id)continue;

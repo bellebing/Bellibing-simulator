@@ -17,23 +17,40 @@ The interface should be a **guided decision assistant**, not an internal configu
 - **One obvious action:** allow advanced optional inspection only when needed; hide unsupported actions rather than presenting disabled controls with long diagnostic text. Normal view prefers a title/number/action, not implementation vocabulary.
 - **Responsive and accessible:** full-size clickable cards, inline accordion stages, pointer/touch/keyboard/screen-reader and focus preservation. Validate 1440 desktop, wider when needed, mobile and real Windows local launch.
 
-## Delivery map (order and gates)
+## Delivery map (execution order — owner confirmed 2026-10-22)
 
-| ID | Workstream and user outcome | Priority | Required predecessor / stop condition |
+**The order below is now authoritative. Complete the bounded DPS V1 integration/audit first.** Do not start a parallel production Build rewrite, scanner implementation, more team-context expansion or new DPS calculators while its cross-repository integration blockers are still unresolved. Non-overlapping concept/research may be prepared but **Build concept visual approval and Build production work follow the DPS V1 checkpoint**. Later gameplay qualification is a separate ongoing source-evidence effort, not a reason to freeze product UX until all 59 Characters qualify.
+
+| Order | Workstream and user outcome | Priority | Delivery gate |
 | --- | --- | --- | --- |
-| 0 | **Reconcile contracts and design the complete journey.** Audit source-of-truth, old docs, screenshots, Build/Improve/Sandbox/Teams and native persistence; produce interactive *isolated* Build/Echo concept before modifying accepted UI. | **P0 — now** | Product owner reviews/approves desktop + mobile concept, and audit flags high-risk ownership defects. |
-| 1 | **Build a Character works as a true owned-build editor**, following Improve's accepted visual scale and cards, plus reliable manual Echo entry. | **P0** | Account/Current model, source-valid Echo stats, save/reload and whole journey in Chromium must pass. |
-| 2 | **Screenshot/card scanner → editable draft Build** to bypass manual clicking, with visible uncertainty and explicit commit. Build remains fully usable manually. | **P0/P1 — in parallel after shared edit contract**, not a separate data model | Support specific confirmed game card/screenshot formats; correctness/unsupported fields and privacy reviewed before turning on imports. |
-| 3 | **Improve as a live Echo advisor**, full Current/Candidate ownership, +5…+25 real RNG, honest choice/cost and persistent safe session history. | **P0/P1** | One evidence-backed supported target; exact odds/cost horizon & actual receipts; no account mutation. |
-| 4 | **Sandbox as standalone reference playground** with Character standard team, five-slot whole-build RNG and meaningful cost/DPS comparison. | **P1** | No account required; reference execution only for supported context; five legal observed Echoes for simulated DPS as required. |
-| 5 | **Source-qualified team & DPS expansion** for real builds, rotations/modes/ER, and result qualification. | **P1/P2, parallel source work** | Actual execution, parity and source gates; do not mislabel catalog coverage as calculated or gameplay-qualified coverage. |
-| 6 | **Investment/value visualizations and realistic economics** for Echoes/whole build/teams. | **P2** | Comparable verified simulated/expected cost, source-backed model/sampling; no made-up diminishing-returns curve. |
-| 7 | **Teams / Best Available Teams and Endstate Matrix.** Saved teams, owned-roster constraints, rotations, multi-team global optimizer. | **P2/P3** | Single-team model honest and source-bound; roster ownership + simultaneous-allocation constraints proven. |
-| 8 | **Production hardening and release**: account integration, local→live isolation, security, persistence/restore, parity and deployment. | **Release gate** | Exact-head FULL, independent source/gameplay evidence where claimed, product owner GO for each merge/release/private publication. |
+| **0 — NOW** | **DPS V1 integration/validation**: consolidate actual public/private Draft stack, prove real Current/Candidate and no-account Reference/Simulated, ownership, parity and fail-closed gates. **Freeze additional team expansion while auditing.** | **P0** | Exact supported-scenario matrix, real browser/Windows evidence, independent math/source review, relevant FULL and separate owner GO for merge. No claim of gameplay-qualified DPS by default. |
+| **1** | **Full UX ownership audit + isolated interactive Build/Echo concept**, using accepted Improve visual language for direction. | **P0 next** | Owner reviews desktop/mobile interactive concept **before** production Build changes. |
+| **2** | **Build a Character owned-build UX**, reliable five Echo slots and fast inline +5…+25 editor. | **P0** | Authorize Current writes only; real save/cancel/reload and browser regression. |
+| **3** | **Screenshot/card scanner**, mapping uncertain imported fields into the **same editable Build draft**. | **P0/P1** | Validated owner-reviewed image fixtures and explicit save. |
+| **4** | **Improve live advisor**, dynamic recommendation after actual reveal, comparison and receipts, safe Current/Candidate. | **P1** | Honest verified RNG + odds/cost scope, precise Gate and owner isolation. |
+| **5** | **Sandbox five-Echo/full-set playground**, default standard-team model where supported and resource experiments. | **P1** | No account required; comparisons only for matching executable contexts. |
+| **6** | **Broader DPS/ER source fidelity and gameplay qualification**, building on completed V1, not a blocker for Build. | **P1/P2** | New team/variant only with pinned source, execution, independent parity and real game evidence where claimed. |
+| **7** | **Investment economics & real DPS/cost curves**; future Tubes, recovery and finite-budget strategy. | **P2** | Comparable verified model/simulation samples; no made-up diminishing-returns curve. |
+| **8** | **Teams / Best Available Teams / Endstate Matrix**, owned roster and global multi-team constraints. | **P2/P3** | Honest single-team results and source-supported multi-team assignment. |
+| **9** | **Release/integration hardening**: local↔hosted, security, data migration/restore and launch. | **Release gate** | Exact-head FULL and separate explicit owner GO for each merge/deployment/private publication. |
 
-`P0/P1` for scanner means prioritizing it **as part of Build's entry flow** after the shared validation/save contract exists; it need not wait for all late Sandbox/DPS work. Codex may parallelize non-overlapping research/prototype work but must not overwrite the common Build/editor implementation from competing branches.
+The end-to-end **player journey** remains Build → Improve → Sandbox → Teams; the table describes **development execution order**, beginning with stabilizing the already-built DPS foundation. Keep the old reviewed catalogs, math and experimental evidence intact. Codex should deliver one coherent testable outcome per workstream, not "fix one label" PRs.
 
-## M0 — product concept and friction audit (FIRST)
+## M0 — DPS V1 integration & consolidated validation (FIRST — current priority)
+
+**Owner decision 2026-10-22:** finish a **bounded, reliable DPS V1 for the scenarios that are already genuinely executable** before redesigning Build or extending the team catalog. The aim is integration/readiness, **not** inventing or qualifying gameplay DPS for all 59 Characters. The next work starts from current real public/private GitHub branches, not historical PR numbers or copied CI results. At decision time the relevant unmerged pair was public #346 and private #39; inspect all stacked ancestors, exact HEADs and CI before acting.
+
+1. **Audit the entire stacked public/private DPS chain**: dependency/base/head graph, source-pin provenance, schema/transport, private runtime, UI consumer and ownership. Classify which of the reported 269 context bindings / 258 experimental trios / 45 Characters actually run with which exact requirements. Distinguish existing **model-executable**, blocked, experimentally parity-checked and **independently gameplay-qualified** cases.
+2. **One exact comparable current-build path in Improve**: real persisted Current equipment and observed Candidate, same Character/Weapon/Sequence/team context/enemy/reference/rotation, three actor contributions, Team Total and correct delta, with full stale-result/revision invalidation. No synthetic or reference teammate may silently replace the user's actual owned Build.
+3. **One exact no-account path in Sandbox**: precomputed source-valid default Reference DPS (where executable), actual five legal RNG Echoes -> Simulated/Change under the *same* frozen reference teammate profiles and fixed source-bound context. Validate reset/team/weapon/mode/owner invalidation and no Current writes.
+4. **Fix blocking integration defects as part of V1**, notably the reported Improve Current slot `Edit` dispatching to the Candidate editor if reproducible on the exact current head. Do not reopen a wholesale Build redesign during this phase; implement the minimal safe routing/ownership fix, with save/cancel/reload tests, or document a proven blocker. Do not mark a bug resolved merely from tests without live UI verification.
+5. **Independent calculation evidence**: source/pinned model parity, actor/total sums, actual equipment/levels/skill investment, buffs/rotation/ER gates and negative/unsupported scenarios. Check the public/private boundary; no leaking private algorithm/fixture. Preserve `Model estimate`/Experimental markers. **Zero gameplay-qualified teams must not be promoted merely because CI is green.**
+6. **Acceptance matrix & consolidated FULL**: record supported team/profile/mode/gear/ER/Sequence requirements, actual numeric parity, pending reasons, browser desktop/mobile and Windows local start; run proportionate focused checks during iteration and existing exact-head FAST/REVIEW/FULL gates at the process-approved integration stage. Do not bypass source/ER checks to produce more green numbers.
+7. **Stop at a clearly defined DPS V1 integration candidate** with a cohesive Draft PR (or coordinated public/private Drafts), review evidence, remaining blockers and owner approval request. No automatic merge, deployment or private-engine publication.
+
+**V1 is done when the supported scenarios reproducibly produce mathematically verified, correctly owned and correctly labeled DPS comparisons in both workspaces, failed/unsupported cases fail closed, and the **integrated public/private stack** has independent review plus required CI. V1 is not a statement that every Character/team is executable or gameplay-qualified; source-backed coverage growth and gameplay qualification continue later in M6.**
+
+## M1 — product concept and friction audit (SECOND — after DPS V1)
 
 **Deliverable: concept, not a surprise replacement of live UI.**
 
@@ -43,7 +60,7 @@ The interface should be a **guided decision assistant**, not an internal configu
 4. Include state-machine sketches for **manual build entry**, **import review**, **Improve live advisor**, **Sandbox run**, **team member swap**. One page of click-by-click acceptance, with screenshots and honest pending states.
 5. **Stop for owner visual approval of the concept before rebuilding production Build UI.** This is a design checkpoint, not merge permission.
 
-## M1 — Build a Character: fast, trustworthy owned-build entry
+## M2 — Build a Character: fast, trustworthy owned-build entry
 
 - Preserve existing Character choice, source-valid signature/Weapon choice, baseline levels, S0–S2, source-owned max Skills, Forte, Character Stats and saved state. Weapon ranking uses only reviewed source order *where that order is supported*; do not silently infer missing BiS ranking.
 - Build uses a genuinely wide, responsive workspace informed by accepted Improve; five large Echo cards are visible/inspectable without a modal labyrinth. Editing/adding happens **inline in an expanding working region**, keeping the Character/build context and keyboard focus visible.
@@ -55,7 +72,7 @@ The interface should be a **guided decision assistant**, not an internal configu
 
 **Done:** novice manually creates Augusta with owned Weapon and five correct observed Echoes and can review/edit/reload without data loss; Current and Candidate remain separate; full real browser regression incl. incomplete cards.
 
-## M2 — scanner / import from Wuthering Waves images
+## M3 — scanner / import from Wuthering Waves images
 
 - Investigate the actual **share-card/screenshot formats players obtain from game or Discord**; identify which fields can be reliably extracted from examples, licenses and privacy. Image import is a convenience input, not a new source of canonical game facts and not a claim that every Discord post is parseable.
 - Upload image(s) locally through a clearly scoped UI. Detect Character identity, Weapon/refinement, levels, Sequence, Skills/Forte and each Echo's identity/Sonata/Cost/Main/Secondary/+5…+25 substats only when visually evidenced. Preserve source image during review, flag uncertainty per field and reject unsupported/unreadable formats.
@@ -65,7 +82,7 @@ The interface should be a **guided decision assistant**, not an internal configu
 
 **Done:** a set of owner-approved real screenshots can be imported, corrected and explicitly saved; resulting Build matches manually entered fixtures byte-/field-equivalently; unsupported inputs are safe.
 
-## M3 — Improve a Character: living Echo advisor
+## M4 — Improve a Character: living Echo advisor
 
 Preserve the accepted Improve page/card proportions; redesign the **center feedback behavior**, not the entire layout.
 
@@ -78,7 +95,7 @@ Preserve the accepted Improve page/card proportions; redesign the **center feedb
 
 **Done:** live on desktop/mobile for first source-/math-supported Character; clear visible before/after states, fair odds horizons, correct optimal winner, gate behavior, zero Current writes; no large technical explanation blocks.
 
-## M4 — Echo Sandbox: source-bound playground, NOT an account Build
+## M5 — Echo Sandbox: source-bound playground, NOT an account Build
 
 - Select any released Character, load its supported standard team/reference shell (source-backed Weapon/level/rotation and Echo-set suggestions). User ownership not required. **59 source shells does not mean 59 automatic DPS providers.**
 - True five-slot isolated RNG from source-valid template, per-slot and eventually whole-build runs, configurable goals/Gate/resources, 0→5 actual accepted Echoes, checkpoint/history/Trash inspection, safe reset/export; no changes to Current or shared account budget.
@@ -88,7 +105,7 @@ Preserve the accepted Improve page/card proportions; redesign the **center feedb
 
 **Done:** clean no-account Sandbox from Augusta standard through five completed real Echoes to a sourced comparison; pending/unsupported paths and team swaps must not retain stale DPS.
 
-## M5 — DPS/ER fidelity and honest coverage
+## M6 — DPS/ER fidelity, expanded coverage and independent gameplay qualification (AFTER V1)
 
 - Reuse existing private pinned source calculator, canonical effects/roles and reviewed contexts. Current stacked candidates demonstrate **experimentally executable subsets** (including 258 distinct trios / 45 Characters in reported bounded evidence), **not** product-wide gameplay-qualified DPS. Confirm exact HEAD/source before refreshing counts.
 - One user-facing comparison: Sandbox `Reference / Simulated / Change`; Improve `Current / Candidate / Change`, three member contributions + Team Total. Experimental `Model estimate` remains visibly different from independently gameplay-qualified DPS; no duplicate panels or opt-in for a baseline that is already configured.
@@ -96,14 +113,14 @@ Preserve the accepted Improve page/card proportions; redesign the **center feedb
 - Model **missing ER → additional legal energy acquisition/longer rotation → modified DPS** only when verified energy events, action availability and timings exist. Separate user's minimum target from actual whole-team rotation feasibility; unsupported delays stay Pending. No simplistic scalar `duration × ER ratio`.
 - Expand coverage by real source-backed executable pathways and independent parity evidence, not by just adding team labels. Strengthen qualification against game evidence before a `ready` product claim.
 
-## M6 — economics & graphs (once source-grounded)
+## M7 — economics & graphs (once source-grounded)
 
 - Provide actual cumulative **Tuners, Echo attempts and (when verified) Tube denominations**, resource policies, recovery and finite-budget advising. Source-valid XP/exact spending already has bounded domain work; wiring it into advice is a separate task.
 - For Sandbox chart **investment cost on horizontal axis**, **Character/Team DPS on vertical**, with actual modeled samples for identical source contexts. Mark scatter/quantiles/error bands and supported scope. Optional secondary display: marginal DPS gain per incremental resource.
 - The hoped-for **diminishing-return / plateau** is a hypothesis to *measure*, never a curve to draw or claim without simulation. Distinguish expectation, observed samples, RNG variance and gated/unsupported points. Allow side-by-side strategies rather than invented utility units.
 - Save reproducible simulation seed, sources, model and version with summaries; no false statement that a single run establishes expectation.
 
-## M7 — Teams / Best Available Teams (after the single-team loop works)
+## M8 — Teams / Best Available Teams (after the single-team loop works)
 
 - Users can create/save named teams from **their owned/available Characters**; separate proposed source-reviewed templates from account-owned builds. Clear Main/Partner/Third roles, with third slot allowed to be a source-supported second Sub DPS rather than falsely relabeled Support.
 - Member chooser: **one Character portrait/name per replacement**, no duplicate entries for every supporting context. Retain third member if the whole new composition is reviewed; otherwise clear, never invent. Context/mode disambiguation only when material; source conditions remain in domain, not long menus.
@@ -122,6 +139,7 @@ Preserve the accepted Improve page/card proportions; redesign the **center feedb
 
 ## Release and work orchestration
 
+- **Current execution instruction (2026-10-22): DPS V1 integrated audit first (M0); afterwards M1 Build concept, owner review, M2 Build, M3 scanner, M4 Improve, M5 Sandbox, then wider M6–M8.** Do not treat earlier Build-first snapshots as live priority.
 - Codex must read **the whole roadmap for direction** and then implement the **next coherent milestone**, not claim the full product in one unverifiable commit. Small enough to review, large enough to deliver an end-to-end outcome. No ten micro-PRs for one interaction. Isolated visual concept review before Build rewrite.
 - At workstream start read live code/main + stacked Drafts, `AGENTS.md`, `DEVELOPMENT_PROCESS.md`, `PROJECT_STATUS.md`, Handoff and affected contracts; choose implementation details autonomously. Prioritized bugfixes may interrupt milestone when they block correct Current/Candidate data.
 - FAST focused tests during coding; real-browser REVIEW + owner visual review for UI; source/maths/ownership tests for behavior; exact-head FULL before any merge-intended candidate per canonical process. Existing mandatory gates may not be weakened.

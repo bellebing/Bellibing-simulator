@@ -88,7 +88,7 @@ export const DANJIN_INHERENT_PASSIVE_FACTS: readonly CharacterPassiveFact[] = [
     effectSummary: 'Crimson Erosion DMG is increased by 20%. The HP cost and the stacks of Ruby Blossom recovered are doubled.',
     durationSeconds: null,
     maxStacks: null,
-    notes: ['Source move 1000804. This records the source-explicit modifier only; it does not resolve Danjin\'s separate full-power Ruby Blossom threshold contradiction.'],
+    notes: ['Source move 1000804. This records the source-explicit modifier only. The separate full-power translation is resolved by explicit owner decision as exactly 120.'],
   }),
   passive({
     factId: 'danjin-inherent-overflow',
@@ -189,7 +189,7 @@ export const BULING_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES = withVer
 export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES = withVerifiedInherentPassives(
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_FORTE,
   DANJIN_INHERENT_PASSIVE_FACTS,
-  'Both current Inherent Skills are linked from the pinned Skills/Forte source with exact condition/effect values. The separate Ruby Blossom full-power contradiction remains unchanged.',
+  'Both current Inherent Skills are linked from the pinned Skills/Forte source with exact condition/effect values. The separate Ruby Blossom translation is resolved by explicit owner decision as exactly 120.',
 );
 
 export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES = withVerifiedInherentPassives(

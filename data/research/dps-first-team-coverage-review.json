@@ -193,7 +193,7 @@
       "browserReferenceVerified": true,
       "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Canonical mechanics conflict unresolved; native-model parity only"
+      "blocker": null
     },
     {
       "characterId": "denia",

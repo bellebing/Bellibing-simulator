@@ -48,14 +48,14 @@ Customize target metrics, minimum/preferred semantics, source/context recovery a
 
 The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions.
 
-The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 58/59 complete mechanics source profiles; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
+The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 59/59 complete mechanics source profiles, including the explicit owner interpretation of Danjin’s translation; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
 
 Active product scope remains:
 - Sequences: S0, S1, S2 for current product work; S3-S6 stay canonical raw/source data unless separately authorized.
 - Skills: maxed Character skills, using Lv10 where the source owns the exact Lv1-Lv10 curve.
 - Missing or disputed gameplay semantics remain PENDING/UNKNOWN and fail closed.
 
-The release facts candidate resolves Buling Five Thunders Spell Array as Liberation DMG and Xiangli Yao Pivot — Impale as Basic DMG from original damage fields. Danjin's full-power Ruby Blossom threshold contradiction remains source-blocked.
+The release facts candidate resolves Buling Five Thunders Spell Array as Liberation DMG and Xiangli Yao Pivot — Impale as Basic DMG from original damage fields. The owner resolves Danjin’s English full-power translation as full meter: exactly 120 qualifies and consumes 120. Raw text/pins are preserved; this is not gameplay qualification.
 
 The six Reference Team 01 dependencies remain pending. See [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the downstream team/product contract.
 
@@ -69,7 +69,7 @@ GitHub owns exact-head PR/CI evidence.
 
 ## Nearest roadmap
 
-**Current priority: Issue #348, DPS V1 integration and 59 selected-Character first-team coverage.** The [integration review](DPS_V1_INTEGRATION_REVIEW.md) distinguishes the unmerged 45/59 native-model/parity reference candidate, per-row browser/run support and 14 blocked rows. Gameplay-qualified coverage remains zero; Build follows only 59/59 or an explicit owner scope decision. Current Edit now routes to the existing Build owner in this candidate; Candidate observation remains separate. No landing/deployment is authorized.
+**Current priority: Issue #348, DPS V1 integration and 59 selected-Character first-team coverage.** The [integration review](DPS_V1_INTEGRATION_REVIEW.md) distinguishes the unmerged 45/59 native-model/parity reference candidate, per-row browser/run support and 14 blocked rows. Gameplay-qualified coverage remains zero; Build follows only 59/59 or an explicit owner scope decision. The owner continues M0 toward 59/59; Jianxin S0 and the supplied Hsin/Electro Rover/Buling sources are under review. Current Edit now routes to the existing Build owner in this candidate; Candidate observation remains separate. No landing/deployment is authorized.
 
 The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
 
@@ -127,7 +127,6 @@ algorithm is bundled or published; Current and account storage remain unchanged.
 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
-- Danjin FORTE/resource threshold contradiction.
 - Six Reference Team 01 dependencies remain pending.
 - Independent recommendation comparisons, image-only example-team rosters and product integration remain Pending; source references are not executable Improve policy.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.

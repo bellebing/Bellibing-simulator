@@ -39,7 +39,7 @@ require an explicit reviewed team or equipment alternative.
 | Chisa / `chisa` | `model-yangyang-xuanling-134` | YES / YES | YES / YES | — |
 | Chixia / `chixia` | — | PENDING / PENDING | PENDING / PENDING | Reviewed execution source unavailable |
 | Ciaccona / `ciaccona` | `model-sigrika-193` | YES / YES | YES / YES | — |
-| Danjin / `danjin` | `guide-phrolova-cantarella-danjin-phrolova-slots-29` | YES / YES | YES / YES | Canonical mechanics conflict unresolved; native-model parity only |
+| Danjin / `danjin` | `guide-phrolova-cantarella-danjin-phrolova-slots-29` | YES / YES | YES / YES | — |
 | Denia / `denia` | `guide-aemeath-denia-chisa-aemeath-slots-3` | YES / YES | YES / YES | — |
 | Encore / `encore` | `guide-encore-lupa-mornye-encore-slots-14` | YES / YES | YES / YES | — |
 | Galbrena / `galbrena` | `guide-special-galbrena-lupa-mornye` | YES / YES | YES / YES | — |

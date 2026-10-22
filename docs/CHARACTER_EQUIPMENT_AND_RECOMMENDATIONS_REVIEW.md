@@ -63,7 +63,7 @@ The released Blooming Jadehaven record and weapon effect facts are source-backed
 
 Focused regression tests cover the complete signature/guide identity joins, source order and missing columns, mode/stat prerequisites, artifact pins/generator parity, new passive curves and scope, detached export, existing profile isolation and historical/current weapon gates. The normal strict build and generated browser/database parity are checked. Automatic draft FAST verification is checked on publication. FULL CI, browser/end-to-end verification, independent guide performance comparisons and landing remain deferred.
 
-Danjin’s pre-existing FORTE threshold contradiction remains unresolved. Image-only example-team rosters and full prose conditions need a future richer source capture if complete team compositions or executable recommendation rules are desired.
+Danjin’s English FORTE translation is resolved by explicit owner decision as full meter, exactly 120 consuming 120; raw text is preserved. Image-only example-team rosters and full prose conditions need a future richer source capture if complete team compositions or executable recommendation rules are desired.
 
 ## Reviewed signature decisions
 

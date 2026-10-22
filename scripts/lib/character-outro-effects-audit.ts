@@ -208,6 +208,6 @@ ${issues}
 
 ## Scope boundary
 
-This report does not change ACTIONS, FORTE_RULES or INHERENT_PASSIVES coverage and does not promote full Character Mechanics profiles. Danjin remains PARTIALLY_VERIFIED overall because the full-power Ruby Blossom threshold remains source-contradictory. Source completeness for the other characters is independent of executable mechanics and DPS. No profile/recommendation, Team, DPS, rotation, execution or UI behavior is added by this source-coverage slice.
+This report does not change ACTIONS, FORTE_RULES or INHERENT_PASSIVES coverage and does not promote full Character Mechanics profiles. The owner resolves Danjin’s full-power English translation as full meter, exactly 120 consuming 120. Raw wording remains preserved; source-area completeness does not imply runtime qualification. Source completeness for the other characters is independent of executable mechanics and DPS. No profile/recommendation, Team, DPS, rotation, execution or UI behavior is added by this source-coverage slice.
 `;
 }

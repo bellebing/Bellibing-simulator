@@ -15,7 +15,7 @@ export const DANJIN_ACTION_PROVENANCE = {
   sourceLabels: ['Bellibing Skills/Forte source — pinned wuwabuild Character payload', 'Wuthering Waves Wiki/Fandom — current Danjin combat/scaling cross-check', 'Prydwen — current Danjin kit cross-check'],
   sourceUrls: [FORTE_SOURCE, 'https://wutheringwaves.fandom.com/wiki/Danjin/Combat', 'https://www.prydwen.gg/wuthering-waves/characters/danjin'],
   checkedAt: CHECKED_AT,
-  notes: ['Canonical ACTIONS reuse the existing Skills/Forte source identities and exact Lv1-Lv10 values. The Ruby Blossom >120/max-120 contradiction remains a RESOURCE_RULES blocker only; enhanced action curves/class/scaling are preserved without inventing trigger execution.'],
+  notes: ['Canonical ACTIONS reuse the existing Skills/Forte source identities and exact Lv1-Lv10 values. The Ruby Blossom >120/max-120 translation issue is resolved by explicit owner decision as full meter, exactly 120. Enhanced action curves/class/scaling are preserved without inventing runtime execution.'],
 } as const;
 
 export const XIANGLI_YAO_ACTION_PROVENANCE = {
@@ -625,7 +625,7 @@ export const DANJIN_ACTION_FACTS: readonly CharacterActionFact[] = [
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
     provenance: DANJIN_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1000807 (Serene Vigil); value row 5700024.","The enhanced action's coefficient/class/scaling are source-explicit. Its current Ruby Blossom activation threshold is contradictory (over 120 while max is 120), so trigger/resource execution remains outside ACTIONS and PENDING_INTERPRETATION."],
+    notes: ["Source action identity: move 1000807 (Serene Vigil); value row 5700024.","The enhanced action's coefficient/class/scaling are source-explicit. The owner resolves the Ruby Blossom translation as full meter: exactly 120. Trigger/resource execution remains outside ACTIONS and PENDING_INTERPRETATION."],
   }),
   action({
     factId: "danjin-forte-full-energy-scatterbloom",
@@ -644,7 +644,7 @@ export const DANJIN_ACTION_FACTS: readonly CharacterActionFact[] = [
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
     provenance: DANJIN_ACTION_PROVENANCE,
-    notes: ["Source action identity: move 1000807 (Serene Vigil); value row 5700025.","The enhanced action's coefficient/class/scaling are source-explicit. Its current Ruby Blossom activation threshold is contradictory (over 120 while max is 120), so trigger/resource execution remains outside ACTIONS and PENDING_INTERPRETATION."],
+    notes: ["Source action identity: move 1000807 (Serene Vigil); value row 5700025.","The enhanced action's coefficient/class/scaling are source-explicit. The owner resolves the Ruby Blossom translation as full meter: exactly 120. Trigger/resource execution remains outside ACTIONS and PENDING_INTERPRETATION."],
   })
 ,
   tuneBreak('danjin', 'danjin-tune-break-sword', 'Tune Break — Sword', 1000810, DANJIN_ACTION_PROVENANCE),
@@ -1067,7 +1067,7 @@ export const BULING_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
 export const DANJIN_CHARACTER_MECHANICS_PROFILE: CharacterMechanicsProfile = {
   characterId: 'danjin',
   verificationStatus: 'PARTIALLY_VERIFIED',
-  coverage: pendingCoverage({ area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed Character damage actions plus Tune Break are mapped with exact Lv1-Lv10 curves/components and source-explicit damage classes/scaling. The contradictory Ruby Blossom threshold remains outside ACTIONS as an unresolved RESOURCE_RULES/source-review blocker.' }),
+  coverage: pendingCoverage({ area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed Character damage actions plus Tune Break are mapped with exact Lv1-Lv10 curves/components and source-explicit damage classes/scaling. The Ruby Blossom translation is resolved by explicit owner interpretation as full meter, exactly 120; runtime execution remains separate.' }),
   factIds: DANJIN_ACTION_FACTS.map((fact) => fact.factId),
   provenance: DANJIN_ACTION_PROVENANCE,
 };

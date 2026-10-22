@@ -54,9 +54,9 @@ calculator yields **45/59 MODEL_EXECUTABLE** selected-member references and
 **45/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
 replays original TypeScript 5.6.3 State/rotation/hit accumulation and checks all
 three actor damage values, duration, Team Total, ER, Crit and casts. This is native
-model parity, not live-game qualification. Known canonical mechanics conflicts,
-including Danjin’s full-power threshold, remain unresolved and are not settled
-by native-model agreement. **GAMEPLAY_QUALIFIED remains 0/59.**
+model parity, not live-game qualification. The owner has resolved Danjin’s English full-power translation as full meter,
+exactly 120 consuming 120. Native-model agreement remains distinct from
+gameplay qualification and does not resolve other source conflicts. **GAMEPLAY_QUALIFIED remains 0/59.**
 
 Ten identities lack an admitted execution source in the existing pinned pipeline;
 four more remain blocked by source/profile/investment constraints. The private

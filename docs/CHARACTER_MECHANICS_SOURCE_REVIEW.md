@@ -22,6 +22,11 @@ mechanics source or an upstream text correction.
 `src/data/characterMechanics/danjinInterpretation.ts` records that authority and
 threshold. The stable Forte fact ID is retained; its former source blocker is
 removed. Source raw text, coefficients, capacity and source pins are unchanged.
+The UI configuration verifier retains its original pin and checks an explicit
+owner-review manifest with exact before/after blob hashes for the eight changed
+canonical files plus the new interpretation record; all other 337 original files
+remain byte-identical. Unreviewed edits, missing deltas and changed original hashes
+still fail closed. Transport and private engine pins are unchanged.
 The canonical six-area source profile now passes; modeling status and product
 DPS readiness remain separate. Private M0 tests inspect the unchanged native
 full-power action at 119/120 and its 120-resource spend. Invalid native casts can

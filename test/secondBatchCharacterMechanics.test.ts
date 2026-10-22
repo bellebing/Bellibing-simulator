@@ -171,8 +171,8 @@ test('second Character Mechanics batch remains valid inside the current roster r
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 58);
-  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 0);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);

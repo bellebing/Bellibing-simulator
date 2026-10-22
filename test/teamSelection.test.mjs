@@ -58,6 +58,30 @@ test('Augusta/Iuno/Shorekeeper -> Mortefi retains Shorekeeper only via reviewed 
  assert.equal(view.selectedTeam.id,view.activeContextId);
 });
 
+test('Changli can promote from reviewed third-member default to its executable source core',()=>{
+ const state={id:'changli',sandboxBuild:{revision:7},sandboxEvaluationContext:{kind:'OLD_RESULT'}};
+ const original=sourceTeamView(state);
+ assert.equal(original.team.id,'model-aemeath-231');
+ assert.deepEqual(original.memberIds,['aemeath','lupa','changli']);
+ const main=sourceTeamChoices(state,'main').find(c=>c.characterId==='changli');
+ assert.ok(main,'source-backed main promotion must be reachable without a full-team menu');
+ assert.ok(main.contexts.some(t=>t.id==='guide-changli-aemeath-the-shorekeeper-changli-slots-10'));
+ const draft=chooseSourceTeamRole(state,'main','changli');
+ assert.equal(draft.activeContextId,null,'changing a source core must not silently equip its third');
+ assert.equal(draft.selectedTeam,null);
+ assert.deepEqual(draft.memberIds,['changli','aemeath',null]);
+ assert.equal(state.sandboxEvaluationContext,null,'old DPS cannot survive a core change');
+ assert.deepEqual(state.sandboxBuild,{revision:7},'owner build must not change');
+ const third=sourceTeamChoices(state,'third');
+ assert.ok(third.some(c=>c.characterId==='the-shorekeeper'));
+ assert.ok(third.some(c=>c.characterId==='verina'));
+ const resolved=chooseSourceTeamRole(state,'third','the-shorekeeper');
+ assert.equal(resolved.activeContextId,'guide-changli-aemeath-the-shorekeeper-changli-slots-10');
+ assert.deepEqual(resolved.memberIds,['changli','aemeath','the-shorekeeper']);
+ assert.ok(resolved.selectedTeam.sourceRefs.length);
+ assert.equal(resolved.pendingSupport,false);
+});
+
 test('Qingxiao/Lynae/Shorekeeper -> Denia explicitly clears Support until Mornye is chosen',()=>{
  const state=selected('qingxiao'),initial=sourceTeamView(state);
  const lynae=match(initial,'qingxiao','lynae','the-shorekeeper');

@@ -71,6 +71,16 @@
       ],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Taoqi variant in the existing Carlotta/Shorekeeper trio. Native source interpretation, calculation and investment/equipment/resource gates remain private-provider responsibilities."
+    },
+    {
+      "teamContextId": "guide-carlotta-lumi-the-shorekeeper-carlotta-slots-39",
+      "characterIds": [
+        "carlotta",
+        "lumi",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Lumi variant in the existing Carlotta/Shorekeeper trio. Source interpretation, native calculation and investment/equipment/resource gates stay with the private provider."
     }
   ]
 }

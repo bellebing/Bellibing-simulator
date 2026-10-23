@@ -19,6 +19,12 @@
       "characterIds": ["iuno", "jianxin", "the-shorekeeper"],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: reviewed S0 Jianxin support variant in the existing Iuno/Shorekeeper trio. The private provider owns execution, source interpretation and resource/equipment checks."
+    },
+    {
+      "teamContextId": "guide-chixia-brant-the-shorekeeper-chixia-slots-11",
+      "characterIds": ["chixia", "brant", "the-shorekeeper"],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: reviewed S0 Chixia variant in the existing Brant/Shorekeeper trio. Native calculation and investment/resource/equipment gates remain private-provider responsibilities."
     }
   ]
 }

@@ -163,13 +163,13 @@
       "characterId": "chixia",
       "name": "Chixia",
       "defaultContextId": "guide-source-default-chixia-brant-lupa",
-      "firstTeamContextId": null,
-      "modelExecutable": false,
-      "independentNativeParity": false,
-      "browserReferenceVerified": false,
-      "browserObservedRunVerified": false,
+      "firstTeamContextId": "guide-chixia-brant-the-shorekeeper-chixia-slots-11",
+      "modelExecutable": true,
+      "independentNativeParity": true,
+      "browserReferenceVerified": true,
+      "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Native execution implementation required"
+      "blocker": null
     },
     {
       "characterId": "ciaccona",

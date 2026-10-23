@@ -50,15 +50,15 @@ revision invalidation and ownership. No Build redesign is included.
 
 The deterministic private inventory has one row per current released identity.
 Using existing reviewed teams, native equipment profiles and the existing locked
-calculator yields **51/59 MODEL_EXECUTABLE** selected-member references and
-**51/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
+calculator yields **52/59 MODEL_EXECUTABLE** selected-member references and
+**52/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
 replays original TypeScript 5.6.3 State/rotation/hit accumulation and checks all
 three actor damage values, duration, Team Total, ER, Crit and casts. This is native
 model parity, not live-game qualification. The owner has resolved Danjin’s English full-power translation as full meter,
 exactly 120 consuming 120. Native-model agreement remains distinct from
 gameplay qualification and does not resolve other source conflicts. **GAMEPLAY_QUALIFIED remains 0/59.**
 
-Eight identities still need native execution implementation or complete S0 action mapping. Canonical kits and rotation references are already available; a new 208-row community timing/resource capture supports this implementation work. Yangyang, Baizhi and Jianxin S0 now pass reviewed native extensions, S0–S2 parity and both Chromium workspaces. Jianxin uses an explicit conservative source-model variant, not a claim of exact guide playback. The private
+Seven identities still need native execution implementation. Canonical kits and rotation references are already available; a new 208-row community timing/resource capture supports this implementation work. Yangyang, Baizhi, Jianxin S0 and Chixia S0 now pass reviewed native extensions, S0–S2 parity and both Chromium workspaces. Jianxin uses an explicit conservative source-model variant, not a claim of exact guide playback. The private
 59-row report owns the exact requests, alternatives attempted, source modules,
 profiles, rotations, equipment, ER requirements, selected contribution, other two
 contributions and total. The public [coverage matrix](DPS_FIRST_TEAM_COVERAGE.md)
@@ -66,8 +66,8 @@ contains only canonical public identities/context references and safe blocker
 categories. Browser/reference/run support is reported separately from numerical
 execution; a catalog row or teammate appearance never counts as execution.
 
-Real per-selection Chromium covers all 59 selections, **51/59 reachable native
-references and 51/59 completed five-card comparisons**, with no account mutation.
+Real per-selection Chromium covers all 59 selections, **52/59 reachable native
+references and 52/59 completed five-card comparisons**, with no account mutation.
 Both ER/Crit failures and supported configurations are retained as regressions.
 
 Changli's previously unreachable alternate core now passes the corrected member chooser and a genuine five-card Chromium comparison. An observed build can still be Pending under its real gear/ER constraints even when the reference is calculable.

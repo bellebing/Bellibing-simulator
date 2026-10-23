@@ -15,13 +15,12 @@ import {
 test('released roster FORTE_RULES coverage is deterministic and fail-closed', () => {
   const audit = auditCharacterForteRulesCoverage();
   assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 58);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.deepEqual(audit.blockedCharacterIds, ['danjin']);
+  assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(
     audit.blockers.map((blocker) => blocker.blockerId),
     [
-      'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
     ],
   );
   assert.deepEqual(audit.issues, []);
@@ -45,17 +44,17 @@ test('release completion promotes only profiles with all six verified source are
   const xiangli = CHARACTER_MECHANICS_PROFILE_BY_ID.get('xiangli-yao');
 
   assert.equal(buling?.verificationStatus, 'VERIFIED');
-  assert.equal(danjin?.verificationStatus, 'PARTIALLY_VERIFIED');
+  assert.equal(danjin?.verificationStatus, 'VERIFIED');
   assert.equal(xiangli?.verificationStatus, 'VERIFIED');
 
   assert.equal(buling?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
-  assert.equal(danjin?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'PARTIAL');
+  assert.equal(danjin?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
   assert.equal(xiangli?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, 'VERIFIED');
 
   for (const profile of [buling, danjin, xiangli]) {
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, profile?.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
 });
@@ -91,7 +90,7 @@ test('unsupported Forte semantics remain explicitly pending instead of guessed',
 
   assert.equal(bulingArray?.verificationStatus, 'VERIFIED');
   assert.equal(bulingArray?.modelingStatus, 'PENDING_INTERPRETATION');
-  assert.equal(danjinThreshold?.verificationStatus, 'PENDING');
+  assert.equal(danjinThreshold?.verificationStatus, 'VERIFIED');
   assert.equal(danjinThreshold?.modelingStatus, 'PENDING_INTERPRETATION');
   assert.equal(xiangliRevamp?.verificationStatus, 'VERIFIED');
   assert.equal(xiangliRevamp?.modelingStatus, 'PENDING_INTERPRETATION');

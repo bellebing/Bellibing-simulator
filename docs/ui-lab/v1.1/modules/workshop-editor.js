@@ -5,7 +5,7 @@ import {configurationContext,configureSlot,selectConfigurationSlot} from './simu
 // or Current-commit entrypoint is exposed to this parent controller.
 export function createWorkshopEditor({getState,onCommit,onPreview=()=>{},readAccountBinding=()=>null}) {
   let pending=null;
-  function close(){if(!pending)return;const old=pending;pending=null;old.rollback?.();old.dialog.close();old.dialog.remove();const trigger=old.trigger?.isConnected?old.trigger:document.querySelector(`[data-edit-echo="${old.trigger?.dataset.editEcho}"]`);trigger?.focus({preventScroll:true});}
+  function close(){if(!pending)return;const old=pending;pending=null;old.rollback?.();old.dialog.close();old.dialog.remove();const selector=old.trigger?.dataset.editCandidate!==undefined?`[data-edit-candidate="${old.trigger.dataset.editCandidate}"]`:`[data-edit-echo="${old.trigger?.dataset.editEcho}"]`;const trigger=old.trigger?.isConnected?old.trigger:document.querySelector(selector);trigger?.focus({preventScroll:true});}
   async function open(slot,trigger) {
     close();
     const state=getState();if(!state.configurationSession||state.configurationSession.mode!=='simulate')return;

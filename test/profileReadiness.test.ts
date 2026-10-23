@@ -44,7 +44,7 @@ test('released roster is structurally classified without a copied readiness-coun
 
   assert.equal(dispositionTotal, summary.releasedCharacterCount);
   assert.equal(summary.characters.length, summary.releasedCharacterCount);
-  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, ['danjin']);
+  assert.deepEqual(summary.characterMechanicsSourceBlockedIds, []);
   assert.equal(summary.preDpsFreezeReady, false);
   assert.equal(summary.issues.length, 0);
 });
@@ -112,7 +112,7 @@ test('a SOURCE_SEQUENCE_ONLY profile cannot be freeze-approved for DPS', () => {
   assert.ok(summary.issues.some((issue) => issue.includes('pending execution id(s)')));
 });
 
-test('a Character Mechanics source blocker cannot be freeze-approved for DPS', () => {
+test('owner-resolved Danjin cannot borrow another Character’s freeze approval', () => {
   const invalidApproval: ProfileFreezeApproval = {
     characterId: 'danjin',
     presetId: 'augusta-standard',
@@ -126,7 +126,8 @@ test('a Character Mechanics source blocker cannot be freeze-approved for DPS', (
   };
 
   const summary = auditProfileReadiness([invalidApproval]);
-  assert.ok(summary.issues.some((issue) => issue.includes('Character Mechanics is source-blocked')));
+  assert.equal(summary.characters.find(row => row.characterId === 'danjin')?.mechanicsSourceBlocked, false);
+  assert.ok(summary.issues.length > 0); // Wrong ownership still invalidates this approval.
   assert.ok(summary.issues.some((issue) => issue.includes('preset belongs to augusta')));
   assert.ok(summary.issues.some((issue) => issue.includes('backward-impact review belongs to augusta')));
 });

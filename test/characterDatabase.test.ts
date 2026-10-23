@@ -150,9 +150,9 @@ test('source completeness never grants a new DPS engine or closes Reference Team
   for (const id of ['danjin']) {
     const character = db.characters.find((row) => row.id === id)!;
     assert.ok(character.mechanics);
-    assert.equal(character.mechanics.verificationStatus, 'PARTIALLY_VERIFIED');
-    assert.ok(character.sourceBlocker?.reason);
-    assert.equal(character.readiness?.disposition, 'CHARACTER_MECHANICS_SOURCE_BLOCKED');
+    assert.equal(character.mechanics.verificationStatus, 'VERIFIED');
+    assert.equal(character.sourceBlocker, null);
+    assert.notEqual(character.readiness?.disposition, 'DPS_READY');
   }
   for (const [id, cap] of [['qingxiao', 125], ['rover-electro', 125], ['suisui', 175]] as const) {
     assert.equal(db.characters.find(row => row.id === id)?.level90.maxEnergy, cap);

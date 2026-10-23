@@ -109,19 +109,19 @@ Hsin's permanent nodes grant CRIT Rate +8% / ATK +12%; Jingran's grant CRIT Rate
 
 Buling's Five Thunders Spell Array is **Liberation DMG**, original damage row `1307019002`, Type 2. Xiangli Yao's Pivot — Impale is **Basic DMG**, original rows `1305011001`, `1305012001–4`, `1305013001–2`, Type 0. These resolve their prior classification blockers without inventing trigger/runtime semantics. Original capacity/Sequence facts complete Buling and Xiangli's source profiles. Danjin's six Sequences and explicit Ruby Blossom cap of 120 are also recorded.
 
-**Danjin remains partial:** the original Forte text still says full-power damage when Ruby Blossom reaches **over 120**, while its maximum is **120**. Both literal statements are retained and the activation condition remains source-blocked. Neither an at-least-120 threshold nor executable full-power behavior is guessed.
+**Danjin translation resolved by explicit owner decision:** exactly 120 is full meter and enables the full-power branch, consuming 120. The raw English over-120 clause remains unchanged as translation evidence. The decision is reaffirmed for Issue #348 on 2026-10-22; no new owner decision is needed. Runtime/gameplay qualification remains separate.
 
 ## Candidate coverage and validation boundary
 
 - Raw records and permanent Minor Fortes: **59/59**.
 - ACTIONS, INHERENT_PASSIVES and OUTRO_EFFECT source areas: **59/59**.
-- Six-area Character Mechanics source profiles: **58/59**, with Danjin's Forte/resource interpretation partial.
+- Six-area Character Mechanics source profiles: **59/59**, including the explicitly recorded owner interpretation for Danjin.
 - Original evidence packet: **59** identities, **472** permanent stat nodes, **354** Sequence rows.
 - All **1,903** existing Skills/Forte value rows agree with original 3.7 at every level 1–10 (**19,030** cells), normalizing decimal formatting only. No interpolation or source-value drift was found.
 
 Focused regression checks cover the original joins/caps, permanent nodes, all legacy cells, the two new kits, component/flat/shared-system boundaries, disputed original damage types and rejection of missing raw fields. Deterministic coverage reports and capture/generator parity are checked; the normal build/export is checked. FULL CI, browser/end-to-end verification, automated review and landing are intentionally deferred for this draft, as requested. Source `VERIFIED` does not mean runtime execution, recommendations, UI presentation or DPS readiness.
 
-The subsequent [signature and recommendation publication](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md) adds all 59 signature decisions and Prydwen guide references to this draft, including a bounded two-signature-weapon source update. Remaining roadmap work includes Danjin's actual activation-condition evidence, any broader version-3.7 Weapon facts audit, image-only example-team member capture and final combined verification.
+The subsequent [signature and recommendation publication](CHARACTER_EQUIPMENT_AND_RECOMMENDATIONS_REVIEW.md) adds all 59 signature decisions and Prydwen guide references to this draft, including a bounded two-signature-weapon source update. Remaining roadmap work includes any broader version-3.7 Weapon facts audit, image-only example-team member capture and final combined verification.
 
 ## Reproduce the evidence and derived facts
 

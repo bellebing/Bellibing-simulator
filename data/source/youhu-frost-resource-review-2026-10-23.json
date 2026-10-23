@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "characterId": "youhu",
+  "checkedAt": "2026-10-23",
+  "scope": "ORIGINAL_CLIENT_RESOURCE_REVIEW_NOT_DPS_READINESS",
+  "source": {
+    "repository": "Arikatsu/WutheringWaves_Data",
+    "commit": "9218d612ad815e398e064e577e42aaf878899968",
+    "path": "BinData/property/baseproperty.json",
+    "blob": "096e27bedcbc4b3dfada226fb29866ad052f9fd3",
+    "recordId": 1106
+  },
+  "properties": {
+    "Id": 1106,
+    "SpecialEnergy1Max": 10000,
+    "SpecialEnergy1": 0,
+    "SpecialEnergy2Max": 4,
+    "SpecialEnergy2": 0
+  },
+  "unitReview": "SpecialEnergy1 is original-client Frost, in native client units, not a player-facing numeric Frost label. SpecialEnergy2 is the four-Auspice capacity. Existing canonical full-Frost semantics are retained; no guessed displayed maximum is introduced.",
+  "restorationReview": {
+    "originalBuffId": 1106100201,
+    "gameAttributeId": 62,
+    "gainPerPeriod": 1000,
+    "periodSeconds": 0.10000000149011612,
+    "actionClockSource": "Maygi Youhu row99: Fortune Rolling1s/fullFrost. The full hold exceeds the original ten restoration ticks, then releases Frostfall; no partial-Frost hit cadence is inferred."
+  },
+  "rotationCandidate": "https://wikiwiki.jp/w-w/%E9%87%89%E7%91%9A",
+  "conditionalScope": "Lucky Draw outcomes must be explicitly conditioned. A fixed artifact sequence is not an RNG average and does not assert equal probabilities. Generic community Appraisal clocks are not individual antique gameplay measurements."
+}

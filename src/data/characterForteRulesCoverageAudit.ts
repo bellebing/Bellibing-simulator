@@ -186,6 +186,6 @@ ${issues}
 
 ## Scope boundary
 
-This report audits Forte source facts independently from runtime execution, recommendations, Team and DPS readiness. Original released damage rows resolve Buling's array and Xiangli Yao's Pivot classifications. Danjin remains fail-closed because the source's over-120 full-power clause contradicts its maximum of 120 Ruby Blossom.
+This report audits Forte source facts independently from runtime execution, recommendations, Team and DPS readiness. Original released damage rows resolve Buling's array and Xiangli Yao's Pivot classifications. Danjin's English over-120 clause is preserved as translation evidence. The explicit owner decision resolves full power as full meter: exactly 120 qualifies and consumes 120. This does not establish runtime or gameplay-DPS readiness.
 `;
 }

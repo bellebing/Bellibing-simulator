@@ -61,6 +61,16 @@
       ],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Aalto variant in the existing Ciaccona/Shorekeeper trio. Native calculation and source/equipment/resource gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-carlotta-taoqi-the-shorekeeper-carlotta-slots-7",
+      "characterIds": [
+        "carlotta",
+        "taoqi",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Taoqi variant in the existing Carlotta/Shorekeeper trio. Native source interpretation, calculation and investment/equipment/resource gates remain private-provider responsibilities."
     }
   ]
 }

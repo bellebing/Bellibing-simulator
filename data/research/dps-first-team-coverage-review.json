@@ -583,13 +583,13 @@
       "characterId": "taoqi",
       "name": "Taoqi",
       "defaultContextId": "guide-carlotta-taoqi-the-shorekeeper-carlotta-slots-7",
-      "firstTeamContextId": null,
-      "modelExecutable": false,
-      "independentNativeParity": false,
-      "browserReferenceVerified": false,
-      "browserObservedRunVerified": false,
+      "firstTeamContextId": "guide-carlotta-taoqi-the-shorekeeper-carlotta-slots-7",
+      "modelExecutable": true,
+      "independentNativeParity": true,
+      "browserReferenceVerified": true,
+      "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Native execution implementation required"
+      "blocker": null
     },
     {
       "characterId": "the-shorekeeper",

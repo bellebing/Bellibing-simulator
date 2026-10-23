@@ -43,13 +43,13 @@
       "characterId": "baizhi",
       "name": "Baizhi",
       "defaultContextId": "guide-camellya-sanhua-baizhi-camellya-slots-6",
-      "firstTeamContextId": null,
-      "modelExecutable": false,
-      "independentNativeParity": false,
-      "browserReferenceVerified": false,
-      "browserObservedRunVerified": false,
+      "firstTeamContextId": "guide-camellya-sanhua-baizhi-camellya-slots-6",
+      "modelExecutable": true,
+      "independentNativeParity": true,
+      "browserReferenceVerified": true,
+      "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Native execution implementation required"
+      "blocker": null
     },
     {
       "characterId": "brant",

@@ -7,6 +7,12 @@
       "characterIds": ["carlotta", "yangyang", "the-shorekeeper"],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Yangyang native Character extension reuses this already reviewed team. The private provider owns execution and all gates."
+    },
+    {
+      "teamContextId": "guide-camellya-sanhua-baizhi-camellya-slots-6",
+      "characterIds": ["camellya", "sanhua", "baizhi"],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Baizhi native Character extension reuses this existing reviewed trio. Execution, equipment, resource and ER checks remain owned by the private provider."
     }
   ]
 }

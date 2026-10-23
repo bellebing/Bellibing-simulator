@@ -51,6 +51,16 @@
       ],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Calcharo variant in the existing Yinlin/Shorekeeper trio. Calculation and investment/resource/equipment gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-aalto-ciaccona-the-shorekeeper-aalto-slots-1",
+      "characterIds": [
+        "aalto",
+        "ciaccona",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Aalto variant in the existing Ciaccona/Shorekeeper trio. Native calculation and source/equipment/resource gates remain owned by the private provider."
     }
   ]
 }

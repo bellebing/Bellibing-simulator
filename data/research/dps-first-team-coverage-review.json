@@ -319,13 +319,13 @@
       "characterId": "lingyang",
       "name": "Lingyang",
       "defaultContextId": "guide-source-default-lingyang-lynae-mornye",
-      "firstTeamContextId": null,
-      "modelExecutable": false,
-      "independentNativeParity": false,
-      "browserReferenceVerified": false,
-      "browserObservedRunVerified": false,
+      "firstTeamContextId": "guide-lingyang-sanhua-the-shorekeeper-lingyang-slots-24",
+      "modelExecutable": true,
+      "independentNativeParity": true,
+      "browserReferenceVerified": true,
+      "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Native execution implementation required"
+      "blocker": null
     },
     {
       "characterId": "lucilla",

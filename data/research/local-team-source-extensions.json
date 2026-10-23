@@ -81,6 +81,16 @@
       ],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Lumi variant in the existing Carlotta/Shorekeeper trio. Source interpretation, native calculation and investment/equipment/resource gates stay with the private provider."
+    },
+    {
+      "teamContextId": "guide-lingyang-sanhua-the-shorekeeper-lingyang-slots-24",
+      "characterIds": [
+        "lingyang",
+        "sanhua",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Lingyang variant in the existing Sanhua/Shorekeeper trio. Native calculation, source interpretation and investment/equipment/resource gates remain owned by the private provider."
     }
   ]
 }

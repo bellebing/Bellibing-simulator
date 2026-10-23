@@ -17,6 +17,14 @@ The interface should be a **guided decision assistant**, not an internal configu
 - **One obvious action:** allow advanced optional inspection only when needed; hide unsupported actions rather than presenting disabled controls with long diagnostic text. Normal view prefers a title/number/action, not implementation vocabulary.
 - **Responsive and accessible:** full-size clickable cards, inline accordion stages, pointer/touch/keyboard/screen-reader and focus preservation. Validate 1440 desktop, wider when needed, mobile and real Windows local launch.
 
+## Owner's next UX goal — 2026-10-23
+
+**After 59/59 source-native experimental DPS coverage was proven in the unmerged public #349 / private #40 Draft pair, the owner commissioned an easy, coherent onboarding workflow:** **Character screenshot/card scanner + owned Character/Echo inventory + portable JSON backup/restore + two-click substat capture in the Echo Workshop.** This is [M1 workstream #352](https://github.com/bellebing/Bellibing-simulator/issues/352), not a resumed Resonance Mode UI or a broad gameplay-DPS qualification campaign. The experimental DPS stack remains unmerged until separate GO, and any real Build write requires the owner's concept acceptance and a migration-safe implementation.
+
+**Sequencing within this one player journey:** (A) isolated, usable **Build/Inventory/Scanner/Fast Roll interactive concept** for owner visual review; (B) canonical shared owned-Item/Build data owner and versioned **JSON inventory export/import** with explicit review/restore; (C) responsive inline two-tap **Echo stat & tier editor** with partial +5…+25 captures; (D) image scan/OCR for **verified actual game card/screenshot formats** into that SAME draft/validator (can be researched in parallel, but never writes directly); (E) end-to-end Build→Improve ownership/DPS invalidation verification. Stage B and C may be composed into one coherent implementation PR with appropriate regressions. Imported templates are not owned; scans never bypass manual approval.
+
+**Distinguish inventory types:** the current lab `resource-inventory.js` handles Echoes/Tuners/Tubes. A new **physical Echo inventory with stable item identity and equipped Build references** does not yet exist as the durable model. Existing Build v34 persists per-Character five-slot Echo cards. Design migration/export around those real records; do not label Sandbox run-export JSON as account backup, and do not overwrite Current from Candidate/scan preview.
+
 ## Delivery map (execution order — owner confirmed 2026-10-22)
 
 **The order below is now authoritative. Complete the integrated DPS V1 and pursue **at least ONE genuinely executable source-validated team for EACH of the 59 released selectable Characters** first.** Begin with a short existing public/private stack audit (freeze speculative bulk team expansion during this reconciliation), then close verified missing-character gaps using genuine source modules/profiles without new parallel calculators. Do not start a parallel production Build rewrite or scanner implementation while this priority is unresolved; if hard source gaps prevent 59/59, record each blocked Character precisely and ask the owner for a scope decision rather than claim completion. Non-overlapping concept/research may be prepared but **Build concept visual approval and Build production work follow the DPS V1 checkpoint**. Later gameplay qualification is a separate ongoing source-evidence effort, not a reason to freeze product UX until all 59 Characters qualify.
@@ -24,9 +32,9 @@ The interface should be a **guided decision assistant**, not an internal configu
 | Order | Workstream and user outcome | Priority | Delivery gate |
 | --- | --- | --- | --- |
 | **0 — NOW** | **DPS V1 + 59-Character first-team coverage**: consolidate the public/private Draft stack, verify real Improve/Sandbox comparisons, then pursue **≥1 runnable team with the selected Character and computed individual DPS for each of all 59 released Characters**. Only source-backed execution counts. | **P0** | **59-row selected-Character coverage matrix**, one reproducible scenario per admitted Character, exact source/gear/rotation/mode/ER gates, individual/Team Total, real browser/Windows evidence, independent proof, relevant FULL and owner GO for merge. Hard source gaps must be listed, not labeled completed. |
-| **1** | **Full UX ownership audit + isolated interactive Build/Echo concept**, using accepted Improve visual language for direction. | **P0 next** | Owner reviews desktop/mobile interactive concept **before** production Build changes. |
-| **2** | **Build a Character owned-build UX**, reliable five Echo slots and fast inline +5…+25 editor. | **P0** | Authorize Current writes only; real save/cancel/reload and browser regression. |
-| **3** | **Screenshot/card scanner**, mapping uncertain imported fields into the **same editable Build draft**. | **P0/P1** | Validated owner-reviewed image fixtures and explicit save. |
+| **1 — NEXT** | **Full UX audit + isolated interactive Build/Inventory/Scanner/Fast Roll concept**, using accepted Improve visual language for interaction design. | **P0** | Owner reviews working desktop/mobile concept **before** any production Build/Inventory write. See #352. |
+| **2** | **Canonical owned Character + physical Echo inventory, portable versioned JSON export/import, and Build/Workshop two-tap inline +5…+25**, with five correctly owned equipped slots. | **P0** | Validated migration, atomic reviewed backup restore, real save/cancel/reload, no Candidate/Current crosswrite, browser regression. |
+| **3** | **Genuine Character/Echo screenshot scanner**, mapping uncertain imported fields into the **same editable Inventory/Build draft** used by manual/JSON entry. | **P0/P1** | Validated real player screenshots/card formats; edit/review + explicit save, no invented unseen rolls or automatic ownership. |
 | **4** | **Improve live advisor**, dynamic recommendation after actual reveal, comparison and receipts, safe Current/Candidate. | **P1** | Honest verified RNG + odds/cost scope, precise Gate and owner isolation. |
 | **5** | **Sandbox five-Echo/full-set playground**, default standard-team model where supported and resource experiments. | **P1** | No account required; comparisons only for matching executable contexts. |
 | **6** | **Broader DPS/ER source fidelity and gameplay qualification**, building on completed V1, not a blocker for Build. | **P1/P2** | New team/variant only with pinned source, execution, independent parity and real game evidence where claimed. |
@@ -71,7 +79,7 @@ The end-to-end **player journey** remains Build → Improve → Sandbox → Team
 4. Include state-machine sketches for **manual build entry**, **import review**, **Improve live advisor**, **Sandbox run**, **team member swap**. One page of click-by-click acceptance, with screenshots and honest pending states.
 5. **Stop for owner visual approval of the concept before rebuilding production Build UI.** This is a design checkpoint, not merge permission.
 
-## M2 — Build a Character: fast, trustworthy owned-build entry
+## M2 — Build a Character: owned inventory, JSON backup/restore and fast Echo entry
 
 - Preserve existing Character choice, source-valid signature/Weapon choice, baseline levels, S0–S2, source-owned max Skills, Forte, Character Stats and saved state. Weapon ranking uses only reviewed source order *where that order is supported*; do not silently infer missing BiS ranking.
 - Build uses a genuinely wide, responsive workspace informed by accepted Improve; five large Echo cards are visible/inspectable without a modal labyrinth. Editing/adding happens **inline in an expanding working region**, keeping the Character/build context and keyboard focus visible.
@@ -83,7 +91,7 @@ The end-to-end **player journey** remains Build → Improve → Sandbox → Team
 
 **Done:** novice manually creates Augusta with owned Weapon and five correct observed Echoes and can review/edit/reload without data loss; Current and Candidate remain separate; full real browser regression incl. incomplete cards.
 
-## M3 — scanner / import from Wuthering Waves images
+## M3 — scanner / import from Wuthering Waves images into the same inventory draft
 
 - Investigate the actual **share-card/screenshot formats players obtain from game or Discord**; identify which fields can be reliably extracted from examples, licenses and privacy. Image import is a convenience input, not a new source of canonical game facts and not a claim that every Discord post is parseable.
 - Upload image(s) locally through a clearly scoped UI. Detect Character identity, Weapon/refinement, levels, Sequence, Skills/Forte and each Echo's identity/Sonata/Cost/Main/Secondary/+5…+25 substats only when visually evidenced. Preserve source image during review, flag uncertainty per field and reject unsupported/unreadable formats.

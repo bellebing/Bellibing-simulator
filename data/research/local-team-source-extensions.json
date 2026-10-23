@@ -91,6 +91,26 @@
       ],
       "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
       "review": "Issue #348: Lingyang variant in the existing Sanhua/Shorekeeper trio. Native calculation, source interpretation and investment/equipment/resource gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-special-calcharo-yinlin-youhu",
+      "characterIds": [
+        "calcharo",
+        "yinlin",
+        "youhu"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: conditioned Youhu variant in the existing accessible Calcharo/Yinlin trio. Private provider owns draw conditioning, source interpretation, native calculation and investment/equipment/resource gates."
+    },
+    {
+      "teamContextId": "guide-jinhsi-yuanwu-verina-jinhsi-slots-22",
+      "characterIds": [
+        "jinhsi",
+        "yuanwu",
+        "verina"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Yuanwu short support variant in the existing Jinhsi/Verina trio. Fixed-field source assumptions, native calculation and investment/equipment/resource gates stay with the private provider."
     }
   ]
 }

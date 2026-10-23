@@ -14,7 +14,7 @@ test('read-only actual account records require explicit investment and never fil
 
 test('source-calculator contexts capture explicit source enemy without altering the existing pilot reference',async()=>{
  const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
- for(const id of ['guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22','guide-jinhsi-zhezhi-verina-jinhsi-slots-22','guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7','guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7','guide-camellya-roccia-verina-camellya-slots-6','guide-aemeath-denia-lupa-aemeath-slots-3']){
+ for(const id of ['guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22','guide-jinhsi-zhezhi-verina-jinhsi-slots-22','guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7','guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7','guide-special-calcharo-yinlin-youhu','guide-jinhsi-yuanwu-verina-jinhsi-slots-22','guide-camellya-roccia-verina-camellya-slots-6','guide-aemeath-denia-lupa-aemeath-slots-3']){
   const context=contexts.teams.find(t=>t.id===id),{records}=own({context});
   const captured=await captureLocalTeamBuilds({mode:'IMPROVE',team:context,selectedCharacterId:context.characterIds[0],records,scope:{},acceptReferenceInvestment:true});
   assert.equal(captured.status,'CAPTURED');assert.equal(captured.payload.current.enemy.defense,1592);

@@ -50,24 +50,24 @@ revision invalidation and ownership. No Build redesign is included.
 
 The deterministic private inventory has one row per current released identity.
 Using existing reviewed teams, native equipment profiles and the existing locked
-calculator yields **57/59 MODEL_EXECUTABLE** selected-member references and
-**57/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
+calculator yields **59/59 MODEL_EXECUTABLE** selected-member references and
+**59/59 INDEPENDENTLY_PARITY_VERIFIED** references. The latter independently
 replays original TypeScript 5.6.3 State/rotation/hit accumulation and checks all
 three actor damage values, duration, Team Total, ER, Crit and casts. This is native
 model parity, not live-game qualification. The owner has resolved Danjin’s English full-power translation as full meter,
 exactly 120 consuming 120. Native-model agreement remains distinct from
 gameplay qualification and does not resolve other source conflicts. **GAMEPLAY_QUALIFIED remains 0/59.**
 
-Two identities still need native execution implementation. Canonical kits and rotation references are already available; a new 208-row community timing/resource capture supports this implementation work. Yangyang, Baizhi, Jianxin S0, Chixia S0, Calcharo S0, Aalto S0, Taoqi S0, Lumi S0 and Lingyang S0 now pass reviewed native extensions, S0–S2 parity and both Chromium workspaces. Jianxin uses an explicit conservative source-model variant, not a claim of exact guide playback. The private
+All 59 selected identities now have at least one admitted source-native team, with no coverage scope exception. Canonical kits, original-client inputs and a 208-row community timing/resource capture support the explicit extensions. Yangyang, Baizhi, Jianxin S0, Chixia S0, Calcharo S0, Aalto S0, Taoqi S0, Lumi S0, Lingyang S0, Youhu S0 and Yuanwu S0 now pass reviewed native extensions, S0–S2 parity and both Chromium workspaces. Jianxin uses an explicit conservative source-model variant, not a claim of exact guide playback. The private
 59-row report owns the exact requests, alternatives attempted, source modules,
 profiles, rotations, equipment, ER requirements, selected contribution, other two
 contributions and total. The public [coverage matrix](DPS_FIRST_TEAM_COVERAGE.md)
-contains only canonical public identities/context references and safe blocker
-categories. Browser/reference/run support is reported separately from numerical
+contains only canonical public identities/context references and safe scope
+caveats. Youhu is conditional on a Chime/Chime/Ruyi/Ruyi Double Pun branch, never RNG-average DPS; its Appraisal clock is aggregate. Yuanwu uses a stationary in-field support variant with conditional Rumbling and no Liberation. Browser/reference/run support is reported separately from numerical
 execution; a catalog row or teammate appearance never counts as execution.
 
-Real per-selection Chromium covers all 59 selections, **57/59 reachable native
-references and 57/59 completed five-card comparisons**, with no account mutation.
+Real per-selection Chromium covers all 59 selections, **59/59 reachable native
+references and 59/59 completed five-card comparisons**, with no account mutation.
 Both ER/Crit failures and supported configurations are retained as regressions.
 
 Changli's previously unreachable alternate core now passes the corrected member chooser and a genuine five-card Chromium comparison. An observed build can still be Pending under its real gear/ER constraints even when the reference is calculable.
@@ -83,8 +83,7 @@ team-selection Chromium covers every released selection in both workspaces.
 The implementing Draft PR records actual FAST, Review, FULL, private verification,
 Worker, browser and Windows results and omissions at its exact head.
 
-**M0 is incomplete.** Source-valid 59/59 has not been demonstrated. The owner has explicitly continued M0 toward 59/59; no scope exception or Build
-transition was accepted. Original Kin/Bilibili source access is still blocked;
+**Experimental M0 coverage is 59/59.** Every selected Character has an executable reviewed trio, independent actor/total/duration/cast/ER parity and a real five-card Chromium comparison. This does not qualify gameplay DPS or begin Build. No scope exception was needed. Original Kin/Bilibili source access is still blocked;
 the admitted Hsin/Electro Rover/Buling scenarios use existing reviewed native
 rotations with an explicit source-backed Suhsin damage/Energy correction, not
 a claimed reproduction of those inaccessible guides. The native engine pin is unchanged.

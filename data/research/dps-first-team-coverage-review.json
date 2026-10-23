@@ -271,13 +271,13 @@
       "characterId": "jianxin",
       "name": "Jianxin",
       "defaultContextId": "guide-iuno-jianxin-the-shorekeeper-iuno-slots-19",
-      "firstTeamContextId": null,
-      "modelExecutable": false,
-      "independentNativeParity": false,
-      "browserReferenceVerified": false,
-      "browserObservedRunVerified": false,
+      "firstTeamContextId": "guide-iuno-jianxin-the-shorekeeper-iuno-slots-19",
+      "modelExecutable": true,
+      "independentNativeParity": true,
+      "browserReferenceVerified": true,
+      "browserObservedRunVerified": true,
       "gameplayQualified": false,
-      "blocker": "Full S0 rotation mapping in progress"
+      "blocker": null
     },
     {
       "characterId": "jingran",

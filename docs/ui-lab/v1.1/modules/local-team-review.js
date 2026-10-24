@@ -1,5 +1,6 @@
 import {captureLocalTeamBuilds} from '../../../../src/localTeamBuildCapture.mjs';
 import {sourceTeamRoles} from './team-selection.js';
+import {createServerTransport} from './server-transport.js';
 const path='/local-review/team-dps',headers={'Content-Type':'application/json','X-Bellibing-Review':'1'};
 const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n):'—';
 const labels={SANDBOX_REFERENCE_SOURCE_PENDING:'DPS calculation not supported',FIVE_COMPLETED_SANDBOX_ECHOES_REQUIRED:'Simulate all five Echoes',SANDBOX_REFERENCE_INPUT_PENDING:'DPS calculation not supported',SOURCE_CALCULATOR_PROFILE_PENDING:'Equipment not supported',SOURCE_BUILD_STAT_REQUIREMENT_UNMET:'Rotation stat requirement not met',SOURCE_REFERENCE_ROTATION_PENDING:'Rotation not supported',SOURCE_CALCULATOR_DEPENDENCY_PENDING:'Local source model unavailable',SOURCE_CALCULATOR_ENEMY_CONTEXT_PENDING:'Reference enemy mismatch',CHANGED_REFERENCE_ROTATION_SCHEDULE_PENDING:'Changed rotation Pending',SOURCE_ROTATION_CAST_REQUIREMENTS_UNMET:'Rotation requirements not met',CONFIRM_REFERENCE_INVESTMENT:'Select Lv90 / R1 reference',COMPLETE_ACCOUNT_TEAM_REQUIRED:'Complete the team in Build',FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED:'Five complete Echoes per teammate required',WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET:'ER requirement not met',CHANGED_SEQUENCE_STATE_SCHEDULE_PENDING:'Sequence rotation Pending',SOURCE_SCHEDULE_REQUIRES_MORTEFI_S6:'S0–S2 rotation Pending',SOURCE_DAMAGE_SCHEDULE_PENDING:'Team rotation Pending',CHANGED_WEAPON_ROTATION_CONTEXT_PENDING:'Weapon rotation Pending',CHANGED_EQUIPMENT_ROTATION_CONTEXT_PENDING:'Echo / Sonata rotation Pending',CANONICAL_BUILD_VALIDATION_PENDING:'Complete legal +25 Echoes required',CHARACTER_INVESTMENT_CONTEXT_PENDING:'Max skills required',FIXED_COMPARISON_CONTEXT_MISMATCH:'Changed reference context',NO_ACTIVE_OBSERVED_SANDBOX_CARDS:'Simulate an active Echo first'};
@@ -8,10 +9,10 @@ export function hasCompleteTeamBuilds(input){
  return team?.characterIds?.length===3&&team.characterIds.every(id=>{const r=records?.find(r=>r.characterId===id),b=r?.buildState;return r?.status==='OBSERVED_PRODUCTION_BUILD_RECORD'&&b?.echoSets?.sets?.[b.echoSets.activeSetId]?.slots?.filter(c=>c?.level===25).length===5;});
 }
 export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fetch}={}){
- let available=false,enabled=false,binding=null,generation=0,result=null,message='Select Lv90 / R1 reference',timer=null,container=null,pendingController=null;
+ let available=false,enabled=false,binding=null,generation=0,result=null,message='Select Lv90 / R1 reference',timer=null,container=null,pendingController=null,service=null;
  const snapshot=()=>{try{return readInput();}catch{return null;}};
  const identity=()=>JSON.stringify(snapshot());
- const post=async(value,signal)=>{const response=await fetchImpl(path,{method:'POST',headers,body:JSON.stringify(value),credentials:'same-origin',cache:'no-store',signal});if(!response.ok)throw Error('LOCAL_REVIEW_UNAVAILABLE');return response.json();};
+ const post=async(value,signal)=>{if(service)return service.request('team',undefined,undefined,value,signal);const response=await fetchImpl(path,{method:'POST',headers,body:JSON.stringify(value),credentials:'same-origin',cache:'no-store',signal});if(!response.ok)throw Error('LOCAL_REVIEW_UNAVAILABLE');return response.json();};
  function draw(){
   if(!container?.isConnected)return;
   const input=snapshot(),team=input?.team,roles=sourceTeamRoles(team),ids=roles?[roles.main,roles.partner,roles.third]:[],names=input?.names??{};
@@ -55,6 +56,12 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
    }catch{if(token===generation&&identity()===next){result=null;message='Local review unavailable';draw();}}
   },200);
  }
- if(['127.0.0.1','localhost'].includes(globalThis.location?.hostname))post({action:'status'}).then(value=>{if(value.protocol==='BELLIBING_LOCAL_TEAM_REVIEW_V1'&&value.status==='LOCAL_REVIEW_ONLY'){available=true;onAvailable();}}).catch(()=>{});
+ (async()=>{
+  if(['127.0.0.1','localhost'].includes(globalThis.location?.hostname))try{const value=await post({action:'status'});if(value.protocol==='BELLIBING_LOCAL_TEAM_REVIEW_V1'&&value.status==='LOCAL_REVIEW_ONLY'){available=true;onAvailable();return;}}catch{}
+  try{const response=await fetchImpl(new URL('./engine-release.json',import.meta.url),{cache:'no-store'}),manifest=await response.json();
+   if(manifest.status!=='SERVER_RUNTIME_V1'||manifest.version!==1||manifest.files?.length!==0||!manifest.review)return;
+   service=createServerTransport({endpoint:manifest.endpoint,fetchImpl});available=true;onAvailable();
+  }catch{}
+ })();
  return {mount(panel){if(!available)return;container=panel.querySelector('.sandbox-dps');if(!container)return;container.classList.add('local-team-review');container.dataset.kind=snapshot()?.mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';refresh();draw();},checkFresh:refresh};
 }

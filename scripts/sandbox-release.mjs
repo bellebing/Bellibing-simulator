@@ -5,6 +5,11 @@ import {createHash} from 'node:crypto';
 export function sandboxRelease(){
  const record=JSON.parse(readFileSync(new URL('./sandbox-release-approval.json',import.meta.url)));
  if(record.status==='PENDING_REVIEW'){if(record.files.length)throw Error('Unapproved Sandbox files');return record;}
+ if(record.status==='SERVER_RUNTIME_V1'){
+  const endpoint=new URL(record.endpoint);
+  if(record.version!==1||record.files.length||!record.review||endpoint.protocol!=='https:'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash||!endpoint.pathname.endsWith('/runtime/v1/')||['localhost','127.0.0.1','[::1]'].includes(endpoint.hostname))throw Error('Invalid server runtime release');
+  return record;
+ }
  if(record.status!=='APPROVED_FOR_PUBLICATION'||record.files.length!==1||record.files[0].path!=='sandbox-engine.worker.js'||!/^[a-f0-9]{64}$/.test(record.files[0].sha256)||!record.review)throw Error('Invalid reviewed Sandbox release');return record;
 }
 export function installSandboxRelease(out){const record=sandboxRelease();if(record.status==='APPROVED_FOR_PUBLICATION')for(const file of record.files){const bytes=readFileSync(resolve('web/sandbox-release',file.path));if(createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw Error('Sandbox release bytes mismatch');copyFileSync(resolve('web/sandbox-release',file.path),join(out,file.path));}writeFileSync(join(out,'engine-release.json'),JSON.stringify(record)+'\n');}

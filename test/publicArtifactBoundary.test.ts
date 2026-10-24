@@ -16,6 +16,7 @@ function artifact(check: (directory: string) => void) {
       const target = join(directory, path); mkdirSync(dirname(target), { recursive: true });
       writeFileSync(target, path.endsWith('.json') ? '{}' : '');
     }
+    writeFileSync(join(directory, 'sandbox/engine-release.json'), readFileSync('scripts/sandbox-release-approval.json'));
     compilePublicBrowserModules(join(directory, 'assets'));
     check(directory);
   } finally { rmSync(directory, { recursive: true, force: true }); }

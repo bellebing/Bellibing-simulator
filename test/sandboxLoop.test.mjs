@@ -16,7 +16,7 @@ test('all 59 source shells bind explicit Custom goals with their own Character a
 test('variance requires a complete matching unbounded Echo-goal scope; finite and incomplete runs remain Pending',()=>{
  const dto={version:'BELLIBING_COST_COMPARISON_V1',status:'COMPARABLE',scope:{goal:'ECHO_TARGETS_ONLY',start:'EMPTY_SELECTED_SLOTS',costBasis:'GROSS_RECEIPTS'},resourceScope:'UNCONSTRAINED',completion:'ECHO_GOAL_MET',rows:{echoes:{expected:20,simulated:18,delta:-2},tuners:{expected:2000,simulated:2300,delta:300}}};
  assert.match(costScopeMarkup(dto),/2 under expected.*300 over expected/);
- assert.match(costScopeMarkup({...dto,status:'PENDING',reason:'FINITE_BUDGET_EXPECTATION_PENDING'}),/finite-budget expectation is Pending/);
+ assert.match(costScopeMarkup({...dto,status:'PENDING',reason:'FINITE_BUDGET_EXPECTATION_PENDING'}),/Reference only · finite budget/);
  assert.match(costScopeMarkup({...dto,completion:'INCOMPLETE'}),/scope mismatch/);
  assert.match(costScopeMarkup({...dto,rows:{echoes:{expected:20,simulated:18,delta:100}}}),/difference Pending/);
 });

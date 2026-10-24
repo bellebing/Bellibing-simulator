@@ -193,11 +193,11 @@ test('twelfth-batch Tune Break facts remain shared-system damage without Charact
   }
 });
 
-test('twelfth batch remains valid after canonical Character Mechanics coverage advances to 58 verified / 1 partial / 0 unstarted catalog identities / 2073 facts', () => {
+test('twelfth batch remains valid after canonical Character Mechanics coverage advances to 59 verified / 0 partial / 0 unstarted catalog identities / 2073 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 59);
-  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.equal(audit.unstartedCharacterIds.length, 0);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);

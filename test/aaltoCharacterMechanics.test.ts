@@ -98,8 +98,8 @@ test('fact-backed coverage audit reports fifty-four source-complete characters w
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 58);
-  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.unstartedCharacterIds, []);
   assert.deepEqual(audit.structuralIssues, []);
 });

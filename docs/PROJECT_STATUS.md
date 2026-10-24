@@ -3,7 +3,6 @@
 Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover live branch/PR/SHA/CI/artifact/merge state from GitHub, not from this file. This document owns current product status, the nearest roadmap and real repo blockers only.
 
 ## Current product
-
 ### Improve / Character Target
 
 The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
@@ -49,14 +48,14 @@ Customize target metrics, minimum/preferred semantics, source/context recovery a
 
 The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions.
 
-The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 58/59 complete mechanics source profiles; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
+The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 59/59 complete mechanics source profiles, including the explicit owner interpretation of Danjin’s translation; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
 
 Active product scope remains:
 - Sequences: S0, S1, S2 for current product work; S3-S6 stay canonical raw/source data unless separately authorized.
 - Skills: maxed Character skills, using Lv10 where the source owns the exact Lv1-Lv10 curve.
 - Missing or disputed gameplay semantics remain PENDING/UNKNOWN and fail closed.
 
-The release facts candidate resolves Buling Five Thunders Spell Array as Liberation DMG and Xiangli Yao Pivot — Impale as Basic DMG from original damage fields. Danjin's full-power Ruby Blossom threshold contradiction remains source-blocked.
+The release facts candidate resolves Buling Five Thunders Spell Array as Liberation DMG and Xiangli Yao Pivot — Impale as Basic DMG from original damage fields. The owner resolves Danjin’s English full-power translation as full meter: exactly 120 qualifies and consumes 120. Raw text/pins are preserved; this is not gameplay qualification.
 
 The six Reference Team 01 dependencies remain pending. See [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) for the downstream team/product contract.
 
@@ -66,9 +65,11 @@ Development Process v2 is integrated and canonical. CI 6A/6B is integrated: draf
 
 Sequence gate stabilization is integrated. The verifier now waits for settled open-state geometry before applying the unchanged spacing/viewport assertions; the earlier transition-timing false failure is not a current product blocker.
 
-GitHub owns live PR lifecycle, exact heads, run IDs, artifacts and merge evidence. Do not copy those values into this current-status file.
-
 ## Nearest roadmap
+
+**Current priority: finish M0 integration and a usable online beta, then Issue #352.** The owner explicitly pauses further DPS/rotation expansion and M1 implementation. The [landing and hosting plan](M0_LANDING_AND_ONLINE_BETA.md) distinguishes the main-based consolidation, separate per-repository merge approvals and Pages deployment approval. Private Cloudflare workerd parity is verified locally; actual Free-plan CPU/memory/network and account access remain unverified. No hosting choice or online-beta readiness is claimed. The [server transport candidate](ui-lab/SERVER_RUNTIME_TRANSPORT.md) connects the ordinary Sandbox/Improve clients to private HTTP execution without browser engine bytes. Local desktop/mobile HTTP evidence is separate from hosted acceptance. CI scheduling is integrated into the active candidate; one coordinated final FULL remains deferred until Actions permit it.
+
+Issue #348 retains DPS V1 integration and 59 selected-Character first-team coverage. The [integration review](DPS_V1_INTEGRATION_REVIEW.md) distinguishes the unmerged 59/59 native-model/parity reference candidate and 59 actual five-card Chromium comparisons. Gameplay-qualified coverage remains zero; Build follows only 59/59 or an explicit owner scope decision. Experimental first-team M0 coverage is 59/59; Build has not been started. Jianxin S0 works without demanding S2. Youhu is a conditioned Double Pun branch rather than RNG-average DPS; Yuanwu uses a stationary in-field support variant without Liberation. A source-backed Suhsin damage/Energy correction opens existing experimental Hsin/Electro Rover/Buling paths; the separately supplied Kin/Bilibili guides remain access-blocked and unverified. Yangyang now has a source-reviewed native extension with S0–S2 numeric parity and real Chromium; Changli's alternate chooser path also passes. Eleven explicit native extensions reuse the existing private calculator and unchanged source pins. Current Edit now routes to the existing Build owner in this candidate; Candidate observation remains separate. No landing/deployment is authorized.
 
 The [Character-aware Sandbox candidate](ui-lab/CHARACTER_TEAM_CONTEXT.md) implements Issue #319's source-context/presentation slice: all 59 Characters receive an explicit source-bound standard team (27 guide standards / 32 member standards), preserving alternatives and actual carry/mode ownership. The 390 original guide contexts are retained, five existing catalog trios gain source composition bindings and two missing source-explicit trios are added. One shared three-row Team DPS panel and Recommended source guidance preserve Custom intent. Normal comparison DPS and broader Hard/Flex/ER policy remain Pending; Phrolova's conditional crit guidance does not establish an ER threshold. This is unmerged candidate behavior, not production or new engine coverage.
 
@@ -88,8 +89,8 @@ remaining costs and statistical Expected DPS remain Pending. Normal selected
 Augusta/Iuno/Shorekeeper may show the existing separate experimental reference
 trio after equipment/source/whole-build ER checks: actual selected-member Echoes,
 two fixed reference builds and same-run observed-alternative deltas. Qualified
-normal Team DPS stays Pending. Further DPS-team expansion is paused while the
-core Sandbox loop is reviewed. No deployment or account integration is active.
+normal Team DPS stays Pending. The active DPS direction reuses fixed source scenarios and
+canonical mechanics; no general rotation/damage engine is planned. No deployment or account integration is active.
 
 Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
 
@@ -104,19 +105,33 @@ Worker 13 Resource Inventory is COMPLETE, integrated and post-merge verified: a 
 
 Worker 15 Fas 1 is **COMPLETE**, integrated, merged and post-merge verified. The character-independent pure-domain engine provides exact cumulative Echo EXP, exact whole discrete Tube spending, intermediate EXP carry, finite/unlimited inventory semantics, separate Tuner checkpoint transactions, +25 overflow return and an exact transaction ledger. Its cost-aware, inventory-sensitive bounded optimizer preserves denomination transformations and reports explicit search limits. UNLIMITED affects feasibility, not spending cost. See the [exact resource engine contract](ECHO_EXACT_TUBE_SPENDING.md). Resource Inventory remains the sole persistent shared budget; runtime/evaluator integration is not inferred from this domain engine.
 
-Direct feed, Data Recovery, full rejection recovery, Tuner recovery, evaluator, continue/reject/accept policy, completion criterion, Build Need, Improvement Cost, whole-build orchestration, Monte Carlo and production private ingress remain **Pending**. Farming remains Pending. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy surfaces remain Pending; Echo Lab retains verified mechanics and Build/Improve retains source-backed presentation and user-owned inputs.
+The [local interactive Echo advisor candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) adds one genuine Improve reveal per action, exact Gate-constrained Continue/Discard Tuner advice, same-attempt odds and replacement-inclusive remaining costs. Settings edits retain observed rolls; owner changes retire the detached session. Real Current and inventory are unchanged. Private math stays in a loopback Node child, outside browser artifacts. XP is assumed sufficient; finite limits constrain actual reveals, not the unconstrained expectation. Tube/recovery/acquisition economics, whole-build ER/usefulness, automatic orchestration, broader evaluator and production ingress remain **Pending**. No hosted advice or DPS qualification is implied.
 
+The [local actual-team review](ui-lab/LOCAL_TEAM_DPS_REVIEW.md) connects Sandbox
+and Improve to the unchanged private fixed-team pilot through a loopback-only
+Node bridge. The original Augusta/Iuno/Shorekeeper pilot is retained; one shared Riley
+source-model adapter covers the historical 258-trio benchmark plus the selected-Character first-team proof, now covering 59 Characters.
+Reviewed role/mode and composed native profiles reuse the same calculator, including Encore/Havoc Rover.
+Sandbox now resolves source-native reference profiles independently of accounts and automatically
+shows Reference/Simulated/Change. Five actual completed selected-member cards replace its abstract
+reference Echo stats; two source-solved teammate profiles remain fixed. Partial replacements stay
+Pending because no individual reference cards exist. Augusta/Iuno/Shorekeeper has independent
+original-source parity and real desktop/mobile RNG evidence. Improve keeps actual saved
+Current/Candidate, with explicit unchecked Lv90/R1 model opt-in: v34 lacks real levels/refinement.
+Normal routes omit technical guide/details surfaces and round Expected Tuners; cost/math gates remain.
+Whole-team ER/Crit/casts, source equipment, schedules and freshness fail closed. All numbers
+stay model estimates/Experimental; qualified teams added: zero. Unsupported investment, source profiles,
+schedules, Expected DPS and hosted execution remain Pending. No private
+algorithm is bundled or published; Current and account storage remain unchanged.
 ## Real blockers and Pending boundaries
 
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
-- Danjin FORTE/resource threshold contradiction.
 - Six Reference Team 01 dependencies remain pending.
 - Independent recommendation comparisons, image-only example-team rosters and product integration remain Pending; source references are not executable Improve policy.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.
 
 Do not infer missing values, timing, ownership, stacking, scope, rotations or damage classifications. Missing is not zero.
-
 ## Canonical current contracts
 
 - [Development Process v2](DEVELOPMENT_PROCESS.md) — worker/process rules.

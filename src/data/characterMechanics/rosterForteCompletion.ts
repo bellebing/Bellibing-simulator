@@ -1,3 +1,4 @@
+import { DANJIN_RUBY_BLOSSOM_INTERPRETATION as ruby } from './danjinInterpretation.ts';
 import type {
   CharacterMechanicsProfile,
   CharacterPassiveFact,
@@ -133,16 +134,16 @@ export const DANJIN_FORTE_RULE_FACTS: readonly CharacterPassiveFact[] = [
     kind: 'PASSIVE',
     name: 'Forte Circuit — Full-power Chaoscleave / Scatterbloom threshold',
     section: 'FORTE_CIRCUIT',
-    verificationStatus: 'PENDING',
+    verificationStatus: 'VERIFIED',
     modelingStatus: 'PENDING_INTERPRETATION',
     conditional: true,
     provenance: DANJIN_FORTE_PROVENANCE,
     scope: 'SELF',
-    triggerSummary: 'Current source says Ruby Blossom must reach over 120, while the same Forte text says Danjin can hold at most 120 Ruby Blossom.',
-    effectSummary: 'If the source-stated full-power condition could be satisfied, 120 Ruby Blossom would be consumed instead and the Chaoscleave and Scatterbloom DMG multipliers for that use would increase. Bellibing does not normalize the impossible activation threshold.',
+    triggerSummary: `Ruby Blossom reaches full meter (${ruby.fullPowerThreshold}, maximum ${ruby.maximum}); exactly 120 qualifies under the explicit owner decision.`,
+    effectSummary: `Consume ${ruby.fullPowerConsumption} Ruby Blossom for the increased Chaoscleave and Scatterbloom multipliers for that use.`,
     durationSeconds: null,
     maxStacks: null,
-    notes: ['FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD: over-120 versus max-120 is an internally contradictory source condition; do not reinterpret it as >=120 or =120.'],
+    notes: [ruby.translationIssue, 'Authority: explicit owner decision, reaffirmed 2026-10-22 in Issue #348 work. Raw source text and pins remain unchanged; no gameplay-DPS qualification follows.'],
   }),
 ] as const;
 
@@ -225,15 +226,7 @@ export interface CharacterForteRuleSourceBlocker {
   reason: string;
 }
 
-export const CHARACTER_FORTE_RULE_SOURCE_BLOCKERS: readonly CharacterForteRuleSourceBlocker[] = [
-  {
-    blockerId: 'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
-    characterId: 'danjin',
-    factIds: ['danjin-forte-full-power-threshold-conflict'],
-    sourceMoveIds: [1000807],
-    reason: 'Serene Vigil says the full-power branch requires Ruby Blossom to reach over 120 while the same source says Ruby Blossom can hold at most 120. The activation threshold cannot be normalized to >=120 or =120 without inference.',
-  },
-] as const;
+export const CHARACTER_FORTE_RULE_SOURCE_BLOCKERS: readonly CharacterForteRuleSourceBlocker[] = [];
 
 function coverage(
   actions: CharacterMechanicsProfile['coverage'][number],
@@ -264,8 +257,8 @@ export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_FORTE: CharacterMechanicsPr
   characterId: 'danjin',
   verificationStatus: 'PARTIALLY_VERIFIED',
   coverage: coverage(
-    { area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed Character damage actions plus Tune Break are mapped with exact Lv1-Lv10 curves/components and source-explicit damage classes/scaling. The contradictory Ruby Blossom threshold remains outside ACTIONS as an unresolved RESOURCE_RULES/source-review blocker.' },
-    { area: 'FORTE_RULES', status: 'PARTIAL', notes: 'The 60-Ruby-Blossom Chaoscleave trigger and Chaoscleave → Scatterbloom action relationship are source-mapped. The full-power branch remains blocked because current source requires over 120 while also capping Ruby Blossom at 120.' },
+    { area: 'ACTIONS', status: 'VERIFIED', notes: 'All current source-backed Character damage actions plus Tune Break are mapped with exact Lv1-Lv10 curves/components and source-explicit damage classes/scaling. Ruby Blossom full-power wording is resolved by explicit owner interpretation; runtime execution remains separate.' },
+    { area: 'FORTE_RULES', status: 'VERIFIED', notes: 'The 60-Ruby-Blossom trigger and action chain are source-mapped. The owner resolves the full-power translation as full meter: exactly 120, consuming 120. Runtime execution remains separate.' },
   ),
   factIds: [...DANJIN_ACTION_FACTS.map((fact) => fact.factId), ...DANJIN_FORTE_RULE_FACTS.map((fact) => fact.factId)],
   provenance: DANJIN_ACTION_PROVENANCE,

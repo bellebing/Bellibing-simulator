@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "scope": "LOCAL_REFERENCE_TRANSPORT_ONLY_NOT_DPS_READINESS",
+  "contexts": [
+    {
+      "teamContextId": "guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7",
+      "characterIds": [
+        "carlotta",
+        "yangyang",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Yangyang native Character extension reuses this already reviewed team. The private provider owns execution and all gates."
+    },
+    {
+      "teamContextId": "guide-camellya-sanhua-baizhi-camellya-slots-6",
+      "characterIds": [
+        "camellya",
+        "sanhua",
+        "baizhi"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Baizhi native Character extension reuses this existing reviewed trio. Execution, equipment, resource and ER checks remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-iuno-jianxin-the-shorekeeper-iuno-slots-19",
+      "characterIds": [
+        "iuno",
+        "jianxin",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: reviewed S0 Jianxin support variant in the existing Iuno/Shorekeeper trio. The private provider owns execution, source interpretation and resource/equipment checks."
+    },
+    {
+      "teamContextId": "guide-chixia-brant-the-shorekeeper-chixia-slots-11",
+      "characterIds": [
+        "chixia",
+        "brant",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: reviewed S0 Chixia variant in the existing Brant/Shorekeeper trio. Native calculation and investment/resource/equipment gates remain private-provider responsibilities."
+    },
+    {
+      "teamContextId": "guide-calcharo-yinlin-the-shorekeeper-calcharo-slots-5",
+      "characterIds": [
+        "calcharo",
+        "yinlin",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Calcharo variant in the existing Yinlin/Shorekeeper trio. Calculation and investment/resource/equipment gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-aalto-ciaccona-the-shorekeeper-aalto-slots-1",
+      "characterIds": [
+        "aalto",
+        "ciaccona",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Aalto variant in the existing Ciaccona/Shorekeeper trio. Native calculation and source/equipment/resource gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-carlotta-taoqi-the-shorekeeper-carlotta-slots-7",
+      "characterIds": [
+        "carlotta",
+        "taoqi",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Taoqi variant in the existing Carlotta/Shorekeeper trio. Native source interpretation, calculation and investment/equipment/resource gates remain private-provider responsibilities."
+    },
+    {
+      "teamContextId": "guide-carlotta-lumi-the-shorekeeper-carlotta-slots-39",
+      "characterIds": [
+        "carlotta",
+        "lumi",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Lumi variant in the existing Carlotta/Shorekeeper trio. Source interpretation, native calculation and investment/equipment/resource gates stay with the private provider."
+    },
+    {
+      "teamContextId": "guide-lingyang-sanhua-the-shorekeeper-lingyang-slots-24",
+      "characterIds": [
+        "lingyang",
+        "sanhua",
+        "the-shorekeeper"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Lingyang variant in the existing Sanhua/Shorekeeper trio. Native calculation, source interpretation and investment/equipment/resource gates remain owned by the private provider."
+    },
+    {
+      "teamContextId": "guide-special-calcharo-yinlin-youhu",
+      "characterIds": [
+        "calcharo",
+        "yinlin",
+        "youhu"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: conditioned Youhu variant in the existing accessible Calcharo/Yinlin trio. Private provider owns draw conditioning, source interpretation, native calculation and investment/equipment/resource gates."
+    },
+    {
+      "teamContextId": "guide-jinhsi-yuanwu-verina-jinhsi-slots-22",
+      "characterIds": [
+        "jinhsi",
+        "yuanwu",
+        "verina"
+      ],
+      "reference": "EXISTING_NATIVE_SOURCE_ENEMY",
+      "review": "Issue #348: Yuanwu short support variant in the existing Jinhsi/Verina trio. Fixed-field source assumptions, native calculation and investment/equipment/resource gates stay with the private provider."
+    }
+  ]
+}

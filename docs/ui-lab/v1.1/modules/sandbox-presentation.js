@@ -16,7 +16,7 @@ export function observedEcho(card,{discarded=false}={}){
 }
 export function observedSlots(view){
  if(!view||!Array.isArray(view.slots))return null;
- return Array.from({length:5},(_,i)=>{const s=view.slots.find(s=>s.slot===i+1);return {complete:s?.complete??false,current:observedEcho(s?.current),candidate:observedEcho(s?.candidate),trash:(s?.trash??[]).map(t=>({...observedEcho(t.card,{discarded:true}),reason:t.reason,observations:structuredClone(t.observations)}))};});
+ return Array.from({length:5},(_,i)=>{const s=view.slots.find(s=>s.slot===i+1);return {complete:s?.complete??false,current:s?.current?{...observedEcho(s.current),...(typeof s.complete==='boolean'?{disposition:s.complete?'KEPT':'TEMPORARY'}:{})}:null,candidate:observedEcho(s?.candidate),trash:(s?.trash??[]).map(t=>({...observedEcho(t.card,{discarded:true}),reason:t.reason,observations:structuredClone(t.observations)}))};});
 }
 export function expectedResourceRecord(metrics){
  const set=metrics?.expectedCost?.selectedSet;if(!set)return null;

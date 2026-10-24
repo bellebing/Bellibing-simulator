@@ -15,8 +15,8 @@ test('final four source-reviewed profiles remain clean while three source-blocke
   const audit = auditCharacterMechanicsCoverage();
   assert.deepEqual(audit.structuralIssues, []);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
-  assert.equal(audit.verifiedCharacterIds.length, 58);
-  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.unstartedCharacterIds, []);
   for (const characterId of FINAL_FOUR) {
     const profile = getCharacterMechanicsProfile(characterId);

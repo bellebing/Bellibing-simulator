@@ -110,12 +110,12 @@ test('Augusta verified non-action raw facts cover resources, passives and all si
   assert.match(s6.effectSummary, /Heavy Attack DMG/);
 });
 
-test('mechanics coverage reports 58 released kits complete with the Danjin threshold conflict', () => {
+test('mechanics source coverage includes the owner-resolved Danjin translation without granting DPS readiness', () => {
   const audit = auditCharacterMechanicsCoverage();
   assert.equal(audit.releasedCount, 59);
   assert.equal(audit.profileCount, 59);
-  assert.equal(audit.verifiedCharacterIds.length, 58);
-  assert.deepEqual(audit.partialCharacterIds, ['danjin']);
+  assert.equal(audit.verifiedCharacterIds.length, 59);
+  assert.deepEqual(audit.partialCharacterIds, []);
   assert.deepEqual(audit.unstartedCharacterIds, []);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);

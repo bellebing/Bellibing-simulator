@@ -27,4 +27,4 @@ none
 
 ## Scope boundary
 
-Danjin's ACTIONS are source-verified even though her full Character Mechanics profile remains source-blocked by the contradictory Ruby Blossom resource threshold. Buling and Xiangli Yao damage classes are now resolved from original released client damage rows, independently of skill panel ownership. Full-profile verification remains governed by the existing six-area Character Mechanics audit and is not implied by this report.
+Danjin's raw English threshold wording is preserved as a translation issue. The explicit owner decision resolves full power as full meter, exactly 120 consuming 120; this is not gameplay-DPS qualification. Buling and Xiangli Yao damage classes are now resolved from original released client damage rows, independently of skill panel ownership. Full-profile verification remains governed by the existing six-area Character Mechanics audit and is not implied by this report.

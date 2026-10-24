@@ -147,7 +147,7 @@ export const DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEf
   DANJIN_CHARACTER_MECHANICS_PROFILE_WITH_INHERENT_PASSIVES,
   DANJIN_OUTRO_EFFECT_FACTS,
   DANJIN_OUTRO_PROVENANCE,
-  'Duality is source-mapped as 23% incoming-Resonator Havoc DMG Amplification for 14s or until switch-out. The Ruby Blossom threshold contradiction remains unchanged.',
+  'Duality is source-mapped as 23% incoming-Resonator Havoc DMG Amplification for 14s or until switch-out. The owner has resolved the Ruby Blossom full-power translation as exactly 120.',
 );
 
 export const XIANGLI_YAO_CHARACTER_MECHANICS_PROFILE_WITH_OUTRO = withVerifiedOutroEffect(
@@ -167,7 +167,7 @@ function withReleaseResourcesAndSequences(base: CharacterMechanicsProfile): Char
   const facts = RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS.filter(fact => fact.characterId === base.characterId);
   const coverage: CharacterMechanicsProfile['coverage'] = base.coverage.map(entry => {
     if (entry.area === 'SEQUENCES') return { area: entry.area, status: 'VERIFIED', notes: 'All six original released chain rows, parameter substitution and conditions reviewed; RAW_ONLY.' };
-    if (entry.area === 'RESOURCE_RULES') return { area: entry.area, status: base.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED', notes: base.characterId === 'danjin' ? 'Ruby Blossom cap and acquisition are source-explicit; the over-120 full-power clause remains contradictory and source-blocked.' : 'Original released caps, gain/spend conditions and source descriptions reviewed; runtime accounting remains separate.' };
+    if (entry.area === 'RESOURCE_RULES') return { area: entry.area, status: 'VERIFIED', notes: base.characterId === 'danjin' ? 'Ruby Blossom cap/acquisition are source-explicit; the owner resolves full-power wording as full meter, exactly 120 consuming 120. Raw text is preserved; runtime accounting remains separate.' : 'Original released caps, gain/spend conditions and source descriptions reviewed; runtime accounting remains separate.' };
     return entry;
   });
   return {

@@ -1,0 +1,114 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {captureLocalTeamBuilds} from '../src/localTeamBuildCapture.mjs';
+import {team,own} from './helpers/localTeamFixture.mjs';
+test('read-only actual account records require explicit investment and never fill missing teammates',async()=>{
+ const {records}=own(),input={mode:'IMPROVE',team,selectedCharacterId:'augusta',records,scope:{settings:1},acceptReferenceInvestment:true};
+ const before=JSON.stringify(input),result=await captureLocalTeamBuilds(input);assert.equal(result.status,'CAPTURED');assert.equal(JSON.stringify(input),before);
+ assert.equal((await captureLocalTeamBuilds({...input,acceptReferenceInvestment:false})).reason,'CONFIRM_REFERENCE_INVESTMENT');
+ assert.equal((await captureLocalTeamBuilds({...input,records:records.slice(0,2)})).reason,'COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ assert.ok(result.payload.current.builds.every(b=>b.kind==='ACCOUNT_BUILD'&&b.weapon.rank===1));
+});
+
+
+
+test('source-calculator contexts capture explicit source enemy without altering the existing pilot reference',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
+ for(const id of ['guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22','guide-jinhsi-zhezhi-verina-jinhsi-slots-22','guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7','guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7','guide-special-calcharo-yinlin-youhu','guide-jinhsi-yuanwu-verina-jinhsi-slots-22','guide-camellya-roccia-verina-camellya-slots-6','guide-aemeath-denia-lupa-aemeath-slots-3']){
+  const context=contexts.teams.find(t=>t.id===id),{records}=own({context});
+  const captured=await captureLocalTeamBuilds({mode:'IMPROVE',team:context,selectedCharacterId:context.characterIds[0],records,scope:{},acceptReferenceInvestment:true});
+  assert.equal(captured.status,'CAPTURED');assert.equal(captured.payload.current.enemy.defense,1592);
+  assert.deepEqual(Object.values(captured.payload.current.enemy.resistanceByElement),Array(7).fill(0.2));
+  assert.equal(captured.payload.current.builds.length,3);
+  for(const b of captured.payload.current.builds)assert.equal(b.modeId,context.modeRequirements?.[b.characterId]??'default');
+ }
+ const {records}=own(),pilot=await captureLocalTeamBuilds({mode:'IMPROVE',team,selectedCharacterId:'augusta',records,scope:{},acceptReferenceInvestment:true});
+ assert.equal(pilot.payload.current.enemy.defense,1520);assert.equal(pilot.payload.current.enemy.resistanceByElement.Electro,0.1);
+});
+
+test('Echo comparison captures equipped weapons and actual mixed Sequences without replacing Current',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),context=contexts.teams.find(t=>t.id==='guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22');
+ const {records}=own({context}),jinhsi=records.find(r=>r.characterId==='jinhsi'),zhezhi=records.find(r=>r.characterId==='zhezhi');
+ jinhsi.buildState.sequenceLevel=2;jinhsi.buildState.weaponId='lustrous-razor';zhezhi.buildState.sequenceLevel=1;
+ for(const mode of ['IMPROVE']){
+ const input={mode,team:context,selectedCharacterId:'jinhsi',records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(jinhsi.buildState.echoSets.sets.owned.slots[0])]},before=JSON.stringify(input);
+ const r=await captureLocalTeamBuilds(input);assert.equal(r.status,'CAPTURED');
+ for(const side of [r.payload.current,r.payload.candidate]){const b=side.builds.find(b=>b.characterId==='jinhsi');assert.equal(b.weapon.id,'lustrous-razor');assert.equal(b.baseline.sequenceLevel,2);assert.equal(side.builds.find(b=>b.characterId==='zhezhi').baseline.sequenceLevel,1);}
+ assert.equal(JSON.stringify(input),before);
+ const other=structuredClone(input);other.records.find(r=>r.characterId==='jinhsi').buildState.sequenceLevel=0;
+ assert.notEqual((await captureLocalTeamBuilds(other)).payload.current.ownership.revision,r.payload.current.ownership.revision);
+ }
+});
+
+test('nonstandard actual Echo species/COST and declared replacements are transported without standard-gear substitution',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),{default:catalog}=await import('../docs/ui-prototypes/assets/echoes/browser-data.json',{with:{type:'json'}});
+ const context=contexts.teams.find(t=>t.id==='guide-galbrena-qiuyuan-the-shorekeeper-galbrena-slots-15'),{records}=own({context}),b=records.find(r=>r.characterId==='galbrena').buildState,slots=b.echoSets.sets.owned.slots;
+ const e=catalog.echoes.find(e=>e.name==='Corrosaurus'),main=catalog.statEditor.mainStatsByCostAndLevel['3']['25'].find(s=>s.name==='Energy Regen');
+ slots[0]={...slots[0],echoId:e.id,cost:e.cost,selectedSonataSetId:e.sonataSetIds[0],mainStat:structuredClone(main),secondaryMainStat:structuredClone(catalog.statEditor.secondaryMainStatsByCostAndLevel['3']['25'])};
+ const before=structuredClone(records),candidate=structuredClone(slots[1]);candidate.substats=candidate.substats.map(s=>s.name==='CRIT DMG'?{...s,value:0.21}:s);
+ for(const mode of ['IMPROVE']){const r=await captureLocalTeamBuilds({mode,team:context,selectedCharacterId:'galbrena',records,scope:{},candidates:[null,candidate],acceptReferenceInvestment:true});assert.equal(r.status,'CAPTURED');assert.deepEqual(r.payload.slots,[1]);
+  for(const side of [r.payload.current,r.payload.candidate]){const c=side.builds.find(b=>b.characterId==='galbrena').echoes[0];assert.equal(c.speciesId,e.id);assert.equal(c.cost,3);assert.deepEqual(c.mainStat,main);assert.equal(c.selectedSonataSetId,e.sonataSetIds[0]);}
+ }
+ assert.deepEqual(records,before);
+});
+
+test('newly source-bound Echo identities and Aero Rover retain canonical IDs and explicit R1 in both workspaces',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
+ for(const [teamId,id,echoId]of [['guide-hiyuki-lucilla-suisui-hiyuki-slots-16','hiyuki','echo-60001995'],['guide-cartethyia-ciaccona-rover-aero-cartethyia-slots-8','rover-aero',null]]){
+  const team=contexts.teams.find(t=>t.id===teamId),{records}=own({context:team}),observed=records.find(r=>r.characterId===id),before=structuredClone(records);
+  for(const mode of ['IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:id,records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(observed.buildState.echoSets.sets.owned.slots[0])]});assert.equal(r.status,'CAPTURED');
+   for(const side of [r.payload.current,r.payload.candidate]){const b=side.builds.find(b=>b.characterId===id);if(echoId)assert.equal(b.echoes[0].speciesId,echoId);else assert.equal(b.weapon.id,'bloodpacts-pledge');assert.equal(b.weapon.rank,1);assert.equal(b.baseline.weaponRefinement,1);assert.equal(side.enemy.defense,1592);}
+  }assert.deepEqual(records,before);
+ }
+});
+
+test('Brant Echo comparison preserves equipped R1, S2 and actual HP/DEF stats on both sides',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),context=contexts.teams.find(t=>t.id==='guide-brant-sanhua-the-shorekeeper-brant-slots-42');
+ const {records}=own({context}),b=records.find(r=>r.characterId==='brant').buildState;b.weaponId='bloodpacts-pledge';b.sequenceLevel=2;
+ const candidate=structuredClone(b.echoSets.sets.owned.slots[0]);candidate.mainStat={name:'HP%',value:0.33};candidate.substats=[{name:'HP%',value:0.116},{name:'DEF%',value:0.147},{name:'Flat DEF',value:70},{name:'Energy Regen',value:0.124},{name:'CRIT Rate',value:0.105}];
+ const before=structuredClone(records);
+ for(const mode of ['IMPROVE']){
+  const r=await captureLocalTeamBuilds({mode,team:context,selectedCharacterId:'brant',records,scope:{},acceptReferenceInvestment:true,candidates:[candidate]});assert.equal(r.status,'CAPTURED');
+  for(const side of [r.payload.current,r.payload.candidate]){const actual=side.builds.find(b=>b.characterId==='brant');assert.equal(actual.weapon.id,'bloodpacts-pledge');assert.equal(actual.weapon.rank,1);assert.equal(actual.baseline.sequenceLevel,2);}
+  const actual=r.payload.candidate.builds.find(b=>b.characterId==='brant').echoes[0];assert.deepEqual(actual.mainStat,candidate.mainStat);assert.deepEqual(actual.substats,candidate.substats);assert.deepEqual(r.payload.slots,[0]);
+ }
+ assert.deepEqual(records,before);
+});
+
+test('existing published role references capture the source enemy and exact modes without claiming execution readiness',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}}),{localTeamReference}=await import('../src/localTeamReference.mjs');
+ const ids=['guide-augusta-iuno-mornye-augusta-slots-4','guide-augusta-iuno-verina-augusta-slots-4','guide-jingran-iuno-mornye-jingran-slots-21','guide-jingran-iuno-the-shorekeeper-jingran-slots-21','guide-jingran-iuno-verina-jingran-slots-21','guide-jiyan-iuno-mornye-jiyan-slots-23','guide-jiyan-iuno-the-shorekeeper-jiyan-slots-23','model-jiyan-533','model-sigrika-193','model-zani-441'];
+ for(const id of ids){const team=contexts.teams.find(t=>t.id===id),{records}=own({context:team}),before=structuredClone(records);
+  for(const mode of ['IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:team.characterIds[0],records,scope:{},acceptReferenceInvestment:true});assert.equal(r.status,'CAPTURED');assert.equal(r.payload.current.enemy.defense,1592);assert.ok(Object.values(r.payload.current.enemy.resistanceByElement).every(r=>r===0.2));for(const b of r.payload.current.builds)assert.equal(b.modeId,team.modeRequirements?.[b.characterId]??'default');}
+  assert.deepEqual(records,before);
+ }
+ for(const id of ['guide-augusta-iuno-the-shorekeeper-augusta-slots-4','guide-augusta-mortefi-the-shorekeeper-augusta-slots-4'])assert.equal(localTeamReference(id).defense,1520);
+ // Reference routing owns no capability flag. A published model can still be
+ // mode-blocked; only the private evaluator can return actual Experimental DPS.
+ const blocked=localTeamReference('guide-qiuyuan-sigrika-the-shorekeeper-qiuyuan-slots-32');assert.equal(blocked.defense,1592);assert.equal(blocked.teamDpsReady,undefined);assert.equal(blocked.status,undefined);
+ assert.equal(localTeamReference('unknown').defense,1520);
+});
+
+test('existing composed Encore/Havoc references keep actual S2 and source enemy without a synthetic team',async()=>{
+ const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
+ for(const [id,characterId]of [['guide-encore-sanhua-the-shorekeeper-encore-slots-14','encore'],['guide-rover-havoc-sanhua-the-shorekeeper-rover-havoc-slots-33','rover-havoc']]){
+  const team=contexts.teams.find(t=>t.id===id),{records}=own({context:team}),b=records.find(r=>r.characterId===characterId).buildState;b.sequenceLevel=2;const before=structuredClone(records);
+  for(const mode of ['IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:characterId,records,scope:{},acceptReferenceInvestment:true,candidates:[structuredClone(b.echoSets.sets.owned.slots[0])]});assert.equal(r.status,'CAPTURED');
+   for(const side of [r.payload.current,r.payload.candidate]){assert.equal(side.enemy.defense,1592);assert.equal(side.builds.find(b=>b.characterId===characterId).baseline.sequenceLevel,2);assert.equal(side.builds.length,3);}assert.deepEqual(r.payload.slots,[0]);
+  }assert.deepEqual(records,before);
+ }
+});
+
+import {createSandboxWorkspace} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
+import {emptyResourceInventory} from '../docs/assets/resourceInventory.js';
+test('clean Sandbox captures a source reference without account access or investment opt-in',async()=>{
+ const w=createSandboxWorkspace();w.select('augusta');const input={mode:'SANDBOX',team,selectedCharacterId:'augusta',scope:w.readContext(emptyResourceInventory(),0)};
+ Object.defineProperty(input,'records',{get(){throw Error('Sandbox must not read account records');}});
+ const r=await captureLocalTeamBuilds(input);assert.equal(r.status,'CAPTURED');assert.deepEqual(Object.keys(r.payload),['sandbox']);
+ const q=r.payload.sandbox;assert.equal(q.ownership.kind,'SANDBOX_BUILD');assert.equal(q.cards,null);assert.equal(q.configurations.length,5);assert.equal(q.weaponId,'thunderflare-dominion');
+ assert.equal(JSON.stringify(q).includes('local-account'),false);
+ const original=structuredClone(input.scope),candidate=own().records[0].buildState.echoSets.sets.owned.slots[0];
+ const next=await captureLocalTeamBuilds({...input,candidates:[candidate]});assert.equal(next.payload.sandbox.cards.length,5);assert.equal(next.payload.sandbox.cards[1],null,'missing cards never synthesized');assert.notEqual(next.payload.sandbox.ownership.revision,q.ownership.revision);assert.deepEqual(input.scope,original);
+ for(const edit of [s=>s.buildContext.weaponId='lustrous-razor',s=>s.revisions.settings++,s=>s.revisions.inventory++]){const scope=structuredClone(original);edit(scope);assert.notEqual((await captureLocalTeamBuilds({...input,scope})).payload.sandbox.ownership.revision,q.ownership.revision);}
+ assert.equal((await captureLocalTeamBuilds({...input,scope:{}})).status,'PENDING');
+});

@@ -86,29 +86,28 @@ test('released-source completion retains exact ACTIONS and FORTE_RULES coverage'
   assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), []);
 
   assert.equal(forte.releasedCount, 59);
-  assert.equal(forte.verifiedCharacterIds.length, 58);
+  assert.equal(forte.verifiedCharacterIds.length, 59);
   assert.deepEqual(forte.partialCharacterIds, []);
-  assert.deepEqual(forte.blockedCharacterIds, ['danjin']);
+  assert.deepEqual(forte.blockedCharacterIds, []);
   assert.deepEqual(forte.blockers.map((blocker) => blocker.blockerId), [
-    'FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD',
   ]);
 });
 
-test('release completion preserves the Danjin conflict and completes the other two profiles', () => {
+test('release completion preserves the owner-resolved Danjin translation and all completed source areas', () => {
   const expected = {
     buling: { actions: 'VERIFIED', forte: 'VERIFIED' },
-    danjin: { actions: 'VERIFIED', forte: 'PARTIAL' },
+    danjin: { actions: 'VERIFIED', forte: 'VERIFIED' },
     'xiangli-yao': { actions: 'VERIFIED', forte: 'VERIFIED' },
   } as const;
 
   for (const [characterId, states] of Object.entries(expected)) {
     const profile = CHARACTER_MECHANICS_PROFILE_BY_ID.get(characterId);
-    assert.equal(profile?.verificationStatus, characterId === 'danjin' ? 'PARTIALLY_VERIFIED' : 'VERIFIED');
+    assert.equal(profile?.verificationStatus, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'ACTIONS')?.status, states.actions);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'FORTE_RULES')?.status, states.forte);
     assert.equal(profile?.coverage.find((entry) => entry.area === 'INHERENT_PASSIVES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'OUTRO_EFFECT')?.status, 'VERIFIED');
-    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, profile?.characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile?.coverage.find((entry) => entry.area === 'RESOURCE_RULES')?.status, 'VERIFIED');
     assert.equal(profile?.coverage.find((entry) => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
 });

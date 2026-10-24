@@ -12,32 +12,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Trickster's Opening Show",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Mistweaver's Debut",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Hazey Transition",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Blake Bloom for Finale",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Applause of the Lost",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Broker's Secrets",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aalto/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -132,6 +144,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -144,6 +160,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -156,6 +176,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -168,6 +192,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -180,6 +208,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -192,6 +224,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -204,6 +240,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -216,6 +256,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -239,32 +283,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Gilded Glimmer of the First Dawn",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Downy Notes of Snowfluff",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Fervor Sightly Burns Bright as New",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Ethereal Waltz on Binary Tides",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Voyage to the Astral Shore",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "A Zephyr-Kissed Journey to You",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/aemeath/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -359,6 +415,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -371,6 +431,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -383,6 +447,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -395,6 +463,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -407,6 +479,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -419,6 +495,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -431,6 +511,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -443,6 +527,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -466,32 +554,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Stained in Scorched Earth",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Cleansed in Crimson War",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Forged in Rot and Ruin",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Ascent in Sun and Glory",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Unshaken in Wrathful Tides",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Engraved in Radiant Light",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/augusta/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -586,6 +686,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -598,6 +702,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -610,6 +718,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -622,6 +734,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -634,6 +750,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -646,6 +766,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -658,6 +782,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -670,6 +798,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -693,32 +825,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Complex Simplicity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Silent Tundra",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Veritas Lux Mea",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Eternal Verity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "A Wish Answered",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Seeker's Devotion",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/baizhi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -759,6 +903,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -771,6 +919,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -783,6 +935,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -795,6 +951,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -807,6 +967,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -819,6 +983,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -831,6 +999,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -843,6 +1015,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -920,32 +1096,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "By Currents and Winds",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "For Smiles and Cheers",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Through Storms I Sail",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "To Freedom I Sing",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "All the World's an Actor's Stage",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "All the World's a Captain's Carnevale",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/brant/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -1040,6 +1228,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1052,6 +1244,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1064,6 +1260,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1076,6 +1276,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1088,6 +1292,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1100,6 +1308,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1112,6 +1324,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1124,6 +1340,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1147,32 +1367,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Exorcist Gadgets, Lend Me Your Power",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Talisman Burns, Spirits Turn",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Summoner of Spirits, Seeker of Fate",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Wanderer of Solaris, Blessed by Fortune",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s4.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Healing Bonus",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "buling",
+              "sequence": 4,
+              "sourceChainId": 250
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Buling gains 20% Healing Bonus."
+            }
+          }
+        ]
       },
       {
         "sequence": 5,
         "name": "Forum Ban? New Account!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "\"Almighty Forum Lord of Thunder Spell\"",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/buling/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -1267,6 +1516,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -1279,6 +1532,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1291,6 +1548,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1303,6 +1564,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -1315,6 +1580,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -1327,6 +1596,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1339,6 +1612,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1351,6 +1628,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -1374,32 +1655,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Covert Negotiation",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Zero-Sum Game",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Iron Fist Diplomacy",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Dark Alliance",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Unconventional Compact",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "The Ultimatum",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/calcharo/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -1494,6 +1787,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1506,6 +1803,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1518,6 +1819,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1530,6 +1835,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1542,6 +1851,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1554,6 +1867,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1566,6 +1883,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1578,6 +1899,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1601,32 +1926,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Somewhere No One Travelled",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Calling Upon the Silent Rose",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "A Bud Adorned by Thorns",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Roots Set Deep In Eternity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Infinity Held in Your Palm",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Bloom For You Thousand Times Over",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/camellya/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -1657,6 +1994,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1669,6 +2010,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1681,6 +2026,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1693,6 +2042,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1705,6 +2058,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1717,6 +2074,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1729,6 +2090,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1741,6 +2106,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -1828,32 +2197,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Embrace the Endless Waves",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Surrender to the Illusive Reverie",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Gaze into the Abyss",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Behold Your Own Soul",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Rest in Your Reflection",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Fall, Fall... and Fall Deeper into the Dream",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cantarella/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -1948,6 +2329,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1960,6 +2345,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1972,6 +2361,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -1984,6 +2377,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -1996,6 +2393,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2008,6 +2409,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2020,6 +2425,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2032,6 +2441,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2055,32 +2468,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Beauty Blazes Brightest Before It Fades",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Fallen Petals Give Life to New Blooms",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Adelante, Cortado, Spinning in Grace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Yesterday's Raindrops Make Finest Wine",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Toast to Past, Today, and Every Day to Come",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "As the Curtain Falls, I Remain What I Am",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/carlotta/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -2175,6 +2600,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2187,6 +2616,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2199,6 +2632,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2211,6 +2648,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2223,6 +2664,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2235,6 +2680,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2247,6 +2696,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2259,6 +2712,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2282,32 +2739,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Crown Destined by Fate",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Blade Broken by Tempest",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Prisoner Hanged in the Tower",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Sacrifice Made for Salvation",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Hope Reshaped in Storms",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Freedom Found in Storm's Wake",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/cartethyia/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -2402,6 +2871,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2414,6 +2887,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "HP Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -2426,6 +2903,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "HP Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -2438,6 +2919,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2450,6 +2935,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2462,6 +2951,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "HP Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -2474,6 +2967,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "HP Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -2486,6 +2983,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate Up",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2509,32 +3010,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Hidden Thoughts",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Pursuit of Desires",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Learned Secrets",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Polished Words",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Sacrificed Gains",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Realized Plans",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/changli/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -2629,6 +3142,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2641,6 +3158,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2653,6 +3174,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2665,6 +3190,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2677,6 +3206,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2689,6 +3222,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2701,6 +3238,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2713,6 +3254,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2736,32 +3281,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Wandering Through the Desolate Corridors",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Into the Web of Endless Bonds",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Across the Confusion of the Long Night",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Severing the Endless Cycle of Tragic Fate",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Thousands of Lights to Guide the Way Home",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Thus, Hope is Rekindled with the Rising Dawn",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chisa/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -2856,6 +3413,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2868,6 +3429,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2880,6 +3445,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2892,6 +3461,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2904,6 +3477,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2916,6 +3493,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2928,6 +3509,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -2940,6 +3525,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -2963,32 +3552,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "No.1 Hero Play Fan",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Leaping Sparkles",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Eternal Flames",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Hero’s Ultimate Move",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Triumphant Explosions",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Easter Egg Performance",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/chixia/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -3083,6 +3684,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -3095,6 +3700,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3107,6 +3716,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3119,6 +3732,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -3131,6 +3748,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -3143,6 +3764,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3155,6 +3780,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3167,6 +3796,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -3190,32 +3823,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Where Wind Sings",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Song of the Four Seasons",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Starlit Improv",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Toccata and Fugue",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Eternal Idyll to Lasting Summer",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s5.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Liberation DMG",
+            "value": 0.4,
+            "sourceSequence": {
+              "characterId": "ciaccona",
+              "sequence": 5,
+              "sourceChainId": 203
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Gain 40% Resonance Liberation DMG Bonus;"
+            }
+          }
+        ]
       },
       {
         "sequence": 6,
         "name": "Unending Cadence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/ciaccona/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -3310,6 +3972,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3322,6 +3988,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3334,6 +4004,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3346,6 +4020,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3358,6 +4036,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3370,6 +4052,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3382,6 +4068,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3394,6 +4084,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3417,32 +4111,78 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Crimson Heart of Justice",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Dusted Mirror",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Fleeting Blossom",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s3.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Liberation DMG",
+            "value": 0.3,
+            "sourceSequence": {
+              "characterId": "danjin",
+              "sequence": 3,
+              "sourceChainId": 39
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Resonance Liberation DMG Bonus is increased by 30%."
+            }
+          }
+        ]
       },
       {
         "sequence": 4,
         "name": "Solitary Carnation",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Reigning Blade",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s5.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Havoc DMG",
+            "value": 0.15,
+            "sourceSequence": {
+              "characterId": "danjin",
+              "sequence": 5,
+              "sourceChainId": 41
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Danjin's Havoc DMG Bonus is increased by 15%"
+            }
+          }
+        ]
       },
       {
         "sequence": 6,
         "name": "Bloodied Jade",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/danjin/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -3517,6 +4257,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -3529,6 +4273,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3541,6 +4289,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3553,6 +4305,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -3565,6 +4321,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -3577,6 +4337,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3589,6 +4353,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3601,6 +4369,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -3644,32 +4416,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Silent Glows in a Dimlit Dream",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s1.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "CRIT DMG",
+            "value": 0.3,
+            "sourceSequence": {
+              "characterId": "denia",
+              "sequence": 1,
+              "sourceChainId": 295
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Crit. DMG is increased by 30%."
+            }
+          }
+        ]
       },
       {
         "sequence": 2,
         "name": "Tossed in the Tides of Reality",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Through Dark and Wind, the Erlking Follows",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "From the Far Beyond, to the Far Beyond",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "If Lies Patch Up a Heart",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "May You Find Your Sun in the Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/denia/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -3764,6 +4565,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3776,6 +4581,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3788,6 +4597,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3800,6 +4613,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3812,6 +4629,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3824,6 +4645,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3836,6 +4661,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3848,6 +4677,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -3871,32 +4704,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Wooly's Fairy Tale",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Sheep-counting Lullaby",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Fog? The Black Shores!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Adventure? Let's go!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Hero Takes the Stage!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s5.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Skill DMG",
+            "value": 0.35,
+            "sourceSequence": {
+              "characterId": "encore",
+              "sequence": 5,
+              "sourceChainId": 47
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Resonance Skill DMG Bonus is increased by 35%."
+            }
+          }
+        ]
       },
       {
         "sequence": 6,
         "name": "Woolies Save the World!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/encore/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -3971,6 +4833,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -3983,6 +4849,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -3995,6 +4865,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -4007,6 +4881,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -4019,6 +4897,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4031,6 +4913,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4043,6 +4929,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -4075,6 +4965,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4098,32 +4992,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Heart of Defiance Ever Ablaze",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Hellbound Dive of Fire and Abyss",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Hunter’s Blood Oath Rekindled",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Carry Forth This Fading Spark",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Though Light Fades, Torment Consumes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "I Remain Who I am, Eternal My Flame",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/galbrena/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -4218,6 +5124,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -4230,6 +5140,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4242,6 +5156,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4254,6 +5172,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -4266,6 +5188,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -4278,6 +5204,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4290,6 +5220,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4302,6 +5236,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -4325,32 +5263,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Springless",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "To Burn Cold in Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "No Self, No Bound",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Like Reeds on Tides",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Vessel of Thousand Wishes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Into a Night Without End",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hiyuki/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -4445,6 +5395,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4457,6 +5411,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4469,6 +5427,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4481,6 +5443,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4493,6 +5459,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4505,6 +5475,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4517,6 +5491,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4529,6 +5507,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4565,32 +5547,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Wax or Wane, All Gild the Bough",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Day or Night, Let This Be Eternal",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "I Drink Deep of Their Forgetting",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Rainy Season Dwell in My Eyes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "A Thousand Futile Glimpses",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s5.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Liberation DMG",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "iuno",
+              "sequence": 5,
+              "sourceChainId": 227
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Iuno gains 20% Resonance Liberation DMG Bonus."
+            }
+          }
+        ]
       },
       {
         "sequence": 6,
         "name": "I Am the Constant in the Chaos",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/iuno/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -4685,6 +5696,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4697,6 +5712,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4709,6 +5728,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4721,6 +5744,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4733,6 +5760,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4745,6 +5776,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4757,6 +5792,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4769,6 +5808,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4792,32 +5835,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Verdant Branchlet",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Tao Seeker's Journey",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Principles of Wuwei",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Multitide Reflection",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Mirroring Introspection",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Truth from Within",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jianxin/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -4912,6 +5967,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4924,6 +5983,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4936,6 +5999,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4948,6 +6015,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4960,6 +6031,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -4972,6 +6047,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4984,6 +6063,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -4996,6 +6079,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5032,32 +6119,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Abyssal Ascension",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Chronofrost Repose",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Celestial Incarnate",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Benevolent Grace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Frostfire Illumination",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Thawing Triumph",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jinhsi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -5152,6 +6251,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5164,6 +6267,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5176,6 +6283,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5188,6 +6299,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5200,6 +6315,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5212,6 +6331,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5224,6 +6347,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5236,6 +6363,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5259,32 +6390,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Benevolence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Versatility",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Spectation",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Prudence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Resolution",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Fortitude",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/jiyan/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -5379,6 +6522,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5391,6 +6538,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5403,6 +6554,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5415,6 +6570,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5427,6 +6586,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5439,6 +6602,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5451,6 +6618,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5463,6 +6634,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5486,32 +6661,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Lion of Light, Blessings Abound",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Dominant and Fierce,\nPower Unbound",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Jaw-Dropping Feats,\nLoud and Wide",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Immortals Bow,\nin Reverence Flawed",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Seven Stars Shine,\nStepped upon High",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Demons Tremble,\nDivine Power Nigh",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lingyang/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -5586,6 +6773,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -5598,6 +6789,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5610,6 +6805,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5622,6 +6821,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -5654,6 +6857,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -5666,6 +6873,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5678,6 +6889,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5690,6 +6905,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -5713,32 +6932,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Distant Noon",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Slumbering Moonlight",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Days Fade Unheard",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "The Past Fades Into Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Time is Like a Stream",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Gazing In the Mist of Time",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucilla/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -5833,6 +7064,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5845,6 +7080,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5857,6 +7096,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5869,6 +7112,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5881,6 +7128,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5893,6 +7144,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5905,6 +7160,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -5917,6 +7176,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -5940,32 +7203,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "The Moon, a Ticket, and a Dream",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "The Blackwall, the Past, the Escape",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Cyberpunk",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "No Living Legends in Night City",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "A Broken Path to Hell",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "I Really Want to Stay At Your House",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lucy/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -6060,6 +7335,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6072,6 +7351,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6084,6 +7367,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6096,6 +7383,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6108,6 +7399,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6120,6 +7415,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6132,6 +7431,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6144,6 +7447,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6167,32 +7474,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Parcel To Be Delivered",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Lollo Logistics, Ready to Help",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Priority Parcel In Transit",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Captain Lumi, At Your Service",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s4.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Basic Attack DMG",
+            "value": 0.3,
+            "sourceSequence": {
+              "characterId": "lumi",
+              "sequence": 4,
+              "sourceChainId": 154
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Gain 30% Basic Attack DMG Bonus."
+            }
+          }
+        ]
       },
       {
         "sequence": 5,
         "name": "Parcel Collected On Time",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Give Me A Five-star Rating",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lumi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -6287,6 +7623,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6299,6 +7639,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6311,6 +7655,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6323,6 +7671,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6335,6 +7687,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6347,6 +7703,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6359,6 +7719,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6371,6 +7735,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6394,32 +7762,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Behold the Nameless One",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Every Ground, Her Hunting Field",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Wolflame Howls in Her Wake",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "High and Aflame Is Her Banner",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Embrace the Thunderous Triumph",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "To the Brightest Flaming Star",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lupa/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -6514,6 +7894,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6526,6 +7910,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6538,6 +7926,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6550,6 +7942,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6562,6 +7958,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6574,6 +7974,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6586,6 +7990,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6598,6 +8006,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6621,32 +8033,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Gold Kindled in Ash",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Avalanche Roaring in Eyes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Spine Tempered by Golden Rain",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Pulse Thrumming Under Rime",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Through the Stillness of Snowstorm",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Dawn Unfurling over Frostlands",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/luuk-herssen/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -6741,6 +8165,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6753,6 +8181,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6765,6 +8197,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6777,6 +8213,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6789,6 +8229,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6801,6 +8245,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6813,6 +8261,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6825,6 +8277,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6848,32 +8304,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Days to be Painted Like a Canvas",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Into Lights' Vanishing Point",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "For One Brilliant Moment",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Shadows of a Wind Racer",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s4.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "ATK%",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "lynae",
+              "sequence": 4,
+              "sourceChainId": 268
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "ATK is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 5,
         "name": "Visions of a Future Unbound",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Painted in My True Color",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lynae/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -6968,6 +8453,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -6980,6 +8469,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -6992,6 +8485,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7004,6 +8501,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7016,6 +8517,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7028,6 +8533,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7040,6 +8549,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7052,6 +8565,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7075,32 +8592,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "The Silent Observer",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Morning Star of Entropy",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Blueprint of Recursion",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Latent Variables of the Cosmos",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Time Dilation Effect",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "To the Far Shores of the Stars",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mornye/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -7195,6 +8724,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -7207,6 +8740,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-10",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -7219,6 +8756,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-11",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -7231,6 +8772,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -7243,6 +8788,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -7255,6 +8804,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-14",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -7267,6 +8820,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-15",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -7279,6 +8836,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -7302,32 +8863,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Solitary Etude",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Hypocritical Hymn",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Flaming Recitativo",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Cathartic Waltz",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Funerary Quartet",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Apoplectic Instrumental",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/mortefi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -7370,6 +8943,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -7382,6 +8959,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7394,6 +8975,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7406,6 +8991,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -7418,6 +9007,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -7430,6 +9023,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7442,6 +9039,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7454,6 +9055,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Fusion DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Fusion DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredhot_UI.webp",
@@ -7529,32 +9134,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Warm Light and Bedside Wishes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "A Boat Adrift in Tears",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Daisy Wreaths and Dreams",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Ringing Bells on Wings Aloft",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Prayer to the Distant Light",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Whispering Chirps in Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phoebe/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -7649,6 +9266,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -7661,6 +9282,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7673,6 +9298,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7685,6 +9314,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -7697,6 +9330,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -7709,6 +9346,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7721,6 +9362,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7733,6 +9378,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -7756,32 +9405,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "A Key to Netherworld's Secrets",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "A Rope Tied to a Life Beyond",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "A Dagger to Cut Clean Obsessions",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "A Torch Illuminating the Path",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "A Forked Road in Fate's Heartland",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "A Night to Depart From Eternal Rest",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/phrolova/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -7876,6 +9537,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7888,6 +9553,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7900,6 +9569,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7912,6 +9585,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7924,6 +9601,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7936,6 +9617,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7948,6 +9633,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -7960,6 +9649,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -7983,32 +9676,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Like Clouds That Meet and Drift Apart",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s1.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "CRIT Rate",
+            "value": 0.16,
+            "sourceSequence": {
+              "characterId": "qingxiao",
+              "sequence": 1,
+              "sourceChainId": 331
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Crit. Rate is increased by 16%."
+            }
+          }
+        ]
       },
       {
         "sequence": 2,
         "name": "Like Petals That Fall Without a Sound",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Dreams Fade, Sword Abides",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Wherever the Road Leads, Side by Side",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Cold Steel That Longs to Warm the Snow",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Cleanse This Tarnished Age, Till All Runs Clear",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qingxiao/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -8103,6 +9825,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8115,6 +9841,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8127,6 +9857,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8139,6 +9873,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8151,6 +9889,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8163,6 +9905,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8175,6 +9921,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8187,6 +9937,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8210,32 +9964,78 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Sword Sheathed, Mind Unclouded",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s1.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "CRIT Rate",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "qiuyuan",
+              "sequence": 1,
+              "sourceChainId": 235
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Qiuyuan gains 20% Crit. Rate increase."
+            }
+          }
+        ]
       },
       {
         "sequence": 2,
         "name": "O Blade, I, Who Teach No More",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "O Blade, I, Who Save No More",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "O Blade, I, Who Sacrifice No More",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s4.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "ATK%",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "qiuyuan",
+              "sequence": 4,
+              "sourceChainId": 238
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "ATK is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 5,
         "name": "O Blade, I, Who Await to be Wielded",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Thus I Heard, Thus I Saw, Thus I Spoke",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/qiuyuan/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -8330,6 +10130,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8342,6 +10146,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8354,6 +10162,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8366,6 +10178,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8378,6 +10194,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8390,6 +10210,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8402,6 +10226,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8414,6 +10242,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8437,32 +10269,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Try Not to Get in the Way!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Oh, Hey Choom!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Don't Sweat Your Six!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Got Ya Covered!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Dreamin' on the Edge",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Maybe, Just Maybe...",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rebecca/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -8557,6 +10401,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8569,6 +10417,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8581,6 +10433,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8593,6 +10449,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8605,6 +10465,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8617,6 +10481,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8629,6 +10497,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8641,6 +10513,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -8664,32 +10540,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "When Shadows Engulf the Hull",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "When the Luceanite Gleams",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "When the Heart Sees and Hands Feel",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "When Wonders Gather in the Box",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "When Dreams Are Reborn on Stage",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "When the Golden Wings Fly",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/roccia/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -8784,6 +10672,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8796,6 +10688,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8808,6 +10704,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8820,6 +10720,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8832,6 +10736,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8844,6 +10752,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8856,6 +10768,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -8868,6 +10784,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -8891,32 +10811,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Storm Subsides in the Void",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Glimmers Fade into the Dark",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Illusions Collapse in a Grip",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s3.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Aero DMG",
+            "value": 0.15,
+            "sourceSequence": {
+              "characterId": "rover-aero",
+              "sequence": 3,
+              "sourceChainId": 189
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Aero DMG Bonus is increased by 15%."
+            }
+          }
+        ]
       },
       {
         "sequence": 4,
         "name": "Boundaries Shatter in an Instant",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Life and Death Intertwine",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "All Crumble in the Wind",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-aero/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -9011,6 +10960,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -9023,6 +10976,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9035,6 +10992,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9047,6 +11008,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -9059,6 +11024,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -9071,6 +11040,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9083,6 +11056,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9095,6 +11072,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -9118,32 +11099,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Celestial Ingenuity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Thousandfold Artifice",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Alchemy of Wonders",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Earthquaking Rumble",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Principle of Change",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Mind's Depths in a Casket",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-electro/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -9238,6 +11231,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -9250,6 +11247,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9262,6 +11263,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9274,6 +11279,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -9286,6 +11295,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -9298,6 +11311,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9310,6 +11327,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9322,6 +11343,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -9345,32 +11370,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Cryptic Insight",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s1.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Skill DMG",
+            "value": 0.3,
+            "sourceSequence": {
+              "characterId": "rover-havoc",
+              "sequence": 1,
+              "sourceChainId": 103
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Resonance Skill DMG Bonus is increased by 30%."
+            }
+          }
+        ]
       },
       {
         "sequence": 2,
         "name": "Waning Crescent",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Surging Resonance",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Annihilated Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Aeon Symphony",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Ebbing Undercurrent",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-havoc/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -9465,6 +11519,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9477,6 +11535,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -9489,6 +11551,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -9501,6 +11567,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9513,6 +11583,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9525,6 +11599,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -9537,6 +11615,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -9549,6 +11631,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9572,32 +11658,95 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Odyssey of Beginnings",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Microcosmic Murmurs",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s2.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Spectro DMG",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "rover-spectro",
+              "sequence": 2,
+              "sourceChainId": 32
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Rover's Spectro DMG Bonus is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 3,
         "name": "Visages of Dust",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s3.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Energy Regen",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "rover-spectro",
+              "sequence": 3,
+              "sourceChainId": 33
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Rover's Energy Regen is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 4,
         "name": "Resonating Lamella",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Temporal Virtuoso",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s5.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Liberation DMG",
+            "value": 0.4,
+            "sourceSequence": {
+              "characterId": "rover-spectro",
+              "sequence": 5,
+              "sourceChainId": 35
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Rover's Resonance Liberation DMG Bonus is increased by 40%."
+            }
+          }
+        ]
       },
       {
         "sequence": 6,
         "name": "Echoes of Wanderlust",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/rover-spectro/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -9628,6 +11777,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Spectro DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Spectro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredlight_UI.webp",
@@ -9640,6 +11793,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9652,6 +11809,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9664,6 +11825,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Spectro DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Spectro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredlight_UI.webp",
@@ -9676,6 +11841,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Spectro DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Spectro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredlight_UI.webp",
@@ -9688,6 +11857,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9700,6 +11873,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9712,6 +11889,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Spectro DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Spectro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredlight_UI.webp",
@@ -9799,32 +11980,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Solitude's Embrace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Snowy Clarity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Anomalous Vision",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Blade Mastery",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Unraveling Fate",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Daybreak Radiance",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sanhua/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -9919,6 +12112,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -9931,6 +12128,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9943,6 +12144,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -9955,6 +12160,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -9967,6 +12176,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9979,6 +12192,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -9991,6 +12208,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Glacio DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Glacio DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredice_UI.webp",
@@ -10003,6 +12224,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -10026,32 +12251,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "The Gleam Meant for Radiance",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "The Bitterness Steeped in Hope",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "I Flee, Yet I Seek",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "I Lose, Yet I Gain",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Until Submerged by the Dark",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "True Names Resurfaced, Rising in Light",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/sigrika/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -10146,6 +12383,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -10158,6 +12399,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -10170,6 +12415,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -10182,6 +12431,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -10194,6 +12447,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -10206,6 +12463,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -10218,6 +12479,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -10230,6 +12495,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -10253,32 +12522,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Mountains Washed Into Paintings",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Clouds Pour Like Molten Gold",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Sparse Curtains Invite Evening Glow",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Autumn Mountains in Choir Sing",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "I Long To Ride The Eastern Wind",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Staying True To This Splendid Realm",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suisui/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -10373,6 +12654,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10385,6 +12670,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10397,6 +12686,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10409,6 +12702,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10421,6 +12718,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10433,6 +12734,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10445,6 +12750,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10457,6 +12766,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10480,32 +12793,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Essense of Tranquility",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Silent Strength",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Keen-eyed Observer",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Heavylifting Duty",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Benevolent Guardian",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Defender of Peace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/taoqi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -10600,6 +12925,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -10612,6 +12941,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-10",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -10624,6 +12957,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-11",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -10636,6 +12973,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -10648,6 +12989,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -10660,6 +13005,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-14",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -10672,6 +13021,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-15",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -10684,6 +13037,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Havoc DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Havoc DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyreddark_UI.webp",
@@ -10707,32 +13064,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Unspoken Conjecture",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Night's Gift and Refusal",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Infinity Awaits Me",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Overflowing Quietude",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Echoes in Silence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "To the New World",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/the-shorekeeper/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -10827,6 +13196,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10839,6 +13212,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10851,6 +13228,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10863,6 +13244,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10875,6 +13260,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10887,6 +13276,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10899,6 +13292,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "HP+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
@@ -10911,6 +13308,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -10934,32 +13335,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Moment of Emergence",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Sprouting Reflections",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "The Choice to Flourish",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Blossoming Embrace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Miraculous Blooms",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Joyous Harvest",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/verina/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -11034,6 +13447,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -11046,6 +13463,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11058,6 +13479,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11070,6 +13495,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -11102,6 +13531,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -11114,6 +13547,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11126,6 +13563,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11138,6 +13579,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Healing Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
@@ -11161,32 +13606,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Prodigy of Protégés",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Traces of Predecessors",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Ruins of Ancient",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Vessel of Rebirth",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "End of Stars",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Solace of the Ordinary",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/xiangli-yao/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -11281,6 +13738,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-9",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -11293,6 +13754,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11305,6 +13770,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11317,6 +13786,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.024
+          },
           "role": "stat-12",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -11329,6 +13802,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-13",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -11341,6 +13818,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11353,6 +13834,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11365,6 +13850,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT DMG",
+            "value": 0.055999999999999994
+          },
           "role": "stat-16",
           "name": "Crit. DMG+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp",
@@ -11388,32 +13877,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Sapphire Skies,\nSoaring Sparrows",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Nesting Twigs,\nin Beaks They Harrow",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Nature Sings in Symphony",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s3.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "Skill DMG",
+            "value": 0.4,
+            "sourceSequence": {
+              "characterId": "yangyang",
+              "sequence": 3,
+              "sourceChainId": 3
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Resonance Skill DMG Bonus is increased by 40%."
+            }
+          }
+        ]
       },
       {
         "sequence": 4,
         "name": "Close Your Eyes and Listen in",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Winds Whisper in Harmony",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "A Tribute to Life's Sweet Hymn",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -11466,6 +13984,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11478,6 +14000,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -11490,6 +14016,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -11502,6 +14032,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11514,6 +14048,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11526,6 +14064,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -11580,6 +14122,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Aero DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Aero DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
@@ -11592,6 +14138,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11615,32 +14165,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "At the Wind's Breath, the Blossoms Wake",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "River Carries Her Song Away",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "My Grief Follows You into the Clouds",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Across the Miles, a Letter and My Longing",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Take Wing. Take Wing.",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Let the Azure Keep Its Light",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yangyang-xuanling/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -11735,6 +14297,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -11747,6 +14313,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11759,6 +14329,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11771,6 +14345,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -11783,6 +14361,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -11795,6 +14377,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11807,6 +14393,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11819,6 +14409,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -11842,32 +14436,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Morality's Crossroads",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Ensnarled by Rapport",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Unyielding Verdict",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Steadfast Conviction",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Resounding Will",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Pursuit of Justice",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yinlin/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -11962,6 +14568,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -11974,6 +14584,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11986,6 +14600,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -11998,6 +14616,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12010,6 +14632,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12022,6 +14648,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12034,6 +14664,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12046,6 +14680,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12069,32 +14707,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Waterside Respite",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Sunroom Siesta",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Restless Sleep",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s3.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "ATK%",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "youhu",
+              "sequence": 3,
+              "sourceChainId": 141
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Youhu's ATK is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 4,
         "name": "Frosted Lullaby",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Dreamland Meander",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Slumber Evermore",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/youhu/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -12189,6 +14856,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12201,6 +14872,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12213,6 +14888,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12225,6 +14904,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12237,6 +14920,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12249,6 +14936,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12261,6 +14952,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12273,6 +14968,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12296,32 +14995,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Steaming Cup of Justice",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Fierce Heart, Serene Mind",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Upholder of Integrity",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Retributive Knuckles",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Neighborhood Protector",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Defender of All Realms",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/yuanwu/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -12374,6 +15085,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Electro DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-9",
           "name": "Electro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredmine_UI.webp",
@@ -12386,6 +15101,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-10",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -12398,6 +15117,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.022799999999999997
+          },
           "role": "stat-11",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -12410,6 +15133,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Electro DMG",
+            "value": 0.018000000000000002
+          },
           "role": "stat-12",
           "name": "Electro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredmine_UI.webp",
@@ -12422,6 +15149,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Electro DMG",
+            "value": 0.042
+          },
           "role": "stat-13",
           "name": "Electro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredmine_UI.webp",
@@ -12434,6 +15165,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-14",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -12446,6 +15181,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "DEF%",
+            "value": 0.053200000000000004
+          },
           "role": "stat-15",
           "name": "DEF+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreendefense_UI.webp",
@@ -12458,6 +15197,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "Electro DMG",
+            "value": 0.042
+          },
           "role": "stat-16",
           "name": "Electro DMG Bonus+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredmine_UI.webp",
@@ -12523,32 +15266,61 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "When the Alarm Clock Rings",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Stale Bread With Energy Drink",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s2.webp",
+        "buildStatClassification": "STATIC_BUILD_STAT",
+        "staticBuildStats": [
+          {
+            "stat": "CRIT Rate",
+            "value": 0.2,
+            "sourceSequence": {
+              "characterId": "zani",
+              "sequence": 2,
+              "sourceChainId": 194
+            },
+            "provenance": {
+              "repository": "DommyMM/wuwabuild",
+              "commit": "2b57a127b26b062ab58d272cd6735338507de1cd",
+              "path": "public/Data/Characters.json",
+              "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
+              "sourceText": "Crit. Rate is increased by 20%."
+            }
+          }
+        ]
       },
       {
         "sequence": 3,
         "name": "Each Day A New Commute",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "More Efficiency, Less Drama",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Delivered In Full On Time",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "First Things First? Clock Out!",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zani/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -12643,6 +15415,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12655,6 +15431,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12667,6 +15447,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12679,6 +15463,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12691,6 +15479,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12703,6 +15495,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12715,6 +15511,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12727,6 +15527,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12750,32 +15554,44 @@ export const CHARACTER_CATALOG = [
       {
         "sequence": 1,
         "name": "Brushwork's Finish",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s1.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s1.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 2,
         "name": "Vivid Strokes",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s2.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s2.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 3,
         "name": "Reflection's Grace",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s3.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s3.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 4,
         "name": "Hue's Spectrum",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s4.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s4.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 5,
         "name": "Composition's Clue",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s5.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s5.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       },
       {
         "sequence": 6,
         "name": "Infinite Legacy",
-        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s6.webp"
+        "art": "../../ui-prototypes/assets/builder-icons/chains/zhezhi/s6.webp",
+        "buildStatClassification": "NON_STATIC_MECHANIC",
+        "staticBuildStats": []
       }
     ],
     "forte": {
@@ -12870,6 +15686,10 @@ export const CHARACTER_CATALOG = [
             "1"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-9",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12882,6 +15702,10 @@ export const CHARACTER_CATALOG = [
             "2"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-10",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12894,6 +15718,10 @@ export const CHARACTER_CATALOG = [
             "3"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
           "role": "stat-11",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12906,6 +15734,10 @@ export const CHARACTER_CATALOG = [
             "6"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
           "role": "stat-12",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12918,6 +15750,10 @@ export const CHARACTER_CATALOG = [
             "9"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-13",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
@@ -12930,6 +15766,10 @@ export const CHARACTER_CATALOG = [
             "10"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-14",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12942,6 +15782,10 @@ export const CHARACTER_CATALOG = [
             "11"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
           "role": "stat-15",
           "name": "ATK+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
@@ -12954,6 +15798,10 @@ export const CHARACTER_CATALOG = [
             "12"
           ],
           "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
           "role": "stat-16",
           "name": "Crit. Rate+",
           "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",

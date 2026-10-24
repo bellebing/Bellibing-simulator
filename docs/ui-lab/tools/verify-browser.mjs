@@ -54,7 +54,12 @@ const origin = `http://127.0.0.1:${server.address().port}`;
 const browser = await chromium.launch({ executablePath, headless: true, args: ['--no-sandbox'] });
 result.chromium = browser.version();
 const selector = '/docs/ui-lab/v1.1/';
-const wait = page => page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+const wait = async page => {
+  await page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+  // The carousel assigns art after module readiness. Keep the missing-art gate,
+  // but wait for the actual image responses before taking layout evidence.
+  await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0), null, {timeout:15000});
+};
 const selectedName = page => page.locator('.hero-copy h2').innerText();
 const geometry = page => page.evaluate(() => Object.fromEntries(['.workshop', '.working-area', '.slots', '.trash-panel'].map(selector => {
   const { x, y, width, height } = document.querySelector(selector).getBoundingClientRect();
@@ -582,7 +587,7 @@ try {
   const touch = await reviewBrowserContext(browser,{ viewport: { width: 1440, height: 900 }, hasTouch: true, reducedMotion: 'reduce' });
   const configContext=await reviewBrowserContext(browser,{viewport:{width:1440,height:900},reducedMotion:'reduce'});
   const configPage=await configContext.newPage();
-  await configPage.goto(`${origin}${selector}?settings=expanded`,{waitUntil:'networkidle'});
+  await configPage.goto(`${origin}${selector}?settings=expanded&review=configuration`,{waitUntil:'networkidle'});
   await reviewConfiguration(configPage,{width:1440,checks});
   await configContext.close();
   const touchPage = await touch.newPage();

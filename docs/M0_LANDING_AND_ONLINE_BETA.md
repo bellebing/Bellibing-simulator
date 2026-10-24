@@ -62,15 +62,18 @@ private code or private fixtures are added to public artifacts.
 
 This is not an online service. Pages cannot execute the existing loopback Node
 bridge, and private browser-engine publication is not authorized. The production
-backend remains disabled. Cloudflare account/Workers access is recovered and
-the separately approved authenticated private canary is deployed. Its remote
-calculation measurements remain blocked by managed-environment network access.
-Actual CPU, memory, network latency and quota suitability must pass before a
-hosting choice or online-beta readiness claim. Deployment/startup success alone
-does not establish resource suitability.
+backend remains disabled. The separately approved private canary has completed
+its bounded remote parity/resource experiment and its ingress is now closed.
+Detailed evidence remains private. This supports the existing split Durable
+Object approach for the next M0 integration step, without establishing sustained
+capacity, peak memory or online-beta readiness.
 
-Production activation, hosted abuse/session-recovery verification and real
-Pages-to-backend browser verification remain Pending. Never embed a
+The next concrete M0 step is to verify the existing ordinary HTTP guest/session
+runtime in its intended hosted configuration, then exercise Sandbox SIMULATE and
+Improve Current/Candidate comparisons through the ordinary website. A newly
+exposed service and Pages activation require separate owner GO. Hosted abuse,
+session-recovery and real Pages-to-backend browser verification remain Pending.
+Never embed a
 private canary bearer token or calculator bundle in the website. Cloudflare
 Free cannot be accepted solely from a status endpoint or local wall timing.
 

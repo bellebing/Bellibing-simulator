@@ -2,6 +2,7 @@ name: UI Lab Review
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, labeled, unlabeled]
     paths:
       - 'docs/ui-lab/**'
       - '.github/workflows/ui-lab-review.yml'
@@ -16,6 +17,7 @@ concurrency:
 
 jobs:
   review:
+    if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,7 +31,7 @@ jobs:
       - name: Install browser driver without changing dependency manifests
         run: npm install --no-save --package-lock=false --no-audit --no-fund playwright@1.56.1
       - name: Preserved baseline, isolation and discard boundaries
-        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs test/characterContext.test.mjs test/sandboxStaticStats.test.mjs test/sourcePriorityGuidance.test.mjs test/teamDpsComparison.test.mjs test/observedEchoScenario.test.mjs test/rotationBuildAcceptance.test.mjs test/sandboxLoop.test.mjs
+        run: node --experimental-strip-types --test docs/ui-lab/tools/state.test.mjs docs/ui-lab/tools/configuration.test.mjs test/simulationConfigurationBridge.test.mjs test/sandboxFoundation.test.mjs test/simulatedResourceCost.test.mjs test/characterContext.test.mjs test/teamSelection.test.mjs test/sandboxStaticStats.test.mjs test/sourcePriorityGuidance.test.mjs test/teamDpsComparison.test.mjs test/observedEchoScenario.test.mjs test/rotationBuildAcceptance.test.mjs test/sandboxLoop.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs test/fixedTeamScenario.test.mjs test/localTeamBuildCapture.test.mjs test/localTeamReviewBridge.test.mjs test/localTeamReviewClient.test.mjs test/interactiveEchoSession.test.mjs
       - name: Reviewed catalog parity
         run: |
           node docs/ui-lab/tools/export-catalog.mjs --check
@@ -42,6 +44,10 @@ jobs:
           node docs/ui-lab/tools/export-sandbox-stat-sources.mjs --check
           node docs/ui-lab/tools/export-recommended-guidance.mjs --check
           node docs/ui-lab/tools/export-echo-scenario.mjs --check
+      - name: Source Team 59/397 auditable per-Character coverage report
+        run: node scripts/report-team-selection-coverage.mjs
+      - name: Selected-Character first-team public report parity
+        run: node scripts/report-dps-first-team-coverage.mjs --check
       - name: Canonical configuration source pin
         run: |
           git fetch --depth=1 origin 259f4881271b5cc84cec5bf2e7f085e6a106a8e3
@@ -54,3 +60,26 @@ jobs:
         env:
           UI_LAB_CHROME_PATH: /usr/bin/google-chrome
         run: node docs/ui-lab/tools/verify-sandbox-browser.mjs
+
+      - name: Build static Sandbox and Improve workspaces
+        run: npm run build
+      - name: User UX observations - desktop and mobile Chromium
+        env:
+          UI_LAB_CHROME_PATH: /usr/bin/google-chrome
+        run: node docs/ui-lab/tools/verify-ux-review-browser.mjs
+      - name: Reviewed team selection — Sandbox / Improve, desktop / mobile Chromium
+        env:
+          UI_LAB_CHROME_PATH: /usr/bin/google-chrome
+        run: node docs/ui-lab/tools/verify-team-selection-browser.mjs
+      - name: Upload team selection review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: team-selection-review
+          path: artifacts/team-selection/
+      - name: Upload UX review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux-review-326
+          path: artifacts/ux-review-326/

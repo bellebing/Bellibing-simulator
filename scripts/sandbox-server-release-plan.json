@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "status": "PENDING_RELEASE_GO",
+  "candidate": {
+    "version": 1,
+    "status": "SERVER_RUNTIME_V1",
+    "review": null,
+    "files": [],
+    "endpoint": "https://bellibing-m0-runtime-review.bellibing-engine.workers.dev/runtime/v1/"
+  }
+}

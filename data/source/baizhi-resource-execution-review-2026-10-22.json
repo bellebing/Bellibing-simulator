@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "characterId": "baizhi",
+  "reviewedAt": "2026-10-22",
+  "scope": "SOURCE_REVIEW_FOR_EXPERIMENTAL_EXECUTION_NOT_GAMEPLAY_DPS_QUALIFICATION",
+  "canonicalFacts": [
+    "baizhi-resource-concentration",
+    "baizhi-forte-concentration-consumption",
+    "baizhi-outro-rejuvinating-flow",
+    "baizhi-s1-complex-simplicity",
+    "baizhi-s2-silent-tundra"
+  ],
+  "sources": [
+    {
+      "url": "https://www.taptap.cn/moment/548272195005057575",
+      "author": "洋芋睡醒没 / 羊亐",
+      "language": "zh-Hans",
+      "modifiedAt": "2024-06-09",
+      "locator": "paragraphs at retrieved lines 32-35",
+      "classification": "PLAYER_AUTHORED_MECHANICS_EXPLANATION"
+    },
+    {
+      "url": "https://wuthering.gg/zh-Hans/characters/baizhi",
+      "language": "zh-Hans",
+      "locator": "Concentration, Outro, S1/S2 kit text",
+      "classification": "SECONDARY_KIT_TABLE"
+    },
+    {
+      "url": "https://docs.google.com/spreadsheets/d/1vTbG2HfkVxyqvNXF2taikStK-vJJf40QrWa06Fgj17c/edit#gid=858535214",
+      "locator": "Baizhi A50:K106",
+      "classification": "DECLARED_COMMUNITY_ACTION_TIMING_AND_EFFECT_MODEL"
+    }
+  ],
+  "conclusions": {
+    "concentration": {
+      "maximum": 4,
+      "heavyConcertoPerConsumedPoint": 4,
+      "heavyResonancePerConsumedPoint": 2.5,
+      "skillConcertoPerConsumedPoint": 8,
+      "skillBaseExtraResonancePerConsumedPoint": 0,
+      "s1SkillExtraResonancePerConsumedPoint": 2.5,
+      "sourceExplanation": "The Chinese original explicitly states recovery per layer and 42 Concerto for a full-gauge Skill: 10 base + 4 times 8. It corroborates the existing raw table values and resolves their per-cast/per-point ambiguity for this experimental execution review."
+    },
+    "outro": {
+      "firstHealingDelaySeconds": 3,
+      "healingIntervalSeconds": 3,
+      "healingWindowSeconds": 30,
+      "damageAmplification": 0.15,
+      "amplificationSecondsAfterEachHeal": 6,
+      "recipient": "CURRENT_ON_FIELD_RECIPIENT_AT_EACH_PULSE",
+      "sourceExplanation": "The Chinese original explicitly describes a three-second initial gap and healing that follows subsequent swaps; each healed member receives its own six-second amplification window."
+    }
+  },
+  "conflictsPreserved": [
+    {
+      "field": "Outro healing window",
+      "communityModelValue": 32,
+      "canonicalValue": 30,
+      "resolution": "Use the canonical 30 seconds, not the community convenience duration."
+    },
+    {
+      "field": "Max Energy",
+      "secondaryHeaderValue": 140,
+      "canonicalValue": 175,
+      "resolution": "Use the already reviewed canonical dedicated capacity/Liberation-cost evidence; do not substitute the unrelated conflicting page header."
+    }
+  ],
+  "limits": [
+    "Keep raw canonical wording/provenance unchanged; this is a separately explicit derived interpretation for experimental execution.",
+    "Source timing tables do not prove per-hit animation frames. Compound source actions must retain an explicit aggregate-action timing limitation.",
+    "S3-S6 are outside the current investment policy and must not leak into S0-S2.",
+    "No calculated DPS values are copied or promoted."
+  ]
+}

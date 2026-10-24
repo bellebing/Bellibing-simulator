@@ -123,7 +123,7 @@ Current measured coverage and the next-lane ranking are in the [integration and 
 3. Reuse the shared action reader and existing combat primitives. Add Character-specific code only for actual execution semantics those primitives cannot express.
 4. Run targeted tests during iteration and full Verify before integration. The normal build validates and exports the entire database batch.
 
-Provider candidates remain evidence only. This export does not authorize automatic canonical promotion. The [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md) records 59/59 reviewed released raw identities, complete Hsin/Jingran source kits and original energy-cap decisions. Buling/Xiangli damage classes are source-resolved; Danjin retains its Forte/resource threshold contradiction. Original source capture is evidence only, and canonical facts continue to use the existing owners. BUG-008/010/028/029 and the six Reference Team dependencies remain open. No UI work is part of this backend slice.
+Provider candidates remain evidence only. This export does not authorize automatic canonical promotion. The [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md) records 59/59 reviewed released raw identities, complete Hsin/Jingran source kits and original energy-cap decisions. Buling/Xiangli damage classes are source-resolved; Danjin’s full-meter translation is resolved by explicit owner decision as exactly 120; raw text remains unchanged. Original source capture is evidence only, and canonical facts continue to use the existing owners. BUG-008/010/028/029 and the six Reference Team dependencies remain open. No UI work is part of this backend slice.
 
 ## Batch 1: explicit ATK Basic Attack hits
 

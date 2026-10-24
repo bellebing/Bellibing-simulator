@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "baseSource": "259f4881271b5cc84cec5bf2e7f085e6a106a8e3",
+  "authority": "EXPLICIT_OWNER_DECISION",
+  "recordedAt": "2026-10-22",
+  "issue": 348,
+  "scope": "DANJIN_FULL_METER_TRANSLATION_ONLY_NO_TRANSPORT_OR_ENGINE_CHANGE",
+  "evidence": "The owner reaffirms the prior interpretation: exactly 120 Ruby Blossom is full meter and the full-power threshold; consumes 120. Raw upstream text and pins remain unchanged. See docs/CHARACTER_MECHANICS_SOURCE_REVIEW.md.",
+  "changes": [
+    {
+      "path": "src/data/characterActionsCoverageAudit.ts",
+      "before": "66338a5dfd447cb47ed695a701b971118986d7fb",
+      "after": "26939d99b9b667da387174d8134cfd6ff2db78bc"
+    },
+    {
+      "path": "src/data/characterForteRulesCoverageAudit.ts",
+      "before": "6e45a3e757b48bd0938bb50a6cf2cc5725434298",
+      "after": "5e7b8a9e98aa570cc960d54ea669640c786d9252"
+    },
+    {
+      "path": "src/data/characterMechanics/releaseCharacterKitFacts.ts",
+      "before": "6f3a44ec3423d62d109b6c5d3287847a73092efb",
+      "after": "9d8b2f262924c887243dc8e297be4e3d500355be"
+    },
+    {
+      "path": "src/data/characterMechanics/rosterActionCompletion.ts",
+      "before": "95e3083a3c1ddd576673fdcc382f8d4479e2f7b6",
+      "after": "c79cf03ab46bce649d5f440c6dfe1d61aabf0df6"
+    },
+    {
+      "path": "src/data/characterMechanics/rosterForteCompletion.ts",
+      "before": "2733e26cd09b13fb7912d8d29d682841e249e395",
+      "after": "247a5ceba57ae8f39b5ee196d62c417499de9414"
+    },
+    {
+      "path": "src/data/characterMechanics/rosterInherentPassiveCompletion.ts",
+      "before": "c4ae272df6b4717f922a6bf229c0e526bfeb8203",
+      "after": "904939b70df9dd3c5b865351b8d00efb1f736e2e"
+    },
+    {
+      "path": "src/data/characterMechanics/rosterOutroCompletion.ts",
+      "before": "b1ef2852539fbcf44ed7706e1baeca8affb958d9",
+      "after": "4190ac1fd0699f6872e4c431209e07676cd4f2d8"
+    },
+    {
+      "path": "src/data/characterMechanicsSourceReview.ts",
+      "before": "6d5fdc48ca247fc349e731df36ce981c28ca0549",
+      "after": "36e3dc5b01b2d735be2a4c6977c70f820f39ee29"
+    }
+  ],
+  "additions": [
+    {
+      "path": "src/data/characterMechanics/danjinInterpretation.ts",
+      "after": "bbb95f7a82f779ea6b417247ee16eb8ae5bccd6f"
+    }
+  ]
+}

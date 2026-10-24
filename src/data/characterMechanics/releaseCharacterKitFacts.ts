@@ -6689,7 +6689,7 @@ export const RELEASE_CHARACTER_MECHANIC_COMPLETION_FACTS: readonly CharacterMech
     "maxValue": 120,
     "ruleSummary": "Heavy Attack: Chaoscleave\nAfter accumulating 60 \"Ruby Blossom\", long press Basic Attack to consume all \"Ruby Blossom\" to cast Chaoscleave, dealing Havoc DMG, considered as Heavy Attack DMG, and healing Danjin.\nIf current \"Ruby Blossom\" reaches over 120, 120 \"Ruby Blossom\" is consumed instead to increase the DMG multiplier of Chaoscleave and Scatterbloom performed this time.\n \nHeavy Attack: Scatterbloom\nUse Basic Attack after Heavy Attack Chaoscleave to cast Scatterbloom to attack the target, dealing Havoc DMG, considered as Heavy Attack DMG.\n \nRuby Blossom\nDanjin can hold up to 120 Ruby Blossom.\nDanjin obtains \"Ruby Blossom\" when using Resonance Skill Crimson Fragment.",
     "notes": [
-      "Cap 120 is source-explicit. The literal over-120 full-power clause contradicts that cap; full-power activation remains source-blocked, without normalization."
+      "Cap 120 is source-explicit. The English over-120 clause is preserved as translation evidence; the owner resolves full-power activation as full meter, exactly 120, consuming 120 (Issue #348, reaffirmed 2026-10-22)."
     ]
   },
   {

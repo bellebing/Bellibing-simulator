@@ -1,0 +1,118 @@
+/* Product controls remain in the component that owns their action. */
+[hidden]{display:none!important}
+.product-workspace .site-header{grid-template-columns:auto minmax(0,1fr) auto}
+.product-workspace .site-header nav{display:flex;gap:8px;align-items:center;justify-content:flex-start;flex-wrap:wrap;width:100%;max-width:100%}
+.product-workspace .site-header nav a{display:flex;align-items:center;min-height:44px;padding:8px 12px;color:var(--muted);font-size:12px;text-decoration:none;border-bottom:2px solid transparent}
+.product-workspace .site-header nav a[aria-current]{color:var(--gold);border-color:var(--gold)}
+.product-workspace .site-header nav [data-workspace="sandbox"]{margin-left:auto}
+.product-workspace .site-header nav [data-workspace="teams"]{font-size:12px;min-height:44px;padding:8px 12px;cursor:default;opacity:.55}
+.workspace-identity{font-size:12px;color:var(--muted);margin:8px 0 0}
+.product-workspace.sandbox-preview main{background:linear-gradient(125deg,rgba(192,163,99,.045),transparent 70%)}
+.slot-controls{display:flex;justify-content:center;align-items:center;gap:8px;margin:9px 0 0;position:relative;z-index:2}
+.slot-controls .activation-mark{position:static;transform:none;width:auto;min-width:54px;min-height:36px;padding:6px 9px;border-radius:6px;display:flex;gap:6px;font-size:11px}
+.slot-controls .activation-mark svg{width:18px;height:18px}
+.slot-controls .echo-edit{position:static;transform:none;min-height:36px;padding:6px 12px;border:1px solid var(--line);border-radius:6px;color:var(--ink);background:#202329;font-size:11px}
+.account-workspace .card-caption{min-height:28px}
+.card-caption [data-edit-candidate]{position:static;transform:none;min-height:28px;padding:4px 6px}
+@media(max-width:1000px){.account-workspace .card-caption,.card-caption [data-edit-candidate]{min-height:35px}}
+.slot-controls button:focus-visible,.team-member:focus-visible,.weapon-picker-trigger:focus-visible,.item-choice:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.workshop-footer:has(.sandbox-run-controls){height:auto!important;display:flex;justify-content:flex-end;min-height:60px;padding:22px 0 0;margin-top:22px;border-top:1px solid var(--line)}
+.workshop-footer .sandbox-run-controls{max-width:440px;justify-content:flex-end;text-align:right;gap:8px}
+.workshop-footer .sandbox-run-controls>span{flex-basis:100%;margin:0;font-size:10px}
+.workshop-footer #sandboxCostDetails{text-align:left}
+.sandbox-preview #character .team-dps-table th:first-child{width:70px}
+.team-member{border:0;background:none;color:inherit;font:inherit;padding:3px 0;min-height:44px;width:100%;cursor:pointer}
+.team-member:disabled{opacity:1;cursor:default}
+.team-member small{display:block;font-size:8px;color:var(--gold);margin-top:4px}
+.weapon-picker-trigger{display:flex;align-items:center;gap:12px;width:calc(100% - 32px);margin:14px 16px;padding:10px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.025);color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.weapon-picker-trigger:after{content:'Choose ▾';margin-left:auto;color:var(--gold);font-size:9px}
+.weapon-picker-trigger .weapon-art{height:64px;width:54px;flex:none}.weapon-picker-trigger img{max-width:100%;max-height:100%;object-fit:contain}
+.weapon-copy{min-width:0}.weapon-copy strong{overflow-wrap:anywhere}
+.item-selector{width:min(720px,calc(100vw - 24px));max-height:85vh;padding:20px;color:var(--ink,#eee);border:1px solid #716246;border-radius:14px;background:linear-gradient(140deg,rgba(19,22,28,.74),rgba(10,12,16,.70));backdrop-filter:blur(5px) saturate(.88)}
+.item-selector::backdrop{background:rgba(4,5,8,.48)}
+.item-selector header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.item-selector h2{margin:0;font-size:18px}.item-selector [data-close]{min-width:44px;min-height:44px;background:none;color:inherit;border:1px solid #666;border-radius:8px}
+.item-selector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.item-choice{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:140px;padding:12px 8px;border:1px solid #42444b;border-radius:9px;background:#20242c;color:#eee;cursor:pointer}
+.item-choice.selected{border-color:#c7a970}.item-choice img{height:80px;width:90px;object-fit:contain}.item-choice strong{font-size:11px;font-weight:500}.item-choice small{font-size:10px;color:#cbb883}
+@media(hover:hover){.item-choice:hover{transform:translateY(-2px);border-color:#c7a970}}
+.character-stat-section{margin:0 16px 10px;border-bottom:1px solid var(--line);font-size:11px}.character-stat-section summary{display:flex;justify-content:space-between;align-items:center;min-height:40px;cursor:pointer;color:var(--ink)}
+.character-stat-section table{width:100%;font-variant-numeric:tabular-nums;border-collapse:collapse;table-layout:fixed}.character-stat-section th,.character-stat-section td{padding:7px 3px;border-bottom:1px solid var(--line);text-align:right;font-size:10px;font-weight:400;overflow-wrap:anywhere}.character-stat-section th:first-child{text-align:left;width:44%}.character-stat-section thead th{color:var(--muted);font-size:9px}
+.stat-delta{display:block;font-size:9px;color:var(--muted)}.stat-scope{display:block;font-size:9px;color:var(--muted);margin-top:4px}
+@media(max-width:1000px){
+ .product-workspace main{padding:0 12px}.product-workspace .site-header{display:flex;flex-wrap:wrap;gap:8px;padding:8px 12px;height:auto;min-height:68px}.product-workspace .brand-sub,.product-workspace .brand-divider{display:none}.product-workspace .site-header nav{height:auto;gap:0}.product-workspace .site-header nav a{padding:6px 8px;font-size:11px}
+ .product-workspace .page-heading{display:flex;flex-wrap:wrap;gap:12px;padding:22px 0}.product-workspace .heading-carousel{width:100%;height:75px}.product-workspace .page-heading h1{font-size:25px}
+ .product-workspace #composition{grid-template-columns:minmax(0,1fr)!important}.product-workspace .side{position:static;width:100%}.product-workspace .settings-compact,.product-workspace .character-compact{height:60px;padding:8px;flex-direction:row;justify-content:center}.product-workspace .vertical-label{writing-mode:horizontal-tb;transform:none}
+ .product-workspace .workshop{padding:16px 12px}.product-workspace .workshop-header{display:flex;flex-wrap:wrap;gap:12px}.product-workspace .current-name{min-width:0;padding-left:8px}.product-workspace .workshop-context{gap:8px}
+ .product-workspace .working-area{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;max-width:100%;margin:20px 0}.product-workspace .interaction{grid-column:1/-1;grid-row:2;min-height:180px}.product-workspace .working-card,.product-workspace .echo-card{width:100%;min-width:0}.product-workspace .slots,.product-workspace .piles{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .product-workspace .workshop-footer .sandbox-run-controls{max-width:100%;width:100%}.slot-controls button{min-height:44px!important}.product-workspace dialog{max-width:calc(100vw - 20px)}
+}
+.account-workspace .trash-panel{display:none}
+.weapon-picker-trigger .weapon-copy{display:flex;flex-direction:column;gap:3px;flex:1}
+.weapon-picker-trigger .weapon-copy strong{margin:0!important;font-size:12px;font-weight:500}
+.weapon-picker-trigger .weapon-copy small,.weapon-picker-trigger .weapon-copy>span{font-size:9px}
+.character-stat-section[open]>summary .chevron{transform:rotate(90deg)}
+.sandbox-preview #character .team-dps-table tbody th{font-size:8.5px;white-space:nowrap;overflow-wrap:normal;padding-inline:1px}
+/* Approved V1 card; older UI Lab consumers retain explicit legacy fixtures. */
+.compact-review #character .result-modes{display:none}
+.compact-review #character .character-hero[data-hero]{height:184px;overflow:hidden;background:linear-gradient(110deg,#171e25,#1c252d)}
+.compact-review #character [data-hero] .hero-visual{height:184px}
+.compact-review #character [data-hero] .hero-visual>img:not(.portrait-fallback){width:265px;height:270px;left:auto;right:13px;top:-14px;object-fit:contain;object-position:top}
+.compact-review #character [data-hero] .hero-visual:after{background:linear-gradient(90deg,#171e25bb,transparent 65%),linear-gradient(0deg,#171e25,transparent 30%)}
+.compact-review #character [data-hero] .hero-copy{position:absolute;left:16px;top:16px;bottom:auto;padding:0;max-width:65%;background:none;pointer-events:none}
+.compact-review #character [data-hero] .hero-copy h2{display:none}
+.compact-review #character [data-hero] .rarity-stars{display:none}
+.compact-review #character [data-hero] .hero-copy .eyebrow{display:block;font-size:11px;letter-spacing:1.2px;margin:0 0 8px}
+.compact-review #character .hero-weapon-type{display:inline-flex;width:20px;height:20px;align-items:center;justify-content:center}
+.compact-review #character .hero-weapon-type img{width:20px;height:20px;object-fit:contain;filter:grayscale(1) brightness(1.6)}
+.compact-review #character [data-hero] .hero-meta-row{margin-top:7px;gap:0}
+.compact-review #character [data-hero] .hero-metadata{font-size:9px;gap:4px}
+.compact-review #character [data-hero] .card-sequence{width:38px;top:3px;bottom:auto;right:5px;gap:4px}
+.compact-review #character [data-hero] .sequence-node{flex:none;width:var(--sequence-size);height:var(--sequence-size)}
+.compact-review #character [data-hero] .n6{--sequence-size:36px}.compact-review #character [data-hero] .n5{--sequence-size:32px}.compact-review #character [data-hero] .n4{--sequence-size:28px}.compact-review #character [data-hero] .n3{--sequence-size:24px}.compact-review #character [data-hero] .n2{--sequence-size:20px}.compact-review #character [data-hero] .n1{--sequence-size:16px}
+.compact-review #character .weapon{margin:0;padding:7px 16px;width:100%;min-height:62px;border:0;border-radius:0;border-bottom:1px solid var(--line);background:none;gap:10px}
+.compact-review #character .weapon-art{width:44px;height:48px;border:0}.compact-review #character .weapon-art img{height:48px;width:42px}
+.compact-review #character .weapon-copy strong{font-size:11px;margin:2px 0}.compact-review #character .weapon-copy>span,.compact-review #character .weapon-copy small{font-size:8px}
+.compact-review #character .card-skills summary{padding:9px 0;font-size:11px}
+.compact-review #character .compact-stats-heading{display:flex;align-items:center;justify-content:space-between;margin:0;padding:12px 16px 6px}
+.compact-review #character .compact-stats-heading h3{font-size:11px;margin:0}
+.compact-review #character .compact-stats-heading button{padding:5px 6px;border:1px solid #b7a57830;border-radius:4px;color:var(--gold);background:none;font:inherit;font-size:9px;cursor:pointer}
+.compact-review #character .compact-stat-table table{width:calc(100% - 32px);margin:0 16px 8px;border-collapse:collapse;table-layout:fixed;font-variant-numeric:tabular-nums}
+.compact-review #character .compact-stat-table th,.compact-review #character .compact-stat-table td{padding:6px 0;border-bottom:1px solid var(--line);font-weight:400;font-size:10px;text-align:right;white-space:normal}
+.compact-review #character .compact-stat-table th:first-child{width:49%;text-align:left;color:#b6bec5}.compact-review #character .compact-stat-table thead th{font-size:8px;color:var(--muted)}
+.compact-review #character .sandbox-dps{margin-top:8px;padding:12px 16px 0;border-top:1px solid var(--line)}
+.compact-review #character .dps-concept-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.compact-review #character .dps-concept-heading h3{margin:0;font-size:12px}.compact-review #character .dps-concept-heading small{font-size:8px;color:var(--muted)}
+.compact-review .activation-slot{grid-template-rows:26px auto;row-gap:7px}
+.compact-review .activation-slot>.slot{grid-row:2;grid-column:1}
+.compact-review .slot-controls{position:static;grid-row:1;grid-column:1;justify-self:end;display:flex;gap:5px;align-items:center;margin:0}
+.compact-review .slot-controls .echo-edit{order:0;min-height:24px;padding:3px 6px;background:#171d23eF;font-size:9px}
+.compact-review .slot-controls .activation-mark{order:1;width:26px;height:26px;min-width:26px;min-height:26px;padding:5px;border-radius:50%;color:#8bc5a7;border:1px solid #51836b;background:#14271feF}
+.compact-review .slot-controls .activation-mark.is-off{color:#ec9391;border-color:#a55756;background:#321d21ef}
+.compact-review .slot-controls .activation-mark span{display:none}
+.compact-review .slot-controls .activation-mark svg{width:14px;height:14px}
+@media(max-width:1000px){.compact-review .activation-slot{grid-template-rows:35px auto}.compact-review .slot-controls .activation-mark{width:35px;height:35px;min-width:35px;min-height:35px!important;padding:8px}.compact-review .slot-controls .echo-edit{min-height:35px!important}}
+.compact-review #character .team-member>span{font-size:8px;line-height:1.35;overflow-wrap:normal;word-break:normal}
+.compact-review #character .sandbox-dps{margin-top:0;padding-top:10px}
+.compact-review .slots .slot-number{display:none}
+/* One lifecycle footer, distinct from rarity and future Improve ranking. */
+.compact-review .echo-card .echo-status-field{display:flex;align-items:center;justify-content:space-between;gap:6px;min-height:27px;padding:7px 9px!important;font-size:9px;line-height:1.2;letter-spacing:0;border-top:1px solid var(--line);background:#0b111529}
+.compact-review .echo-card .echo-status-field span.echo-status-label{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:500;letter-spacing:0;color:#acb5be}
+.compact-review .echo-status-label small{font-size:8px;color:var(--muted)}
+.compact-review .echo-status-field[data-echo-status="KEPT"] span.echo-status-label{color:#91c3a4}
+.compact-review .echo-status-field[data-echo-status="TEMPORARY"] span.echo-status-label{color:#d3bd85}
+.compact-review .echo-status-field[data-echo-status="DISCARDED"] span.echo-status-label{color:#cb998e}
+.compact-review .echo-status-field .echo-improve-rank{font-size:9px;white-space:nowrap;color:#9ba5af;letter-spacing:0;font-weight:400}
+.compact-review .echo-improve-rank>span{color:var(--muted)}
+/* One Character Stats table; all teammates share the same header geometry. */
+.compact-review #character .compact-stat-table th:first-child{width:40%}
+.compact-review #character .compact-stat-table td{font-size:9px;padding-inline:2px}
+.compact-review #character .compact-stat-table thead th:not(:first-child){width:20%;font-size:9px;text-align:right}
+.compact-review #character .compact-stat-table td.is-pending{color:#7e8994}
+.compact-review #character .compact-stat-table td[data-stat-role="expected"]:not(.is-pending){color:#d9c38f}
+.compact-review #character .team-dps-table thead th{vertical-align:top}
+.compact-review #character .team-member{display:grid;grid-template-rows:30px 26px 13px;justify-items:center;align-content:start;gap:3px;height:81px;padding:0}
+.compact-review #character .team-member .dps-portrait{grid-row:1;margin:0}
+.compact-review #character .team-member>span{grid-row:2;display:flex;align-items:flex-start;justify-content:center;min-width:0;width:100%;height:26px;padding-top:2px}
+.compact-review #character .team-member>small{grid-row:3;margin:0;font-size:7px}
+.compact-review #character .team-dps-table thead .team-total>span{display:flex;align-items:center;justify-content:center;height:81px}
+
+.account-workspace.has-candidate-run .trash-panel{display:block}

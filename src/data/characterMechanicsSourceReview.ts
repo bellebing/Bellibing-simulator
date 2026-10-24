@@ -22,19 +22,9 @@ export interface CharacterMechanicsSourceReviewAudit {
   issues: readonly string[];
 }
 
-export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSourceBlocker[] = [
-  {
-    characterId: 'danjin',
-    kind: 'CONTRADICTORY_RESOURCE_THRESHOLD',
-    checkedAt: '2026-08-29',
-    upstreamCommit: '5fa70b11f1d84fb644e4dbed47873708da0fe66f',
-    sourceEvidence: [
-      'DommyMM/wuwabuild public/Data/Characters.json character 1602 Ruby Blossom descriptionParams [60, 120, 120, 120]',
-      'The same current move text says full-power behavior occurs when Ruby Blossom reaches over 120 while also stating the resource can hold up to 120.',
-    ],
-    reason: 'Ruby Blossom full-power semantics are internally impossible as written: current source requires over 120 while the same source caps the resource at 120. No threshold normalization is source-justified.',
-  },
-] as const;
+// Resolved wording is retained separately from active source blockers.
+export { DANJIN_RUBY_BLOSSOM_INTERPRETATION } from './characterMechanics/danjinInterpretation.ts';
+export const CHARACTER_MECHANICS_SOURCE_BLOCKERS: readonly CharacterMechanicsSourceBlocker[] = [];
 
 export function auditCharacterMechanicsSourceReview(): CharacterMechanicsSourceReviewAudit {
   const coverage = auditCharacterMechanicsCoverage();

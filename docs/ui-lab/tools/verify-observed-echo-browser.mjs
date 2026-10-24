@@ -7,6 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {chromium} from 'playwright';
 import echoData from '../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import scenario from '../v1.1/modules/echo-scenario.json' with {type:'json'};
+import teamCatalog from '../v1.1/modules/character-contexts.json' with {type:'json'};
 import {observedScenarioFixture} from '../../../test/helpers/observedScenarioFixture.mjs';
 const root=resolve(fileURLToPath(new URL('../../../',import.meta.url))),types={'.html':'text/html','.js':'text/javascript','.mjs':'text/javascript','.css':'text/css','.json':'application/json','.png':'image/png','.webp':'image/webp','.svg':'image/svg+xml'};
 const server=createServer(async(req,res)=>{try{const path=resolve(root,'.'+new URL(req.url,'http://localhost').pathname);res.setHeader('Content-Type',types[extname(path)]??'application/octet-stream');res.end(await readFile(path));}catch{res.writeHead(404).end();}});
@@ -35,10 +36,10 @@ try{
   if(path.endsWith('/reset'))return send({status:'RESET'});
   throw Error('Unexpected endpoint '+path);
  });
- await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&review=expert&character=expanded`);
+ await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&review=expert&character=expanded`);
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
- await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();
+ await page.locator('.team-details>summary').click();await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();
  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();
  await page.waitForSelector('.observed-echo-comparison');
  assert.deepEqual(await page.locator('[data-observed-row="BASELINE"] td').allTextContents(),['1','2','3','6']);
@@ -59,11 +60,21 @@ try{
   await page.locator('#galleryArt').focus();await page.keyboard.press('Home');for(let i=0;i<index;i++)await page.keyboard.press('ArrowRight');
   await page.waitForFunction(id=>document.querySelector('#characterCarousel').dataset.focusedCharacter===id&&document.querySelector('#characterCarousel').dataset.motion==='settled',id);await page.keyboard.press('Enter');
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  // The elected Character's own source default may NOT be the pilot trio.
+  // Select the explicit reviewed Augusta reference context before enabling
+  // its opt-in bounded experiment; otherwise it must remain unavailable.
+  const approved=teamCatalog.characters.find(c=>c.characterId==='augusta').defaultContextId;
+  for(const [role,member]of [['main','augusta'],['partner','iuno'],['third','the-shorekeeper']]){
+   if(await page.locator(`[data-team-role="${role}"] span`).textContent()===({'augusta':'Augusta','iuno':'Iuno','the-shorekeeper':'The Shorekeeper'})[member])continue;
+   await page.locator(`[data-team-role="${role}"]`).click();await page.getByRole('dialog').locator(`[data-choice="${member}"]`).click();
+  }
+  assert.equal(await page.locator('.team-source-summary').getAttribute('data-active-context-id'),approved);
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
   await page.getByRole('button',{name:'Customize',exact:true}).click();
   await page.locator('#flexCount').evaluate(n=>{n.value='1';n.dispatchEvent(new Event('input',{bubbles:true}));});
   if(await page.locator('#settingsToggle').getAttribute('aria-expanded')==='true')await page.locator('#settingsToggle').click();
   if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
+  if(!await page.locator('.team-details').evaluate(n=>n.open))await page.locator('.team-details>summary').click();
   if(!await page.locator('.dps-expert').evaluate(n=>n.open))await page.locator('.dps-expert summary').click();
   await page.locator('.sandbox-dps-context').check();
   await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();await page.waitForSelector('.observed-echo-comparison');

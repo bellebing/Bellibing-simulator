@@ -32,9 +32,9 @@ test('release source coverage completes all ACTIONS while preserving Danjin reso
   for (const characterId of ['buling', 'danjin', 'xiangli-yao']) {
     const profile = CHARACTER_MECHANICS_PROFILE_BY_ID.get(characterId);
     assert.ok(profile);
-    assert.equal(profile.verificationStatus, characterId === 'danjin' ? 'PARTIALLY_VERIFIED' : 'VERIFIED');
+    assert.equal(profile.verificationStatus, 'VERIFIED');
     assert.equal(profile.coverage.find(entry => entry.area === 'ACTIONS')?.status, 'VERIFIED');
-    assert.equal(profile.coverage.find(entry => entry.area === 'RESOURCE_RULES')?.status, characterId === 'danjin' ? 'PARTIAL' : 'VERIFIED');
+    assert.equal(profile.coverage.find(entry => entry.area === 'RESOURCE_RULES')?.status, 'VERIFIED');
     assert.equal(profile.coverage.find(entry => entry.area === 'SEQUENCES')?.status, 'VERIFIED');
   }
 

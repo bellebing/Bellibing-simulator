@@ -1,78 +1,52 @@
 # Character Mechanics — Source Review Dispositions
 
-This document records released Characters whose current Character Mechanics source review is complete but whose **full** canonical profile cannot be promoted without inventing semantics that the reviewed sources do not state.
+Current canonical source-area coverage is **59/59 RELEASED Characters**. This
+is source-fact coverage, including the explicitly identified owner interpretation
+below. It is not 59 executable teams, combat readiness or gameplay qualification.
+The deterministic Character Mechanics, ACTIONS, FORTE_RULES, INHERENT_PASSIVES
+and OUTRO_EFFECT audits own their exact inventory and structural checks.
 
-The canonical Character Mechanics coverage audit remains fail-closed: a Character without all six source-verified coverage areas is not `VERIFIED` and cannot become DPS-ready through preflight. Completing individual ACTIONS or FORTE_RULES slices does not weaken that gate.
+## Danjin — full-meter translation resolved by the owner
 
-## Current source-review checkpoint
+The unchanged pinned English Forte text for move `1000807` has parameters
+`[60, 120, 120, 120]`: normal Chaoscleave unlocks at 60, full power consumes
+120, the maximum is 120, but the English full-power clause says “over 120”.
+That literal clause cannot be satisfied under the same cap.
 
-As of 2026-10-01:
+The owner has already resolved this translation issue and reaffirmed the decision
+for Issue #348 on 2026-10-22: **exactly 120 is full meter and qualifies for the
+full-power Chaoscleave/Scatterbloom branch; consume 120**. Do not reopen the same
+owner decision. This is an explicit interpretation, not a new independent official
+mechanics source or an upstream text correction.
 
-- 57 released Characters have complete Character Mechanics source-review dispositions;
-- 54 have canonical full `VERIFIED` Character Mechanics profiles;
-- Buling, Danjin and Xiangli Yao remain canonical `PARTIALLY_VERIFIED` profiles; individual coverage areas can advance without promoting the full profile;
-- ACTIONS coverage remains 55 `VERIFIED`, 0 `PARTIAL`, 2 `BLOCKED`;
-- FORTE_RULES coverage is 55 `VERIFIED`, 0 `PARTIAL`, 2 `BLOCKED`;
-- INHERENT_PASSIVES coverage is 57 `VERIFIED`, 0 `PARTIAL`, 0 `BLOCKED`; the pinned Skills/Forte payload contains exactly 114 Inherent Skill rows (two for each RELEASED Character);
-- 0 released Characters remain unreviewed;
-- Outro effects, generic Resource rules and Sequences remain `PENDING` for the three partial profiles; Inherent passives are now independently `VERIFIED`.
+`src/data/characterMechanics/danjinInterpretation.ts` records that authority and
+threshold. The stable Forte fact ID is retained; its former source blocker is
+removed. Source raw text, coefficients, capacity and source pins are unchanged.
+The UI configuration verifier retains its original pin and checks an explicit
+owner-review manifest with exact before/after blob hashes for the eight changed
+canonical files plus the new interpretation record; all other 337 original files
+remain byte-identical. Unreviewed edits, missing deltas and changed original hashes
+still fail closed. Transport and private engine pins are unchanged.
+The canonical six-area source profile now passes; modeling status and product
+DPS readiness remain separate. Private M0 tests inspect the unchanged native
+full-power action at 119/120 and its 120-resource spend. Invalid native casts can
+still produce exploratory damage, so the cast guard must never be bypassed.
 
-The original three full-profile blocker dispositions were re-reviewed against the pinned importer snapshot:
+## Previously resolved damage-classification omissions
 
-- repository: `DommyMM/wuwabuild`;
-- commit: `5fa70b11f1d84fb644e4dbed47873708da0fe66f`;
-- raw source: `public/Data/Characters.json`.
+Buling's Five Thunders Spell Array is Liberation DMG, original released damage
+row `1307019002`, Type 2. Xiangli Yao's Pivot — Impale is Basic DMG, original
+rows `1305011001`, `1305012001–4`, `1305013001–2`, Type 0. These are resolved
+from the original release fields, independently of skill-panel ownership.
+See [original release review](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md).
 
-PR #221 additionally promotes ACTION facts from the existing Bellibing Skills/Forte source payload pinned to `DommyMM/wuwabuild@2b57a127b26b062ab58d272cd6735338507de1cd`, preserving exact source move/value identities and Lv1-Lv10 rows through the existing Character Mechanics parser contract. Current live secondary sources are used only to cross-check source-explicit scaling/classification; generated candidates never assign unresolved semantics automatically.
+Buling S4 grants 20% Healing Bonus. The six source Sequences remain raw facts;
+active product investment is S0–S2. Source completeness does not permit S4/S5/S6
+in a baseline calculation, fabricate trigger ordering or qualify Electro Flare.
 
-PR #222 reuses that same source-backed Skills/Forte payload plus the existing pinned tree/text provenance to complete the canonical FORTE_RULES slice. It preserves source-explicit state/mode transitions, action replacements, unambiguous thresholds and Forte-owned buffs/effects while leaving unresolved runtime timing/resource execution as `PENDING_INTERPRETATION` and contradictory/missing semantics fail-closed.
+## Runtime boundary
 
-## Buling — full profile SOURCE_BLOCKED / ACTIONS BLOCKED / FORTE_RULES BLOCKED
-
-Blocking ACTION fact: **Five Thunders Spell Array Continuous DMG**.
-
-The source provides an exact Lv1-Lv10 coefficient row (`value id 1307031`) and current source evidence supports ATK scaling. The same move text states that the array deals Electro DMG every 2 seconds for 24 seconds. It does **not** state which Character damage-bonus bucket applies to the array's own damage.
-
-This omission is material because the same source text explicitly says that the separate `Thunder Spell - Yin and Yang` and `Thunder Spell - Heaven, Earth, Mind` team states grant **Resonance Skill DMG Bonus**. Bellibing therefore cannot infer that the array's damage is Resonance Skill DMG merely because the surrounding state grants that bonus or because the array is generated by a Liberation-owned move.
-
-Disposition: Buling now also has canonical Forte-rule facts for Minor Yin/Minor Yang → Yin-Yang Balance, Flashing Thunder Spell → Harmony, Five Thunders Spell Array cadence/Electro Flare/team-state creation, Primordial Qi → Yin and Yang, and Yin and Yang → Heaven, Earth, Mind. Those state/buff semantics are source-verified. Both current Inherent Skills are also source-VERIFIED: Time Arrives, Evil Declines preserves the <50% HP / 25% Healing Bonus condition, and Earthly Immortal is Here! preserves 4 Electro Flare stacks with a once-per-10s trigger. Because the array damage itself is a Forte-owned canonical fact and still lacks source-explicit damage classification, `FORTE-BULING-1307031-DAMAGE-CLASS` and the existing `ACTIONS-BULING-1307031-DAMAGE-CLASS` both remain fail-closed. The full profile remains non-VERIFIED.
-
-## Danjin — full profile SOURCE_BLOCKED / ACTIONS VERIFIED / FORTE_RULES BLOCKED
-
-Blocking full-profile fact: **Ruby Blossom full-power threshold**.
-
-The pinned source encodes the relevant description parameters as:
-
-`[60, 120, 120, 120]`
-
-The same source text simultaneously states:
-
-- Danjin can hold up to **120 Ruby Blossom**;
-- the enhanced Chaoscleave/Scatterbloom branch applies if current Ruby Blossom reaches **over 120**;
-- the enhanced branch consumes **120 Ruby Blossom**.
-
-`over 120` cannot occur if the same source's maximum is 120. Bellibing must not silently reinterpret `over 120` as `at least 120`, `equal to 120`, or another threshold.
-
-The ACTION layer does not need to invent that resource rule to preserve the actions themselves. Current sources explicitly provide the normal/full-power Chaoscleave and Scatterbloom curves, Heavy Attack damage classification and ATK scaling. Those ACTION facts are therefore source-`VERIFIED`, while their trigger execution remains `PENDING_INTERPRETATION`.
-
-Disposition: Danjin ACTIONS remain `VERIFIED`. FORTE_RULES now preserves the source-explicit 60-Ruby-Blossom Chaoscleave trigger and Chaoscleave → Scatterbloom relationship, but `FORTE-DANJIN-1000807-FULL-POWER-THRESHOLD` remains blocked on the internally contradictory over-120/max-120 condition. Both current Inherent Skills are independently source-VERIFIED: Crimson Light preserves +20% Crimson Erosion DMG plus doubled HP cost/Ruby Blossom recovery when triggered by Dodge Counter: Ruby Shades, and Overflow preserves +30% Heavy Attack DMG for 5s after Sanguine Pulse. The contradiction is not normalized into executable Resource semantics. The full Character Mechanics profile remains `PARTIALLY_VERIFIED`.
-
-## Xiangli Yao — full profile SOURCE_BLOCKED / ACTIONS BLOCKED / FORTE_RULES VERIFIED
-
-Blocking ACTION facts: **Pivot - Impale stages 1-3**.
-
-The source provides exact Lv1-Lv10 rows for Pivot - Impale stages 1-3 (`value ids 1305015-1305017`) and current source evidence supports ATK scaling. In the `Intuition` move text, Basic Attack and Heavy Attack are replaced by **Basic Attack Pivot - Impale**, which deals Electro DMG.
-
-The same source paragraph explicitly says that Dodge Counter **Unfathomed** is considered Resonance Liberation DMG. Other enhanced Xiangli Yao actions are likewise explicitly classified when the source intends Resonance Liberation DMG. Pivot - Impale receives no corresponding statement.
-
-Bellibing therefore does not infer Resonance Liberation DMG from the Intuition state or Basic Attack DMG solely from the replacement label. The exact three curves/hit counts are canonical but their damage class stays unresolved.
-
-Disposition: Xiangli Yao now has canonical source-VERIFIED FORTE_RULES for Intuition transformations, its source-fixed 24s limit, the Capacity 100 → Decipher replacement, Performance Capacity 5 in Intuition → Law of Reigns replacement, and the Revamp follow-up relationship. Both current Inherent Skills are independently source-VERIFIED: Knowing preserves 5% Electro DMG Bonus for 8s up to 4 stacks after casting Resonance Skill, while Focus preserves only the source-stated enhanced interruption resistance in Intuition because no numeric magnitude is provided. The source provides no numeric duration for “shortly after”, so that runtime timing remains `PENDING_INTERPRETATION` rather than guessed. `ACTIONS-XIANGLI-YAO-1305015-1305017-DAMAGE-CLASS` remains independently fail-closed for Pivot - Impale damage classification. The full profile remains non-VERIFIED.
-
-## Project-gate consequence
-
-Roster-wide **source review** remains complete: every released Character is either fully verified or carries an explicit source-blocked full-profile disposition backed by source evidence.
-
-Roster-wide **ACTIONS** coverage remains independently auditable at **55 VERIFIED / 0 PARTIAL / 2 BLOCKED** across 57 RELEASED Characters. Roster-wide **FORTE_RULES** coverage is independently auditable at **55 VERIFIED / 0 PARTIAL / 2 BLOCKED**. Roster-wide **INHERENT_PASSIVES** coverage is independently auditable at **57 VERIFIED / 0 PARTIAL / 0 BLOCKED**, matching all **114** pinned source Inherent Skill rows. Roster-wide **full Character Mechanics** coverage is still **54/57** and must not be reported as 57/57.
-
-Buling, Danjin and Xiangli Yao remain excluded from any feature that requires a complete Character Mechanics profile. Future source data may resolve an individual blocker, but that Character must still pass the existing full six-area audit before becoming DPS-ready.
+Canonical facts → effects → profiles/rotation → private calculator → UI remain
+separate. An audit, source label or owner wording resolution does not establish
+complete resource execution, independent numeric parity, a live Chromium flow,
+Expected DPS or any gameplay-qualified team. Missing evidence stays Pending.

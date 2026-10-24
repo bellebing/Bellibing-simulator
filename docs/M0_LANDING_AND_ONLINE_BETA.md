@@ -55,18 +55,22 @@ mechanics and Expected/qualified DPS stay Pending. See
 A separate private workerd feasibility experiment now reproduces all 59 source
 references and 59 captured actual builds through the existing private calculator.
 Private local Chromium also exercises the ordinary comparison UI through this
-backend. No private code or private fixtures are added to public artifacts.
+backend. The ordinary Sandbox/Improve server transport is implemented with
+ephemeral guest capabilities and private server-owned sessions. Focused local
+checks cover retries, isolation, restart/replay, RNG receipts and exports. No
+private code or private fixtures are added to public artifacts.
 
 This is not an online service. Pages cannot execute the existing loopback Node
 bridge, and private browser-engine publication is not authorized. The production
-backend remains disabled. The intended next step is a separately authorized,
-authenticated private Cloudflare canary with actual calculations. Free-plan
-startup, CPU, memory, network latency and quota suitability must pass before a
-hosting choice or online-beta readiness claim. Current Cloudflare API access
-returns 401; local runtime compatibility does not resolve account access.
+backend remains disabled. Cloudflare account/Workers access is recovered and
+the separately approved authenticated private canary is deployed. Its remote
+calculation measurements remain blocked by managed-environment network access.
+Actual CPU, memory, network latency and quota suitability must pass before a
+hosting choice or online-beta readiness claim. Deployment/startup success alone
+does not establish resource suitability.
 
-Production transport/authentication, abuse controls, session isolation/recovery
-and real Pages-to-backend browser verification remain Pending. Never embed a
+Production activation, hosted abuse/session-recovery verification and real
+Pages-to-backend browser verification remain Pending. Never embed a
 private canary bearer token or calculator bundle in the website. Cloudflare
 Free cannot be accepted solely from a status endpoint or local wall timing.
 

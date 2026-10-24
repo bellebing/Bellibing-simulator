@@ -2,6 +2,7 @@ name: UI Lab Review
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, labeled, unlabeled]
     paths:
       - 'docs/ui-lab/**'
       - '.github/workflows/ui-lab-review.yml'
@@ -16,6 +17,7 @@ concurrency:
 
 jobs:
   review:
+    if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'workflow_dispatch' || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

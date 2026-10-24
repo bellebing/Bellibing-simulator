@@ -5,9 +5,13 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {sandboxRelease,verifySandboxRelease} from '../scripts/sandbox-release.mjs';
 import {createBrowserSandboxClient} from '../docs/ui-lab/v1.1/modules/browser-client.js';
-test('unapproved release has no worker bytes and tampered local/approved records cannot enter public dist',()=>{
- const record=sandboxRelease();assert.equal(record.status,'PENDING_REVIEW');assert.deepEqual(record.files,[]);
- const dir=mkdtempSync(join(tmpdir(),'sandbox-release-'));try{mkdirSync(join(dir,'sandbox'));writeFileSync(join(dir,'sandbox/engine-release.json'),JSON.stringify(record));assert.deepEqual(verifySandboxRelease(dir),[]);for(const status of ['LOCAL_REVIEW_ONLY','APPROVED_FOR_PUBLICATION']){writeFileSync(join(dir,'sandbox/engine-release.json'),JSON.stringify({...record,status}));assert.throws(()=>verifySandboxRelease(dir),/release record mismatch/);}}finally{rmSync(dir,{recursive:true,force:true});}
+// Existing FULL entrypoint: retain HTTP/release coverage without another job.
+import './serverRuntimeTransport.test.mjs';
+import './runtimeReleaseReadiness.test.mjs';
+test('public release is Pending or owner-approved HTTP only, with no private worker bytes',()=>{
+ const record=sandboxRelease();assert.ok(['PENDING_REVIEW','SERVER_RUNTIME_V1'].includes(record.status));assert.deepEqual(record.files,[]);
+ if(record.status==='SERVER_RUNTIME_V1'){const plan=JSON.parse(readFileSync('scripts/sandbox-server-release-plan.json'));assert.equal(record.endpoint,plan.candidate.endpoint);assert.match(record.review,/^owner-go:[a-zA-Z0-9_-]{1,80}$/);}
+ const dir=mkdtempSync(join(tmpdir(),'sandbox-release-'));try{mkdirSync(join(dir,'sandbox'));writeFileSync(join(dir,'sandbox/engine-release.json'),JSON.stringify(record));assert.deepEqual(verifySandboxRelease(dir),[]);for(const status of ['LOCAL_REVIEW_ONLY','APPROVED_FOR_PUBLICATION',record.status==='PENDING_REVIEW'?'SERVER_RUNTIME_V1':'PENDING_REVIEW']){writeFileSync(join(dir,'sandbox/engine-release.json'),JSON.stringify({...record,status}));assert.throws(()=>verifySandboxRelease(dir),/release record mismatch/);}}finally{rmSync(dir,{recursive:true,force:true});}
 });
 test('browser adapter invalidation never preserves a previous run or account state',()=>{
  const context={characterId:'baizhi'},before=JSON.stringify(context),seen=[];const client=createBrowserSandboxClient({readContext:()=>context,onChange:r=>seen.push(r)});client.invalidate();assert.equal(client.snapshot(),null);assert.equal(client.isBusy(),false);assert.equal(JSON.stringify(context),before);assert.deepEqual(seen,[null]);

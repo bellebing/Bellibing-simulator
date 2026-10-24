@@ -4,6 +4,10 @@ M0 reuses the existing experimental 59/59 first-team calculator and ordinary
 Build, Current, Candidate and Sandbox owners. Gameplay-qualified coverage remains
 0/59. No new engine, rotation, source pin or M1 UI is introduced.
 
+The [coordinated release plan](M0_COORDINATED_RELEASE.md) owns the prepared public
+record, limited-beta scope, single final verification campaign and exact GO
+sequence. Both production activation and the active source release remain off.
+
 ## Dependency closure and landing
 
 The main-based integration candidate contains the public #349 runtime stack.

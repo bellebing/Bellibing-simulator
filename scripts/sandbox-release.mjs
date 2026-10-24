@@ -4,10 +4,14 @@ import {resolve,join} from 'node:path';
 import {createHash} from 'node:crypto';
 export function sandboxRelease(){
  const record=JSON.parse(readFileSync(new URL('./sandbox-release-approval.json',import.meta.url)));
- if(record.status==='PENDING_REVIEW'){if(record.files.length)throw Error('Unapproved Sandbox files');return record;}
+ return validateSandboxRelease(record);
+}
+export function validateSandboxRelease(record){
+ if(!record||typeof record!=='object'||Array.isArray(record)||!Array.isArray(record.files))throw Error('Invalid Sandbox release');
+ if(record.status==='PENDING_REVIEW'){if(Object.keys(record).sort().join(',')!=='files,review,status,version'||record.version!==1||record.review!==null||record.files.length)throw Error('Invalid pending Sandbox release');return record;}
  if(record.status==='SERVER_RUNTIME_V1'){
   const endpoint=new URL(record.endpoint);
-  if(record.version!==1||record.files.length||!record.review||endpoint.protocol!=='https:'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash||!endpoint.pathname.endsWith('/runtime/v1/')||['localhost','127.0.0.1','[::1]'].includes(endpoint.hostname))throw Error('Invalid server runtime release');
+  if(Object.keys(record).sort().join(',')!=='endpoint,files,review,status,version'||record.version!==1||record.files.length||typeof record.review!=='string'||!record.review.trim()||endpoint.protocol!=='https:'||endpoint.username||endpoint.password||endpoint.search||endpoint.hash||!endpoint.pathname.endsWith('/runtime/v1/')||['localhost','127.0.0.1','[::1]'].includes(endpoint.hostname))throw Error('Invalid server runtime release');
   return record;
  }
  if(record.status!=='APPROVED_FOR_PUBLICATION'||record.files.length!==1||record.files[0].path!=='sandbox-engine.worker.js'||!/^[a-f0-9]{64}$/.test(record.files[0].sha256)||!record.review)throw Error('Invalid reviewed Sandbox release');return record;

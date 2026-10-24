@@ -17,8 +17,10 @@ requires successful exact-head FULL, browser gates and matching web/visual
 artifacts before merge. Keep the `verify`, `fast`, `review` and deployment job
 names. A green FAST or skipped FULL is not final verification.
 
-The complete FULL Verify body, complete UI Review body and main FULL→verified
-artifact→Pages deployment chain remain unchanged. Deployment continues to require
+The complete FULL Verify and UI Review bodies remain byte-identical. The main
+FULL→verified artifact→identity/current-main→Pages chain is retained. Release
+preparation adds only a read-only runtime readiness check before packaging and
+deployment; it consumes no guest/compute allowance. Deployment still requires
 separate owner GO before its triggering main merge. No private source or runtime
 is introduced into public Actions.
 

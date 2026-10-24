@@ -76,7 +76,7 @@ export function sourceTeamVariantChoices(state){
 export function sourceTeamModeChoices(state){
  const current=sourceTeamView(state);
  if(current?.pendingSupport)return [];
- return current?.team?current.options.filter(t=>sameTrio(t,current.team)&&modeSignature(t)!==modeSignature(current.team)):[]; 
+ return current?.team?current.options.filter(t=>sameTrio(t,current.team)&&modeSignature(t)!==modeSignature(current.team)):[];
 }
 
 function changed(state){

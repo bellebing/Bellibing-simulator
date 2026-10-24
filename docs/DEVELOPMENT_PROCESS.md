@@ -2,6 +2,13 @@
 
 This is Bellibing's canonical worker process. `AGENTS.md` is the entrypoint; the Bellibing development skill refers here. For workflow, verification timing, autonomy and documentation, this contract supersedes older generic instructions in status/Handoff/UI documents and the unmerged ITERATION/CHECKPOINT proposal in PR #227. Their source-validity, product, architecture and relevant acceptance requirements still apply. Explicit user scope and stop instructions govern the current task.
 
+
+## Active platform scope — owner decision 2026-10-24
+
+- **Desktop-only until separate owner GO:** The active M0 online beta and subsequent M1 UI design/feature work target desktop browsers, starting at 1440×900. Add another desktop viewport only when affected behavior requires it. Do not undertake new mobile layouts, mobile UX polish, mobile-specific Chromium matrices/screenshots, or mobile acceptance work without new explicit owner approval.
+- Keep existing responsive/mobile code and user state intact; this decision does not authorize deleting working functionality or claiming mobile support was tested. It does not change data, backend, security, correctness or ownership gates.
+- Current required CI/UI gates stay binding until an explicit, risk-reviewed workflow/test contract change is implemented. Scope them honestly to desktop where appropriate before final verification; never silently skip a failing gate to obtain green. In particular, the observed 1440px team-panel screenshot DOM-detachment is a **desktop** failure, not a reason to remove mobile coverage instead of fixing it.
+
 ## Start and scope
 
 - Recover current GitHub main/code and relevant PR/CI state, then PROJECT_STATUS, available AI Handoff and the domain/UI contracts needed for the task. GitHub implementation beats stale documents or chat history; keep candidate behavior separate from merged main.

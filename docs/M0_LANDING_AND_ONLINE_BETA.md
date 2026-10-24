@@ -68,11 +68,12 @@ Detailed evidence remains private. This supports the existing split Durable
 Object approach for the next M0 integration step, without establishing sustained
 capacity, peak memory or online-beta readiness.
 
-The next concrete M0 step is to verify the existing ordinary HTTP guest/session
-runtime in its intended hosted configuration, then exercise Sandbox SIMULATE and
-Improve Current/Candidate comparisons through the ordinary website. A newly
-exposed service and Pages activation require separate owner GO. Hosted abuse,
-session-recovery and real Pages-to-backend browser verification remain Pending.
+The separate ordinary HTTP hosting review has completed and the backend is
+closed. Detailed evidence and limitations remain private. The next product step
+is a separately approved client/endpoint release, followed by actual ordinary-site
+Sandbox SIMULATE and Improve Current/Candidate verification. Required final gates
+and Pages release/merge approvals still apply; private Actions remains blocked.
+This backend review does not establish deployed Pages-to-backend acceptance.
 Never embed a
 private canary bearer token or calculator bundle in the website. Cloudflare
 Free cannot be accepted solely from a status endpoint or local wall timing.

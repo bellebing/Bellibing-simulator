@@ -29,9 +29,9 @@ Changing the release record requires the separately approved public activation;
 main merge still triggers the existing verified-artifact Pages pipeline and
 therefore needs the separate merge/deployment GO already required by the process.
 
-The private companion now prepares separate, disabled hosting configurations for
-this existing HTTP runtime. A bounded backend review needs its own activation
-GO; it does not publish this client. The checked-in release remains Pending and
+The separately authorized private ordinary HTTP hosting review has completed
+and its service is closed. The retained hosting configurations remain disabled;
+the review did not publish this client. The checked-in release remains Pending and
 the public main does not contain this candidate's server-release path. Actual
 ordinary-site end-to-end acceptance therefore also needs a separately approved
 Pages release and the required final gates. A local candidate using a hosted

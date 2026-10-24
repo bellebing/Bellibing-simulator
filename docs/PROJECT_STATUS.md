@@ -2,6 +2,11 @@
 
 Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover live branch/PR/SHA/CI/artifact/merge state from GitHub, not from this file. This document owns current product status, the nearest roadmap and real repo blockers only.
 
+
+## Active platform scope (owner decision 2026-10-24)
+
+M0 and the later M1 UI work are **desktop-only until separate owner GO**: prioritize 1440×900 and relevant other desktop widths, with no new mobile UX implementation, mobile-specific screenshots/test matrices or mobile acceptance work. Retain existing mobile/responsive code and do not regress shared state/security. Any existing mandatory mobile CI coverage needs an explicit reviewed test/process adjustment before it can be removed; failed desktop checks still block readiness. The ordinary Pages-to-private-backend Sandbox/Improve release remains the immediate goal.
+
 ## Current product
 
 ### Improve / Character Target

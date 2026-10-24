@@ -6,7 +6,8 @@ Build, Current, Candidate and Sandbox owners. Gameplay-qualified coverage remain
 
 The [coordinated release plan](M0_COORDINATED_RELEASE.md) owns the prepared public
 record, limited-beta scope, single final verification campaign and exact GO
-sequence. Both production activation and the active source release remain off.
+sequence. Step-1 source configuration is approved; backend activation, merges
+and Pages release remain blocked pending final gates and separate owner GO.
 
 ## Dependency closure and landing
 

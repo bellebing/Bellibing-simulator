@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "status": "PENDING_REVIEW",
-  "review": null,
-  "files": []
+  "status": "SERVER_RUNTIME_V1",
+  "review": "owner-go:m0-online-beta-step1",
+  "files": [],
+  "endpoint": "https://bellibing-m0-runtime-review.bellibing-engine.workers.dev/runtime/v1/"
 }

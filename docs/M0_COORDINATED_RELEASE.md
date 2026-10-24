@@ -8,8 +8,10 @@ not activate a backend, approve a merge, publish Pages or qualify gameplay DPS.
 Private Actions is blocked; no approval can substitute for mandatory FULL.
 
 The ordinary site needs both the #353 client and the #41 server. Current public
-main does not contain the client release path. The active source record remains
-PENDING_REVIEW, with no endpoint or engine files. Public/private source pins,
+main does not contain the client release path. Step-1 owner GO is recorded as
+`owner-go:m0-online-beta-step1`: the source record is SERVER_RUNTIME_V1 with the
+planned HTTPS endpoint and files=[]. This is not deployment or activation GO.
+Public/private source pins,
 rotations, ownership and Experimental/Pending semantics are unchanged.
 
 ## Prepared public release inputs
@@ -19,10 +21,10 @@ endpoint and an unapproved HTTP release candidate, with files=[] and review=null
 It is not consumed by the site build and is not a web artifact. No token, signing
 key, private revision mapping or engine code belongs in either public record.
 
-After explicit source-release GO, use:
+The step-1 source promotion is complete. The one-time promotion command was:
 
 ```sh
-node scripts/prepare-server-release.mjs --write --approval owner-go:<approval-reference>
+node scripts/prepare-server-release.mjs --write --approval owner-go:m0-online-beta-step1
 ```
 
 This writes source configuration only. It does not contact/deploy a service.
@@ -77,7 +79,7 @@ No paid plan, spending increase or paid-overage permission is proposed.
 
 | Phase | Required evidence/action | Stop condition |
 | --- | --- | --- |
-| Inputs | Restore existing private Actions availability; apply approved public record; freeze both heads and current mains | Blocked Actions, missing source-release GO or changed inputs |
+| Inputs | Restore existing private Actions availability; freeze both current release heads and mains | Blocked Actions, missing source-release GO or changed inputs |
 | Final candidates | ONE private Foundation FULL (foundation + sandbox-replay + verify conjunction), public Verify FULL and applicable UI Review on those heads | Red/skipped/missing mandatory gate; FAST is not FULL |
 | Artifact identity | Public exact-head web/visual artifacts and closed public allowlist; private runtime/config hashes in private CI diagnostics | Hash/head/dirty-tree mismatch; private content in public output |
 | Private landing | Explicit #41 merge GO for exact verified head; check private main's mandatory automatic result | Main/head changed, conflict or post-merge failure |
@@ -107,13 +109,13 @@ labels. Do not run a new 59-character or private backend benchmark workload.
 
 ## Minimal approvals, with actual heads filled in when eligible
 
-1. Source-release promotion and the bounded backend-beta scope above. This may
-   authorize configuration preparation now; backend activation is conditional on
-   successful gates and imminent approved Pages release. No clock starts early.
+1. Step-1 source-release promotion and the bounded backend-beta scope are
+   approved. Activation is expressly NOT authorized now: mandatory gates must
+   pass and the owner must separately approve both merges and Pages release.
+   No clock starts early.
 2. After green final evidence: explicit merge GO for private #41 at its frozen
    head, and public #353 at its frozen head WITH Pages release GO. The two PRs may
    be named in one approval message, but neither approval follows from the other.
 
-Do not request landing against today's Pending configuration or promise a live
-site while private FULL is blocked. No new plan/payment permission is needed or
+Do not request landing or promise a live site while private FULL is blocked. No new plan/payment permission is needed or
 requested. If the existing account cannot run its required gates, remain stopped.

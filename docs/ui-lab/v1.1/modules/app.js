@@ -141,12 +141,16 @@ function readEchoAdviceContext(){
   ...(currentAdvice?{currentAdvice}:{}),
   target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
 }
+function interactiveNetCost(){
+ const spent=echoAdvisor?.snapshot()?.workspaceSpent;
+ return spent?{status:'VERIFIED',basis:'OBSERVED_NET_RECEIPTS',echoes:spent.echoes,
+  tuners:spent.tuners-spent.returnedTuners,tubes:Object.fromEntries(Object.keys(spent.tubes).map(id=>[id,spent.tubes[id]-spent.returnedTubes[id]]))}:null;
+}
 let advisedOwner=null,advisorRenderQueued=false;
 if(accountMode)echoAdvisor=mountEchoAdvisor({readContext:readEchoAdviceContext,onRender:()=>{if(typeof feedback!=='undefined')renderFeedback();},onCard:card=>{
- const observed=echoAdvisor?.snapshot(),spent=observed?.workspaceSpent;
- resourceCost.present({simulated:spent?{status:'VERIFIED',echoes:spent.echoes,tuners:spent.tuners,tubes:spent.tubes}:null});
+ resourceCost.present({simulated:interactiveNetCost()});
  if(card){advisedOwner={state,slot:state.selectedSlot,id:card.id};state.accountCandidates[state.selectedSlot]=structuredClone(card);
- const history=echoAdvisor?.snapshot()?.history??[];state.configurationSession.histories[state.selectedSlot]=observedSlots({slots:[{slot:1,trash:history.filter(e=>e.kind==='DISCARD').map(e=>({card:e.card,reason:'User discarded · no recovery applied'}))}]})[0].trash;document.body.classList.toggle('has-advisor-trash',history.some(e=>e.kind==='DISCARD'));}
+ const history=echoAdvisor?.snapshot()?.history??[];state.configurationSession.histories[state.selectedSlot]=observedSlots({slots:[{slot:1,trash:history.filter(e=>e.kind==='DISCARD').map(e=>({card:e.card,reason:e.recovery?(e.recovery.method==='FEED'?'Fed into next Echo':'Materials recovered'):'User discarded · no recovery applied'}))}]})[0].trash;document.body.classList.toggle('has-advisor-trash',history.some(e=>e.kind==='DISCARD'));}
  else if(advisedOwner){if((advisedOwner.state!==state||advisedOwner.slot===state.selectedSlot)&&advisedOwner.state.accountCandidates[advisedOwner.slot]?.id===advisedOwner.id)advisedOwner.state.accountCandidates[advisedOwner.slot]=null;advisedOwner=null;}
  if(!advisorRenderQueued){advisorRenderQueued=true;queueMicrotask(()=>{advisorRenderQueued=false;renderWorkspace();});}
 }});
@@ -183,7 +187,7 @@ function renderFeedback() {
   $('#simulate').title = sandbox?(hostStatus!=='CONNECTED'?(browserBeta?'Pending · browser simulation unavailable':'Preview only · local simulation host not connected'):preflightStatus.status==='PENDING'?'Pending · selected configuration is not yet executable':preflightStatus.status!=='READY'?'Checking selected configuration':(browserBeta?'Simulate hypothetical Echoes':'Run detached simulation through the local host')):request.slots.length ? 'Pending: multi-slot simulation is not connected' : 'Activate an Echo to configure a future simulation';
   if(sandbox){const hostLabels={CHECKING:'Checking local simulation host · Preview only',CONNECTED:'Local simulation host connected',UNAVAILABLE:'Local simulation host unavailable · Preview only',ERROR:'Local simulation host not ready · Preview only'};$('#sandboxHostStatus').dataset.status=hostStatus;$('#sandboxHostStatus').textContent=browserBeta?'Browser engine · hypothetical · no account changes':hostLabels[hostStatus];$('#sandboxCostDetails').innerHTML=compactReview?'':sandboxCostDetails(sandboxRun?.metrics??preRunMetrics,sandboxRun?.simulatedCost);$('#sandboxAbort').disabled=!runLoop||!sandboxRun;$('#sandboxExport').disabled=!sandboxRun?.runId;const pending=sandboxRun?.status==='PENDING'?sandboxPendingCopy(sandboxRun.reasons):preflightStatus.status==='PENDING'?sandboxPendingCopy(preflightStatus.reasons):null;$('#sandboxRunStatus').dataset.runId=sandboxRun?.runId??'';$('#sandboxRunStatus').dataset.status=pending?'PENDING':preflightStatus.status;$('#sandboxRunStatus').textContent=pending?`Pending · ${pending.text}`:rotationAcceptanceText(sandboxRun)??(hostStatus!=='CONNECTED'?'Preview only · simulation unavailable':preflightStatus.status==='CHECKING'?'Preparing simulation':'Ready to simulate');$('#sandboxRunStatus').title=pending?.codes.length?`${browserBeta?'Simulation':'Server'} reason: ${pending.codes.join(', ')}`:'';const q=sandboxRun?.metrics?.dpr?.slots?.find(s=>s.slot===(runInspectionSlot??state.selectedSlot)+1)?.current;$('#sandboxQuality').textContent=expertMode&&q?.scores?`DPR · EXPERIMENTAL substat proxy: ${Object.entries(q.scores).map(([model,score])=>`${model} ${Number(score.approximate).toFixed(6)}`).join(' · ')} · Character upgrade Pending`:'';}
   if(accountMode){
-   resourceCost.present({expected:expectedResourceRecord(candidatePreflight.status==='READY'?candidatePreflight.metrics:null),simulated:candidateRun?.simulatedCost?{status:'VERIFIED',...candidateRun.simulatedCost.gross}:null});
+   resourceCost.present({expected:expectedResourceRecord(candidatePreflight.status==='READY'?candidatePreflight.metrics:null),simulated:interactiveNetCost()??(candidateRun?.simulatedCost?{status:'VERIFIED',...candidateRun.simulatedCost.gross}:null)});
    $('#simulate').disabled=!state.onAccount||candidatePreflight.status!=='READY'||runLoop;
    $('#simulate').title=candidatePreflight.reasons.join(', ');
    $('#sandboxRunStatus').textContent=runLoop?'RUNNING':candidateRun?.status==='ABORTED'?'ABORTED':candidatePreflight.status==='READY'?'Compare a Candidate':'Simulation Pending';
@@ -284,7 +288,7 @@ function readLocalTeamInput(){
  const ids=team?.characterIds??[];
  const records=accountMode?ids.map(id=>readProductionBuildRecord(localStorage,people.get(id))):[];
  let candidates=Array(5).fill(null);
- if(accountMode)candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);
+ if(accountMode){if(echoAdvisor?.available())candidates=echoAdvisor.comparisonCandidates();else candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);}
  if(sandbox&&sandboxRun?.view?.status==='GOAL_SUCCESS'){
   const selected=state.configurationSession.active.flatMap((active,i)=>active?[i]:[]),slots=sandboxRun.view.slots??[];
   if(selected.length&&selected.every(i=>slots.some(s=>s.slot===i+1&&s.complete&&s.current?.level===25))){
@@ -292,7 +296,7 @@ function readLocalTeamInput(){
 
   }
  }
- return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,candidateLabel:accountMode&&echoAdvisor?.available()?'Observed':'Candidate',pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }

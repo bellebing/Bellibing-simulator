@@ -28,7 +28,7 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},onReferenceI
    return `<td data-change="${shown>0?'up':shown<0?'down':'equal'}">${shown>0?'+':''}${fmt(shown)}${relative}</td>`;
   };
   const sandbox=input?.mode==='SANDBOX',complete=sandbox||hasCompleteTeamBuilds(input);
-  const rows=complete?row(sandbox?'Reference':'Current',result?.current)+row(sandbox?'Simulated':'Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
+  const rows=complete?row(sandbox?'Reference':'Current',result?.current)+row(sandbox?'Simulated':input?.candidateLabel==='Observed'?'Observed':'Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
   const currentReady=valid(result?.current),status=currentReady?'EXPERIMENTAL':'PENDING';
   container.dataset.status=status;
   container.querySelector('[data-team-status]').textContent=!sandbox&&!enabled?'':currentReady?'Model estimate':message==='Calculating…'?'Calculating…':'DPS not supported';

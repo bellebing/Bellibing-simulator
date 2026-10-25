@@ -6,6 +6,8 @@ Recover current truth in order: GitHub `main`/code and relevant PR/CI state → 
 
 Before any costly final CI, Ready/label transition or merge proposal, first review the implemented product against the owner's **whole** requested function, using source/diff inspection without tests when the owner asks for read-only review. CI is technical evidence after product-scope review, never a substitute for it. See Development Process v2 → PRODUCT ACCEPTANCE. Do not trigger duplicate Actions, polling or intermediate push/CI churn against the owner's instructions.
 
+For Echo Simulator vs real-game Improve separation and the **whole** user-facing product acceptance criteria, also read [Improve product goal](docs/IMPROVE_PRODUCT_GOAL.md). Proprietary improvement decisions and their implementation details belong only in the PRIVATE engine. Do not conflate RNG-generated Simulator rolls with actually observed Improve checkpoint entries.
+
 ## Clean-slate UI concept work
 
 When the user explicitly commissions a **new, isolated visual concept** (such as a Bellibing UI Lab prototype):

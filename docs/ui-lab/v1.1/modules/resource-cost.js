@@ -22,7 +22,7 @@ export function mountResourceCost(host) {
     for (const [role, record] of Object.entries({expected, simulated})) {
       const values = resourceCostValues(record);
       host.querySelectorAll(`[data-cost-role="${role}"]`).forEach((cell,index) => {
-        const value=values[index],formatted=index===1&&value!==null?(role==='expected'?'≈ ':'')+new Intl.NumberFormat('sv-SE',{maximumFractionDigits:0}).format(value):format(value);
+        const value=values[index],formatted=index<2&&value!==null?(role==='expected'?'≈ ':'')+new Intl.NumberFormat('sv-SE',{maximumFractionDigits:0}).format(value):format(value);
         cell.textContent = formatted;
         cell.setAttribute('aria-label', `${role} ${['Echoes','Tuners','Tubes Gold-equivalent'][index]}: ${values[index] === null ? 'unavailable' : formatted}`);
       });

@@ -41,6 +41,11 @@ test('relative Echo changes use each actor baseline and omit undefined zero-base
   assert.ok(html.includes('data-change="up">+10<small class="local-team-relative">+10%</small>'));
   assert.ok(html.includes('data-change="up">+10</td>'));assert.ok(html.includes('data-change="down">-20<small class="local-team-relative">-20%</small>'));
   assert.ok(html.includes('data-change="equal">0<small class="local-team-relative">0%</small>'));assert.ok(!html.includes('Infinity'));assert.ok(!html.includes('NaN'));
+  revision++;reply={status:'EXPERIMENTAL',current:result([43594.8,0,100]),candidate:result([43595.2,0,100])};
+  const exact=structuredClone(reply);controller.checkFresh();await delay(250);
+  assert.ok(html.includes('>43,595</td>'));assert.ok(!html.includes('43,594.8'));
+  assert.ok(html.includes('data-change="equal">0</td>'),'sub-unit rounded differences must not show +0 or -0');
+  assert.deepEqual(reply,exact,'formatting must preserve exact provider values');
   revision++;reply={status:'PENDING',current:reply.current,candidate:{status:'PENDING',reason:'WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET'}};controller.checkFresh();await delay(250);
   assert.ok(!html.includes('local-team-relative'));assert.ok(html.includes('ER requirement not met'));
   revision++;reply={status:'EXPERIMENTAL',current:{...result([100,0,100]),status:'VERIFIED',verification:'SOURCE_QUALIFIED_TEAM_RUN',teamDpsReady:true},candidate:result([110,10,80])};controller.checkFresh();await delay(250);assert.ok(!html.includes('local-team-relative'));assert.ok(!html.includes('>200<'));assert.ok(!html.includes('>110<'));

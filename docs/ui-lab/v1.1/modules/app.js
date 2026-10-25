@@ -26,6 +26,7 @@ import {createWorkshopEditor} from './workshop-editor.js';
 import {activeEchoSlots, activationMarkup, positionActivationMarks, setEchoActive, simulationRequest} from './echo-activation.js';
 import { mountResourceCost } from './resource-cost.js';
 import { mountResourceInventory } from './resource-inventory.js';
+import { resourceReadiness } from './resource-readiness.js';
 import { mountResultsPanel } from './simulation-stats.js';
 import { mountImproveSettings } from './improve-settings.js';
 import { mountSonataSelection } from './sonata-selection.js';
@@ -193,6 +194,17 @@ function renderFeedback() {
    $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Ready to simulate';
    $('#sandboxAbort').disabled=!run||level===25||!!run.aborted;$('#sandboxExport').disabled=!run;
    $('#sandboxCostDetails').innerHTML='';$('#sandboxHostStatus').textContent='Local Echo advice · gross Tuners';
+  }
+  const checkResources = !demonstration && !configurationReview && !runLoop && (sandbox || (accountMode && state.onAccount && !echoAdvisor?.available())) && request.slots.length > 0 && (accountMode || state.configurationSession?.mode !== 'current');
+  const readiness = checkResources ? resourceReadiness(resources.read()) : {missing: [], text: null};
+  resources.showMissing(readiness.missing);
+  if (readiness.text) {
+    $('#simulate').disabled = true;
+    $('#simulate').title = readiness.text;
+    $('#feedbackTitle').textContent = readiness.text;
+    $('#workshopFeedback').dataset.severity = 'error';
+    $('#sandboxRunStatus').textContent = readiness.text;
+    $('#sandboxRunStatus').dataset.status = 'MISSING_RESOURCES';
   }
   $('#reviewScenario').value = state.feedbackScenario;
   $('#reviewScenario').disabled = !demonstration || selectedId !== 'augusta';

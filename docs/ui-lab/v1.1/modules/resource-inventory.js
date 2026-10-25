@@ -62,5 +62,14 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
     if (event.key === 'Enter') { event.preventDefault(); commit(event.target); }
     if (event.key === 'Escape') { event.preventDefault(); event.target.value = formatInventoryQuantity(quantity(event.target.closest('[data-resource]').dataset.resource)); clear(event.target); }
   });
-  return { read: inventory.read, revision: inventory.revision };
+  function showMissing(missing = []) {
+    host.querySelectorAll('[data-resource]').forEach(field => {
+      const affected = missing.includes(field.dataset.resource) || (missing.includes('xp') && ECHO_TUBES.some(tube => tube.id === field.dataset.resource));
+      field.classList.toggle('resource-missing', affected);
+      const input = field.querySelector('input');
+      if (affected && input.getAttribute('aria-invalid') !== 'true') input.setAttribute('aria-describedby', 'feedbackTitle');
+      else if (input.getAttribute('aria-describedby') === 'feedbackTitle') input.removeAttribute('aria-describedby');
+    });
+  }
+  return { read: inventory.read, revision: inventory.revision, showMissing };
 }

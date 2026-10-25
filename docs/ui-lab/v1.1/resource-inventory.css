@@ -24,3 +24,15 @@
 #resourceInventory input:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 #resourceInventory input[aria-invalid=true] { border-color:#ba8279; }
 #resourceInventory .resource-error { color:#d59c93; font-size:var(--type-body); line-height:1.4; margin:8px 0 0; }
+#resourceInventory .resource-missing {
+  border-radius:5px;
+  outline:1px solid #d69457;
+  outline-offset:2px;
+  animation:resource-attention 2s ease-in-out infinite;
+}
+@keyframes resource-attention {
+  50% { box-shadow:0 0 0 3px rgb(214 148 87 / 25%); }
+}
+@media (prefers-reduced-motion:reduce) {
+  #resourceInventory .resource-missing { animation:none; }
+}

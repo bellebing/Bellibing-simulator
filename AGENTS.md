@@ -4,6 +4,8 @@ Read [Development Process v2](docs/DEVELOPMENT_PROCESS.md) before work; it is th
 
 Recover current truth in order: GitHub `main`/code and relevant PR/CI state → `docs/PROJECT_STATUS.md` → Bellibing Echo Tool — AI Handoff, when available → relevant domain/UI contracts. Current implementation beats stale documents and chat history; an unmerged candidate is separate from main. Read only what the task needs.
 
+Before any costly final CI, Ready/label transition or merge proposal, first review the implemented product against the owner's **whole** requested function, using source/diff inspection without tests when the owner asks for read-only review. CI is technical evidence after product-scope review, never a substitute for it. See Development Process v2 → PRODUCT ACCEPTANCE. Do not trigger duplicate Actions, polling or intermediate push/CI churn against the owner's instructions.
+
 ## Clean-slate UI concept work
 
 When the user explicitly commissions a **new, isolated visual concept** (such as a Bellibing UI Lab prototype):

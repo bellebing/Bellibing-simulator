@@ -33,6 +33,14 @@ Use the highest affected class; shared or cross-cutting changes require broader 
 
 ## Verification levels
 
+### PRODUCT ACCEPTANCE — read-only functional review before final CI
+
+A worker statement such as "implementation complete", a passing FAST check, a green historical FULL run, or the mere existence of modules does **not** establish that the owner's complete requested product behavior was delivered. Before taking any action that will trigger a final FULL/UI workflow (including Ready transitions, adding `full-verification` or manual dispatch), compare the **actual changed code and relevant calling paths** against the full current owner request and acceptance criteria. Distinguish implemented behavior, unavailable/uncertain game facts, experimental modeling assumptions, and missing product integration. Inspect the relevant code and diff directly rather than treating a PR body or old Handoff status as proof.
+
+When the owner requests a code/product assessment **without tests**, this stage is strictly read-only: no test commands, Actions dispatch, status churn, build reruns, source re-research, or polling. A reviewer may read existing evidence, but cannot promote it to exact-head proof. The worker must report concrete code-supported product gaps and fix independently implementable parts in the same authorized workstream **before** proposing final verification. Do not ask the owner to repeat confirmed mechanics already in the canonical sources. Do not create extra "first-scope complete" definitions in place of the original product goal.
+
+Owner-prohibited expensive intermediate CI is not a reason to weaken, bypass or misrepresent required **final** checks. If a PR is Ready and any `synchronize` event would automatically launch FULL, do not push exploratory fixes to that PR; use local review/development and a coordinated final head update. Unrelated CI state changes and repeated checks of a running job are not progress. Once functional scope is accepted, obtain the applicable owner instruction before scheduling the single consolidated exact-head final gate. A failed final gate is a new defect to fix, not permission to silently merge. For high-risk changes needing earlier correctness checks, disclose their necessity and follow the explicit current owner scope rather than promising unverified readiness.
+
 ### FAST — normal iteration
 
 Run affected/focused tests and relevant audits only. Typecheck or build when the changed paths require it. A direct test-file command is sufficient; no new runner is required. Docs-only changes normally need diff/link/structure/contract checks.

@@ -7,6 +7,8 @@ description: Develop Bellibing Simulator using the canonical Development Process
 
 Use for work in `bellebing/Bellibing-simulator`. Read the repository [AGENTS.md](../../../AGENTS.md) and follow [Development Process v2](../../../docs/DEVELOPMENT_PROCESS.md), the single process authority for risk, FAST/REVIEW/MERGE, autonomy, evidence and documentation. This skill adds no unconditional full-verification or checkpoint requirement.
 
+Product acceptance is a separate **read-only code/scope review** before expensive final CI. When the owner instructs "no tests", do not dispatch Actions, run checks, or make a PR Ready as part of that review. Report functional gaps against the full requested motor before considering technical gate evidence; final mandatory merge checks remain intact.
+
 Bellibing safety remains mandatory at every level:
 
 - Never guess Wuthering Waves facts or mechanics. Reuse current reviewed source-backed facts with valid provenance; unresolved evidence stays explicit PENDING and fails closed. V9.15 is only a historical reference when needed.

@@ -8,7 +8,7 @@ export function hasCompleteTeamBuilds(input){
  const {team,records}=input??{};
  return team?.characterIds?.length===3&&team.characterIds.every(id=>{const r=records?.find(r=>r.characterId===id),b=r?.buildState;return r?.status==='OBSERVED_PRODUCTION_BUILD_RECORD'&&b?.echoSets?.sets?.[b.echoSets.activeSetId]?.slots?.filter(c=>c?.level===25).length===5;});
 }
-export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fetch}={}){
+export function createLocalTeamReview({readInput,onAvailable=()=>{},onReferenceInvestmentChange=()=>{},fetchImpl=fetch}={}){
  let available=false,enabled=false,binding=null,generation=0,result=null,message='Select Lv90 / R1 reference',timer=null,container=null,pendingController=null,service=null;
  const snapshot=()=>{try{return readInput();}catch{return null;}};
  const identity=()=>JSON.stringify(snapshot());
@@ -37,7 +37,7 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
   container.querySelector('.local-team-status').textContent=team?(complete&&!['Calculating…','Select Lv90 / R1 reference','DPS calculation not supported'].includes(message)&&!message.startsWith('Experimental')?message:''):input?.pendingSelection==='VARIANT'?'':'Choose a teammate';
   container.querySelector('[data-team-reference]').innerHTML=sandbox?'':`<label class="local-team-enable"><input type="checkbox" data-local-team-enable ${enabled?'checked':''}> Lv90 / R1 model</label>`;
 
-  if(!sandbox)container.querySelector('[data-local-team-enable]').onchange=e=>{enabled=e.target.checked;binding=null;refresh();};
+  if(!sandbox)container.querySelector('[data-local-team-enable]').onchange=e=>{enabled=e.target.checked;binding=null;refresh();onReferenceInvestmentChange(enabled);};
  }
  function refresh(){
   if(!available)return;
@@ -69,5 +69,5 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
    service=createServerTransport({endpoint:manifest.endpoint,fetchImpl});available=true;onAvailable();
   }catch{}
  })();
- return {mount(panel){if(!available)return;container=panel.querySelector('.sandbox-dps');if(!container)return;container.classList.add('local-team-review');container.dataset.kind=snapshot()?.mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';refresh();draw();},checkFresh:refresh};
+ return {referenceInvestmentAccepted:()=>enabled,mount(panel){if(!available)return;container=panel.querySelector('.sandbox-dps');if(!container)return;container.classList.add('local-team-review');container.dataset.kind=snapshot()?.mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';refresh();draw();},checkFresh:refresh};
 }

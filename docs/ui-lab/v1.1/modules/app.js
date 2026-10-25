@@ -98,7 +98,7 @@ let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMet
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>compactReview?null:state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)&&!!sourceTeamView(state)?.selectedTeam&&['augusta','iuno','the-shorekeeper'].every(id=>sourceTeamView(state).selectedTeam.characterIds.includes(id))?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;if(run?.status==='PENDING'){preflightStatus={status:'PENDING',reasons:run.reasons??[]};preRunMetrics=null;}runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
-var echoAdvisor=null;
+var echoAdvisor=null,localTeamReview=null;
 let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
 function readImproveOwner(){let policyStorage;try{policyStorage=['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].map(key=>localStorage.getItem(key));}catch{policyStorage='ACCOUNT_SETTINGS_UNREADABLE';}return {kind:'ACCOUNT_BUILD',policyStorage,record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
 const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
@@ -133,14 +133,21 @@ function readEchoAdviceContext(){
  let template=null;if(card)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:card.echoId,cost:card.cost,rank:card.rank,mainStatName:card.mainStat?.name,selectedSonataSetId:card.selectedSonataSetId});}catch{}
  let settings;try{settings=settingsSnapshot(state);}catch{return {owner:{characterId:selectedId,slot,record},pending:'Settings Pending'};}
  const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!card?'Choose an equipped Echo':!template?'Echo configuration Pending':!state.configurationSession.active[slot]?'Activate selected slot':state.accountSettingsPending?'Settings Pending':settings.erTarget.enabled?'Whole-build ER advice Pending':settings.flex.length&&!Number.isInteger(settings.flexCount)?'Choose Flex count':null;
- return {owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record},template,
+ const referenceAccepted=localTeamReview?.referenceInvestmentAccepted()===true,
+  teamInput=referenceAccepted?readLocalTeamInput():null,
+  currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:true}:null;
+ return {owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
+   ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,referenceInvestment:true}}:{})},template,
+  ...(currentAdvice?{currentAdvice}:{}),
   target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
 }
 let advisedOwner=null,advisorRenderQueued=false;
 if(accountMode)echoAdvisor=mountEchoAdvisor({readContext:readEchoAdviceContext,onRender:()=>{if(typeof feedback!=='undefined')renderFeedback();},onCard:card=>{
+ const observed=echoAdvisor?.snapshot(),spent=observed?.workspaceSpent;
+ resourceCost.present({simulated:spent?{status:'VERIFIED',echoes:spent.echoes,tuners:spent.tuners,tubes:spent.tubes}:null});
  if(card){advisedOwner={state,slot:state.selectedSlot,id:card.id};state.accountCandidates[state.selectedSlot]=structuredClone(card);
  const history=echoAdvisor?.snapshot()?.history??[];state.configurationSession.histories[state.selectedSlot]=observedSlots({slots:[{slot:1,trash:history.filter(e=>e.kind==='DISCARD').map(e=>({card:e.card,reason:'User discarded · no recovery applied'}))}]})[0].trash;document.body.classList.toggle('has-advisor-trash',history.some(e=>e.kind==='DISCARD'));}
- else if(advisedOwner){if(advisedOwner.state.accountCandidates[advisedOwner.slot]?.id===advisedOwner.id)advisedOwner.state.accountCandidates[advisedOwner.slot]=null;advisedOwner=null;}
+ else if(advisedOwner){if((advisedOwner.state!==state||advisedOwner.slot===state.selectedSlot)&&advisedOwner.state.accountCandidates[advisedOwner.slot]?.id===advisedOwner.id)advisedOwner.state.accountCandidates[advisedOwner.slot]=null;advisedOwner=null;}
  if(!advisorRenderQueued){advisorRenderQueued=true;queueMicrotask(()=>{advisorRenderQueued=false;renderWorkspace();});}
 }});
 
@@ -289,7 +296,7 @@ function readLocalTeamInput(){
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }
-const localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,onAvailable:()=>renderCharacter()});
+localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,onAvailable:()=>renderCharacter(),onReferenceInvestmentChange:()=>echoAdvisor?.sync()});
 // Other member builds can change in Build/another tab; invalidate the entire
 // comparison immediately even if the selected member's Candidate is unchanged.
 if(sandbox||accountMode)setInterval(()=>localTeamReview.checkFresh(),200);

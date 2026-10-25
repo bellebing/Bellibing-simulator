@@ -28,6 +28,8 @@ try{
   throw Error('Unexpected contract endpoint: '+path);
  });
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&character=expanded`);await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ // These host/result scenarios require a funded search; resource blockers are not their subject.
+ await page.locator('.sandbox-unlimited-resources').evaluate(button=>button.click());
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  assert.equal(await page.locator('.team-dps-table').count(),1);assert.equal(await page.locator('.team-next-action').count(),0);assert.deepEqual(await page.locator('.team-dps-table tbody th').allTextContents(),['Reference','Simulated','Change']);
  assert.equal(await page.locator('.sandbox-dps-context').count(),0);

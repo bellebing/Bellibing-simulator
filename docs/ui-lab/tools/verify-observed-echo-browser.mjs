@@ -38,6 +38,8 @@ try{
  });
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy&review=expert&character=expanded`);
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ // These host/result scenarios require a funded search; resource blockers are not their subject.
+ await page.locator('.sandbox-unlimited-resources').evaluate(button=>button.click());
  if(await page.locator('#characterToggle').getAttribute('aria-expanded')!=='true')await page.locator('#characterToggle').click();
  await page.locator('.team-details>summary').click();await page.locator('.dps-expert summary').click();await page.locator('.sandbox-dps-context').check();
  await page.waitForFunction(()=>!document.querySelector('#simulate').disabled);await page.locator('#simulate').click();

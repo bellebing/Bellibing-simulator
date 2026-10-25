@@ -2,7 +2,7 @@ import {captureLocalTeamBuilds} from '../../../../src/localTeamBuildCapture.mjs'
 import {sourceTeamRoles} from './team-selection.js';
 import {createServerTransport} from './server-transport.js';
 const path='/local-review/team-dps',headers={'Content-Type':'application/json','X-Bellibing-Review':'1'};
-const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n):'—';
+const fmt=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(Math.abs(n)<.5?0:n):'—';
 const labels={SANDBOX_REFERENCE_SOURCE_PENDING:'DPS calculation not supported',FIVE_COMPLETED_SANDBOX_ECHOES_REQUIRED:'Simulate all five Echoes',SANDBOX_REFERENCE_INPUT_PENDING:'DPS calculation not supported',SOURCE_CALCULATOR_PROFILE_PENDING:'Equipment not supported',SOURCE_BUILD_STAT_REQUIREMENT_UNMET:'Rotation stat requirement not met',SOURCE_REFERENCE_ROTATION_PENDING:'Rotation not supported',SOURCE_CALCULATOR_DEPENDENCY_PENDING:'Local source model unavailable',SOURCE_CALCULATOR_ENEMY_CONTEXT_PENDING:'Reference enemy mismatch',CHANGED_REFERENCE_ROTATION_SCHEDULE_PENDING:'Changed rotation Pending',SOURCE_ROTATION_CAST_REQUIREMENTS_UNMET:'Rotation requirements not met',CONFIRM_REFERENCE_INVESTMENT:'Select Lv90 / R1 reference',COMPLETE_ACCOUNT_TEAM_REQUIRED:'Complete the team in Build',FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED:'Five complete Echoes per teammate required',WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET:'ER requirement not met',CHANGED_SEQUENCE_STATE_SCHEDULE_PENDING:'Sequence rotation Pending',SOURCE_SCHEDULE_REQUIRES_MORTEFI_S6:'S0–S2 rotation Pending',SOURCE_DAMAGE_SCHEDULE_PENDING:'Team rotation Pending',CHANGED_WEAPON_ROTATION_CONTEXT_PENDING:'Weapon rotation Pending',CHANGED_EQUIPMENT_ROTATION_CONTEXT_PENDING:'Echo / Sonata rotation Pending',CANONICAL_BUILD_VALIDATION_PENDING:'Complete legal +25 Echoes required',CHARACTER_INVESTMENT_CONTEXT_PENDING:'Max skills required',FIXED_COMPARISON_CONTEXT_MISMATCH:'Changed reference context',NO_ACTIVE_OBSERVED_SANDBOX_CARDS:'Simulate an active Echo first'};
 export function hasCompleteTeamBuilds(input){
  const {team,records}=input??{};
@@ -20,7 +20,13 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
   const row=(label,r)=>`<tr><th>${label}</th>${ids.map(id=>`<td>${valid(r)?fmt(r.characterContributions.find(m=>m.characterId===id).dps):'—'}</td>`).join('')}<td class="team-total">${valid(r)?fmt(r.teamTotal):'—'}</td></tr>`;
   const comparable=result?.status==='EXPERIMENTAL'&&valid(result.current)&&valid(result.candidate)&&result.current.contextIdentity===result.candidate.contextIdentity&&result.current.provider.sourceBinding===result.candidate.provider.sourceBinding;
   const delta=comparable?ids.map(id=>result.candidate.characterContributions.find(m=>m.characterId===id).dps-result.current.characterContributions.find(m=>m.characterId===id).dps).concat(result.candidate.teamTotal-result.current.teamTotal):null;
-  const changeCell=(value,index)=>{if(!delta)return '<td>—</td>';const base=index===ids.length?result.current.teamTotal:result.current.characterContributions.find(m=>m.characterId===ids[index]).dps,percent=base>0?value/base*100:null;return `<td data-change="${value>0?'up':value<0?'down':'equal'}">${value>0?'+':''}${fmt(value)}${Number.isFinite(percent)?`<small class="local-team-relative">${percent>0?'+':''}${new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(percent)}%</small>`:''}</td>`;};
+  const changeCell=(value,index)=>{
+   if(!delta)return '<td>—</td>';
+   const shown=Math.abs(value)<.5?0:value;
+   const base=index===ids.length?result.current.teamTotal:result.current.characterContributions.find(m=>m.characterId===ids[index]).dps,percent=base>0?value/base*100:null;
+   const relative=Number.isFinite(percent)&&(shown!==0||value===0)?`<small class="local-team-relative">${percent>0?'+':''}${new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(percent)}%</small>`:'';
+   return `<td data-change="${shown>0?'up':shown<0?'down':'equal'}">${shown>0?'+':''}${fmt(shown)}${relative}</td>`;
+  };
   const sandbox=input?.mode==='SANDBOX',complete=sandbox||hasCompleteTeamBuilds(input);
   const rows=complete?row(sandbox?'Reference':'Current',result?.current)+row(sandbox?'Simulated':'Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
   const currentReady=valid(result?.current),status=currentReady?'EXPERIMENTAL':'PENDING';

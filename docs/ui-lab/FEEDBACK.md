@@ -34,3 +34,27 @@ The Lab summary therefore shows **equipped composition** (`×3`, `×2`), with ac
 The three segmented selectors share one component: connected dark track, miniature warm-gold gradient on selection, the primary action's lighting/border vocabulary, restrained depth, hover/press feedback and visible keyboard focus. SIMULATE retains its approved size, location and stronger gold emphasis. Current still reports its existing unconnected-mode boundary.
 
 Secondary Stats use the next existing type role above Substats: 16px working/inspection, 14px slot/pile, versus 12px ordinary rows. Spacing compensates within the card anatomy. Discarded cards have one red footer, **DISCARDED AT +N** (unknown remains unknown); unrolled rows retain **Not rolled**.
+
+## Resource readiness and number presentation
+
+Normal Sandbox and detached Improve Candidate searches check the configured
+resource inventory before enabling SIMULATE. Missing one resource group shows
+**Missing Echoes**, **Missing Tuners** or **Missing Echo XP**. Multiple groups
+show **Missing resources**. A restrained orange pulsing outline identifies the
+affected inputs; reduced-motion preferences retain a static outline. Valid zero
+counts remain valid inputs. Correcting the inventory clears the mark without
+changing saved equipment or spending real resources.
+
+This is a fresh-start check using the existing first-checkpoint cost and Tube
+denominations, not a guarantee that a finite budget can finish the whole goal.
+Runtime support/source checks still apply; enough resources never turn an
+unavailable backend or unsupported configuration into Ready.
+
+Expected Echoes/Tuners and Team DPS values use nearest-whole-number presentation.
+Expected values retain the approximation marker. Source values, calculations,
+exports, Gold-equivalent Tube quantities and stat thresholds retain precision.
+Experimental DPS and Pending remain distinct.
+
+Deferred owner direction: an optional Guide button may later walk through
+Resources → Gate → Hard Requirements → Flex Stats with one short instruction
+and a highlighted region at a time. This guide is not implemented in this slice.

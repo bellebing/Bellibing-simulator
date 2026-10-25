@@ -47,6 +47,8 @@ try{
  });
  await page.goto(`http://127.0.0.1:${server.address().port}/docs/ui-lab/v1.1/index.html?sandbox=true&layout=legacy`,{waitUntil:'domcontentloaded',timeout:60000});
  await page.waitForFunction(()=>document.documentElement.dataset.uiLabReady==='true');
+ // These host/result scenarios require a funded search; resource blockers are not their subject.
+ await page.locator('.sandbox-unlimited-resources').evaluate(button=>button.click());
  await page.locator('.sandbox-diagnostics summary').click();
  const host=page.locator('#sandboxHostStatus'),button=page.locator('#simulate');
  await page.locator('#sandboxHostStatus[data-status="UNAVAILABLE"]').waitFor({timeout:15000});

@@ -2,10 +2,10 @@
 // never imported into the public bundle or exposed as a static asset.
 import {spawn} from 'node:child_process';
 import {resolve} from 'node:path';
-export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route='/local-review/team-dps',entry='scripts/team-dps/stdio.mjs',protocol='BELLIBING_LOCAL_TEAM_REVIEW_V1'}={}){
- let busy=false;
+export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route='/local-review/team-dps',entry='scripts/team-dps/stdio.mjs',protocol='BELLIBING_LOCAL_TEAM_REVIEW_V1',persistent=false}={}){
+ let busy=false,worker=null,pendingLine=null,streamBuffer='';
  const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
- return async(req,res,{origin})=>{
+ const handler=async(req,res,{origin})=>{
   const url=new URL(req.url,origin);if(url.pathname!==route)return false;
   const error=(status,reason)=>{json(res,status,{status:'PENDING',reason});return true;};
   if(url.search||req.method!=='POST')return error(405,'METHOD_REJECTED');
@@ -18,6 +18,16 @@ export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route
   if(busy)return error(429,'REVIEW_BUSY');busy=true;
   try{
    const output=await new Promise((ok,bad)=>{
+    if(persistent){
+     if(!worker){streamBuffer='';const spawned=spawn(process.execPath,['--experimental-strip-types',resolve(engineDirectory,entry),'--stream'],{cwd:engineDirectory,stdio:['pipe','pipe','pipe']});worker=spawned;worker.stderr.resume();worker.stdin.on('error',()=>{});const retired=()=>{if(worker===spawned){pendingLine?.(Error('UNAVAILABLE'));worker=null;}};worker.on('error',retired);worker.on('close',retired);
+      worker.stdout.on('data',chunk=>{if(worker!==spawned)return;streamBuffer+=chunk.toString();if(Buffer.byteLength(streamBuffer)>65536){pendingLine?.(Error('OUTPUT_BOUND'));worker?.kill();return;}const at=streamBuffer.indexOf('\n');if(at>=0){const line=streamBuffer.slice(0,at);streamBuffer=streamBuffer.slice(at+1);try{const value=JSON.parse(line);if(value.protocol!==protocol||!value.result)throw Error();pendingLine?.(null,value);}catch{pendingLine?.(Error('UNAVAILABLE'));}}});
+     }
+     const child=worker;let settled=false;
+     const aborted=()=>{}; // Finish this bounded batch privately; do not retire other jobs.
+     const finish=(error,value)=>{if(settled)return;settled=true;clearTimeout(timer);req.off('aborted',aborted);res.off('close',aborted);pendingLine=null;error?bad(error):ok(value);};
+     const timer=setTimeout(()=>{child.kill();if(worker===child)worker=null;finish(Error('TIMEOUT'));},timeoutMs);
+     req.once('aborted',aborted);res.once('close',aborted);pendingLine=finish;child.stdin.write(JSON.stringify(input)+'\n');return;
+    }
     const child=spawn(process.execPath,['--experimental-strip-types',resolve(engineDirectory,entry)],{cwd:engineDirectory,stdio:['pipe','pipe','pipe']});
     let bytes=0,settled=false;const result=[];
     const finish=(error,value)=>{if(settled)return;settled=true;clearTimeout(timer);req.off('aborted',aborted);res.off('close',aborted);error?bad(error):ok(value);};
@@ -33,4 +43,6 @@ export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route
   }catch{json(res,503,{status:'PENDING',reason:'LOCAL_REVIEW_UNAVAILABLE'});}finally{busy=false;}
   return true;
  };
+ handler.close=()=>{worker?.kill();worker=null;pendingLine?.(Error('CLOSED'));pendingLine=null;};
+ return handler;
 }

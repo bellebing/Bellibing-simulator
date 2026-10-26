@@ -91,3 +91,22 @@ body.account-build-empty .working-card,body.account-build-empty #resourceCost,bo
 :is(.sandbox-preview,.compact-review) #character .team-dps-table th:first-child{width:58px}:is(.sandbox-preview,.compact-review) #character .team-role-label{display:block;height:26px;min-height:26px;line-height:1.2}:is(.sandbox-preview,.compact-review) #character .team-member>span{min-height:26px;display:flex;align-items:center;justify-content:center}:is(.sandbox-preview,.compact-review) #character .team-member{justify-content:flex-start}.local-team-status:empty{display:none}body.account-build-empty .loadout-section,body.account-build-empty #characterStats{display:none}
 body.account-build-empty .loadout-heading,body.account-build-empty #slots{display:none}
 .selector-help{margin-top:14px;color:var(--muted);font-size:12px;line-height:1.5}.selector-help>summary{color:var(--gold);cursor:pointer}.selector-help ul{padding-left:18px}
+
+/* Observed Improve: readable summaries inside the existing desktop workspace. */
+.echo-advisor .improve-opportunities{margin:12px 0;line-height:1.5;text-align:left;font-size:12px}
+.echo-advisor .improve-opportunities table{min-width:920px;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums}
+.echo-advisor .improve-opportunities th,.echo-advisor .improve-opportunities td{padding:9px 10px;text-align:left;white-space:normal;border-bottom:1px solid var(--line,#394047);font-size:12px;letter-spacing:normal;line-height:1.5}
+.echo-advisor .improve-opportunities th{font-weight:600;color:var(--gold,#cdb783)}
+.echo-advisor .actual-investments{margin:12px 0;text-align:left;font-size:12px}
+.echo-advisor .actual-investments fieldset{display:flex;gap:10px;padding:10px;border:1px solid var(--line,#394047);margin:8px 0}
+.echo-advisor .actual-investments label,.echo-advisor [data-observation] label{display:grid;gap:5px;min-width:0}
+.echo-advisor input,.echo-advisor select{background:#141c20;color:inherit;border:1px solid #555e63;border-radius:5px;padding:7px;font:inherit;max-width:100%;box-sizing:border-box}
+.echo-advisor input{width:110px}
+.echo-advisor [data-observation]{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;text-align:left;font-size:12px}
+.echo-advisor [data-observation] button{grid-column:1/-1;padding:10px}
+.echo-advisor button[data-restart]{padding:10px;margin:8px 0}
+.echo-advisor>.advice-options{grid-template-columns:repeat(2,minmax(0,1fr));font-size:12px;line-height:1.5;text-align:left;margin:10px 0}
+.echo-advisor>.advice-options>div{padding:10px;border:1px solid var(--line,#394047);border-radius:6px}
+.echo-advisor>ol{font-size:12px;line-height:1.6;text-align:left}
+
+body.has-echo-advisor .interaction,.echo-advisor,.echo-advisor .improve-opportunities{min-width:0}

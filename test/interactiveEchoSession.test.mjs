@@ -8,7 +8,7 @@ const recovery=async({recovery:r})=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result
  state:{revision:r.revision+1,inventory:structuredClone(r.inventory),progress:{cumulativeEchoEXP:0,tunedThrough:0}},
  ledger:{before:structuredClone(r.inventory),after:structuredClone(r.inventory),returned:{echoes:0,tuners:15,tubes:{premium:21,advanced:0,medium:1,basic:1}}}}});
 test('five actual canonical reveals, Settings/Gate/resource changes without RNG and owner/reset isolation',async()=>{
- let input=context(),calls=0;const session=createInteractiveEchoSession({readContext:()=>input,seedFactory:()=>String(++calls),requestRecovery:recovery,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ let input=context(),calls=0;const session=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,seedFactory:()=>String(++calls),requestRecovery:recovery,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
  session.advance();const first=session.snapshot();assert.equal(first.candidate.level,5);assert.equal(first.candidate.substats.length,1);assert.equal(first.spent.tuners,10);
  input={...input,gate:15,target:{...input.target,hard:[{name:'CRIT DMG',minimum:0.126}]}};session.sync();assert.deepEqual(session.snapshot().candidate,first.candidate);assert.equal(calls,2);
  for(let i=2;i<=5;i++){session.advance();assert.equal(session.snapshot().candidate.level,i*5);}assert.equal(new Set(session.snapshot().candidate.substats.map(r=>r.name)).size,5);assert.equal(session.snapshot().spent.tuners,50);
@@ -17,28 +17,28 @@ test('five actual canonical reveals, Settings/Gate/resource changes without RNG 
 });
 test('slots retain canonical prefixes while sharing one finite detached budget',()=>{
  const input=context();input.inventory.tuners={kind:'FINITE',count:20};const before=structuredClone(input);
- const s=createInteractiveEchoSession({readContext:()=>input,seedFactory:()=>String(input.owner.slot),requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ const s=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,seedFactory:()=>String(input.owner.slot),requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
  s.advance();const first=s.snapshot().candidate;input.owner.slot=1;s.advance();const second=s.snapshot().candidate;
  assert.notEqual(first.id,second.id);assert.equal(s.snapshot().workspaceSpent.tuners,20);assert.throws(()=>s.advance(),/INSUFFICIENT_TUNERS/);
  input.owner.slot=0;s.sync();assert.deepEqual(s.snapshot().candidate,first);assert.throws(()=>s.advance(),/INSUFFICIENT_TUNERS/);
  assert.deepEqual(input.inventory,before.inventory);s.reset();
 });
 test('a stale recovery response cannot destroy a different owner or spend budget',async()=>{
- const input=context();let release;const s=createInteractiveEchoSession({readContext:()=>input,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}}),requestRecovery:body=>new Promise(resolve=>{release=()=>recovery(body).then(resolve);})});
+ const input=context();let release;const s=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}}),requestRecovery:body=>new Promise(resolve=>{release=()=>recovery(body).then(resolve);})});
  s.advance();const wait=s.discard();input.owner.characterId='iuno';s.sync();release();await assert.rejects(wait,/STALE_RECOVERY/);assert.equal(s.snapshot(),null);s.reset();
 });
 test('late responses cannot repopulate a retired owner or overwrite a new Settings/Gate context',async()=>{
- let input=context(),resolve;const session=createInteractiveEchoSession({readContext:()=>input,requestAdvice:()=>new Promise(r=>resolve=r)});session.advance();await delay(140);
+ let input=context(),resolve;const session=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,requestAdvice:()=>new Promise(r=>resolve=r)});session.advance();await delay(140);
  input={...input,gate:20};session.sync();resolve({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'VERIFIED',winner:'OBSOLETE'}});await delay(0);assert.equal(session.snapshot().advice,null);
  session.reset();await delay(150);assert.equal(session.snapshot(),null);
 });
 test('finite Tuner/Echo caps block before RNG and never spend account inventory',()=>{
  const input=context();input.inventory.tuners={kind:'FINITE',count:10};const raw=structuredClone(input);let seeds=0;
- const s=createInteractiveEchoSession({readContext:()=>input,seedFactory:()=>String(++seeds),requestAdvice:async()=>({})});s.advance();assert.throws(()=>s.advance(),/INSUFFICIENT_TUNERS/);assert.equal(seeds,2);assert.deepEqual(input,raw);s.reset();
+ const s=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,seedFactory:()=>String(++seeds),requestAdvice:async()=>({})});s.advance();assert.throws(()=>s.advance(),/INSUFFICIENT_TUNERS/);assert.equal(seeds,2);assert.deepEqual(input,raw);s.reset();
 });
 test('feed commits only the exact destination identity named in the proposal',async()=>{
  for(const wrongDestination of [true,false]){
-  const input=context();let captured;const s=createInteractiveEchoSession({readContext:()=>input,seedFactory:()=>String(wrongDestination),requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{kind:'CURRENT_BOUND_ECHO_ADVICE',status:'EXPERIMENTAL',winner:'DISCARD',recoveryMethod:'FEED'}}),requestRecovery:async body=>{
+  const input=context();let captured;const s=createInteractiveEchoSession({mode:'SIMULATOR',readContext:()=>input,seedFactory:()=>String(wrongDestination),requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{kind:'CURRENT_BOUND_ECHO_ADVICE',status:'EXPERIMENTAL',winner:'DISCARD',recoveryMethod:'FEED'}}),requestRecovery:async body=>{
    captured=body.recovery;const response=await recovery(body);response.result.destinationId=wrongDestination?'a-different-physical-echo':captured.destinationId;
    response.result.state.progress.cumulativeEchoEXP=3000;response.result.ledger.returned={echoes:0,tuners:3,tubes:{premium:0,advanced:0,medium:0,basic:0}};return response;
   }});

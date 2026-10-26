@@ -25,3 +25,12 @@ test('loopback review bridge enforces host/origin/JSON bounds and never serves e
   assert.equal((await fetch(origin+'/private/scripts/team-dps/stdio.mjs')).status,404);
  }finally{server.closeAllConnections();await new Promise(ok=>server.close(ok));await rm(root,{recursive:true,force:true});}
 });
+
+test('persistent advisor bridge keeps private job state between bounded requests and retires its process',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'bellibing-advisor-stream-')),site=join(root,'site'),engine=join(root,'private');
+ for(const file of ['index.html','build/index.html','sandbox/index.html','improve/index.html','review-build.json']){await mkdir(join(site,file,'..'),{recursive:true});await writeFile(join(site,file),'{}');}
+ await mkdir(engine,{recursive:true});await writeFile(join(engine,'stream.mjs'),"import {createInterface} from 'node:readline';let n=0;for await(const line of createInterface({input:process.stdin}))process.stdout.write(JSON.stringify({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'CALCULATING',cursor:++n}})+'\\n');");
+ const handler=createLocalTeamDpsHandler({engineDirectory:engine,entry:'stream.mjs',persistent:true,protocol:'BELLIBING_ECHO_ADVICE_V1'}),server=await startPreview({directory:site,port:0,reviewHandler:handler}),origin=`http://127.0.0.1:${server.address().port}`;
+ try{for(const cursor of [1,2,3]){const response=await fetch(origin+'/local-review/team-dps',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','X-Bellibing-Review':'1'},body:'{}'});assert.equal(response.status,200);assert.equal((await response.json()).result.cursor,cursor);}}
+ finally{handler.close();server.closeAllConnections();await new Promise(ok=>server.close(ok));await rm(root,{recursive:true,force:true});}
+});

@@ -132,12 +132,11 @@ function readEchoAdviceContext(){
  const card=build?.echoSets?.sets?.[build.echoSets.activeSetId]?.slots?.[slot];
  let template=null;if(card)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:card.echoId,cost:card.cost,rank:card.rank,mainStatName:card.mainStat?.name,selectedSonataSetId:card.selectedSonataSetId});}catch{}
  let settings;try{settings=settingsSnapshot(state);}catch{return {owner:{characterId:selectedId,slot,record},pending:'Settings Pending'};}
- const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!card?'Choose an equipped Echo':!template?'Echo configuration Pending':!state.configurationSession.active[slot]?'Activate selected slot':state.accountSettingsPending?'Settings Pending':settings.erTarget.enabled?'Whole-build ER advice Pending':settings.flex.length&&!Number.isInteger(settings.flexCount)?'Choose Flex count':null;
- const referenceAccepted=localTeamReview?.referenceInvestmentAccepted()===true,
-  teamInput=referenceAccepted?readLocalTeamInput():null,
-  currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:true}:null;
+ const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!card?'Choose an equipped Echo':!template?'Echo configuration Pending':null;
+ const teamInput=readLocalTeamInput(),
+  currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:false}:null;
  return {owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
-   ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,referenceInvestment:true}}:{})},template,
+   ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,actualInvestmentRequired:true}}:{})},template,
   ...(currentAdvice?{currentAdvice}:{}),
   target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
 }
@@ -201,9 +200,9 @@ function renderFeedback() {
   if(echoAdvisor?.available()){
    const run=echoAdvisor.snapshot(),input=readEchoAdviceContext(),level=run?.candidate.level??0;
    $('#simulate').disabled=!!input.pending||level===25||!!run?.aborted;
-   $('#simulate').querySelector('span:nth-child(2)').textContent='SIMULATE +'+Math.min(25,level+5);
-   $('#feedbackTitle').textContent=level===25?(run?.advice?.status==='TARGET_SUCCESS'?'Target met':'Echo complete'):'Single Echo';
-   $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Ready to simulate';
+   $('#simulate').querySelector('span:nth-child(2)').textContent='RECORD +'+Math.min(25,level+5);$('#simulate').title='Enter the exact substat and roll value observed in your game';
+   $('#feedbackTitle').textContent=level===25?(run?.advice?.status==='TARGET_SUCCESS'?'Target met':'Echo complete'):'Real Echo · observed rolls';
+   $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Enter the roll observed in game';
    $('#sandboxAbort').disabled=!run||level===25||!!run.aborted;$('#sandboxExport').disabled=!run;
    $('#sandboxCostDetails').innerHTML='';$('#sandboxHostStatus').textContent='Local Echo advice · gross Tuners';
   }
@@ -230,7 +229,7 @@ function renderWorking() {
   $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
   const proposed=displayedCandidates()[slot],advice=echoAdvisor?.snapshot()?.advice;
   $('#newCard').innerHTML = echoCard(proposed, { candidate: true, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
-  if(accountMode){const caption=$('#newCard').previousElementSibling.querySelector('.caption-detail');caption.textContent='CANDIDATE';if(state.onAccount){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';caption.replaceChildren(edit);}}
+  if(accountMode){const caption=$('#newCard').previousElementSibling.querySelector('.caption-detail');caption.textContent=echoAdvisor?.available()?'OBSERVED CANDIDATE':'CANDIDATE';if(state.onAccount&&!echoAdvisor?.available()){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';caption.replaceChildren(edit);}}
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
@@ -570,8 +569,8 @@ $('.setting-mode').addEventListener('click', event => {
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;
+  if(accountMode&&!echoAdvisor?.available()){notify('Preparing observed Improve');return;}
   if(echoAdvisor?.available()){workshopEditor.close();if(innerWidth<=1000){$('#settings').classList.remove('expanded');$('#settingsToggle').setAttribute('aria-expanded','false');}echoAdvisor.start();return;}
-  if(accountMode){workshopEditor.close();candidateSession.invalidate();runLoop=true;renderFeedback();try{await candidateSession.start();while(runLoop&&candidateSession.checkFresh()&&candidateSession.snapshot()?.status==='RUNNING'){await candidateSession.step();await new Promise(r=>setTimeout(r,0));}}catch(error){if(!['STALE_ACCOUNT_CANDIDATE','STALE_SANDBOX_RESPONSE'].includes(error.message))candidatePreflight={status:'PENDING',reasons:[error.message]};}finally{runLoop=false;renderFeedback();}return;}
   if(!sandbox){const request=simulationRequest(state);notify(`Pending · multi-slot simulation is not connected (${request.slots.length} active slots)`);return;}
   runLoop=true;renderFeedback();
   try{await sandboxClient.start();while(runLoop&&sandboxClient.checkFresh()&&sandboxClient.snapshot()?.status==='RUNNING'){await sandboxClient.step();await new Promise(resolve=>setTimeout(resolve,browserBeta?0:30));}}catch(error){if(error.message==='LOCAL_SANDBOX_SERVICE_UNAVAILABLE'||error instanceof TypeError)hostStatus='UNAVAILABLE';if(error.name!=='AbortError'&&error.message!=='STALE_SANDBOX_RESPONSE')notify(error.message);}
@@ -593,7 +592,7 @@ $('.mode-switch').addEventListener('click', event => {
 document.querySelectorAll('.site-header nav button').forEach(button => { button.onclick = () => notify('Bellibing UI Lab · Improve review environment'); });
 if(accountMode){$('#sandboxAbort').onclick=async()=>{if(echoAdvisor?.available()){echoAdvisor.abort();return;}runLoop=false;try{while(candidateSession.isBusy())await new Promise(r=>setTimeout(r,10));await candidateSession.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=echoAdvisor?.available()?echoAdvisor.export():await candidateSession.export();data.staticComparison=structuredClone(state.accountProjection?.comparison??{status:'PENDING'});const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download='Bellibing_Candidate_'+(candidateRun?.runId??echoAdvisor.snapshot()?.id??'local')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
 if(sandbox){$('#sandboxAbort').onclick=async()=>{runLoop=false;try{while(sandboxClient.isBusy())await new Promise(r=>setTimeout(r,10));await sandboxClient.abort();}catch(error){notify(error.message);}renderFeedback();};$('#sandboxExport').onclick=async()=>{try{const data=await sandboxClient.export(),url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=`Bellibing_Sandbox_${sandboxRun.runId}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){notify(error.message);}};}
-$('#reset').onclick = () => {echoAdvisor?.reset();runLoop=false;workshopEditor.close();candidateSession?.reset();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify('Simulation reset'); };
+$('#reset').onclick = () => {echoAdvisor?.reset();runLoop=false;workshopEditor.close();candidateSession?.reset();if(accountMode)state.accountCandidates=Array(5).fill(null);sandboxClient?.reset().catch(error=>notify(error.message));if(state.configurationSession)resetSimulationResults(state.configurationSession);else state=resetDemoState(selectedId);renderWorkspace();notify(accountMode?'Observed Improve reset':'Simulation reset'); };
 
 if(!demonstration&&!configurationReview){
  document.title=sandbox?'Bellibing Sandbox':'Bellibing · Improve a Character';$('.page-heading h1').textContent=sandbox?'Sandbox Simulator':'Improve a Character';$('.study-label').textContent=sandbox?'SANDBOX BETA':'IMPROVE';$('#workshopFeedback').removeAttribute('aria-describedby');document.body.classList.add('product-workspace');document.body.classList.toggle('account-workspace',!sandbox);document.body.dataset.buildKind=sandbox?'SANDBOX_BUILD':'ACCOUNT_BUILD';

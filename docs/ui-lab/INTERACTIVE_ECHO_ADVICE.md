@@ -10,7 +10,10 @@ or missing private service show Pending. Reference builds do not silently replac
 account investments, gear or teammates.
 
 The private service supplies versioned provider/context provenance and all five
-slot opportunities against the same actual Current. The workshop-width comparison
+slot opportunities against the same actual Current. The request capture binds
+Current to actual team/build records and investments; stock, active-slot and
+Settings revisions invalidate advice separately, without changing the DPS build
+identity or forcing the private service to discard reusable same-build evidence. The workshop-width comparison
 shows strict modeled-upgrade chance and bounds, expected attempts, net Tuners,
 EXP/Echoes, Tube denominations, finite-stock spending and conditional/per-attempt
 DPS benefit. The user independently selects Character/Team damage and a named

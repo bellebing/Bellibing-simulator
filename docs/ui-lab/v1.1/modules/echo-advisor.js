@@ -1,5 +1,5 @@
 import {escapeHtml} from './util.js';
-import {captureLocalTeamBuilds} from '../../../../src/localTeamBuildCapture.mjs';
+import {captureObservedImproveCurrent} from '../../../../src/observedImproveCapture.mjs';
 import {SUBSTAT_TYPES,SUBSTAT_VALUE_TABLE} from '../../../assets/echoCoreRules.js';
 import {createServerTransport} from './server-transport.js';
 import {IMPROVE_OBJECTIVE_OPTIONS,renderImproveOpportunities,renderCheckpointOptions,number} from './improve-decision-view.js';
@@ -30,7 +30,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  const requestAdvice=async(body,signal)=>{
   if(!body.currentInput)return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING',reason:'ACTUAL_TEAM_REQUIRED'}};
   const requestedMetric=metric,requestedObjective=objective;
-  const captured=await captureLocalTeamBuilds({...body.currentInput,candidates:Array(5).fill(null)});
+  const captured=await captureObservedImproveCurrent(body.currentInput);
   if(captured.status!=='CAPTURED')return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING',reason:captured.reason}};
   const result=await estimate({current:captured.payload.current,slot:body.slot,candidate:body.candidate,progress:body.progress,inventory:body.inventory,metric:requestedMetric,objective:requestedObjective},signal);
   return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:result.advice?{...result.advice,provenance:result.provenance}:{kind:'CURRENT_BOUND_ECHO_ADVICE',status:'PENDING',reason:result.reason??'MODEL_PENDING'}};
@@ -41,7 +41,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   analysisKey=key;analysis=null;analysisController?.abort();clearTimeout(analysisTimer);const token=++analysisGeneration;draw(true);
   analysisTimer=setTimeout(async()=>{try{
    if(c.pending)throw Error(c.pending);if(!c.currentAdvice)throw Error('ACTUAL_TEAM_REQUIRED');
-   const captured=await captureLocalTeamBuilds({...c.currentAdvice,candidates:Array(5).fill(null)});if(captured.status!=='CAPTURED')throw Error(captured.reason);
+   const captured=await captureObservedImproveCurrent(c.currentAdvice);if(captured.status!=='CAPTURED')throw Error(captured.reason);
    if(token!==analysisGeneration)return;analysisController=new AbortController();
    const result=await estimate({current:captured.payload.current,inventory:c.inventory,metric:c.owner.metric,objective:c.owner.objective},analysisController.signal,value=>{if(token===analysisGeneration){analysis=value;draw();}});
    if(token===analysisGeneration){analysis=result;draw();}

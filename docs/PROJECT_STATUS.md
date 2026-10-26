@@ -5,7 +5,7 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 ## Current product
 ### Improve / Character Target
 
-The [observed Improve candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) records real substat names and exact roll values, collects actual team investments, and displays private five-slot opportunity summaries and future-cost Continue/Restart advice. Sandbox remains separate. Account equipment/resources stay read-only; unsupported source contexts remain Pending. Local focused desktop evidence is separate from final required verification, merge and activation.
+The [observed Improve candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) now consumes the versioned private decision result: explicit resource/DPS objective, five-slot net costs and gain, quantified recommended-versus-runner-up trade-offs, uncertainty and source readiness. Optional contextual contribution requires a private accepted legal reference; otherwise Unavailable. Real +5…+25 observations and future-cost Continue/Restart remain separate from fun RNG Sandbox. Account equipment/resources stay read-only; unsupported contexts remain Pending. This local integration is separate from mandatory final verification, merge and activation.
 
 The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.
 
@@ -13,11 +13,7 @@ The Improve Settings review candidate retains main's compact four-column design,
 
 Visible **Target Recommended** uses one source basis only: a verified modern DPR **DEFAULT CALC_BENCHMARK** profile. Exactly one safe DEFAULT profile is required; only its explicit Calc rows are displayed. Prydwen recommendations, DPR GENERAL_RECOMMENDATION and legacy CALC_SCENARIO_REFERENCE remain independent source families and never fill missing Calc rows or become visible fallbacks.
 
-Current automatic Calc-target coverage is **19 catalog identities / 19 RELEASED-selectable**. Pending groups remain:
-- variant-only Aemeath / Iuno / Qiuyuan;
-- Suoming with five explicit blank Calc rows;
-- legacy-only Brant, with no automatic scenario selection;
-- 36 identities without a usable modern source profile.
+Current automatic Calc-target coverage is **19 catalog identities / 19 RELEASED-selectable**. Pending: variant-only Aemeath/Iuno/Qiuyuan; Suoming’s five blank Calc rows; legacy-only Brant (no automatic scenario selection); and 36 identities without a usable modern source profile.
 
 See [DPR source strategy and complete mapped inventory](CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md) for the full identity matrix and source semantics. See [schema, source review and Augusta pilot](CHARACTER_RECOMMENDATIONS_AUGUSTA_REVIEW.md) for the reviewed recommendation contract.
 

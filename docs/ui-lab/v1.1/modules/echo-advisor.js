@@ -18,7 +18,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  const post=(body,signal)=>{const task=requestQueue.catch(()=>{}).then(()=>{if(signal?.aborted)throw Error('ABORTED');return send(body,signal);});requestQueue=task;return task;};
  async function estimate(input,signal,progress=()=>{}){
   let cursor=0,retries=0;for(let i=0;i<512;i++){
-   if(signal?.aborted)throw Error('ABORTED');let reply;try{reply=await post({improve:{...input,cursor}},signal);retries=0;}catch(error){if(['REVIEW_BUSY','RATE_LIMITED'].includes(error.message)&&retries++<5){await new Promise(resolve=>setTimeout(resolve,1000));continue;}throw error;}
+   if(signal?.aborted)throw Error('ABORTED');let reply;try{reply=await post({improve:{...input,cursor,...(cursor===0?{execution:'COMPLETE'}:{})}},signal);retries=0;}catch(error){if(['REVIEW_BUSY','RATE_LIMITED'].includes(error.message)&&retries++<5){await new Promise(resolve=>setTimeout(resolve,1000));continue;}throw error;}
    if(reply?.protocol!=='BELLIBING_ECHO_ADVICE_V1'||!reply.result)throw Error('INVALID_ADVICE_RESPONSE');
    if(reply.result.reason==='STALE_IMPROVE_CURSOR'&&cursor>0&&retries++<2){cursor=0;continue;}
    if(reply.result.status!=='CALCULATING')return reply.result;
@@ -30,7 +30,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  const requestAdvice=async(body,signal)=>{
   if(!body.currentInput)return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING',reason:'ACTUAL_TEAM_REQUIRED'}};
   const requestedMetric=metric,requestedObjective=objective;
-  const captured=await captureObservedImproveCurrent(body.currentInput);
+  const captureStart=performance.now(),captured=await captureObservedImproveCurrent(body.currentInput);performance.measure('bellibing-improve:capture',{start:captureStart,end:performance.now()});
   if(captured.status!=='CAPTURED')return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING',reason:captured.reason}};
   const result=await estimate({current:captured.payload.current,slot:body.slot,candidate:body.candidate,progress:body.progress,inventory:body.inventory,metric:requestedMetric,objective:requestedObjective},signal);
   return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:result.advice?{...result.advice,provenance:result.provenance}:{kind:'CURRENT_BOUND_ECHO_ADVICE',status:'PENDING',reason:result.reason??'MODEL_PENDING'}};
@@ -39,24 +39,25 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  function refreshAnalysis(){
   const c=context();try{c.inventory=session.remainingInventory();}catch{c.pending='INSUFFICIENT_SESSION_BUDGET';}const key=JSON.stringify({owner:c.owner,inventory:c.inventory,pending:c.pending});if(key===analysisKey)return;
   analysisKey=key;analysis=null;analysisController?.abort();clearTimeout(analysisTimer);const token=++analysisGeneration;draw(true);
-  analysisTimer=setTimeout(async()=>{try{
+  const captureStart=performance.now();analysisTimer=setTimeout(async()=>{try{
    if(c.pending)throw Error(c.pending);if(!c.currentAdvice)throw Error('ACTUAL_TEAM_REQUIRED');
-   const captured=await captureObservedImproveCurrent(c.currentAdvice);if(captured.status!=='CAPTURED')throw Error(captured.reason);
-   if(token!==analysisGeneration)return;analysisController=new AbortController();
+   const captured=await captureObservedImproveCurrent(c.currentAdvice);performance.measure('bellibing-improve:capture',{start:captureStart,end:performance.now()});if(captured.status!=='CAPTURED')throw Error(captured.reason);
+   if(token!==analysisGeneration)return;analysis={status:'CALCULATING'};draw();analysisController=new AbortController();
    const result=await estimate({current:captured.payload.current,inventory:c.inventory,metric:c.owner.metric,objective:c.owner.objective},analysisController.signal,value=>{if(token===analysisGeneration){analysis=value;draw();}});
-   if(token===analysisGeneration){analysis=result;draw();}
-  }catch(error){if(token===analysisGeneration){analysis={status:'PENDING',reason:error.message};draw();}}},250);
+   if(token===analysisGeneration){const renderStart=performance.now();analysis=result;draw();performance.measure('bellibing-improve:render',{start:renderStart,end:performance.now()});}
+  }catch(error){if(token===analysisGeneration){analysis={status:'PENDING',reason:error.message};draw();}}},0);
  }
  async function act(restart=false,roll=null){message='';try{await (restart?session.discard():session.advance(roll));}catch(error){message=error.message;}draw(true);}
  function draw(force=false){
+  const drawStart=performance.now();
   if(!available)return;
-  if(!force&&(host.contains(document.activeElement)||opportunities.contains(document.activeElement))&&document.activeElement.matches('input,select'))return;const c=context(),s=session.snapshot(),a=s?.advice,done=s?.candidate.level===25,winner=a?.winner;
+  if(!force&&(host.contains(document.activeElement)||opportunities.contains(document.activeElement))&&document.activeElement.matches('input,select')){const result=opportunities.querySelector('[data-improve-result]');if(result)result.innerHTML=renderImproveOpportunities(analysis);performance.measure('bellibing-improve:dom',{start:drawStart,end:performance.now()});return;}const c=context(),s=session.snapshot(),a=s?.advice,done=s?.candidate.level===25,winner=a?.winner;
   document.body.classList.toggle('has-echo-advisor',true);document.body.classList.toggle('advisor-complete',done);
   const used=new Set(s?.candidate.substats.map(r=>r.name)??[]),names=SUBSTAT_TYPES.filter(n=>!used.has(n)),ids=c.currentAdvice?.team?.characterIds??[];
   const invest=ids.map(id=>`<fieldset><legend>${escapeHtml(c.currentAdvice.names?.[id]??id)}</legend>${[['characterLevel','Character level',90],['weaponLevel','Weapon level',90],['weaponRefinement','Weapon rank',5]].map(([key,label,max])=>`<label>${label}<input type="number" min="1" max="${max}" required data-investment="${key}" data-character="${escapeHtml(id)}" value="${investments[id]?.[key]??''}"></label>`).join('')}</fieldset>`).join('');
   opportunities.innerHTML=`<div class="improve-controls"><h2>Which Echo to improve next?</h2><label>Damage metric<select data-objective><option value="TEAM_DPS" ${metric==='TEAM_DPS'?'selected':''}>Team DPS</option><option value="SELECTED_CHARACTER_DPS" ${metric==='SELECTED_CHARACTER_DPS'?'selected':''}>Character DPS</option></select></label><label>Recommendation objective<select data-optimization-objective>${IMPROVE_OBJECTIVE_OPTIONS.map(([id,label])=>`<option value="${id}" ${id===objective?'selected':''}>${label}</option>`).join('')}</select></label></div>
    <details class="actual-investments" ${ids.some(id=>!investments[id]?.characterLevel||!investments[id]?.weaponLevel||!investments[id]?.weaponRefinement)?'open':''}><summary>Actual team levels and weapon ranks</summary>${invest}</details>
-   ${renderImproveOpportunities(analysis)}`;
+   <div data-improve-result>${renderImproveOpportunities(analysis)}</div>`;
   host.innerHTML=`   <div class="advice-verdict" role="status" data-advice-checkpoint="${a?.checkpoint??''}"><strong>${escapeHtml(message||s?.pending||(winner==='KEEP_TEMPORARY'?'Keep for comparison · model upgrade':a?.decision??a?.reason??'Record the result from your game'))}</strong>${a?.uncertain?'<small>Uncertain comparison · continue while more improvement remains possible</small>':''}</div>
    ${a?.objective?`<p class="checkpoint-objective">Checkpoint goal: ${a.objective.kind==='MAX_STOCK_UPGRADE_PROBABILITY_THEN_MIN_FUTURE_NET_TUNERS'?'Highest chance within stock, then lowest future net Tuners':'Lowest future net Tuners to a strict upgrade'}</p>`:''}
    <div class="advice-options">${renderCheckpointOptions(a)}</div>
@@ -66,14 +67,14 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   opportunities.querySelectorAll('[data-investment]').forEach(el=>el.onchange=()=>{investments[el.dataset.character]??={};investments[el.dataset.character][el.dataset.investment]=Number(el.value);analysisKey=null;session.sync();refreshAnalysis();});
   opportunities.querySelector('[data-objective]').onchange=e=>{metric=e.target.value;analysisKey=null;session.sync();refreshAnalysis();};
   opportunities.querySelector('[data-optimization-objective]').onchange=e=>{objective=e.target.value;analysisKey=null;session.sync();refreshAnalysis();};
-  opportunities.querySelectorAll('[data-improve-slot]').forEach(button=>button.onclick=()=>document.querySelector(`[data-slot="${button.dataset.improveSlot}"]`)?.click());
   const form=host.querySelector('[data-observation]');if(form){const stat=form.elements.stat,value=form.elements.value;const values=()=>{value.innerHTML='<option value="">Select exact value</option>'+(SUBSTAT_VALUE_TABLE[stat.value]??[]).map(v=>`<option value="${v}">${number(v*(v<1?100:1),3)}${v<1?'%':''}</option>`).join('');};values();stat.onchange=values;form.onsubmit=e=>{e.preventDefault();act(false,{name:stat.value,value:Number(value.value)});};}
-  const restart=host.querySelector('[data-restart]');if(restart)restart.onclick=()=>act(true);
+  const restart=host.querySelector('[data-restart]');if(restart)restart.onclick=()=>act(true);performance.measure('bellibing-improve:dom',{start:drawStart,end:performance.now()});
  }
+ opportunities.addEventListener('click',event=>{const button=event.target.closest?.('[data-improve-slot]');if(button)document.querySelector(`[data-slot="${button.dataset.improveSlot}"]`)?.click();});
  for(const root of [host,opportunities])root.addEventListener('focusout',()=>setTimeout(()=>draw(),0));
  (async()=>{
   let supported=false;if(['127.0.0.1','localhost'].includes(location.hostname))try{supported=(await post({action:'status'})).protocol==='BELLIBING_ECHO_ADVICE_V1';}catch{}
-  if(!supported)try{const r=await fetch(new URL('./engine-release.json',import.meta.url),{cache:'no-store'}),m=await r.json();if(m.status==='SERVER_RUNTIME_V1'&&m.version===1&&m.files?.length===0&&m.review){service=createServerTransport({endpoint:m.endpoint});supported=true;}}catch{}
+  if(!supported)try{const r=await fetch(new URL('./engine-release.json',import.meta.url),{cache:'no-store'}),m=await r.json();if(m.status==='SERVER_RUNTIME_V1'&&m.version===1&&m.files?.length===0&&m.review){service=createServerTransport({endpoint:m.endpoint});service.prepare().catch(()=>{});supported=true;}}catch{}
   connected=supported;const {createInteractiveEchoSession}=await import('../../../../src/interactiveEchoSession.mjs');initialize(createInteractiveEchoSession);available=true;host.hidden=false;opportunities.hidden=false;
   const heading=document.querySelector('.loadout-heading'),slots=document.querySelector('#slots'),details=document.createElement('details');details.className='advisor-equipment';details.innerHTML='<summary>Equipped Echoes</summary>';details.open=innerWidth>1000;heading.before(details);details.append(heading,slots);draw();refreshAnalysis();onRender();
  })().catch(()=>{});

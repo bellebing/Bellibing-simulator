@@ -4,6 +4,21 @@ Improve records the real substat name and exact canonical roll value observed in
 the game at +5/+10/+15/+20/+25. It does not generate an observed result. The separate
 Sandbox remains a fun RNG simulator. Earlier rolls remain visible and immutable.
 
+The normal Improve client requests a complete private analysis in one compute
+request. The service may return a bounded continuation when its provider or runtime
+cannot complete the job; the existing cursor flow remains available. The client
+commits actual input changes promptly and paints the finished result even while
+another control remains focused. A pending computation never keeps an old
+recommendation visible as if it described the new build. Loading/partial results
+are not completed recommendations.
+
+Transport preparation authorizes a session early without running an analysis or
+changing account data. Mathematical preparation, reuse and decisions stay inside
+the private provider. Numeric User Timing entries describe capture, serialization,
+response handling and rendering; they contain no account payload or private policy.
+The updated public client and private completion handler require coordinated
+release verification; no hosted activation follows from local review.
+
 Enter actual Character/weapon levels and weapon ranks for the selected real team;
 stored equipment, Sequences and Forte remain actual. Unsupported source contexts
 or missing private service show Pending. Reference builds do not silently replace

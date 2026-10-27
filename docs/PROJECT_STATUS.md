@@ -5,6 +5,9 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 ## Current product
 ### Improve / Character Target
 
+Local Improve requests complete private analysis with bounded cursor continuation.
+Results update while controls remain focused; context edits clear stale advice. Paired release verification and hosted activation remain separate approval gates.
+
 The [observed Improve candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) now consumes the versioned private decision result: explicit resource/DPS objective, five-slot net costs and gain, quantified recommended-versus-runner-up trade-offs, uncertainty and source readiness. Optional contextual contribution requires a private accepted legal reference; otherwise Unavailable. Real +5…+25 observations and future-cost Continue/Restart remain separate from fun RNG Sandbox. Account equipment/resources stay read-only; unsupported contexts remain Pending. This local integration is separate from mandatory final verification, merge and activation.
 
 The accepted Improve Settings surface is integrated. Visible controls are **Target / Gate / Echo Substat Target / Flex Stats** with one global **Recommended / Customize** mode. Gate remains **+5/+10/+15/+20/+25**. Echo Substat Target is hard per-Echo requirements; Flex Stats are relevant/value-producing stats, not an implicit at-least-one rule. CharacterBuildState remains the equipment/build truth, with Current/Candidate ownership, five equipped Echoes and existing persistence/recovery unchanged.

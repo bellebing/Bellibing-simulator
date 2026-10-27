@@ -45,3 +45,7 @@ test('browser facade uses server transport without fetching private executable b
  };
  try{const client=createBrowserSandboxClient({readContext:()=>context});const pending=client.metrics();while(!release)await new Promise(r=>setTimeout(r,0));context.characterId='iuno';release();await assert.rejects(pending,/STALE_SANDBOX_RESPONSE/);assert.equal(client.snapshot(),null);assert.ok(!calls.some(url=>url.endsWith('.worker.js')));client.invalidate();}finally{globalThis.fetch=original;}
 });
+test('early preparation shares authorization and performs no compute or account operation',async()=>{
+ let guests=0,computes=0;const service=createServerTransport({endpoint,fetchImpl:async(url,init)=>{if(url.pathname.endsWith('/guest')){guests++;return reply({token:'guest-capability',expiresAt:Date.now()+100000});}computes++;const value=JSON.parse(init.body);return reply({id:value.id,result:{status:'READY'}});}});
+ await Promise.all([service.prepare(),service.prepare()]);assert.equal(guests,1);assert.equal(computes,0);await service.request('team',undefined,undefined,{improve:{execution:'COMPLETE'}});assert.equal(guests,1);assert.equal(computes,1);service.terminate();
+});

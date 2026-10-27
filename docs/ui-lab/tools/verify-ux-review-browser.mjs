@@ -131,7 +131,7 @@ try{
  assert.equal(await page.locator('.echo-advisor ol li').count(),1);
  await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:resolve(out,'improve-desktop.png'),fullPage:true});await page.locator('#character').screenshot({path:resolve(out,'current-candidate-card.png')});
  await checkNavigation();await observeCandidate(1);
- const preserved=async()=>{assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);assert.equal(await page.locator('.echo-advisor ol li').count(),1);};
+ const preserved=async()=>{await page.waitForFunction(()=>[...document.querySelectorAll('#characterStats td:last-child')].every(n=>!n.textContent.includes('Pending'))&&document.querySelectorAll('.echo-advisor ol li').length===1);assert.ok((await page.locator('#characterStats td:last-child').allTextContents()).every(v=>!v.includes('Pending')));assert.deepEqual(await page.locator('#characterStats td:nth-child(2)').allTextContents(),before);assert.equal(await page.locator('.echo-advisor ol li').count(),1);};
  for(const slot of [0,1,0]){await page.locator(`[data-slot="${slot}"]`).click();await preserved();}
  const pendingAdvice=async()=>{await page.waitForFunction(()=>/pending|unavailable|ACTUAL_TEAM_REQUIRED|PRIVATE_SERVICE_UNAVAILABLE/i.test(document.querySelector('[data-improve-result]')?.textContent??''));};
  await pendingAdvice();

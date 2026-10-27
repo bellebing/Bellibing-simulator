@@ -83,6 +83,8 @@ A restart creates a fresh +0 candidate and waits for the next actual observation
 The owner-confirmed Data Recovery disposition and approved fractional direct-feed
 rounding assumption remain separate source facts; no new mechanics are invented.
 
+The stat projection reads the active candidate from the synchronized observed
+session, so legacy search invalidation cannot erase recorded Candidate stats.
 Same-Character team, gear, Settings and resource edits preserve observations while
 invalidating old advice. Character changes retire the active session. Reset clears
 session results; Abort prevents further recording; Export saves user observations

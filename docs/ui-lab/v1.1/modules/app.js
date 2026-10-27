@@ -403,6 +403,12 @@ function syncAccountState(){
   workshopEditor.close();
   if(inspection)closeInspection({immediate:true});
  }
+ // The observed session owns genuine roll facts. Legacy search invalidation may
+ // clear presentation cards, but must not erase the current observed projection.
+ if(echoAdvisor?.available()){
+  echoAdvisor.sync();
+  state.accountCandidates[state.selectedSlot]=echoAdvisor.snapshot()?.candidate??null;
+ }
  const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
  state.accountProjection=projection;
  state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;

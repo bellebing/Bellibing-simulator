@@ -5,8 +5,8 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 ## Current product
 ### Improve / Character Target
 
-Local Improve requests complete private analysis with bounded cursor continuation.
-Results update while controls remain focused; context edits clear stale advice. Paired release verification and hosted activation remain separate approval gates.
+Local Improve V1 is implemented and preserved for frozen integration review.
+Complete private requests, real observations and five-slot explanations are available; context edits clear stale advice. Paired FULL, owner acceptance and compatible backend/public release approval remain separate gates.
 
 The [observed Improve candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) now consumes the versioned private decision result: explicit resource/DPS objective, five-slot net costs and gain, quantified recommended-versus-runner-up trade-offs, uncertainty and source readiness. Optional contextual contribution requires a private accepted legal reference; otherwise Unavailable. Real +5…+25 observations and future-cost Continue/Restart remain separate from fun RNG Sandbox. Account equipment/resources stay read-only; unsupported contexts remain Pending. This local integration is separate from mandatory final verification, merge and activation.
 
@@ -93,11 +93,11 @@ two fixed reference builds and same-run observed-alternative deltas. Qualified
 normal Team DPS stays Pending. The active DPS direction reuses fixed source scenarios and
 canonical mechanics; no general rotation/damage engine is planned. No deployment or account integration is active.
 
-Private runtime foundation and Worker 8 Fas 2 / Fas 3 are COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. No evaluator HTTP route exists; production private runtime is undeployed.
+Historical foundation checkpoint: private runtime foundation and Worker 8 Fas 2 / Fas 3 were COMPLETE. Trusted real Current measurement and Current↔Target/stat-outcome capability are verified only for **Augusta/default** and **Cartethyia/default** under **STAT_TARGET**. ER/unsupported dimensions, mixed trades, cross-stat ranking, PROVISIONAL_TEAM_DPS and STANDARD_TEAM_DPS remain Pending. That checkpoint preceded the private HTTP/observed V1 integration described above; current hosted activation/readiness requires separate evidence.
 
 1. Character Truth evidence/capture foundation; complete and review the required source-backed evidence without claiming capture completeness.
 2. Worker 8 Fas 3 COMPLETE for the bounded STAT_TARGET pilots above; broader readiness remains Pending.
-3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): Worker 12 COMPLETE, merged and post-merge verified, with a memory-only Improve sandbox, Current/Simulate, five slot cards/Trash Piles and inspectable histories. Production decisions remain Pending; no private ingress exists.
+3. [Echo Simulator Foundation](ECHO_SIMULATOR_FOUNDATION.md): Worker 12 COMPLETE, merged and post-merge verified, with a memory-only Improve sandbox, Current/Simulate, five slot cards/Trash Piles and inspectable histories. At that foundation checkpoint production advice/private ingress were Pending; current local Improve V1 is described above.
 4. Improvement Cost through repeated simulation, keeping Tuners / Tubes / Echoes separate.
 5. Later farming/acquisition simulation when source-valid.
 6. Character comparison / Best Available Teams remain downstream and Pending.
@@ -129,7 +129,7 @@ algorithm is bundled or published; Current and account storage remain unchanged.
 - **BUG-042** — incomplete roster-wide reviewed Echo requirements/preferences.
 - Character Target modern DEFAULT Calc coverage gaps listed above.
 - Six Reference Team 01 dependencies remain pending.
-- Independent recommendation comparisons, image-only example-team rosters and product integration remain Pending; source references are not executable Improve policy.
+- Independent recommendation/reference expansion remains Pending; source references are not executable Improve policy. Completed local Improve V1 has its own integration/acceptance boundary above.
 - Source-backed recommendation/reference data does **not** by itself establish Build Need comparability, Improvement Cost, Character comparison or evaluator behavior.
 
 Do not infer missing values, timing, ownership, stacking, scope, rotations or damage classifications. Missing is not zero.
@@ -140,11 +140,11 @@ Do not infer missing values, timing, ownership, stacking, scope, rotations or da
 - [Character Recommendations — Augusta review](CHARACTER_RECOMMENDATIONS_AUGUSTA_REVIEW.md) — recommendation schema/source review.
 - [Character Recommendations — DPR review](CHARACTER_RECOMMENDATIONS_DPR_REVIEW.md) — DPR source roles, coverage and mapped inventory.
 - [Character Database](CHARACTER_DATABASE.md) — current Character data/export consumer contract.
-- [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) — accepted long-term Improve simulator product direction; bounded foundation candidate described separately, real evaluator readiness remains Pending.
+- [Echo Simulator direction](ECHO_SIMULATOR_DIRECTION.md) — accepted long-term Improve simulator product direction; bounded foundation described separately; wider gameplay-qualified coverage remains Pending while local Improve V1 is reviewed independently.
 - [Best Available Teams direction](BEST_AVAILABLE_TEAMS_DIRECTION.md) — downstream team-selection product/architecture contract.
 
 Historical PR/checkpoint/CI evidence belongs in GitHub and the Handoff update log. It is intentionally not duplicated here.
 
 The [fixed-scenario Echo comparison](ui-lab/OBSERVED_ECHO_SCENARIO.md) supports selected Augusta, Iuno and Shorekeeper through the same trio/executor, with source-bound whole-build ER acceptance, preserved actual equipment/receipts on ER failure and separate Pending qualified-build expectations. Iuno/Shorekeeper need explicit Custom Echo goals. It adds experimental same-run observed-build/one-Echo-alternative deltas in the existing opt-in expert review. The existing Augusta pilot replays the same bounded source rotation for both builds; unsupported equipment/ER remains Pending. This does not qualify normal product DPS or add a general rotation engine.
 
-The [Sandbox static-stats follow-up](ui-lab/SANDBOX_BUILD_STATS.md), stacked on #320, projects Character/Weapon/max-minor-Forte baseline facts for all 59 identities and complete observed five-card static builds through the existing canonical projector. Permanent eligible self Sonata bonuses are included; conditional combat mechanics remain Pending. Recommended maps source stat priorities for all 59 without inferring per-Echo minima/counts or ER thresholds. A versioned team comparison contract admits numbers only from explicitly qualified same-context providers; the public registry remains empty and all normal DPS cells remain Pending. This candidate does not add account integration or promote experimental team DPS.
+The [Sandbox static-stats follow-up](ui-lab/SANDBOX_BUILD_STATS.md), stacked on #320, projects Character/Weapon/max-minor-Forte baseline facts for all 59 identities and complete observed five-card static builds through the existing canonical projector. Permanent eligible self Sonata bonuses are included; conditional combat mechanics remain Pending. Recommended maps source stat priorities for all 59 without inferring per-Echo minima/counts or ER thresholds. A versioned team comparison contract admits numbers only from explicitly qualified same-context providers; that qualified registry remains empty and its normal DPS cells remain Pending. This separate Sandbox candidate does not replace the experimental observed Improve V1 provider flow above.

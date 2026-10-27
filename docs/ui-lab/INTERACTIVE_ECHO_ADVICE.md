@@ -1,5 +1,22 @@
 # Observed Improve advice
 
+## V1 completion and integration boundary
+
+The observed Improve V1 interface is implemented locally and preserved for frozen
+integration review. Actual rolls, five equipped Echo opportunities, objective-bound
+explanations and private Continue/Restart results are available. Focused public
+checks cover capture, observed-input state, transport and presentation; paired
+runtime/acceptance evidence is kept in private review. This is not main integration,
+independent product approval or production verification.
+
+The new complete-request client requires the compatible private handler and safe
+evidence contract. Backend availability must precede public release. A successful
+main FULL can publish Pages through the existing workflow, so public landing and
+publication need explicit owner approval. Unsupported contexts remain Pending;
+future DPS/Character expansion is separate from closing the implemented V1 flow.
+
+## Implemented user flow
+
 Improve records the real substat name and exact canonical roll value observed in
 the game at +5/+10/+15/+20/+25. It does not generate an observed result. The separate
 Sandbox remains a fun RNG simulator. Earlier rolls remain visible and immutable.

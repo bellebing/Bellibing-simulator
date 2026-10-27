@@ -15,7 +15,16 @@ test('FAST budgets are bounded and overflow is reported rather than claimed as p
 test('docs do not trigger unrelated domain suites; path traversal is rejected',()=>{const f=fixture();try{assert.deepEqual(planFast(['docs/note.md'],f).tests,[]);assert.throws(()=>planFast(['../secret.mjs'],f),/INVALID_CHANGED_PATH/);}finally{f.close();}});
 
 const workflow=readFileSync('.github/workflows/verify.yml','utf8'),full=job(workflow,'verify'),fast=job(workflow,'fast'),reviewSource=readFileSync('.github/workflows/ui-lab-review.yml','utf8'),review=job(reviewSource,'review');
-test('public FULL and broad UI review bodies are byte-identical to audited M0',()=>{assert.equal(hash(full.slice(full.indexOf('    steps:\n'))),'db2eaf2fedaab4a373c45a7219ead0ff21052a9aa29b16e3af6af80883743ba7');assert.equal(hash(review.split('    steps:\n')[1]),'4510003680fcb7dbdc66d4750983e0e1860681eaf2da03d099795d3ff6c690e4');assert.ok(workflow.includes('needs: verify'));assert.ok(workflow.includes("github.ref == 'refs/heads/main' && needs.verify.result == 'success'"));});
+test('public FULL preserves every audited M0 step and adds the observed Improve regression; broad UI review is unchanged',()=>{
+ const steps=full.slice(full.indexOf('    steps:\n')),extra=' test/observedImproveSession.test.mjs';
+ // Admit only this explicit extra test, in the existing detached regression
+ // command. The original hash still protects every other byte of FULL.
+ assert.equal(steps.split(extra).length,2);
+ assert.ok(steps.includes('test/interactiveEchoSession.test.mjs'+extra+'\n'));
+ assert.equal(hash(steps.replace(extra,'')),'db2eaf2fedaab4a373c45a7219ead0ff21052a9aa29b16e3af6af80883743ba7');
+ assert.equal(hash(review.split('    steps:\n')[1]),'4510003680fcb7dbdc66d4750983e0e1860681eaf2da03d099795d3ff6c690e4');
+ assert.ok(workflow.includes('needs: verify'));assert.ok(workflow.includes("github.ref == 'refs/heads/main' && needs.verify.result == 'success'"));
+});
 test('public FAST no longer performs full build, artifact upload or broad source audit',()=>{assert.ok(fast.includes('scripts/ci-fast.mjs'));for(const broad of ['npm run build','npm install','upload-artifact','audit:'])assert.ok(!fast.includes(broad));assert.match(fast,/timeout-minutes: 3/);});
 test('Draft pushes do not run Chromium/FULL; Ready and explicit review opt-in still do',()=>{
  for(const options of [{},{action:'opened'}]){assert.equal(evaluate(condition(full),options),false);assert.equal(evaluate(condition(fast),options),true);assert.equal(evaluate(condition(review),options),false);}

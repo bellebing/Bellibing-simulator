@@ -6,7 +6,7 @@ Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Reco
 ### Improve / Character Target
 
 Local Improve V1 is implemented and preserved for frozen integration review.
-Complete private requests, real observations and five-slot explanations are available; context edits clear stale advice. Paired FULL, owner acceptance and compatible backend/public release approval remain separate gates.
+Complete private requests, real observations and five-slot explanations are available; context edits clear stale advice. Bounded local product review passes: 16 focused public checks and genuine 1440×900 five-slot/objective/+5…+25/invalidation/account-preservation evidence. Paired exact-head FULL, owner acceptance and hosted/backend/public release approval remain separate gates; no runtime change or new DPS coverage follows from this review.
 
 The [observed Improve candidate](ui-lab/INTERACTIVE_ECHO_ADVICE.md) now consumes the versioned private decision result: explicit resource/DPS objective, five-slot net costs and gain, quantified recommended-versus-runner-up trade-offs, uncertainty and source readiness. Optional contextual contribution requires a private accepted legal reference; otherwise Unavailable. Real +5…+25 observations and future-cost Continue/Restart remain separate from fun RNG Sandbox. Account equipment/resources stay read-only; unsupported contexts remain Pending. This local integration is separate from mandatory final verification, merge and activation.
 

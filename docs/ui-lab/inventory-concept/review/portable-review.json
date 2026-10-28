@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Portable HTML renders as one self-contained document; file:// launch is blocked by managed browser policy",
+    "Home, Inventory, Equip and return to Build work offline",
+    "No external/subresource HTTP requests or page errors; interactions work after offline switch"
+  ],
+  "errors": [],
+  "http": [
+    "http://127.0.0.1:4174/portable-review"
+  ]
+}

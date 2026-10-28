@@ -30,3 +30,10 @@ test('confidence support and each checkpoint alternative are presented only as s
  const view=renderCheckpointOptions({choices:[{action:'CONTINUE',chance:{estimate:.5,lower:.4,upper:.6},expectedFutureNetCost:{tuners:10,exp:25,echoes:0,tubes:{premium:2}}},{action:'RESTART_DATA_RECOVERY',status:'RESOURCE_BLOCKED'},{action:'RESTART_FEED'}]});
  assert.match(view,/CONTINUE/);assert.match(view,/RESTART · Data Recovery/);assert.match(view,/RESTART · Direct feed/);assert.match(view,/10 Tuners/);assert.match(view,/Stock cannot complete this alternative/);
 });
+
+test('rare/high-cost caution is shown only when supplied privately, never inferred from attempts in the frontend',()=>{
+ const input=fixture();input.slots[0].attempts={estimate:300,lower:150,upper:null};
+ assert.doesNotMatch(renderImproveOpportunities(input),/Potentially not worthwhile/);
+ input.slots[0].potentiallyNotWorthwhile=true;input.slots[0].estimation.precision='RARE_EVENT_UNRESOLVED';
+ const view=renderImproveOpportunities(input);assert.match(view,/Potentially not worthwhile/);assert.match(view,/Rare event unresolved/);assert.match(view,/300 \(150–—\)/);
+});

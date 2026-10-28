@@ -67,7 +67,9 @@ Contextual contribution is optional: only an AVAILABLE private result with an
 explicit named reference and numeric comparison is displayed. Its reference,
 Cost/main stat and reference-dependent meaning remain visible. Otherwise it reads
 UNAVAILABLE; a reference score is never presented as intrinsic Echo quality.
-Rare events and unknown bounds stay unknown, rather than becoming zero/infinity
+A private caution flag adds a short potentially-not-worthwhile label; the client
+does not infer that policy from an attempt threshold. Rare events and unknown
+bounds stay unknown, rather than becoming zero/infinity
 or a confident ordering. Full-completion/recovery reference economics and
 available-stock feasibility/spend are labeled separately.
 

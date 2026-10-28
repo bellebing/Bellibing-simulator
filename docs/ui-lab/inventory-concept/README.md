@@ -5,6 +5,8 @@ One connected concept under Issue [#352](https://github.com/bellebing/Bellibing-
 
 ## Try it
 
+**Portable delivery: download [preview.html](preview.html) as a file and open it in a desktop browser.** It embeds all styles, scripts and selected assets. `index.html` is the multi-file development source and must be served with its neighboring files; downloading that source alone is not the standalone delivery.
+
 ```sh
 CONCEPT_PORT=4176 node docs/ui-lab/inventory-concept/serve.mjs
 ```

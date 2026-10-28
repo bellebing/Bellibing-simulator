@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
+const origin = process.env.CONCEPT_REVIEW_URL ?? 'http://127.0.0.1:4174';
 const out = resolve(process.env.CONCEPT_REVIEW_OUT ?? '/tmp/bellibing-inventory-concept-review');
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.UI_LAB_CHROME_PATH ?? '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
@@ -12,11 +13,15 @@ await context.addInitScript(() => { localStorage.setItem('bellibing-ui-checkpoin
 const page = await context.newPage();
 page.on('pageerror', e => errors.push(e.message));
 page.on('request', r => requests.push(r.url()));
-const click = async (s) => { await page.locator(s).click(); };
+const click = async (selector) => { const before = await page.evaluate(() => location.hash); await page.locator(selector).click(); const after = await page.evaluate(() => location.hash); if (before !== after) {
+    const marker = { inventory: '.collection', build: '.hero-heading', teams: '.team-layout', home: '.home-cards' }[after.slice(1) || 'home'];
+    if (marker)
+        await page.locator(marker).first().waitFor();
+} };
 const shot = async (name) => page.screenshot({ path: resolve(out, name + '.png'), fullPage: true });
 const echoCount = () => page.locator('[data-category="echo"]').innerText();
 try {
-    await page.goto('http://127.0.0.1:4174');
+    await page.goto(origin);
     await page.waitForSelector('.home-card');
     assert.equal(await page.locator('.home-card').count(), 3);
     await shot('01-home-1440');
@@ -48,7 +53,7 @@ try {
     await click('[data-confirm-equip]');
     await click('[data-view-owner]');
     await click('[data-character="jiyan"]');
-    assert.equal(await page.locator('[data-choose-slot="0"]').innerText(), 'Choose Echo');
+    assert.equal(await page.locator('[data-choose-slot="0"]').innerText(), 'Choose Echo 1');
     checks.push('Transfer requires explicit move; cancellation preserves owner; confirmed transfer clears donor slot without duplicating item');
     await click('header [data-nav="inventory"]');
     await click('[data-item="e9"]');
@@ -77,10 +82,10 @@ try {
     await click('header [data-nav="build"]');
     await click('[data-character="augusta"]');
     await shot('05-build-1440');
-    await click('[data-choose-slot="1"]');
+    await click('[data-workspace="1"]');
     assert.match(await page.locator('.context-return').innerText(), /Augusta \/ Echo 2/);
     await click('[data-return-build]');
-    assert.match(await page.locator('.build-head').innerText(), /Augusta/);
+    assert.match(await page.locator('[data-hero-name]').innerText(), /Augusta/);
     checks.push('Build → owned item chooser → return preserves Character/slot context');
     await click('[data-add-character]');
     await click('[data-scanner]');
@@ -148,14 +153,14 @@ try {
     checks.push('1440×900 / 1920×1080 / 2560×1440 fit; finite centered shell, no horizontal overflow, pointer and keyboard controls');
     assert.equal(await page.evaluate(() => localStorage.getItem('bellibing-ui-checkpoint-v34')), '{"sentinel":"real-account"}');
     assert.equal(await page.evaluate(() => localStorage.getItem('bellibing-resource-policy')), '{"sentinel":"real-resources"}');
-    assert.ok(requests.every(u => new URL(u).origin === 'http://127.0.0.1:4174'));
+    assert.ok(requests.every(u => new URL(u).origin === origin));
     assert.deepEqual(errors, []);
     checks.push('Production account/resource sentinel bytes unchanged; only local allowlisted files/catalogs requested; no engine/account/external asset requests');
     const js = await readFile(new URL('./concept.js', import.meta.url), 'utf8');
     assert.doesNotMatch(js, /localStorage|sessionStorage|indexedDB|\/api\/|dps-provider|echo-advisor/);
-    assert.equal((await page.request.get('http://127.0.0.1:4174/.git/config')).status(), 404);
-    assert.equal((await page.request.get('http://127.0.0.1:4174/docs/ui-prototypes/v34-functional.html')).status(), 404);
-    checks.push('Preview server denies repository/private paths; original schematic SVG art only');
+    assert.equal((await page.request.get(origin + '/.git/config')).status(), 404);
+    assert.equal((await page.request.get(origin + '/docs/ui-prototypes/v34-functional.html')).status(), 404);
+    checks.push('Preview server denies repository/private paths; Inventory art remains schematic, Hero uses existing reviewed game assets');
     console.log('Inventory concept Chromium PASS', JSON.stringify(checks, null, 2));
 }
 catch (error) {

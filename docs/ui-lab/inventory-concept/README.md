@@ -1,18 +1,20 @@
-# Inventory & navigation — interactive design proposal
+# Inventory, Hero & Teams — interactive design proposal
 
 **For owner visual review. Not approved product UI or a production Inventory.**
-One independent concept under Issue [#352](https://github.com/bellebing/Bellibing-simulator/issues/352), based on public main. No existing page, account schema, Improve integration, private engine, scanner, team store or DPS implementation is changed.
+One connected concept under Issue [#352](https://github.com/bellebing/Bellibing-simulator/issues/352), based on public main. No existing page, account schema, Improve integration, private engine, scanner, team store or DPS implementation is changed.
 
 ## Try it
 
 ```sh
-node docs/ui-lab/inventory-concept/serve.mjs
+CONCEPT_PORT=4175 node docs/ui-lab/inventory-concept/serve.mjs
 ```
 
-Open **http://127.0.0.1:4174**. Start with Home or open `/#inventory` directly.
-A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds only public catalogs, CSS and the memory-only concept. Open the output directly in a desktop browser.
+Open **http://127.0.0.1:4175**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
 
-The local server exposes only the three concept files and two public canonical catalogs; other repository paths return 404. No build/install is needed.
+The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the layered scene, two Hero variants, Team/Endgame interactions, source research and withheld gameplay claims.
+A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds public catalogs, the selected existing reviewed Character art, CSS and the memory-only concept. Open the output directly in a desktop browser.
+
+The local server exposes only allowlisted concept files, two public canonical catalogs and the explicitly selected existing Character assets; other repository paths return 404. No build/install is needed.
 
 - Inventory → select the partial +10 Tempest Mephis → Equip to Character → choose Character/slot → Equip. The replaced Echo stays in Inventory.
 - Select Jiyan's Impermanence Heron → Equip to Augusta → Cancel or explicitly Move & equip. A move empties Jiyan's slot rather than creating a copy.
@@ -21,6 +23,8 @@ The local server exposes only the three concept files and two public canonical c
 - Build → select a slot → choose in Inventory → return using the Character/slot breadcrumb. Search/category/selection survive ordinary navigation.
 - Build → Add Character → Manual entry. Scanner is a clearly marked planned connection, with no fake OCR.
 - Footer → Try empty inventory → Add your first Echo/Weapon. Echo manual entry uses actual canonical stat names and discrete values. All changes are demo-only.
+- Build → compare Cinematic Still / Subtle Parallax; expand Skills without covering the Character; select an Echo to edit in the existing inline Workspace.
+- Teams → My Teams / Endgame; sort demo Team DPS, inspect equipment, assign/reorder teams and rounds, review example conflicts and source-pending rules.
 - Resources expands inline. `?` explains the planned help placement; no animated guide is implemented.
 
 All demo equipment, ownership, levels, Sequence and resource counts are synthetic. State is memory-only and resets on reload. This is not a backup tool, live-game image review or production-compatible account format.
@@ -39,7 +43,7 @@ Inventory has **Echoes / Weapons**, each with search, All / Unequipped / Equippe
 
 The grid does not move when another item is inspected. Selection is an outlined card; ownership is an explicit Character marker. The inspector shows item identity, Cost/rank/level, Sonata, canonical Main/secondary stats, observed rolls and owner. Only an explicit Equip/Move changes demo assignment. Unequip keeps the item. The inline assignment panel reduces artwork/detail height while open, keeping its action reachable at 1440×900.
 
-Improve and Teams are **navigation previews only**: Improve reads Current with a separate Candidate; future saved teams reference Characters and their owned equipment. Sandbox never silently creates owned items. No alternative technical settings, fabricated scores or competing item owners are introduced.
+Improve and Sandbox remain navigation previews only. Team/Endgame now have interactive presentation fixtures, explicitly without a calculator or optimizer. Future saved teams reference Characters and their owned equipment. Sandbox never silently creates owned items. No alternative technical settings, fabricated scores or competing item owners are introduced.
 
 ## Research basis — 2026-10-28, Europe/Stockholm
 
@@ -52,9 +56,9 @@ Improve and Teams are **navigation previews only**: Improve reads Current with a
 
 ## Assets and visual qualification
 
-All concept illustrations and icons are original inline SVG geometry authored for this proposal. No game image, third-party screenshot or font binary is imported, copied or fetched. Catalog names and canonical stat facts come from the existing public Echo/Weapon JSON exports. Character initials are deliberate placeholders, not invented game portraits. The artwork is marked **Concept illustration**.
+Inventory item illustrations/icons remain original SVG geometry, marked Concept illustration. The new Hero/Team views reuse selected existing reviewed Character cutouts/portraits, unchanged and with retained source attribution. They follow the existing fan-companion preview convention, not a blanket game-art license; see the asset boundary in [Hero & Team notes](HERO_TEAM_DESIGN.md). No new asset source, screenshot or font binary is fetched. Public catalog facts are reused; all account/build/DPS/score examples remain synthetic.
 
-The CSS retains the required `Etna, Inter, system-ui` family order, but makes no external font request. Licensed/cleared ETNA and game item/Character imagery are a later substitution and **visual approval dependency**; the system-font fallback is not claimed to be pixel-parity with the accepted ETNA baseline. Final recognition/cropping must be reviewed with cleared art. The current review can approve navigation, hierarchy and interaction separately.
+The CSS retains the required `Etna, Inter, system-ui` family order, but makes no external font request. ETNA availability/clearance and final production asset rights/framing remain **visual approval dependencies**; the system-font fallback is not claimed to be pixel-parity with the accepted ETNA baseline. Final recognition/cropping must be reviewed with cleared art. The current review can approve navigation, hierarchy and interaction separately.
 
 ## Data dependencies before production — proposal, not migration
 
@@ -82,9 +86,9 @@ Future optional `?` help may dim the background and animate a gold outline aroun
 Run the focused browser review using an already installed Playwright module:
 
 ```sh
-PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
+CONCEPT_REVIEW_URL=http://127.0.0.1:4175 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
 ```
 
 The script exercises the actual concept with synthetic account/resource sentinels and writes screenshots plus `review.json` under `/tmp/bellibing-inventory-concept-review`. It is concept REVIEW evidence, not FULL, hosted, production or private-engine acceptance. No broad build/test/CI run is requested. Stop for owner visual approval before production implementation.
 
-Focused local review **PASS**: 14 interaction/ownership/navigation/isolation checks across 1440×900, 1920×1080 and 2560×1440. [Recorded results](review/review.json), [portable-document review](review/portable-review.json), [source identity](review/identity.json), and [1440px Inventory screenshot](review/inventory-1440.png). The managed browser blocks `file://`; the portable document was rendered through the permitted local HTTP review, then exercised with network disabled and no subresource requests. Native file launch in the owner’s browser remains part of visual review. The screenshot art and typography limitations above are explicit. No FULL or broad suite was run.
+Current paired concept review **PASS**: **18 Hero/Team, 14 repeated Inventory and 4 portable-document checks**. Desktop sizes: 1440×900, 1920×1080, 2560×1440. [Hero/Team results](hero-team-review/review.json), [Inventory results](hero-team-review/inventory-review.json), [portable results](hero-team-review/portable-review.json), [source/asset identity](hero-team-review/identity.json), [Hero still](hero-team-review/hero-cinematic-still-1440.png), [My Teams](hero-team-review/my-teams-1440.png) and [Endgame](hero-team-review/endgame-example-1440.png). Native file launch is blocked by the managed browser; the same portable HTML was rendered via permitted HTTP and exercised offline with no subresources. Original `review/` files preserve the earlier Inventory candidate as history, not current whole-concept qualification. No FULL, production migration, gameplay qualification or owner aesthetic acceptance is claimed.

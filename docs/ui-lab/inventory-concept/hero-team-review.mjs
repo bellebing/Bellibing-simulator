@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
-const origin = process.env.CONCEPT_REVIEW_URL ?? 'http://127.0.0.1:4175';
+const origin = process.env.CONCEPT_REVIEW_URL ?? 'http://127.0.0.1:4176';
 const out = resolve(process.env.HERO_REVIEW_OUT ?? '/tmp/bellibing-hero-team-review');
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.UI_LAB_CHROME_PATH ?? '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
@@ -51,7 +51,7 @@ try {
     assert.ok(Math.abs(foreground.x) > Math.abs(moving.x) && Math.abs(foreground.x) <= 10.1);
     await shot('hero-subtle-parallax-1440');
     checks.push('Subtle Parallax uses bounded opposing layer movement: Character ≤6px, foreground ≤10px; composition matches Still');
-    await page.mouse.move(25, 100);
+    await page.mouse.move(25, 30);
     await page.waitForTimeout(300);
     assert.equal((await transform('.hero-figure')).x, 0);
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -69,10 +69,12 @@ try {
     const after = await page.locator('.hero-stage').boundingBox();
     for (const key of ['x', 'y', 'width', 'height'])
         assert.equal(after[key], before[key]);
-    assert.ok((await page.locator('.hero-skills').boundingBox()).x + (await page.locator('.hero-skills').boundingBox()).width <= before.x);
+    assert.ok((await page.locator('.hero-skills').boundingBox()).x >= before.x, 'Skill card floats inside the shared environment');
+    assert.equal(await page.locator('.forte-core>button').count(),5);
+    assert.equal(await page.locator('.forte-core img').evaluateAll(nodes=>nodes.every(n=>n.naturalWidth>0)),true);
     await shot('hero-skills-inline-1440');
     await click('[data-hero-skills]');
-    checks.push('Skills expand inline on the left without moving/scaling or covering the Character');
+    checks.push('Five real Skills are visible by default; optional source details expand on the left without moving/scaling the scene');
     await click('[data-character="jiyan"]');
     await readyImages();
     assert.match(await page.locator('[data-hero-name]').innerText(), /Jiyan/);
@@ -173,7 +175,7 @@ try {
         await readyImages();
         await shot('hero-still-' + width);
         assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-        assert.ok((await page.locator('.app-shell').boundingBox()).width <= 1440);
+        assert.equal(Math.round((await page.locator('.hero-stage').boundingBox()).width), width, 'Build environment spans the entire workspace');
         await click('header [data-nav="teams"]');
         await click('[data-team-mode="saved"]');
         await click('[data-team="augusta"]');
@@ -184,7 +186,7 @@ try {
         await shot('endgame-' + width);
         await click('header [data-nav="build"]');
     }
-    checks.push('Three desktop sizes verified for Hero, My Teams and Endgame with finite centered shell and no horizontal overflow');
+    checks.push('Three desktop sizes verified: full-width Build environment and existing centered Teams/Endgame, without horizontal overflow');
     await click('[data-hero-variant="parallax"]');
     await click('#resetDemo');
     assert.equal(await page.locator('[data-hero-variant="still"]').getAttribute('aria-pressed'), 'true');

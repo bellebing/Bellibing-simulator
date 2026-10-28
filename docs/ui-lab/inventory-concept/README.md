@@ -6,12 +6,13 @@ One connected concept under Issue [#352](https://github.com/bellebing/Bellibing-
 ## Try it
 
 ```sh
-CONCEPT_PORT=4175 node docs/ui-lab/inventory-concept/serve.mjs
+CONCEPT_PORT=4176 node docs/ui-lab/inventory-concept/serve.mjs
 ```
 
-Open **http://127.0.0.1:4175**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
+Open **http://127.0.0.1:4176**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
 
 The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the layered scene, two Hero variants, Team/Endgame interactions, source research and withheld gameplay claims.
+**Build remains a composition study: a source-approved full-body asset is unavailable; the standing-Hero visual Definition of Done is blocked.** [Correction review and asset findings](HERO_CORRECTION_REVIEW.md).
 A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds public catalogs, the selected existing reviewed Character art, CSS and the memory-only concept. Open the output directly in a desktop browser.
 
 The local server exposes only allowlisted concept files, two public canonical catalogs and the explicitly selected existing Character assets; other repository paths return 404. No build/install is needed.
@@ -86,9 +87,11 @@ Future optional `?` help may dim the background and animate a gold outline aroun
 Run the focused browser review using an already installed Playwright module:
 
 ```sh
-CONCEPT_REVIEW_URL=http://127.0.0.1:4175 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
+CONCEPT_REVIEW_URL=http://127.0.0.1:4176 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
 ```
 
 The script exercises the actual concept with synthetic account/resource sentinels and writes screenshots plus `review.json` under `/tmp/bellibing-inventory-concept-review`. It is concept REVIEW evidence, not FULL, hosted, production or private-engine acceptance. No broad build/test/CI run is requested. Stop for owner visual approval before production implementation.
 
-Current paired concept review **PASS**: **18 Hero/Team, 14 repeated Inventory and 4 portable-document checks**. Desktop sizes: 1440×900, 1920×1080, 2560×1440. [Hero/Team results](hero-team-review/review.json), [Inventory results](hero-team-review/inventory-review.json), [portable results](hero-team-review/portable-review.json), [source/asset identity](hero-team-review/identity.json), [Hero still](hero-team-review/hero-cinematic-still-1440.png), [My Teams](hero-team-review/my-teams-1440.png) and [Endgame](hero-team-review/endgame-example-1440.png). Native file launch is blocked by the managed browser; the same portable HTML was rendered via permitted HTTP and exercised offline with no subresources. Original `review/` files preserve the earlier Inventory candidate as history, not current whole-concept qualification. No FULL, production migration, gameplay qualification or owner aesthetic acceptance is claimed.
+Current focused review: **18 Hero/Team + 14 Inventory + 4 portable + 7 packaged correction checks PASS**, plus exact source-projection agreement for all three concept Characters. Desktop sizes: 1440×900, 1920×1080, 2560×1440. [Current results, delivery/source identities and screenshots](hero-correction-review/identity.json). Actual packaged-document screenshots include [Still](hero-correction-review/delivery-still-1440.png), [Parallax](hero-correction-review/delivery-parallax-1440.png) and [real Skills/details](hero-correction-review/delivery-source-skills-1440.png). Accepted existing [Improve](hero-correction-review/accepted-improve.png), [Sandbox](hero-correction-review/accepted-sandbox.png) and [Build](hero-correction-review/accepted-build-selected.png) were visually inspected as references, without production changes.
+
+The packaged file is exercised via permitted HTTP and then offline because managed Chromium blocks native `file://`. Its opaque html/body/app backgrounds remain dark with OS light preference and stylesheet-loss fallback. Both exact stylesheets and selected assets are embedded; no external requests occur. This does not establish why the owner's previous viewer showed white or prove arbitrary preview/sanitizer support. Open the downloaded HTML in a normal desktop browser; screenshots show the actual tested delivery. Earlier `review/` and `hero-team-review/` are historical candidates, not current visual qualification. No FULL, production migration, gameplay qualification or owner aesthetic acceptance is claimed.

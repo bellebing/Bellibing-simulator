@@ -9,7 +9,7 @@ const out = resolve(process.env.HERO_REVIEW_OUT ?? '/tmp/bellibing-hero-team-rev
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.UI_LAB_CHROME_PATH ?? '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
-const page = await context.newPage(), requests = [], errors = [], url = 'http://127.0.0.1:4175/portable-review';
+const page = await context.newPage(), requests = [], errors = [], url = 'http://127.0.0.1:4176/portable-review';
 page.on('request', r => {
     if (/^https?:/.test(r.url()))
         requests.push(r.url());

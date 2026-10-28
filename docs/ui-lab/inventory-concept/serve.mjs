@@ -1,4 +1,5 @@
 // Local-only preview: expose exactly the concept files and its two public catalogs.
+import { loadHeroPresentation } from './hero-presentation.mjs';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 const files = new Map([
@@ -15,8 +16,22 @@ for (const id of ['augusta', 'jiyan', 'calcharo'])
     files.set('/ui-prototypes/assets/characters/hero-art/' + id + '.webp', [new URL('../../ui-prototypes/assets/characters/hero-art/' + id + '.webp', import.meta.url), 'image/webp']);
 for (const id of ['augusta', 'jiyan', 'calcharo', 'iuno', 'the-shorekeeper', 'mortefi', 'verina', 'sanhua', 'baizhi'])
     files.set('/ui-prototypes/assets/characters/portraits/' + id + '.png', [new URL('../../ui-prototypes/assets/characters/portraits/' + id + '.png', import.meta.url), 'image/png']);
+const presentation = await loadHeroPresentation();
+files.set('/forte-ui.mjs', [new URL('../../../src/characterForteUi.mjs', import.meta.url), 'text/javascript']);
+for (const c of presentation.characters)
+    for (const node of c.nodes) {
+        if (!node.assetPath.startsWith('assets/builder-icons/'))
+            throw Error('Unexpected Forte asset path');
+        files.set('/ui-prototypes/' + node.assetPath, [new URL('../../ui-prototypes/' + node.assetPath, import.meta.url), 'image/webp']);
+    }
 const server = createServer(async (req, res) => {
-    const item = files.get(new URL(req.url, 'http://localhost').pathname);
+    const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/hero-presentation.json') {
+        res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+        res.end(JSON.stringify(presentation));
+        return;
+    }
+    const item = files.get(pathname);
     if (!item) {
         res.writeHead(404);
         res.end('Not found');
@@ -31,4 +46,4 @@ const server = createServer(async (req, res) => {
         res.end('Preview unavailable');
     }
 });
-server.listen(Number(process.env.CONCEPT_PORT ?? 4174), '127.0.0.1', () => console.log('Bellibing concept preview ready'));
+server.listen(Number(process.env.CONCEPT_PORT ?? 4176), '127.0.0.1', () => console.log('Bellibing concept preview ready'));

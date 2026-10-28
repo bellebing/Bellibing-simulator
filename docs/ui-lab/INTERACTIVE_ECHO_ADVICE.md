@@ -52,8 +52,11 @@ DPS benefit. The user independently selects Character/Team damage and a named
 resource or benefit objective. Highest chance, cheapest improvement and best
 expected DPS per resource remain separate private-supplied results.
 
-The recommended-versus-runner-up panel displays the private numerical rationale
-and signed probability, attempts, net-resource and DPS differences. It presents
+The normal recommendation shows a short next action. Its existing Echo-selection
+control brings the genuine observed-roll form into view and focuses it. All five
+opportunity rows remain visible; the full supplied rationale and numerical
+recommended-versus-runner-up comparison are available in a closed disclosure.
+The comparison presents signed probability, attempts, net-resource and DPS differences. It presents
 the supplied confidence status without certifying an overlapping estimate. The
 public renderer does no ranking, DPS evaluation, resource conversion or policy
 calculation. Older/missing provider/evidence contracts display Pending. Source
@@ -89,6 +92,11 @@ Same-Character team, gear, Settings and resource edits preserve observations whi
 invalidating old advice. Character changes retire the active session. Reset clears
 session results; Abort prevents further recording; Export saves user observations
 and safe summaries. Saved account equipment and resource storage remain unchanged.
+
+Planned optional help (owner decision, not implemented in V1): an animated gold
+outline marks the next action while the background dims. The real page remains
+interactive and help can be closed immediately. This is a future UX contract,
+not another engine feature or a requirement to expand V1.
 
 The existing loopback bridge and authenticated team transport carry only bounded
 requests and safe result summaries. The private process may retain analysis jobs;

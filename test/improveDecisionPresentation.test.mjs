@@ -7,10 +7,17 @@ test('presentation preserves private recommendation, objective, rationale and si
  assert.match(view,/data-recommended-slot="3"/);assert.match(view,/Echo 4 recommended/);assert.match(view,/Echo 4 vs Echo 2/);assert.match(view,/Supplied objective/);assert.match(view,/Actual private explanation &lt;safe&gt;/);
  for(const value of ['+25 pp','-2 ','-70 ','-333 ','-99 DPS','-24.5 DPS','99 Tuners','555 EXP','1 premium','Highest chance: Echo 2','Best DPS\/Tuner: Echo 4'])assert.match(view,new RegExp(value.replace('+','\\+')));
  assert.equal((view.match(/data-opportunity-slot=/g)??[]).length,5);assert.match(view,/ordering not established/);assert.deepEqual(input,before);
+ assert.match(view,/<button[^>]*class="improve-next"[^>]*data-improve-slot="3"[^>]*>Work on Echo 4/);
+ assert.match(view,/<details class="improve-comparison"><summary>Echo 4 vs Echo 2/);
+ assert.match(renderImproveOpportunities(input,{comparisonOpen:true}),/<details class="improve-comparison" open>/,'An opened comparison remains readable across redraws');
+ assert.ok(view.indexOf('data-decision-rationale')>view.indexOf('<details class="improve-comparison">'),'Full supplied evidence stays available on demand');
 });
 test('unsupported and older result contracts remain Pending without stale DPS or fallback recommendations',()=>{
- for(const input of [{status:'PENDING',reason:'SOURCE_CONTEXT_PENDING'},{...fixture(),provenance:null}]){const view=renderImproveOpportunities(input);assert.match(view,/PENDING/);assert.doesNotMatch(view,/data-recommended-slot|456 DPS/);}
+ for(const input of [{status:'PENDING',reason:'SOURCE_CONTEXT_PENDING'},{...fixture(),provenance:null}]){const view=renderImproveOpportunities(input);assert.match(view,/PENDING/);assert.doesNotMatch(view,/data-recommended-slot|456 DPS|improve-next/);}
  assert.equal(interval({estimate:null,lower:0,upper:null}),'— (0–—)');
+ const unresolved=fixture();unresolved.decisionEvidence.recommendedSlot=null;
+ const view=renderImproveOpportunities(unresolved);assert.doesNotMatch(view,/class="improve-next"/);assert.match(view,/Why no recommendation\?/);assert.match(view,/Actual private explanation &lt;safe&gt;/);
+
 });
 test('contextual contribution is unavailable unless an accepted named reference and numeric comparison are supplied',()=>{
  const input=fixture();assert.match(renderImproveOpportunities(input),/UNAVAILABLE/);

@@ -8,7 +8,7 @@ export function hasCompleteTeamBuilds(input){
  const {team,records}=input??{};
  return team?.characterIds?.length===3&&team.characterIds.every(id=>{const r=records?.find(r=>r.characterId===id),b=r?.buildState;return r?.status==='OBSERVED_PRODUCTION_BUILD_RECORD'&&b?.echoSets?.sets?.[b.echoSets.activeSetId]?.slots?.filter(c=>c?.level===25).length===5;});
 }
-export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fetch}={}){
+export function createLocalTeamReview({readInput,onAvailable=()=>{},onReferenceInvestmentChange=()=>{},fetchImpl=fetch}={}){
  let available=false,enabled=false,binding=null,generation=0,result=null,message='Select Lv90 / R1 reference',timer=null,container=null,pendingController=null,service=null;
  const snapshot=()=>{try{return readInput();}catch{return null;}};
  const identity=()=>JSON.stringify(snapshot());
@@ -28,7 +28,7 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
    return `<td data-change="${shown>0?'up':shown<0?'down':'equal'}">${shown>0?'+':''}${fmt(shown)}${relative}</td>`;
   };
   const sandbox=input?.mode==='SANDBOX',complete=sandbox||hasCompleteTeamBuilds(input);
-  const rows=complete?row(sandbox?'Reference':'Current',result?.current)+row(sandbox?'Simulated':'Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
+  const rows=complete?row(sandbox?'Reference':'Current',result?.current)+row(sandbox?'Simulated':input?.candidateLabel==='Observed'?'Observed':'Candidate',comparable?result.candidate:null)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
   const currentReady=valid(result?.current),status=currentReady?'EXPERIMENTAL':'PENDING';
   container.dataset.status=status;
   container.querySelector('[data-team-status]').textContent=!sandbox&&!enabled?'':currentReady?'Model estimate':message==='Calculating…'?'Calculating…':'DPS not supported';
@@ -37,7 +37,7 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
   container.querySelector('.local-team-status').textContent=team?(complete&&!['Calculating…','Select Lv90 / R1 reference','DPS calculation not supported'].includes(message)&&!message.startsWith('Experimental')?message:''):input?.pendingSelection==='VARIANT'?'':'Choose a teammate';
   container.querySelector('[data-team-reference]').innerHTML=sandbox?'':`<label class="local-team-enable"><input type="checkbox" data-local-team-enable ${enabled?'checked':''}> Lv90 / R1 model</label>`;
 
-  if(!sandbox)container.querySelector('[data-local-team-enable]').onchange=e=>{enabled=e.target.checked;binding=null;refresh();};
+  if(!sandbox)container.querySelector('[data-local-team-enable]').onchange=e=>{enabled=e.target.checked;binding=null;refresh();onReferenceInvestmentChange(enabled);};
  }
  function refresh(){
   if(!available)return;
@@ -69,5 +69,5 @@ export function createLocalTeamReview({readInput,onAvailable=()=>{},fetchImpl=fe
    service=createServerTransport({endpoint:manifest.endpoint,fetchImpl});available=true;onAvailable();
   }catch{}
  })();
- return {mount(panel){if(!available)return;container=panel.querySelector('.sandbox-dps');if(!container)return;container.classList.add('local-team-review');container.dataset.kind=snapshot()?.mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';refresh();draw();},checkFresh:refresh};
+ return {referenceInvestmentAccepted:()=>enabled,mount(panel){if(!available)return;container=panel.querySelector('.sandbox-dps');if(!container)return;container.classList.add('local-team-review');container.dataset.kind=snapshot()?.mode==='SANDBOX'?'SANDBOX_BUILD':'ACCOUNT_BUILD';refresh();draw();},checkFresh:refresh};
 }

@@ -1,29 +1,108 @@
-# Interactive Echo advice — local Improve review
+# Observed Improve advice
 
-## Run and use
+## V1 completion and integration boundary
 
-Start the existing local launcher with both repositories available (`START_BELLIBING_LOCAL.bat` on Windows, or `node scripts/start-bellibing-local.mjs`). The private repository must contain the advisor stdio entry. Open Improve, select a saved Character and an active equipped Echo slot, and configure an explicit supported Echo target and Gate. The selected source-valid species, Sonata, cost and main stat define the fresh replacement template.
+The observed Improve V1 interface is implemented locally and preserved for frozen
+integration review. Actual rolls, five equipped Echo opportunities, objective-bound
+explanations and private Continue/Restart results are available. Focused public
+checks cover capture, observed-input state, transport and presentation; paired
+runtime/acceptance evidence is kept in private review. This is not main integration,
+independent product approval or production verification.
 
-SIMULATE reveals exactly one canonical substat at +5, +10, +15, +20 and +25. The compact panel below it offers **DISCARD** (archive the current simulated Echo and reveal a fresh +5) and **CONTINUE** (one more checkpoint). Green marks the lower expected Tuner cost; its intensity follows the relative saving. The separate percentage-point difference describes attempt odds, which need not favor the cheaper action. Before the configured Gate the panel shows the Gate rather than a stopping recommendation.
+The new complete-request client requires the compatible private handler and safe
+evidence contract. Backend availability must precede public release. A successful
+main FULL can publish Pages through the existing workflow, so public landing and
+publication need explicit owner approval. Unsupported contexts remain Pending;
+future DPS/Character expansion is separate from closing the implemented V1 flow.
 
-At +25, TARGET MET means the configured **Echo** requirements were met, not that the Character improved. Full Build opens the existing Current/Expected/Candidate stats projection. Expected build stats/DPS are not synthesized. Equipped Echoes remain accessible in a collapsible section; narrow screens focus the upgrading Single Echo and show the completed result afterward.
+## Implemented user flow
 
-## Meaning of the numbers
+Improve records the real substat name and exact canonical roll value observed in
+the game at +5/+10/+15/+20/+25. It does not generate an observed result. The separate
+Sandbox remains a fun RNG simulator. Earlier rolls remain visible and immutable.
 
-Both chances refer to **one attempt**, following the same configured Gate policy after the next checkpoint. CONTINUE starts with the already observed substats; DISCARD starts fresh. Both costs mean **expected future gross Tuners until the first target +25, including failed replacements**, excluding already spent Tuners. The recommendation compares those costs, not chance alone. A terminal failed Echo cannot continue; an impossible or unsupported target has no fabricated finite expectation.
+The normal Improve client requests a complete private analysis in one compute
+request. The service may return a bounded continuation when its provider or runtime
+cannot complete the job; the existing cursor flow remains available. The client
+commits actual input changes promptly and paints the finished result even while
+another control remains focused. A pending computation never keeps an old
+recommendation visible as if it described the new build. Loading/partial results
+are not completed recommendations.
 
-XP is assumed sufficient. These are unconstrained replacement expectations, not finite-budget success probabilities. Actual interactive spending respects the selected finite Tuner/Echo limits, or Unlimited, without changing the shared inventory. Tube transactions, recovery/refunds, acquisition/farming costs and globally optimal finite-resource advice remain Pending.
+Transport preparation authorizes a session early without running an analysis or
+changing account data. Mathematical preparation, reuse and decisions stay inside
+the private provider. Numeric User Timing entries describe capture, serialization,
+response handling and rendering; they contain no account payload or private policy.
+The updated public client and private completion handler require coordinated
+release verification; no hosted activation follows from local review.
 
-## Context and ownership
+Enter actual Character/weapon levels and weapon ranks for the selected real team;
+stored equipment, Sequences and Forte remain actual. Unsupported source contexts
+or missing private service show Pending. Reference builds do not silently replace
+account investments, gear or teammates.
 
-Gate, minima, Hard/Flex selections/counts and resource changes recompute advice from the same observed rolls. They do not call RNG. Owner/build/Character/slot changes retire the session; aborted or superseded responses cannot restore old advice. One advisor session owns one selected slot. Other legitimate Candidate slots remain reviewable. Reset clears the detached session; Abort freezes it until Reset. Export downloads its observations, context and spend locally.
+The private service supplies versioned provider/context provenance and all five
+slot opportunities against the same actual Current. The request capture binds
+Current to actual team/build records and investments; stock, active-slot and
+Settings revisions invalidate advice separately, without changing the DPS build
+identity or forcing the private service to discard reusable same-build evidence. The workshop-width comparison
+shows strict modeled-upgrade chance and bounds, expected attempts, net Tuners,
+EXP/Echoes, Tube denominations, finite-stock spending and conditional/per-attempt
+DPS benefit. The user independently selects Character/Team damage and a named
+resource or benefit objective. Highest chance, cheapest improvement and best
+expected DPS per resource remain separate private-supplied results.
 
-No action equips an Echo, spends account inventory or edits real Current. The canonical character-free RNG is reused unchanged. The private analytical model runs only in a bounded same-origin loopback Node child, with existing Host/Origin/request bounds and cancellation. The browser receives an allowlisted aggregate result; no private model, policy, cache, fixtures or Worker bundle is distributed. Static/Pages builds without that local endpoint retain their existing behavior and do not display fabricated advice.
+The normal recommendation shows a short next action. Its existing Echo-selection
+control brings the genuine observed-roll form into view and focuses it. All five
+opportunity rows remain visible; the full supplied rationale and numerical
+recommended-versus-runner-up comparison are available in a closed disclosure.
+The comparison presents signed probability, attempts, net-resource and DPS differences. It presents
+the supplied confidence status without certifying an overlapping estimate. The
+public renderer does no ranking, DPS evaluation, resource conversion or policy
+calculation. Older/missing provider/evidence contracts display Pending. Source
+readiness remains visible; these model results do not establish gameplay parity
+or a globally optimal adaptive strategy.
 
-## Supported and Pending
+Contextual contribution is optional: only an AVAILABLE private result with an
+explicit named reference and numeric comparison is displayed. Its reference,
+Cost/main stat and reference-dependent meaning remain visible. Otherwise it reads
+UNAVAILABLE; a reference score is never presented as intrinsic Echo quality.
+A private caution flag adds a short potentially-not-worthwhile label; the client
+does not infer that policy from an attempt threshold. Rare events and unknown
+bounds stay unknown, rather than becoming zero/infinity
+or a confident ordering. Full-completion/recovery reference economics and
+available-stock feasibility/spend are labeled separately.
 
-Explicit feasible canonical rank-5 Echo Hard/Flex targets, exact minimum tiers and explicit Flex counts use the existing model. Missing account/template facts, inactive slots, invalid/count-less goals, whole-build ER constraints, search limits and unavailable local math remain Pending. This does not establish roster-wide Recommended requirements, Character upgrade utility, DPS qualification or automatic whole-build optimization. BUG-042 remains open.
+After a real observation the private service supplies Continue/Restart advice,
+remaining chance and incremental future cost for Continue, Data Recovery and
+direct-feed alternatives. The checkpoint goal is labeled separately from the
+slot recommendation objective. A known strictly better +25 may be
+retained for comparison. Equal/lower results preserve Current. Retention never
+silently changes the baseline, equipment or saved resources. The client contains
+no private valuation, ranking or stopping implementation.
 
-## Verification
+All five slots share a detached session resource owner. Canonical Tube transactions,
+carry, checkpoint prices and staged recovery are reused. Recovery binds donor,
+destination, revision and exact balances; stale replies cannot duplicate materials.
+A restart creates a fresh +0 candidate and waits for the next actual observation.
+The owner-confirmed Data Recovery disposition and approved fractional direct-feed
+rounding assumption remain separate source facts; no new mechanics are invented.
 
-Focused public session/transport/launcher/Candidate tests cover real canonical reveals, finite limits, owner isolation, abort/reset and stale responses. Strict build and canonical source parity remain mandatory. Private tests independently certify the Gate-constrained fixed point, preserve historical Gate-5 parity and cover weighted minima and explicit Flex counts. A private real-Chromium runner exercises desktop/mobile checkpoints, Gate/minimum edits without rerolls, +25 success/failure, full-build projection, Discard, Export, Abort, Reset and unchanged account bytes. Private fixtures and screenshots stay private and ignored; exact-head CI evidence belongs on the Draft PRs.
+The stat projection reads the active candidate from the synchronized observed
+session, so legacy search invalidation cannot erase recorded Candidate stats.
+Same-Character team, gear, Settings and resource edits preserve observations while
+invalidating old advice. Character changes retire the active session. Reset clears
+session results; Abort prevents further recording; Export saves user observations
+and safe summaries. Saved account equipment and resource storage remain unchanged.
+
+Planned optional help (owner decision, not implemented in V1): an animated gold
+outline marks the next action while the background dims. The real page remains
+interactive and help can be closed immediately. This is a future UX contract,
+not another engine feature or a requirement to expand V1.
+
+The existing loopback bridge and authenticated team transport carry only bounded
+requests and safe result summaries. The private process may retain analysis jobs;
+public clients cannot supply its internal state. Closing the local host retires its
+process. Missing service still allows manual recording with Pending analysis.
+Private code, diagnostics and artifacts must never enter public bundles or Actions.
+No hosted activation or deployment follows from implementation or local review.

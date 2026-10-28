@@ -21,19 +21,21 @@ export async function captureLocalTeamBuilds(input){
   return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards}}};
  }
  if(mode!=='IMPROVE')return fail('BUILD_OWNERSHIP_PENDING');
- if(!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
+ const actual=input.actualInvestments;
+ if(!actual&&!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
+ if(actual&&team.characterIds.some(id=>{const i=actual[id];return !i||![i.characterLevel,i.weaponLevel,i.weaponRefinement].every(Number.isInteger)||i.characterLevel<1||i.characterLevel>90||i.weaponLevel<1||i.weaponLevel>90||i.weaponRefinement<1||i.weaponRefinement>5;}))return fail('ENTER_ACTUAL_TEAM_INVESTMENTS');
  const records=input.records;
  if(!Array.isArray(records)||team.characterIds.some(id=>records.find(r=>r.characterId===id)?.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
  const kind='ACCOUNT_BUILD';
- const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:'EXPLICIT_LV90_R1_REFERENCE'})};
+ const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:actual??'EXPLICIT_LV90_R1_REFERENCE'})};
  const builds=team.characterIds.map(characterId=>{
   const b=records.find(r=>r.characterId===characterId).buildState,slots=b.echoSets?.sets?.[b.echoSets.activeSetId]?.slots;
   return {characterId,kind,ownerId:ownership.id,ownerRevision:ownership.revision,modeId:team.modeRequirements?.[characterId]??'default',
    // v34 stores the weapon ID, actual Sequences/Forte and Echoes. It does not
    // store Character/Weapon levels/refinement: these are explicit review
    // scenario choices, never inferred as real account investment.
-   baseline:{characterLevel:90,weaponLevel:90,weaponRefinement:1,sequenceLevel:b.sequenceLevel,forte:clone(b.forte)},
-   weapon:{id:b.weaponId,rank:1,level:90},echoes:slots?.map((c,i)=>card(c,`observation:${characterId}:${i}`))};
+   baseline:{characterLevel:actual?.[characterId].characterLevel??90,weaponLevel:actual?.[characterId].weaponLevel??90,weaponRefinement:actual?.[characterId].weaponRefinement??1,sequenceLevel:b.sequenceLevel,forte:clone(b.forte)},
+   weapon:{id:b.weaponId,rank:actual?.[characterId].weaponRefinement??1,level:actual?.[characterId].weaponLevel??90},echoes:slots?.map((c,i)=>card(c,`observation:${characterId}:${i}`))};
  });
  const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:localTeamReference(team.id).enemy,acceptReferenceStateSchedule:true};
  const current=createFixedTeamScenarioRequest({...common,builds});if(current.status!=='CAPTURED')return fail(current.reason);

@@ -1,4 +1,5 @@
 import {escapeHtml} from './util.js';
+import {ECHO_TUBES} from '../../../assets/resourceInventory.js';
 import catalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import manifest from '../../../ui-prototypes/assets/echoes/manifest.json' with {type:'json'};
 // Read-only projection of actual observed cards. Never create a public owner.
@@ -20,8 +21,11 @@ export function observedSlots(view){
 }
 export function expectedResourceRecord(metrics){
  const set=metrics?.expectedCost?.selectedSet;if(!set)return null;
- const value=cell=>cell?.status==='VERIFIED'?cell.value?.approximate:null;
- return {status:'VERIFIED',echoes:value(set.echoes),tuners:value(set.tuners),tubes:null};
+ const value=cell=>cell?.status==='VERIFIED'&&Number.isFinite(cell.value?.approximate)&&cell.value.approximate>=0?cell.value.approximate:null;
+ const reference=metrics.expectedCost.tubeReference==='CANONICAL_ALL_UNLIMITED_FIRST_PARETO_WITNESS';
+ const tubes=reference&&set.tubes?.status==='VERIFIED'?Object.fromEntries(ECHO_TUBES.map(t=>[t.id,value({status:'VERIFIED',value:set.tubes.value?.[t.id]})])):null;
+ const probability=value(metrics.expectedCost.odds?.policyAttempt);
+ return {status:'VERIFIED',echoes:value(set.echoes),tuners:value(set.tuners),tubes,successProbability:probability!==null&&probability<=1?probability:null,tubeReference:reference};
 }
 export function sandboxCostDetails(metrics,cost){
  const e=metrics?.expectedCost;

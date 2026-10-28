@@ -1,6 +1,6 @@
-# Hero correction — actual delivery review
+# Hero correction — historical delivery review
 
-2026-10-28, Europe/Stockholm. Existing Draft #361 only; no production implementation or release.
+2026-10-28, Europe/Stockholm. **Historical correction evidence for the CSS-room candidate.** Its background was subsequently rejected; [the current rendered environment study](HERO_DEPTH_STUDY.md) supersedes that composition. White-canvas findings and preserved historical bug evidence below remain relevant. No production implementation or release.
 
 ## Change and accepted references
 
@@ -12,7 +12,7 @@ Real local Chromium views of the existing Build (including its actual Forte menu
 
 The previously delivered portable HTML (SHA-256 `3dee4793756a4d8827be23559785a0f628a706c58ac0e30a7dd9f9e34bf98b0b`) and its HTTP version both rendered dark in Chromium: html `rgb(12,17,21)`, text `rgb(232,233,229)`, two active stylesheets; portable had zero external stylesheet links. The previous body was transparent and relied on html. **The owner's almost-white rendering was not reproduced; its cause is unresolved.** No specific viewer/browser cause is asserted without evidence.
 
-The actual self-contained delivery is committed as [preview.html](preview.html), byte-identical to the reviewed portable file. `index.html` is explicitly labelled as multi-file development source; saving it alone loses its CSS/modules and is not a supported delivery path. This is a concrete missing-stylesheet failure mode, but does not establish which file/viewer the owner used.
+The then-reviewed standalone delivery was committed as `preview.html`; the current file now follows the newer rendered study. Its historical bytes are identified in the linked evidence. `index.html` is explicitly labelled as multi-file development source; saving it alone loses its CSS/modules and is not a supported delivery path. This is a concrete missing-stylesheet failure mode, but does not establish which file/viewer the owner used.
 
 The corrected delivery embeds exact CSS with callback replacements (avoiding replacement-string interpolation), fails packaging if a stylesheet/module dependency remains, and declares opaque dark backgrounds/light foreground on html, body and app, including minimal inline fallback and dark color-scheme metadata. Packaged Chromium review uses OS light preference and also verifies the dark critical canvas with styles disabled. The complete design still requires CSS and JavaScript; sanitizing HTML previewers are not certified. No external font/style/network dependency is needed.
 

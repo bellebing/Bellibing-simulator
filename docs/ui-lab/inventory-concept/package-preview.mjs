@@ -12,6 +12,8 @@ if (start < 0 || end < 0)
 // Script-safe JSON, with no account/private information or external asset dependency.
 const safe = value => JSON.stringify(JSON.parse(value)).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 const embeddedAssets = {};
+for (const name of ['room', 'study-figure', 'foreground'])
+    embeddedAssets['environment-study/' + name + '.png'] = 'data:image/png;base64,' + (await readFile(new URL('./environment-study/' + name + '.png', here))).toString('base64');
 const presentation = await loadHeroPresentation();
 const forteSource = await readFile(new URL('../../../src/characterForteUi.mjs', here), 'utf8');
 for (const path of new Set(presentation.characters.flatMap(c => c.nodes.map(n => n.assetPath))))

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Three embedded camera-matched 3D renders replace CSS geometry; original stand-in is explicitly not Character art and receives no Character level/Sequence identity",
+    "Still study and actual-card variant share an unchanged scene crop; Still has no pointer displacement",
+    "Physical pointer moves room, subject/support and foreground in bounded different depths; rigid image translation has no face/body warp; all actual cards remain pixel-stable",
+    "Reduced motion immediately disables displacement while keeping the same rendered perspective, light, support and shadows",
+    "Actual Augusta art is an unchanged, rigid upper-body source with explicit full-body blocker; real Skill identities/icons/details remain available",
+    "1440×900 and two wider desktop crops stay full-width without overflow; study controls stay clear of the footer and figure support",
+    "Inventory/Teams/Endgame remain reachable offline; account/resource sentinel bytes unchanged; no external images, private APIs, evaluator or runtime 3D engine requested"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4177/depth-review"
+  ],
+  "scope": "Original rendered environment technique study. User references visually inspected but not reused. Full-body Character integration and subjective visual acceptance remain pending. Native file:// not certified."
+}

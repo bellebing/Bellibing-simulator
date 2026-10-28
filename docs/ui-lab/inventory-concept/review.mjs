@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdir, writeFile, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
-const origin = process.env.CONCEPT_REVIEW_URL ?? 'http://127.0.0.1:4176';
+const origin = process.env.CONCEPT_REVIEW_URL ?? 'http://127.0.0.1:4177';
 const out = resolve(process.env.CONCEPT_REVIEW_OUT ?? '/tmp/bellibing-inventory-concept-review');
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({ executablePath: process.env.UI_LAB_CHROME_PATH ?? '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });

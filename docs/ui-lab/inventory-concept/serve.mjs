@@ -16,6 +16,8 @@ for (const id of ['augusta', 'jiyan', 'calcharo'])
     files.set('/ui-prototypes/assets/characters/hero-art/' + id + '.webp', [new URL('../../ui-prototypes/assets/characters/hero-art/' + id + '.webp', import.meta.url), 'image/webp']);
 for (const id of ['augusta', 'jiyan', 'calcharo', 'iuno', 'the-shorekeeper', 'mortefi', 'verina', 'sanhua', 'baizhi'])
     files.set('/ui-prototypes/assets/characters/portraits/' + id + '.png', [new URL('../../ui-prototypes/assets/characters/portraits/' + id + '.png', import.meta.url), 'image/png']);
+for (const name of ['room', 'study-figure', 'foreground'])
+    files.set('/environment-study/' + name + '.png', [new URL('./environment-study/' + name + '.png', import.meta.url), 'image/png']);
 const presentation = await loadHeroPresentation();
 files.set('/forte-ui.mjs', [new URL('../../../src/characterForteUi.mjs', import.meta.url), 'text/javascript']);
 for (const c of presentation.characters)
@@ -46,4 +48,4 @@ const server = createServer(async (req, res) => {
         res.end('Preview unavailable');
     }
 });
-server.listen(Number(process.env.CONCEPT_PORT ?? 4176), '127.0.0.1', () => console.log('Bellibing concept preview ready'));
+server.listen(Number(process.env.CONCEPT_PORT ?? 4177), '127.0.0.1', () => console.log('Bellibing concept preview ready'));

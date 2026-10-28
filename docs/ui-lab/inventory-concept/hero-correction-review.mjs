@@ -11,10 +11,12 @@ const html = await readFile(file, 'utf8'), checks = [], errors = [], requests = 
 const source = await loadHeroPresentation();
 const browser = await chromium.launch({ executablePath: process.env.UI_LAB_CHROME_PATH ?? '/usr/bin/chromium', headless: true, args: ['--no-sandbox'] });
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, colorScheme: 'light', reducedMotion: 'no-preference' });
-const page = await context.newPage(), url = 'http://127.0.0.1:4176/packaged-correction';
+const page = await context.newPage(), url = 'http://127.0.0.1:4177/packaged-correction';
 page.on('pageerror', e => errors.push(e.message));
-page.on('request', r => { if (/^https?:/.test(r.url()))
-    requests.push(r.url()); });
+page.on('request', r => {
+    if (/^https?:/.test(r.url()))
+        requests.push(r.url());
+});
 await page.route(url, r => r.fulfill({ contentType: 'text/html', body: html }));
 const ready = () => page.waitForFunction(() => [...document.images].every(i => i.complete && i.naturalWidth > 0));
 const capture = async (name) => { await ready(); await page.screenshot({ path: resolve(out, name + '.png'), fullPage: true }); };
@@ -77,7 +79,7 @@ try {
     await page.mouse.move(1000, 500);
     await page.waitForTimeout(220);
     assert.equal(await page.locator('.hero-stage').evaluate(e => Number(e.style.getPropertyValue('--mx'))), 0);
-    assert.match(await page.locator('.stage-floor').evaluate(e => getComputedStyle(e).transform), /^matrix3d/);
+    assert.equal(await page.locator('.rendered-room').evaluate(e => e.naturalWidth), 1440);
     await capture('delivery-reduced-motion-1440');
     checks.push('Actual packaged Still/Parallax variants work offline; physical pointer and reduced-motion retain the same static room/perspective');
     for (const [width, height] of [[1920, 1080], [2560, 1440]]) {
@@ -88,7 +90,7 @@ try {
         await capture('delivery-still-' + width);
     }
     checks.push('Packaged desktop composition captured at 1440×900, 1920×1080 and 2560×1440 with full-width environment and no horizontal overflow');
-    assert.match(await page.locator('.stage-caption').innerText(), /Full-body artwork pending/);
+    assert.match(await page.locator('.scene-study-controls').innerText(), /full-body artwork pending/);
     assert.match(await page.locator('.hero-figure img').getAttribute('alt'), /upper-body/);
     checks.push('Full-body asset blocker remains explicitly visible; upper-body source is not mislabelled as a completed standing/full-body Hero');
     // Critical paint fallback survives a stylesheet-loss simulation. This does not claim all design works without CSS.

@@ -14,7 +14,7 @@ CONCEPT_PORT=4179 node docs/ui-lab/inventory-concept/serve.mjs
 Open **http://127.0.0.1:4179**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
 
 The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the unchanged functional cards and Team/Endgame interactions.
-**Current Hero review: [two cinematic Electro vistas](CINEMATIC_HERO_VISTA.md).** Compare A · Coastal outlook / B · Meadow terrace with Background / Anchor / Cards, then Still / Dimensional Motion. Water light is an independent optional study. The placement guide is an arbitrary design reference, not full-body Character artwork. The smaller Echo framing study uses the same renderer. Earlier element studies retain the six prior environments and authentic upper-body art; the rejected chamber/mannequin is historical work.
+**Current Hero review: [one Electro concept based on inspected 3.5 login composition](LOGIN_SCREEN_RESEARCH.md).** Use Background / Hero area / Cards, then Still / Dimensional Motion. Existing authentic upper-body art occupies an explicitly unfinished full-height subject area; no lower anatomy or completed ground contact is implied. The smaller Echo framing study uses the same renderer. Rejected coastal A/B proposals and the six earlier environments remain available for comparison.
 A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds public catalogs, the selected existing reviewed Character art, CSS and the memory-only concept. Open the output directly in a desktop browser.
 
 The local server exposes only allowlisted concept files, two public canonical catalogs and the explicitly selected existing Character assets; other repository paths return 404. No build/install is needed.
@@ -26,7 +26,7 @@ The local server exposes only allowlisted concept files, two public canonical ca
 - Build → select a slot → choose in Inventory → return using the Character/slot breadcrumb. Search/category/selection survive ordinary navigation.
 - Build → Add Character → Manual entry. Scanner is a clearly marked planned connection, with no fake OCR.
 - Footer → Try empty inventory → Add your first Echo/Weapon. Echo manual entry uses actual canonical stat names and discrete values. All changes are demo-only.
-- Build → compare two Electro vistas, placement guide, Still / Dimensional Motion and optional Water light; expand Skills without covering the Character; select an Echo to edit in the existing inline Workspace.
+- Build → inspect the Electro Hero composition, intended full-height area and Still / Dimensional Motion; expand Skills without covering the Character; select an Echo to edit in the existing inline Workspace.
 - Teams → My Teams / Endgame; sort demo Team DPS, inspect equipment, assign/reorder teams and rounds, review example conflicts and source-pending rules.
 - Resources expands inline. `?` explains the planned help placement; no animated guide is implemented.
 

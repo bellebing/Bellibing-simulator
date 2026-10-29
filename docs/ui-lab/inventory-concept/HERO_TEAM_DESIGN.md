@@ -1,5 +1,7 @@
 # Hero Card & Teams — design review
 
+**Current Hero direction:** [single Electro composition and verified 3.5 login research](LOGIN_SCREEN_RESEARCH.md). The later coastal A/B experiments were rejected and are retained for comparison; historical assessments below do not imply approval.
+
 **2026-10-28 · Europe/Stockholm. Interactive concept, not production or owner-approved design.**
 
 The Inventory concept connects to a full-workspace Hero composition and a Team workbench. The same header and memory-only item references are retained. Public main, the production Build/Improve/Sandbox pages, private engine, schemas, sources and CI definitions are untouched.

@@ -30,14 +30,14 @@ const settled = async (target = stage()) => {
 const geometry = () => page.locator('.bellibing-card,.hero-echo').evaluateAll(es => es.map(e => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, width: r.width, height: r.height }; }));
 const build = () => page.locator('.hero-stats,.hero-weapon,.hero-echoes,.hero-identity').allTextContents();
 try {
-    await page.goto(url + '#build'); await ready(); await context.setOffline(true);
-    assert.equal(await page.locator('.vista-controls [data-vista]').count(), 2);
+    await page.goto(url + '#build'); await ready(); await page.locator('.rejected-vistas summary').click(); await page.locator('.rejected-vistas [data-vista=coast]').click(); await ready(); await context.setOffline(true);
+    assert.equal(await page.locator('.vista-controls [data-vista]').count(), 3);
     assert.equal(await page.locator('.hero-echo').count(), 5);
     assert.equal(await page.locator('.forte-core img').count(), 5);
     for (const [tag, path] of [['base', 'concept.css'], ['hero', 'hero-team.css']]) assert.equal(await page.locator('style[data-concept-style=' + tag + ']').textContent(), await readFile(new URL(path, import.meta.url), 'utf8'));
     checks.push('Exact portable HTML embeds current CSS, two original vista/depth pairs and existing functional Builder assets without external resources');
     const boxes = await geometry(), baseline = await build();
-    for (const vista of HERO_VISTAS) {
+    for (const vista of HERO_VISTAS.filter(v => v.rejected)) {
         await variant(vista.id); assert.equal(await stage().getAttribute('data-renderer'), 'DEPTH');
         assert.deepEqual(await geometry(), boxes); assert.deepEqual(await build(), baseline);
         assert.equal(await page.locator('.vista-anchor img').count(), 0);
@@ -91,7 +91,7 @@ try {
     await page.locator('[data-hero-variant=still]').click(); await ready();
     for (const [width, height] of [[1920, 1080], [2560, 1440]]) {
         await page.setViewportSize({ width, height });
-        for (const vista of HERO_VISTAS) { await variant(vista.id); assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); assert.ok(await stage().locator('canvas').evaluate(c => c.width <= 1920 && c.height <= 1080)); await shot(vista.id + '-cards-' + width); }
+        for (const vista of HERO_VISTAS.filter(v => v.rejected)) { await variant(vista.id); assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); assert.ok(await stage().locator('canvas').evaluate(c => c.width <= 1920 && c.height <= 1080)); await shot(vista.id + '-cards-' + width); }
     }
     await page.setViewportSize({ width: 1440, height: 900 }); await variant('coast');
     checks.push('Both proposals retain readable functional cards and source-relative anchors at 1920×1080 and 2560×1440; raster remains capped without DPR amplification');

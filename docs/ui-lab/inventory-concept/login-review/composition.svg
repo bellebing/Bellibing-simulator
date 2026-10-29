@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 540">
+<rect width="1440" height="540" fill="#101923"/>
+<style>text{font-family:Arial,sans-serif;fill:#dce2e6;font-size:15px}.small{font-size:12px;fill:#9baab8}.hero{fill:#d7b88166;stroke:#e0c793;stroke-width:2}.rock{fill:#263642;stroke:#566975;stroke-width:2}.world{fill:#64839144;stroke:#8bafb9}.water{fill:#324e66}</style>
+<text x="30" y="32">3.5 reference: spatial reading</text><text x="750" y="32">Bellibing: one Hero, same depth hierarchy</text>
+<g transform="translate(30 55)"><rect width="660" height="355" fill="#1c2b38"/><path class="world" d="M0 0H660V130L550 160L410 117L325 78L195 135L0 165Z"/><path class="water" d="M0 170L190 130L290 190L430 150L660 155V355H0Z"/><path class="rock" d="M35 355L80 260L210 205L280 112L370 155L435 235L570 255L640 355Z"/>
+<rect class="hero" x="131" y="37" width="72" height="256" rx="20"/><rect class="hero" x="480" y="145" width="112" height="176" rx="20"/>
+<path d="M330 0V355M0 124H660" stroke="#d7c79a44" stroke-dasharray="6 6"/><text x="14" y="332">Dark near mass / subject / water gap / luminous far world</text></g>
+<g transform="translate(750 55)"><rect width="660" height="355" fill="#1c2b38"/><path class="world" d="M0 0H660V132L538 150L437 99L338 121L211 137L0 165Z"/><path class="water" d="M0 165L185 148L315 183L470 137L660 168V355H0Z"/><path class="rock" d="M65 355L121 283L232 249L286 222L365 237L434 183L490 235L558 292L612 355Z"/>
+<rect class="hero" x="264" y="43" width="157" height="263" rx="20"/><path d="M343 0V355M0 124H660" stroke="#d7c79a44" stroke-dasharray="6 6"/><text x="14" y="332">Compact organic foothold, protected full-height Hero zone</text></g>
+<text x="30" y="451">Observed in the broadcast capture: standing Rover roughly 70% of the inner scene height.</text>
+<text x="30" y="479">Transfer the near / middle / far relationships and subject scale; invent terrain and Electro phenomena.</text>
+<text class="small" x="30" y="509">Original schematic interpretation, not traced rock geometry or game artwork. Approximate screen-space ranges, not camera calibration.</text>
+</svg>

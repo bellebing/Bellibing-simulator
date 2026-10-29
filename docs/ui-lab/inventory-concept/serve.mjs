@@ -25,6 +25,7 @@ files.set('/elemental-designs.mjs', [new URL('./elemental-designs.mjs', import.m
 files.set('/elemental-scene.mjs', [new URL('./elemental-scene.mjs', import.meta.url), 'text/javascript']);
 for (const name of ELEMENTAL_DESIGNS.flatMap(e => [e.id, e.id + '-depth']))
     files.set('/elemental-art/' + name + '.webp', [new URL('./elemental-art/' + name + '.webp', import.meta.url), 'image/webp']);
+files.set('/login-review/composition.svg', [new URL('./login-review/composition.svg', import.meta.url), 'image/svg+xml']);
 files.set('/hero-vistas.mjs', [new URL('./hero-vistas.mjs', import.meta.url), 'text/javascript']);
 for (const vista of HERO_VISTAS)
     for (const name of [vista.art, vista.art + '-depth'])

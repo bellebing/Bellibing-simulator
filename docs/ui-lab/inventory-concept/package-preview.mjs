@@ -15,6 +15,7 @@ if (start < 0 || end < 0)
 // Script-safe JSON, with no account/private information or external asset dependency.
 const safe = value => JSON.stringify(JSON.parse(value)).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 const embeddedAssets = {};
+embeddedAssets['login-review/composition.svg'] = 'data:image/svg+xml;base64,' + (await readFile(new URL('./login-review/composition.svg', here))).toString('base64');
 const elemental = await loadElementalSources();
 const sceneSource = await readFile(new URL('./elemental-scene.mjs', here), 'utf8');
 const vistaSource = await readFile(new URL('./hero-vistas.mjs', here), 'utf8');

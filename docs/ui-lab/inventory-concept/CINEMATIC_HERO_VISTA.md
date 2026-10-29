@@ -1,8 +1,8 @@
 # Cinematic Hero vista — Electro A / B
 
-**2026-10-29 · Europe/Stockholm. Isolated Draft PR #361. Owner visual approval pending.**
+**2026-10-29 · Europe/Stockholm. Isolated Draft PR #361. Historical comparison: both proposals rejected by the owner.**
 
-Two original Electro proposals explore believable standing terrain, water and a distant coastal horizon. They are the current Hero review direction. The earlier six-element artwork is retained under **Earlier element studies**; none of those five other elements was regenerated in this iteration. Existing Character Builder cards, Inventory, navigation, Skills, Echo Workspace and Team/Endgame remain connected memory-only examples.
+Two original Electro proposals explore believable standing terrain, water and a distant coastal horizon. They were rejected and are retained only for comparison. The current direction is the [single reference-informed Electro concept](LOGIN_SCREEN_RESEARCH.md). The earlier six-element artwork is retained under **Earlier element studies**; none of those five other elements was regenerated in this iteration. Existing Character Builder cards, Inventory, navigation, Skills, Echo Workspace and Team/Endgame remain connected memory-only examples.
 
 ## Open and compare
 

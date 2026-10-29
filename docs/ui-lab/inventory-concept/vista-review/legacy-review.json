@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Actual standalone HTML embeds exact CSS, canonical icons and six art/depth pairs; dark canvas, five Echoes and real Skills retained; no chamber/mannequin asset loaded",
+    "All six environments switch without page reload or changes to actual demo Character identity, stats, equipment or card geometry; background/Character/cards comparison modes verified and captured",
+    "Electro depth motion changes background pixels rather than merely translating three flat layers; Character remains a rigid unchanged artwork layer, cards stay fixed, Still and settled pointer have no idle loop",
+    "Shared bounded depth-motion path runs with every scene-specific depth map; all six support the same optional mode",
+    "Reduced-motion preference restores static presentation and disables pointer displacement while retaining painted depth",
+    "Compact Echo crop uses canonical reviewed set association: explicit Electro/Glacio work, Moonlit stays neutral; selection preserves open study and does not mutate Build or equipment",
+    "Existing Skills, Echo Workspace, Inventory, Team and Endgame paths remain functional; no new editing/registration or gameplay implementation",
+    "Desktop comparison retains layout at 1440×900 and wider sizes; raster dimensions remain bounded at 1920×1080 without DPR amplification",
+    "Actual graphics-context loss retires motion, preserves the valid static artwork and disables the unavailable mode",
+    "Independent reduced-motion browser context starts static; live opt-in enables actual motion and live reduction restores identity displacement",
+    "Browser without WebGL keeps six-scene static comparison and functional cards; no fabricated dimensional-motion readiness",
+    "Account/resource sentinel bytes unchanged; exact portable document works offline with zero HTTP subresources, account/private APIs or page errors"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4179/elemental-review"
+  ],
+  "scope": "Isolated elemental visual comparison only; artistic depth maps approximate, no full-body Character claim, production or owner visual approval. Native file:// is not certified."
+}

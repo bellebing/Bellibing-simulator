@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "timezone": "Europe/Stockholm",
+  "origin": "Original image_gen coastal compositions, then stylized material refinements and matching approximate relative-depth maps. No reference pixels or Character artwork used as generation inputs.",
+  "depth": "Artistic distance guides, not measured geometry. No image color or lighting is a game-mechanics claim.",
+  "records": [
+    {
+      "variant": "coast",
+      "role": "art",
+      "master": "masters/electro-coast.png",
+      "masterSHA256": "309312a04f1a68d1307f27ae4a1311ac5a79a620cbe41fb51412f19fc8523245",
+      "web": "electro-coast.webp",
+      "webSHA256": "14d4532f79d5add635f8e2763cce53a7b7764ea8f5121ee3c8b5373ccb4c1d39",
+      "webBytes": 382808,
+      "encoding": "WebP quality 94; source dimensions"
+    },
+    {
+      "variant": "coast",
+      "role": "depth",
+      "master": "masters/electro-coast-depth.png",
+      "masterSHA256": "7f7b9d40984e665770de7e26ef0db4a9be27455f0edfa86b6b95a7d05358629e",
+      "web": "electro-coast-depth.webp",
+      "webSHA256": "d8e2b9fc2318b254680968244708025f2f31ae2b9838d488accba428bdd8730b",
+      "webBytes": 668218,
+      "encoding": "WebP lossless; source dimensions"
+    },
+    {
+      "variant": "terrace",
+      "role": "art",
+      "master": "masters/electro-terrace.png",
+      "masterSHA256": "a27633253301c55c307ebdb574b9b0055afd689999c53fb882a3db97d9c828b2",
+      "web": "electro-terrace.webp",
+      "webSHA256": "ca0fe7ada9bbdb3088126e38b13df386bc38f1de7970f163f8d9fb372410f37c",
+      "webBytes": 467842,
+      "encoding": "WebP quality 94; source dimensions"
+    },
+    {
+      "variant": "terrace",
+      "role": "depth",
+      "master": "masters/electro-terrace-depth.png",
+      "masterSHA256": "d0229faf7d04324d03821ff2c0f3989d69cdb0e9c0cf39d72a05dcad8d09b319",
+      "web": "electro-terrace-depth.webp",
+      "webSHA256": "f90568135bfb3082767a7ec601d7d1bb597e2a1c212f858b0b0209c0a863bf10",
+      "webBytes": 738016,
+      "encoding": "WebP lossless; source dimensions"
+    }
+  ]
+}

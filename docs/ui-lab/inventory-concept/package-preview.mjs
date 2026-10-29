@@ -1,3 +1,4 @@
+import { HERO_VISTAS } from './hero-vistas.mjs';
 import { loadElementalSources } from './elemental-sources.mjs';
 import { ELEMENTAL_DESIGNS } from './elemental-designs.mjs';
 // Produce a portable, offline concept for owner review; never a production build.
@@ -16,10 +17,14 @@ const safe = value => JSON.stringify(JSON.parse(value)).replace(/</g, '\\u003c')
 const embeddedAssets = {};
 const elemental = await loadElementalSources();
 const sceneSource = await readFile(new URL('./elemental-scene.mjs', here), 'utf8');
+const vistaSource = await readFile(new URL('./hero-vistas.mjs', here), 'utf8');
 const designSource = await readFile(new URL('./elemental-designs.mjs', here), 'utf8');
 for (const e of ELEMENTAL_DESIGNS)
     for (const name of [e.id, e.id + '-depth'])
         embeddedAssets['elemental-art/' + name + '.webp'] = 'data:image/webp;base64,' + (await readFile(new URL('./elemental-art/' + name + '.webp', here))).toString('base64');
+for (const vista of HERO_VISTAS)
+    for (const name of [vista.art, vista.art + '-depth'])
+        embeddedAssets['vista-art/' + name + '.webp'] = 'data:image/webp;base64,' + (await readFile(new URL('./vista-art/' + name + '.webp', here))).toString('base64');
 for (const e of elemental.elements)
     embeddedAssets[e.assetPath] = 'data:image/webp;base64,' + (await readFile(new URL('../../ui-prototypes/' + e.assetPath, here))).toString('base64');
 const presentation = await loadHeroPresentation();
@@ -35,7 +40,7 @@ for (const id of ['augusta', 'jiyan', 'calcharo', 'iuno', 'the-shorekeeper', 'mo
     embeddedAssets[path] = 'data:image/png;base64,' + (await readFile(new URL('../../ui-prototypes/assets/characters/' + path, here))).toString('base64');
 }
 const script = ('globalThis.BELLIBING_ELEMENTAL_PRESENTATION=' + safe(JSON.stringify(elemental)) + ';\n' + 'globalThis.BELLIBING_HERO_PRESENTATION=' + JSON.stringify(presentation) + ';\n' + forteSource.replace(/^export /gm, '') + '\n' + 'globalThis.BELLIBING_CONCEPT_ASSETS=' + JSON.stringify(embeddedAssets) + ';\n') + js.slice(0, start) + `const echoCatalog=${safe(echoes)};\nconst weaponCatalog=${safe(weapons)};\n` + js.slice(end);
-const bundledScript = script.replace(/import\s*\{\s*createHeroTeamConcept\s*\}\s*from\s*['"]\.\/hero-team\.js['"];?/, () => designSource.replace(/^export /gm, '') + '\n' + sceneSource.replace(/^export /gm, '') + '\n' + heroJS.replace(/^import .*from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, ''));
+const bundledScript = script.replace(/import\s*\{\s*createHeroTeamConcept\s*\}\s*from\s*['"]\.\/hero-team\.js['"];?/, () => designSource.replace(/^export /gm, '') + '\n' + vistaSource.replace(/^export /gm, '') + '\n' + sceneSource.replace(/^export /gm, '') + '\n' + heroJS.replace(/^import .*from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, ''));
 const output = html.replace('<link rel="stylesheet" href="concept.css">', () => `<style data-concept-style="base">${css}</style>`)
     .replace('<link rel="stylesheet" href="hero-team.css">', () => `<style data-concept-style="hero">${heroCSS}</style>`)
     .replace('<script type="module" src="concept.js"></script>', () => `<script type="module">${bundledScript.replace(/<\/script/gi, '<\\/script')}</script>`);

@@ -4,7 +4,7 @@ import {readFile,writeFile,mkdir} from 'node:fs/promises';
 import {resolve} from 'node:path';
 import {ELEMENTAL_DESIGNS} from './elemental-designs.mjs';
 const {chromium}=await import(process.env.PLAYWRIGHT_MODULE??'playwright');
-const file=process.env.CONCEPT_PORTABLE_HTML??'/workspace/shared/bellibing-elemental-environments.html';
+const file=process.env.CONCEPT_PORTABLE_HTML??new URL('./preview.html',import.meta.url);
 const out=resolve(process.env.ELEMENTAL_REVIEW_OUT??'/tmp/bellibing-elemental-review');await mkdir(out,{recursive:true});
 const html=await readFile(file,'utf8'),checks=[],errors=[],requests=[];
 const browser=await chromium.launch({executablePath:process.env.UI_LAB_CHROME_PATH??'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
@@ -22,6 +22,7 @@ const actualBuild=()=>page.locator('.hero-stats,.hero-weapon,.hero-echoes,.hero-
 const geometry=()=>page.locator('.bellibing-card,.hero-echo').evaluateAll(es=>es.map(e=>{const r=e.getBoundingClientRect();return{x:r.x,y:r.y,width:r.width,height:r.height}}));
 try{
  await page.goto(url+'#build');await ready();await context.setOffline(true);
+ if(await page.locator('.vista-stage').count()){await page.locator('.legacy-environments summary').click();await page.locator('.legacy-environments [data-environment=electro]').click();await ready();await page.evaluate(()=>scrollTo(0,0));}
  assert.equal(await page.locator('.elemental-controls [data-environment]').count(),6);assert.equal(await page.locator('.hero-echo').count(),5);assert.equal(await page.locator('.forte-core img').count(),5);
  assert.equal(await page.locator('.rendered-room,.rendered-subject,.stage-floor,.stage-column').count(),0);assert.ok(!html.includes('environment-study/room.png'));assert.equal(await page.locator('link[rel=stylesheet]').count(),0);
  for(const [tag,path] of [['base','concept.css'],['hero','hero-team.css']])assert.equal(await page.locator('style[data-concept-style='+tag+']').textContent(),await readFile(new URL(path,import.meta.url),'utf8'));

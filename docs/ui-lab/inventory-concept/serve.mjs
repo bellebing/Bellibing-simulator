@@ -1,3 +1,4 @@
+import { HERO_VISTAS } from './hero-vistas.mjs';
 import { loadElementalSources } from './elemental-sources.mjs';
 import { ELEMENTAL_DESIGNS } from './elemental-designs.mjs';
 // Local-only preview: expose exactly the concept files and its two public catalogs.
@@ -24,6 +25,10 @@ files.set('/elemental-designs.mjs', [new URL('./elemental-designs.mjs', import.m
 files.set('/elemental-scene.mjs', [new URL('./elemental-scene.mjs', import.meta.url), 'text/javascript']);
 for (const name of ELEMENTAL_DESIGNS.flatMap(e => [e.id, e.id + '-depth']))
     files.set('/elemental-art/' + name + '.webp', [new URL('./elemental-art/' + name + '.webp', import.meta.url), 'image/webp']);
+files.set('/hero-vistas.mjs', [new URL('./hero-vistas.mjs', import.meta.url), 'text/javascript']);
+for (const vista of HERO_VISTAS)
+    for (const name of [vista.art, vista.art + '-depth'])
+        files.set('/vista-art/' + name + '.webp', [new URL('./vista-art/' + name + '.webp', import.meta.url), 'image/webp']);
 const presentation = await loadHeroPresentation();
 const elemental = await loadElementalSources();
 for (const e of elemental.elements)

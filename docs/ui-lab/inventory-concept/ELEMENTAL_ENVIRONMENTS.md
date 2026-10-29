@@ -1,6 +1,6 @@
-# Elemental Hero environments — visual review
+# Earlier elemental Hero environments — retained study
 
-**2026-10-29 · Europe/Stockholm. Isolated Draft PR #361; owner visual acceptance pending.**
+**Historical six-element review · 2026-10-29.** Current direction: [two cinematic Electro vistas](CINEMATIC_HERO_VISTA.md). These earlier art assets remain available under Earlier element studies and were not regenerated in the vista iteration. Evidence below identifies the earlier review revision.
 
 Six existing painted environments are refined into open, nearly infinite spaces. The depth-aware WebGL renderer, authentic Character art and functional layout are retained. Character Builder cards, Inventory and Team/Endgame interactions remain the same connected memory-only concept. Production UI, account formats, gameplay sources and private computation are unchanged.
 

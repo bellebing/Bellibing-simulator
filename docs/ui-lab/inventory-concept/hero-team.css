@@ -25,8 +25,8 @@
 .elemental-fallback{z-index:0;transform:scale(1.023)}.elemental-canvas{z-index:1}.elemental-stage [hidden]{display:none!important}
 .hero-figure{position:absolute;z-index:2;inset:175px auto 45px;left:calc(50% - min(425px,22.5vw,calc((100vh - 240px)/2)));width:min(850px,45vw,calc(100vh - 240px));display:flex;justify-content:center;align-items:flex-start;pointer-events:none}
 .hero-figure img{width:100%;height:100%;object-fit:contain;object-position:center top;filter:brightness(.95) saturate(.94) drop-shadow(-6px 3px 10px #03070c55) drop-shadow(2px -1px 5px var(--element-rim));user-select:none}
-.elemental-near-limiter{position:absolute;inset:0;z-index:3;pointer-events:none;mask-image:linear-gradient(transparent 50%,#000 95%)}
-.elemental-near{inset:0;width:100%;height:100%;transform:scale(1.023);background-image:var(--env-image);background-size:cover;background-position:center;mask-image:var(--env-depth);mask-size:cover;mask-position:center;mask-mode:luminance;opacity:.48}
+.elemental-near-limiter{position:absolute;inset:0;z-index:3;pointer-events:none;mask-image:linear-gradient(transparent 78%,#000 100%)}
+.elemental-near{inset:0;width:100%;height:100%;transform:scale(1.023);background-image:var(--env-image);background-size:cover;background-position:center;mask-image:var(--env-depth);mask-size:cover;mask-position:center;mask-mode:luminance;opacity:.08}
 .environment-legibility{position:absolute;z-index:4;inset:0;pointer-events:none;background:linear-gradient(90deg,#0c1015ba 0%,#0c1015b3 21%,transparent 29%,transparent 70%,#0c1015b3 75%,#0c1015ba 100%),linear-gradient(#0c101566,transparent 28%,transparent 90%,#0c101530)}
 .scene-only .hero-info,.scene-only .hero-echoes,.scene-only .hero-identity,.scene-only .hero-heading>div:first-child,.scene-only .hero-roster{visibility:hidden}
 .scene-only .environment-legibility{background:none}

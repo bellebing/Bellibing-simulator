@@ -2,18 +2,20 @@
 
 **2026-10-29 · Europe/Stockholm. Isolated Draft PR #361; owner visual acceptance pending.**
 
-Six independent painted environments replace the rejected architectural chamber, tiled floor, podium and mannequin. Character Builder cards, Inventory and Team/Endgame interactions remain the same connected memory-only concept. Production UI, account formats, gameplay sources and private computation are unchanged.
+Six existing painted environments are refined into open, nearly infinite spaces. The depth-aware WebGL renderer, authentic Character art and functional layout are retained. Character Builder cards, Inventory and Team/Endgame interactions remain the same connected memory-only concept. Production UI, account formats, gameplay sources and private computation are unchanged.
 
 | Environment | Distinct visual motif |
 | --- | --- |
-| Electro | Charged blue/violet clouds, branching filaments and luminous haze |
-| Fusion | Crimson/copper combustion flows, embers and warm atmospheric glow |
-| Glacio | Ice facets, frost, crystalline refraction and cold light shafts |
-| Aero | Teal wind ribbons, flowing air and leaf-like motes |
-| Spectro | Gold/ivory optical petals, curved refracted light and radiant structures |
-| Havoc | Violet-black fractured membranes, torn space and dimensional rifts |
+| Electro | Open charged horizon, branching electromagnetic fields and distant cloud banks |
+| Fusion | Distant plasma reaction knots, transmutation filaments, combustion and heat strata |
+| Glacio | Immense layered glacier escarpments, crystalline ridges and polar atmosphere |
+| Aero | Weightless lateral currents, suspended distant horizons and stratified clouds |
+| Spectro | Radiant mountain formations, sparse forested landforms and supernatural natural light |
+| Havoc | Misaligned horizons, fractured planes and impossible dimensional distances |
 
-Electro was generated, composed with actual Augusta artwork and reviewed in Chromium in Still/Character/motion views before the other five were developed. They share composition and delivery budgets, rather than being six filters over one scene. This is an implementation review sequence, **not owner approval of the Electro design**.
+Electro was refined first: the first pass still enclosed the view with side clouds, so a second pass lowered those formations and opened the horizon. Actual Chromium views of the baseline and revised background, Augusta, cards and Dimensional Motion were inspected before refining the other five. This is implementation review, **not owner approval**. Each other element has an independent composition, rather than copied geometry or a color filter.
+
+Depth extends primarily behind the Character. Distant silhouettes, atmospheric layers, scale differences and lateral lighting establish spatial presence. The existing foreground overlay is reduced from 48% opacity to 8%, confined to the bottom 22%, so it no longer wraps large formations across Augusta. No fabricated feet or physical floor contact are introduced. Spectro's landscape/vegetation direction is owner art direction, not a gameplay-mechanics claim.
 
 ## Open and compare
 
@@ -29,11 +31,11 @@ The collapsed **Compact Echo backdrop study** below the workspace shows reusable
 
 ## Technique and provenance
 
-Original environment artwork and matching relative-depth control maps were generated with `image_gen`. Original PNG masters and SHA-256 identities are preserved in [elemental-art/manifest.json](elemental-art/manifest.json). Backgrounds are WebP quality 94; depth maps are lossless WebP. All twelve images retain **1672×941** dimensions, with no resize or crop of the masters. Runtime derivatives total **7,158,828 bytes**; the complete embedded HTML is **11,633,175 bytes** at this revision. This is a review artifact, not a production payload budget qualification.
+Environment artwork and matching relative-depth control maps were refined with `image_gen` from the existing concept art. PNG masters, WebP derivatives and SHA-256 identities are preserved in [elemental-art/manifest.json](elemental-art/manifest.json). Backgrounds use WebP quality 94; maps use lossless WebP, with no resizing or cropping. Current dimensions and payload sizes are recorded in [review identities](elemental-review/identity.json). The previous art and exact portable baseline remain available in Git history at `94e46ccf8e064fc69d174d957f46d94a4166e240`. This is a review artifact, not a production payload budget qualification.
 
 The owner-provided in-game Echo and Chisa desktop references were visually inspected for atmospheric depth, restrained dimensional movement and authentic illustration quality. Their pixels are not embedded or used as generation inputs. A still screenshot does not establish the Chisa wallpaper's actual shader implementation. Method research included Wallpaper Engine's [Depth Parallax](https://docs.wallpaperengine.io/en/scene/parallax/depthparallax.html) and [lighting introduction](https://docs.wallpaperengine.io/en/scene/lighting/introduction.html); no assets or code from that wallpaper were copied.
 
-One WebGL 2D quad samples each painted background and its matching depth map. Per-pixel displacement and a small perspective offset vary with relative depth, rather than merely translating three flat planes. A restrained lower foreground uses the same artwork with a luminance depth mask. Existing Character artwork stays a separate, rigid DOM image, with subtle uniform grading/rim treatment and bounded translation. It is never passed to the background displacement shader.
+One WebGL 2D quad samples each painted background and its matching depth map. Per-pixel displacement and a small perspective offset vary with relative depth, rather than merely translating three flat planes. A minimal lower foreground uses the same artwork with a luminance depth mask; it is restricted to the bottom edge and 8% opacity. Existing Character artwork stays a separate, rigid DOM image, with subtle uniform grading/rim treatment and bounded translation. It is never passed to the background displacement shader.
 
 These are **artist-authored/generated approximate relative-depth maps**, not measured geometry. Small offsets and image overscan prevent visible edge exposure; they cannot reveal unseen geometry. There is no runtime 3D room, normal map, physical Character relighting, body/face deformation or invented anatomy. Existing Character cutouts remain upper-body sources. Future full-body art sourcing is separate from review of these six backgrounds.
 
@@ -47,7 +49,11 @@ The current projection includes **37 released sets: 20 explicit associations and
 
 ## Evidence and remaining acceptance
 
-[Browser evidence](elemental-review/review.json), [Inventory regression evidence](elemental-review/inventory-review.json) and [revision identities](elemental-review/identity.json) record the exact standalone artifact and sources. Screenshots are actual Chromium captures at 1440×900, plus wider desktop checks. **12 elemental browser groups, 14 Inventory regression groups and 5 source-association tests PASS.** Source-association cases exercise positive, neutral, conditional, unsupported and ambiguous contexts. Inventory source behavior was checked before final packaging; its controller is byte-identical except the new presentation metadata fetch. Team render functions/styles and 45 canonical input files were also checked unchanged.
+[Browser evidence](elemental-review/review.json), [Inventory regression evidence](elemental-review/inventory-review.json) and [revision identities](elemental-review/identity.json) identify the reviewed sources and portable artifact. Current checks cover six hot switches, all three comparison modes, depth motion, actual pointer movement, fixed card geometry, Skills/Echo Workspace/Inventory/Team/Endgame, static and reduced-motion behavior, context loss and absent WebGL. Desktop review starts at 1440×900, with wider 1920×1080 and 2560×1440 captures. Source-association tests preserve the conservative canonical projection.
+
+Compare actual Electro browser screenshots: [before, background](elemental-review/electro-before-background-1440.jpg) / [after, background](elemental-review/electro-background-1440.jpg), [before, cards](elemental-review/electro-before-cards-1440.jpg) / [after, cards](elemental-review/electro-cards-1440.jpg), [Character](elemental-review/electro-character-still-1440.jpg) and [cards in depth motion](elemental-review/electro-cards-depth-motion-1440.jpg). Final Character/cards: [Fusion](elemental-review/fusion-cards-1440.jpg), [Glacio](elemental-review/glacio-cards-1440.jpg), [Aero](elemental-review/aero-cards-1440.jpg), [Spectro](elemental-review/spectro-cards-1440.jpg), [Havoc](elemental-review/havoc-cards-1440.jpg).
+
+The inherited browser harness assumed a fixed settling delay, which failed on the unchanged baseline under this environment. It now waits for three consecutive stable frame samples within a bounded window, then retains the original independent assertion that no idle frames occur. The motion guard now also synchronizes reported readiness when a live preference change stops settling, and pointer input checks the same guard if a media event has not yet arrived. This adds no idle polling or new animation. Each scene retains its existing listener lifecycle. All existing reduced-motion assertions remain.
 
 The portable document is exercised offline through an intercepted local HTTP document URL, with no HTTP subresources. **Native `file://` launching is not certified in this managed browser environment.** The standalone includes its styles/scripts/images and is supplied for the owner's ordinary desktop browser review.
 

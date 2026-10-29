@@ -1,24 +1,24 @@
 {
   "date": "2026-10-29",
   "timezone": "Europe/Stockholm",
-  "scope": "Isolated six-element Hero visual prototype; not production, gameplay acceptance, owner visual approval, native file-launch or universal GPU performance qualification.",
-  "baselineCommit": "2402c3061676d06c6d191f32083549138b0f7f25",
+  "scope": "Isolated open-space elemental refinement in existing Draft PR #361; owner visual approval pending.",
+  "baselineCommit": "94e46ccf8e064fc69d174d957f46d94a4166e240",
   "sourceSHA256": {
     "index.html": "656fcd3774b8007ab44f03d3dbcca40e55080db9151d0a493fee7382505d1fd5",
     "concept.css": "7e245a228ddc94454fad27dbb26a9a549570d5bf1738cfcde25b7de84d094169",
     "concept.js": "3296a65c39fba44bd468d67479edd3bd33617da2c61bc879c64125202f8b83d6",
-    "hero-team.css": "3468f10662ca17ed9b8c819faf67d6b52ee5ab04d492016ab4f71688057a6323",
+    "hero-team.css": "0bb0b63625395376d5b4b95afda46e308680c53734d92bd210291661f5b562bf",
     "hero-team.js": "859382606934b8f2d8916148395f3323159a4469e2f4d8611c064ad71ff3ea05",
     "hero-presentation.mjs": "2729579d65d1e46b8ab46787f5a38ae4b7fca3e35bfebfcaa5c2315d5b4feb1c",
-    "elemental-designs.mjs": "b51edf43fc616f3b7460ccd71dba5f684007417207decd6f341a25654339f943",
-    "elemental-scene.mjs": "ef1021b1c47eb822b36d066b6a40e3d7a103baf46552d2b6392f2db3d6870ef9",
+    "elemental-designs.mjs": "3e6ca30567ef6e963f60bfdc1e4bceb7dafe736c0470e0aa75919402355ea8c9",
+    "elemental-scene.mjs": "8bf2497c537838ddf89de1a0b3382af7254ba19bb4a819e50dc0f2f8d2e40cf7",
     "elemental-sources.mjs": "370d3d45cce640ec8eb0fed8ef036f254d4ce740b78c4ac96d752c159fd01cc5",
     "elemental-sources.test.mjs": "edcb5e7e1c7ec3d1712e7eb300801d8de51005e200b4ae606ee3bae5c41c67d7",
-    "export-elemental-art.mjs": "cae9e206b792a2f272056bbd556d908d026c4783a7e7f6f124473c4630fe10f0",
+    "export-elemental-art.mjs": "d009d562bd6de9d65bd39a2ef6cc237acf3931aed4ffd45c4a59a7be348283fa",
     "serve.mjs": "eed2ada46e24653da0daf86e04cdb8e4ee7f171c7f6d0339938bcf78ebe1ca02",
     "package-preview.mjs": "d68fa40ae85b05cd9ac475034090637b36183061662fbbd8b0c8c9a7437ab2bc",
     "review.mjs": "7083b1395845b058795864c1aaee9666f458ab962ac1f536eae258a870c9b841",
-    "elemental-review.mjs": "ed4a15b0e36ca4853ed738b9a8bce023d23f08e9836a658a475c80cf88333cdb"
+    "elemental-review.mjs": "914f47583ecdb77de09c24c8c86902e2694d181da95da2b0c4a135fef713c37c"
   },
   "unchangedCanonicalInputSHA256": {
     "docs/ui-prototypes/assets/characters/hero-art/augusta.webp": "6d62674a8a960f37586fdf6b5f038148d170ce6757c0e0603d258d1ce886f8b5",
@@ -67,15 +67,15 @@
     "src/data/sonataEffects.ts": "30d995377821f3deba687ddd01148d0442035dad6ffb8f740055dd4a2ce69400",
     "src/data/sonatas.ts": "464e62a981e58026cd6f088444df2e53248016647deee37004c47e5779dcb2ed"
   },
-  "artManifestSHA256": "0f0326799ebdb1fe80d527c41c625b0a97332d3b72cc56f771c4588561416ff0",
+  "artManifestSHA256": "2b4b10d94ebad9decc8065656b86559b72bb71a792b0fed3b1ef3a9c397aec95",
   "artDimensions": {
     "width": 1672,
     "height": 941,
     "images": 12
   },
-  "webArtBytes": 7158828,
-  "portableSHA256": "0277deb9e9065a9aad11b8e81358fc9a973d437c53acf8948a8bcea2f2863f18",
-  "portableBytes": 11633175,
+  "webArtBytes": 6642530,
+  "portableSHA256": "e60f7faa72dfd57f0878fd2e32079e321390c069e6df30e101846a6d23f374c6",
+  "portableBytes": 10945413,
   "checks": {
     "elementalBrowserGroups": 12,
     "inventoryGroups": 14,
@@ -84,12 +84,12 @@
     "deterministicPackage": "PASS",
     "masterAndWebHashes": "PASS",
     "canonicalInputsUnchanged": 45,
-    "inventoryController": "Byte-identical except new presentation metadata fetch",
-    "teamRenderFunctionsAndStyleSection": "Byte-identical to baseline"
+    "inventoryControllerAndTeamBehavior": "Byte-identical to baseline",
+    "renderer": "Same WebGL shader and resource lifecycle; reset/input motion guard also synchronizes readiness during delayed media events"
   },
-  "browser": "Chromium, Playwright, 1440x900 with actual packaged styles/assets; wider1920x1080 and2560x1440; no unsafe WebGL flags",
-  "fileLaunch": "Exact HTML exercised by intercepted local HTTP document then offline; native file:// not certified in managed browser",
-  "visualReview": "Actual six cards and background screenshots inspected, plus Electro Character/still/motion, compact reuse and graphics fallback. Owner visual review pending.",
-  "verificationHistory": "Early harness assertions failed on equivalent identity-matrix serialization and immediate media-status timing. Final checks retain actual zero-motion/rigid-transform assertions and independently verify reduced startup plus live preference changes from nonzero motion. No production behavior or checks weakened.",
-  "security": "No private reference images/identifiers, account payloads, private policy or external APIs embedded. Synthetic sentinel bytes unchanged. All edits confined to this concept directory."
+  "browser": "Chromium/Playwright, actual portable HTML; six scenes and three modes at 1440x900; wider Electro at 1920x1080 and 2560x1440; physical pointer; static/context loss/no WebGL; reduced startup and live changes.",
+  "fileLaunch": "Exact HTML exercised by intercepted local HTTP then offline. Native file:// not certified in managed browser.",
+  "visualReview": "Electro baseline/revised background, Character, cards and motion inspected before other element generation; six final Character/cards compositions inspected, plus final Electro motion, wider desktop and reduced-motion captures. Subjective owner approval pending.",
+  "verificationHistory": "Unchanged baseline hit inherited fixed settling-delay assumption. Final harness waits bounded stable frame samples and retains no-idle-frame assertion. Initial final run exposed live reduced-motion status remaining depth after transform reset; reset/input guards now synchronize readiness. All 12 existing browser check groups pass with existing reduced-motion assertions retained.",
+  "security": "All changes under isolated concept directory. No production, canonical data, persistence, account, private engine, CI or hosting changes; no merge/deploy/PR-state change."
 }

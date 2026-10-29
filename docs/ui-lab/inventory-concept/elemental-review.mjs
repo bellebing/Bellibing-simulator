@@ -39,10 +39,14 @@ try{
  await page.waitForTimeout(200);const stillFrames=(await sceneData()).frames;await page.mouse.move(1000,470);await page.waitForTimeout(350);assert.equal((await sceneData()).frames,stillFrames);
  await view('background');const clip={x:820,y:310,width:240,height:90};const before=await page.screenshot({clip,type:'png'});
  await page.locator('[data-hero-variant=parallax]').click();await ready();await page.mouse.move(1100,470);await page.waitForTimeout(1350);assert.ok((await sceneData()).frames>4);const after=await page.screenshot({clip,type:'png'});assert.notDeepEqual(after,before,'Background pixels change in the upper field, outside the foreground mask and Character');
+ // Follow actual settling rather than assuming a fixed wall-clock duration on a busy GPU.
+ let previous=-1,stable=0;
+ for(let attempt=0;attempt<30&&stable<3;attempt++){await page.waitForTimeout(200);const current=(await sceneData()).frames;stable=current===previous?stable+1:0;previous=current;}
+ assert.equal(stable,3,'Pointer must settle within the bounded review window');
  const settled=(await sceneData()).frames;await page.waitForTimeout(400);assert.equal((await sceneData()).frames,settled,'No idle render loop after pointer settles');
  await view('character');await page.mouse.move(1000,470);await page.waitForTimeout(1350);await shot('electro-character-depth-motion-1440');
  const matrix=await page.locator('.hero-figure').evaluate(e=>{const m=new DOMMatrix(getComputedStyle(e).transform);return{a:m.a,b:m.b,c:m.c,d:m.d,x:m.m41,y:m.m42}});assert.deepEqual({a:matrix.a,b:matrix.b,c:matrix.c,d:matrix.d},{a:1,b:0,c:0,d:1});assert.ok(Math.abs(matrix.x)<=1.31&&Math.abs(matrix.y)<=.66);
- await view('cards');assert.deepEqual(await geometry(),boxes);
+ await view('cards');assert.deepEqual(await geometry(),boxes);await shot('electro-cards-depth-motion-1440');
  checks.push('Electro depth motion changes background pixels rather than merely translating three flat layers; Character remains a rigid unchanged artwork layer, cards stay fixed, Still and settled pointer have no idle loop');
  for(const e of ELEMENTAL_DESIGNS){await theme(e.id);assert.equal((await sceneData()).renderer,'DEPTH');await page.mouse.move(1040,430);await page.waitForTimeout(1050);assert.ok((await sceneData()).frames>3)}
  checks.push('Shared bounded depth-motion path runs with every scene-specific depth map; all six support the same optional mode');

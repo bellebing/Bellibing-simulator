@@ -14,7 +14,7 @@ CONCEPT_PORT=4179 node docs/ui-lab/inventory-concept/serve.mjs
 Open **http://127.0.0.1:4179**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
 
 The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the unchanged functional cards and Team/Endgame interactions.
-**Current Hero review: [six elemental environments](ELEMENTAL_ENVIRONMENTS.md).** Switch Electro, Fusion, Glacio, Aero, Spectro and Havoc without reloading. Compare Background / Character / Cards, then Cinematic Still / Dimensional Motion. Existing authentic upper-body Character artwork remains unchanged. The earlier chamber/mannequin study is rejected historical work, not the current design.
+**Current Hero review: [six open, nearly infinite elemental environments](ELEMENTAL_ENVIRONMENTS.md).** Switch Electro, Fusion, Glacio, Aero, Spectro and Havoc without reloading. Compare Background / Character / Cards, then Cinematic Still / Dimensional Motion. Existing authentic upper-body Character artwork remains unchanged. The earlier chamber/mannequin study is rejected historical work, not the current design.
 A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds public catalogs, the selected existing reviewed Character art, CSS and the memory-only concept. Open the output directly in a desktop browser.
 
 The local server exposes only allowlisted concept files, two public canonical catalogs and the explicitly selected existing Character assets; other repository paths return 404. No build/install is needed.

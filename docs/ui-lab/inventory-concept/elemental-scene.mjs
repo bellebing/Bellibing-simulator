@@ -47,8 +47,16 @@ export function mountElementalScene(root, { artURL, depthURL, motion, onStatus =
         foreground.style.transform = '';
         cancelAnimationFrame(frame);
         frame = 0;
-        if (gl && !disposed && !gl.isContextLost())
+        if (gl && !disposed && !gl.isContextLost()) {
+            // A preference can change during settling before its change event is delivered.
+            // Keep reported readiness consistent with the motion guard that stopped the frame.
+            const mode = canMove() ? 'depth' : 'still';
+            if (root.dataset.motion !== mode) {
+                root.dataset.motion = mode;
+                onStatus('DEPTH', reduced.matches ? 'Reduced motion active' : undefined);
+            }
             paint();
+        }
     }
     function paint() {
         if (!gl || disposed || gl.isContextLost())
@@ -84,8 +92,13 @@ export function mountElementalScene(root, { artURL, depthURL, motion, onStatus =
         frame = requestAnimationFrame(tick);
     }
     function move(event) {
-        if (!canMove() || !gl)
+        if (!gl)
             return;
+        if (!canMove()) {
+            if (root.dataset.motion === 'depth')
+                reset();
+            return;
+        }
         const b = root.getBoundingClientRect();
         target = [Math.max(-1, Math.min(1, (event.clientX - b.left) / b.width * 2 - 1)), Math.max(-1, Math.min(1, (event.clientY - b.top) / b.height * 2 - 1))];
         if (!frame)

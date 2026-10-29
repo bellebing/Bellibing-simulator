@@ -8,13 +8,13 @@ One connected concept under Issue [#352](https://github.com/bellebing/Bellibing-
 **Portable delivery: download [preview.html](preview.html) as a file and open it in a desktop browser.** It embeds all styles, scripts and selected assets. `index.html` is the multi-file development source and must be served with its neighboring files; downloading that source alone is not the standalone delivery.
 
 ```sh
-CONCEPT_PORT=4177 node docs/ui-lab/inventory-concept/serve.mjs
+CONCEPT_PORT=4179 node docs/ui-lab/inventory-concept/serve.mjs
 ```
 
-Open **http://127.0.0.1:4177**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
+Open **http://127.0.0.1:4179**. Start with Home or open `/#inventory`, `/#build` or `/#teams` directly. `CONCEPT_PORT` can select another free local port.
 
-The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the layered scene, two Hero variants, Team/Endgame interactions, source research and withheld gameplay claims.
-**Current Build review: [rendered environment technique study](HERO_DEPTH_STUDY.md).** Begin with Figure study + Cinematic Still, compare Scene only / Show cards, then try Subtle Parallax. The neutral original figure is not Character art. Character artwork shows the existing real crop with its full-body limitation. Final Character presence is not approved.
+The [Hero & Team design notes](HERO_TEAM_DESIGN.md) explain the unchanged functional cards and Team/Endgame interactions.
+**Current Hero review: [six elemental environments](ELEMENTAL_ENVIRONMENTS.md).** Switch Electro, Fusion, Glacio, Aero, Spectro and Havoc without reloading. Compare Background / Character / Cards, then Cinematic Still / Dimensional Motion. Existing authentic upper-body Character artwork remains unchanged. The earlier chamber/mannequin study is rejected historical work, not the current design.
 A portable offline HTML can also be produced with `node docs/ui-lab/inventory-concept/package-preview.mjs /path/to/review.html`; it embeds public catalogs, the selected existing reviewed Character art, CSS and the memory-only concept. Open the output directly in a desktop browser.
 
 The local server exposes only allowlisted concept files, two public canonical catalogs and the explicitly selected existing Character assets; other repository paths return 404. No build/install is needed.
@@ -26,7 +26,7 @@ The local server exposes only allowlisted concept files, two public canonical ca
 - Build → select a slot → choose in Inventory → return using the Character/slot breadcrumb. Search/category/selection survive ordinary navigation.
 - Build → Add Character → Manual entry. Scanner is a clearly marked planned connection, with no fake OCR.
 - Footer → Try empty inventory → Add your first Echo/Weapon. Echo manual entry uses actual canonical stat names and discrete values. All changes are demo-only.
-- Build → compare Cinematic Still / Subtle Parallax; expand Skills without covering the Character; select an Echo to edit in the existing inline Workspace.
+- Build → compare six elemental backgrounds, Cinematic Still / Dimensional Motion; expand Skills without covering the Character; select an Echo to edit in the existing inline Workspace.
 - Teams → My Teams / Endgame; sort demo Team DPS, inspect equipment, assign/reorder teams and rounds, review example conflicts and source-pending rules.
 - Resources expands inline. `?` explains the planned help placement; no animated guide is implemented.
 
@@ -89,11 +89,11 @@ Future optional `?` help may dim the background and animate a gold outline aroun
 Run the focused browser review using an already installed Playwright module:
 
 ```sh
-CONCEPT_REVIEW_URL=http://127.0.0.1:4177 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
+CONCEPT_REVIEW_URL=http://127.0.0.1:4179 PLAYWRIGHT_MODULE=/absolute/path/to/playwright/index.mjs node docs/ui-lab/inventory-concept/review.mjs
 ```
 
 The script exercises the actual concept with synthetic account/resource sentinels and writes screenshots plus `review.json` under `/tmp/bellibing-inventory-concept-review`. It is concept REVIEW evidence, not FULL, hosted, production or private-engine acceptance. No broad build/test/CI run is requested. Stop for owner visual approval before production implementation.
 
-Current focused Chromium evidence covers the rendered scene, stable cards, reduced motion, actual Character/source identity, real Skills and preserved Inventory/Team flows at 1440×900 and two wider desktop sizes. [Results and runtime/asset/delivery identities](hero-depth-review/identity.json). Views: [Still](hero-depth-review/rendered-scene-still-1440.png), [same composition with cards](hero-depth-review/rendered-cards-still-1440.png), [motion state](hero-depth-review/rendered-scene-parallax-1440.png), [actual Augusta/source limit](hero-depth-review/rendered-augusta-source-limit-1440.png). Earlier `review/`, `hero-team-review/` and `hero-correction-review/` remain historical, not current visual approval.
+Current elemental comparison evidence: [results and source/artifact identities](elemental-review/identity.json), [six-scene browser checks](elemental-review/review.json), [preserved Inventory behavior](elemental-review/inventory-review.json). Actual 1440×900 captures include [Electro](elemental-review/electro-cards-1440.jpg), [Fusion](elemental-review/fusion-cards-1440.jpg), [Glacio](elemental-review/glacio-cards-1440.jpg), [Aero](elemental-review/aero-cards-1440.jpg), [Spectro](elemental-review/spectro-cards-1440.jpg) and [Havoc](elemental-review/havoc-cards-1440.jpg). Earlier `review/`, `hero-team-review/`, `hero-correction-review/` and `hero-depth-review/` remain historical, not current visual acceptance.
 
-The packaged file is exercised via permitted HTTP then offline because managed Chromium blocks native `file://`. All styles/scripts/selected images are embedded; no external requests occur. Dark html/body/app safeguards remain. No claim is made about the owner's previous almost-white viewer or arbitrary sanitizing previewers. Download **preview.html**, rather than index.html alone, and open it in a normal desktop browser. Owner visual acceptance and full-body Character/light/contact integration remain pending. No FULL, production migration, gameplay qualification, merge or deployment is claimed.
+The exact portable file is exercised through permitted local HTTP then offline; native `file://` launching is not certified in the managed browser environment. All styles/scripts/selected images are embedded. Download **preview.html**, rather than index.html alone, and open it in an ordinary desktop browser. Owner visual acceptance remains pending. No FULL, production migration, gameplay qualification, merge or deployment is claimed.

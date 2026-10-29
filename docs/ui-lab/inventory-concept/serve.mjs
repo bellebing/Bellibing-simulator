@@ -1,3 +1,5 @@
+import { loadElementalSources } from './elemental-sources.mjs';
+import { ELEMENTAL_DESIGNS } from './elemental-designs.mjs';
 // Local-only preview: expose exactly the concept files and its two public catalogs.
 import { loadHeroPresentation } from './hero-presentation.mjs';
 import { createServer } from 'node:http';
@@ -18,7 +20,14 @@ for (const id of ['augusta', 'jiyan', 'calcharo', 'iuno', 'the-shorekeeper', 'mo
     files.set('/ui-prototypes/assets/characters/portraits/' + id + '.png', [new URL('../../ui-prototypes/assets/characters/portraits/' + id + '.png', import.meta.url), 'image/png']);
 for (const name of ['room', 'study-figure', 'foreground'])
     files.set('/environment-study/' + name + '.png', [new URL('./environment-study/' + name + '.png', import.meta.url), 'image/png']);
+files.set('/elemental-designs.mjs', [new URL('./elemental-designs.mjs', import.meta.url), 'text/javascript']);
+files.set('/elemental-scene.mjs', [new URL('./elemental-scene.mjs', import.meta.url), 'text/javascript']);
+for (const name of ELEMENTAL_DESIGNS.flatMap(e => [e.id, e.id + '-depth']))
+    files.set('/elemental-art/' + name + '.webp', [new URL('./elemental-art/' + name + '.webp', import.meta.url), 'image/webp']);
 const presentation = await loadHeroPresentation();
+const elemental = await loadElementalSources();
+for (const e of elemental.elements)
+    files.set('/ui-prototypes/' + e.assetPath, [new URL('../../ui-prototypes/' + e.assetPath, import.meta.url), 'image/webp']);
 files.set('/forte-ui.mjs', [new URL('../../../src/characterForteUi.mjs', import.meta.url), 'text/javascript']);
 for (const c of presentation.characters)
     for (const node of c.nodes) {
@@ -28,6 +37,11 @@ for (const c of presentation.characters)
     }
 const server = createServer(async (req, res) => {
     const pathname = new URL(req.url, 'http://localhost').pathname;
+    if (pathname === '/elemental-presentation.json') {
+        res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
+        res.end(JSON.stringify(elemental));
+        return;
+    }
     if (pathname === '/hero-presentation.json') {
         res.writeHead(200, { 'content-type': 'application/json', 'cache-control': 'no-store' });
         res.end(JSON.stringify(presentation));
@@ -48,4 +62,4 @@ const server = createServer(async (req, res) => {
         res.end('Preview unavailable');
     }
 });
-server.listen(Number(process.env.CONCEPT_PORT ?? 4177), '127.0.0.1', () => console.log('Bellibing concept preview ready'));
+server.listen(Number(process.env.CONCEPT_PORT ?? 4179), '127.0.0.1', () => console.log('Bellibing concept preview ready'));

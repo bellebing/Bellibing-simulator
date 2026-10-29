@@ -13,6 +13,7 @@ const [echoCatalog, weaponCatalog] = await Promise.all([
     })
 ]);
 globalThis.BELLIBING_HERO_PRESENTATION ??= await fetch('./hero-presentation.json').then(r=>{if(!r.ok)throw Error('Forte presentation unavailable');return r.json()});
+globalThis.BELLIBING_ELEMENTAL_PRESENTATION ??= await fetch('./elemental-presentation.json').then(r=>{if(!r.ok)throw Error('Elemental presentation unavailable');return r.json()});
 const app = document.querySelector('#app'), catalogEcho = id => echoCatalog.echoes.find(e => e.id === id), catalogWeapon = id => weaponCatalog.weapons.find(e => e.id === id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const icons = { bag: 'M5 7h14l1 14H4L5 7zm4 0V5a3 3 0 0 1 6 0v2', echo: 'M12 2l8 5v10l-8 5-8-5V7l8-5zm0 5l4 5-4 5-4-5 4-5z', sword: 'M5 3l12 12m-1-8l1 8-8-1M3 21l5-5m-2-3l5 5M7 3l14 14-4 4L3 7V3h4z', arrow: 'M4 12h15m-6-6l6 6-6 6', back: 'M20 12H5m6-6l-6 6 6 6', search: 'M20 20l-5-5m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z', plus: 'M12 5v14M5 12h14', close: 'M6 6l12 12M6 18L18 6', cube: 'M12 3l9 5v9l-9 5-9-5V8l9-5zm0 10v9m-9-14l9 5 9-5', scan: 'M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5M6 12h12', check: 'M5 12l4 4L20 5', team: 'M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm8 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM2 21v-6a6 6 0 0 1 12 0v6m1-9a5 5 0 0 1 7 5v4', spark: 'M12 2l2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6L12 2z' };

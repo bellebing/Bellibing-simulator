@@ -1,3 +1,5 @@
+> **Historical / rejected aesthetic — superseded 2026-10-29.** The architectural chamber, tiled floor, podium and mannequin below are not the current Hero proposal. The current standalone preview contains [six elemental painted environments](ELEMENTAL_ENVIRONMENTS.md). Retained commands, screenshots and limitations describe this older checkpoint only.
+
 # Hero environment — rendered depth study
 
 2026-10-28 · Europe/Stockholm. Isolated visual method study in existing Draft #361. Owner visual acceptance is **pending**. Full-body game-Character integration is **not complete**.

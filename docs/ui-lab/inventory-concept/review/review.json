@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Three Home cards retained; one persistent Inventory entry",
+    "Preview does not equip; explicit equip references existing partial +10 item; replaced item retained and total quantity unchanged",
+    "Transfer requires explicit move; cancellation preserves owner; confirmed transfer clears donor slot without duplicating item",
+    "Legal +0 stack materializes one physical instance; unequip returns one copy; quantity conserved; invalid total Cost blocked",
+    "Two owned copies of the same Weapon remain distinct; explicit replacement does not duplicate/delete",
+    "Build → owned item chooser → return preserves Character/slot context",
+    "Character registration stays in Build; scanner honestly planned; manual Add creates empty equipment refs",
+    "Navigation restores Inventory category, search, selected item and view context",
+    "Empty Echo action opens inline canonical manual editor; exact +5/+10 stat/tier selections recorded without simulated rolls",
+    "Empty Weapon state has working explicit next action",
+    "Optional help placement is reserved, never auto-starts; full guide not implemented",
+    "1440×900 / 1920×1080 / 2560×1440 fit; finite centered shell, no horizontal overflow, pointer and keyboard controls",
+    "Production account/resource sentinel bytes unchanged; only local allowlisted files/catalogs requested; no engine/account/external asset requests",
+    "Preview server denies repository/private paths; original schematic SVG art only"
+  ],
+  "errors": [],
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      1920,
+      1080
+    ],
+    [
+      2560,
+      1440
+    ]
+  ],
+  "scope": "Synthetic, in-memory design concept only. No production acceptance or migration claim."
+}

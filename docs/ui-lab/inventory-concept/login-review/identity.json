@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-29",
+  "baselineCommit": "25a2be0ea8d34d466ebb8926dd9a3a839d5b6a3a",
+  "scope": "One Electro Hero visual study; 3.5 broadcast-preview composition research; owner approval pending.",
+  "sourceSHA256": {
+    "index.html": "656fcd3774b8007ab44f03d3dbcca40e55080db9151d0a493fee7382505d1fd5",
+    "concept.js": "3296a65c39fba44bd468d67479edd3bd33617da2c61bc879c64125202f8b83d6",
+    "concept.css": "7e245a228ddc94454fad27dbb26a9a549570d5bf1738cfcde25b7de84d094169",
+    "hero-team.js": "dad0946f4dd1f488646214cda58952094766635edf4486c3d8fcfd16e4107ee6",
+    "hero-team.css": "d9ac4fd405a6c4b383984391547a1f50d9ad3a1d4d545a3bfe3af38917aa596f",
+    "hero-vistas.mjs": "2bd094c24e6b7f6e4860eb39f69f49b814062174802eed86552dcad7b91c55eb",
+    "elemental-scene.mjs": "f0612c658d00c999c15846eabbfbbb84b909796f738df5e687b98a52cdae0298",
+    "package-preview.mjs": "f1aee7eb473179a0953d4fb0d9b67eaab1732f350dd65e734eebe4d41dacf6d4",
+    "serve.mjs": "2b61fd5187ead73e3604ac151de8ef58694a05cb17966ed5d4bdcd6c481783b7",
+    "export-vista-art.mjs": "30adef295582bb149b9103ae0ea2e0458c71763f1b37b4f15d95ca0d9c068d5d",
+    "login-review.mjs": "4928c41964041f8b6eb54cc65872751b45e2e67d1e488293cc5b7115ed48b939",
+    "login-review/composition.svg": "e02769a56fc91f8fee61474ff54187f8030f114f218a654738e6cc2386e191d4"
+  },
+  "portableSHA256": "b38cf403001ed68e30126e0ea0d7aa9c25fa52d5031a9fcd5ddd49b4d291d8cd",
+  "portableBytes": 15513099,
+  "vistaManifestSHA256": "adc6b1da4c806fe21a1035cac74a5ad607b460905f338fdd8e28542fb6269a61",
+  "vistaDimensions": {
+    "coast": [
+      1671,
+      941
+    ],
+    "terrace": [
+      1672,
+      941
+    ],
+    "login": [
+      1672,
+      941
+    ]
+  },
+  "unchangedCanonicalInputSHA256": {
+    "docs/ui-prototypes/assets/characters/hero-art/augusta.webp": "6d62674a8a960f37586fdf6b5f038148d170ce6757c0e0603d258d1ce886f8b5",
+    "docs/ui-prototypes/assets/characters/hero-art/jiyan.webp": "bee00656f210ceb82e3c7f73b15f92983d094b96277a91a460a678337bd8904c",
+    "docs/ui-prototypes/assets/characters/hero-art/calcharo.webp": "aff0d5580769b9383553bf0683aa54976c4d76e159afac29db8c90e1ba8279c4",
+    "docs/ui-prototypes/assets/characters/portraits/augusta.png": "b2825b9275a6435c718d380bcc739932d1f451b1d874a4957ffa312f5922f4fd",
+    "docs/ui-prototypes/assets/characters/portraits/jiyan.png": "cc6b1c7ea400f4d87222f0aa0b96a32143d8ce207c163745a779732b37d3f03f",
+    "docs/ui-prototypes/assets/characters/portraits/calcharo.png": "64fae867f55551e43ac24da05275d3687a358175b34cebe798c72a0b91c21179",
+    "docs/ui-prototypes/assets/characters/portraits/iuno.png": "e363b825bec91cdb1f27de24ce83789e977fadc77f4a8844e8f7b4bb2b2a90c4",
+    "docs/ui-prototypes/assets/characters/portraits/the-shorekeeper.png": "9f2796bfaa34872f02dc49fba5a129226325f65f640cdb2e186c03eadd995f5b",
+    "docs/ui-prototypes/assets/characters/portraits/mortefi.png": "30ae1cdd7c18ef74ce3fb2a0c472743a6d3d052bd9f03f817c3366e58ba5a6e9",
+    "docs/ui-prototypes/assets/characters/portraits/verina.png": "0ca77f2c59389bc667a3e3ea25c9298cd6008ab4ccfe532e13bb6731e8471fb8",
+    "docs/ui-prototypes/assets/characters/portraits/sanhua.png": "c8ae56529a46cff2962e945a5c327ede6385654e5060232b90a6ebbe378f2b55",
+    "docs/ui-prototypes/assets/characters/portraits/baizhi.png": "9f20a35a1b2ba9c3603d85765a7ff8a29a836eb3eaaf5a347045e09128e65603",
+    "src/characterForteUi.mjs": "f095d13068f9f0a1a12b688c67d91c9b1dd6870cceeb682a3b080ef84ebb1f7d",
+    "src/characterBuilderAssets.ts": "75990229c05daa40750eb2f0ddb05b5cff3cfa643de8fc7c97a1c5bf06b9f021",
+    "data/source/character-forte-ui.json": "deb35749eb805ac3beb9dd9d12bf0742f5871d05b2839673717d9ca2881b4cfe",
+    "docs/ui-prototypes/assets/skills-runtime.json": "bfa6a58d0b0f9c8fc7da0fee58558c9fbda5313b034e2360043e77a5be0271eb",
+    "docs/ui-prototypes/assets/builder-icons/manifest.json": "6ef4bde8ae1ff0cc05996117b39e370b0ba7c2d0adf5d2f68488972f31bd2d26",
+    "docs/ui-prototypes/assets/characters/hero-art/manifest.json": "3f88c27cd2dfe88d5e13777fda2fefaff2e53990ae1a82f1f6dfd6147827c758",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaB3.webp": "9b4a7380fb52ad5ee3f7e62a26e38f50c45f5d7fb697ae3ca227ecb6f6283a60",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaC2.webp": "b2e24e3092c9d77b36a57f38b39b8aa775f5f6be0aad409591f801fb00ced395",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaD1.webp": "6d84451e7fadf0a6866ae5dbefb519f15f9f4b1750b1a0c7ff4b068f1fd75b62",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaD2.webp": "c702cf045ceecdb48f5b5df3cb35e11e94df0997797501d3794cb387a48dab89",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaQTE.webp": "4e952182885b634a9c5423a8534e92c52572c0c881fe3b786be764f2590afa5d",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaT.webp": "912ba94e91fd5cea7825bdf5eda49878dac616fa90020b7992cb2f91509fb093",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconAogusitaY.webp": "238faa61c4dae6a3c4c4e93a2468485226d32efffcbd9604457e33e6908390e4",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanB1.webp": "766b22ab8d6aee495f1037721b1dee53ebc8fc8c539f6003f51547c4aeeb4b41",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanC1.webp": "7cd29607a9e9aeeb894ddbc035a2d993a0f498908eaa5895e4d46a4f3edec3ec",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanD1.webp": "d1548b57b0eac4af11527817a309e58482529e7d7aecca078aa335216ebe6492",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanD2.webp": "eee49132dcdc98f10f7bd25deb34d4feadb1c89e03d9e4fc380618742dab05c1",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanQTE.webp": "bb88a4876e62fd0b1f75b4ce42718f01965aa31e248ea29be37995b8d9b97ad6",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanT.webp": "0462a974b7a1115b98bc721b4a5567efe97da5b84d78620c4ac92e19e75b279c",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconJiyanY.webp": "dca2774f662d76b2984ec636db3ab4b69c6ab911d2876690250b11b9edf03d6b",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoB1.webp": "6d07cd0a13e1b03357fcac82c5d7d3c0f4aa5fb5eace379a752e2508a0decd7e",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoC1.webp": "651721dd0a31af3f701348b69baa8ca352da22bec3c00e290d975adeec44858a",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoD1.webp": "39a23614972e3a6baff3527496a6a297a16aae034743cbed7e27545927ed18d7",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoD2.webp": "2143a7ad7666fc99f94bd0275700ce8da9024895e2960a4cf6f1b074315530d9",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoQTE.webp": "7ab40ae9ade6c8a201d2ef16c2d25c993d578ceeb3750d0f8438d12c10d37b75",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoT.webp": "7705ee6fd8e0708dba0aa8018455314ef300f0f55c45864529d458733408dc21",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconKakaluoY.webp": "c40ce27de140ae7a6bb82c6e3a1cd80b74ec64559950948fceac1ef181c5f23d",
+    "docs/ui-prototypes/assets/builder-icons/skills/SP_IconNorSword.webp": "02c23cf9f78c1b0245ee872c27b0f72c5d48e03d8dd94214a02c7ec2db3df1ac",
+    "docs/ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp": "924f1bd9478ade0b3a598791cac7ce8a4e4e1b762d28ae231135a9fb6c61ea21",
+    "docs/ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp": "b1b2170d33bb356e293e8928fb00b72a54ba2a1770f0c89e2fdb8fbb013321c8",
+    "docs/ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredcrit_UI.webp": "3b89d2ebd4e2f19f3e79834b41c84f946ee14d7e0d5e2113bea44f947451453b",
+    "src/data/sonataEffects.ts": "30d995377821f3deba687ddd01148d0442035dad6ffb8f740055dd4a2ce69400",
+    "src/data/sonatas.ts": "464e62a981e58026cd6f088444df2e53248016647deee37004c47e5779dcb2ed"
+  },
+  "reports": {
+    "review.json": {
+      "sha256": "9219161449deebbb22a1b964edfb82ecee611a02c8c679a6ebd6a76369bfc30c",
+      "groups": 7
+    },
+    "legacy-review.json": {
+      "sha256": "423ae983249cefde4fb9174d59c4dcd27336930a025b7e7ad6e267102590eae8",
+      "groups": 12
+    },
+    "inventory-review.json": {
+      "sha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23",
+      "groups": 14
+    }
+  },
+  "canonicalAssociationTests": 5,
+  "checks": {
+    "syntaxWhitespace": "PASS",
+    "deterministicPackage": "PASS",
+    "artMasterAndDerivativeHashes": "PASS",
+    "priorSixAndRejectedABArt": "All bytes unchanged",
+    "canonicalInputsUnchanged": 45,
+    "inventoryControllerStylesAndRenderer": "Byte-identical to baseline",
+    "referenceExclusion": "Only external reference href and original schematic; no copied game-reference images or private owner files"
+  },
+  "browser": "Chromium/Playwright. Exact final portable document: three1440x900 views,1920x1080,2560x1440, physical pointer, reduced motion, real context loss and absent WebGL. Legacy/Inventory regression ran before final archived-return-label text clarification; behavior sources identical.",
+  "verificationHistory": "Review harness initially tried a remounted collapsed archive and then expected aria-pressed on a legacy return button. Corrected to actual visible controls; final seven groups pass. No product fallback or gates weakened.",
+  "visualAssessment": "Prominent full-height intended subject area with authentic partial art; directed distant charge and mineral light. Foreground remains relatively broad and actual full-body silhouette/contact is unresolved. Owner must judge fidelity to login composition.",
+  "referenceInspection": "Actual3.5 special-program image inspected before generation, plus launch screenshot and official3.0 version notes. Current live client and3.5 day/night recordings not visually verified. Private annotated comparison remains outside repository.",
+  "risk": "Isolated UI/presentation REVIEW; no FULL/MERGE qualification, deployment or owner acceptance."
+}

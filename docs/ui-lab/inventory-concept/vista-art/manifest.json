@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "timezone": "Europe/Stockholm",
+  "origin": "Original image_gen login-informed Electro composition and matching approximate depth; rejected coastal experiments retained for comparison. No game-reference pixels or Character artwork used as generation inputs; earlier original Bellibing Electro art supplied identity.",
+  "depth": "Artistic distance guides, not measured geometry. No image color or lighting is a game-mechanics claim.",
+  "records": [
+    {
+      "variant": "coast",
+      "role": "art",
+      "master": "masters/electro-coast.png",
+      "masterSHA256": "309312a04f1a68d1307f27ae4a1311ac5a79a620cbe41fb51412f19fc8523245",
+      "web": "electro-coast.webp",
+      "webSHA256": "14d4532f79d5add635f8e2763cce53a7b7764ea8f5121ee3c8b5373ccb4c1d39",
+      "webBytes": 382808,
+      "encoding": "WebP quality 94; source dimensions"
+    },
+    {
+      "variant": "coast",
+      "role": "depth",
+      "master": "masters/electro-coast-depth.png",
+      "masterSHA256": "7f7b9d40984e665770de7e26ef0db4a9be27455f0edfa86b6b95a7d05358629e",
+      "web": "electro-coast-depth.webp",
+      "webSHA256": "d8e2b9fc2318b254680968244708025f2f31ae2b9838d488accba428bdd8730b",
+      "webBytes": 668218,
+      "encoding": "WebP lossless; source dimensions"
+    },
+    {
+      "variant": "terrace",
+      "role": "art",
+      "master": "masters/electro-terrace.png",
+      "masterSHA256": "a27633253301c55c307ebdb574b9b0055afd689999c53fb882a3db97d9c828b2",
+      "web": "electro-terrace.webp",
+      "webSHA256": "ca0fe7ada9bbdb3088126e38b13df386bc38f1de7970f163f8d9fb372410f37c",
+      "webBytes": 467842,
+      "encoding": "WebP quality 94; source dimensions"
+    },
+    {
+      "variant": "terrace",
+      "role": "depth",
+      "master": "masters/electro-terrace-depth.png",
+      "masterSHA256": "d0229faf7d04324d03821ff2c0f3989d69cdb0e9c0cf39d72a05dcad8d09b319",
+      "web": "electro-terrace-depth.webp",
+      "webSHA256": "f90568135bfb3082767a7ec601d7d1bb597e2a1c212f858b0b0209c0a863bf10",
+      "webBytes": 738016,
+      "encoding": "WebP lossless; source dimensions"
+    },
+    {
+      "variant": "login",
+      "role": "art",
+      "master": "masters/electro-login.png",
+      "masterSHA256": "7aeea1d997e767eaa366be0874a5c7bc2f8543b95c120f5bbcecdf8304c2768b",
+      "web": "electro-login.webp",
+      "webSHA256": "e8b2d54ce8bd978fcb17af4d20375e56c8e5196eb082e845236b4f9f8a6c8a1a",
+      "webBytes": 399764,
+      "encoding": "WebP quality 94; source dimensions"
+    },
+    {
+      "variant": "login",
+      "role": "depth",
+      "master": "masters/electro-login-depth.png",
+      "masterSHA256": "a5ad0a18b65e6271a898e3fe41f3562e6d202644e9ac910d59bb8fdf7c61ea98",
+      "web": "electro-login-depth.webp",
+      "webSHA256": "1c03cbd5eb137db2eb448965673efee36ad60b53c91ea590e96632de79fdd3fc",
+      "webBytes": 754378,
+      "encoding": "WebP lossless; source dimensions"
+    }
+  ]
+}

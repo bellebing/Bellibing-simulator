@@ -1,0 +1,13 @@
+{
+  "role": "Focused selected-stills review artifact identity; git/PR owns live revision state",
+  "artManifest": "../selected-stills/manifest.json",
+  "files": {
+    "preview.html": "a14a9af71df2a09a42adf48461ade5e31edf0bc240e545c92fbf11ad4c441c80",
+    "hero-team.js": "7de92f57f5c3ab5d41e0822929080ae94542da67fbde9fc3658ff8260a10ef5b",
+    "hero-team.css": "684c88337e1ae04b3a0c3fca247729a28af927f8f732d05e1f679ff8540d63ba",
+    "selected-stills.mjs": "d465cb4ec6876036a0fd8849952e28c091b8d208fa5549795295f1b3638962a3",
+    "selected-stills-review.mjs": "699b26e83c01a72bcacb471022d51cf52d5e37d48b01c98e5a4269f93b948510",
+    "package-preview.mjs": "906afb4a27101226b34ed27b3e3075501d085335161affde39228c264c15b5c5",
+    "serve.mjs": "ba4a662e7ec41a37ac1500045a38ef5c313031f4c53c2c5bd7a463a2e5edfbeb"
+  }
+}

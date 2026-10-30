@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-28",
+  "timezone": "Europe/Stockholm",
+  "scope": "Isolated design concept only; source/gameplay/optimizer and owner aesthetic acceptance are separate.",
+  "sourceSHA256": {
+    "index.html": "b11854eb409896c0c585b0cbc620bde276bfec1e587cef3059cc920eb1d81848",
+    "concept.css": "7e245a228ddc94454fad27dbb26a9a549570d5bf1738cfcde25b7de84d094169",
+    "concept.js": "1f37580b018486652ec13bc47a960d5a7089db7d609116f1d98c94e269a71c99",
+    "hero-team.css": "73172f7fac73b7b1507fadcb9fdbcb223d350134c9216fdf79ba99ed4bc5ecea",
+    "hero-team.js": "823a170912de97ef6d9f451ca7e65ea1296cacbef4d6d4d57ce6c2ae86ed1af0",
+    "serve.mjs": "b045d3fbb57e092a799f4891d5b8d818e1564cea8206d586a2bd22822b2165a6",
+    "review.mjs": "e3479e2c4c0858dee8a99e43237763c382c478033287566b4083e1c3c87f8f91",
+    "hero-team-review.mjs": "e88e3a054f917e67a3efb3cdda382517e79e1d6d7572add67104f0960ab27800",
+    "portable-review.mjs": "f730520bcce2760fb6e6602cb127454bce98e8a1f291582618ed76badfab588f",
+    "package-preview.mjs": "f5808faa5697fa301690b3df7d9e4ef40876d7a10fbb9fbecfb3d9b634cb0996"
+  },
+  "existingAssetSHA256": {
+    "docs/ui-prototypes/assets/characters/hero-art/augusta.webp": "6d62674a8a960f37586fdf6b5f038148d170ce6757c0e0603d258d1ce886f8b5",
+    "docs/ui-prototypes/assets/characters/hero-art/jiyan.webp": "bee00656f210ceb82e3c7f73b15f92983d094b96277a91a460a678337bd8904c",
+    "docs/ui-prototypes/assets/characters/hero-art/calcharo.webp": "aff0d5580769b9383553bf0683aa54976c4d76e159afac29db8c90e1ba8279c4",
+    "docs/ui-prototypes/assets/characters/portraits/augusta.png": "b2825b9275a6435c718d380bcc739932d1f451b1d874a4957ffa312f5922f4fd",
+    "docs/ui-prototypes/assets/characters/portraits/jiyan.png": "cc6b1c7ea400f4d87222f0aa0b96a32143d8ce207c163745a779732b37d3f03f",
+    "docs/ui-prototypes/assets/characters/portraits/calcharo.png": "64fae867f55551e43ac24da05275d3687a358175b34cebe798c72a0b91c21179",
+    "docs/ui-prototypes/assets/characters/portraits/iuno.png": "e363b825bec91cdb1f27de24ce83789e977fadc77f4a8844e8f7b4bb2b2a90c4",
+    "docs/ui-prototypes/assets/characters/portraits/the-shorekeeper.png": "9f2796bfaa34872f02dc49fba5a129226325f65f640cdb2e186c03eadd995f5b",
+    "docs/ui-prototypes/assets/characters/portraits/mortefi.png": "30ae1cdd7c18ef74ce3fb2a0c472743a6d3d052bd9f03f817c3366e58ba5a6e9",
+    "docs/ui-prototypes/assets/characters/portraits/verina.png": "0ca77f2c59389bc667a3e3ea25c9298cd6008ab4ccfe532e13bb6731e8471fb8",
+    "docs/ui-prototypes/assets/characters/portraits/sanhua.png": "c8ae56529a46cff2962e945a5c327ede6385654e5060232b90a6ebbe378f2b55",
+    "docs/ui-prototypes/assets/characters/portraits/baizhi.png": "9f20a35a1b2ba9c3603d85765a7ff8a29a836eb3eaaf5a347045e09128e65603"
+  },
+  "portableSHA256": "3dee4793756a4d8827be23559785a0f628a706c58ac0e30a7dd9f9e34bf98b0b",
+  "checks": {
+    "heroTeam": 18,
+    "inventory": 14,
+    "portable": 4
+  },
+  "results": "PASS; original asset bytes unchanged, no production/private engine changes, no FULL or deployment"
+}

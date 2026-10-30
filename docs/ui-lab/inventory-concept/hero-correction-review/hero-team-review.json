@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Static Hero has seven ordered depth layers, perspective architecture/floor, silhouette light, foreground occlusion and reviewed cutout; Still mode does not follow pointer",
+    "Subtle Parallax uses bounded opposing layer movement: Character ≤6px, foreground ≤10px; composition matches Still",
+    "Pointer leave resets; reduced motion disables parallax while preserving all static depth/perspective",
+    "Five real Skills are visible by default; optional source details expand on the left without moving/scaling the scene",
+    "Reviewed Character switching and existing inline Echo Workspace navigation preserve actual demo item/slot context; no modal editor",
+    "Common Inventory ↔ Hero navigation works with the same demo ownership model",
+    "Team equipment expands inline with actual demo Weapon/five Echo references; missing member equipment is not invented",
+    "Persistent saved-team list, Team DPS sorting, selected team, three contributions and explicitly illustrative rotation are interactive",
+    "Unsupported demonstration model clears stale DPS/contributions/rotation and stays Pending",
+    "Power Circuit selection is an inline source-pending example and clears obsolete example score",
+    "My Teams/Endgame keep the same left/right layout; single-team DPS, combination, round/order and demo projected score are separate",
+    "Manual allocation conflict is visible and retires the fixed example score; this is demo use accounting, not an optimizer",
+    "Per-round assignments are retained and sample Character uses are counted across rounds, not silently reset",
+    "Tower mode does not reuse Matrix HP/availability/scoring as fact; live cycle, Vigor costs and score remain explicit pending",
+    "HP carry-over is an explicitly unverified illustration; roster improvement links back to Build without inventing private recommendations",
+    "Three desktop sizes verified: full-width Build environment and existing centered Teams/Endgame, without horizontal overflow",
+    "Reset demo restores Hero and Team presentation/plan state as well as the shared synthetic inventory",
+    "Account/resource bytes unchanged; local public assets only; no evaluator/private API requests or page errors"
+  ],
+  "errors": [],
+  "scope": "Isolated synthetic UI concept. No gameplay/model/optimizer/production qualification or owner visual acceptance."
+}

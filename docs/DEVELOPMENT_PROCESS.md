@@ -4,6 +4,7 @@ This is Bellibing's canonical worker process. `AGENTS.md` is the entrypoint; the
 
 ## Start and scope
 
+- Development is local-first. Make changes and iterate in the local repository, use local previews for review, run necessary focused local checks, and make local Git commits at meaningful checkpoints. Do not push, publish, create/update PRs or trigger GitHub Actions without explicit owner approval. After the owner approves a release candidate and publication, push and run the required final CI verification. Existing source, ownership, safety and merge/deployment authorization rules remain in force.
 - Recover current GitHub main/code and relevant PR/CI state, then PROJECT_STATUS, available AI Handoff and the domain/UI contracts needed for the task. GitHub implementation beats stale documents or chat history; keep candidate behavior separate from merged main.
 - Read at workstream start and recheck when the base, scope or relevant evidence changes. Do not rediscover every branch or reread every contract after each edit.
 - Identify the coherent objective, invariants, affected consumers and highest applicable risk class. Classify behavior and dependencies, not file extensions. Report missing access; block only work dependent on the unavailable evidence.
@@ -56,7 +57,7 @@ Existing CI triggers and required checks remain in force until a separate CI cha
 ## Autonomy and stops
 
 - Work autonomously within the authorized coherent workstream: edit, check, review the diff and fix task-related failures. Commit/checkpoint at useful coherent boundaries, not every pixel adjustment. A commit, accepted small iteration or green CI is not an administrative stop by itself.
-- Keep unrelated PRs and workstreams isolated. Use the required current base and draft PRs unless instructed otherwise. Do not start adjacent product work, redesign unrelated accepted UI or expand scope to fix an inherited unrelated failure.
+- Keep unrelated PRs and workstreams isolated. Use the required current base locally; create Draft PRs only after explicit publication approval. Do not start adjacent product work, redesign unrelated accepted UI or expand scope to fix an inherited unrelated failure.
 - Stop when the objective is complete, an explicit user boundary is reached, a blocking source/product decision is needed or merge authorization is required. Continue independent authorized work while reporting a dependent blocker.
 - No direct main code writes, merge, branch deletion, force-push, history rewrite or other destructive action without the applicable explicit authorization. Every merge needs separate explicit user authorization. Observe repository protections.
 - After a successful final exact-head FULL, a merge-ready PR normally stays **Ready** while awaiting merge authorization. **Ready is not merge authorization**; every merge still requires separate explicit user authorization. Convert back to Draft only when more implementation or rework is actually expected, so the same unchanged head is not forced through a duplicate FULL merely by being marked Ready again.

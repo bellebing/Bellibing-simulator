@@ -1,7 +1,8 @@
-# Discord card scanner proof of concept — Issue #352
+# Global Character import workspace — Issue #352
 
-Local upload → real OCR/image matching → inline corrections → explicit review
-confirmation. One supported format: **original English 1920×1080 wuwa-bot
+Global inline import → real OCR/image matching → inline corrections → explicit
+review → session staging → Build/Improve preview. One supported format:
+**original English 1920×1080 wuwa-bot
 Character cards, JPEG/PNG, with Skills and five fully rolled Echo panels**.
 No production Build/Improve modifications, inventory writes, persistence,
 backups, evaluator changes or deployment. PR #361's visual work is independent.
@@ -21,12 +22,38 @@ TESSDATA_PREFIX="$PWD/docs/ui-lab/scanner-poc/tessdata" \
   docs/ui-lab/scanner-poc/.venv/bin/python docs/ui-lab/scanner-poc/serve.py
 ```
 
-Open [the local preview](http://127.0.0.1:8765). Choose an original card, compare
-the five panel images to their inline fields, correct any mistakes, check the
-review box and confirm the draft. Cancel keeps editing. Further edits invalidate
-confirmation. Reset restores the original scan; a new upload starts a new draft.
-The **Save to Inventory** button is explicitly disconnected. Confirming only
-keeps a detached copy for the current session; it never claims an inventory save.
+Open [the local preview](http://127.0.0.1:8765). The header has three zones:
+Bellibing/home on the left; genuinely screen-centered Build / Improve / Team |
+Echo Sandbox; Import Character / Inventory / Account on the right. At narrower
+widths the centered tools row moves beneath the logo/account controls.
+
+Import Character expands one shared inline panel beneath the header, without
+navigating. Upload, drop one image, or paste an image. The paste button uses the
+Clipboard API when available and offers the keyboard/upload fallback otherwise.
+File paste/drop from the embedded Sandbox also opens this same review; imported
+state is never injected into Sandbox. The panel can be closed and reopened, and
+navigation preserves its draft. A failed upload preserves the previous review.
+
+Compare the original Echo panels with their editable fields, correct any
+mistakes, check the review box and explicitly confirm. Cancel keeps editing.
+Edits invalidate confirmation; reset restores the original scan without dropping
+later rows. Confirmed Characters stay **staged / not saved** in this tab. Continue
+on the current page or directly preview that staged Character in Improve.
+The **Save to Inventory** button remains disconnected. Reload clears staging.
+No success message claims that an owned Character or Echo has been saved.
+
+Build and Improve show the real reviewed equipment as detached previews.
+Improve Current and Candidate remain separate and empty; no evaluator is added.
+Team has a memory-only draft using staged Characters, without saved ownership or
+team evaluation. Inventory lists staging, clearly labeled as not owned/saved.
+Account is a guest-session surface; login/synchronization are deferred.
+
+Echo Sandbox reuses the existing standalone V1.1 Sandbox without altering its
+source files or state owners. Its private execution host is not connected by
+this scanner server; execution stays Pending under the existing boundary.
+Opening/closing import or navigating away does not recreate its frame/selection.
+The panel/editor itself uses ordinary DOM components, not an iframe or modal.
+The only modal is the explicit confirmation before session staging.
 
 The server binds only to loopback, accepts same-origin raw image uploads, limits
 uploads to 5 MiB and checks header dimensions before decoding. Fixed-chrome
@@ -43,7 +70,10 @@ credentials, player UID parsing or third-party image upload is involved.
    known text boxes; Sequence uses the upstream node-color classifier.
 3. Match Echo artwork against Bellibing's existing asset manifests. Cost badges
    narrow the search. Canonical legal Sonata badges and colors disambiguate
-   look-alike Echoes. Weak matches stay unknown with an explicit suggestion.
+   look-alike Echoes. A weak match gets SIFT/RANSAC geometric verification against
+   same-cost templates: at least eight inliers, six distinct matching locations,
+   sufficient spread/ratio and a margin over competing candidates. A legal
+   canonical Sonata badge is required. If these checks fail, keep it unknown.
 4. Read each main/secondary strip and each of five substat rows separately.
    Names and numbers have independent crops and scale/grayscale retries.
    Unreadable bands stay in place. Raw substat text is retained, including
@@ -80,7 +110,7 @@ development fixture set, not independent held-out evaluation.
 | Weapon + level | 2/2 | 2/2 | 2/2 |
 | Skill levels | 5/5 | 5/5 | 5/5 |
 | Sequence | 1/1 | 1/1 | 1/1 |
-| Echo identity / Sonata | 5/5 each | 5/5 each | 4/5 each |
+| Echo identity / Sonata | 5/5 each | 5/5 each | 5/5 each |
 | Echo costs | 5/5 | 5/5 | 5/5 |
 | Main / secondary name-value pairs | 5/5 each | 5/5 each | 5/5 each |
 | Raw substat numeric reads | 25/25 | 25/25 | 25/25 |
@@ -89,9 +119,10 @@ development fixture set, not independent held-out evaluation.
 
 Remaining problems:
 
-- Ciaccona Echo 2: Capitaneus is the best image match but below the acceptance
-  floor. Identity and Sonata remain unconfirmed; one explicit suggestion button
-  fills them for review. Its independently read cost and stats are preserved.
+- Ciaccona Echo 2: Capitaneus now passes the partial-art geometric check (eight
+  inliers, six distinct target/source locations, 0.8 inlier ratio, spread 0.116,
+  inlier margin two) and its Gusts of Welkin badge. The original SIFT ratio floor
+  is unchanged. All 15 identities/Sonatas are recognized without manual selection.
 - Ciaccona Echo 2 roll 5 displays DEF **11.9%**; Bellibing's existing exact tier
   is **11.8%**. [The investigation](DEF_PERCENT_IMPORT.md) verifies that tier
   against Kuro's official table and the exact Wuthering Tools importer fix.
@@ -104,7 +135,7 @@ Remaining problems:
   for lower levels, other node states or other investment values. Sequence tests
   cover the three S0 cards only. More distinct cards are needed before production.
 
-Actual measured local runs are approximately 4–7 seconds per card; see
+Actual measured local runs are approximately 4–8 seconds per card; see
 [ACCURACY.json](ACCURACY.json) for this implementation's results. No general speed
 or accuracy guarantee follows from three cards.
 
@@ -135,9 +166,14 @@ Sequence are the manually verified 90/90/10/S0 fixture contract. The benchmark
 runs OCR again; it does not load recorded recognition results.
 
 `review_browser.py` uses Python Playwright and installed Chromium against the
-running server. It verifies actual uploads of all three cards, corrections,
-bad tiers/duplicates, reset, explicit confirm/cancel, unchanged production
-localStorage, malformed uploads, request gates and 1440/1920/390 layouts.
+running server. It verifies all three cards through upload/drop/paste, automatic
+identity/Sonata assignment, global inline import on every main route, retained
+Team/Sandbox context, direct staged Improve navigation, review invalidation,
+bad tiers/duplicates, reset, confirm/cancel, unchanged production/session storage,
+malformed uploads, private-path/request gates and centered 1440/1920/390 layouts.
+Clipboard-event ingress and the Clipboard API button with a full-size PNG are
+exercised in Chromium (permissions granted in the test context). The native OS
+permission prompt remains browser/platform-dependent and is not automated.
 Install Playwright separately if running this optional review harness:
 
 ```sh

@@ -1,0 +1,3 @@
+/* Only the existing standalone Sandbox is embedded, without a second header. */
+html body.ui-lab>.site-header{display:none!important}
+html body.ui-lab>main{padding-top:24px}

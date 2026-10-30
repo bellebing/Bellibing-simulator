@@ -1,12 +1,15 @@
+import {createShell} from './shell.js';
 const $=id=>document.getElementById(id);
 const catalog=await fetch('/api/catalog').then(r=>r.json());
 let draft=null,original=null,imageURL=null,bitmap=null,issues=[],revision=0,validating=false,timer=null,reviewedDraft=null;
+let sourceFile=null,scanning=false,confirmationRevision=null;
+const shell=createShell(catalog,{onReview:openStage,onImport:()=>openImport(),onImage:scanFile});
 const node=(tag,text,attrs={})=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
 const flat=name=>name?.startsWith('Flat ');
 const display=(name,value)=>value==null?'':flat(name)?String(value):String(Number((value*100).toFixed(8)));
 const read=(obj,path)=>path.split('.').reduce((v,k)=>v?.[k],obj);
 function write(path,value){const keys=path.split('.');const last=keys.pop();keys.reduce((v,k)=>v[k],draft)[last]=value;}
-function changed(){revision++;reviewedDraft=null;$('checked').checked=false;$('accepted').textContent='';$('accept').disabled=true;clearTimeout(timer);timer=setTimeout(validate,100);}
+function changed(){revision++;reviewedDraft=null;$('checked').checked=false;$('accepted').textContent='';$('continueActions').hidden=true;$('accept').disabled=true;$('importBadge').hidden=false;clearTimeout(timer);timer=setTimeout(validate,100);}
 function field(parent,label,path,options=null,{percent=false}={}){
  const wrapper=node('label',null,{class:'field'});wrapper.append(node('span',label));
  const value=read(draft,path);let input;
@@ -56,6 +59,7 @@ function render(){
   stat(section,'Secondary',p+'.secondaryMainStat',[{name:'Flat ATK'},{name:'Flat HP'}]);
   section.append(node('p','OBSERVED ROLLS',{class:'subhead'}));for(let j=0;j<5;j++)stat(section,`Roll ${j+1}`,p+`.substats.${j}`,catalog.statEditor.substats);
   const raw=node('details');raw.append(node('summary','OCR evidence'));raw.append(node('p',`Main: ${echo.evidence?.main||'Unreadable'} · Secondary: ${echo.evidence?.secondary||'Unreadable'}`,{class:'raw'}));raw.append(node('p','Image matching scores are heuristics, not accuracy percentages. Confirm the identity against the image.',{class:'hint'}));section.append(raw);
+  raw.append(node('p',echo.evidence?.method||'Identity needs review',{class:'hint'}));
   $('echoes').append(section);
  });
 }
@@ -66,19 +70,56 @@ async function validate(){
  document.querySelectorAll('[data-path]').forEach(n=>{const bad=issues.some(i=>n.dataset.path===i.path||n.dataset.path.startsWith(i.path+'.'));n.classList.toggle('invalid',bad);n.setAttribute('aria-invalid',String(bad));});
  $('cost').textContent=`Total cost: ${draft.echoes.reduce((n,e)=>n+(catalog.echoes.find(c=>c.id===e.echoId)?.cost??0),0)} / 12`;
  validating=false;$('accept').disabled=issues.length>0||!$('checked').checked;return issues.length===0;
- }catch{if(at===revision){validating=false;$('status').textContent='Validation unavailable. Your corrections remain in this draft.';$('accept').disabled=true;}return false;}
+ }catch{if(at===revision){validating=false;issues=[{path:'validation',message:'Validation unavailable.'}];$('status').textContent='Validation unavailable. Your corrections remain in this draft.';$('accept').disabled=true;}return false;}
 }
-$('checked').onchange=()=>{$('accept').disabled=validating||issues.length>0||!$('checked').checked;};
-$('upload').onchange=async event=>{
- const file=event.target.files[0];if(!file)return;revision++;draft=null;original=null;reviewedDraft=null;$('review').hidden=true;$('accepted').textContent='';
- if(imageURL)URL.revokeObjectURL(imageURL);if(bitmap)bitmap.close();imageURL=null;bitmap=null;
- if(file.size>5*1024*1024){$('status').textContent='Choose a card up to 5 MiB.';return;}
- const ticket=revision;event.target.disabled=true;$('status').textContent='Reading Character, Weapon, Skills and five Echoes…';
- try{const response=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});const result=await response.json();if(!response.ok)throw Error(result.error);if(ticket!==revision)return;
- bitmap=await createImageBitmap(file);imageURL=URL.createObjectURL(file);$('source').src=imageURL;draft=result.draft;original=structuredClone(draft);issues=result.issues;
- render();await validate();$('status').textContent=`Scan complete in ${(result.elapsedMs/1000).toFixed(1)} s. Review every value before confirming.`;
- }catch(e){$('status').textContent=e.message||'Could not read this card.';}finally{event.target.disabled=false;event.target.value='';}
+function openImport({focus=true}={}){
+ const wasHidden=$('importPanel').hidden;
+ $('importPanel').hidden=false;$('globalImportToggle').setAttribute('aria-expanded','true');
+ if(focus||wasHidden)window.scrollTo({top:0,behavior:'instant'});
+ if(focus)$('dropzone').focus({preventScroll:true});
+}
+function closeImport(){
+ $('importPanel').hidden=true;$('globalImportToggle').setAttribute('aria-expanded','false');$('globalImportToggle').focus({preventScroll:true});
+}
+async function applyImage(file){
+ const next=await createImageBitmap(file);if(bitmap)bitmap.close();if(imageURL)URL.revokeObjectURL(imageURL);
+ bitmap=next;sourceFile=file;imageURL=URL.createObjectURL(file);$('source').src=imageURL;
+}
+async function scanFile(file){
+ if(!file)return;openImport({focus:false});
+ if(scanning||$('confirmation').open){$('status').textContent='Finish the current scan or confirmation first.';return;}
+ if(file.size>5*1024*1024){$('status').textContent='Choose a card up to 5 MiB. Your existing review is unchanged.';return;}
+ if(file.type&&!['image/png','image/jpeg'].includes(file.type)){$('status').textContent='Use an original JPEG or PNG card. Your existing review is unchanged.';return;}
+ const ticket=++revision;scanning=true;clearTimeout(timer);$('upload').disabled=true;$('pasteImage').disabled=true;$('review').inert=true;$('importPanel').classList.add('is-reading');$('importBadge').hidden=false;
+ $('status').textContent='Reading Character, Weapon, Skills and five Echoes…';
+ try{
+  const response=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});const result=await response.json();if(!response.ok)throw Error(result.error);if(ticket!==revision)return;
+  await applyImage(file);draft=result.draft;original=structuredClone(draft);reviewedDraft=null;issues=result.issues;$('accepted').textContent='';$('continueActions').hidden=true;
+  render();await validate();$('status').textContent=`Scan complete in ${(result.elapsedMs/1000).toFixed(1)} s. Review every value before confirming.`;
+ }catch(e){$('status').textContent=(e.message||'Could not read this card.')+(draft?' Your previous review is unchanged.':'');}
+ finally{scanning=false;$('upload').disabled=false;$('pasteImage').disabled=false;$('review').inert=false;$('importPanel').classList.remove('is-reading');}
+}
+async function openStage(stage){
+ openImport();if(scanning||$('confirmation').open)return;
+ revision++;clearTimeout(timer);await applyImage(stage.file);draft=structuredClone(stage.draft);original=structuredClone(stage.originalDraft);reviewedDraft=null;$('accepted').textContent='';$('continueActions').hidden=true;
+ render();await validate();$('status').textContent='Reviewing a staged Character. Inventory and Current are unchanged.';
+}
+$('globalImportToggle').onclick=()=>{$('importPanel').hidden?openImport():closeImport();};
+$('closeImport').onclick=closeImport;
+$('checked').onchange=()=>{$('accept').disabled=scanning||validating||issues.length>0||!$('checked').checked;};
+$('upload').onchange=event=>{scanFile(event.target.files[0]);event.target.value='';};
+$('dropzone').onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===$('dropzone')){e.preventDefault();$('upload').click();}};
+document.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files')){e.preventDefault();openImport({focus:false});$('dropzone').classList.add('is-dragging');}});
+document.addEventListener('dragleave',e=>{if(!e.relatedTarget)$('dropzone').classList.remove('is-dragging');});
+document.addEventListener('drop',e=>{if(![...e.dataTransfer.types].includes('Files'))return;e.preventDefault();$('dropzone').classList.remove('is-dragging');const files=[...e.dataTransfer.files];if(files.length!==1){$('status').textContent='Import one Character card at a time.';return;}scanFile(files[0]);});
+document.addEventListener('paste',e=>{const file=[...e.clipboardData.items].find(i=>i.kind==='file')?.getAsFile();if(file){e.preventDefault();scanFile(file);}});
+$('pasteImage').onclick=async()=>{
+ try{const items=await navigator.clipboard.read();for(const item of items){const type=item.types.find(t=>['image/png','image/jpeg'].includes(t));if(type){const blob=await item.getType(type);await scanFile(new File([blob],'clipboard-card',{type}));return;}}$('status').textContent='No image in the clipboard. Copy a card image or upload the original file.';}
+ catch{$('status').textContent='Press Ctrl / ⌘ + V to paste an image, or use Upload image.';}
 };
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('confirmation').open&&!$('importPanel').hidden){e.preventDefault();closeImport();}});
 $('reset').onclick=()=>{draft=structuredClone(original);changed();render();validate();};
-$('accept').onclick=async()=>{if(await validate()&&$('checked').checked)$('confirmation').showModal();};
-$('confirmation').addEventListener('close',()=>{if($('confirmation').returnValue==='confirm'&&draft&&!issues.length&&$('checked').checked){reviewedDraft=structuredClone(draft);$('accepted').textContent='Reviewed draft confirmed for this session. Inventory has not been changed.';}});
+$('accept').onclick=async()=>{if(await validate()&&$('checked').checked){confirmationRevision=revision;$('confirmation').querySelector('h2').textContent=shell.hasStage(draft.character.id)?'Replace this Character’s staged review?':'Stage this reviewed build?';$('confirmation').returnValue='';$('confirmation').showModal();}};
+$('confirmation').addEventListener('close',()=>{if($('confirmation').returnValue==='confirm'&&draft&&!issues.length&&$('checked').checked&&confirmationRevision===revision){reviewedDraft=structuredClone(draft);shell.stage(reviewedDraft,sourceFile,original);$('accepted').textContent=`${catalog.characters.find(c=>c.id===draft.character.id).name} staged for this session. Not saved to Inventory; Current is unchanged.`;$('continueActions').hidden=false;$('importBadge').hidden=true;}});
+$('continueWorkflow').onclick=()=>{closeImport();$('workspace').scrollIntoView({block:'start'});$('workspace').focus({preventScroll:true});};
+$('openImportedImprove').onclick=()=>{if(!reviewedDraft)return;closeImport();shell.openImprove(reviewedDraft.character.id);$('workspace').scrollIntoView({block:'start'});$('workspace').focus({preventScroll:true});};

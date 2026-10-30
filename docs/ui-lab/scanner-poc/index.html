@@ -1,16 +1,22 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bellibing · Card scanner</title><link rel="stylesheet" href="style.css"></head>
-<body><header><a href="/">BELLIBING <span>SCANNER LAB</span></a><span class="tag">Issue #352 · Isolated prototype</span></header>
-<main><section class="intro"><div><p class="eyebrow">IMPORT A CHARACTER</p><h1>From card to build.</h1><p>Upload an original English 1920 × 1080 Discord card. Review the detected values and correct them in place.</p></div><label class="upload">Choose build card<input id="upload" type="file" accept="image/jpeg,image/png"></label></section>
-<p class="privacy">Recognition runs on the preview server. No third-party scanner. This preview keeps drafts in memory; Inventory and backups will be connected later.</p>
-<p id="status" role="status" aria-live="polite">Ready for a JPEG or PNG, up to 5 MiB.</p>
-<section id="review" hidden><details id="original"><summary>View original card</summary><img id="source" alt="Uploaded Discord build card"></details>
-<div class="section-heading"><h2>Review your build</h2><button id="reset" type="button">Reset corrections</button></div>
-<div id="identity" class="identity"></div><div id="skills" class="skills"></div>
-<div class="section-heading"><h2>Five equipped Echoes</h2><span id="cost"></span></div>
-<p class="hint">Echo rank, upgrade level and Weapon refinement are not printed on these cards. They remain unknown. Stat validation checks Rank-5 +25 compatibility.</p>
-<div id="echoes" class="echoes"></div>
-<section class="review-footer"><div><h2>Check before accepting</h2><ul id="issues"></ul><label class="ack"><input id="checked" type="checkbox"> I checked all detected values against the card, including any suggested corrections.</label></div><button id="accept" disabled>Confirm reviewed draft</button><p id="accepted" role="status"></p><button id="save" disabled title="Shared Inventory is deferred until scanner verification">Save to Inventory · not connected</button></section>
-</section></main>
-<dialog id="confirmation"><form method="dialog"><h2>Confirm this reviewed build?</h2><p>This keeps a reviewed copy for this preview session. Inventory connection and persistence are deferred.</p><div class="actions"><button value="cancel">Keep editing</button><button value="confirm" class="primary">Confirm draft</button></div></form></dialog>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Bellibing Simulator · Local workspace</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="shell.css"></head>
+<body>
+<header class="site-header">
+ <a class="brand" href="#home" aria-label="Bellibing Simulator home"><span class="brand-mark" aria-hidden="true">✧</span><span>BELLIBING<small>SIMULATOR</small></span></a>
+ <nav class="center-nav" aria-label="Main navigation"><a href="#build" data-nav="build">Build a Character</a><a href="#improve" data-nav="improve">Improve a Character</a><a href="#teams" data-nav="teams">Build a Team</a><span class="nav-separator" aria-hidden="true">|</span><a href="#sandbox" data-nav="sandbox">Echo Sandbox</a></nav>
+ <nav class="right-nav" aria-label="Account tools"><button id="globalImportToggle" aria-expanded="false" aria-controls="importPanel">Import Character<span id="importBadge" hidden></span></button><a href="#inventory" data-nav="inventory">Inventory</a><a href="#account" data-nav="account">Account</a></nav>
+</header>
+<section id="importPanel" class="import-panel" aria-label="Import Character" hidden><div class="panel-inner">
+ <div class="panel-heading"><div><p class="eyebrow">CHARACTER IMPORT</p><h1>From card to build.</h1></div><button id="closeImport" class="quiet" aria-label="Close Character import">✕</button></div>
+ <div id="dropzone" class="dropzone" tabindex="0" aria-label="Drop a Discord card here, upload an image or paste a screenshot"><div><strong>Drop your Discord build card here</strong><p>Original English 1920 × 1080 · JPEG or PNG · up to 5 MiB</p></div><div class="import-actions"><label class="upload">Upload image<input id="upload" type="file" accept="image/jpeg,image/png"></label><button id="pasteImage">Paste image</button></div><small>Or paste with Ctrl / ⌘ + V. Recognition runs on this local preview server.</small></div>
+ <p id="status" role="status" aria-live="polite">Your current page stays open. Imports remain staged until Inventory is connected.</p>
+ <section id="review" hidden><details id="original"><summary>View original card</summary><img id="source" alt="Uploaded Discord build card"></details>
+  <div class="section-heading"><h2>Review your build</h2><button id="reset" type="button">Reset corrections</button></div><div id="identity" class="identity"></div><div id="skills" class="skills"></div>
+  <div class="section-heading"><h2>Five equipped Echoes</h2><span id="cost"></span></div><p class="hint">Rank, Echo upgrade level and Weapon refinement are not printed on these cards. They remain unknown; stats are checked for Rank-5 +25 compatibility.</p><div id="echoes" class="echoes"></div>
+  <section class="review-footer"><div><h2>Check before staging</h2><ul id="issues"></ul><label class="ack"><input id="checked" type="checkbox"> I checked the detected values against the card, including any suggested corrections.</label></div><button id="accept" disabled>Confirm reviewed draft</button><button id="save" disabled title="Persistent Inventory is not connected">Save to Inventory · not connected</button><p id="accepted" role="status"></p><div id="continueActions" hidden><button id="continueWorkflow">Continue on this page</button><button id="openImportedImprove" class="primary">Preview in Improve →</button></div></section>
+ </section>
+</div></section>
+<main id="workspace" class="workspace-root" tabindex="-1"></main>
+<footer class="local-status"><span>LOCAL PROTOTYPE · Issue #352</span><span id="stageCount">No staged imports</span></footer>
+<dialog id="confirmation"><form method="dialog"><h2>Stage this reviewed build?</h2><p>This keeps a reviewed copy in this tab. It does not save to Inventory, equip items or overwrite Improve Current.</p><div class="actions"><button value="cancel">Keep editing</button><button value="confirm" class="primary">Confirm draft</button></div></form></dialog>
 <script type="module" src="app.js"></script></body></html>

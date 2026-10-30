@@ -8,7 +8,7 @@ import mimetypes
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlsplit
+from urllib.parse import unquote, urlsplit, parse_qs
 import scanner
 
 HERE=Path(__file__).resolve().parent
@@ -16,22 +16,32 @@ LOCK=threading.Lock()
 class Handler(BaseHTTPRequestHandler):
     def log_message(self,*args): pass  # Never log uploaded images, builds or identifiers.
     def send(self,status,payload,mime='application/json'):
-        body=json.dumps(payload,allow_nan=False).encode() if mime=='application/json' else payload
+        body=json.dumps(payload,allow_nan=False).encode() if mime=='application/json' and not isinstance(payload,bytes) else payload
         self.send_response(status); self.send_header('Content-Type',mime)
         self.send_header('Content-Length',str(len(body)));self.send_header('Cache-Control','no-store')
         self.send_header('X-Content-Type-Options','nosniff')
-        self.send_header('Content-Security-Policy',"default-src 'self'; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'")
+        legacy=self.path.startswith(('/docs/ui-lab/','/docs/ui-prototypes/'))
+        policy="default-src 'self'; img-src 'self' blob: data:; style-src 'self'"+ (" 'unsafe-inline'" if legacy else '')
+        policy+="; script-src 'self'"+(" 'unsafe-inline'" if legacy else '')+"; connect-src 'self'; worker-src 'self' blob:; frame-src 'self'; frame-ancestors 'self'"
+        self.send_header('Content-Security-Policy',policy)
         self.end_headers();self.wfile.write(body)
     def do_GET(self):
         if self.path=='/api/catalog':
             c=scanner.data.CATALOG
-            return self.send(200,{k:c[k] for k in ['characters','weapons','echoes','sonataSets','statEditor']})
+            return self.send(200,{k:c[k] for k in ['characters','weapons','echoes','sonataSets','statEditor','echoIcons','weaponIcons','characterArt']})
         path=unquote(urlsplit(self.path).path)
-        if path in ['/', '/index.html','/app.js','/style.css']:
+        if path in ['/', '/index.html','/app.js','/style.css','/shell.js','/shell.css','/sandbox-frame.css']:
             file=HERE/('index.html' if path=='/' else path[1:])
-        elif path.startswith('/docs/ui-prototypes/assets/'):
+        elif path=='/data/research/local-team-source-extensions.json':
+            file=scanner.data.ROOT/path[1:]
+        elif path.startswith(('/docs/ui-prototypes/assets/','/docs/ui-lab/v1/','/docs/ui-lab/v1.1/','/docs/assets/','/src/')):
             file=(scanner.data.ROOT/path[1:]).resolve()
-            if not file.is_relative_to(scanner.data.ROOT/'docs/ui-prototypes/assets'): return self.send(404,{'error':'Not found.'})
+            roots=['docs/ui-prototypes/assets','docs/ui-lab/v1','docs/ui-lab/v1.1','docs/assets','src']
+            if not any(file.is_relative_to(scanner.data.ROOT/root) for root in roots): return self.send(404,{'error':'Not found.'})
+            if file.suffix.lower() not in ['.html','.js','.mjs','.json','.css','.webp','.png','.jpg','.jpeg','.svg','.woff','.woff2']: return self.send(404,{'error':'Not found.'})
+        elif path=='/docs/ui-prototypes/v34-functional.html' and parse_qs(urlsplit(self.path).query).get('workshopOwner')==['ui-lab']:
+            # The existing Sandbox Workshop explicitly substitutes memory stores.
+            file=scanner.data.ROOT/path[1:]
         else: return self.send(404,{'error':'Not found.'})
         if not file.is_file(): return self.send(404,{'error':'Not found.'})
         return self.send(200,file.read_bytes(),mimetypes.guess_type(str(file))[0] or 'application/octet-stream')

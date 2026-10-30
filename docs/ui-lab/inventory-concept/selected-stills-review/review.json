@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Six uniquely named selected PNGs and lossless preview derivatives match their manifest hashes and element mappings",
+    "All six actual embedded images match their intended hashes; full frame uses contain without zoom, and Background / Character / Cards preserve demo data and card geometry",
+    "Physical pointer leaves selected stills fixed; no depth renderer, canvas, motion control or running animation is introduced",
+    "All six previous element studies and three previous compositions remain selectable; returning to the selected stills restores static mode",
+    "Character selection, Skills, Echo Workspace return and connected Inventory / Teams navigation remain functional",
+    "1920/2560 desktop layouts, reduced motion, untouched account/resource sentinels and offline portable operation without HTTP subresources",
+    "Multi-file source preview serves all six allowlisted still derivatives; original PNGs are not exposed by the local server"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4179/selected-stills-review"
+  ],
+  "scope": "Owner-selected still backgrounds only. No new parallax or animation, production gameplay, persistence or FULL qualification."
+}

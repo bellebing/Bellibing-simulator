@@ -1,3 +1,4 @@
+import { SELECTED_STILLS, selectedStillPath } from './selected-stills.mjs';
 import { HERO_VISTAS } from './hero-vistas.mjs';
 import { loadElementalSources } from './elemental-sources.mjs';
 import { ELEMENTAL_DESIGNS } from './elemental-designs.mjs';
@@ -26,6 +27,9 @@ files.set('/elemental-scene.mjs', [new URL('./elemental-scene.mjs', import.meta.
 for (const name of ELEMENTAL_DESIGNS.flatMap(e => [e.id, e.id + '-depth']))
     files.set('/elemental-art/' + name + '.webp', [new URL('./elemental-art/' + name + '.webp', import.meta.url), 'image/webp']);
 files.set('/login-review/composition.svg', [new URL('./login-review/composition.svg', import.meta.url), 'image/svg+xml']);
+files.set('/selected-stills.mjs', [new URL('./selected-stills.mjs', import.meta.url), 'text/javascript']);
+for (const still of SELECTED_STILLS)
+    files.set('/' + selectedStillPath(still.id), [new URL('./' + selectedStillPath(still.id), import.meta.url), 'image/webp']);
 files.set('/hero-vistas.mjs', [new URL('./hero-vistas.mjs', import.meta.url), 'text/javascript']);
 for (const vista of HERO_VISTAS)
     for (const name of [vista.art, vista.art + '-depth'])

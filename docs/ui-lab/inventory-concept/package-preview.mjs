@@ -1,3 +1,4 @@
+import { SELECTED_STILLS, selectedStillPath } from './selected-stills.mjs';
 import { HERO_VISTAS } from './hero-vistas.mjs';
 import { loadElementalSources } from './elemental-sources.mjs';
 import { ELEMENTAL_DESIGNS } from './elemental-designs.mjs';
@@ -20,6 +21,11 @@ const elemental = await loadElementalSources();
 const sceneSource = await readFile(new URL('./elemental-scene.mjs', here), 'utf8');
 const vistaSource = await readFile(new URL('./hero-vistas.mjs', here), 'utf8');
 const designSource = await readFile(new URL('./elemental-designs.mjs', here), 'utf8');
+const selectedStillSource = await readFile(new URL('./selected-stills.mjs', here), 'utf8');
+for (const still of SELECTED_STILLS) {
+    const path = selectedStillPath(still.id);
+    embeddedAssets[path] = 'data:image/webp;base64,' + (await readFile(new URL('./' + path, here))).toString('base64');
+}
 for (const e of ELEMENTAL_DESIGNS)
     for (const name of [e.id, e.id + '-depth'])
         embeddedAssets['elemental-art/' + name + '.webp'] = 'data:image/webp;base64,' + (await readFile(new URL('./elemental-art/' + name + '.webp', here))).toString('base64');
@@ -41,7 +47,7 @@ for (const id of ['augusta', 'jiyan', 'calcharo', 'iuno', 'the-shorekeeper', 'mo
     embeddedAssets[path] = 'data:image/png;base64,' + (await readFile(new URL('../../ui-prototypes/assets/characters/' + path, here))).toString('base64');
 }
 const script = ('globalThis.BELLIBING_ELEMENTAL_PRESENTATION=' + safe(JSON.stringify(elemental)) + ';\n' + 'globalThis.BELLIBING_HERO_PRESENTATION=' + JSON.stringify(presentation) + ';\n' + forteSource.replace(/^export /gm, '') + '\n' + 'globalThis.BELLIBING_CONCEPT_ASSETS=' + JSON.stringify(embeddedAssets) + ';\n') + js.slice(0, start) + `const echoCatalog=${safe(echoes)};\nconst weaponCatalog=${safe(weapons)};\n` + js.slice(end);
-const bundledScript = script.replace(/import\s*\{\s*createHeroTeamConcept\s*\}\s*from\s*['"]\.\/hero-team\.js['"];?/, () => designSource.replace(/^export /gm, '') + '\n' + vistaSource.replace(/^export /gm, '') + '\n' + sceneSource.replace(/^export /gm, '') + '\n' + heroJS.replace(/^import .*from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, ''));
+const bundledScript = script.replace(/import\s*\{\s*createHeroTeamConcept\s*\}\s*from\s*['"]\.\/hero-team\.js['"];?/, () => designSource.replace(/^export /gm, '') + '\n' + vistaSource.replace(/^export /gm, '') + '\n' + selectedStillSource.replace(/^export /gm, '') + '\n' + sceneSource.replace(/^export /gm, '') + '\n' + heroJS.replace(/^import .*from ['"][^'"]+['"];?\n/gm, '').replace(/^export /gm, ''));
 const output = html.replace('<link rel="stylesheet" href="concept.css">', () => `<style data-concept-style="base">${css}</style>`)
     .replace('<link rel="stylesheet" href="hero-team.css">', () => `<style data-concept-style="hero">${heroCSS}</style>`)
     .replace('<script type="module" src="concept.js"></script>', () => `<script type="module">${bundledScript.replace(/<\/script/gi, '<\\/script')}</script>`);

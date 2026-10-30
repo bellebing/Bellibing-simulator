@@ -3,6 +3,10 @@
 .hero-switch,.team-mode{display:flex;padding:4px;border:1px solid var(--line);border-radius:8px;background:#12191c}
 .hero-switch button,.team-mode button{border:0;font-size:11px;color:var(--muted);padding:9px 13px}
 .hero-switch button.active,.team-mode button.active{background:#c7ac701c;color:var(--gold)}
+.selected-still-mode{font-size:11px;color:var(--muted);padding:9px 13px;border:1px solid var(--line);border-radius:8px;background:#12191c}
+.selected-still-stage .elemental-fallback{object-fit:contain;transform:none}
+.selected-still-stage .hero-figure{transform:none}
+.selected-still-gallery .elemental-swatches button[aria-pressed=true]{border-color:var(--gold)}
 .hero-roster{display:flex;gap:8px;align-items:center}.hero-roster button{padding:3px;border:1px solid transparent;border-radius:50%;height:41px;width:41px}.hero-roster button.active{border-color:var(--gold)}.hero-roster .team-face{width:33px;height:33px}
 .team-face{width:47px;height:47px;object-fit:cover;border-radius:50%;border:1px solid #747568;background:#263130}.team-face.small{width:31px;height:31px}
 .section-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.section-heading h3{font-size:15px;white-space:nowrap}.section-heading>span{font-size:9px;color:var(--muted)}.section-heading>button{padding:3px 5px;border:0;color:var(--gold)}

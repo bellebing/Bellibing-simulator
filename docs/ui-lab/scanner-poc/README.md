@@ -93,10 +93,13 @@ Remaining problems:
   floor. Identity and Sonata remain unconfirmed; one explicit suggestion button
   fills them for review. Its independently read cost and stats are preserved.
 - Ciaccona Echo 2 roll 5 displays DEF **11.9%**; Bellibing's existing exact tier
-  is **11.8%**. Raw `11.9%` is preserved, `11.8%` is visibly marked as a proposed
-  canonical normalization, and review confirmation is required. Canonical data
-  is unchanged. Literal image accuracy and canonical compatibility are reported
-  separately rather than counting this as an identical read.
+  is **11.8%**. [The investigation](DEF_PERCENT_IMPORT.md) verifies that tier
+  against Kuro's official table and the exact Wuthering Tools importer fix.
+  Raw `11.9%` and observed fraction `0.119` are preserved; `0.118` is marked as a
+  verified importer compatibility proposal that still requires review. Why this
+  card prints 11.9% remains unverified; it is not established as ordinary rounding.
+  Canonical data is unchanged. Literal image accuracy and canonical compatibility
+  are reported separately rather than counting this as an identical read.
 - All three Skill panels show level 10. These fixtures do not establish accuracy
   for lower levels, other node states or other investment values. Sequence tests
   cover the three S0 cards only. More distinct cards are needed before production.

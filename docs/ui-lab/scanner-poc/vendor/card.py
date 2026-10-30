@@ -163,7 +163,9 @@ def validate_substat_name(name: str, value: str) -> str:
         return f"{base}%" if "%" in value else base
     return matched
 
-# Percent-stat snap tolerance absorbs display rounding (DEF 11.9% for the 11.8 roll) since legal rolls sit >= 0.7 apart
+# Near-tier OCR proposals only; Bellibing retains raw values and flags review.
+# The exact DEF 11.9 -> 11.8 alias is documented in ../DEF_PERCENT_IMPORT.md;
+# its card-display cause is unverified, not an established rounding rule.
 # Flat stats must match exactly
 SUBSTAT_SNAP_TOLERANCE = 0.15
 FLAT_SUBSTATS = ("HP", "ATK", "DEF")

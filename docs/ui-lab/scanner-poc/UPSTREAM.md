@@ -35,8 +35,11 @@ the upstream independently maintained numerical set table.
 `process_card` entry point. In particular, its main-stat defaulting, inferred
 Lv90 fallback and server storage/reporting code are **not used**. Main/secondary
 values are actually read. Rank, Echo level and refinement stay unknown. The
-existing small legal-tier tolerance is retained for substat display rounding,
-with raw text and a visible normalization marker; it is not applied silently.
+existing small legal-tier tolerance is retained for substat OCR proposals,
+with raw text and a visible review marker; it is not applied silently. Other
+conversions remain unverified. The exact DEF 11.9% → 11.8% importer alias has
+separate evidence/status; its card-display cause remains unverified. See
+[the investigation](DEF_PERCENT_IMPORT.md). No generic rounding cause is assumed.
 
 The whole scanner directory, including the new server/review UI, is distributed
 with GPL-3.0 source. Original game images remain attributable to Kuro Games and

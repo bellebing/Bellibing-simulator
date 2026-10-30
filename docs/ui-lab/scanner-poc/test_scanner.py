@@ -16,6 +16,36 @@ def valid():
         'skills':dict.fromkeys(scanner.SKILLS,10),'echoes':[item]*5})
 
 class ValidationTests(unittest.TestCase):
+    def test_exact_discord_def_alias_preserves_observation_and_requires_review(self):
+        row={'name':'DEF%','value':'11.8%'}
+        before=copy.deepcopy(scanner.data.CATALOG['statEditor'])
+        for label in ['DEF','DEF Y','DEF%']:
+            out=scanner.review_substat(row,label,'11.9%')
+            self.assertEqual(out['rawName'],label);self.assertEqual(out['rawValue'],'11.9%')
+            self.assertEqual(out['observedValue'],.119);self.assertEqual(out['value'],.118)
+            self.assertTrue(out['needsReview']);self.assertTrue(out['normalization']['requiresReview'])
+            self.assertEqual(out['normalization']['status'],'VERIFIED_IMPORT_COMPATIBILITY')
+            self.assertEqual(out['normalization']['cause'],'CARD_DISPLAY_CAUSE_UNVERIFIED')
+        self.assertEqual(scanner.data.CATALOG['statEditor'],before)
+    def test_other_conversions_remain_unverified(self):
+        for row,label,raw in [({'name':'ATK%','value':'11.6%'},'ATK','11.7%'),
+                              ({'name':'DEF%','value':'11.8%'},'DEF','11.85%'),
+                              ({'name':'DEF%','value':'11.8%'},'Unreadable','11.9%')]:
+            out=scanner.review_substat(row,label,raw)
+            self.assertEqual(out['rawValue'],raw);self.assertTrue(out['needsReview'])
+            self.assertEqual(out['normalization']['status'],'UNVERIFIED_OCR_CONVERSION')
+    def test_exact_def_tier_and_unresolved_rows_are_not_converted(self):
+        out=scanner.review_substat({'name':'DEF%','value':'11.8%'},'DEF','11.8%')
+        self.assertFalse(out['needsReview']);self.assertNotIn('normalization',out)
+        out=scanner.review_substat(None,'DEF','11.9%')
+        self.assertIsNone(out['value']);self.assertTrue(out['needsReview'])
+    def test_alias_does_not_override_a_changed_canonical_catalog(self):
+        from unittest.mock import patch
+        catalog=copy.deepcopy(scanner.data.CATALOG)
+        next(s for s in catalog['statEditor']['substats'] if s['name']=='DEF%')['values']=[.12]
+        with patch.object(scanner.data,'CATALOG',catalog):
+            out=scanner.review_substat({'name':'DEF%','value':'11.8%'},'DEF','11.9%')
+        self.assertEqual(out['normalization']['status'],'UNVERIFIED_OCR_CONVERSION')
     def test_observed_items_are_not_restricted_to_recommended_loadout(self):
         d=valid();before=copy.deepcopy(d)
         self.assertEqual(scanner.validate_draft(d),[]);self.assertEqual(d,before)

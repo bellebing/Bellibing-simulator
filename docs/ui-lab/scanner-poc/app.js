@@ -24,7 +24,12 @@ function stat(parent,title,base,options){
  const replacement=amount.cloneNode(true);amount.replaceWith(replacement);
  replacement.addEventListener('change',()=>{write(base+'.value',replacement.value===''?null:Number(replacement.value)/(flat(read(draft,base+'.name'))?1:100));replacement.classList.add('edited');changed();});
  name.addEventListener('change',()=>{replacement.closest('label').firstChild.textContent=flat(name.value)?'Value':'Value %';write(base+'.value',replacement.value===''?null:Number(replacement.value)/(flat(name.value)?1:100));changed();});
- if(value?.needsReview){row.append(node('span',`Check OCR: ${value.rawName||'?'} ${value.rawValue||'?'}${value.name?' · suggested canonical tier '+display(value.name,value.value)+(flat(value.name)?'':'%'):''}`,{class:'raw'}));}
+ if(value?.needsReview){
+  const verified=value.normalization?.status==='VERIFIED_IMPORT_COMPATIBILITY';
+  const prefix=verified?'Card reading':'Check OCR';
+  const note=verified?' · verified importer mapping; card display cause unverified. Review required.':value.normalization?' · unverified conversion; review required.':'';
+  row.append(node('span',`${prefix}: ${value.rawName||'?'} ${value.rawValue||'?'}${value.name?' · suggested canonical tier '+display(value.name,value.value)+(flat(value.name)?'':'%'):''}${note}`,{class:'raw'}));
+ }
  parent.append(row);
 }
 function render(){

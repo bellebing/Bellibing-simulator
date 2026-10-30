@@ -60,7 +60,7 @@
           "total": 25
         }
       },
-      "elapsedMs": 6113,
+      "elapsedMs": 6112,
       "normalizations": [],
       "unresolvedRows": [],
       "validationIssuePaths": []
@@ -124,7 +124,7 @@
           "total": 25
         }
       },
-      "elapsedMs": 4859,
+      "elapsedMs": 4923,
       "normalizations": [],
       "unresolvedRows": [],
       "validationIssuePaths": []
@@ -156,11 +156,11 @@
           "total": 1
         },
         "echoIdentity": {
-          "correct": 4,
+          "correct": 5,
           "total": 5
         },
         "sonata": {
-          "correct": 4,
+          "correct": 5,
           "total": 5
         },
         "cost": {
@@ -188,7 +188,7 @@
           "total": 25
         }
       },
-      "elapsedMs": 4437,
+      "elapsedMs": 4556,
       "normalizations": [
         {
           "echo": 2,
@@ -198,9 +198,7 @@
         }
       ],
       "unresolvedRows": [],
-      "validationIssuePaths": [
-        "echoes.1.echoId"
-      ]
+      "validationIssuePaths": []
     }
   },
   "upstreamCommit": "f7eb67cbe0d0749b8902f318230f403e0bd3e7ea"

@@ -46,6 +46,23 @@ with GPL-3.0 source. Original game images remain attributable to Kuro Games and
 retain the repository's existing asset provenance/rights boundaries. This proof
 does not bundle private engine code, owner card images or player identifiers.
 
+## Partial icon recognition
+
+The current fallback preserves the existing SIFT/cost/badge recognizer and adds
+geometric verification for a weak match. Research also inspected upstream's
+`scanner/wuwa_scanner/identify.py` at the pinned revision: it uses gradient
+similarity, cost filtering, color disambiguation and Phantom variants for bag
+tiles. Bag-tile geometry differs from the Discord card's partial icon crops, so
+its gradient thresholds were not copied into the card importer.
+
+Instead, `icon_recognition.py` uses the standard
+[OpenCV SIFT + RANSAC homography verification](https://docs.opencv.org/4.13.0/d1/de0/tutorial_py_feature_homography.html)
+on existing canonical templates. It checks independent locations, inlier count,
+ratio, spatial spread and competitor margin, then a canonical legal Sonata
+badge. The original ratio floor is unchanged; blank, ambiguous and unsupported
+matches stay unknown. This recovers Capitaneus on the supplied card. Positive
+results on three development cards are not a general recognition guarantee.
+
 ## OCR model
 
 The setup downloads English `tessdata_best` at commit

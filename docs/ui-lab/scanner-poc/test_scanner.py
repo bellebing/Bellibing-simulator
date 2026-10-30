@@ -16,6 +16,41 @@ def valid():
         'skills':dict.fromkeys(scanner.SKILLS,10),'echoes':[item]*5})
 
 class ValidationTests(unittest.TestCase):
+    def test_partial_icon_geometry_requires_distinct_spread_and_margin(self):
+        from unittest.mock import patch
+        import icon_recognition
+        echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)
+        candidate={'echoId':echo['id'],'inliers':8,'uniquePoints':6,'inlierRatio':.8,'coverage':.12}
+        panel=np.zeros((413,368,3),np.uint8)
+        with patch.object(icon_recognition.card,'match_icon',return_value=(echo['id'],.04,echo['sonataSetIds'][0])), \
+             patch.object(icon_recognition,'geometric_matches',return_value=[candidate]), \
+             patch.object(icon_recognition.data,'determine_element',return_value=echo['sonataSetIds'][0]):
+            result=icon_recognition.recognize(panel)
+        self.assertEqual(result[0],echo['id']);self.assertIn('geometry',result[3])
+        for bad in [dict(candidate,inliers=7),dict(candidate,uniquePoints=5),dict(candidate,coverage=.02),dict(candidate,inlierRatio=.4)]:
+            with patch.object(icon_recognition.card,'match_icon',return_value=(echo['id'],.04,None)), \
+                 patch.object(icon_recognition,'geometric_matches',return_value=[bad]):
+                self.assertIsNone(icon_recognition.recognize(panel)[0])
+        with patch.object(icon_recognition.card,'match_icon',return_value=(echo['id'],.04,None)), \
+             patch.object(icon_recognition,'geometric_matches',return_value=[candidate,dict(candidate,echoId='ambiguous')]):
+            self.assertIsNone(icon_recognition.recognize(panel)[0])
+    def test_geometry_does_not_assign_an_unresolved_or_illegal_badge(self):
+        from unittest.mock import patch
+        import icon_recognition
+        echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)
+        candidate={'echoId':echo['id'],'inliers':12,'uniquePoints':10,'inlierRatio':.9,'coverage':.3}
+        for badge in [None,'illegal-set']:
+            with patch.object(icon_recognition.card,'match_icon',return_value=(echo['id'],.04,None)), \
+                 patch.object(icon_recognition,'geometric_matches',return_value=[candidate]), \
+                 patch.object(icon_recognition.data,'determine_element',return_value=badge):
+                self.assertIsNone(icon_recognition.recognize(np.zeros((413,368,3),np.uint8))[0])
+    def test_blank_icon_remains_unrecognized(self):
+        import icon_recognition
+        self.assertIsNone(icon_recognition.recognize(np.zeros((413,368,3),np.uint8))[0])
+    def test_flat_missing_badge_is_not_a_perfect_hue_match(self):
+        echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)
+        for color in [0,127,255]:
+            self.assertIsNone(scanner.data.determine_element(np.full((45,45,3),color,np.uint8),echo['id']))
     def test_exact_discord_def_alias_preserves_observation_and_requires_review(self):
         row={'name':'DEF%','value':'11.8%'}
         before=copy.deepcopy(scanner.data.CATALOG['statEditor'])
@@ -91,7 +126,7 @@ class ValidationTests(unittest.TestCase):
         echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)
         unknown={'stat':{'name':None,'value':None},'raw':''}
         rows=[None,{'name':'Crit Rate','value':'6.3%'},None,None,None]
-        with patch.object(scanner.card,'match_icon',return_value=(echo['id'],.01,echo['sonataSetIds'][0])), \
+        with patch.object(scanner,'recognize_echo',return_value=(None,.01,None,{'suggestion':{'echoId':echo['id'],'sonataId':echo['sonataSetIds'][0]}})), \
              patch.object(scanner.card,'get_echo_cost',return_value=3), \
              patch.object(scanner,'read_main',return_value=unknown), \
              patch.object(scanner,'read_secondary',return_value=unknown), \

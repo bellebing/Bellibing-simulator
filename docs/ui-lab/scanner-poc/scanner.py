@@ -12,6 +12,7 @@ from rapidfuzz import fuzz, process
 import card
 import data
 import image_integrity as integrity
+from icon_recognition import recognize as recognize_echo
 
 # Original 1920×1080 Discord card layout, from WuWaBuilds server.py.
 REGIONS = {
@@ -83,9 +84,7 @@ def read_secondary(panel):
     return {'stat':{'name':'Flat '+m.group(1),'value':float(m.group(2))} if m else {'name':None,'value':None},'raw':text}
 
 def read_echo(panel):
-    eid, score, sid=card.match_icon(panel)
-    suggestion={'echoId':eid,'sonataId':sid} if score < .08 else None
-    if score < .08: eid=None; sid=None
+    eid, score, sid, identity_evidence=recognize_echo(panel)
     cost=data.ECHO_COSTS.get(eid) or card.get_echo_cost(panel) or None
     main=read_main(panel,cost); secondary=read_secondary(panel)
     rows,names,values=card.read_substat_rows(card._crop_region(panel,card.ECHO_REGIONS['subs_names']),card._crop_region(panel,card.ECHO_REGIONS['subs_values']))
@@ -94,7 +93,7 @@ def read_echo(panel):
         subs.append(review_substat(row,raw_name,raw_value))
     return {'echoId':eid,'sonataId':sid,'cost':cost,'rank':None,'level':None,
             'mainStat':main['stat'],'secondaryMainStat':secondary['stat'],'substats':subs,
-            'evidence':{'matchScore':round(float(score),4),'suggestion':suggestion,'main':main['raw'],'secondary':secondary['raw'],
+            'evidence':{**identity_evidence,'main':main['raw'],'secondary':secondary['raw'],
                         'note':'Rank and level are not printed; left unknown. Stats checked against Rank-5 +25 compatibility.'}}
 
 def scan(image_bytes):

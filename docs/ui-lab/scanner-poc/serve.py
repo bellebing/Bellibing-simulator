@@ -20,7 +20,7 @@ class Handler(BaseHTTPRequestHandler):
         self.send_response(status); self.send_header('Content-Type',mime)
         self.send_header('Content-Length',str(len(body)));self.send_header('Cache-Control','no-store')
         self.send_header('X-Content-Type-Options','nosniff')
-        legacy=self.path.startswith(('/docs/ui-lab/','/docs/ui-prototypes/'))
+        legacy=self.path.startswith(('/docs/ui-lab/','/docs/ui-prototypes/')) or urlsplit(self.path).path=='/existing-build'
         policy="default-src 'self'; img-src 'self' blob: data:; style-src 'self'"+ (" 'unsafe-inline'" if legacy else '')
         policy+="; script-src 'self'"+(" 'unsafe-inline'" if legacy else '')+"; connect-src 'self'; worker-src 'self' blob:; frame-src 'self'; frame-ancestors 'self'"
         self.send_header('Content-Security-Policy',policy)
@@ -30,7 +30,13 @@ class Handler(BaseHTTPRequestHandler):
             c=scanner.data.CATALOG
             return self.send(200,{k:c[k] for k in ['characters','weapons','echoes','sonataSets','statEditor','echoIcons','weaponIcons','characterArt']})
         path=unquote(urlsplit(self.path).path)
-        if path in ['/', '/index.html','/app.js','/style.css','/shell.js','/shell.css','/sandbox-frame.css']:
+        if path=='/existing-build':
+            source=getattr(self.server,'existing_design',None)
+            if source is None:return self.send(404,{'error':'Existing design preview is not configured.'})
+            html=source.read_bytes()
+            before,after=html.rsplit(b'</body>',1)
+            return self.send(200,before+b'<script type="module" src="/existing-site-import.js"></script></body>'+after,'text/html')
+        if path in ['/', '/index.html','/app.js','/style.css','/shell.js','/shell.css','/sandbox-frame.css','/existing-site-import.js']:
             file=HERE/('index.html' if path=='/' else path[1:])
         elif path=='/data/research/local-team-source-extensions.json':
             file=scanner.data.ROOT/path[1:]
@@ -72,7 +78,11 @@ class Handler(BaseHTTPRequestHandler):
         except Exception: return self.send(500,{'error':'Recognition failed. Check local scanner dependencies, then try again.'})
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8765);args=parser.parse_args()
+    parser=argparse.ArgumentParser();parser.add_argument('--port',type=int,default=8765);parser.add_argument('--existing-design-root',type=Path);args=parser.parse_args()
     server=ThreadingHTTPServer(('127.0.0.1',args.port),Handler)
+    server.existing_design=None
+    if args.existing_design_root:
+        server.existing_design=(args.existing_design_root/'docs/ui-lab/inventory-concept/preview.html').resolve()
+        if not server.existing_design.is_file():parser.error('Existing #361 portable preview not found.')
     print(f'Bellibing scanner preview: http://127.0.0.1:{args.port}',flush=True)
     server.serve_forever()

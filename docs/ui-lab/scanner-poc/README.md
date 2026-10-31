@@ -10,7 +10,37 @@ backups, evaluator changes or deployment. PR #361's visual work is independent.
 The implementation adapts WuWaBuilds, rather than inventing a general scanner.
 Read [UPSTREAM.md](UPSTREAM.md) for the exact source pin, GPL-3.0 license and changes.
 
-## Run the working preview
+## Review import on the existing Bellibing page
+
+For visual review, use the **original Build page from #361**, rather than the
+scanner development shell. The source page is served from a separate unchanged
+checkout at `9b457579818c212380d5911592a34c2076d64282`; its portable artifact SHA-256
+is `a14a9af71df2a09a42adf48461ade5e31edf0bc240e545c92fbf11ad4c441c80`.
+Only the Import Character trigger and compact drop component are mounted over it.
+The component reuses the existing scanner markup/styles inside a Shadow DOM, so
+those styles cannot change the page's Character, Weapon, Skills or Echo layout.
+No source files in #361 are edited or copied into this scanner branch.
+
+```sh
+PYTHONPATH=/workspace/scanner-deps TESSDATA_PREFIX=/workspace/scanner-tessdata \
+  OMP_THREAD_LIMIT=1 python docs/ui-lab/scanner-poc/serve.py --port 8766 \
+  --existing-design-root /path/to/unchanged-design-checkout
+```
+
+Open `http://127.0.0.1:8766/existing-build#build`. The optional existing-page route
+is absent without that explicit source-root option. `review_existing_site.py`
+compares the original page with the added component at 1440×900 and captures it
+at 1920×1080; it checks unchanged main DOM, Character/Echo geometry, storage and
+actual file-picker/dismiss behavior. Private screenshots remain ignored.
+
+This is **visual/input integration only**. Image ingestion uses the real local
+scanner, but the adapter stops before binding values into the original Build
+owner. It exposes no fake Review or account-save action. The older scanner shell
+below remains an OCR/editor test fixture; it is not the accepted site's design.
+Connecting a detached imported draft to the existing Build controls remains work
+before claiming end-to-end integration on this page.
+
+## Run the scanner development fixture
 
 Requires Python 3.12+, Node 22.16+ and the Tesseract CLI (tested with 5.5.0).
 On Linux install Tesseract through the operating system package manager first.

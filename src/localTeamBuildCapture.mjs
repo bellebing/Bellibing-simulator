@@ -26,6 +26,7 @@ export async function captureLocalTeamBuilds(input){
  if(actual&&team.characterIds.some(id=>{const i=actual[id];return !i||![i.characterLevel,i.weaponLevel,i.weaponRefinement].every(Number.isInteger)||i.characterLevel<1||i.characterLevel>90||i.weaponLevel<1||i.weaponLevel>90||i.weaponRefinement<1||i.weaponRefinement>5;}))return fail('ENTER_ACTUAL_TEAM_INVESTMENTS');
  const records=input.records;
  if(!Array.isArray(records)||team.characterIds.some(id=>records.find(r=>r.characterId===id)?.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ if(records.some(r=>team.characterIds.includes(r.characterId)&&r.buildState?.minorForteUnknown===true))return fail('ACTUAL_FORTE_OBSERVATIONS_REQUIRED');
  const kind='ACCOUNT_BUILD';
  const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:actual??'EXPLICIT_LV90_R1_REFERENCE'})};
  const builds=team.characterIds.map(characterId=>{

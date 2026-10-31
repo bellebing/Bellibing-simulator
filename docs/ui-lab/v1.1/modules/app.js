@@ -40,6 +40,8 @@ import { echoCard as renderEchoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
+if(globalThis.BELLIBING_WORKSPACE_ROUTES){const {accountSession}=await import('../../inventory/account-session.js');await accountSession();}
+
 function echoCard(echo,options={}){return renderEchoCard(echo,{...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:compactReview&&accountMode&&!options.candidate});}
 
 const query = new URLSearchParams(location.search);
@@ -86,7 +88,7 @@ function characterState(id) {
   return value;
 }
 let state = characterState(selectedId);
-function accountView(){const record=readProductionBuildRecord(localStorage,people.get(selectedId));return {schemaVersion:1,kind:'ACCOUNT_BUILD',characterId:selectedId,selectedSlot:state.selectedSlot+1,ownerRecord:record.ownerRecord??null,build:record.buildState??null,buildId:null,modeId:null,revisions:null,capability:{status:'PENDING',reasons:['ACCOUNT_STAT_COMPARISON_ONLY']}};}
+function accountView(){const record=readProductionBuildRecord(localStorage,people.get(selectedId));return {schemaVersion:1,kind:'ACCOUNT_BUILD',characterId:selectedId,selectedSlot:state.selectedSlot+1,ownerRecord:record.ownerRecord??null,build:record.buildState??null,buildId:record.buildId??null,modeId:null,revisions:record.revisions??null,capability:{status:'PENDING',reasons:['ACCOUNT_STAT_COMPARISON_ONLY']}};}
 const workshopEditor=createWorkshopEditor({getState:()=>state,onCommit:error=>{renderWorkspace();if(error)notify(error.message);},onPreview:()=>{syncAccountState();renderWorking();renderCharacter();},readAccountBinding:()=>improveCandidateContext(readImproveOwner())});
 window.bellibingLabConfiguration=Object.freeze({productionEvidence:()=>sandbox?{status:'NOT_APPLICABLE',kind:'SANDBOX_BUILD'}:readProductionBuildRecord(localStorage,people.get(selectedId)),readContext:()=>sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):accountMode?accountView():configurationLiveContext(state,resources.read(),{inventoryRevision:resources.revision(),contextRevision:uiContextRevision}),snapshot:async()=>{
  if(accountMode)return accountView();
@@ -516,6 +518,7 @@ async function closeInspection({ immediate = false } = {}) {
 
 window.addEventListener('pagehide',()=>{runLoop=false;sandboxClient?.invalidate();candidateSession?.invalidate();workshopEditor.close();});
 window.addEventListener('pageshow',()=>{if(accountMode)renderWorkspace();});
+window.addEventListener('bellibing-inventory-changed',()=>{if(accountMode)renderWorkspace();});
 window.addEventListener('storage',event=>{if(accountMode&&['bellibing-ui-checkpoint-v34','bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].includes(event.key)){workshopEditor.close();renderWorkspace();}});
 window.addEventListener('resize', () => positionActivationMarks($('#slots')));
 $('#slots').addEventListener('click', event => {

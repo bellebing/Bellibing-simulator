@@ -1511,5 +1511,12 @@
   "ui-preview/assets/weapons/icons/woodland-aria.png",
   "ui-preview/assets/weapons/manifest.json",
   "ui-preview/index.html",
-  "workspace-entry.js"
+  "workspace-entry.js",
+  "inventory/account-session.js",
+  "inventory/integration.js",
+  "inventory/integration.css",
+  "inventory/inventoryAccount.mjs",
+  "inventory/inventoryAccountStore.mjs",
+  "inventory/catalog.json",
+  "inventory/index.html"
 ]

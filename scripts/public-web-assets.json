@@ -1518,5 +1518,13 @@
   "inventory/inventoryAccount.mjs",
   "inventory/inventoryAccountStore.mjs",
   "inventory/catalog.json",
-  "inventory/index.html"
+  "inventory/index.html",
+  "inventory/art/aero.webp",
+  "inventory/art/havoc.webp",
+  "inventory/art/UPSTREAM_MANIFEST.json",
+  "inventory/art/spectro.webp",
+  "inventory/art/fusion.webp",
+  "inventory/art/electro.webp",
+  "inventory/art/glacio.webp",
+  "inventory/art/README.md"
 ]

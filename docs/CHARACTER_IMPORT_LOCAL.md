@@ -22,9 +22,14 @@ other local ports; `SCANNER_PYTHONPATH` supports an existing local dependency
 installation. The preview deliberately returns Pending for the private runtime
 release record. It starts no private calculator or remote compute sessions.
 
-Import Character opens inline below the shared header. Upload an original
+Import Character opens a compact button-anchored popover over the current tool.
+Upload, drop or paste an original
 English 1920×1080 Discord card, correct fields against its image panels, review
-uncertain identities/normalizations, and explicitly confirm the review. Saving
+uncertain identities/normalizations, and explicitly confirm the review.
+Close/reopen and route navigation retain the corrected draft in tab-scoped
+sessionStorage, separately from owned Inventory. Confirmation never survives
+restoration; review again. Bad uploads retain the previous draft. Storage failure
+keeps it on the current page with an explicit warning. Discard clears staging. Saving
 items and assigning them as equipped Build are separate choices. Saving over an
 existing Character requires explicit replacement; replaced items remain owned.
 
@@ -65,7 +70,13 @@ test restoration. Closing a normal browser does not imply a cloud backup exists.
 Canonical catalogs and exact stat tiers are reused. Inventory legality is
 independent of recommended loadouts or evaluator support. Rank, Echo level,
 refinement and Minor Forte facts absent from the image stay unknown. Partial
-observations can be saved; they do not qualify an executable build. Actual team
+observations can be saved; they do not qualify an executable build. Inventory
+provides explicit actual level/refinement/rank review without changing item IDs.
+Build → Skills exposes the real existing tree and an explicit confirmation of
+unprinted Minor Forte facts; these edits remain staged until Save Build.
+Improve reads saved investments instead of silently substituting reference values.
+The existing Lv90/R1 static projection remains Pending for other imported
+investments or unknown Forte. Completing facts does not create provider coverage. Actual team
 and investment/source requirements remain mandatory. Unsupported context is
 Pending; there is no reference-team or synthetic-DPS fallback.
 
@@ -74,6 +85,9 @@ records, account backups, screenshots and user-specific acceptance artifacts mus
 remain outside the public repository. Aggregate test results are not a general
 scanner-accuracy claim. The three known cards are a development set.
 
+Recovered recognition/provenance improvements remain inside the GPL scanner
+process. The product UI receives plain observation JSON over loopback; it imports
+no GPL scanner JavaScript or Python. Canonical data remains public-source-owned.
 The scanner remains GPL-3.0 with retained upstream source/license notices. The new
 client communicates via data-only HTTP; this is not a legal compatibility or
 distribution clearance. Review that boundary before publication. No private
@@ -83,3 +97,22 @@ Deferred: broader formats, automatic duplicate/merge resolution, +0 stacks,
 cloud sync/login, Team Builder, new DPS coverage, recommendation tuning and the
 full #361 visual redesign. The existing Build surface remains the functional
 editor; this milestone does not claim full visual parity with the concept.
+
+## Presentation and continuation
+
+The real Build uses the six approved static #361 backgrounds according to the
+selected Character element. Inventory reuses canonical item icons with a real
+grid/inspector. No #364 experimental artwork or concept account store is active.
+Source artwork attribution and exact upstream identity are retained under `art/`.
+
+The only active integration worktree/branch stays unchanged. The preserved safe
+snapshot is a direct child of #360 with the original implementation tree. Future
+publication must extend that safe history using a same-tree snapshot of reviewed
+local changes; do not push the older synthetic local ancestry or create another
+feature PR. Original local commits remain preserved. This does not authorize a
+push, history rewrite, merge, CI or deployment.
+
+Public #363 remains separate: its compact neutral choices require the private
+#46 allowlisted `advice.comparison.version=1` contract (clear/similar/uncertain,
+options and qualified advantage codes). Current private main lacks that contract;
+this integration does not add public thresholds or activate private #46/#47.

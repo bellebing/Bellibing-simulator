@@ -106,7 +106,7 @@ export function accountFromLegacy(legacy,catalog,{current=null,recovery={}}={}){
  }
  return validateAccount(next,catalog);
 }
-export function saveReviewedScan(account,draft,catalog,{reviewed=false,replace=false,assign=false}={}){
+export function saveReviewedScan(account,draft,catalog,{reviewed=false,replace=false,assign=false,originalScan=draft}={}){
  assert(reviewed,'Review confirmation required.');safeDocument(draft);
  const source=catalog.characters.find(c=>c.id===draft.character?.id);assert(source,'Unknown scanned Character.');
  assert((!account.characters[source.id]&&!account.unownedDrafts?.[source.id])||replace,'Existing Character or draft requires explicit replacement approval.');
@@ -116,12 +116,14 @@ export function saveReviewedScan(account,draft,catalog,{reviewed=false,replace=f
  if(next.unownedDrafts)delete next.unownedDrafts[source.id];
  const put=(kind,catalogId,data,evidence)=>{const key=id();next.items[key]={id:key,kind,catalogId,data:copy(data),provenance:{kind:'REVIEWED_DISCORD_CARD',evidence:copy(evidence??null)}};return key;};
  const weaponInstanceId=put('weapon',draft.weapon?.id,{level:draft.weapon?.level??null,refinement:draft.weapon?.refinement??null},draft.weapon?.evidence);
- const slots=draft.echoes.map(e=>put('echo',e.echoId,{rank:e.rank??null,level:e.level??null,cost:e.cost,selectedSonataSetId:e.sonataId,mainStat:e.mainStat,secondaryMainStat:e.secondaryMainStat,substats:e.substats},e.evidence));
+ const slots=draft.echoes.map((e,i)=>put('echo',e.echoId,{rank:e.rank??null,level:e.level??null,cost:e.cost,selectedSonataSetId:e.sonataId,mainStat:e.mainStat,secondaryMainStat:e.secondaryMainStat,substats:e.substats},{...e.evidence,originalObservation:copy(originalScan.echoes[i])}));
  const build={...(previous?.record.build??{}),characterLevel:draft.character.level,sequenceLevel:draft.sequence,
   observedSkills:copy(draft.skills),weaponInstanceId:assign?weaponInstanceId:previous?.record.build.weaponInstanceId??null,
   ...(assign?{echoSets:{schemaVersion:1,activeSetId:'set-1',defaultSetId:'set-1',sets:{'set-1':{id:'set-1',name:'Imported build',slots}}}}:{})};
  // Minor Forte activations are not printed by these cards; never invent them.
- if(!previous){build.forte={schemaVersion:1,levels:{'normal-attack':draft.skills.basic,skill:draft.skills.skill,circuit:draft.skills.circuit,intro:draft.skills.intro,liberation:draft.skills.liberation},enabled:{}};build.minorForteUnknown=true;}
+ build.forte={...(previous?.record.build.forte??{}),schemaVersion:1,levels:{'normal-attack':draft.skills.basic,skill:draft.skills.skill,circuit:draft.skills.circuit,intro:draft.skills.intro,liberation:draft.skills.liberation},enabled:copy(previous?.record.build.forte?.enabled??{})};
+ if(!previous)build.minorForteUnknown=true;
+ build.importObservation=copy({character:originalScan.character,weapon:originalScan.weapon,skills:originalScan.skills,sequence:originalScan.sequence});
  next.characters[source.id]={id:source.id,name:source.name,owned:true,record:{...(previous?.record??{}),character:source.name,build,createdAt:previous?.record.createdAt??now,updatedAt:now}};
  return validateAccount(next,catalog);
 }
@@ -137,4 +139,16 @@ export function moveItem(account,itemId,characterId,slot,catalog){
  if(item.kind==='weapon')b.weaponInstanceId=itemId;
  else{assert(Number.isInteger(slot)&&slot>=0&&slot<5,'Choose an Echo slot.');if(!b.echoSets)b.echoSets={schemaVersion:1,activeSetId:'set-1',defaultSetId:'set-1',sets:{'set-1':{id:'set-1',name:'Set 1',slots:Array(5).fill(null)}}};b.echoSets.sets[b.echoSets.activeSetId].slots[slot]=itemId;}
  return validateAccount(next,catalog);
+}
+
+// Explicit observation completion updates existing physical instances; never acquires or equips.
+export function reviewBuildFacts(account,characterId,facts,catalog,{reviewed=false}={}){
+ assert(reviewed,'Review confirmation required.');safeDocument(facts);
+ const next=copy(account),c=next.characters[characterId];assert(c?.owned,'Owned Character required.');
+ const b=c.record.build;b.characterLevel=facts.characterLevel;
+ if(b.weaponInstanceId){const w=next.items[b.weaponInstanceId];w.data.level=facts.weaponLevel;w.data.refinement=facts.weaponRefinement;}
+ const slots=b.echoSets?.sets[b.echoSets.activeSetId]?.slots??[];
+ assert(Array.isArray(facts.echoes)&&facts.echoes.length===slots.length,'Review the same equipped Echoes.');
+ facts.echoes.forEach((f,i)=>{assert(f.id===slots[i],'Equipped Echo changed; review again.');if(f.id){next.items[f.id].data.rank=f.rank;next.items[f.id].data.level=f.level;}});
+ b.factsReviewedAt=new Date().toISOString();return validateAccount(next,catalog);
 }

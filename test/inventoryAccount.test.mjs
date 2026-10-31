@@ -48,3 +48,18 @@ test('unowned legacy drafts and templates survive migration without becoming phy
  const migrated=accountFromLegacy(known,catalog);assert.equal(Object.keys(migrated.items).length,0);assert.equal(Object.keys(migrated.characters).length,0);assert.deepEqual(legacyProjection(migrated),known);
  assert.throws(()=>saveReviewedScan(migrated,scan(),catalog,{reviewed:true,assign:true}));
 });
+test('reviewed facts complete observations without replacing physical items or other Characters',async()=>{
+ const {reviewBuildFacts}=await import('../src/inventoryAccount.mjs');
+ const a=saveReviewedScan(emptyAccount(),scan(),catalog,{reviewed:true,assign:true});const slots=a.characters.lupa.record.build.echoSets.sets['set-1'].slots;
+ const facts={characterLevel:90,weaponLevel:90,weaponRefinement:1,echoes:slots.map(id=>({id,rank:5,level:25}))};
+ assert.throws(()=>reviewBuildFacts(a,'lupa',facts,catalog));
+ const b=reviewBuildFacts(a,'lupa',facts,catalog,{reviewed:true});assert.deepEqual(Object.keys(b.items),Object.keys(a.items));assert.equal(b.characters.lupa.record.build.minorForteUnknown,true);
+ assert.equal(b.items[slots[0]].data.rank,5);assert.equal(a.items[slots[0]].data.rank,null);
+ assert.throws(()=>reviewBuildFacts(a,'lupa',{...facts,echoes:facts.echoes.toReversed()},catalog,{reviewed:true}));
+ assert.throws(()=>reviewBuildFacts(a,'lupa',{...facts,echoes:facts.echoes.map(f=>({...f,level:10}))},catalog,{reviewed:true}));
+});
+test('review corrections retain immutable original Echo observations alongside corrected values',()=>{
+ const original=scan(),corrected=structuredClone(original);corrected.echoes[0].substats[0].value=catalog.statEditor.substats[0].values.at(-1);
+ const a=saveReviewedScan(emptyAccount(),corrected,catalog,{reviewed:true,assign:true,originalScan:original});const e=a.items[a.characters.lupa.record.build.echoSets.sets['set-1'].slots[0]];
+ assert.deepEqual(e.provenance.evidence.originalObservation,original.echoes[0]);assert.equal(e.data.substats[0].value,corrected.echoes[0].substats[0].value);
+});

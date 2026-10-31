@@ -3,8 +3,11 @@
 Local upload → real OCR/image matching → inline corrections → explicit review
 confirmation. One supported format: **original English 1920×1080 wuwa-bot
 Character cards, JPEG/PNG, with Skills and five fully rolled Echo panels**.
-No production Build/Improve modifications, inventory writes, persistence,
-backups, evaluator changes or deployment. PR #361's visual work is independent.
+This directory retains the isolated GPL recognition/review fixture. The real
+application now consumes its data-only local API through the
+[Character Import integration](../../CHARACTER_IMPORT_LOCAL.md), with genuine
+Inventory, explicit saves and backup/restore. Use that launcher for product review.
+This fixture does not own the account or connect a private evaluator.
 
 The implementation adapts WuWaBuilds, rather than inventing a general scanner.
 Read [UPSTREAM.md](UPSTREAM.md) for the exact source pin, GPL-3.0 license and changes.
@@ -43,7 +46,9 @@ credentials, player UID parsing or third-party image upload is involved.
    known text boxes; Sequence uses the upstream node-color classifier.
 3. Match Echo artwork against Bellibing's existing asset manifests. Cost badges
    narrow the search. Canonical legal Sonata badges and colors disambiguate
-   look-alike Echoes. Weak matches stay unknown with an explicit suggestion.
+   look-alike Echoes. Weak partial artwork gets SIFT/RANSAC geometric verification
+   with distinct-point/spread/margin checks and a legal canonical Sonata badge.
+   Blank/ambiguous artwork stays unknown. See UPSTREAM.md for recovered source.
 4. Read each main/secondary strip and each of five substat rows separately.
    Names and numbers have independent crops and scale/grayscale retries.
    Unreadable bands stay in place. Raw substat text is retained, including
@@ -67,7 +72,7 @@ other languages, crops/resizes, arbitrary screenshots and alternate layouts are
 unsupported. Similarity scores are heuristics, never calibrated confidence or
 measured accuracy percentages.
 
-## Measured recognition on the three supplied cards
+## Historical recognition benchmark (#362)
 
 The owner-provided originals were retrieved from the named private Drive folder
 and manually checked against their visible text, including enlarged row crops.
@@ -87,11 +92,12 @@ development fixture set, not independent held-out evaluation.
 | Final substats identical to displayed values | 25/25 | 25/25 | 24/25 |
 | Final substats matching canonical tiers | 25/25 | 25/25 | 25/25 |
 
-Remaining problems:
+Historical limitations and current delta:
 
-- Ciaccona Echo 2: Capitaneus is the best image match but below the acceptance
-  floor. Identity and Sonata remain unconfirmed; one explicit suggestion button
-  fills them for review. Its independently read cost and stats are preserved.
+- The table and ACCURACY.json retain the historical #362 benchmark. The recovered
+  geometric fallback now recognizes Ciaccona Capitaneus and its legal Sonata in
+  real product browser uploads; all three cards pass the local save/reload journey.
+  This is focused integration evidence, not a newly rerun independent full benchmark.
 - Ciaccona Echo 2 roll 5 displays DEF **11.9%**; Bellibing's existing exact tier
   is **11.8%**. Raw `11.9%` is preserved, `11.8%` is visibly marked as a proposed
   canonical normalization, and review confirmation is required. Canonical data
@@ -146,3 +152,7 @@ python docs/ui-lab/scanner-poc/review_browser.py \
 Private cards, full recognition records and screenshots stay in ignored local
 folders. Only aggregate accuracy is committed. Local REVIEW evidence does not
 claim FULL/MERGE readiness or deployment. Standard repository CI remains intact.
+
+The narrow DEF compatibility rule preserves raw 11.9%, observed 0.119 and the
+reviewed canonical proposal 0.118. Mapping evidence and unverified card-display
+cause are distinct; see [DEF_PERCENT_IMPORT.md](DEF_PERCENT_IMPORT.md).

@@ -13,17 +13,22 @@ card and then validating Chisa/Ciaccona through the same code.
 Current main and public #360 are the functional foundation. #361 is the approved
 visual/navigation reference; #362 is the working recognition prototype. Integrate
 selectively. Public #363/private #46 remain separate Improve improvements.
+Focused local tests/build/browser review are authorized for this workstream.
 No pushes, remote CI, PR changes, merges or deployment are authorized.
 
 ## Local import / Inventory candidate
 
-The [local integration contract](CHARACTER_IMPORT_LOCAL.md) describes setup,
+The [local integration contract](CHARACTER_IMPORT_LOCAL.md) and
+[continuation handoff](CHARACTER_IMPORT_HANDOFF.md) describes setup,
 ownership, migration, supported fields, licensing and remaining limits.
 
-- Import Character opens inline below shared navigation. The centered primary
-  workspace group and recurring Inventory entry preserve the approved direction.
+- Import Character opens at its button over the real active tool. Upload/drop/
+  paste and tab-scoped corrected drafts preserve context across close/navigation.
+  The centered primary workspace group and recurring Inventory entry remain.
 - Recognition uses the actual local GPL scanner and canonical catalogs. Images,
   full OCR records, user backups and browser evidence remain outside public source.
+- Recovered geometric recognition handles the three supplied cards; raw DEF
+  compatibility/provenance and immutable originals remain reviewable.
 - Review and save are explicit. Assigning imported equipment as Current requires
   its own choice; replacing an existing Character requires confirmation. Uncertain
   identity and normalization proposals stay visible. Unprinted facts stay unknown.
@@ -31,6 +36,9 @@ ownership, migration, supported fields, licensing and remaining limits.
   references. Transactions save an account and recovery before-state together;
   revision/identity checks reject stale writers. Unowned legacy drafts/templates
   remain drafts and never silently become owned physical items.
+- Explicit Inventory fact review and Build Skills/Forte confirmation preserve
+  physical IDs. Unknown/unsupported facts remain Pending; saved investments flow
+  to Improve without a reference fallback.
 - The existing Build editor and #360 Improve reader use the same committed owner
   through memory-only projections. Build edits are staged until explicit save.
   Per-Character revisions separate unrelated account additions from Current.
@@ -42,7 +50,8 @@ ownership, migration, supported fields, licensing and remaining limits.
   transaction failures and ownership boundaries. This is focused local evidence;
   full/MERGE verification, production migration and hosted acceptance are separate.
 
-The first slice retains the existing functional Build composition. Full #361
+The first slice retains the real functional Build composition with the six
+approved #361 still backgrounds and an item-art Inventory grid/inspector. Full #361
 visual parity, +0 stacking, broader scanner formats and account login/cloud sync
 remain deferred. No private decision implementation is added to public assets.
 

@@ -67,6 +67,9 @@ def determine_element(crop, filter_ids):
     """
     possible=ECHO_SET_IDS.get(filter_ids,[]) if isinstance(filter_ids,str) else list(filter_ids or [])
     if not possible: return None
+    # A missing/flat badge has no shape or color evidence. Correlation on an
+    # all-zero hue histogram can otherwise look like a perfect match.
+    if crop.size==0 or float(cv2.cvtColor(crop,cv2.COLOR_BGR2GRAY).std())<5: return None
     hsv=cv2.cvtColor(crop,cv2.COLOR_BGR2HSV)
     mask=cv2.inRange(hsv,np.array([0,40,40]),np.array([180,255,255]))
     hist=cv2.calcHist([hsv],[0],mask,[36],[0,180]); cv2.normalize(hist,hist)

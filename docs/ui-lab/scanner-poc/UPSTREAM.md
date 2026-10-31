@@ -35,13 +35,33 @@ the upstream independently maintained numerical set table.
 `process_card` entry point. In particular, its main-stat defaulting, inferred
 Lv90 fallback and server storage/reporting code are **not used**. Main/secondary
 values are actually read. Rank, Echo level and refinement stay unknown. The
-existing small legal-tier tolerance is retained for substat display rounding,
-with raw text and a visible normalization marker; it is not applied silently.
+existing small legal-tier tolerance is retained for substat OCR proposals,
+with raw text and a visible review marker; it is not applied silently. Other
+conversions remain unverified. The exact DEF 11.9% → 11.8% importer alias has
+separate evidence/status; its card-display cause remains unverified. See
+[the investigation](DEF_PERCENT_IMPORT.md). No generic rounding cause is assumed.
 
 The whole scanner directory, including the new server/review UI, is distributed
 with GPL-3.0 source. Original game images remain attributable to Kuro Games and
 retain the repository's existing asset provenance/rights boundaries. This proof
 does not bundle private engine code, owner card images or player identifiers.
+
+## Partial icon recognition
+
+The current fallback preserves the existing SIFT/cost/badge recognizer and adds
+geometric verification for a weak match. Research also inspected upstream's
+`scanner/wuwa_scanner/identify.py` at the pinned revision: it uses gradient
+similarity, cost filtering, color disambiguation and Phantom variants for bag
+tiles. Bag-tile geometry differs from the Discord card's partial icon crops, so
+its gradient thresholds were not copied into the card importer.
+
+Instead, `icon_recognition.py` uses the standard
+[OpenCV SIFT + RANSAC homography verification](https://docs.opencv.org/4.13.0/d1/de0/tutorial_py_feature_homography.html)
+on existing canonical templates. It checks independent locations, inlier count,
+ratio, spatial spread and competitor margin, then a canonical legal Sonata
+badge. The original ratio floor is unchanged; blank, ambiguous and unsupported
+matches stay unknown. This recovers Capitaneus on the supplied card. Positive
+results on three development cards are not a general recognition guarantee.
 
 ## OCR model
 

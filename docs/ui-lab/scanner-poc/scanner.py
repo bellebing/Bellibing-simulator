@@ -12,6 +12,7 @@ from rapidfuzz import fuzz, process
 import card
 import data
 import image_integrity as integrity
+from icon_recognition import recognize as recognize_echo
 
 # Original 1920×1080 Discord card layout, from WuWaBuilds server.py.
 REGIONS = {
@@ -35,6 +36,33 @@ def canonical_stat(name, numeric):
     canonical=data.CANONICAL_NAMES.get(name,name)
     return {'name':canonical,'value':numeric if canonical.startswith('Flat ') else round(numeric/100,12)}
 
+def review_substat(row, raw_name, raw_value):
+    """Keep literal OCR evidence separate from canonical import compatibility.
+
+    Only the exact Discord DEF-percent 11.9% alias has verified mapping evidence.
+    This does not establish why the card prints it, or verify other near-tier
+    OCR conversions. All changed observations still require explicit review.
+    """
+    numeric=number(row['value']) if row else None
+    obs=canonical_stat(row['name'],numeric) if row and numeric is not None else {'name':None,'value':None}
+    observed=number(raw_value)
+    observed_value=canonical_stat(row['name'],observed)['value'] if row and observed is not None else None
+    changed=obs['value'] is not None and observed_value is not None and abs(obs['value']-observed_value)>1e-12
+    result={**obs,'rawName':raw_name,'rawValue':raw_value,'observedValue':observed_value,
+            'needsReview':row is None or changed}
+    if changed:
+        result['normalization']={'status':'UNVERIFIED_OCR_CONVERSION','requiresReview':True}
+    legal_def=next(s['values'] for s in data.CATALOG['statEditor']['substats'] if s['name']=='DEF%')
+    if (obs['name']=='DEF%' and raw_name.strip().upper() in {'DEF','DEF Y','DEF%'}
+            and raw_value.strip()=='11.9%' and any(abs(v-.118)<1e-12 for v in legal_def)):
+        result.update(value=.118,needsReview=True,normalization={
+            'ruleId':'discord-def-percent-11.9-to-11.8-v1',
+            'status':'VERIFIED_IMPORT_COMPATIBILITY','requiresReview':True,
+            'cause':'CARD_DISPLAY_CAUSE_UNVERIFIED',
+            'evidence':'DEF_PERCENT_IMPORT.md',
+        })
+    return result
+
 def read_main(panel, cost):
     lines=card._main_strip_lines(card._crop_region(panel,card.ECHO_REGIONS['main']))
     raw=' '.join(lines[:2]); match=re.search(r'(\d+(?:\.\d+)?)\s*%',raw)
@@ -56,21 +84,16 @@ def read_secondary(panel):
     return {'stat':{'name':'Flat '+m.group(1),'value':float(m.group(2))} if m else {'name':None,'value':None},'raw':text}
 
 def read_echo(panel):
-    eid, score, sid=card.match_icon(panel)
-    suggestion={'echoId':eid,'sonataId':sid} if score < .08 else None
-    if score < .08: eid=None; sid=None
+    eid, score, sid, identity_evidence=recognize_echo(panel)
     cost=data.ECHO_COSTS.get(eid) or card.get_echo_cost(panel) or None
     main=read_main(panel,cost); secondary=read_secondary(panel)
     rows,names,values=card.read_substat_rows(card._crop_region(panel,card.ECHO_REGIONS['subs_names']),card._crop_region(panel,card.ECHO_REGIONS['subs_values']))
     subs=[]
     for row,raw_name,raw_value in zip(rows,names,values):
-        n=number(row['value']) if row else None
-        obs=canonical_stat(row['name'],n) if row and n is not None else {'name':None,'value':None}
-        subs.append({**obs,'rawName':raw_name,'rawValue':raw_value,
-                     'needsReview':row is None or n!=number(raw_value)})
+        subs.append(review_substat(row,raw_name,raw_value))
     return {'echoId':eid,'sonataId':sid,'cost':cost,'rank':None,'level':None,
             'mainStat':main['stat'],'secondaryMainStat':secondary['stat'],'substats':subs,
-            'evidence':{'matchScore':round(float(score),4),'suggestion':suggestion,'main':main['raw'],'secondary':secondary['raw'],
+            'evidence':{**identity_evidence,'main':main['raw'],'secondary':secondary['raw'],
                         'note':'Rank and level are not printed; left unknown. Stats checked against Rank-5 +25 compatibility.'}}
 
 def scan(image_bytes):

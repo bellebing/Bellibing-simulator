@@ -7,15 +7,17 @@
  <nav class="right-nav" aria-label="Account tools"><button id="globalImportToggle" aria-expanded="false" aria-controls="importPanel">Import Character<span id="importBadge" hidden></span></button><a href="#inventory" data-nav="inventory">Inventory</a><a href="#account" data-nav="account">Account</a></nav>
 </header>
 <section id="importPanel" class="import-panel" aria-label="Import Character" hidden><div class="panel-inner">
- <button id="closeImport" class="quiet" aria-label="Close Character import">✕</button>
  <label id="dropzone" class="dropzone" tabindex="0"><span>Drag build card here</span><input id="upload" class="file-input" type="file" accept="image/jpeg,image/png" tabindex="-1" aria-label="Upload build card"></label>
  <p id="status" role="status" aria-live="polite"></p>
- <section id="review" hidden><details id="original"><summary>View original card</summary><img id="source" alt="Uploaded Discord build card"></details>
-  <div class="section-heading"><h2>Review your build</h2><button id="reset" type="button">Reset corrections</button></div><div id="identity" class="identity"></div><div id="skills" class="skills"></div>
-  <div class="section-heading"><h2>Five equipped Echoes</h2><span id="cost"></span></div><p class="hint">Rank, Echo upgrade level and Weapon refinement are not printed on these cards. They remain unknown; stats are checked for Rank-5 +25 compatibility.</p><div id="echoes" class="echoes"></div>
-  <section class="review-footer"><div><h2>Check before staging</h2><ul id="issues"></ul><label class="ack"><input id="checked" type="checkbox"> I checked the detected values against the card, including any suggested corrections.</label></div><button id="accept" disabled>Confirm reviewed draft</button><button id="save" disabled title="Persistent Inventory is not connected">Save to Inventory · not connected</button><p id="accepted" role="status"></p><div id="continueActions" hidden><button id="continueWorkflow">Continue on this page</button><button id="openImportedImprove" class="primary">Preview in Improve →</button></div></section>
- </section>
+ <div id="importActions" class="import-actions" hidden><button id="reviewImport" class="primary">Review</button><button id="addImportAccount" disabled title="Account saving is not connected yet. Choose Review to check this build.">Add to account</button></div>
 </div></section>
+<div id="reviewParking" hidden>
+ <section id="review" hidden><details id="original"><summary>View original card</summary><img id="source" alt="Uploaded Discord build card"></details>
+  <div class="section-heading"><h2 id="buildReviewName">Imported Character</h2><span class="staged-badge">IMPORTED DRAFT · NOT SAVED</span><button id="reset" type="button">Reset corrections</button></div><div class="build-preview"><aside id="buildReviewArt" class="character-hero"></aside><div class="build-overview"><div id="identity" class="identity"></div><div id="skills" class="skills"></div></div></div>
+  <div class="section-heading"><h2>Five equipped Echoes</h2><span id="cost"></span></div><p class="hint">Rank, Echo upgrade level and Weapon refinement are not printed on these cards. They remain unknown; stats are checked for Rank-5 +25 compatibility.</p><div id="echoes" class="echoes"></div>
+  <section class="review-footer"><div><h2>Confirm this draft</h2><ul id="issues"></ul><label class="ack"><input id="checked" type="checkbox"> I checked the detected values against the card, including any suggested corrections.</label></div><button id="accept" disabled>Confirm reviewed draft</button><button id="save" disabled title="Persistent Inventory is not connected">Add to account</button><p id="accepted" role="status"></p><div id="continueActions" hidden><button id="openImportedImprove" class="primary">Preview in Improve →</button></div></section>
+ </section>
+</div>
 <main id="workspace" class="workspace-root" tabindex="-1"></main>
 <footer class="local-status"><span>LOCAL PROTOTYPE · Issue #352</span><span id="stageCount">No staged imports</span></footer>
 <dialog id="confirmation"><form method="dialog"><h2>Stage this reviewed build?</h2><p>This keeps a reviewed copy in this tab. It does not save to Inventory, equip items or overwrite Improve Current.</p><div class="actions"><button value="cancel">Keep editing</button><button value="confirm" class="primary">Confirm draft</button></div></form></dialog>

@@ -59,6 +59,8 @@ def run(fixtures, artifacts, url, chromium):
         trigger.click(); trigger.click(); expect(panel).to_be_hidden()
         report['groups'].append('Trigger toggle, Escape/focus and outside-click dismissal; anchored at both desktop widths')
         page.set_viewport_size({'width': 1440, 'height': 900})
+        page.evaluate("location.hash='improve'")
+        expect(page.locator('body')).to_have_attribute('data-route', 'improve')
         trigger.click()
         with page.expect_file_chooser() as chooser:
             page.locator('#dropzone').click()
@@ -71,22 +73,38 @@ def run(fixtures, artifacts, url, chromium):
         expect(page.locator('#dropzone')).to_have_class('dropzone is-dragging')
         page.screenshot(path=str(artifacts / 'import-popover-drag-1440.png'), animations='disabled')
         page.dispatch_event('#dropzone', 'drop', {'dataTransfer': transfer})
-        expect(page.locator('[data-path="character.id"]')).to_have_value('chisa', timeout=30000)
-        expect(page.locator('#status')).to_contain_text('Scan complete', timeout=30000)
+        expect(page.locator('#reviewImport')).to_be_enabled(timeout=30000)
+        expect(page.locator('#status')).to_have_text('Chisa')
+        assert page.url.endswith('#improve')
+        assert page.locator('#workspace').bounding_box() == before
+        assert panel.bounding_box()['width'] == 300
+        assert panel.locator('#review').count() == 0
+        assert page.locator('#addImportAccount').is_disabled()
+        page.screenshot(path=str(artifacts / 'import-ready-review-1440.png'), animations='disabled')
+        page.locator('#reviewImport').click()
+        expect(page).to_have_url(url+'/#build')
+        expect(panel).to_be_hidden()
+        expect(page.locator('[data-page=build] #review')).to_be_visible()
+        expect(page.locator('[data-path="character.id"]')).to_have_value('chisa')
         expect(page.locator('#issues li')).to_have_count(0)
         for i in range(5):
             assert page.locator(f'[data-path="echoes.{i}.echoId"] option:checked').inner_text() == gold['echoNames'][i]
             assert page.locator(f'[data-path="echoes.{i}.sonataId"]').input_value() == f"sonata-{gold['sonatas'][i]}"
-        assert page.locator('#workspace').bounding_box() == before
-        assert panel.evaluate('n=>n.scrollHeight>n.clientHeight')
+        assert page.locator('#identity').count() == 1
         page.screenshot(path=str(artifacts / 'import-popover-review-1440.png'), animations='disabled')
-        report['groups'].append('Click opens file chooser; real Chisa drop recognizes five identities/Sonatas in scrollable overlay without reflow')
+        report['groups'].append('Compact scan result stays on Improve; Review opens the single editable Build page; five Chisa identities/Sonatas match')
+        page.locator('[data-path="character.id"]').select_option('lupa')
+        expect(page.locator('#buildReviewName')).to_have_text('Lupa')
+        expect(page.locator('#buildReviewArt img')).to_have_attribute('alt','Lupa')
+        page.locator('[data-path="character.id"]').select_option('chisa')
         page.locator('#checked').check()
         skill = page.locator('[data-path="skills.basic"]')
         skill.fill('9'); skill.press('Tab')
         assert not page.locator('#checked').is_checked()
         assert page.locator('#accept').is_disabled()
-        page.keyboard.press('Escape'); trigger.click()
+        page.locator('[data-nav=improve]').click()
+        expect(page.locator('#review')).to_be_hidden()
+        page.locator('[data-nav=build]').click()
         expect(skill).to_have_value('9')
         expect(page.locator('#stageCount')).to_have_text('No staged imports')
         page.locator('#checked').check(); page.locator('#accept').click()
@@ -96,12 +114,18 @@ def run(fixtures, artifacts, url, chromium):
         page.get_by_role('button', name='Confirm draft', exact=True).click()
         expect(page.locator('#stageCount')).to_have_text('1 staged Character · not saved')
         assert page.locator('#save').is_disabled()
-        page.locator('#continueWorkflow').click()
-        expect(panel).to_be_hidden()
-        expect(page.locator('[data-page=build] .character-hero h2')).to_have_text('Chisa')
+        expect(page.locator('#buildReviewName')).to_have_text('Chisa')
+        page.locator('#openImportedImprove').click()
+        expect(page).to_have_url(url+'/#improve')
+        expect(page.locator('.ownership-columns')).to_contain_text('No saved owned build')
+        expect(page.locator('.ownership-columns')).to_contain_text('No Candidate selected')
+        page.get_by_role('button',name='Edit in Build →',exact=True).click()
+        expect(page).to_have_url(url+'/#build')
+        expect(skill).to_have_value('9')
+        assert page.locator('#identity').count()==1
         assert page.evaluate('JSON.stringify([{...localStorage},{...sessionStorage}])') == storage
         assert not report['pageErrors'], report['pageErrors']
-        report['groups'].append('Correction retained on reopen; confirmation invalidated; cancel/explicit staging work; Inventory and storage unchanged')
+        report['groups'].append('Correction retained across Build navigation; confirmation invalidated; cancel/explicit staging work; Inventory and storage unchanged')
         browser.close()
     (artifacts / 'import-popover-report.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))

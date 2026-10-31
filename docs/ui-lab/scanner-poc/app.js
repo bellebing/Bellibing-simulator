@@ -2,8 +2,8 @@ import {createShell} from './shell.js';
 const $=id=>document.getElementById(id);
 const catalog=await fetch('/api/catalog').then(r=>r.json());
 let draft=null,original=null,imageURL=null,bitmap=null,issues=[],revision=0,validating=false,timer=null,reviewedDraft=null;
-let sourceFile=null,scanning=false,confirmationRevision=null;
-const shell=createShell(catalog,{onReview:openStage,onImport:()=>openImport(),onImage:scanFile,onDismissImport:options=>{if(!$('importPanel').hidden&&!$('confirmation').open)closeImport(options);}});
+let sourceFile=null,scanning=false,confirmationRevision=null,pendingImport=null;
+const shell=createShell(catalog,{onReview:openStage,onImport:()=>openImport(),onImage:scanFile,onBuildReview:mountBuildReview,onBeforeRender:parkReview,onDismissImport:options=>{if(!$('importPanel').hidden&&!$('confirmation').open)closeImport(options);}});
 const node=(tag,text,attrs={})=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
 const flat=name=>name?.startsWith('Flat ');
 const display=(name,value)=>value==null?'':flat(name)?String(value):String(Number((value*100).toFixed(8)));
@@ -35,10 +35,18 @@ function stat(parent,title,base,options){
  }
  parent.append(row);
 }
+function parkReview(){ $('reviewParking').append($('review')); }
+function mountBuildReview(view){if(!draft)return false;view.append($('review'));$('review').hidden=false;return true;}
+function refreshCharacter(){
+ const c=catalog.characters.find(c=>c.id===draft.character.id);$('buildReviewName').textContent=c?.name??'Imported Character';
+ const art=catalog.characterArt.find(a=>a.characterId===draft.character.id)?.targetPath;
+ $('buildReviewArt').replaceChildren();if(art)$('buildReviewArt').append(node('img',null,{src:'/'+art,alt:c?.name??'Character'}));
+}
 function render(){
- $('review').hidden=false;$('importPanel').classList.add('has-review');positionImport();$('checked').checked=false;$('accept').disabled=true;
+ refreshCharacter();
+ $('checked').checked=false;$('accept').disabled=true;
  $('identity').replaceChildren();$('skills').replaceChildren();$('echoes').replaceChildren();
- field($('identity'),'Character','character.id',catalog.characters);field($('identity'),'Character level','character.level');
+ field($('identity'),'Character','character.id',catalog.characters).addEventListener('change',refreshCharacter);field($('identity'),'Character level','character.level');
  field($('identity'),'Sequence','sequence',Array.from({length:7},(_,i)=>({id:String(i),name:'S'+i}))).addEventListener('change',e=>{draft.sequence=e.target.value===''?null:Number(e.target.value);changed();});
  field($('identity'),'Weapon','weapon.id',catalog.weapons);field($('identity'),'Weapon level','weapon.level');
  const skillNames={basic:'Basic Attack',skill:'Resonance Skill',circuit:'Forte Circuit',intro:'Intro Skill',liberation:'Resonance Liberation'};
@@ -75,7 +83,7 @@ async function validate(){
 function positionImport(){
  const panel=$('importPanel');if(panel.hidden)return;
  const anchor=$('globalImportToggle').getBoundingClientRect();
- const width=Math.min(panel.classList.contains('has-review')?1120:300,innerWidth-32);
+ const width=Math.min(300,innerWidth-32);
  const left=Math.max(16,Math.min(anchor.right-width,innerWidth-width-16));
  const top=Math.max(anchor.bottom+12,document.querySelector('.site-header').getBoundingClientRect().bottom+8);
  panel.style.width=width+'px';panel.style.left=left+'px';panel.style.top=top+'px';
@@ -103,22 +111,26 @@ async function scanFile(file){
  if(scanning||$('confirmation').open){$('status').textContent='Finish the current scan or confirmation first.';return;}
  if(file.size>5*1024*1024){$('status').textContent='Choose a card up to 5 MiB. Your existing review is unchanged.';return;}
  if(file.type&&!['image/png','image/jpeg'].includes(file.type)){$('status').textContent='Use an original JPEG or PNG card. Your existing review is unchanged.';return;}
- const ticket=++revision;scanning=true;clearTimeout(timer);$('upload').disabled=true;$('review').inert=true;$('importPanel').classList.add('is-reading');$('importBadge').hidden=false;
+ const ticket=++revision;scanning=true;clearTimeout(timer);$('upload').disabled=true;$('review').inert=true;$('reviewImport').disabled=true;$('importPanel').classList.add('is-reading');$('importBadge').hidden=false;
  $('status').textContent='Reading Character, Weapon, Skills and five Echoes…';
  try{
   const response=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});const result=await response.json();if(!response.ok)throw Error(result.error);if(ticket!==revision)return;
-  await applyImage(file);draft=result.draft;original=structuredClone(draft);reviewedDraft=null;issues=result.issues;$('accepted').textContent='';$('continueActions').hidden=true;
-  render();await validate();$('status').textContent=`Scan complete in ${(result.elapsedMs/1000).toFixed(1)} s. Review every value before confirming.`;
+  pendingImport={draft:result.draft,file};$('importActions').hidden=false;
+  $('status').textContent=catalog.characters.find(c=>c.id===result.draft.character.id)?.name??'Character detected · check values in Build';
  }catch(e){$('status').textContent=(e.message||'Could not read this card.')+(draft?' Your previous review is unchanged.':'');}
- finally{scanning=false;$('upload').disabled=false;$('review').inert=false;$('importPanel').classList.remove('is-reading');}
+ finally{scanning=false;$('upload').disabled=false;$('reviewImport').disabled=!pendingImport;$('review').inert=false;$('importPanel').classList.remove('is-reading');}
 }
 async function openStage(stage){
- openImport();if(scanning||$('confirmation').open)return;
+ if(scanning||$('confirmation').open)return;
  revision++;clearTimeout(timer);await applyImage(stage.file);draft=structuredClone(stage.draft);original=structuredClone(stage.originalDraft);reviewedDraft=null;$('accepted').textContent='';$('continueActions').hidden=true;
- render();await validate();$('status').textContent='Reviewing a staged Character. Inventory and Current are unchanged.';
+ render();await validate();closeImport({restoreFocus:false});shell.openBuild();$('workspace').focus({preventScroll:true});
 }
+$('reviewImport').onclick=async()=>{
+ if(!pendingImport||scanning)return;const next=pendingImport;
+ await openStage({draft:next.draft,file:next.file,originalDraft:next.draft});
+ if(pendingImport===next){pendingImport=null;$('importActions').hidden=true;$('status').textContent='';}
+};
 $('globalImportToggle').onclick=()=>{$('importPanel').hidden?openImport():closeImport();};
-$('closeImport').onclick=closeImport;
 $('checked').onchange=()=>{$('accept').disabled=scanning||validating||issues.length>0||!$('checked').checked;};
 $('upload').onchange=event=>{scanFile(event.target.files[0]);event.target.value='';};
 $('dropzone').onkeydown=e=>{if((e.key==='Enter'||e.key===' ')&&e.target===$('dropzone')){e.preventDefault();$('upload').click();}};
@@ -130,5 +142,4 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('confirmation').
 $('reset').onclick=()=>{draft=structuredClone(original);changed();render();validate();};
 $('accept').onclick=async()=>{if(await validate()&&$('checked').checked){confirmationRevision=revision;$('confirmation').querySelector('h2').textContent=shell.hasStage(draft.character.id)?'Replace this Character’s staged review?':'Stage this reviewed build?';$('confirmation').returnValue='';$('confirmation').showModal();}};
 $('confirmation').addEventListener('close',()=>{if($('confirmation').returnValue==='confirm'&&draft&&!issues.length&&$('checked').checked&&confirmationRevision===revision){reviewedDraft=structuredClone(draft);shell.stage(reviewedDraft,sourceFile,original);$('accepted').textContent=`${catalog.characters.find(c=>c.id===draft.character.id).name} staged for this session. Not saved to Inventory; Current is unchanged.`;$('continueActions').hidden=false;$('importBadge').hidden=true;}});
-$('continueWorkflow').onclick=()=>{closeImport();$('workspace').focus({preventScroll:true});};
 $('openImportedImprove').onclick=()=>{if(!reviewedDraft)return;closeImport();shell.openImprove(reviewedDraft.character.id);$('workspace').scrollIntoView({block:'start'});$('workspace').focus({preventScroll:true});};

@@ -1,7 +1,7 @@
 # Global Character import workspace — Issue #352
 
-Global inline import → real OCR/image matching → inline corrections → explicit
-review → session staging → Build/Improve preview. One supported format:
+Compact global import → real OCR/image matching → Review in Build a Character
+→ inline corrections → explicit session staging → detached Improve preview. One supported format:
 **original English 1920×1080 wuwa-bot
 Character cards, JPEG/PNG, with Skills and five fully rolled Echo panels**.
 No production Build/Improve modifications, inventory writes, persistence,
@@ -31,20 +31,25 @@ Import Character opens a compact, button-anchored popover over the current
 workspace. It does not navigate, scroll the page or move the tool underneath.
 The empty target shows only “Drag build card here”; click it to upload, drop one
 image, or paste a screenshot with Ctrl / ⌘ + V. Escape, the trigger or an outside
-click closes it. After recognition the same overlay expands into a scrollable
-editable review; closing/reopening retains the draft. File paste/drop from the
-embedded Sandbox also opens this shared review without injecting imported state
-into Sandbox. A failed upload preserves the previous review.
+click closes it. After recognition it stays compact and offers Review / Add to
+account. Review opens the one editable workspace in Build a Character; there is no second import
+editor. Add to account is disabled until persistent Inventory is connected.
+Closing/reopening the popover retains the pending scan, and route changes retain
+the active Build editor. File paste/drop from the embedded Sandbox also feeds the compact importer; Review still opens Build,
+without injecting imported state into Sandbox. A failed upload preserves the
+previous review.
 
-Compare the original Echo panels with their editable fields, correct any
-mistakes, check the review box and explicitly confirm. Cancel keeps editing.
+In Build a Character, compare the original Echo panels with their editable
+fields, correct any mistakes, check the review box and explicitly confirm. Cancel keeps editing.
 Edits invalidate confirmation; reset restores the original scan without dropping
-later rows. Confirmed Characters stay **staged / not saved** in this tab. Continue
-on the current page or directly preview that staged Character in Improve.
-The **Save to Inventory** button remains disconnected. Reload clears staging.
+later rows. Confirmed Characters stay **staged / not saved** in this tab. After
+confirmation, directly preview that staged Character in Improve.
+Both **Add to account** entry points remain disabled until Inventory is
+connected. Reload clears staging.
 No success message claims that an owned Character or Echo has been saved.
 
-Build and Improve show the real reviewed equipment as detached previews.
+Build is the single editable imported draft. Improve shows the confirmed equipment
+as a detached, read-only preview.
 Improve Current and Candidate remain separate and empty; no evaluator is added.
 Team has a memory-only draft using staged Characters, without saved ownership or
 team evaluation. Inventory lists staging, clearly labeled as not owned/saved.
@@ -54,7 +59,7 @@ Echo Sandbox reuses the existing standalone V1.1 Sandbox without altering its
 source files or state owners. Its private execution host is not connected by
 this scanner server; execution stays Pending under the existing boundary.
 Opening/closing import or navigating away does not recreate its frame/selection.
-The anchored popover/editor uses ordinary DOM components, not an iframe or modal.
+The compact popover and Build editor use ordinary DOM components, not an iframe or modal.
 The only modal is the explicit confirmation before session staging.
 
 The server binds only to loopback, accepts same-origin raw image uploads, limits
@@ -178,7 +183,8 @@ and file-picker interaction still need user acceptance on the target platform.
 `review_import_popover.py` is the focused overlay check: compact button anchoring
 on all seven routes, unchanged page geometry/scroll, both desktop widths,
 Escape/outside-click (including Sandbox), file-picker activation, one actual
-Chisa scan, retained corrections and explicit staging. Its screenshots stay local.
+Chisa scan, compact scan-result actions, Review-to-Build navigation, retained
+Build corrections and explicit staging. Its screenshots stay local.
 Use this for popover changes rather than repeating the full card/browser matrix:
 
 ```sh

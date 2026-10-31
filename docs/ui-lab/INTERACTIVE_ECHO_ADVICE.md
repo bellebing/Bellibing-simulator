@@ -106,3 +106,19 @@ public clients cannot supply its internal state. Closing the local host retires 
 process. Missing service still allows manual recording with Pending analysis.
 Private code, diagnostics and artifacts must never enter public bundles or Actions.
 No hosted activation or deployment follows from implementation or local review.
+
+## Compact checkpoint comparison candidate
+
+Continue and Start new Echo display supplied expected future net Tuners. A
+versioned private comparison distinguishes similar costs, uncertain ordering and
+a clear advantage. Similar/uncertain choices have no highlighted winner and show
+at most one supported benefit each; full odds, resources and bounds are under
+Details. The client contains no equivalence threshold or local decision math.
+Continue focuses the next observed-roll input; Start new Echo uses the existing
+recovery flow. Blocked alternatives remain disabled.
+
+“5/5” means five context-qualified preferred stat types, not five maximum rolls
+or a guaranteed DPS upgrade. Its probability/benefit appears only when supplied
+with a qualified private result. Current DPR reference values and conditional
+priority lists do not alone qualify that claim; absent coverage remains absent.
+DPS and ER acceptance continue through the existing actual-build/team evaluator.

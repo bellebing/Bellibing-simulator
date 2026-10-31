@@ -2,7 +2,7 @@ import {escapeHtml} from './util.js';
 import {captureObservedImproveCurrent} from '../../../../src/observedImproveCapture.mjs';
 import {SUBSTAT_TYPES,SUBSTAT_VALUE_TABLE} from '../../../assets/echoCoreRules.js';
 import {createServerTransport} from './server-transport.js';
-import {IMPROVE_OBJECTIVE_OPTIONS,renderImproveOpportunities,renderCheckpointOptions,number} from './improve-decision-view.js';
+import {IMPROVE_OBJECTIVE_OPTIONS,renderImproveOpportunities,renderCheckpointOptions,checkpointVerdict,number} from './improve-decision-view.js';
 const headers={'Content-Type':'application/json','X-Bellibing-Review':'1'},path='/local-review/echo-advisor';
 export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  let connected=false,available=false,service=null,session=null,message='',lastCard=null,analysis=null,analysisKey=null,analysisGeneration=0,analysisController=null,analysisTimer=null,metric='TEAM_DPS',objective='MIN_EXPECTED_NET_TUNERS';
@@ -59,9 +59,8 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   opportunities.innerHTML=`<div class="improve-controls"><h2>Which Echo to improve next?</h2><label>Damage metric<select data-objective><option value="TEAM_DPS" ${metric==='TEAM_DPS'?'selected':''}>Team DPS</option><option value="SELECTED_CHARACTER_DPS" ${metric==='SELECTED_CHARACTER_DPS'?'selected':''}>Character DPS</option></select></label><label>Recommendation objective<select data-optimization-objective>${IMPROVE_OBJECTIVE_OPTIONS.map(([id,label])=>`<option value="${id}" ${id===objective?'selected':''}>${label}</option>`).join('')}</select></label></div>
    <details class="actual-investments" ${ids.some(id=>!investments[id]?.characterLevel||!investments[id]?.weaponLevel||!investments[id]?.weaponRefinement)?'open':''}><summary>Actual team levels and weapon ranks</summary>${invest}</details>
    <div data-improve-result>${resultView()}</div>`;
-  host.innerHTML=`   <div class="advice-verdict" role="status" data-advice-checkpoint="${a?.checkpoint??''}"><strong>${escapeHtml(message||s?.pending||(winner==='KEEP_TEMPORARY'?'Keep for comparison · model upgrade':a?.decision??a?.reason??'Record the result from your game'))}</strong>${a?.uncertain?'<small>Uncertain comparison · continue while more improvement remains possible</small>':''}</div>
-   ${a?.objective?`<p class="checkpoint-objective">Checkpoint goal: ${a.objective.kind==='MAX_STOCK_UPGRADE_PROBABILITY_THEN_MIN_FUTURE_NET_TUNERS'?'Highest chance within stock, then lowest future net Tuners':'Lowest future net Tuners to a strict upgrade'}</p>`:''}
-   <div class="advice-options">${renderCheckpointOptions(a)}</div>
+  host.innerHTML=`   <div class="advice-verdict" role="status" data-advice-checkpoint="${a?.checkpoint??''}" data-comparison-state="${escapeHtml(a?.comparison?.status??(a?.uncertain?'UNCERTAIN':'LEGACY'))}"><strong>${escapeHtml(message||s?.pending||checkpointVerdict(a))}</strong></div>
+   <div class="advice-options is-compact">${renderCheckpointOptions(a)}</div>
    ${!done?`<form data-observation><label>Observed +${(s?.candidate.level??0)+5} substat<select name="stat" required><option value="">Select observed substat</option>${names.map(n=>`<option>${escapeHtml(n)}</option>`).join('')}</select></label><label>Exact roll value<select name="value" required></select></label><button type="submit" ${c.pending||s?.aborted||s?.recoveryPending?'disabled':''}>Record observed roll</button></form>`:''}
    ${s?.candidate.substats.length?`<ol>${s.candidate.substats.map((r,i)=>`<li>+${(i+1)*5}: ${escapeHtml(r.name)} ${number(r.value*(r.value<1?100:1),3)}${r.value<1?'%':''}</li>`).join('')}</ol><button type="button" data-restart ${s.recoveryPending||s.aborted?'disabled':''}>${winner==='KEEP_TEMPORARY'?'Retain comparison and start another':'Restart candidate'}</button>`:''}
    <div class="advice-spent">${s?`${s.workspaceSpent.tuners} Tuners spent · ${s.workspaceSpent.returnedTuners} returned · ${s.workspaceSpent.echoes} Echoes used`:'Saved equipment and inventory are preserved'}</div>`;
@@ -69,7 +68,12 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   opportunities.querySelector('[data-objective]').onchange=e=>{metric=e.target.value;analysisKey=null;session.sync();refreshAnalysis();};
   opportunities.querySelector('[data-optimization-objective]').onchange=e=>{objective=e.target.value;analysisKey=null;session.sync();refreshAnalysis();};
   const form=host.querySelector('[data-observation]');if(form){const stat=form.elements.stat,value=form.elements.value;const values=()=>{value.innerHTML='<option value="">Select exact value</option>'+(SUBSTAT_VALUE_TABLE[stat.value]??[]).map(v=>`<option value="${v}">${number(v*(v<1?100:1),3)}${v<1?'%':''}</option>`).join('');};values();stat.onchange=values;form.onsubmit=e=>{e.preventDefault();act(false,{name:stat.value,value:Number(value.value)});};}
-  const restart=host.querySelector('[data-restart]');if(restart)restart.onclick=()=>act(true);performance.measure('bellibing-improve:dom',{start:drawStart,end:performance.now()});
+  const restart=host.querySelector('[data-restart]');if(restart)restart.onclick=()=>act(true);
+  host.querySelectorAll('[data-checkpoint-action]').forEach(button=>button.onclick=()=>{
+   if(button.disabled)return;
+   if(button.dataset.checkpointAction==='CONTINUE'){form?.scrollIntoView({block:'nearest'});form?.querySelector('select[name="stat"]')?.focus({preventScroll:true});}
+   else restart?.click();
+  });performance.measure('bellibing-improve:dom',{start:drawStart,end:performance.now()});
  }
  opportunities.addEventListener('click',event=>{
   const button=event.target.closest?.('[data-improve-slot]');if(!button)return;

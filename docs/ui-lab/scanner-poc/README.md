@@ -27,12 +27,14 @@ Bellibing/home on the left; genuinely screen-centered Build / Improve / Team |
 Echo Sandbox; Import Character / Inventory / Account on the right. At narrower
 widths the centered tools row moves beneath the logo/account controls.
 
-Import Character expands one shared inline panel beneath the header, without
-navigating. Upload, drop one image, or paste an image. The paste button uses the
-Clipboard API when available and offers the keyboard/upload fallback otherwise.
-File paste/drop from the embedded Sandbox also opens this same review; imported
-state is never injected into Sandbox. The panel can be closed and reopened, and
-navigation preserves its draft. A failed upload preserves the previous review.
+Import Character opens a compact, button-anchored popover over the current
+workspace. It does not navigate, scroll the page or move the tool underneath.
+The empty target shows only “Drag build card here”; click it to upload, drop one
+image, or paste a screenshot with Ctrl / ⌘ + V. Escape, the trigger or an outside
+click closes it. After recognition the same overlay expands into a scrollable
+editable review; closing/reopening retains the draft. File paste/drop from the
+embedded Sandbox also opens this shared review without injecting imported state
+into Sandbox. A failed upload preserves the previous review.
 
 Compare the original Echo panels with their editable fields, correct any
 mistakes, check the review box and explicitly confirm. Cancel keeps editing.
@@ -52,7 +54,7 @@ Echo Sandbox reuses the existing standalone V1.1 Sandbox without altering its
 source files or state owners. Its private execution host is not connected by
 this scanner server; execution stays Pending under the existing boundary.
 Opening/closing import or navigating away does not recreate its frame/selection.
-The panel/editor itself uses ordinary DOM components, not an iframe or modal.
+The anchored popover/editor uses ordinary DOM components, not an iframe or modal.
 The only modal is the explicit confirmation before session staging.
 
 The server binds only to loopback, accepts same-origin raw image uploads, limits
@@ -167,14 +169,24 @@ runs OCR again; it does not load recorded recognition results.
 
 `review_browser.py` uses Python Playwright and installed Chromium against the
 running server. It verifies all three cards through upload/drop/paste, automatic
-identity/Sonata assignment, global inline import on every main route, retained
+identity/Sonata assignment, global import on every main route, retained
 Team/Sandbox context, direct staged Improve navigation, review invalidation,
 bad tiers/duplicates, reset, confirm/cancel, unchanged production/session storage,
 malformed uploads, private-path/request gates and centered 1440/1920/390 layouts.
-Clipboard-event ingress and the Clipboard API button with a full-size PNG are
-exercised in Chromium (permissions granted in the test context). The native OS
-permission prompt remains browser/platform-dependent and is not automated.
-Install Playwright separately if running this optional review harness:
+Keyboard clipboard-file ingress is exercised in Chromium. Native OS file dragging
+and file-picker interaction still need user acceptance on the target platform.
+`review_import_popover.py` is the focused overlay check: compact button anchoring
+on all seven routes, unchanged page geometry/scroll, both desktop widths,
+Escape/outside-click (including Sandbox), file-picker activation, one actual
+Chisa scan, retained corrections and explicit staging. Its screenshots stay local.
+Use this for popover changes rather than repeating the full card/browser matrix:
+
+```sh
+python docs/ui-lab/scanner-poc/review_import_popover.py \
+  --fixtures /path/to/private-fixtures --artifacts /tmp/import-popover-review
+```
+
+Install Playwright separately if running either optional review harness:
 
 ```sh
 python -m pip install playwright

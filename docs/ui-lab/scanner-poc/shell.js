@@ -1,5 +1,5 @@
 // Isolated local workspace. Staged observations never become owned account state.
-export function createShell(catalog,{onReview,onImport,onImage}){
+export function createShell(catalog,{onReview,onImport,onImage,onDismissImport=()=>{}}){
  const host=document.getElementById('workspace'),stages=new Map(),views=new Map();
  const routes={home:'Home',build:'Build a Character',improve:'Improve a Character',teams:'Build a Team',sandbox:'Echo Sandbox',inventory:'Inventory',account:'Account'};
  let selected=null,team=['','',''];
@@ -95,6 +95,8 @@ export function createShell(catalog,{onReview,onImport,onImage}){
    const css=doc.createElement('link');css.rel='stylesheet';css.href='/sandbox-frame.css';doc.head.append(css);
    // File ingress is shared with the outer shell. No imported state is sent
    // into the Sandbox, and its existing selection/run state stays mounted.
+   doc.addEventListener('pointerdown',()=>onDismissImport({restoreFocus:false}));
+   doc.addEventListener('keydown',e=>{if(e.key==='Escape')onDismissImport();});
    doc.addEventListener('paste',e=>{const f=[...e.clipboardData.items].find(i=>i.kind==='file')?.getAsFile();if(f){e.preventDefault();onImage(f);}});
    doc.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('Files'))e.preventDefault();});
    doc.addEventListener('drop',e=>{if(e.dataTransfer.files.length===1){e.preventDefault();onImage(e.dataTransfer.files[0]);}});

@@ -7,9 +7,9 @@
  <nav class="right-nav" aria-label="Account tools"><button id="globalImportToggle" aria-expanded="false" aria-controls="importPanel">Import Character<span id="importBadge" hidden></span></button><a href="#inventory" data-nav="inventory">Inventory</a><a href="#account" data-nav="account">Account</a></nav>
 </header>
 <section id="importPanel" class="import-panel" aria-label="Import Character" hidden><div class="panel-inner">
- <div class="panel-heading"><div><p class="eyebrow">CHARACTER IMPORT</p><h1>From card to build.</h1></div><button id="closeImport" class="quiet" aria-label="Close Character import">✕</button></div>
- <div id="dropzone" class="dropzone" tabindex="0" aria-label="Drop a Discord card here, upload an image or paste a screenshot"><div><strong>Drop your Discord build card here</strong><p>Original English 1920 × 1080 · JPEG or PNG · up to 5 MiB</p></div><div class="import-actions"><label class="upload">Upload image<input id="upload" type="file" accept="image/jpeg,image/png"></label><button id="pasteImage">Paste image</button></div><small>Or paste with Ctrl / ⌘ + V. Recognition runs on this local preview server.</small></div>
- <p id="status" role="status" aria-live="polite">Your current page stays open. Imports remain staged until Inventory is connected.</p>
+ <button id="closeImport" class="quiet" aria-label="Close Character import">✕</button>
+ <label id="dropzone" class="dropzone" tabindex="0"><span>Drag build card here</span><input id="upload" class="file-input" type="file" accept="image/jpeg,image/png" tabindex="-1" aria-label="Upload build card"></label>
+ <p id="status" role="status" aria-live="polite"></p>
  <section id="review" hidden><details id="original"><summary>View original card</summary><img id="source" alt="Uploaded Discord build card"></details>
   <div class="section-heading"><h2>Review your build</h2><button id="reset" type="button">Reset corrections</button></div><div id="identity" class="identity"></div><div id="skills" class="skills"></div>
   <div class="section-heading"><h2>Five equipped Echoes</h2><span id="cost"></span></div><p class="hint">Rank, Echo upgrade level and Weapon refinement are not printed on these cards. They remain unknown; stats are checked for Rank-5 +25 compatibility.</p><div id="echoes" class="echoes"></div>

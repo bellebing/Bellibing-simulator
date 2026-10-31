@@ -58,7 +58,7 @@ def run(fixtures,artifacts,url,chromium):
         expect(page.locator('.ownership-columns')).to_contain_text('No saved owned build')
         expect(page.locator('.ownership-columns')).to_contain_text('No Candidate selected')
         group('Ciaccona paste from Sandbox: five identities/Sonatas, DEF evidence, direct staged Improve preview')
-        # All main routes expose the same inline panel; navigation never destroys it.
+        # All main routes expose the same anchored popover; navigation never destroys it.
         for route in ['home','build','improve','teams','sandbox','inventory','account']:
             page.evaluate('(route)=>{location.hash=route}',route)
             expect(page.locator('body')).to_have_attribute('data-route',route)
@@ -95,8 +95,9 @@ def run(fixtures,artifacts,url,chromium):
             page.screenshot(path=str(artifacts/f'improve-{width}.png'),full_page=True)
         page.set_viewport_size({'width':1440,'height':900});page.locator('#globalImportToggle').click()
         page.screenshot(path=str(artifacts/'import-inline-1440.png'),full_page=True)
-        assert page.locator('#importPanel').bounding_box()['y']>=page.locator('.site-header').bounding_box()['height']-1
-        group('Actual centered navigation and inline panel: 1440/1920 desktop and 390 mobile containment')
+        assert page.locator('#importPanel').evaluate("n=>getComputedStyle(n).position")=='fixed'
+        assert page.locator('#importPanel').bounding_box()['y']>=page.locator('.site-header').bounding_box()['height']
+        group('Centered navigation and anchored overlay: 1440/1920 desktop and 390 containment')
         assert storage()==before;assert not report['pageErrors'],report['pageErrors']
         for endpoint in ['/docs/ui-lab/scanner-poc/private-fixtures/ciaccona.jpg','/docs/ui-prototypes/v34-functional.html','/.git/config','/docs/ui-lab/../../.git/config']:
             assert context.request.get(url+endpoint).status==404

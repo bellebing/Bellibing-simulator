@@ -3,7 +3,7 @@ const $=id=>document.getElementById(id);
 const catalog=await fetch('/api/catalog').then(r=>r.json());
 let draft=null,original=null,imageURL=null,bitmap=null,issues=[],revision=0,validating=false,timer=null,reviewedDraft=null;
 let sourceFile=null,scanning=false,confirmationRevision=null;
-const shell=createShell(catalog,{onReview:openStage,onImport:()=>openImport(),onImage:scanFile});
+const shell=createShell(catalog,{onReview:openStage,onImport:()=>openImport(),onImage:scanFile,onDismissImport:options=>{if(!$('importPanel').hidden&&!$('confirmation').open)closeImport(options);}});
 const node=(tag,text,attrs={})=>{const n=document.createElement(tag);if(text!==null)n.textContent=text;for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);return n;};
 const flat=name=>name?.startsWith('Flat ');
 const display=(name,value)=>value==null?'':flat(name)?String(value):String(Number((value*100).toFixed(8)));
@@ -36,7 +36,7 @@ function stat(parent,title,base,options){
  parent.append(row);
 }
 function render(){
- $('review').hidden=false;$('checked').checked=false;$('accept').disabled=true;
+ $('review').hidden=false;$('importPanel').classList.add('has-review');positionImport();$('checked').checked=false;$('accept').disabled=true;
  $('identity').replaceChildren();$('skills').replaceChildren();$('echoes').replaceChildren();
  field($('identity'),'Character','character.id',catalog.characters);field($('identity'),'Character level','character.level');
  field($('identity'),'Sequence','sequence',Array.from({length:7},(_,i)=>({id:String(i),name:'S'+i}))).addEventListener('change',e=>{draft.sequence=e.target.value===''?null:Number(e.target.value);changed();});
@@ -72,15 +72,28 @@ async function validate(){
  validating=false;$('accept').disabled=issues.length>0||!$('checked').checked;return issues.length===0;
  }catch{if(at===revision){validating=false;issues=[{path:'validation',message:'Validation unavailable.'}];$('status').textContent='Validation unavailable. Your corrections remain in this draft.';$('accept').disabled=true;}return false;}
 }
+function positionImport(){
+ const panel=$('importPanel');if(panel.hidden)return;
+ const anchor=$('globalImportToggle').getBoundingClientRect();
+ const width=Math.min(panel.classList.contains('has-review')?1120:300,innerWidth-32);
+ const left=Math.max(16,Math.min(anchor.right-width,innerWidth-width-16));
+ const top=Math.max(anchor.bottom+12,document.querySelector('.site-header').getBoundingClientRect().bottom+8);
+ panel.style.width=width+'px';panel.style.left=left+'px';panel.style.top=top+'px';
+ panel.style.maxHeight=Math.max(120,innerHeight-top-16)+'px';
+}
 function openImport({focus=true}={}){
- const wasHidden=$('importPanel').hidden;
- $('importPanel').hidden=false;$('globalImportToggle').setAttribute('aria-expanded','true');
- if(focus||wasHidden)window.scrollTo({top:0,behavior:'instant'});
+ $('importPanel').hidden=false;$('globalImportToggle').setAttribute('aria-expanded','true');positionImport();
  if(focus)$('dropzone').focus({preventScroll:true});
 }
-function closeImport(){
- $('importPanel').hidden=true;$('globalImportToggle').setAttribute('aria-expanded','false');$('globalImportToggle').focus({preventScroll:true});
+function closeImport({restoreFocus=true}={}){
+ $('importPanel').hidden=true;$('dropzone').classList.remove('is-dragging');$('globalImportToggle').setAttribute('aria-expanded','false');
+ if(restoreFocus)$('globalImportToggle').focus({preventScroll:true});
 }
+window.addEventListener('resize',positionImport);
+window.addEventListener('scroll',positionImport,true);
+document.addEventListener('pointerdown',e=>{
+ if(!$('importPanel').hidden&&!$('confirmation').open&&!$('importPanel').contains(e.target)&&!$('globalImportToggle').contains(e.target))closeImport({restoreFocus:false});
+});
 async function applyImage(file){
  const next=await createImageBitmap(file);if(bitmap)bitmap.close();if(imageURL)URL.revokeObjectURL(imageURL);
  bitmap=next;sourceFile=file;imageURL=URL.createObjectURL(file);$('source').src=imageURL;
@@ -90,14 +103,14 @@ async function scanFile(file){
  if(scanning||$('confirmation').open){$('status').textContent='Finish the current scan or confirmation first.';return;}
  if(file.size>5*1024*1024){$('status').textContent='Choose a card up to 5 MiB. Your existing review is unchanged.';return;}
  if(file.type&&!['image/png','image/jpeg'].includes(file.type)){$('status').textContent='Use an original JPEG or PNG card. Your existing review is unchanged.';return;}
- const ticket=++revision;scanning=true;clearTimeout(timer);$('upload').disabled=true;$('pasteImage').disabled=true;$('review').inert=true;$('importPanel').classList.add('is-reading');$('importBadge').hidden=false;
+ const ticket=++revision;scanning=true;clearTimeout(timer);$('upload').disabled=true;$('review').inert=true;$('importPanel').classList.add('is-reading');$('importBadge').hidden=false;
  $('status').textContent='Reading Character, Weapon, Skills and five Echoes…';
  try{
   const response=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':file.type||'application/octet-stream'},body:file});const result=await response.json();if(!response.ok)throw Error(result.error);if(ticket!==revision)return;
   await applyImage(file);draft=result.draft;original=structuredClone(draft);reviewedDraft=null;issues=result.issues;$('accepted').textContent='';$('continueActions').hidden=true;
   render();await validate();$('status').textContent=`Scan complete in ${(result.elapsedMs/1000).toFixed(1)} s. Review every value before confirming.`;
  }catch(e){$('status').textContent=(e.message||'Could not read this card.')+(draft?' Your previous review is unchanged.':'');}
- finally{scanning=false;$('upload').disabled=false;$('pasteImage').disabled=false;$('review').inert=false;$('importPanel').classList.remove('is-reading');}
+ finally{scanning=false;$('upload').disabled=false;$('review').inert=false;$('importPanel').classList.remove('is-reading');}
 }
 async function openStage(stage){
  openImport();if(scanning||$('confirmation').open)return;
@@ -113,13 +126,9 @@ document.addEventListener('dragover',e=>{if([...e.dataTransfer.types].includes('
 document.addEventListener('dragleave',e=>{if(!e.relatedTarget)$('dropzone').classList.remove('is-dragging');});
 document.addEventListener('drop',e=>{if(![...e.dataTransfer.types].includes('Files'))return;e.preventDefault();$('dropzone').classList.remove('is-dragging');const files=[...e.dataTransfer.files];if(files.length!==1){$('status').textContent='Import one Character card at a time.';return;}scanFile(files[0]);});
 document.addEventListener('paste',e=>{const file=[...e.clipboardData.items].find(i=>i.kind==='file')?.getAsFile();if(file){e.preventDefault();scanFile(file);}});
-$('pasteImage').onclick=async()=>{
- try{const items=await navigator.clipboard.read();for(const item of items){const type=item.types.find(t=>['image/png','image/jpeg'].includes(t));if(type){const blob=await item.getType(type);await scanFile(new File([blob],'clipboard-card',{type}));return;}}$('status').textContent='No image in the clipboard. Copy a card image or upload the original file.';}
- catch{$('status').textContent='Press Ctrl / ⌘ + V to paste an image, or use Upload image.';}
-};
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('confirmation').open&&!$('importPanel').hidden){e.preventDefault();closeImport();}});
 $('reset').onclick=()=>{draft=structuredClone(original);changed();render();validate();};
 $('accept').onclick=async()=>{if(await validate()&&$('checked').checked){confirmationRevision=revision;$('confirmation').querySelector('h2').textContent=shell.hasStage(draft.character.id)?'Replace this Character’s staged review?':'Stage this reviewed build?';$('confirmation').returnValue='';$('confirmation').showModal();}};
 $('confirmation').addEventListener('close',()=>{if($('confirmation').returnValue==='confirm'&&draft&&!issues.length&&$('checked').checked&&confirmationRevision===revision){reviewedDraft=structuredClone(draft);shell.stage(reviewedDraft,sourceFile,original);$('accepted').textContent=`${catalog.characters.find(c=>c.id===draft.character.id).name} staged for this session. Not saved to Inventory; Current is unchanged.`;$('continueActions').hidden=false;$('importBadge').hidden=true;}});
-$('continueWorkflow').onclick=()=>{closeImport();$('workspace').scrollIntoView({block:'start'});$('workspace').focus({preventScroll:true});};
+$('continueWorkflow').onclick=()=>{closeImport();$('workspace').focus({preventScroll:true});};
 $('openImportedImprove').onclick=()=>{if(!reviewedDraft)return;closeImport();shell.openImprove(reviewedDraft.character.id);$('workspace').scrollIntoView({block:'start'});$('workspace').focus({preventScroll:true});};

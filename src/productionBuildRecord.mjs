@@ -2,7 +2,7 @@
 // normalization defaults, new IDs, revisions, persistence keys or equipment writes.
 export const PRODUCTION_BUILD_STORAGE_KEY='bellibing-ui-checkpoint-v34';
 export function readProductionBuildRecord(storage,character){
- const managed=typeof window!=='undefined'&&storage===window.localStorage?window.bellibingAccountSession:null;
+ const managed=typeof window!=='undefined'&&(storage===window.localStorage||storage===window.bellibingAccountSession?.storage)?window.bellibingAccountSession:null;
  const inventoryAccount=managed?.store.snapshot();
  if(managed)storage=managed.storage;
  const missing=reason=>({status:'PENDING',reason,characterId:character?.id??null,buildId:null,modeId:null,revisions:null});

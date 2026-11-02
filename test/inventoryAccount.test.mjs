@@ -2,13 +2,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
 import {CHARACTER_CATALOG} from '../src/data/characters.ts';
 import {emptyAccount,saveReviewedScan,legacyProjection,accountFromLegacy,validateAccount,exportAccount,parseBackup,moveItem,readJson} from '../src/inventoryAccount.mjs';
-const echoData=JSON.parse(readFileSync(new URL('../docs/ui-prototypes/assets/echoes/browser-data.json',import.meta.url))),weaponData=JSON.parse(readFileSync(new URL('../docs/ui-prototypes/assets/weapons/browser-data.json',import.meta.url)));
-const catalog={characters:CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED'),echoes:echoData.echoes,statEditor:echoData.statEditor,weapons:weaponData.weapons.filter(w=>w.releaseStatus==='RELEASED'),sourceBinding:'CANONICAL_TEST_CATALOG'};
-function scan(characterId='lupa'){
- const c=catalog.characters.find(c=>c.id===characterId),w=catalog.weapons.find(w=>w.weaponType===c.weaponType),used=new Set();
- const echoes=[4,3,3,1,1].map(cost=>{const e=catalog.echoes.find(e=>e.cost===cost&&!used.has(e.id));used.add(e.id);return {echoId:e.id,sonataId:e.sonataSetIds[0],cost,rank:null,level:null,mainStat:structuredClone(catalog.statEditor.mainStatsByCostAndLevel[cost][25][0]),secondaryMainStat:structuredClone(catalog.statEditor.secondaryMainStatsByCostAndLevel[cost][25]),substats:catalog.statEditor.substats.slice(0,5).map(r=>({name:r.name,value:r.values[0]}))};});
- return {character:{id:characterId,level:90},weapon:{id:w.id,level:90,refinement:null},sequence:0,skills:{basic:10,skill:10,circuit:10,intro:10,liberation:10},echoes};
-}
+import {catalog,scan} from './fixtures/inventory.mjs';
 test('scans require explicit review and assignment; preserve unknown observations and input',()=>{
  const a=emptyAccount(),d=scan(),before=structuredClone(d);assert.throws(()=>saveReviewedScan(a,d,catalog));
  const loose=saveReviewedScan(a,d,catalog,{reviewed:true});assert.equal(Object.keys(loose.items).length,6);assert.equal(loose.characters.lupa.record.build.weaponInstanceId,null);
@@ -28,7 +22,7 @@ test('legacy conversion preserves fields and source recovery without writing or 
 test('backup roundtrip preserves supported account data and rejects schema, source, unsafe and illegal data',()=>{
  const a=saveReviewedScan(emptyAccount(),scan(),catalog,{reviewed:true,assign:true});assert.deepEqual(parseBackup(JSON.stringify(exportAccount(a,catalog)),catalog),a);
  const b=exportAccount(a,catalog);b.schemaVersion=99;assert.throws(()=>parseBackup(JSON.stringify(b),catalog));
- assert.throws(()=>parseBackup(JSON.stringify({...exportAccount(a,catalog),catalogBinding:'OTHER'}),catalog));assert.throws(()=>readJson('{"__proto__":{}}'));
+ assert.throws(()=>parseBackup(JSON.stringify({...exportAccount(a,catalog),schemaVersion:1,catalogBinding:'OTHER'}),catalog));assert.throws(()=>readJson('{"__proto__":{}}'));
  const invalid=structuredClone(a);const e=Object.values(invalid.items).find(i=>i.kind==='echo');e.data.substats[1]=e.data.substats[0];assert.throws(()=>validateAccount(invalid,catalog));
 });
 test('explicit moves clear the former owner, retain replaced items and reject illegal double ownership',()=>{

@@ -7,6 +7,11 @@ the preservation vault are untouched. No remote publication or deployment.
 
 ## Run
 
+Foundation continuation adds local browser-WASM recognition and emulator-only
+account review. See [Foundation V1](FOUNDATION_V1.md) for current acceptance.
+The normal public artifact remains free of private engine code and unapproved
+account/Scanner deployment configuration.
+
 Install the scanner prerequisites described in
 [its README](ui-lab/scanner-poc/README.md), then:
 
@@ -51,15 +56,19 @@ does not write the legacy account. A stale Build cannot overwrite a newer save.
 - First migration stages existing legitimate drafts/builds and preserves their
   additional fields. Export a validated backup before saving the migration.
   Corrupt/unsupported legacy records block migration without changing them.
-- JSON uses `bellibing-inventory`, schema/source binding, physical IDs, supported
+- JSON uses `bellibing-inventory` backup version 2 with independent account/catalog
+  versions, physical IDs, supported
   Character/equipment data and original legacy recovery snapshots. Size, shape,
   identity, exact tiers and assignments are validated before any write. Restore
   into empty profiles or explicitly replace after backup; automatic merge is
   deferred. Cancel/errors leave the account unchanged. Recovery before-states
   support explicit rollback, including return to original legacy/empty storage.
 - Existing resource/settings ownership stays intact. Import neither spends nor
-  edits it. The backup includes migration before-state copies of these known
-  legacy keys; it is not yet a live post-migration settings/resource sync format.
+  edits it. Backups now include live known
+  account settings/resource envelopes and observed-session checkpoints. Original
+  legacy bytes stay untouched. Additive catalog updates are revalidated; changed
+  identities/mechanics require reviewed migration. Future unreadable accounts
+  remain read-only with an original-data download, never an empty replacement.
 
 `?profile=NAME` selects an isolated local profile. Navigation preserves it. Use
 fresh browser profiles/test data for review; do not delete an actual account to
@@ -94,7 +103,7 @@ distribution clearance. Review that boundary before publication. No private
 engine is copied, modified or redistributed by this local milestone.
 
 Deferred: broader formats, automatic duplicate/merge resolution, +0 stacks,
-cloud sync/login, Team Builder, new DPS coverage, recommendation tuning and the
+production cloud activation/account-UX approval, Team Builder, new DPS coverage, recommendation tuning and the
 full #361 visual redesign. The existing Build surface remains the functional
 editor; this milestone does not claim full visual parity with the concept.
 
@@ -112,7 +121,7 @@ local changes; do not push the older synthetic local ancestry or create another
 feature PR. Original local commits remain preserved. This does not authorize a
 push, history rewrite, merge, CI or deployment.
 
-Public #363 remains separate: its compact neutral choices require the private
+Public #363 is paired locally with private #46: its compact neutral choices require the private
 #46 allowlisted `advice.comparison.version=1` contract (clear/similar/uncertain,
-options and qualified advantage codes). Current private main lacks that contract;
-this integration does not add public thresholds or activate private #46/#47.
+options and qualified advantage codes). The private local Foundation branch supplies it;
+public main/runtime activation remain separate. No public thresholds or #47 are added.

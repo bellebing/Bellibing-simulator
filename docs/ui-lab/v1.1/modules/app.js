@@ -4,7 +4,8 @@ import {mountEchoAdvisor} from './echo-advisor.js';
 import {createLocalTeamReview,hasCompleteTeamBuilds} from './local-team-review.js';
 import {mountWorkspaceHeader} from './workspace-navigation.js';
 import {createImproveCandidateSession,improveCandidateContext,clearImproveCandidates,syncImproveCandidateContext} from './improve-candidate.js';
-import {restoreOwnedSettings,readOwnedResourceBudget} from './account-settings.js';
+import {restoreOwnedSettings,readOwnedResourceBudget,captureWorkspaceSettings,restoreWorkspaceSettings} from './account-settings.js';
+import {loadImprovePolicyStorage} from '../../../assets/improvePolicyState.js';
 import {createLabResourceInventory} from './resource-state.js';
 import {accountProjection} from './account-projection.js';
 import {openSelectionDialog} from './selection-dialog.js';
@@ -40,7 +41,9 @@ import { echoCard as renderEchoCard } from './echo-card.js';
 import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
-if(globalThis.BELLIBING_WORKSPACE_ROUTES){const {accountSession}=await import('../../inventory/account-session.js');await accountSession();}
+let accountOwner=null;
+if(globalThis.BELLIBING_WORKSPACE_ROUTES){const {accountSession}=await import('../../inventory/account-session.js');accountOwner=await accountSession();}
+const localStorage=accountOwner?.storage??globalThis.localStorage;
 
 function echoCard(echo,options={}){return renderEchoCard(echo,{...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:compactReview&&accountMode&&!options.candidate});}
 
@@ -59,12 +62,22 @@ if(sandbox){
  $('#focusDemo').disabled=true;
  document.querySelector('[data-filter="account"]')?.setAttribute('hidden','');
 }
-const resources = mountResourceInventory($('#resourceInventory'),sandbox?undefined:createLabResourceInventory(readOwnedResourceBudget(localStorage)),{sandbox});
+const resources = mountResourceInventory($('#resourceInventory'),sandbox?undefined:createLabResourceInventory(readOwnedResourceBudget(localStorage),accountOwner?{onSave:async resourceInventory=>{
+ const policy=loadImprovePolicyStorage(localStorage);
+ await accountOwner.store.saveUserData('bellibing.improve.policy.v3',JSON.stringify({...policy,resourceInventory}));
+}}:{}),{sandbox});
 const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
-const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
-const sonataSelection = sandbox?null:mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>settingsConfigurationChanged(state)});
+let accountSaveQueue=Promise.resolve();
+function saveAccountSettings(){
+ if(sandbox||!accountOwner)return;
+ try{const id=state.id,value=captureWorkspaceSettings(state);
+  accountSaveQueue=accountSaveQueue.catch(()=>{}).then(()=>accountOwner.store.saveWorkspaceSettings(id,value)).catch(error=>notify(error.message));
+ }catch(error){notify(error.message);}
+}
+const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);saveAccountSettings();characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
+const sonataSelection = sandbox?null:mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>{settingsConfigurationChanged(state);saveAccountSettings();}});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
 let selectedId = CHARACTER_CATALOG.some(p=>p.id===query.get('character'))?query.get('character'):'augusta';
 let uiContextRevision=0;
@@ -400,6 +413,7 @@ async function probeSandboxHost(binding){
 function syncAccountState(){
  restoreOwnedSettings(state,localStorage);
  if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state);state.accountSourcesInitialized=true;}
+ try{restoreWorkspaceSettings(state,accountOwner?.store.snapshot()?.userData?.workspaceSettings?.[state.id]);}catch(error){state.accountSettingsPending=error.message;}
  // Retire presentation before projecting, including manually observed Candidates.
  if(syncImproveCandidateContext(state,readImproveOwner())){
   workshopEditor.close();
@@ -561,6 +575,7 @@ window.addEventListener('resize', () => {
 $('.gate-options').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
   state.gate = event.target.textContent;
+  saveAccountSettings();
   renderSettings();
   settingsConfigurationChanged(state);characterCard.edit({kind:'gate'},null);
 });
@@ -575,6 +590,7 @@ $('.setting-mode').addEventListener('click', event => {
     if(accountMode)state.accountSettingsPending=null;
   }else{state.settingsMode='Customize';renderSettings();}
   settingsConfigurationChanged(state);characterCard.edit({kind:'settings-mode'},null);
+  saveAccountSettings();
 });
 $('#simulate').onclick = async () => {
   if ($('#simulate').disabled) return;

@@ -4,3 +4,9 @@ dist/
 data/generated/
 artifacts/
 .DS_Store
+
+# Local-only Firebase emulator diagnostics and Python caches
+firebase-debug.log*
+firestore-debug.log*
+ui-debug.log*
+__pycache__/

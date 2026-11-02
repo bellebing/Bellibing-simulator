@@ -2,6 +2,16 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {createInteractiveEchoSession} from '../src/interactiveEchoSession.mjs';
 const input=()=>({owner:{characterId:'real-character',slot:0,record:'real-owned',team:'initial'},template:{echoId:'eligible',cost:3,mainStatName:'Electro DMG',selectedSonataSetId:'sonata-3'},target:{hard:[],flex:[],flexCount:0},gate:5,inventory:{version:1,tuners:{kind:'FINITE',count:100},echoes:{kind:'FINITE',count:4},tubes:Object.fromEntries(['premium','advanced','medium','basic'].map(id=>[id,{kind:'UNLIMITED'}]))},pending:null});
 const rolls=[{name:'Flat DEF',value:70},{name:'CRIT Rate',value:0.069},{name:'ATK%',value:0.086},{name:'Heavy Attack DMG',value:0.094},{name:'CRIT DMG',value:0.198}];
+test('persisted observed prefix resumes without RNG, stale advice or spending the account twice',()=>{
+ const c=input(),make=()=>createInteractiveEchoSession({readContext:()=>c,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ const first=make();first.advance(rolls[0]);first.advance(rolls[1]);const saved=first.checkpoint(),before=first.remainingInventory();first.reset();
+ const second=make();second.resume(JSON.parse(JSON.stringify(saved)));
+ assert.deepEqual(second.snapshot().candidate.substats,rolls.slice(0,2));assert.deepEqual(second.remainingInventory(),before);assert.equal(second.snapshot().advice,null);
+ second.advance(rolls[2]);assert.deepEqual(second.snapshot().candidate.substats,rolls.slice(0,3));assert.equal(second.snapshot().spent.tuners,30);
+ const current=second.snapshot(),corrupt=structuredClone(saved);corrupt.slots[0].session.spent.tuners=0;
+ assert.throws(()=>second.resume(corrupt),/LEDGER/);assert.deepEqual(second.snapshot(),current);
+ c.owner.characterId='other';assert.throws(()=>second.resume(saved));second.reset();
+});
 test('Improve records exact observed values, preserves the prefix across actual team/resource changes and rejects invalid rolls atomically',()=>{
  const c=input(),account=structuredClone(c),s=createInteractiveEchoSession({readContext:()=>c,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
  assert.throws(()=>s.advance());assert.equal(s.snapshot(),null);

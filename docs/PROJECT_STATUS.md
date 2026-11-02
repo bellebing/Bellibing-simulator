@@ -6,15 +6,15 @@ is not a claim that a candidate is merged, published or gameplay-qualified.
 
 ## Current priority
 
-The owner authorizes a local Character Import → Scanner → Review → Save →
-Inventory → Build → Improve integration, beginning with the real Lupa Discord
-card and then validating Chisa/Ciaccona through the same code.
-
-Current main and public #360 are the functional foundation. #361 is the approved
-visual/navigation reference; #362 is the working recognition prototype. Integrate
-selectively. Public #363/private #46 remain separate Improve improvements.
-Focused local tests/build/browser review are authorized for this workstream.
-No pushes, remote CI, PR changes, merges or deployment are authorized.
+The active goal is [Foundation V1](FOUNDATION_V1.md): continue locally through
+M0–M5 using #360 as the only public integration owner. IndexedDB remains the
+account owner; desktop/original English cards and supported execution are scope.
+#361/#362 are selectively reused. #363/private #46 are now paired locally;
+#47 and the research/artwork archives remain parked. Current implementation adds
+portable account state, protected recovery, durable sync and browser-local OCR
+reuse. Local/emulator evidence is separate from final FULL and hosted acceptance.
+External Firebase activation, major account UX, real-data migration, publication,
+merge and deployment still need their specific approvals.
 
 ## Local import / Inventory candidate
 
@@ -52,8 +52,8 @@ ownership, migration, supported fields, licensing and remaining limits.
 
 The first slice retains the real functional Build composition with the six
 approved #361 still backgrounds and an item-art Inventory grid/inspector. Full #361
-visual parity, +0 stacking, broader scanner formats and account login/cloud sync
-remain deferred. No private decision implementation is added to public assets.
+visual parity, +0 stacking and broader scanner formats remain deferred. Google
+login/cloud sync are local candidates awaiting service and UX approval. No private decision implementation is added to public assets.
 
 ## Build / account foundation
 
@@ -82,7 +82,7 @@ Unsupported actual context is Pending. Optional numerical contribution needs a
 legal comparable reference. Neither static priorities nor tiny positive DPS
 changes establish a meaningful improvement or globally optimal strategy.
 
-The compact neutral-choice extension is separate in #363/private #46. Automatic
+The compact neutral-choice extension from #363/private #46 is paired locally. Automatic
 context-qualified five-best-stat selection, account prioritization, meaningful-gain
 policy and alignment of all decision objectives remain unfinished. This workstream
 does not tune them or expand the private evaluator.
@@ -129,10 +129,10 @@ OCR and serves private-runtime Pending; it consumes no hosted compute budget.
 
 ## Remaining boundaries
 
-- Genuine account authentication/cloud sync and full account portability beyond
-  supported Inventory/build data are not implemented. Run exports are not backups.
-- The Inventory backup retains original policy/resource migration snapshots; live
-  post-migration settings/resource synchronization is not yet part of that format.
+- Google/Firebase sync is implemented locally with emulator isolation tests;
+  production activation and account-UX approval remain pending. Run exports are not backups.
+- Version-2 backups include live account settings/resources/observations; older
+  incompatible catalogs need reviewed migration, with original data retained.
 - Six Reference Team 01 dependencies and broader gameplay qualification remain.
 - Scanner GPL compatibility, upstream calculator reuse rights, game artwork and
   production font clearance need their appropriate review before distribution.

@@ -2,7 +2,7 @@ import { emptyResourceInventory, readResourceInventory, parseInventoryQuantity, 
 
 // One instance belongs to the page, outside all Character/reset/simulation state.
 // No persistence or consumption API is connected to this inventory.
-export function createLabResourceInventory(initial=emptyResourceInventory()) {
+export function createLabResourceInventory(initial=emptyResourceInventory(),{onSave}={}) {
   let inventory = readResourceInventory(initial);
   let revision = 0;
   const finiteCounts = new Map();
@@ -18,11 +18,15 @@ export function createLabResourceInventory(initial=emptyResourceInventory()) {
     set(resource, text) {
       const next = updateResourceInventory(inventory, resource, parseInventoryQuantity(text));
       const previous = quantity(resource);
-      if (previous.kind === 'FINITE') finiteCounts.set(resource, previous.count);
-      if(JSON.stringify(inventory)!==JSON.stringify(next))revision++;
-      inventory = next;
-      if (quantity(resource).kind === 'FINITE') finiteCounts.set(resource, quantity(resource).count);
-      return readResourceInventory(inventory);
+      const apply=()=>{
+        if (previous.kind === 'FINITE') finiteCounts.set(resource, previous.count);
+        if(JSON.stringify(inventory)!==JSON.stringify(next))revision++;
+        inventory = next;
+        if (quantity(resource).kind === 'FINITE') finiteCounts.set(resource, quantity(resource).count);
+        return readResourceInventory(inventory);
+      };
+      // Account edits become visible only after their durable owner commits.
+      return onSave?Promise.resolve(onSave(next)).then(apply):apply();
     },
   };
 }

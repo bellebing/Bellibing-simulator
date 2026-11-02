@@ -1,5 +1,7 @@
 // Public ownership/validation only. No RNG, DPS or private recommendation policy.
 export const ACCOUNT_SCHEMA=1;
+export const BACKUP_SCHEMA=2;
+export const ACCOUNT_DATA_KEYS=['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'];
 export const LEGACY_BUILD_KEY='bellibing-ui-checkpoint-v34';
 export const BACKUP_FORMAT='bellibing-inventory';
 export const RECOVERY_KEYS=[LEGACY_BUILD_KEY,'bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'];
@@ -19,7 +21,13 @@ export function safeDocument(value){
 }
 export function readJson(text){assert(typeof text==='string'&&new TextEncoder().encode(text).length<=5*1024*1024,'Backup must be at most 5 MiB.');return safeDocument(JSON.parse(text));}
 const id=()=>crypto.randomUUID();
-export function emptyAccount(){return {schemaVersion:ACCOUNT_SCHEMA,id:id(),revision:0,characters:{},items:{},unownedDrafts:{},legacyRoot:{},legacyRecovery:{}};}
+export function emptyAccount(){return {schemaVersion:ACCOUNT_SCHEMA,id:id(),revision:0,characters:{},items:{},unownedDrafts:{},legacyRoot:{},legacyRecovery:{},userData:{version:1,storage:{},observations:{}}};}
+// Additive envelope: old Inventory records remain readable without rewriting them.
+export function withUserData(account,{storage={}}={}){
+ const next=copy(account);
+ next.userData??={version:1,storage:copy(storage),observations:{}};
+ return next;
+}
 function validStat(row,allowed){return object(row)&&typeof row.name==='string'&&Number.isFinite(row.value)&&allowed.some(r=>r.name===row.name&&Math.abs(r.value-row.value)<1e-12);}
 export function validateEcho(data,identity,catalog){
  assert(object(data)&&identity,'Unknown Echo identity.');
@@ -40,6 +48,15 @@ export function validateAccount(account,catalog){
  safeDocument(account);assert(account?.schemaVersion===ACCOUNT_SCHEMA&&typeof account.id==='string'&&Number.isSafeInteger(account.revision)&&account.revision>=0,'Unsupported account schema.');
  assert(object(account.characters)&&object(account.items)&&object(account.legacyRoot)&&object(account.legacyRecovery),'Invalid account structure.');
  assert(account.unownedDrafts===undefined||object(account.unownedDrafts),'Invalid unowned drafts.');
+ if(account.userData!==undefined){
+  const data=account.userData;
+  assert(data.version===1&&object(data.storage)&&object(data.observations),'Unsupported account data.');
+  for(const [key,value]of Object.entries(data.storage)){
+   assert(ACCOUNT_DATA_KEYS.includes(key)&&typeof value==='string','Invalid saved account setting.');
+   readJson(value);
+  }
+  if(data.workspaceSettings!==undefined)assert(object(data.workspaceSettings)&&Object.keys(data.workspaceSettings).every(id=>catalog.characters.some(c=>c.id===id)),'Invalid Character settings.');
+ }
  for(const [key,draft]of Object.entries(account.unownedDrafts??{}))assert(catalog.characters.some(c=>c.id===key&&c.name===draft.name)&&object(draft.record?.build)&&!account.characters[key],'Invalid or competing unowned draft.');
  const used=new Set();
  for(const [key,item]of Object.entries(account.items)){
@@ -85,6 +102,7 @@ export function accountFromLegacy(legacy,catalog,{current=null,recovery={}}={}){
  safeDocument(legacy);assert(object(legacy)&&Array.isArray(legacy.characters)&&object(legacy.drafts),'Unreadable legacy account; export/recovery required.');
  assert(legacy.characters.every(name=>typeof name==='string'&&object(legacy.drafts[name])),'Owned legacy Character is missing its draft; original data retained for repair.');
  const next=current?copy(current):emptyAccount();next.legacyRecovery={...next.legacyRecovery,...copy(recovery)};
+ if(!current)next.userData.storage=Object.fromEntries(ACCOUNT_DATA_KEYS.filter(key=>typeof recovery[key]==='string').map(key=>[key,recovery[key]]));
  next.unownedDrafts??={};
  next.legacyRoot=Object.fromEntries(Object.entries(copy(legacy)).filter(([k])=>!['characters','drafts'].includes(k)));
  const physical=(kind,catalogId,data,existing)=>{
@@ -127,8 +145,30 @@ export function saveReviewedScan(account,draft,catalog,{reviewed=false,replace=f
  next.characters[source.id]={id:source.id,name:source.name,owned:true,record:{...(previous?.record??{}),character:source.name,build,createdAt:previous?.record.createdAt??now,updatedAt:now}};
  return validateAccount(next,catalog);
 }
-export function exportAccount(account,catalog){validateAccount(account,catalog);assert(typeof catalog.sourceBinding==='string','Canonical source identity required.');return {format:BACKUP_FORMAT,schemaVersion:ACCOUNT_SCHEMA,catalogBinding:catalog.sourceBinding,exportedAt:new Date().toISOString(),account:copy(account)};}
-export function parseBackup(text,catalog){const value=readJson(text);assert(value.format===BACKUP_FORMAT&&value.schemaVersion===ACCOUNT_SCHEMA,'Unsupported backup format/version.');assert(value.catalogBinding===catalog.sourceBinding,'Canonical source changed; reviewed migration required.');return validateAccount(copy(value.account),catalog);}
+export function exportAccount(account,catalog){
+ validateAccount(account,catalog);assert(typeof catalog.sourceBinding==='string','Canonical source identity required.');
+ const value={format:BACKUP_FORMAT,schemaVersion:BACKUP_SCHEMA,catalogBinding:catalog.sourceBinding,exportedAt:new Date().toISOString(),account:copy(account),
+  catalog:{characters:catalog.characters.map(({id,name,weaponType})=>({id,name,weaponType})),echoes:catalog.echoes.map(({id,cost,sonataSetIds})=>({id,cost,sonataSetIds})),weapons:catalog.weapons.map(({id,weaponType})=>({id,weaponType})),statEditor:copy(catalog.statEditor)}};
+ // Never offer a backup that our own importer would refuse for size/complexity.
+ readJson(JSON.stringify(value));return value;
+}
+export function parseBackup(text,catalog){
+ const value=readJson(text);
+ assert(value.format===BACKUP_FORMAT&&[1,BACKUP_SCHEMA].includes(value.schemaVersion),'Unsupported backup format/version.');
+ const next=copy(value.account);
+ if(value.catalogBinding!==catalog.sourceBinding){
+  assert(value.schemaVersion===BACKUP_SCHEMA&&object(value.catalog),'Canonical source changed; reviewed migration required.');
+  validateAccount(next,value.catalog);
+  // Rebind only unchanged physical identities. Added catalog entries and artwork
+  // must not strand an old backup; altered mechanics require a reviewed migration.
+  for(const item of Object.values(next.items)){
+   const kind=item.kind==='echo'?'echoes':'weapons',old=value.catalog[kind].find(x=>x.id===item.catalogId),current=catalog[kind].find(x=>x.id===item.catalogId);
+   assert(current&&(kind==='echoes'?old.cost===current.cost&&old.sonataSetIds.every(id=>current.sonataSetIds.includes(id)):old.weaponType===current.weaponType),'Catalog identity changed; original backup retained for reviewed migration.');
+  }
+  for(const character of Object.values(next.characters))assert(value.catalog.characters.find(x=>x.id===character.id)?.weaponType===catalog.characters.find(x=>x.id===character.id)?.weaponType,'Character source changed; reviewed migration required.');
+ }
+ return validateAccount(next,catalog);
+}
 export function moveItem(account,itemId,characterId,slot,catalog){
  const next=copy(account),item=next.items[itemId],target=next.characters[characterId];assert(item&&target,'Unknown item/Character.');
  for(const c of Object.values(next.characters)){

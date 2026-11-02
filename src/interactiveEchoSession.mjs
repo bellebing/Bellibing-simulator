@@ -17,6 +17,48 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
  };
  const comparisonCandidates=()=>Array.from({length:5},(_,slot)=>{const s=slots.get(slot)?.session;return clone(s?.candidate?.level===25&&s.advice?.winner==='KEEP_TEMPORARY'?s.candidate:s?.incumbent?.card??null);});
  const snapshot=()=>session?clone({...session,workspaceSpent:totals(),workspaceSlots:[...slots].map(([slot,entry])=>({slot,session:entry.session}))}):null,emit=()=>onChange(snapshot());
+ function checkpoint(){
+  if(mode!=='OBSERVED')throw Error('OBSERVED_CHECKPOINT_ONLY');
+  return {version:1,kind:'OBSERVED_IMPROVE_CHECKPOINT',characterId:ownerCharacter,
+   slots:[...slots].filter(([,entry])=>entry.session).map(([slot,entry])=>{
+    const {advice,pending,inventory,recoveryPending,...facts}=clone(entry.session);return {slot,session:facts};
+   })};
+ }
+ function resume(value){
+  if(mode!=='OBSERVED'||value?.version!==1||value.kind!=='OBSERVED_IMPROVE_CHECKPOINT'||value.characterId!==readContext().owner.characterId||!Array.isArray(value.slots)||value.slots.length>5)throw Error('INVALID_OBSERVED_CHECKPOINT');
+  const restored=new Map(),integer=n=>Number.isSafeInteger(n)&&n>=0;
+  const card=echo=>{
+   if(!echo||typeof echo.id!=='string'||![0,5,10,15,20,25].includes(echo.level)||echo.rank!==5||!Array.isArray(echo.substats)||echo.substats.length!==echo.level/5)throw Error('INVALID_OBSERVED_CARD');
+   const expected=withRank5MainStatsAtLevel(createRank5EchoAtLevel0({id:echo.id,cost:echo.cost,primaryMainStat:echo.mainStat?.name}),echo.level);
+   if(identity(expected.mainStat)!==identity(echo.mainStat)||identity(expected.secondaryMainStat)!==identity(echo.secondaryMainStat))throw Error('INVALID_OBSERVED_MAIN_STATS');
+   const seen=new Set();for(const roll of echo.substats){assertExactRank5SubstatRoll(roll);if(seen.has(roll.name))throw Error('DUPLICATE_OBSERVED_STAT');seen.add(roll.name);}
+  };
+  for(const row of value.slots){
+   const s=clone(row.session);if(!Number.isInteger(row.slot)||row.slot<0||row.slot>4||restored.has(row.slot)||typeof s?.id!=='string'||!integer(s.revision)||!Array.isArray(s.history))throw Error('INVALID_OBSERVED_SLOT');
+   card(s.candidate);let previous=null,tuners=0,echoes=1,returnedTuners=0;
+   const spentTubes=Object.fromEntries(ECHO_TUBES.map(t=>[t.id,0])),returnedTubes={...spentTubes};
+   for(const event of s.history){
+    card(event.card);
+    if(event.kind==='OBSERVATION'){
+     const prefix=previous?.substats??[];
+     if(event.card.level!==(previous?.level??0)+5||identity(event.card.substats.slice(0,-1))!==identity(prefix)||previous&&event.card.id!==previous.id||event.tuners!==checkpointIncrement(event.card.level-5,event.card.level).tuners)throw Error('INVALID_OBSERVATION_HISTORY');
+     tuners+=event.tuners;previous=event.card;
+     if(event.tubeLedger)for(const t of ECHO_TUBES){const spent=event.tubeLedger.spent?.[t.id],returned=event.tubeLedger.returned?.[t.id];if(!integer(spent)||!integer(returned))throw Error('INVALID_OBSERVED_RECEIPT');spentTubes[t.id]+=spent;returnedTubes[t.id]+=returned;}
+    }else if(['KEEP','DISCARD'].includes(event.kind)){
+     if(!previous||identity(previous)!==identity(event.card))throw Error('INVALID_RESTART_HISTORY');
+     if(event.recovery){const returns=event.recovery.ledger?.returned;if(!integer(returns?.tuners))throw Error('INVALID_RECOVERY_RECEIPT');returnedTuners+=returns.tuners;for(const t of ECHO_TUBES){if(!integer(returns.tubes?.[t.id]))throw Error('INVALID_RECOVERY_RECEIPT');returnedTubes[t.id]+=returns.tubes[t.id];}}
+     previous=null;echoes++;
+    }else throw Error('INVALID_OBSERVED_EVENT');
+   }
+   if(previous?identity(previous)!==identity(s.candidate):s.candidate.level!==0)throw Error('OBSERVED_PREFIX_MISMATCH');
+   if(s.spent?.tuners!==tuners||s.spent.echoes!==echoes||s.returned?.tuners!==returnedTuners||ECHO_TUBES.some(t=>s.spent.tubes?.[t.id]!==spentTubes[t.id]||s.returned.tubes?.[t.id]!==returnedTubes[t.id]))throw Error('OBSERVED_LEDGER_MISMATCH');
+   if(!integer(s.progress?.cumulativeEchoEXP)||s.progress.tunedThrough!==s.candidate.level)throw Error('INVALID_OBSERVED_PROGRESS');
+   restored.set(row.slot,{session:{...s,advice:null,pending:'CALCULATING',recoveryPending:false},rng:null});
+  }
+  generation++;controller?.abort();clearTimeout(timer);slots.clear();for(const [slot,entry]of restored)slots.set(slot,entry);
+  const input=readContext(),{slot,...owner}=input.owner;binding=identity(owner);ownerCharacter=owner.characterId;activeSlot=slot;session=slots.get(slot)?.session??null;rng=null;settings=null;
+  sync();emit();return snapshot();
+ }
  function reset(){generation++;controller?.abort();clearTimeout(timer);session=null;rng=null;slots.clear();activeSlot=null;binding=null;settings=null;emit();}
  function sync(){
   const input=readContext(),{slot,...owner}=input.owner,next=identity(owner),changed=binding!==null&&binding!==next;
@@ -116,5 +158,5 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
    return advance(true,{resource,recovery:result});
   }finally{if(captured.recoveryPending){captured.recoveryPending=false;if(session===captured)emit();}}
  }
- return {sync,reset,snapshot,remainingInventory:()=>remaining(readContext()),comparisonCandidates,abort(){controller?.abort();generation++;clearTimeout(timer);if(session){session.aborted=true;session.pending='ABORTED';emit();}},advance:observation=>advance(false,null,observation),discard,refresh:assess};
+ return {sync,reset,snapshot,checkpoint,resume,remainingInventory:()=>remaining(readContext()),comparisonCandidates,abort(){controller?.abort();generation++;clearTimeout(timer);if(session){session.aborted=true;session.pending='ABORTED';emit();}},advance:observation=>advance(false,null,observation),discard,refresh:assess};
 }

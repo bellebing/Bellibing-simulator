@@ -1,0 +1,170 @@
+[
+  {
+    "path": "docs/ui-lab/scanner-poc/.gitignore",
+    "same": true,
+    "in360": true,
+    "sha256_362": "09ab4919f60faa840479d712c869de543f8d47e9ce57ed38e72a469d75d3c5ab",
+    "sha256_360": "09ab4919f60faa840479d712c869de543f8d47e9ce57ed38e72a469d75d3c5ab"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/ACCURACY.json",
+    "same": true,
+    "in360": true,
+    "sha256_362": "06a0b5ae3a9d0fc2003613262846ef7fc5a35f2d6cc6341fe9ff5619cdd38983",
+    "sha256_360": "06a0b5ae3a9d0fc2003613262846ef7fc5a35f2d6cc6341fe9ff5619cdd38983"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/LICENSE",
+    "same": true,
+    "in360": true,
+    "sha256_362": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "sha256_360": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/README.md",
+    "same": false,
+    "in360": true,
+    "sha256_362": "38bd9a35b1b3c3d669e66a62a4bedea4be5750bc938b2342b900be8fee2330ac",
+    "sha256_360": "68590b3085cd1ad32afad88e7922fcadb00872c57a8413273b2a33fe2afcbc4e"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/UPSTREAM.md",
+    "same": false,
+    "in360": true,
+    "sha256_362": "90e0d38e00a5c2da889846b2e04e9668e5c4b1f3019423c4dbc4c4a426bfe9c9",
+    "sha256_360": "3b3b4eebefd5f7d8b518ce90fd59833fe7a24cde93cdf79ee55c7e9310e3c124"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/app.js",
+    "same": true,
+    "in360": true,
+    "sha256_362": "426ace944e7052f8e30f03c1de9fdc85664b5aa36cf333c31ee41317d0d07147",
+    "sha256_360": "426ace944e7052f8e30f03c1de9fdc85664b5aa36cf333c31ee41317d0d07147"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/benchmark.py",
+    "same": true,
+    "in360": true,
+    "sha256_362": "d0e3713bc5045ea368e665ed372ceef3bbdca379db9052fd50930afde861a062",
+    "sha256_360": "d0e3713bc5045ea368e665ed372ceef3bbdca379db9052fd50930afde861a062"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/canonical.mjs",
+    "same": true,
+    "in360": true,
+    "sha256_362": "cf456b6e712ebb4807c302beb7f6cf05a4f7523cfd05a4e173b29c1735edaba0",
+    "sha256_360": "cf456b6e712ebb4807c302beb7f6cf05a4f7523cfd05a4e173b29c1735edaba0"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/index.html",
+    "same": true,
+    "in360": true,
+    "sha256_362": "d5e5e7247ac5ab937e19c933e0f3d1f06798d3f0070a2eea0f1dde1eedfd1dd0",
+    "sha256_360": "d5e5e7247ac5ab937e19c933e0f3d1f06798d3f0070a2eea0f1dde1eedfd1dd0"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/requirements.txt",
+    "same": true,
+    "in360": true,
+    "sha256_362": "6453a0caed3e932783291a2de9e4500b4f4b4378e14e69e132a754423ecc8b5c",
+    "sha256_360": "6453a0caed3e932783291a2de9e4500b4f4b4378e14e69e132a754423ecc8b5c"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/review_browser.py",
+    "same": true,
+    "in360": true,
+    "sha256_362": "b7299a5b2d43eb133d01508af9b2c280e9458e0540e7667fac90887886387469",
+    "sha256_360": "b7299a5b2d43eb133d01508af9b2c280e9458e0540e7667fac90887886387469"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/scanner.py",
+    "same": false,
+    "in360": true,
+    "sha256_362": "0fd352b73b3ef1cab91a9ad5f3ab3f3f75491876e2ff8f96fd5b63592b1187f6",
+    "sha256_360": "3350df16c0dd4ddd6fd3935e772f2400081745d84da9d2e4a492380cbff3dee0"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/serve.py",
+    "same": true,
+    "in360": true,
+    "sha256_362": "d336c3b44ef318f79b221fa3bc6ad664816b8ecce56edbd43e53a9e4da959b21",
+    "sha256_360": "d336c3b44ef318f79b221fa3bc6ad664816b8ecce56edbd43e53a9e4da959b21"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/setup.sh",
+    "same": true,
+    "in360": true,
+    "sha256_362": "1058ed7581034444404baa99278539d8c6b7109c247bde87f84c11edbbbada58",
+    "sha256_360": "1058ed7581034444404baa99278539d8c6b7109c247bde87f84c11edbbbada58"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/style.css",
+    "same": true,
+    "in360": true,
+    "sha256_362": "81cea19e53f5fa65c2270616c1f114b6e9c2d8c26900ff1c68d013c204c27429",
+    "sha256_360": "81cea19e53f5fa65c2270616c1f114b6e9c2d8c26900ff1c68d013c204c27429"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/test_scanner.py",
+    "same": false,
+    "in360": true,
+    "sha256_362": "27fccf000c71bb34118f66604b85f91cc4c37d7d609413c113d348beaf47baf5",
+    "sha256_360": "4a532c91c971d8a3baafd690efd86098ab6508aff77669cc41cc90ee6cf97697"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost1.jpg",
+    "same": true,
+    "in360": true,
+    "sha256_362": "df2cc7a058fe33ed3904f596336589879637faab32615b87b4524fda54813f7f",
+    "sha256_360": "df2cc7a058fe33ed3904f596336589879637faab32615b87b4524fda54813f7f"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost3.jpg",
+    "same": true,
+    "in360": true,
+    "sha256_362": "06cda74e8975bff97c3cabd9c35743cf671746b5bf2ab528912ddeffe252bc21",
+    "sha256_360": "06cda74e8975bff97c3cabd9c35743cf671746b5bf2ab528912ddeffe252bc21"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost4.jpg",
+    "same": true,
+    "in360": true,
+    "sha256_362": "1fb3061ab3bec0654645584ff77e2a0a5b94b582bac14ca1cb21bd00e2621025",
+    "sha256_360": "1fb3061ab3bec0654645584ff77e2a0a5b94b582bac14ca1cb21bd00e2621025"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_mask.npy",
+    "same": true,
+    "in360": true,
+    "sha256_362": "7dfb349ef4b8f9039f1c5648d815f004fd0e38b6e476ef367ca380358755e065",
+    "sha256_360": "7dfb349ef4b8f9039f1c5648d815f004fd0e38b6e476ef367ca380358755e065"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_median.npy",
+    "same": true,
+    "in360": true,
+    "sha256_362": "16af85976971b1ddbd6ee7c1ed97bd63075db34e0394873c58841efcffbe278b",
+    "sha256_360": "16af85976971b1ddbd6ee7c1ed97bd63075db34e0394873c58841efcffbe278b"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/card.py",
+    "same": false,
+    "in360": true,
+    "sha256_362": "9b4bcaa5d202498163adad9db422ea19716e73a4f10444938268c37ea2600ef3",
+    "sha256_360": "31a5082694a3e094bc70fdc4f685f903ba6bd14e6975a05b3081c9a7d1db026b"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/data.py",
+    "same": false,
+    "in360": true,
+    "sha256_362": "b413e57a42ecb1c501eede6c1142221336e6d016889cbe8c8a0efc83078d5bcc",
+    "sha256_360": "76e5c8fc76000c0069e5e56481fc181d2de97e496b93b001d47afafbb0467e34"
+  },
+  {
+    "path": "docs/ui-lab/scanner-poc/vendor/image_integrity.py",
+    "same": true,
+    "in360": true,
+    "sha256_362": "fd623c1358b110deaf844ad207baa558ebec88dc1aaf9b4e43b81ab843544632",
+    "sha256_360": "fd623c1358b110deaf844ad207baa558ebec88dc1aaf9b4e43b81ab843544632"
+  }
+]

@@ -43,6 +43,7 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.userData.observations?.augusta?.slots?.some(s=>s.session.candidate.level===5));
   const afterRoll=await snapshot();assert.deepEqual(afterRoll.items,beforeRoll.items);assert.deepEqual(afterRoll.userData.storage,beforeRoll.userData.storage);
   await page.reload();await page.waitForFunction(()=>document.querySelector('#newCard')?.textContent.includes('6.3%'));
+  await page.waitForFunction(()=>!document.querySelector('.advice-verdict')?.textContent.includes('ENTER_ACTUAL_TEAM_INVESTMENTS'));
   assert.equal(await page.locator('.workshop>.improve-opportunities').count(),0);assert.equal(await page.locator('#slots .echo-card').count(),5);
   const beforeSandbox=await snapshot();await goto('sandbox');await page.locator('#settingsToggle').waitFor();
   assert.equal(await page.evaluate(()=>!!globalThis.bellibingAccountSession),false);

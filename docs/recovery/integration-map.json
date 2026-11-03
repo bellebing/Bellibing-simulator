@@ -18,7 +18,7 @@
     "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "a259ed34f16c7367a0b2de568ccd45a52f1f280357c3ee43c3f0868cb0351afd"
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
   },
   {
     "source": "main",
@@ -165,7 +165,7 @@
     "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "a259ed34f16c7367a0b2de568ccd45a52f1f280357c3ee43c3f0868cb0351afd"
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
   },
   {
     "source": "359",
@@ -662,7 +662,7 @@
     "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "a259ed34f16c7367a0b2de568ccd45a52f1f280357c3ee43c3f0868cb0351afd"
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
   },
   {
     "source": "360",
@@ -2783,7 +2783,7 @@
     "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "a259ed34f16c7367a0b2de568ccd45a52f1f280357c3ee43c3f0868cb0351afd"
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
   },
   {
     "source": "363",

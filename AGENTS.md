@@ -4,6 +4,13 @@ Read [Development Process v2](docs/DEVELOPMENT_PROCESS.md) before work; it is th
 
 Recover current truth in order: GitHub `main`/code and relevant PR/CI state → `docs/PROJECT_STATUS.md` → Bellibing Echo Tool — AI Handoff, when available → relevant domain/UI contracts. Current implementation beats stale documents and chat history; an unmerged candidate is separate from main. Read only what the task needs.
 
+
+## 🔴 OWNER UI LOCK — mandatory for ALL production work
+
+Read **[Owner UI Control](docs/OWNER_UI_CONTROL.md)** before any product-visible edit. The owner has forbidden autonomous UI design and copy. A visible string, button, placement, modal, panel, picker, font, layout, color, state or interaction **requires an owner-approved exact before/after visual proposal first**. No image/approval = `⛔ OWNER UI APPROVAL REQUIRED`; stop the UI edit. No extra instruction text in normal UI. Inline expanders, minimal copy and reuse of approved components are required. This overrides any generic autonomy or earlier concept-design allowance when the target is the real app.
+
+**Active recovery integration stays in one Draft PR #365** (`recovery/one-pr-build-team-improve-20261103`). Do not create a second feature PR, change production UI by guesswork, or treat a test pass as owner acceptance. After each new chat, recover current PR SHA, main, PROJECT_STATUS, Bellibing Echo Tool AI Handoff and the latest owner visual decisions; never ask the owner to repeat them. Prefer one local checkout/worktree and GitHack for owner review. A hard CI approval gate is **planned but not yet installed**; do not claim this document alone blocks writes.
+
 ## Clean-slate UI concept work
 
 When the user explicitly commissions a **new, isolated visual concept** (such as a Bellibing UI Lab prototype):

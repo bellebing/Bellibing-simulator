@@ -1,0 +1,8 @@
+import { PUBLIC_DECISION_AVAILABILITY } from "../publicDecisionContract.js";
+const app = document.querySelector('#app');
+if (!app)
+    throw new Error('Missing #app root.');
+app.innerHTML = `<main class="alpha-shell"><h1>Bellibing Simulator Alpha</h1>
+<p role="status" data-decision-status="${PUBLIC_DECISION_AVAILABILITY.status}">Pending</p>
+<p>Character evaluation and Echo advice are currently unavailable.</p><nav><a href="./">Home</a> · <a href="./ui-preview/index.html">Character Build / Improve</a> ·
+<a href="./echo-lab.html">Echo Lab</a> · <a href="./roll-assistant.html">Roll Assist</a></nav></main>`;

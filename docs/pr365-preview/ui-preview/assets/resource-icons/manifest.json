@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "role": "resource-inventory.item-icons",
+  "importedAt": "2026-10-07",
+  "sources": {
+    "art": {
+      "repository": "TomyJan/WutheringWaves-UIResources",
+      "branch": "3.6",
+      "commit": "5b3d1d128ed3938cbb8e5260ba07b075b321a7c6"
+    },
+    "identity": {
+      "repository": "boxofzero/cassowary",
+      "commit": "57aff645ea532ee587d62883db306e34881f4393",
+      "path": "app/data/game/raw/inventoryItem.json",
+      "sha256": "c788aa2d0a85806dda1f686cc3e4db6218cf5aff3aa92b472e710349ef1635bb"
+    },
+    "crossCheck": {
+      "repository": "kree-nickm/progression-manager",
+      "commit": "f0166b7cff965d3e0ac12a8aac55579713ecb076",
+      "path": "js/wuwa/gamedata/MaterialData.js",
+      "sha256": "d23075854ef54ed111aa832f338bb69de242c6ebc45b292b8c2ae763a8cb380b"
+    }
+  },
+  "policy": {
+    "transform": "NONE_BYTE_IDENTICAL_COPY",
+    "scope": "Five source-resolved item icons only. Echoes remains text-only; no generic item identity is asserted.",
+    "copyrightOwner": "Kuro Games",
+    "reuseBasis": "Limited item-identification display in this fan companion, following the existing selective game-asset convention. Attribution and pinned provenance are retained; upstream repositories do not establish a blanket game-art license."
+  },
+  "assets": [
+    {
+      "id": "tuners",
+      "name": "Premium Tuner",
+      "gameId": 36000014,
+      "rarity": 5,
+      "color": "Gold",
+      "identityKey": "premium_tuner",
+      "sourcePath": "UIResources/Common/Image/IconA/T_IconA_txq_03_UI.png",
+      "crossCheckTexturePath": "/Game/Aki/UI/UIResources/Common/Image/IconA/T_IconA_txq_03_UI.T_IconA_txq_03_UI",
+      "localPath": "tuners.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 60852,
+      "sha256": "c318f2e90924c73f6927e0495fb5fe30c92ec000051787b994a26cbc09b89f69",
+      "sourceBlobSha": "ed53ac55ea2f7ce2c9715d7790306df4dda3ef4f"
+    },
+    {
+      "id": "premium",
+      "name": "Premium Sealed Tube",
+      "gameId": 36000004,
+      "rarity": 5,
+      "color": "Gold",
+      "identityKey": "premium_sealed_tube",
+      "sourcePath": "UIResources/Common/Image/IconA/T_IconA_13_UI.png",
+      "crossCheckTexturePath": "/Game/Aki/UI/UIResources/Common/Image/IconA/T_IconA_13_UI.T_IconA_13_UI",
+      "localPath": "premium.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 72933,
+      "sha256": "9b33308611795115b1389dacffba8700fc162a498a1ba93e5ff24df8cc8d2a40",
+      "sourceBlobSha": "af979ef5cdb224daedc97e6c54a8a982f68e54fe"
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Sealed Tube",
+      "gameId": 36000003,
+      "rarity": 4,
+      "color": "Purple",
+      "identityKey": "advanced_sealed_tube",
+      "sourcePath": "UIResources/Common/Image/IconA/T_IconA_12_UI.png",
+      "crossCheckTexturePath": "/Game/Aki/UI/UIResources/Common/Image/IconA/T_IconA_12_UI.T_IconA_12_UI",
+      "localPath": "advanced.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 67931,
+      "sha256": "e2ef8467344b171dcc1dcb7ea88b574578b8274eac63cb5e0315d31bb3811ebd",
+      "sourceBlobSha": "94c666d5dba19d9070ff847532a2795f5329df1b"
+    },
+    {
+      "id": "medium",
+      "name": "Medium Sealed Tube",
+      "gameId": 36000002,
+      "rarity": 3,
+      "color": "Blue",
+      "identityKey": "medium_sealed_tube",
+      "sourcePath": "UIResources/Common/Image/IconA/T_IconA_11_UI.png",
+      "crossCheckTexturePath": "/Game/Aki/UI/UIResources/Common/Image/IconA/T_IconA_11_UI.T_IconA_11_UI",
+      "localPath": "medium.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 68272,
+      "sha256": "39007db28e9504066da84076b0ecccb924cfad5800a199be4499bdf11b33ed4e",
+      "sourceBlobSha": "05bf80d1144ddd312b3f6ec5f9b8923b93393e8b"
+    },
+    {
+      "id": "basic",
+      "name": "Basic Sealed Tube",
+      "gameId": 36000001,
+      "rarity": 2,
+      "color": "Green",
+      "identityKey": "basic_sealed_tube",
+      "sourcePath": "UIResources/Common/Image/IconA/T_IconA_10_UI.png",
+      "crossCheckTexturePath": "/Game/Aki/UI/UIResources/Common/Image/IconA/T_IconA_10_UI.T_IconA_10_UI",
+      "localPath": "basic.png",
+      "width": 256,
+      "height": 256,
+      "bytes": 67602,
+      "sha256": "58f721efcdaadce95311eabdefdd03d7f9f4f37d96e5fc823d1875661e5a4fdc",
+      "sourceBlobSha": "e8e2b45887ec948890357c5e46684ac56c440d27"
+    }
+  ]
+}

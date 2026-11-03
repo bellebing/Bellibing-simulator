@@ -44,6 +44,23 @@ The user's specific UI commitments:
 
 Do not present `docs/ui-lab/inventory-concept/hero-correction-review/accepted-improve.png` as the approved Improve reference — **the owner explicitly rejected that picture**.
 
+## Scanner provenance and required compact flow — owner clarification 2026-11-03
+
+**Do not confuse scanner implementation with its UI placement.** Verified sources:
+- **#361** has only a `Build → Add Character` planned scanner entry in its concept and explicitly states **no real OCR**. Its Build/Inventory visual flow is the approved starting point, but #361 is NOT the scanner algorithm source.
+- **#362** is the original real, isolated Discord-card OCR/image-recognition proof (real local scanner, five panels, inline correction, confirmation; intentionally disconnected `Save to Inventory`). This is the historical scanner source/oracle; preserve actual recognition algorithms, provenance, license and focused tests.
+- **#360** carries a subsequently integrated/extended real scanner plus ownership/persistence, improved recognition, import staging and Save Build linkage. Reuse its verified **functional changes and data adapters** if correct; reject any separate full-page Character Import screen or large duplicate editable Character Builder presentation.
+
+**OWNER'S NONNEGOTIABLE END-TO-END INTERACTION:**
+1. Open existing **Build a Character**, choose its compact Import / Add Character control (or a small unobtrusive anchored popover). Accept a Discord build card via upload/drop/paste. No redirect to a separate full-page import wizard, no parallel standalone Character menu, and no new full-screen scanner interface.
+2. Run the real #362/#360 recognition on that image; allow **necessary compact review of uncertain/corrected scan facts**, but do not invent Character editor clones. Review provenance/unrecognized fields explicitly; never fill unknown weapon rank/refinement, skills/level or Echo details by guessing.
+3. On explicit confirmation, save into the existing canonical account / Inventory owner and create/update the real Character Build under its standard Character identity. After successful import, **navigate/focus existing Build a Character** with that imported character selected and the exact confirmed owned items; never display a second Character Build page. No automatic equipment/overwrite if conflict/revision checks fail.
+4. Keep corrected draft recovery, physical Echo/Weapon IDs, replacing equipped items safely, atomic save, before-state/rollback, JSON export/restore and in-Build Skills/Forte completion; distinguish staging from saved owned data. Genuine scanner functionality may come from #360 when #362 lacks it; this does **not** authorize #360's UI.
+5. Test real upload → recognition → minimal review → explicit save → Build a Character selected → reload → Inventory → Improve sees saved Current. Verify cancel, corrupted file, duplicate, conflicting equipment, missing facts, revision freshness, keyboard/pointer, no redundant view, zero lost items, and complete record/source provenance.
+6. Present scanner preview showing its **actual compact UI within Build** and screenshots for owner approval. If sufficient OCR review genuinely cannot fit the approved compact flow, **STOP for owner approval rather than introducing a new screen**.
+
+**Any previous statement that the complete scanner was implemented in #361 is incorrect.** #361 = visual entry concept; #362 = OCR source; #360 = integrated scanner implementation + data continuity. Choose functions from verified code, UI only from approved presentation. Keep everything in #365.
+
 ## Mandatory execution: one branch, one Draft PR
 
 1. **Before writing code:** check current GitHub main, working trees and open/closed PR ancestry; read `AGENTS.md`, `docs/DEVELOPMENT_PROCESS.md`, `docs/PROJECT_STATUS.md`, Bellibing Echo Tool AI Handoff and relevant UI/data contracts. Recover any local-only unpublished work before changing files.

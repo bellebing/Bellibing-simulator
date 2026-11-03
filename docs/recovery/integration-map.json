@@ -935,7 +935,7 @@
     "path": "test/ci-fast.test.mjs",
     "destination": "test/ci-fast.test.mjs",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "b22745611f0b05169d1095c1051c4f7ebe1b42eb4473b559afd39ffe053a4b8b"
+    "destinationSha256": "8972c03eb925808d214c7cec11364af3d9fbce6f78d718c76a9eceb78398c903"
   },
   {
     "source": "360",
@@ -2888,7 +2888,7 @@
     "path": "test/ci-fast.test.mjs",
     "destination": "test/ci-fast.test.mjs",
     "status": "adapted-or-newer-main; original-retained-at-source",
-    "destinationSha256": "b22745611f0b05169d1095c1051c4f7ebe1b42eb4473b559afd39ffe053a4b8b"
+    "destinationSha256": "8972c03eb925808d214c7cec11364af3d9fbce6f78d718c76a9eceb78398c903"
   },
   {
     "source": "363",

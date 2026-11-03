@@ -4,7 +4,7 @@ import {readFileSync,mkdtempSync,mkdirSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
-import {planFast} from '../scripts/ci-fast.mjs';
+import {planFast,completePrFiles} from '../scripts/ci-fast.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const job=(source,name)=>source.split('  '+name+':\n')[1]?.split(/\n  [a-z-]+:\n/)[0];
 const condition=block=>block.split('\n').find(line=>line.startsWith('    if:')).slice(8);
@@ -37,3 +37,18 @@ test('Draft pushes do not run Chromium/FULL; Ready and explicit review opt-in st
  for(const action of ['labeled','unlabeled'])for(const block of [full,fast,review])assert.equal(evaluate(condition(block),{action,label:'unrelated',draft:false}),false);
  assert.ok(reviewSource.includes('ready_for_review'));assert.ok(reviewSource.includes('labeled, unlabeled'));
 });
+
+function metadataFixture({count=301,changeHead=false,truncate=false}={}){
+ let reads=0;
+ return {repo:'owner/repo',head:'a'.repeat(40),number:365,request:async url=>{
+  if(!url.includes('/files?'))return {head:{sha:++reads>1&&changeHead?'b'.repeat(40):'a'.repeat(40)},changed_files:count};
+  const page=Number(new URL(url).searchParams.get('page')),start=(page-1)*100;
+  return Array.from({length:truncate&&page===4?0:Math.min(100,count-start)},(_,i)=>({filename:`src/file-${start+i}.mjs`,...(start+i===0?{previous_filename:'src/old.mjs'}:{})}));
+ }};
+}
+test('large PR metadata includes every page and previous rename path',async()=>{
+ const files=await completePrFiles(metadataFixture());assert.equal(files.length,302);assert.ok(files.includes('src/file-300.mjs'));assert.ok(files.includes('src/old.mjs'));
+});
+test('large PR metadata rejects a changed head during pagination',async()=>{await assert.rejects(completePrFiles(metadataFixture({changeHead:true})),/DIFF_HEAD_CHANGED/);});
+test('large PR metadata rejects truncated results',async()=>{await assert.rejects(completePrFiles(metadataFixture({truncate:true})),/DIFF_METADATA_INCOMPLETE/);});
+test('large PR metadata refuses API file limits rather than silently passing',async()=>{await assert.rejects(completePrFiles(metadataFixture({count:3001})),/DIFF_TOO_LARGE_FOR_FAST_METADATA/);});

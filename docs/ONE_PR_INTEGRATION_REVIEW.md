@@ -20,7 +20,7 @@ Preserved source histories: #359 through #360 ancestry; #360 functional source; 
 
 ## Local verification
 
-- 90 focused Node cases passed by direct execution, covering Inventory validation/moves, store transactions, migration/backup, sync adapters, settings, actual observations/capture, Candidate isolation, transport, presentation, teams and CI guards. Direct-file results are counted; the local isolated runner's per-file summary is not treated as an individual-test count.
+- 94 focused Node cases passed by direct execution, covering Inventory validation/moves, store transactions, migration/backup, sync adapters, settings, actual observations/capture, Candidate isolation, transport, presentation, teams and CI guards. Direct-file results are counted; the local isolated runner's per-file summary is not treated as an individual-test count.
 - 21 Python scanner regressions passed. Real Chromium WASM startup, the same 21 regressions, actual Tesseract OCR crop recognition, invalid-image rejection and cancellation passed. A generated whole-card sample was correctly rejected; it was not used as recognition accuracy evidence.
 - Original owner-supplied Lupa: real OCR → close/reopen correction retention → explicit consent/assignment → existing Build selection → reload with six preserved physical items. Unknown facts remain unknown. No remote image uploads or page errors. Evidence stays private.
 - Original Ciaccona: real OCR retained the geometric recognition and reviewable DEF compatibility proposal. This is focused recovery evidence, not a rerun of the complete historical accuracy benchmark.
@@ -28,7 +28,7 @@ Preserved source histories: #359 through #360 ancestry; #360 functional source; 
 - Chromium process restart / frozen-v0 database upgrade passed. The original built-product resource/Gate persistence and future-schema rescue browser test passed after adapting its Inventory tab assertions.
 - Strict web build and public-artifact boundary passed: 1,550 allowlisted assets, 18 approved compiled modules, no source maps. Whitespace and the preservation audit passed.
 
-The integration adds queued durable resource edits so overlapping saves compose without losing another field; failed saves preserve the prior balance and do not poison later edits. Regression coverage exercises both cases. The inherited #360 CI checksum test now separately pins its additive Foundation block while preserving the original FULL-step checksum and unchanged UI Lab checksum.
+The integration adds queued durable resource edits so overlapping saves compose without losing another field; failed saves preserve the prior balance and do not poison later edits. Regression coverage exercises both cases. The first remote FAST run stopped on the compare API’s 300-file cap before any checks. Its metadata fallback now paginates the complete PR file list, verifies the exact head before and after, rejects truncated/over-limit results, and retains the same test budgets and FULL gates. Four focused regressions cover these boundaries. The inherited #360 CI checksum test now separately pins its additive Foundation block while preserving the original FULL-step checksum and unchanged UI Lab checksum.
 
 ## Desktop visual differences for owner review
 

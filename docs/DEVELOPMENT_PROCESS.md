@@ -17,6 +17,14 @@ This is Bellibing's canonical worker process. `AGENTS.md` is the entrypoint; the
 - Preserve source pins, generated parity, content preflight, backward-impact review and readiness boundaries where applicable. A primitive, interface, recommendation or green test does not prove execution semantics, data completeness or DPS readiness.
 - Never weaken a test or gate merely to obtain green results. Visual acceptance cannot substitute for source, persistence or combat correctness.
 
+## Owner-controlled visible UI (hard stop)
+
+**See [Owner UI Control](OWNER_UI_CONTROL.md), which is mandatory for every production-visible UI change and applies over the generic autonomous-work allowance below.** The owner explicitly forbids unilateral interface work: before changing a label, text, placeholder, button, layout, font, spacing, navigation, modal/popup, picker, empty/error state or interactive presentation, show a real visible before/after proposal with exact proposed copy and highlighted changed areas, and obtain the owner's explicit approval. No owner-approved image and exact wording = `⛔ OWNER UI APPROVAL REQUIRED` and STOP only the visible edit. Do not silently interpret functional scope as presentation approval.
+
+**Default UI is minimal**: only necessary actions, headings and informative empty/error states; no redundant game-rule guidance, developer metadata, copy next to a button explaining the button, or custom full-screen popup instead of a shared inline expandable editor. Reuse prior accepted components, not new variants. After implementing approved UI, display its real updated appearance again; green tests alone are not visual acceptance. For current recovery work, one branch / one Draft PR #365, with no second feature PR, rebuild-from-scratch or merge without explicit GO. GitHack is the preferred *owner-facing* visual preview, while local Chromium is the preferred actual behavior/legacy-data check; do not conflate them.
+
+The strict **automatic UI-diff/owner-authentication CI gate is not installed yet**; documenting this rule cannot technically stop a misbehaving agent. Keep that limitation visible until a tested fail-closed gate and owner-controlled protections exist. Existing CI/verification rules remain in force; do not weaken them.
+
 ## Risk classes and focused checks
 
 Use the highest affected class; shared or cross-cutting changes require broader verification. Source-validity review applies even during a cheap iteration.

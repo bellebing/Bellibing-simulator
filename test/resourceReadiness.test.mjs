@@ -50,7 +50,7 @@ test('cost cells round Echoes and Tuners but preserve exact records, Gold equiva
   cost.present({expected: record});
   assert.equal(cells.expected[0].textContent, '≈ 78');
   assert.match(cells.expected[1].textContent, /≈ 1\D235$/);
-  assert.equal(cells.expected[2].textContent, '1.4');
+  assert.equal(cells.expected[2].textContent, '≈ 1.4');
   assert.equal(cells.simulated[0].textContent, '—');
   assert.equal(resourceCostValues(record)[0], 78.47561);
   assert.deepEqual(record, before);

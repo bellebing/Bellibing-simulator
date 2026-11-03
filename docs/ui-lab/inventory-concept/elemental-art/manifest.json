@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-29",
+  "timezone": "Europe/Stockholm",
+  "origin": "AI-generated refinements of existing elemental artwork via image_gen; open Electro composed and browser-inspected first, then five independent spatial refinements. No Character generation or owner-reference pixel reuse.",
+  "relativeDepth": "Artist-authored/generated approximation, not measured or reconstructed 3D geometry.",
+  "characterArt": "Existing reviewed cutouts unchanged; no fabricated anatomy.",
+  "records": [
+    {
+      "element": "electro",
+      "role": "Original painted background",
+      "master": "masters/electro.png",
+      "masterSHA256": "edfb8e283321249e0680ea9e681ef4264e666195798cd78cc67dd51ccb3d49a0",
+      "web": "electro.webp",
+      "webSHA256": "6563c0409334e237d976d21fdc31ff1fe7b858251c70d451c3dfd322ae0c52f7",
+      "webBytes": 276184,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "electro",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/electro-depth.png",
+      "masterSHA256": "231b729a0f55551c70c6818caeb98d269b912ea2a799e8d32dddc5967f70b93e",
+      "web": "electro-depth.webp",
+      "webSHA256": "2aac890dc1ed1520adf89380dbbd012edd4f30bff99e50d55c8599742957a6a8",
+      "webBytes": 664220,
+      "encoding": "WebP lossless; original dimensions"
+    },
+    {
+      "element": "fusion",
+      "role": "Original painted background",
+      "master": "masters/fusion.png",
+      "masterSHA256": "53df6aab90fbde48cdda1136a3e9db5451133cde9094c93f14c197d64be0ae8e",
+      "web": "fusion.webp",
+      "webSHA256": "da41ba671fd4fecb8f9873c00151ee878d75698d0f7e894a0b81891c519d4434",
+      "webBytes": 320210,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "fusion",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/fusion-depth.png",
+      "masterSHA256": "fa994567a88d2264e10c7acac9e456964f6afe16ad8cc46138b7cab69705ce85",
+      "web": "fusion-depth.webp",
+      "webSHA256": "f7c9315877c0b61d1611c45344836680ee08c823a240ced32a3b15690c9e0302",
+      "webBytes": 751782,
+      "encoding": "WebP lossless; original dimensions"
+    },
+    {
+      "element": "glacio",
+      "role": "Original painted background",
+      "master": "masters/glacio.png",
+      "masterSHA256": "d9ffbf73350e62b1ed3204bedca589cd9ddd3d7638910284fd9e6755f1610f6d",
+      "web": "glacio.webp",
+      "webSHA256": "fa779fc9bd9b6bb6de81717f0dea3292d8fd238558d7a8174c94f257e682a72a",
+      "webBytes": 490394,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "glacio",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/glacio-depth.png",
+      "masterSHA256": "cf5a2590376a92981aafc5de3e6deb223f8fc45873e680dd72aa6e1abec5406c",
+      "web": "glacio-depth.webp",
+      "webSHA256": "65a357811de58c53f3427e2dc2fc89fc6ab5776ef5e92a0c407ee5674d1ecd54",
+      "webBytes": 727596,
+      "encoding": "WebP lossless; original dimensions"
+    },
+    {
+      "element": "aero",
+      "role": "Original painted background",
+      "master": "masters/aero.png",
+      "masterSHA256": "2c210c042b9686eb024d3d35bd24ae6539828ab922f65fb97a8b562bd5f8f5cf",
+      "web": "aero.webp",
+      "webSHA256": "15f4cf4a1f81441f887e03d7cd7b180719ad1a8e55c6472aeb4e83e12e9a567b",
+      "webBytes": 288610,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "aero",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/aero-depth.png",
+      "masterSHA256": "bfbb53118b23e3aedd5d7e1313bfaab118fa93b30b6cf032afb520b6f744a8bd",
+      "web": "aero-depth.webp",
+      "webSHA256": "134a0944718ff00c14c483ce8e9d880e6ecf640c69e3cb414b65de9658a926c2",
+      "webBytes": 825598,
+      "encoding": "WebP lossless; original dimensions"
+    },
+    {
+      "element": "spectro",
+      "role": "Original painted background",
+      "master": "masters/spectro.png",
+      "masterSHA256": "f328b3fda79df2345537472d9da65665bbb6ce4c87efc7a826a8e90f3c01fc6f",
+      "web": "spectro.webp",
+      "webSHA256": "3e837bdc3517db8d96e3163297af6b5f6bc120a5220614c02b09736af6ee8b02",
+      "webBytes": 333128,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "spectro",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/spectro-depth.png",
+      "masterSHA256": "d146be0bd36f95bdef4cca781fd9e4edbd85b9c96304c27fbb7bbfa290852c26",
+      "web": "spectro-depth.webp",
+      "webSHA256": "a6806ff66c1f6d0c3f06b94f34f4147a324187dcd428c19804503f9fb0b11cc5",
+      "webBytes": 822752,
+      "encoding": "WebP lossless; original dimensions"
+    },
+    {
+      "element": "havoc",
+      "role": "Original painted background",
+      "master": "masters/havoc.png",
+      "masterSHA256": "5fc897adc0898a1aa277e1e70884dd520615c5e150a4e2ceb615ba3746694564",
+      "web": "havoc.webp",
+      "webSHA256": "eaa6d4955f52166e024ba4bd5f45c8691c5bbcc5ac28978b9fffd1288713f8e3",
+      "webBytes": 288290,
+      "encoding": "WebP quality 94; original dimensions"
+    },
+    {
+      "element": "havoc",
+      "role": "Artist-authored relative-depth control map",
+      "master": "masters/havoc-depth.png",
+      "masterSHA256": "f24f514dfc0ca60ffaf52943da5c5c6b6d210d195e0b468336d16ed4e025f5b9",
+      "web": "havoc-depth.webp",
+      "webSHA256": "a82ff33a0d5e3081fa7a9462b6f7dc672f266add4d0b29aa7ce117fcae895083",
+      "webBytes": 853766,
+      "encoding": "WebP lossless; original dimensions"
+    }
+  ]
+}

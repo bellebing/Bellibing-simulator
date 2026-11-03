@@ -112,3 +112,16 @@ test('clean Sandbox captures a source reference without account access or invest
  for(const edit of [s=>s.buildContext.weaponId='lustrous-razor',s=>s.revisions.settings++,s=>s.revisions.inventory++]){const scope=structuredClone(original);edit(scope);assert.notEqual((await captureLocalTeamBuilds({...input,scope})).payload.sandbox.ownership.revision,q.ownership.revision);}
  assert.equal((await captureLocalTeamBuilds({...input,scope:{}})).status,'PENDING');
 });
+
+test('real Improve accepts explicitly entered actual levels/refinement without substituting reference investments',async()=>{
+ const {records}=own(),f={mode:'IMPROVE',team,selectedCharacterId:'augusta',records,scope:{settings:1}};
+ const reference=await captureLocalTeamBuilds({...f,acceptReferenceInvestment:true});
+ // Reuse the existing owned fixture; all source/model admission stays private.
+ assert.equal(reference.status,'CAPTURED');
+ const actualInvestments=Object.fromEntries(f.team.characterIds.map((id,i)=>[id,{characterLevel:80+i,weaponLevel:70+i,weaponRefinement:2+i}]));
+ const result=await captureLocalTeamBuilds({...f,acceptReferenceInvestment:false,actualInvestments});
+ assert.equal(result.status,'CAPTURED');
+ for(const b of result.payload.current.builds){assert.equal(b.baseline.characterLevel,actualInvestments[b.characterId].characterLevel);assert.equal(b.weapon.level,actualInvestments[b.characterId].weaponLevel);assert.equal(b.weapon.rank,actualInvestments[b.characterId].weaponRefinement);}
+ delete actualInvestments[f.team.characterIds[1]];
+ assert.equal((await captureLocalTeamBuilds({...f,actualInvestments})).reason,'ENTER_ACTUAL_TEAM_INVESTMENTS');
+});

@@ -20,13 +20,13 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
     field.querySelector('.resource-unlimited').setAttribute('aria-pressed', String(active));
   }
   host.querySelectorAll('input').forEach(sync);
-  host.addEventListener('click', event => {
+  host.addEventListener('click', async event => {
     const button = event.target.closest('.resource-unlimited');
     if (!button) return;
     const field = button.closest('[data-resource]'), input = field.querySelector('input');
-    inventory.toggleUnlimited(field.dataset.resource);
-    input.value = formatInventoryQuantity(quantity(field.dataset.resource));
-    clear(input); sync(input);
+    try{await inventory.toggleUnlimited(field.dataset.resource);
+      input.value = formatInventoryQuantity(quantity(field.dataset.resource));clear(input);sync(input);
+    }catch(failure){error.textContent=failure.message;error.hidden=false;}
   });
   function clear(input) {
     input.setCustomValidity('');
@@ -36,10 +36,11 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
       error.hidden = true; error.textContent = ''; delete error.dataset.resource;
     }
   }
-  function commit(input) {
+  async function commit(input) {
+    if(input.disabled)return;
     const field = input.closest('[data-resource]'), id = field.dataset.resource;
     try {
-      inventory.set(id, input.value);
+      input.disabled=true;await inventory.set(id, input.value);
       input.value = formatInventoryQuantity(quantity(id));
       clear(input); sync(input);
     } catch (failure) {
@@ -53,7 +54,7 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
       error.dataset.resource = id;
       error.textContent = `${input.getAttribute('aria-label').replace(' available count','')}: entry rejected. ${failure.message}`;
       error.hidden = false;
-    }
+    }finally{input.disabled=false;}
   }
   host.addEventListener('input', event => { if (event.target.matches('input')) clear(event.target); });
   host.addEventListener('change', event => { if (event.target.matches('input')) commit(event.target); });
@@ -63,7 +64,7 @@ export function mountResourceInventory(host, inventory = createLabResourceInvent
     if (event.key === 'Escape') { event.preventDefault(); event.target.value = formatInventoryQuantity(quantity(event.target.closest('[data-resource]').dataset.resource)); clear(event.target); }
   });
   function showMissing(missing = []) {
-    host.querySelectorAll('[data-resource]').forEach(field => {
+    host.querySelectorAll('.resource-field[data-resource]').forEach(field => {
       const affected = missing.includes(field.dataset.resource) || (missing.includes('xp') && ECHO_TUBES.some(tube => tube.id === field.dataset.resource));
       field.classList.toggle('resource-missing', affected);
       const input = field.querySelector('input');

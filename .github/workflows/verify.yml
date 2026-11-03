@@ -96,11 +96,39 @@ jobs:
       - name: Improve policy focused regression
         run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
 
+      - name: Foundation account, migration and recovery regression
+        run: npm run test:foundation
+
+      - name: Setup Java for local Firebase emulators
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Firebase account isolation and Google-provider emulator regression
+        run: npm run test:foundation:firebase
+        env:
+          CI: '1'
+      - name: Install Foundation verification browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Foundation previous-version restart and built-product persistence
+        run: npm run build && npm run test:foundation:browser
+
+      - name: Browser-local scanner verification dependencies
+        run: python3 -m pip install numpy==2.2.6 Pillow==11.3.0
+      - name: Prepare source-bound browser scanner proof
+        run: |
+          npm run scanner:browser:prepare
+          node scripts/cache-browser-scanner.mjs
+          npm run scanner:browser:prepare
+          python3 scripts/create-scanner-smoke.py
+      - name: Chromium and Firefox local scanner regression
+        run: npm run test:scanner:browser
+
       - name: Tests
         run: npm test
 
       - name: Detached Sandbox configuration and HTTP client regression
-        run: node --experimental-strip-types --test test/sandboxFoundation.test.mjs test/sandboxHttpClient.test.mjs test/browserSandboxRelease.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs test/fixedTeamScenario.test.mjs test/localTeamBuildCapture.test.mjs test/localTeamReviewBridge.test.mjs test/localTeamReviewClient.test.mjs test/interactiveEchoSession.test.mjs
+        run: node --experimental-strip-types --test test/sandboxFoundation.test.mjs test/sandboxHttpClient.test.mjs test/browserSandboxRelease.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs test/fixedTeamScenario.test.mjs test/localTeamBuildCapture.test.mjs test/localTeamReviewBridge.test.mjs test/localTeamReviewClient.test.mjs test/interactiveEchoSession.test.mjs test/observedImproveSession.test.mjs
 
       - name: Strict web build
         run: npm run build

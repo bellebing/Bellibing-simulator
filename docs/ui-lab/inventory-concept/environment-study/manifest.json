@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "role": "original.hero-environment.visual-study",
+  "source": "render-environment.py",
+  "sourceSHA256": "60e814b8fa19ff006acd016b74c319fb709aa166f39dcb5d5d1854eb0ccad566",
+  "renderer": "Blender 4.3.2 / EEVEE",
+  "renderedPixels": [
+    1440,
+    810
+  ],
+  "renderSamplesObserved": 64,
+  "externalArtInputs": [],
+  "figure": "Original procedural faceless clothed mannequin. Not Character art or reconstruction.",
+  "cameraMatchedPlanes": {
+    "room.png": "room/floor/atmosphere; no study subject or podium",
+    "study-figure.png": "study subject with podium and contact shadow",
+    "foreground.png": "near stone/bronze surfaces"
+  },
+  "assetSHA256": {
+    "room.png": "bbafbb7c6686e219a51398016ca874e47b81aa55788cdf5a84570be684688f85",
+    "study-figure.png": "ba9e7891a45cf5030695a56dc78254ba1778e1bdbfea85729d08d9b93b2f8c1b",
+    "foreground.png": "c5766c31d1b4c820192f0e4ab356cac974432817fe5c7d02523a3e37c1299604"
+  },
+  "browserDepthMap": false,
+  "browserNormalMap": false,
+  "browserRenderer": false,
+  "runtimeMotion": "Rigid image planes only; subject and support remain together"
+}

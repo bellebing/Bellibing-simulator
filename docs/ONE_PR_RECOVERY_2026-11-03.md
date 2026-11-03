@@ -1,6 +1,6 @@
 # One-PR UI + integration recovery — owner scope 2026-11-03
 
-> **STATUS: RECOVERY PLAN ONLY, NOT IMPLEMENTED, NOT UI-APPROVED.** This document establishes a single recovery branch/PR. It is not a substitute for actual integration, Chromium proof, or full tests. Keep this PR Draft until the owner signs off. No merge, deployment, PR closure, backend activation, private engine copying, or live account changes.
+> **STATUS: RECOVERY CONTRACT; LOCAL INTEGRATION CANDIDATE, NOT UI-APPROVED.** The [preservation audit](ONE_PR_PRESERVATION_AUDIT.md) precedes porting; the [integration review](ONE_PR_INTEGRATION_REVIEW.md) distinguishes implemented behavior, local evidence and remaining gates. Keep this PR Draft until the owner signs off. No merge, deployment, PR closure, backend activation, private engine copying, or live account changes.
 
 ## Purpose and exact separation
 

@@ -20,6 +20,21 @@ Authority is intentionally split rather than duplicated:
 
 If an older v34 measurement conflicts with the current layout/motion contract, preserve the approved visual intent while following the current containment/responsive contract. A new chat should not need old PRs or chat transcripts to recover these rules.
 
+## Current owner decisions
+
+The latest owner decisions and [Owner UI Control](OWNER_UI_CONTROL.md) override older presentation directions below. These are retained requirements/references, not authorization to change the current PR or evidence that its UI is accepted.
+
+- Reuse the working Character carousel; do not introduce a second picker. Sequence direction is compact selection left alongside Stats/Weapon/Skills, using the existing editor and supported S levels, without a new S badge menu above the Character.
+- One account/save area: unowned → `Add to Account`; owned unchanged → `On Account`; owned modified → `Update`. No additional independent Save Build control.
+- Inventory reference is #361's equipment grid/inspector/fonts and real empty state; JSON recovery is secondary. Build import remains compact → true #362/#360 OCR/correction → explicit save → same Builder, preserving data safety.
+- Preserve compact Improve Current/Candidate/five Echo slots + Team DPS and independent Echo Sandbox. The oversized Improve/fake Demo replacement is rejected. #361 Build/Teams/Inventory are visual references, not completed functionality. Unavailable DPS stays Pending.
+
+## Reusable UI patterns
+
+When the owner clearly accepts an implemented interaction/appearance, keep one short entry here: **pattern — when to reuse — component/source — owner approval reference** (1–3 lines). Update rather than duplicate. Preserve existing approval evidence in its original location and link it; do not invent missing references or promote an unaccepted implementation. Reuse in a new visible change still needs the normal UI approval.
+
+Owner direction: prefer inline expandable cards/panels over unnecessary popups for selection/editing; keep copy minimal. This is a design constraint, not a claim that today's popup implementations have been replaced or that a specific replacement component has been accepted.
+
 ## Checkpoint
 
 Current accepted UI foundation: **v34 — Home wheel + Character selector + five Echo slots + Sequence rail**.

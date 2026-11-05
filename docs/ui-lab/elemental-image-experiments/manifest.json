@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-10-31",
+  "auditedRemoteHeads": {
+    "origin/main": "f22c37b822f1ab653b37c11f1c692d31f84586f4",
+    "origin/concept/inventory-navigation-20261028": "9b457579818c212380d5911592a34c2076d64282"
+  },
+  "scope": "Preservation of chat-generated images and decisions only; no UI integration or new generation.",
+  "provenance": "Login edits derive from Wuthering Waves reference imagery (Kuro Games), with AI-assisted editing. They are visual experiments, not independently authored production-ready environments or a license grant. Raw reference screenshots and private Drive material are excluded.",
+  "generatedImages": [
+    {
+      "id": "spectro-subtle-edit",
+      "title": "Subtle Spectro edit",
+      "file": "images/spectro-subtle-edit.png",
+      "sha256": "d0ca9ca5dff3d3e33e36212fa19e6aa18f7807409e9ec08a12281263b3958df2",
+      "bytes": 2585159,
+      "width": 1673,
+      "height": 940,
+      "reviewState": "Review experiment; later material critique applies; not a selected final asset",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "meadow-source-rejected",
+      "title": "Meadow source pass",
+      "file": "images/meadow-source-rejected.png",
+      "sha256": "715ecb4f19a71843978a95002930c1f072bcca6ee16e2a32d888c560297baa8b",
+      "bytes": 2892413,
+      "width": 1672,
+      "height": 941,
+      "reviewState": "Superseded source of the owner-rejected meadow direction",
+      "provenanceClass": "earlier-original-generation"
+    },
+    {
+      "id": "login-electro-reference-edit",
+      "title": "Direct login-screen Electro edit",
+      "file": "images/login-electro-reference-edit.png",
+      "sha256": "4be97874cd99394d69e2182960fd82af4693bdc33a20af126580343777bbcdd5",
+      "bytes": 2498732,
+      "width": 1674,
+      "height": 940,
+      "reviewState": "Owner approved the visual direction, then requested a smaller cliff",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "electro-material-refinement",
+      "title": "Latest Electro material refinement",
+      "file": "images/electro-material-refinement.png",
+      "sha256": "03ec4c028eb98efe6acbca4af3c40dd328685ec32184822294e8945bdeea8f62",
+      "bytes": 2559899,
+      "width": 1673,
+      "height": 940,
+      "reviewState": "Awaiting explicit visual approval; not integrated into UI",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "electro-environment-variation-stopped",
+      "title": "Expanded Electro variation",
+      "file": "images/electro-environment-variation-stopped.png",
+      "sha256": "2ffe4dcb461d9bc81839ff439d52a662a53e15d29480d68a51971553b4f484b3",
+      "bytes": 2905629,
+      "width": 1673,
+      "height": 940,
+      "reviewState": "Owner stopped these elemental variations; comparison only",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "approved-cliff-foundation",
+      "title": "Approved composition foundation",
+      "file": "images/approved-cliff-foundation.png",
+      "sha256": "d5ecceb8bc398cfdad738fac8b3a58bf5aa808cd5a66b6a12ac51fa02afede2c",
+      "bytes": 2480725,
+      "width": 1673,
+      "height": 940,
+      "reviewState": "Owner selected this composition as the foundation; subsequent material appearance needed refinement",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "login-electro-smaller-cliff",
+      "title": "Smaller and lower foreground cliff",
+      "file": "images/login-electro-smaller-cliff.png",
+      "sha256": "60bee9d39165d32442cbd6ab7a882f989d9d2cc251b6f7296eb8614586cf64c2",
+      "bytes": 2501225,
+      "width": 1674,
+      "height": 940,
+      "reviewState": "Owner preferred this cliff; followed by small silhouette/standing-area edits",
+      "provenanceClass": "login-reference-derived-edit"
+    },
+    {
+      "id": "early-electro-source",
+      "title": "Earlier Electro generation intermediate",
+      "file": "images/early-electro-source.png",
+      "sha256": "765f0e7e87754e23ee8adb49ced597a5507d1429c9b7852f5cc2844a6241f9d1",
+      "bytes": 2103426,
+      "width": 1672,
+      "height": 941,
+      "reviewState": "Historical intermediate; final earlier Electro art already retained in PR361",
+      "provenanceClass": "earlier-original-generation"
+    },
+    {
+      "id": "coastal-source-rejected",
+      "title": "Coastal source pass",
+      "file": "images/coastal-source-rejected.png",
+      "sha256": "ae68e115bb1c9e39d5a80daeeb97f8e0cb3be2415dd8b7990b4f83de2cc357bd",
+      "bytes": 2643794,
+      "width": 1672,
+      "height": 941,
+      "reviewState": "Superseded source of the owner-rejected coastal direction",
+      "provenanceClass": "earlier-original-generation"
+    },
+    {
+      "id": "early-electro-grayscale-intermediate",
+      "title": "Earlier grayscale Electro intermediate",
+      "file": "images/early-electro-grayscale-intermediate.png",
+      "sha256": "0db771084ad44b7445df69ad002a360c47624128c168129dabbf18f652792f29",
+      "bytes": 1821200,
+      "width": 1672,
+      "height": 941,
+      "reviewState": "Historical grayscale working image, not an approved depth-map replacement",
+      "provenanceClass": "earlier-original-generation"
+    },
+    {
+      "id": "electro-spires-internal-draft",
+      "title": "Effect-heavy Electro working draft",
+      "file": "images/electro-spires-internal-draft.png",
+      "sha256": "96e394c99b9709ad715efa432031c53cd03e16f314fe146f56eb73f3f0c09419",
+      "bytes": 2788772,
+      "width": 1672,
+      "height": 941,
+      "reviewState": "Internally discarded; not presented as owner-approved",
+      "provenanceClass": "earlier-original-generation"
+    },
+    {
+      "id": "spectro-environment-variation-stopped",
+      "title": "Lush Spectro variation",
+      "file": "images/spectro-environment-variation-stopped.png",
+      "sha256": "07b535729eae7a036115f9284c86914f178c4df222547454da12329c7e7de4a4",
+      "bytes": 3351462,
+      "width": 1673,
+      "height": 940,
+      "reviewState": "Owner stopped these elemental variations; changed too much of the location",
+      "provenanceClass": "login-reference-derived-edit"
+    }
+  ],
+  "comparison": {
+    "file": "spectro-comparison.png",
+    "sha256": "d41cec9a2bcd257f8fb17102cc93691e2b6ba29c8edef61b068568a70762bff5",
+    "sources": [
+      "approved-cliff-foundation",
+      "spectro-subtle-edit"
+    ]
+  },
+  "coverage": {
+    "generatedFilesInspected": 30,
+    "alreadyOnGitHub": 18,
+    "newlyArchived": 12
+  },
+  "audit": [
+    {
+      "localFile": "exec-000c6952-02f1-44ce-9d17-65d1a55e8021.png",
+      "sha256": "2c210c042b9686eb024d3d35bd24ae6539828ab922f65fb97a8b562bd5f8f5cf",
+      "bytes": 2145361,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/aero.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-00c351cd-a9e3-49ad-8854-9c73fafc096b.png",
+      "sha256": "a27633253301c55c307ebdb574b9b0055afd689999c53fb882a3db97d9c828b2",
+      "bytes": 2500134,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-046de114-bf68-419f-8ecc-c188286ac3dc.png",
+      "sha256": "d0ca9ca5dff3d3e33e36212fa19e6aa18f7807409e9ec08a12281263b3958df2",
+      "bytes": 2585159,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/spectro-subtle-edit.png"
+    },
+    {
+      "localFile": "exec-07e6addc-4f5b-4b0a-b9b9-3e72ac363f02.png",
+      "sha256": "d9ffbf73350e62b1ed3204bedca589cd9ddd3d7638910284fd9e6755f1610f6d",
+      "bytes": 2681212,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-19e06a44-0056-459a-956b-708281017c83.png",
+      "sha256": "bfbb53118b23e3aedd5d7e1313bfaab118fa93b30b6cf032afb520b6f744a8bd",
+      "bytes": 1374637,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/aero-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-1ca8a14d-4154-4ee7-bee6-89307b92ef86.png",
+      "sha256": "f24f514dfc0ca60ffaf52943da5c5c6b6d210d195e0b468336d16ed4e025f5b9",
+      "bytes": 1410917,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-21488499-a416-4168-a836-f749284a8f93.png",
+      "sha256": "cf5a2590376a92981aafc5de3e6deb223f8fc45873e680dd72aa6e1abec5406c",
+      "bytes": 1258828,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-2cac9634-c8f5-4370-b838-66663f2a0d56.png",
+      "sha256": "309312a04f1a68d1307f27ae4a1311ac5a79a620cbe41fb51412f19fc8523245",
+      "bytes": 2294916,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-3168e71c-74c9-4d88-b41f-cd26d39ae992.png",
+      "sha256": "edfb8e283321249e0680ea9e681ef4264e666195798cd78cc67dd51ccb3d49a0",
+      "bytes": 2138082,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/electro.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-350b1c71-a67c-41e0-9e47-262d67e03667.png",
+      "sha256": "715ecb4f19a71843978a95002930c1f072bcca6ee16e2a32d888c560297baa8b",
+      "bytes": 2892413,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/meadow-source-rejected.png"
+    },
+    {
+      "localFile": "exec-3a9ebf65-5c5d-4999-a9ef-857690ec1aa2.png",
+      "sha256": "4be97874cd99394d69e2182960fd82af4693bdc33a20af126580343777bbcdd5",
+      "bytes": 2498732,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/login-electro-reference-edit.png"
+    },
+    {
+      "localFile": "exec-46139e1e-ac02-4150-9194-84d597c06f47.png",
+      "sha256": "f328b3fda79df2345537472d9da65665bbb6ce4c87efc7a826a8e90f3c01fc6f",
+      "bytes": 2205884,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-6e72e4a2-ded5-4ec7-a937-4910bd002861.png",
+      "sha256": "53df6aab90fbde48cdda1136a3e9db5451133cde9094c93f14c197d64be0ae8e",
+      "bytes": 2095704,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-791124cb-202d-4b51-8090-39057546830f.png",
+      "sha256": "03ec4c028eb98efe6acbca4af3c40dd328685ec32184822294e8945bdeea8f62",
+      "bytes": 2559899,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/electro-material-refinement.png"
+    },
+    {
+      "localFile": "exec-7d0fe31c-84fd-4fd7-a6f9-abbab0c99632.png",
+      "sha256": "d146be0bd36f95bdef4cca781fd9e4edbd85b9c96304c27fbb7bbfa290852c26",
+      "bytes": 1365101,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-906a6fba-d7a1-48aa-9a16-945deba0f90e.png",
+      "sha256": "d0229faf7d04324d03821ff2c0f3989d69cdb0e9c0cf39d72a05dcad8d09b319",
+      "bytes": 1275924,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-a236f66d-74fb-4d57-a14a-fbd92a37517e.png",
+      "sha256": "2ffe4dcb461d9bc81839ff439d52a662a53e15d29480d68a51971553b4f484b3",
+      "bytes": 2905629,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/electro-environment-variation-stopped.png"
+    },
+    {
+      "localFile": "exec-a273c583-9a06-4447-9eb5-20775063530a.png",
+      "sha256": "d5ecceb8bc398cfdad738fac8b3a58bf5aa808cd5a66b6a12ac51fa02afede2c",
+      "bytes": 2480725,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/approved-cliff-foundation.png"
+    },
+    {
+      "localFile": "exec-ae145b8b-6a28-448a-9798-c37335e76136.png",
+      "sha256": "60bee9d39165d32442cbd6ab7a882f989d9d2cc251b6f7296eb8614586cf64c2",
+      "bytes": 2501225,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/login-electro-smaller-cliff.png"
+    },
+    {
+      "localFile": "exec-aec9a6f9-6a3b-4f4d-909c-44e23014e522.png",
+      "sha256": "765f0e7e87754e23ee8adb49ced597a5507d1429c9b7852f5cc2844a6241f9d1",
+      "bytes": 2103426,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/early-electro-source.png"
+    },
+    {
+      "localFile": "exec-b3b4c2b8-b573-45a1-979e-2738f24fac3d.png",
+      "sha256": "ae68e115bb1c9e39d5a80daeeb97f8e0cb3be2415dd8b7990b4f83de2cc357bd",
+      "bytes": 2643794,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/coastal-source-rejected.png"
+    },
+    {
+      "localFile": "exec-b9658c3e-f9c6-4b10-b8af-37e96dc03c8e.png",
+      "sha256": "0db771084ad44b7445df69ad002a360c47624128c168129dabbf18f652792f29",
+      "bytes": 1821200,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/early-electro-grayscale-intermediate.png"
+    },
+    {
+      "localFile": "exec-c670c1aa-1f59-419c-9a53-deab4ef98c8d.png",
+      "sha256": "a5ad0a18b65e6271a898e3fe41f3562e6d202644e9ac910d59bb8fdf7c61ea98",
+      "bytes": 1298173,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-cda6db5e-0f2a-4cda-ae53-7de2714edb04.png",
+      "sha256": "7f7b9d40984e665770de7e26ef0db4a9be27455f0edfa86b6b95a7d05358629e",
+      "bytes": 1185112,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-cf8a6df3-07be-4b9b-8c93-5a806a2021c3.png",
+      "sha256": "7aeea1d997e767eaa366be0874a5c7bc2f8543b95c120f5bbcecdf8304c2768b",
+      "bytes": 2523656,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-d1a25c66-9b2a-4e19-873d-e6e690d1a872.png",
+      "sha256": "fa994567a88d2264e10c7acac9e456964f6afe16ad8cc46138b7cab69705ce85",
+      "bytes": 1286580,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-e16add70-db4f-4257-9b2b-2f48eb7a3fc0.png",
+      "sha256": "96e394c99b9709ad715efa432031c53cd03e16f314fe146f56eb73f3f0c09419",
+      "bytes": 2788772,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/electro-spires-internal-draft.png"
+    },
+    {
+      "localFile": "exec-e451c9fa-484f-420d-bfbd-e5b87e92226e.png",
+      "sha256": "231b729a0f55551c70c6818caeb98d269b912ea2a799e8d32dddc5967f70b93e",
+      "bytes": 1198675,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/electro-depth.png"
+        }
+      ]
+    },
+    {
+      "localFile": "exec-f971edaf-8ec8-45c2-ba71-a207d76738c8.png",
+      "sha256": "07b535729eae7a036115f9284c86914f178c4df222547454da12329c7e7de4a4",
+      "bytes": 3351462,
+      "disposition": "added-by-this-archive",
+      "archivePath": "images/spectro-environment-variation-stopped.png"
+    },
+    {
+      "localFile": "exec-fc357c6c-fe40-4062-aabf-c457f2bc589a.png",
+      "sha256": "5fc897adc0898a1aa277e1e70884dd520615c5e150a4e2ceb615ba3746694564",
+      "bytes": 2193543,
+      "disposition": "already-on-github",
+      "existing": [
+        {
+          "revision": "9b457579818c212380d5911592a34c2076d64282",
+          "path": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc.png"
+        }
+      ]
+    }
+  ],
+  "historyAudit": "All newly archived image blob IDs were also absent from git rev-list --objects for fetched main and PR361; current-tree matches are recorded individually."
+}

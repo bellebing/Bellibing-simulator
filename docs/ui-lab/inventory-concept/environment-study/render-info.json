@@ -1,0 +1,24 @@
+{
+  "renderer": "4.3.2",
+  "engine": "BLENDER_EEVEE_NEXT",
+  "size": [
+    1440,
+    810
+  ],
+  "figure": "Original procedural faceless clothed mannequin; not a game Character",
+  "assets": "No external textures, meshes or fonts",
+  "camera": {
+    "position": [
+      0.0,
+      -8.600000381469727,
+      3.450000047683716
+    ],
+    "lensMm": 28.0
+  },
+  "layers": [
+    "room.png",
+    "study-figure.png",
+    "foreground.png"
+  ],
+  "maps": "No browser depth/normal maps; real offline geometry normals, lighting and shadows"
+}

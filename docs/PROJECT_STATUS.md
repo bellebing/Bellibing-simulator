@@ -1,6 +1,9 @@
 # Bellibing Simulator — Current Project Status
 
-Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover live branch/PR/SHA/CI/artifact/merge state from GitHub, not from this file. This document owns current product status, the nearest roadmap and real repo blockers only.
+> **2026-11-05:** Previous UI style locks, mandatory pixel layouts and per-control approval procedures were retired. This document describes implementation/product status, not how a future UI must look.
+
+
+[Development notes](DEVELOPMENT_PROCESS.md) are a quick reference; GitHub owns current implementation and CI, while this page records product progress and actual blockers. Past UI baselines are not design instructions.
 
 ## Current product
 ### Improve / Character Target
@@ -46,7 +49,7 @@ Customize target metrics, minimum/preferred semantics, source/context recovery a
 
 ### Character / Build workspace
 
-The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions.
+The current New UI Build/Improve foundation is integrated, including Character selection, Character-owned build state, Build Stats projection, Weapon/Echo ownership, Skills/Forte, Sequence, Character Hero Art, Character Build Card and Improve Candidate/Echo Workspace behavior already covered by their current contracts and regressions. The [recovery review candidate](ONE_PR_INTEGRATION_REVIEW.md) connects approved Build/Teams/Inventory presentation to the scanner and physical Inventory owner, while retaining the shared Improve/Sandbox composition. Local ownership/restore/observed-roll and compact import-to-Build checks pass; owner visual approval, complete FULL/UI Lab and paired private compatibility remain pending. This candidate is not merged or deployed.
 
 The catalog contains **59 RELEASED-selectable identities** and **Suoming CONFIRMED_UPCOMING** (Electro / Sword). Hsin (Electro / Rectifier) and Jingran (Fusion / Broadblade) are released; their raw Lv90 facts, energy caps, permanent stat nodes and complete source kits are recorded in the [release 3.7 facts candidate](CHARACTER_RELEASE_3_7_FACTS_REVIEW.md). The candidate has 59/59 raw records and 59/59 complete mechanics source profiles, including the explicit owner interpretation of Danjin’s translation; separate Build/Skills/Sequence/Hero Art presentation remains Pending. This is source-data coverage, not deployed or FULL-verified status. Visible Calc references do not establish mechanics or DPS readiness.
 
@@ -61,7 +64,7 @@ The six Reference Team 01 dependencies remain pending. See [Best Available Teams
 
 ## Engineering / process state
 
-Development Process v2 is integrated and canonical. CI 6A/6B is integrated: draft PRs use FAST, ready/final candidates use FULL, verified exact-head dist is the deployment input, and main deployment is gated by successful FULL.
+The documented working/testing workflow is available as a short development reference. CI 6A/6B is integrated: draft PRs use FAST, ready/final candidates use FULL, verified exact-head dist is the deployment input, and main deployment is gated by successful FULL.
 
 Sequence gate stabilization is integrated. The verifier now waits for settled open-state geometry before applying the unchanged spacing/viewport assertions; the earlier transition-timing false failure is not a current product blocker.
 

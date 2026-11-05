@@ -1,0 +1,207 @@
+{
+  "scope": "Three owner-supplied English 1920\u00d71080 Discord cards; not a general accuracy estimate",
+  "cards": {
+    "lupa": {
+      "counts": {
+        "character": {
+          "correct": 1,
+          "total": 1
+        },
+        "characterLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "weapon": {
+          "correct": 1,
+          "total": 1
+        },
+        "weaponLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "skills": {
+          "correct": 5,
+          "total": 5
+        },
+        "sequence": {
+          "correct": 1,
+          "total": 1
+        },
+        "echoIdentity": {
+          "correct": 5,
+          "total": 5
+        },
+        "sonata": {
+          "correct": 5,
+          "total": 5
+        },
+        "cost": {
+          "correct": 5,
+          "total": 5
+        },
+        "mainStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "secondaryStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "substatVisibleExact": {
+          "correct": 25,
+          "total": 25
+        },
+        "substatOcrNumeric": {
+          "correct": 25,
+          "total": 25
+        },
+        "substatCanonical": {
+          "correct": 25,
+          "total": 25
+        }
+      },
+      "elapsedMs": 6113,
+      "normalizations": [],
+      "unresolvedRows": [],
+      "validationIssuePaths": []
+    },
+    "chisa": {
+      "counts": {
+        "character": {
+          "correct": 1,
+          "total": 1
+        },
+        "characterLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "weapon": {
+          "correct": 1,
+          "total": 1
+        },
+        "weaponLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "skills": {
+          "correct": 5,
+          "total": 5
+        },
+        "sequence": {
+          "correct": 1,
+          "total": 1
+        },
+        "echoIdentity": {
+          "correct": 5,
+          "total": 5
+        },
+        "sonata": {
+          "correct": 5,
+          "total": 5
+        },
+        "cost": {
+          "correct": 5,
+          "total": 5
+        },
+        "mainStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "secondaryStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "substatVisibleExact": {
+          "correct": 25,
+          "total": 25
+        },
+        "substatOcrNumeric": {
+          "correct": 25,
+          "total": 25
+        },
+        "substatCanonical": {
+          "correct": 25,
+          "total": 25
+        }
+      },
+      "elapsedMs": 4859,
+      "normalizations": [],
+      "unresolvedRows": [],
+      "validationIssuePaths": []
+    },
+    "ciaccona": {
+      "counts": {
+        "character": {
+          "correct": 1,
+          "total": 1
+        },
+        "characterLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "weapon": {
+          "correct": 1,
+          "total": 1
+        },
+        "weaponLevel": {
+          "correct": 1,
+          "total": 1
+        },
+        "skills": {
+          "correct": 5,
+          "total": 5
+        },
+        "sequence": {
+          "correct": 1,
+          "total": 1
+        },
+        "echoIdentity": {
+          "correct": 4,
+          "total": 5
+        },
+        "sonata": {
+          "correct": 4,
+          "total": 5
+        },
+        "cost": {
+          "correct": 5,
+          "total": 5
+        },
+        "mainStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "secondaryStat": {
+          "correct": 5,
+          "total": 5
+        },
+        "substatVisibleExact": {
+          "correct": 24,
+          "total": 25
+        },
+        "substatOcrNumeric": {
+          "correct": 25,
+          "total": 25
+        },
+        "substatCanonical": {
+          "correct": 25,
+          "total": 25
+        }
+      },
+      "elapsedMs": 4437,
+      "normalizations": [
+        {
+          "echo": 2,
+          "row": 5,
+          "visible": 11.9,
+          "canonical": 11.8
+        }
+      ],
+      "unresolvedRows": [],
+      "validationIssuePaths": [
+        "echoes.1.echoId"
+      ]
+    }
+  },
+  "upstreamCommit": "f7eb67cbe0d0749b8902f318230f403e0bd3e7ea"
+}

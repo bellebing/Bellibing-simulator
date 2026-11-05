@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "Static archive gallery only, not simulator validation or visual acceptance of the artwork.",
+  "gallerySHA256": "0dcdff50a3479eda93610377a51a752ece9260c69b365e0eeb2406f0094db3ba",
+  "checks": [
+    "All 15 gallery images decode, including the two-image comparison and twelve archived outputs",
+    "Twelve archived output cards are present",
+    "No horizontal overflow at1440x1000 and1920x1080",
+    "No page errors or external subresources"
+  ],
+  "errors": [],
+  "externalRequests": []
+}

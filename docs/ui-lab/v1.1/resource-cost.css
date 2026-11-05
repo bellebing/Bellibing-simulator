@@ -22,3 +22,8 @@
 .cost-comparison small { display:block; padding-left:26px; font-size:9px; color:#77828d; margin-top:1px; }
 
 #resourceCost { width:100%; display:flex; justify-content:center; }
+
+.cost-comparison tfoot th,.cost-comparison tfoot td { padding:8px 3px 0; color:#aeb6bd; font-size:10px; font-weight:400; }
+.cost-comparison tfoot th { text-align:left; }
+.cost-comparison tfoot td { text-align:right; color:var(--gold); font-variant-numeric:tabular-nums; }
+.cost-comparison [hidden] { display:none; }

@@ -1,0 +1,9 @@
+{
+  "pyodideVersion": "0.29.3",
+  "pyodideLockSha256": "3256ffc76388de0e37f4b34d42ab484268d1afc675179ff97b2a5bb14f84ccac",
+  "rapidfuzzWheel": {
+    "file": "rapidfuzz-3.14.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+    "url": "https://files.pythonhosted.org/packages/30/83/80d22997acd928eda7deadc19ccd15883904622396d6571e935993e0453a/rapidfuzz-3.14.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl",
+    "sha256": "6c5f545f454871e6af05753a0172849c82feaf0f521c5ca62ba09e1b382d6382"
+  }
+}

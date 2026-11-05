@@ -1,0 +1,9 @@
+/* Genuine observations stay inside the existing interaction column. */
+.echo-advisor [data-observation]{display:grid;gap:8px;margin:12px 0;text-align:left;font-size:11px}
+.echo-advisor [data-observation] label{display:grid;gap:5px}.echo-advisor select,.improve-advice-details select,.improve-advice-details input{width:100%;box-sizing:border-box;font:inherit;color:inherit;background:#141c20;border:1px solid #454139;border-radius:5px;padding:7px}
+.echo-advisor [data-observation] button,.echo-advisor [data-restart],.improve-advice-details button{font:inherit;color:var(--gold);border:1px solid #454139;border-radius:5px;padding:8px}
+.echo-advisor .advice-options.is-compact{grid-template-columns:repeat(2,minmax(0,1fr))}.echo-advisor .advice-option{min-width:0;min-height:84px}.echo-advisor .advice-option>span{font-size:12px}.echo-advisor .advice-option:disabled{opacity:.55}
+.improve-advice-details{max-width:100%;margin-top:12px;text-align:left;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.improve-advice-details>summary{cursor:pointer;text-align:center;color:var(--gold)}.improve-advice-details label{display:grid;gap:4px;margin:8px 0}.improve-advice-details fieldset{margin:8px 0;padding:8px;border:1px solid var(--line)}.improve-advice-details dt{margin-top:8px}.improve-advice-details dd{margin:4px 0}
+body.has-echo-advisor .cost-comparison{display:table}
+.echo-advisor [data-observation]{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.echo-advisor [data-observation] button{grid-column:1/-1}.echo-advisor [data-observation] select{min-width:0}
+.echo-advisor>ol,.echo-advisor>.advice-spent{display:none}body.observation-entry-active #simulate{display:none}

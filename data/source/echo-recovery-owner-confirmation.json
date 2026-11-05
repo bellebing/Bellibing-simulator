@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "OWNER_CONFIRMED_GAME_MECHANIC_AND_MODEL_CHOICE",
+  "effectiveFractionsSource": "src/echoCoreRules.ts",
+  "dataRecovery": {
+    "status": "OWNER_CONFIRMED",
+    "basis": "Actual invested Echo EXP, including intermediate EXP carry",
+    "tubeDistribution": "Use all possible Premium first, then Advanced, then Medium, then Basic; discard the remaining EXP",
+    "canonicalDecomposition": "src/echoExactTubeSpending.ts:decomposeMaxOverflow",
+    "evidence": "Owner explicitly confirmed this previously verified rule in the current implementation assignment."
+  },
+  "directFeedFractionalEXP": {
+    "status": "OWNER_APPROVED_MODEL_ASSUMPTION",
+    "rounding": "Nearest integer; nonnegative half ties round up",
+    "gameplayVerification": "NOT_CLAIMED",
+    "evidence": "Owner does not know the game's fractional rule and explicitly authorizes ordinary mathematical rounding for this negligible fractional remainder."
+  },
+  "unchangedVerifiedMechanics": [
+    "Intermediate EXP carry is preserved before the cap",
+    "Existing +25 overflow and whole-Tube return logic remains canonical",
+    "No recovery multiplier is applied again to cap overflow"
+  ]
+}

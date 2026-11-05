@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Exact portable HTML embeds current CSS, two original vista/depth pairs and existing functional Builder assets without external resources",
+    "Both proposals hot-switch with identical card geometry and actual Character/build values; Background/Anchor/Cards captured at 1440×900; guide is separate from real Character art and occupies the intended ground region",
+    "Existing depth-aware renderer runs on both new maps; anchor follows its sampled ground plane with a bounded rigid transform, no perspective warp; cards fixed; Still and settled parallax have no idle loop",
+    "Optional water-light study animates independently with Still selected; actual water pixels change while sky pixels remain identical; no time-dependent landscape displacement; disabling it stops idle frames",
+    "Smaller Echo placement study uses the same selected art, depth map and actual WebGL renderer at a smaller raster size, including independent pointer interaction; no invented Echo/set association",
+    "Existing Character selection, source-backed Skills, Echo Workspace return path, Inventory, Teams and Endgame remain functional",
+    "Both proposals retain readable functional cards and source-relative anchors at 1920×1080 and 2560×1440; raster remains capped without DPR amplification",
+    "Reduced-motion startup and live changes stop both independent water animation and interactive displacement; live opt-in enables real movement; guide returns to identity transform",
+    "Actual context loss and absent WebGL preserve correct static artwork, source-relative placement guide and functional cards; unavailable motion controls are disabled",
+    "Account/resource sentinel bytes unchanged; exact standalone works offline with zero HTTP subresources, private APIs or page errors"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4179/vista-review"
+  ],
+  "scope": "Isolated original Electro A/B visual review; arbitrary scale guide, approximate depth, bounded water-light study. No final Character technique, owner approval, production or native file-launch certification."
+}

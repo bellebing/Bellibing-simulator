@@ -69,7 +69,7 @@ export function createImproveCandidateSession({readOwner,onChange=()=>{},clientF
  }
  return {
   kind:'ACCOUNT_BUILD',checkFresh,invalidate,snapshot:()=>clone(run),isBusy:()=>client?.isBusy()??false,
-  async metrics(){try{const p=prepare();if(binding!==identity(p.owner)||!client)attach(p);const g=generation,result=await client.metrics();if(g!==generation||!checkFresh())throw Error('STALE_ACCOUNT_CANDIDATE');return {status:result.status,reasons:result.reasons??[]};}catch(error){return {status:'PENDING',reasons:[error.message]};}},
+  async metrics(){try{const p=prepare();if(binding!==identity(p.owner)||!client)attach(p);const g=generation,result=await client.metrics();if(g!==generation||!checkFresh())throw Error('STALE_ACCOUNT_CANDIDATE');return {status:result.status,reasons:result.reasons??[],metrics:{expectedCost:clone(result.metrics?.expectedCost??null)}};}catch(error){return {status:'PENDING',reasons:[error.message]};}},
   async start(){const p=prepare();attach(p);await client.start();return clone(run);},
   async step(){if(!client||!checkFresh())throw Error('STALE_ACCOUNT_CANDIDATE');await client.step();return clone(run);},
   async abort(){if(!client||!checkFresh())throw Error('STALE_ACCOUNT_CANDIDATE');await client.abort();return clone(run);},

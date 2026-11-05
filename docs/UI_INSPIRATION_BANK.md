@@ -1,10 +1,12 @@
+> **RESEARCH ARCHIVE ONLY (2026-11-05):** Ideas, click targets and prototype descriptions below are historical observations, not UI rules or mandatory build requirements. Use the live interface and current user brief to decide what to implement.
+
 > Historical unmerged source candidate preserved during recovery. Current task scope and Development Process govern; dated readiness is not current product status.
 
 # Bellibing UI Inspiration Bank
 
 **Status:** UX research only · **Added:** 2026-10-24 · **Expanded:** 2026-10-25 · **Owner:** future M1 Build / Inventory / Scanner / Echo Workshop concept review.
 
-This is a small **reference shelf, not a product contract or implementation backlog**. Canonical UI decisions stay in [UI_UX_STATUS](UI_UX_STATUS.md), [UI_LAYOUT_MOTION_CONTRACT](UI_LAYOUT_MOTION_CONTRACT.md) and [UI_IMPROVE_SIMPLE_SETTINGS](UI_IMPROVE_SIMPLE_SETTINGS.md). The M1 acceptance/ownership boundary is [Issue #352](https://github.com/bellebing/Bellibing-simulator/issues/352); current priorities are in [PROJECT_STATUS](PROJECT_STATUS.md), the active roadmap Draft #347 and the AI Handoff. **M0 live Pages/Cloudflare/SIMULATE beta was published 2026-10-25 but owner desktop acceptance and the existing bounded beta/shutdown still own priority.** Do not relabel M0 accepted because a release smoke check passed. Nothing below approves building, merging, deploying, adding OCR, or importing third-party data.
+This is optional design research. For current implementation and feature state, use the live code and [Project Status](PROJECT_STATUS.md). No older UI file has styling authority.
 
 ## Owner focus clarified — 2026-10-25: **manual Echo entry first**
 

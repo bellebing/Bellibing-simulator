@@ -1,12 +1,15 @@
 # Bellibing Simulator
 
-Source-backed Wuthering Waves Character Build / Improve UI and character-free Echo mechanics.
+Wuthering Waves Character Build, Inventory, Teams, Improve and isolated Echo Sandbox.
 
-- [Character Build / Improve](https://bellebing.github.io/Bellibing-simulator/ui-preview/)
-- [Echo Lab](https://bellebing.github.io/Bellibing-simulator/echo-lab.html)
+**Design starts in the running app and the current user request.** Earlier UI sketches, measurements and approvals are historical references, not instructions. Bellibing uses **ETNA** for display headings and **Inter/system sans** for utility text; see [font provenance](docs/UI_TYPOGRAPHY.md).
 
-Improvement Cost / evaluator uses a private decision-engine contract. Proprietary policy and calibration are not part of the public repository. Alpha evaluation, Roll Assist advice and Echo Lab evaluation/strategy outputs remain Pending.
+- [Published UI preview (merged main)](https://bellebing.github.io/Bellibing-simulator/ui-preview/)
+- [Project status and active work](docs/PROJECT_STATUS.md)
+- [How to run and check locally](docs/DEVELOPMENT_PROCESS.md)
+- [Functional product/data semantics](docs/PRODUCT_CONTRACT.md)
 
-See [current product status](docs/PROJECT_STATUS.md) and [development process](docs/DEVELOPMENT_PROCESS.md). Source completeness does not establish executable evaluation. Missing or disputed facts remain Pending/Unknown; missing is not zero.
+Local Windows launcher: `START_BELLIBING_LOCAL.bat` (see [Windows local](docs/WINDOWS_LOCAL.md)).
+Public regression suite: `npm test`. Production web build: `npm run build`. These checks test implementation, not the quality of the visual design.
 
-Run `npm test` for the retained public regressions and `npm run build` for the strict public browser build with generated parity and artifact containment verification.
+The current integration candidate lives in Draft PR #365; it is distinct from published `main`. Actual game data and private decision-engine readiness are documented separately from presentation.

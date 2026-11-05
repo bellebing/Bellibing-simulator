@@ -1,6 +1,8 @@
+> **UI DESIGN RESET 2026-11-05:** The appearance described here is a candidate snapshot, not an active style lock or component-placement prescription. The old mandatory visual approval procedure has been retired. Functional/release-readiness evidence remains independently relevant.
+
 # One-PR integration — owner review candidate
 
-This candidate is exclusively in Draft #365. Main remains unchanged. **Owner visual approval, FULL/UI Lab and paired private compatibility are pending. This is not completion or release readiness.** The owner-approved Sequence access is the S-level label opening the existing controls.
+This candidate is exclusively in Draft #365. Main remains unchanged. **This is a historical candidate review; actual rendered quality, FULL/UI Lab and paired private compatibility have not been verified for release. There is no separate mandatory owner UI approval gate after the 2026-11-05 reset.** The owner-approved Sequence access is the S-level label opening the existing controls.
 
 ## Implemented candidate
 
@@ -49,7 +51,7 @@ The compiled artifact is a local UI preview, not an online deployment. Extract t
 
 Remaining:
 
-- Owner approval of all six production surfaces. Further material visual changes stop for owner review.
+- Real browser inspection of all six production surfaces and owner feedback on visible usability. Earlier exact design approvals and stop-on-design-deviation requirements no longer apply.
 - Exact-head FULL/UI Lab and complete existing browser gates, including adapting historical legacy-storage UX oracles to the explicit Inventory-owned save semantics. No gate is removed or declared green here.
 - Firefox persistence browser could not launch in this environment: namespace setup attempted to write read-only `/proc/self/uid_map`. Chromium results do not qualify Firefox.
 - Paired private #45 compatibility/runtime execution has not been rerun or activated. #363/private #46 and experimental private #47 remain excluded/deferred. No live numerical DPS/advice, hosted capacity or gameplay readiness is claimed from static/Pending screenshots.

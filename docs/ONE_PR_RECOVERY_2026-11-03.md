@@ -1,3 +1,5 @@
+> **ARCHIVE OF THE 2026-11-03 RECOVERY PLAN.** Its proposed UI layouts, prohibitions, approvals and stop-on-design-change checkpoints were superseded by the owner's 2026-11-05 design reset. It is not an instruction source for new UI work. Actual ownership and technical-source facts still require real code verification.
+
 # One-PR UI + integration recovery — owner scope 2026-11-03
 
 > **STATUS: RECOVERY CONTRACT; LOCAL INTEGRATION CANDIDATE, NOT UI-APPROVED.** The [preservation audit](ONE_PR_PRESERVATION_AUDIT.md) precedes porting; the [integration review](ONE_PR_INTEGRATION_REVIEW.md) distinguishes implemented behavior, local evidence and remaining gates. Keep this PR Draft until the owner signs off. No merge, deployment, PR closure, backend activation, private engine copying, or live account changes.

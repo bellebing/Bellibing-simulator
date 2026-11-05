@@ -1,3 +1,5 @@
+> **Historical UI Lab reference (2026-11-05):** Earlier visual approvals and layout prescriptions in this folder are optional examples, not requirements for new design. Use the actual running product and current user brief.
+
 # Bellibing UI Lab — V1.1 review environment
 
 An isolated, interactive visual prototype. This is not the production Improve page, an evaluator, or a replacement simulator. The production build/deployment does not include this directory.

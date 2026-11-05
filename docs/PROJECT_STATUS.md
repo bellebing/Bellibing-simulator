@@ -1,6 +1,9 @@
 # Bellibing Simulator — Current Project Status
 
-Worker process authority: [Development Process v2](DEVELOPMENT_PROCESS.md). Recover live branch/PR/SHA/CI/artifact/merge state from GitHub, not from this file. This document owns current product status, the nearest roadmap and real repo blockers only.
+> **2026-11-05:** Previous UI style locks, mandatory pixel layouts and per-control approval procedures were retired. This document describes implementation/product status, not how a future UI must look.
+
+
+[Development notes](DEVELOPMENT_PROCESS.md) are a quick reference; GitHub owns current implementation and CI, while this page records product progress and actual blockers. Past UI baselines are not design instructions.
 
 ## Current product
 ### Improve / Character Target
@@ -61,7 +64,7 @@ The six Reference Team 01 dependencies remain pending. See [Best Available Teams
 
 ## Engineering / process state
 
-Development Process v2 is integrated and canonical. CI 6A/6B is integrated: draft PRs use FAST, ready/final candidates use FULL, verified exact-head dist is the deployment input, and main deployment is gated by successful FULL.
+The documented working/testing workflow is available as a short development reference. CI 6A/6B is integrated: draft PRs use FAST, ready/final candidates use FULL, verified exact-head dist is the deployment input, and main deployment is gated by successful FULL.
 
 Sequence gate stabilization is integrated. The verifier now waits for settled open-state geometry before applying the unchanged spacing/viewport assertions; the earlier transition-timing false failure is not a current product blocker.
 

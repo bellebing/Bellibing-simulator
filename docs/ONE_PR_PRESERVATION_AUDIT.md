@@ -1,3 +1,5 @@
+> **HISTORICAL AUDIT, 2026-11-03.** Its design-delta approvals and old layout bans are no longer active after the 2026-11-05 owner reset. Source preservation and observed test findings remain as evidence, not a future UI specification.
+
 # Recovery preservation and UI-delta audit
 
 This is the pre-port audit for the scope in [the recovery contract](ONE_PR_RECOVERY_2026-11-03.md). It is not implementation, visual approval, or release evidence. The owner clarification also excludes a standalone/full-page importer: Build → compact Import → scan → correct/confirm → Save → existing Build.
@@ -33,18 +35,9 @@ All source PRs remain intact. A disposition of deferred/reference means the orig
 
 `docs/ui-lab/inventory-concept/preview.html` is #361's packaged interactive reference; index.html/concept.js/concept.css plus hero-team.js/hero-team.css are its modular source. Its selected-stills assets and review records remain original. Build/Teams/Inventory are visual oracles only; Endgame remains concept-only. No product navigation should route into this demo. The rejected accepted-improve.png filename does not confer approval.
 
-## UI delta constraints before implementation
+## Earlier UI proposal (historical only)
 
-| Surface | Approved delta | Rejected / requires owner decision |
-| --- | --- | --- |
-| Build | #361 still/canvas, Stats/Weapon/Forte cards and five detailed Echo cards, backed by existing editors | Independent Character screen, invented arrangement, or hiding existing editing functionality |
-| Team | #361 saved-team sidebar and three member cards, real owned references | Demo values, inferred roles/rotation/Endgame implementation |
-| Inventory | #361 collection grid + inspector; actual artwork/physical ownership | Concept inventory persistence, synthetic item counts or +0 stacks |
-| Improve | Real observed substat/value entry and advice within existing approved surfaces | #360's large pre-workspace analysis section/table; nine ordinary optimization modes; #361 placeholder; restored Team DPS prose |
-| Sandbox | Functional preservation | Any replacement layout or Inventory ownership coupling |
-| Import | Compact upload; necessary correction/confirmation; save to existing Builder | Standalone full-page importer or second Character menu |
-
-If an essential flow cannot fit these surfaces without material layout change, stop with a concrete owner-review question before implementing that change. Browser screenshots and passing checks do not grant visual approval.
+Previous fixed-layout choices and approval tables are available in Git history. They no longer restrict design. Keep the actual feature/data ownership described above when implementing a new interface.
 
 ## Verification baseline and limits
 

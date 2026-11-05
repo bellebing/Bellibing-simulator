@@ -1,3 +1,5 @@
+> **HISTORICAL ONLY — owner reset 2026-11-05.** The following v34 visual measurements and patterns are not binding on new UI work. Consult only as optional references; functional/data safety continues in current contracts.
+
 # Bellibing UI Build Handoff — v34 visual baseline
 
 Last reconciled: 2026-09-24

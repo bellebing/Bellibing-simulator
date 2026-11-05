@@ -1,14 +1,14 @@
 # Development Process v2
 
-Canonical worker process, read by relevant section as directed by [AGENTS.md](../AGENTS.md); [Owner UI Control](OWNER_UI_CONTROL.md) owns UI permission. This process replaces historical workflow/checkpoint instructions. Relevant product/domain contracts and the user's current scope still apply.
+Canonical worker process, read by relevant section as directed by [AGENTS.md](../AGENTS.md); older mandatory UI rules and per-change approval gates are retired (owner decision 2026-11-05). This process replaces historical workflow/checkpoint instructions. Relevant product/domain contracts and the user's current scope still apply.
 
 ## Work from the task
 
 1. Check local branch, HEAD and existing changes. Inspect affected code and relevant contracts; preserve other work.
-2. Make the smallest coherent change within scope. Reuse canonical models/components. Follow Owner UI Control for visible changes; technical choices within an exact approved design need no new UI approval.
+2. Make the smallest coherent change within scope. Reuse canonical models/components. For UI, follow the user's current brief, implement coherent scoped changes and review real rendered results; do not require separate approval for every visual detail.
 3. Run focused checks, review the diff and report results/limits. Continue routine task-related fixes; stop at completion, a requested checkpoint or a real blocker. Ask only for missing decisions that affect the task.
 
-Small local tasks do not require all PR comments, CI, history, PROJECT_STATUS or Handoff. Recover broader context when scope is unclear, evidence conflicts, the base changes or publication/merge is prepared: current GitHub main/relevant PR/code/CI → [PROJECT_STATUS](PROJECT_STATUS.md) → available AI Handoff → relevant contracts. Code establishes implementation; owner decisions establish UI permission. Candidates remain separate from main. Verify remote identity before claiming local/PR parity; unavailable access blocks only dependent work. Reuse known context rather than rereading it after each edit.
+Small local tasks do not require all PR comments, CI, history, PROJECT_STATUS or Handoff. Recover broader context when scope is unclear, evidence conflicts, the base changes or publication/merge is prepared: current GitHub main/relevant PR/code/CI → [PROJECT_STATUS](PROJECT_STATUS.md) → available AI Handoff → relevant contracts. Code establishes implementation; the user's current brief guides design. Candidates remain separate from main. Verify remote identity before claiming local/PR parity; unavailable access blocks only dependent work. Reuse known context rather than rereading it after each edit.
 
 ## Always preserve
 
@@ -31,4 +31,4 @@ Report changes, checks, failures/limits and blockers. Distinguish local/PR/merge
 
 Update current docs in place only for meaningful decisions/product/blocker changes, not every iteration. GitHub owns SHA/CI/artifacts; PROJECT_STATUS owns product/roadmap/blockers; Handoff owns cross-source goals/decisions; history and bugs stay in their own records. Do not duplicate live state or accumulate checkpoint logs.
 
-When the owner clearly accepts an implemented UI solution, record its reusable pattern in [UI/UX Status](UI_UX_STATUS.md#reusable-ui-patterns): 1–3 lines naming the behavior, when to reuse it, component/source and owner approval reference. Update an existing entry rather than duplicate it. A compliment on a proposal or a green test is not acceptance of an implementation. Recording acceptance needs no extra approval loop; applying the pattern to a new visible change still follows Owner UI Control.
+Past UI concepts and owner feedback may be recorded as optional inspiration, never compulsory placement, style or approval rules. The old separate `UI DECISION` and mandatory before/after-per-change ceremony is retired. Engineering tests, preservation and independent merge/deploy authorization remain mandatory.

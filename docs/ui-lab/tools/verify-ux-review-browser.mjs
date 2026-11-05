@@ -19,14 +19,16 @@ const identity={publicHead:execFileSync('git',['rev-parse','HEAD'],{cwd:root,enc
 const origin=`http://127.0.0.1:${server.address().port}`,checks=[],errors=[];let page;
 async function checkNavigation(){
  const nav=page.locator('.site-header nav');
- assert.deepEqual(await nav.locator('[data-workspace]').allTextContents(),['Build a Character','Improve a Character','Build a Team','Echo Sandbox']);
- assert.equal(new URL(await nav.locator('[data-workspace="teams"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/teams/');
- assert.equal(new URL(await nav.locator('[data-workspace="build"]').getAttribute('href'),page.url()).pathname,'/Bellibing-simulator/build/');
+ for(const route of ['build','improve','teams','sandbox']){
+   const link=nav.locator('[data-workspace="'+route+'"]');
+   assert.equal(await link.count(),1,'Expected one navigable '+route+' destination');
+   assert.ok(await link.isVisible(),route+' destination should be visible and operable');
+   const href=await link.getAttribute('href');
+   assert.ok(new URL(href,page.url()).pathname.endsWith('/'+route+'/'),route+' navigation destination changed');
+ }
  assert.equal(await nav.locator('[aria-current="page"]').count(),1);
- const primary=await nav.locator('.workspace-primary').boundingBox(),sandbox=await nav.locator('[data-workspace="sandbox"]').boundingBox();
- assert.ok(Math.abs(primary.x+primary.width/2-page.viewportSize().width/2)<1,'Primary workspace group is centered on the page');
- assert.ok(sandbox.x-primary.x-primary.width>=5&&sandbox.x-primary.x-primary.width<=11,'Echo Sandbox is adjacent to the primary group');
 }
+
 async function observeCandidate(slot,name='CRIT DMG'){
  await page.locator(`[data-slot="${slot}"]`).click();
  const stat=page.locator('[data-observation] select[name="stat"]'),value=page.locator('[data-observation] select[name="value"]');

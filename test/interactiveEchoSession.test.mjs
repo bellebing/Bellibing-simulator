@@ -48,3 +48,41 @@ test('feed commits only the exact destination identity named in the proposal',as
   s.reset();
  }
 });
+
+
+test('correcting an observed prefix preserves resources, history and reload validation',async()=>{
+ const input=context();const create=()=>createInteractiveEchoSession({mode:'OBSERVED',readContext:()=>input,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ const session=create();session.advance({name:'CRIT Rate',value:.063});session.advance({name:'CRIT DMG',value:.126});
+ const before=session.snapshot();
+ session.correctRolls([{name:'CRIT Rate',value:.105},{name:'CRIT DMG',value:.21}]);
+ const corrected=session.snapshot();assert.deepEqual(corrected.spent,before.spent);assert.deepEqual(corrected.returned,before.returned);assert.deepEqual(corrected.progress,before.progress);
+ assert.equal(corrected.history[0].card.substats[0].value,.105);assert.equal(corrected.history[1].card.substats[1].value,.21);
+ const persisted=session.checkpoint(),restored=create();restored.sync();restored.resume(persisted);
+ assert.deepEqual(restored.snapshot().candidate,corrected.candidate);
+ assert.throws(()=>session.correctRolls([{name:'CRIT Rate',value:.105},{name:'CRIT Rate',value:.063}]),/DUPLICATE/);
+ assert.deepEqual(session.snapshot().candidate,corrected.candidate);
+ session.abort();restored.abort();await delay(150);
+});
+
+test('changing an observed candidate preserves its history and receipts across reload',async()=>{
+ const input=context();let id=0;
+ const create=()=>createInteractiveEchoSession({mode:'OBSERVED',readContext:()=>input,seedFactory:()=>String(++id),requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ const session=create();session.advance({name:'CRIT Rate',value:.063});const before=session.snapshot();
+ input.template={...input.template,echoId:'another-echo',cost:4,mainStatName:'CRIT DMG'};
+ session.startCandidate();const after=session.snapshot();
+ assert.equal(after.candidate.echoId,'another-echo');assert.equal(after.candidate.level,0);assert.deepEqual(after.candidate.substats,[]);
+ assert.equal(after.spent.echoes,2);assert.equal(after.spent.tuners,before.spent.tuners);assert.deepEqual(after.returned,before.returned);
+ assert.deepEqual(after.history.at(-1).card,before.candidate);assert.equal(after.incumbent,undefined);
+ const restored=create();restored.resume(session.checkpoint());assert.deepEqual(restored.snapshot().candidate,after.candidate);
+ restored.advance({name:'CRIT DMG',value:.21});assert.equal(restored.snapshot().candidate.level,5);
+ session.abort();restored.abort();await delay(150);
+});
+
+test('resetting a candidate clears only its selected slot and survives checkpoint reload',()=>{
+ const input=context();const create=()=>createInteractiveEchoSession({mode:'OBSERVED',readContext:()=>input,requestAdvice:async()=>({protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING'}})});
+ const session=create();session.advance({name:'CRIT Rate',value:.063});input.owner.slot=1;session.advance({name:'CRIT DMG',value:.126});const second=session.snapshot().candidate;
+ input.owner.slot=0;session.sync();session.resetSlot();assert.equal(session.snapshot(),null);
+ const checkpoint=session.checkpoint();assert.deepEqual(checkpoint.slots.map(s=>s.slot),[1]);
+ const restored=create();restored.resume(checkpoint);input.owner.slot=1;restored.sync();assert.deepEqual(restored.snapshot().candidate,second);
+ session.abort();restored.abort();
+});

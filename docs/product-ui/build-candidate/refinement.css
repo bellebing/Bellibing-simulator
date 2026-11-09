@@ -1,0 +1,157 @@
+/* Build composition. Artwork and information always occupy separate columns. */
+:root {
+  --bc-left: 380px;
+  --bc-rail: 0px;
+  --bc-right: 460px;
+  --bc-gap: 32px;
+}
+.bc-page { width: calc(100% - 88px); max-width: 2000px; }
+.bc-topline { height: 78px; }
+.bc-left { padding-right: 0; }
+.bc-summary {
+  background: linear-gradient(120deg, #26323df7, #17232ef5);
+  border-color: #c3b58c48;
+  border-radius: 12px;
+  box-shadow: inset 0 1px #f0e7ca24, 0 12px 28px #050d164d;
+}
+.bc-summary > section { margin: 0 22px; padding: 10px 0; }
+.bc-summary h2 { font-size: 19px; margin-bottom: 12px; }
+.bc-stat { min-height: 29px; grid-template-columns: 20px 1fr auto; gap: 11px; font-size: 14px; }
+.bc-stat b { font-size: 15px; }
+.bc-summary .bc-sequence-reset {
+  width: auto;
+  padding: 3px 10px;
+  border: 1px solid #c9b88955;
+  border-radius: 4px;
+  color: #d9c69b;
+  font: 12px Inter, Arial, sans-serif;
+}
+.bc-weapon {
+  position: relative;
+  padding: 14px 16px;
+  border-color: #c3ae7957;
+  background: radial-gradient(ellipse at 24% 65%, #a3864826, transparent 65%), linear-gradient(135deg, #35424b, #1b2934);
+  box-shadow: inset 0 1px #e6dac21a;
+}
+.bc-weapon > strong { font-size: 18px; }
+.bc-weapon-body { grid-template-columns: 43% minmax(0, 1fr); min-height: 108px; gap: 18px; }
+.bc-weapon-body > img { height: 108px; }
+.bc-weapon-meta { font-size: 12px; margin-bottom: 15px; }
+.bc-weapon-stat { font-size: 13px; margin-top: 8px; }
+.bc-weapon-stat b { font-size: 20px; }
+.bc-sequences {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  align-items: end;
+  min-height: 65px;
+}
+.bc-sequences::before {
+  left: 8%; right: 8%; top: auto; bottom: 42px;
+  width: auto; height: 1px;
+  background: linear-gradient(90deg, #9eacb44d, #c9b78380);
+}
+.bc-sequence { gap: 7px; }
+.bc-sequence-art { border-color: #c5cbd175; background: linear-gradient(135deg, #43515d, #22313d); box-shadow: inset 0 1px #fff2, 0 3px 8px #0004; }
+.bc-sequence-art img { opacity: .85; filter: none; }
+.bc-sequence.active .bc-sequence-art { background: linear-gradient(135deg, #6f6349, #293644); box-shadow: inset 0 1px #eddfb84d, 0 2px 9px #c4a56721; }
+.bc-sequence > small { padding: 0; background: transparent; color: #c7d0d5; font-size: 12px; }
+#bcSkills { height: 211px; }
+.bc-summary .card-forte { height: 205px; }
+.bc-skill-label { width: 64px; font-size: 11px; color: #d1d7db; }
+.bc-character { inset: -32px -45px -30px; }
+.bc-right { overflow-x: hidden; }
+.bc-equipped { gap: 9px; }
+.bc-echo {
+  display: grid;
+  grid-template-columns: 34% minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 4px;
+  padding: 6px 15px;
+  border-radius: 10px;
+  border-color: #b9ab7c77;
+  background: linear-gradient(115deg, #40505af5, #24343ff7 36%, #182734fa 65%);
+  box-shadow: inset 0 1px #f0e9d33d, inset 0 -1px #d7be8826, 0 5px 14px #060e194d;
+}
+.bc-echo::before {
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(transparent 10%, #b4a16b 35%, #e6d5a3 50%, #b4a16b 65%, transparent 90%);
+}
+.bc-echo-name {
+  grid-column: 2;
+  grid-row: 1;
+  font: 500 15px/19px Inter, Arial, sans-serif;
+  color: #f0ede4;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #d8cda22b;
+  text-decoration: none;
+}
+.bc-echo-art {
+  grid-column: 1; grid-row: 1 / 3;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: radial-gradient(ellipse at 48% 38%, #b2c3c521, transparent 70%);
+}
+.bc-echo-art > img {
+  position: absolute;
+  inset: 0 0 22px;
+  width: 100%; height: calc(100% - 22px);
+  max-width: 100%;
+  object-fit: contain;
+  transform: none;
+  filter: drop-shadow(0 5px 5px #0006);
+}
+.bc-echo:hover .bc-echo-art > img { transform: translateY(-2px); }
+.bc-echo-meta { left: 0; right: 0; bottom: 0; justify-content: center; font-size: 10px; letter-spacing: .2px; }
+.bc-echo-copy { grid-column: 2; grid-row: 2; align-self: center; min-width: 0; }
+.bc-echo-main { border: 0; padding: 0; align-items: center; font-size: 14px; line-height: 24px; color: #e0cfab; }
+.bc-echo-main b { font-size: 25px; line-height: 24px; font-weight: 500; color: #ede0bc; }
+.bc-echo-secondary { font-size: 13px; line-height: 16px; color: #b6c5cf; }
+.bc-echo-secondary b { font-size: 14px; line-height: 16px; color: #dce6ea; }
+.bc-echo-rolls { margin-top: 4px; padding-top: 4px; gap: 0; border-color: #c0cbd52e; }
+.bc-echo-roll { font-size: 13px; line-height: 14px; color: #b9c8d2; }
+.bc-echo-roll b { font-weight: 500; color: #e5ebed; }
+.bc-echo-empty { display: flex; }
+.bc-environment::after { background: linear-gradient(90deg, #07121e66, transparent 32%, transparent 65%, #07121e55), linear-gradient(0deg, #0b142080, transparent 45%); }
+@media (max-width: 1600px) {
+  :root { --bc-left: 350px; --bc-right: 420px; --bc-gap: 22px; }
+  .bc-page { width: calc(100% - 56px); }
+  .bc-summary > section { margin: 0 18px; }
+  .bc-echo { column-gap: 12px; grid-template-columns: 32% minmax(0, 1fr); }
+  .bc-echo-name { font-size: 14px; }
+  .bc-echo-main b { font-size: 24px; }
+  .bc-echo-roll { font-size: 13px; }
+  .bc-skill-label { width: 57px; }
+}
+@media (max-height: 950px) {
+  .bc-topline { height: 64px; }
+  .bc-footer { height: 32px; }
+  .bc-summary > section { padding: 6px 0; }
+  .bc-summary h2 { font-size: 17px; margin-bottom: 5px; }
+  .bc-stat { min-height: 21px; }
+  .bc-weapon { padding: 10px 13px; }
+  .bc-weapon > strong { font-size: 16px; }
+  .bc-weapon-body { min-height: 82px; }
+  .bc-weapon-body > img { height: 82px; }
+  .bc-weapon-meta { margin-bottom: 8px; }
+  .bc-weapon-stat { margin-top: 4px; }
+  .bc-weapon-stat b { font-size: 18px; }
+  .bc-sequences { min-height: 59px; }
+  .bc-sequence { gap: 4px; }
+  #bcSkills { height: 202px; }
+  .bc-summary .card-forte { height: 196px; }
+  .bc-equipped { gap: 4px; }
+  .bc-echo { padding: 5px 12px; row-gap: 2px; }
+  .bc-echo-name { font-size: 13px; line-height: 16px; padding-bottom: 2px; }
+  .bc-echo-main { font-size: 13px; line-height: 20px; }
+  .bc-echo-main b { font-size: 21px; line-height: 21px; }
+  .bc-echo-secondary, .bc-echo-secondary b { line-height: 14px; }
+  .bc-echo-rolls { margin-top: 2px; padding-top: 2px; gap: 0; }
+  .bc-echo-roll { font-size: 13px; line-height: 14px; }
+}

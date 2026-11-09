@@ -42,6 +42,7 @@ export function readOwnedResourceBudget(storage){try{return loadImprovePolicySto
 const WORKSPACE_FIELDS=['settingsMode','minima','statSections','flexCount','gate','erTarget','sonataPool'];
 export function captureWorkspaceSettings(state){
  const value=Object.fromEntries(WORKSPACE_FIELDS.map(key=>[key,structuredClone(state[key])]));
+ if(state.improvePlan)value.improvePlan=structuredClone(state.improvePlan);
  validateWorkspaceSettings(value);return {version:1,...value};
 }
 export function validateWorkspaceSettings(value){
@@ -55,6 +56,9 @@ export function validateWorkspaceSettings(value){
  if(value.flexCount!==null&&(!Number.isInteger(value.flexCount)||value.flexCount<1||value.flexCount>ids.length))fail();
  if(!value.erTarget||typeof value.erTarget.enabled!=='boolean'||value.erTarget.valuePercent!==null&&(!Number.isFinite(value.erTarget.valuePercent)||value.erTarget.valuePercent<0))fail();
  if(!Array.isArray(value.sonataPool)||value.sonataPool.some(id=>typeof id!=='string'))fail();
+ if(value.improvePlan&&( !['BUDGET','RECOMMENDED','INSANE'].includes(value.improvePlan.preset)||typeof value.improvePlan.advancedOpen!=='boolean'))fail();
+ if(value.improvePlan?.dpsEnabled!==undefined&&typeof value.improvePlan.dpsEnabled!=='boolean')fail();
+ if(value.improvePlan?.minimumDpsPercent!==undefined&&(!Number.isFinite(value.improvePlan.minimumDpsPercent)||value.improvePlan.minimumDpsPercent<1))fail();
  return value;
 }
 export function restoreWorkspaceSettings(state,value){
@@ -62,6 +66,7 @@ export function restoreWorkspaceSettings(state,value){
  if(value){if(value.version!==1)throw Error('Unsupported Improve settings version.');validateWorkspaceSettings(value);Object.assign(state,structuredClone(Object.fromEntries(WORKSPACE_FIELDS.map(key=>[key,value[key]]))));
   // Custom intent supersedes recommendation guidance; readiness is still compiled
   // by the existing canonical adapter, not inherited from this stored envelope.
+  state.improvePlan=value.improvePlan?structuredClone(value.improvePlan):undefined;
   if(value.settingsMode==='Customize'){state.sourcePreferenceGuidance=null;state.accountSettingsPending=null;}
  }
  state.accountWorkspaceBinding=binding;

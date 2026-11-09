@@ -1,24 +1,37 @@
+import {setCharacterFocus} from './character-focus.js';
 import { CHARACTER_CATALOG } from './catalog.js';
-import { DEMO_ACCOUNT_IDS, DEMO_FEATURED_IDS, previewSnapshot } from './lab-state.js';
+import { DEMO_FEATURED_IDS, previewSnapshot } from './lab-state.js';
 import { artworkOffset, artworkScale } from './carousel-layout.js';
 import { createCarouselMotion, clampPosition } from './carousel-motion.js';
 import { $, assetURL, escapeHtml } from './util.js';
+import { CHARACTER_GALLERY_MARKUP } from './character-gallery-view.js';
 
-export function mountCarousel({ selectedId, onSelect,preview:readPreview=previewSnapshot,standalone=false,accountLabel='demo account' }) {
+export function mountCarousel({ selectedId, onSelect,preview:readPreview=previewSnapshot,standalone=false,accountLabel='demo account',beforeSelect=()=>true,ownsInteraction=()=>false,isAvailable=()=>true,compactPresentation=false,accountOnly=false }) {
   const ribbon = $('#characterCarousel');
+  ribbon.innerHTML = CHARACTER_GALLERY_MARKUP;
+  ribbon.classList.toggle('compact-presentation', compactPresentation);
+  ribbon.classList.toggle('account-carousel', accountOnly);
+  if (compactPresentation) {
+    ribbon.querySelector('[data-element="all"]').remove();
+    ribbon.querySelector('.gallery-topline .filter').remove();
+  }
+  if(accountOnly)ribbon.querySelector('.gallery-topline .filter')?.remove();
+  ribbon.querySelectorAll('img[src]').forEach(image => {
+    image.src = assetURL(image.getAttribute('src'));
+  });
   const art = $('#galleryArt');
   const portraits = $('#portraits');
   const compact = $('.ribbon-rest');
-  const contains = node => ribbon.contains(node) || compact.contains(node);
+  const contains = node => ribbon.contains(node) || compact.contains(node) || ownsInteraction(node);
   const listen = (type, handler, options) => [ribbon, compact].forEach(surface => surface.addEventListener(type, handler, options));
   const catalog = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
   const ordered = [...DEMO_FEATURED_IDS, ...CHARACTER_CATALOG.map(person => person.id).filter(id => !DEMO_FEATURED_IDS.includes(id))];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  let ids = ordered;
   let selected = selectedId;
   let focused = selectedId;
-  let filter = 'all';
+  let filter = accountOnly || compactPresentation ? 'account' : 'all';
   let element = 'all';
+  let ids = availableIds();
   let records = [];
   let compactRecords = [];
   let drag = null;
@@ -39,25 +52,34 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     const preview = readPreview(focused);
     const info = $('#focusedInfo');
     info.classList.toggle('no-data', !preview.hasBuild);
+    if (compactPresentation) {
+      info.innerHTML = `<div class="focus-name">${escapeHtml(person.name)} <span class="focus-build-code">${preview.buildCode ? escapeHtml(preview.buildCode) : ''}</span></div>
+        ${preview.hasBuild ? `<div class="focus-stats">${['ATK', 'CRIT RATE', 'CRIT DMG'].map((label, index) => `<div><strong>${escapeHtml(preview.stats[index])}</strong><span>${label}</span></div>`).join('')}</div>` : ''}`;
+      return;
+    }
     info.innerHTML = `<div class="focus-caption">${focused === selected ? 'SELECTED CHARACTER' : 'PREVIEW'}${standalone?' · SANDBOX':!preview.onAccount ? ' · CATALOG' : ''}${person.artStatus === 'PORTRAIT_FALLBACK' ? ' · HERO ART PENDING' : ''}</div>
       <div class="focus-name">${escapeHtml(person.name)}</div>
-      <div class="focus-meta">${preview.hasBuild ? `${escapeHtml(preview.weapon)} <i>·</i> ${Array.from({ length: 5 }, (_, index) => `<span class="socket ${index >= preview.slots ? 'empty' : ''}"></span>`).join('')} ${preview.slots}/5 Echoes` : 'No saved demo build'}</div>
+      <div class="focus-meta">${preview.hasBuild ? `${escapeHtml(preview.weapon)} <i>·</i> ${Array.from({ length: 5 }, (_, index) => `<span class="socket ${index >= preview.slots ? 'empty' : ''}"></span>`).join('')} ${preview.slots}/5 Echoes` : 'No saved build'}</div>
       <div class="focus-stats">${['ATK', 'CRIT RATE', 'CRIT DMG'].map((label, index) => `<div><strong>${escapeHtml(preview.stats[index])}</strong><span>${label}</span></div>`).join('')}</div>`;
   }
 
   function paint(position = motion.position, moving = motion.busy) {
     focused = ids[Math.round(clampPosition(position, ids.length - 1))];
 
+    // Read geometry once, before style writes. Reading art.clientWidth inside
+    // the loop forced layout again for every Character during input.
+    const artWidth = art.clientWidth;
     const portraitRange = portraits.clientWidth / 2 + 20;
+    ribbon.classList.toggle('is-moving', !!drag?.active || moving);
     records.forEach((record, index) => {
       const distance = index - position;
       const absolute = Math.abs(distance);
       const level = Math.min(4, Math.floor(absolute)), fraction = Math.min(4, absolute) - level;
       const opacities = [1, 1, .76, .58, .43];
       const scale = artworkScale(distance);
-      const offset = artworkOffset(distance, art.clientWidth);
+      const offset = artworkOffset(distance, artWidth);
       const opacity = level < 4 ? opacities[level] + (opacities[level + 1] - opacities[level]) * fraction : Math.max(.25, .43 - (absolute - 4) * .06);
-      const artVisible = Math.abs(offset) < art.clientWidth / 2 + 145;
+      const artVisible = Math.abs(offset) < artWidth / 2 + 145;
       record.hit.style.left = `calc(50% + ${offset}px)`;
       record.hit.style.zIndex = String(40 - Math.round(absolute * 5));
       record.hit.style.visibility = artVisible ? 'visible' : 'hidden';
@@ -88,7 +110,8 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     ribbon.dataset.position = position.toFixed(4);
     ribbon.dataset.motion = drag?.active ? 'dragging' : moving ? 'settling' : 'settled';
     const name = catalog.get(selected).name;
-    if ($('.current-name strong').textContent !== name) $('.current-name strong').textContent = name;
+    const currentName=$('.current-name strong');
+    if (currentName && currentName.textContent !== name) currentName.textContent = name;
     updateInformation();
     if (!moving && !drag?.active) {
       const announcement = `${focused === selected ? 'Selected' : 'Preview'} ${catalog.get(focused)?.name ?? 'No matching Characters'}, ${ids.indexOf(focused) + 1} of ${ids.length}. Working on ${name}.`;
@@ -100,7 +123,7 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     ribbon.classList.add('is-rebuilding');
     // The compact state always retains the actual selected Character, including
     // when the expanded filters exclude it. Preview focus belongs to the wheel.
-    const compactIds = ordered.filter(id => id === selected || ids.includes(id));
+    const compactIds = ordered.filter(id => isAvailable(id) && (!(accountOnly || compactPresentation) || readPreview(id).onAccount) && (id === selected || ids.includes(id)));
     portraits.innerHTML = compactIds.map((id, index) => {
       const person = catalog.get(id);
       return `<button class="portrait ${standalone||readPreview(id).onAccount ? '' : 'catalog'}" data-person="${id}" aria-label="Browse ${escapeHtml(person.name)}, ${standalone?'Sandbox standard':readPreview(id).onAccount ? 'on '+accountLabel : 'not on '+accountLabel}, ${index + 1} of ${compactIds.length}" tabindex="-1"><img src="${assetURL(person.face)}" alt="${escapeHtml(person.name)}" draggable="false"></button>`;
@@ -129,12 +152,14 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     paint();
   }
   function open() {
+    if (isOpen()) return;
     const compactFocus = $('.ribbon-rest').contains(document.activeElement);
     ribbon.classList.add('expanded');
     $('#characterGallery').inert = false;
     compact.inert = true;
     compact.classList.add('is-hidden');
     $('#openGallery').setAttribute('aria-expanded', 'true');
+    updateInformation(true);
     if (compactFocus) art.focus({ preventScroll: true });
   }
   function close({ returnFocus = false } = {}) {
@@ -154,14 +179,23 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     motion.animate(index);
     if (keyboard) art.focus({ preventScroll: true });
   }
-  function activate(id) {
+  let activationPending = false;
+  async function activate(id) {
     if (!id || performance.now() < suppressUntil || drag?.active) return;
     const index = ids.indexOf(id);
     if (!isOpen()) { open(); motion.animate(index); return; }
     if (!ids.length) return;
     if (motion.busy || Math.abs(motion.position - index) > .02) { browse(index); return; }
-    selected = id;
-    onSelect(id); // The only browsing path permitted to commit a Character.
+    if (activationPending) return;
+    activationPending = true;
+    try {
+      if (!await beforeSelect(id)) return;
+      selected = id;
+      setCharacterFocus(id);
+      onSelect(id);
+    } finally {
+      activationPending = false;
+    } // Character commits belong to the owning workspace.
     renderCatalog();
     finishCatalog(index);
     updateInformation(true);
@@ -244,10 +278,10 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
   listen('wheel', event => {
     if (!ids.length || !event.target.closest('#galleryArt, #portraits')) return;
     const delta = event.shiftKey ? event.deltaY : event.deltaX;
-    if (Math.abs(delta) < 2 || !event.shiftKey && Math.abs(event.deltaY) > Math.abs(delta)) return;
+    if (Math.abs(delta) < .01 || !event.shiftKey && Math.abs(event.deltaY) > Math.abs(delta)) return;
     event.preventDefault();
     open();
-    motion.jump(motion.position + delta / (event.deltaMode === 1 ? 8 : step()));
+    motion.jump(motion.position + delta / (event.deltaMode === 1 ? 8 : step()), true);
     clearTimeout(wheelTimer);
     wheelTimer = setTimeout(() => motion.release(0), 100);
   }, { passive: false });
@@ -260,9 +294,9 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     const button = event.target.closest('[data-filter], [data-element]');
     if (!button) return;
     cancelDrag(); motion.stop(); clearTimeout(wheelTimer);
-    if (button.dataset.filter) filter = button.dataset.filter;
-    if (button.dataset.element) element = button.dataset.element;
-    ids = ordered.filter(id => (filter === 'all' || readPreview(id).onAccount) && (element === 'all' || catalog.get(id).element === element));
+    if (button.dataset.filter && !accountOnly) filter = button.dataset.filter;
+    if (button.dataset.element) element = compactPresentation && element === button.dataset.element ? 'all' : button.dataset.element;
+    ids = availableIds();
     const next = ids.includes(focused) ? focused : ids.includes(selected) ? selected : ids[0];
     ribbon.querySelectorAll('[data-filter]').forEach(item => { item.classList.toggle('active', item.dataset.filter === filter); item.classList.toggle('selected', item.dataset.filter === filter); item.setAttribute('aria-pressed', item.dataset.filter === filter); });
     ribbon.querySelectorAll('[data-element]').forEach(item => { item.classList.toggle('selected', item.dataset.element === element); item.setAttribute('aria-pressed', item.dataset.element === element); });
@@ -271,10 +305,40 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     finishCatalog(ids.indexOf(next));
   });
   renderCatalog();
+  $('#emptyCatalog').hidden = ids.length > 0;
   finishCatalog(ids.indexOf(selected));
   new ResizeObserver(align).observe($('.heading-carousel'));
   window.addEventListener('resize', align);
   document.fonts?.ready.then(align);
   align();
-  return { refresh: () => { updateInformation(true); paint(); }, close };
+  function availableIds() {
+    return ordered.filter(id => isAvailable(id)
+      && (!accountOnly && filter === 'all' || readPreview(id).onAccount)
+      && (element === 'all' || catalog.get(id).element === element));
+  }
+  function refresh() {
+    const nextIds = availableIds();
+    if (nextIds.join(',') !== ids.join(',')) {
+      cancelDrag();
+      ids = nextIds;
+      $('#emptyCatalog').hidden = ids.length > 0;
+      renderCatalog();
+      finishCatalog(ids.includes(selected) ? ids.indexOf(selected) : 0);
+    }
+    updateInformation(true);
+    paint();
+  }
+  function setSelected(id) {
+    if (!catalog.has(id)) throw new Error('Unknown Character');
+    if(selected===id)return;
+    cancelDrag();motion.stop();
+    selected = id;
+    setCharacterFocus(id);
+    ids = availableIds();
+    renderCatalog();
+    finishCatalog(ids.includes(id) ? ids.indexOf(id) : 0);
+  }
+  setCharacterFocus(selected);
+  document.dispatchEvent(new Event('bellibing-carousel-ready'));
+  return { refresh, setSelected, open, close };
 }

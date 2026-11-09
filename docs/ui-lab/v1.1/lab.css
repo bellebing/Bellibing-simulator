@@ -321,3 +321,20 @@
 .ui-lab .pile-card:focus-visible > .echo-card { outline:2px solid var(--gold); outline-offset:2px; }
 .ui-lab .pile-card.is-lifted > .echo-card { visibility:hidden; }
 @media (prefers-reduced-motion:reduce) { .ui-lab .pile-card > .echo-card { transition:none; } }
+
+/* One account selector presentation in Build and Improve. */
+.character-ribbon.account-carousel.expanded{height:475px}
+.character-ribbon.account-carousel .gallery{height:467px}
+.character-ribbon.account-carousel .gallery-topline{padding:12px 14px 0;gap:12px;flex-wrap:nowrap}
+.character-ribbon.account-carousel .gallery-art{margin-top:0}
+.character-ribbon.account-carousel .focused-info{top:343px}
+.character-ribbon.account-carousel .gallery-floor{top:337px}
+.character-ribbon.account-carousel .focus-name{display:flex;justify-content:center;align-items:baseline;gap:10px;font-size:25px}
+.character-ribbon.account-carousel .focus-build-code{font:400 14px Inter,ui-sans-serif,sans-serif;color:#ccd4dc}
+.character-ribbon.account-carousel .focus-stats{display:flex;justify-content:center;gap:22px;margin-top:10px}
+.character-ribbon.account-carousel .focus-stats strong{font-size:16px}
+.character-ribbon.account-carousel .focus-stats span{font-size:10px}
+.character-ribbon.account-carousel .element-filter{border:0;background:none;padding:0;gap:5px;box-shadow:none}
+.character-ribbon.account-carousel #characterGallery .element-filter button{width:38px;height:38px;border:0;border-radius:50%;background:none;padding:4px;box-shadow:none}
+.character-ribbon.account-carousel #characterGallery .element-filter img{width:28px;height:28px;object-fit:contain}
+.character-ribbon.account-carousel #characterGallery .element-filter button.selected{outline:1px solid #d1b78b80;outline-offset:-2px}

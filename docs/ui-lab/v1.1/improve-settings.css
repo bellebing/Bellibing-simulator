@@ -74,3 +74,22 @@
 #settings .sonata-browse.sonata-drop-target { outline:2px dashed var(--gold); outline-offset:2px; }
 #settings .sonata-selected.sonata-pool-empty { min-height:36px; border:1px dashed var(--line); border-radius:5px; }
 #settings .sonata-selection-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+
+/* Preserve readable labels when both desktop side columns are open. */
+#settings .setting-row { grid-template-columns:18px minmax(0,1fr) minmax(32px,55px) 40px; }
+#settings .setting-row label { min-width:0; line-height:1.35; }
+#settings .setting-row output { text-align:right; white-space:nowrap; }
+
+/* Improve objective presets and optional manual controls. */
+.account-workspace .setting-mode[hidden]{display:none}
+.improve-presets{margin:12px 0 18px}
+.improve-preset-buttons{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:4px}
+.improve-preset-buttons button{flex:1;min-width:0;padding:9px 4px;font-size:12px}
+.account-workspace .improve-preset-buttons button.selected{background:linear-gradient(125deg,#b79a60,#dec58c);color:#20272a;border-color:#ceb578}
+.improve-preset-description,.improve-preset-note{font-size:12px;line-height:1.45;color:#aebdc4;margin:10px 0}
+.improve-advanced>summary{cursor:pointer;padding:10px 0;color:#d7c49a}
+.improve-dps-enable{display:flex;align-items:center;gap:8px;font-size:12px;color:#aebdc4;margin-top:8px}
+.improve-manual-targets{margin:2px 0 8px;font-size:12px}
+
+.improve-dps-target{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:12px;font-size:12px}
+.improve-dps-target input{width:55px;padding:5px;color:#e9edf0;background:#1b252c;border:1px solid #c7ad7040;border-radius:3px;font:inherit}

@@ -1,5 +1,25 @@
 # Sandbox and Improve Expected resource cost
 
+## Current local review
+
+The opt-in local review producer now supports all five Gates and canonical
+Hard/Flex minimum tiers within its bounded exact search. Expected cost and
+accepted-roll moments share the executed stopping policy. Expected Tubes use
+the existing canonical all-Unlimited first-Pareto transaction witness and remain
+labelled Unlimited reference; actual finite-stock denomination choices may differ.
+Sandbox Character Expected projects fractional accepted-roll means through the
+shared static stat arithmetic without creating or saving fictitious Echo cards.
+The local **Expected build** DPS row evaluates the source model at those mean
+stats. It is not the mathematical mean of DPS over random builds. Simulated
+remains one actual generated result and Change uses the matching mean-build row.
+Total-ER-conditioned expectations remain unavailable. Enabling the separate ER
+goal preserves the displayed Hard/Flex expectation rather than blanking it.
+Simulated DPS always requires the source model's ER minimum, with a higher
+explicit custom target applied as an additional final acceptance constraint.
+An unmet result shows ER not met; there is no lower-ER rotation extrapolation or
+automatic ER retry policy. These local additions do not
+change published runtime approval, source pins or release verification boundaries.
+
 The live M0 producer supplies certified fresh-start Echoes/Tuners in its existing
 supported contexts. The coordinated Expected cost V1 candidate extends the
 private producer to every Gate and canonical minimum, adds success odds and

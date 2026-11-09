@@ -11,7 +11,7 @@ export function observedEcho(card,{discarded=false}={}){
  if(!echo||!icon||!sonata)throw Error('OBSERVED_ECHO_IDENTITY_UNAVAILABLE');
  const path=v=>'../../'+v.replace(/^docs\//,'');
  const format=s=>!s?'—':s.name.startsWith('Flat ')?String(s.value):`${Number((s.value*100).toFixed(2))}%`;
- return {id:card.id??card.echoId,name:echo.name,cost:card.cost,level:card.level,artURL:path(icon.targetPath),setName:sonata.name,setIconURL:path(sonata.artPath),
+ return {id:card.id??card.echoId,speciesId:species,name:echo.name,cost:card.cost,level:card.level,artURL:path(icon.targetPath),setName:sonata.name,setIconURL:path(sonata.artPath),
   main:card.mainStat?.name??'Main Stat',value:format(card.mainStat),secondary:card.secondaryMainStat?.name??'Secondary Stat',secondaryValue:format(card.secondaryMainStat),
   stats:(card.substats??[]).map(s=>[s.name,format(s)]),...(discarded?{disposition:'DISCARDED'}:{})};
 }

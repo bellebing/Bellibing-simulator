@@ -3,6 +3,7 @@
 Downloads only pinned WebAssembly dependencies, never owner images. Generated
 files stay in ignored artifacts until browser/distribution acceptance.
 """
+import os
 import hashlib
 import importlib.util
 import json
@@ -14,7 +15,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'artifacts/browser-scanner'
-CACHE=ROOT.parent/'.cache/browser-scanner'
+CACHE=Path(os.environ.get('BELLIBING_SCANNER_CACHE',ROOT.parent/'.cache/browser-scanner'))
 OUT.mkdir(parents=True,exist_ok=True)
 CACHE.mkdir(parents=True,exist_ok=True)
 runtime=ROOT/'node_modules/pyodide'
@@ -47,7 +48,22 @@ adapter=importlib.util.module_from_spec(spec);spec.loader.exec_module(adapter)
 files=[]
 def write(path,data):
     target=OUT/path;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(data);files.append(path)
-for name,source in adapter.adapt(scanner,catalog).items(): write('python/'+name,source.encode())
+adapted=adapter.adapt(scanner,catalog)
+# Match visible Echo pixels, rather than hidden RGB bytes under alpha=0.
+# Retain the source snapshot; this correction belongs to the browser adapter.
+old="        img = image(path, size)\n        images[r[id_key]] = img"
+new="""        img = image(path, size)
+        if id_key == 'echoId':
+            rgba = cv2.imread(str(path), cv2.IMREAD_UNCHANGED)
+            if rgba is not None and rgba.ndim == 3 and rgba.shape[2] == 4:
+                visible = (rgba[:, :, :3].astype('float32') * (rgba[:, :, 3:4] / 255)).astype('uint8')
+                img = cv2.resize(visible, size) if size else visible
+        images[r[id_key]] = img"""
+if adapted['data.py'].count(old)!=1: raise RuntimeError('Echo image adapter contract changed.')
+adapted['data.py']=adapted['data.py'].replace(old,new).replace(
+    'cached = cached_asset_features(id_key)',
+    "cached = None if id_key == 'echoId' else cached_asset_features(id_key)")
+for name,source in adapted.items(): write('python/'+name,source.encode())
 write('python/catalog.json',json.dumps(catalog).encode())
 for path in ['LICENSE','UPSTREAM.md','DEF_PERCENT_IMPORT.md']:
     write('python/'+path,(scanner/path).read_bytes())

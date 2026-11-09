@@ -1,0 +1,59 @@
+.wb-stat-priority { position: absolute; width: 0; height: 0; overflow: hidden; }
+.wb-roll-names button:has(.wb-stat-priority) > span:first-child,
+.wb-roll-toggle > span:has(.wb-stat-priority),
+.echo-card .substat > span:has(.wb-stat-priority) { color: inherit; text-decoration: none; }
+.wb-roll-lower { color: #60f79b; }
+.wb-roll-middle { color: #d483ff; }
+.wb-roll-upper { color: #ffd35c; }
+.wb-roll-active { border-radius: 4px; box-shadow: inset 0 0 0 1px #c6ae7452; background: #14263220; }
+.wb-roll-active > .wb-roll-toggle { padding-left: 5px; padding-right: 5px; }
+.wb-roll-available, .wb-roll-used, .wb-roll-values:has(button) { box-shadow: none; background: transparent; padding: 0; }
+.wb-roll-choices { padding: 4px 5px 8px; }
+.wb-roll-used { margin-top: 7px; }
+.wb-roll-toggle, .echo-card .substat { position: relative; isolation: isolate; }
+/* A leader connects the stat label to its value at the row's midline. */
+.wb-roll-toggle { grid-template-columns: 24px max-content minmax(12px, 1fr) auto; }
+.echo-card .substat { grid-template-columns: max-content minmax(10px, 1fr) max-content; }
+.wb-roll-signal { position: relative; width: 100%; height: 1px; align-self: center; pointer-events: none; opacity: 0; }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-roll-tier) > .wb-roll-signal { opacity: 1; background: linear-gradient(90deg, transparent, currentColor 12%, currentColor 88%, transparent); }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-roll-lower) > .wb-roll-signal { color: #60f79b75; }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-roll-middle) > .wb-roll-signal { color: #d483ffa0; box-shadow: 0 0 3px #d483ff50; }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-roll-upper) > .wb-roll-signal { color: #ffd35c90; box-shadow: 0 0 4px #ffd35c55; }
+.wb-roll-signal svg { display: none; position: absolute; width: 100%; height: 10px; left: 0; top: -4.5px; overflow: visible; }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-upper) > .wb-roll-signal svg { display: block; }
+.wb-roll-signal path { fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke; transform-origin: center; }
+.wb-signal-wave { stroke: #ffdf88; stroke-width: .8; opacity: .65; animation: wb-leader-wave 3.6s ease-in-out infinite; }
+.wb-signal-trail { stroke: #ffeabb; stroke-width: .65; opacity: .4; filter: drop-shadow(0 0 1.5px #ffc84e); animation: wb-leader-wave 3.6s ease-in-out infinite reverse; }
+.wb-signal-particles { display: none; }
+@keyframes wb-leader-wave {
+ 0%, 100% { d: path('M0 7 C20 2 40 12 60 7 S100 2 120 7 S160 12 180 7 S220 2 240 7'); }
+ 25% { d: path('M0 7 C20 7 40 2 60 7 S100 12 120 7 S160 2 180 7 S220 12 240 7'); }
+ 50% { d: path('M0 7 C20 12 40 2 60 7 S100 12 120 7 S160 2 180 7 S220 12 240 7'); }
+ 75% { d: path('M0 7 C20 7 40 12 60 7 S100 2 120 7 S160 12 180 7 S220 2 240 7'); }
+}
+@media (max-width: 1600px) { .wb-roll-toggle { grid-template-columns: 21px max-content minmax(10px, 1fr) auto; } }
+@media (prefers-reduced-motion: reduce) { .wb-roll-signal path { animation: none !important; transform: scaleY(.35); } }
+
+/* Preference is a quiet row highlight; roll values retain their color. */
+.wb-roll-names button:has(.wb-stat-priority),
+.wb-roll-toggle:has(.wb-stat-priority),
+.echo-card .substat:has(.wb-stat-priority) { background-color: #c9ad701a; border-radius: 3px; }
+.wb-roll-choices button:has(.wb-stat-priority):hover { background-color: #c5ad7626; }
+/* Preference highlights the full row; roll quality is a separate signal. */
+.echo-card .substat:has(.wb-stat-priority), .wb-roll-toggle:has(.wb-stat-priority) { background: linear-gradient(90deg, #c9ad7026, #c9ad701a); border-radius: 3px; }
+.echo-card .substat > span:has(.wb-stat-priority), .wb-roll-toggle > span:has(.wb-stat-priority) { background: none; box-shadow: none; }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-upper)::after {
+ content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
+ background: radial-gradient(circle at 24% 30%, #ffe9a185 0 .7px, transparent 1.5px), radial-gradient(circle at 72% 70%, #ffe9a170 0 .6px, transparent 1.4px), linear-gradient(110deg, transparent 25%, #ffdd892b 48%, transparent 70%);
+ background-size: 180% 100%; animation: wb-favorite-lustre 5s ease-in-out infinite;
+ box-shadow: inset 0 0 5px #e6bd5324;
+}
+@keyframes wb-favorite-lustre { 0%, 100% { background-position: 100% 0; opacity: .3; } 50% { background-position: 0 0; opacity: .65; } }
+@media (prefers-reduced-motion: reduce) {
+ :is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-upper)::after { animation: none; opacity: .35; }
+}
+
+.ui-lab .echo-card .substat { display:grid; grid-template-columns:max-content minmax(8px,1fr) max-content; column-gap:6px; position:relative; isolation:isolate; margin-block:3px; min-height:17px; height:auto; }
+.ui-lab .echo-card .substat > span:first-child { background:none; }
+.ui-lab .echo-card .substat .wb-roll-tier { font-size:inherit; }
+.ui-lab .echo-card .substat strong { font-size:inherit; }

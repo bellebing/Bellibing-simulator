@@ -1,0 +1,107 @@
+﻿:root { color-scheme: dark; }
+body { min-height:100vh; background:radial-gradient(ellipse at 40% 0,#30414d,#141f29 70%); color:#dce5e9; }
+.iv-page { width:calc(100% - 88px); max-width:1832px; margin:26px auto; }
+.iv-page h1 { font:28px Etna,Inter,sans-serif; margin:0 0 20px; }
+.iv-layout { display:grid; grid-template-columns:190px minmax(0,1fr) 420px; gap:20px; height:calc(100vh - 205px); min-height:0; }
+.iv-panel { background:linear-gradient(145deg,#30424ee8,#23333fef); border:1px solid #a5b6c32e; border-radius:9px; min-width:0; min-height:0; }
+.iv-left { padding:16px; display:flex; flex-direction:column; }
+.iv-search-input { box-sizing:border-box; width:100%; background:#172a35; border:1px solid #a3b6be2d; border-radius:4px; padding:10px; margin-bottom:20px; color:#e5ecef; font:12px Inter,sans-serif; }
+.iv-tabs { display:grid; gap:6px; }
+.iv-tabs button { display:flex; justify-content:space-between; width:100%; padding:11px 10px; border:1px solid transparent; background:none; color:#b9c9d1; text-align:left; font:13px Inter,sans-serif; border-radius:5px; }
+.iv-tabs button[aria-pressed=true] { background:#d0b77d16; border-color:#cbb27b60; color:#e8dcc1; }
+.iv-tabs b { font-weight:400; color:#94a8b3; }
+.iv-browser { display:flex; flex-direction:column; padding:18px; overflow:visible; }
+.iv-list-heading { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.iv-list-heading h2 { font:19px Etna,Inter,sans-serif; margin:0; }
+.iv-list-heading span { font:12px Inter,sans-serif; color:#a4b9c3; }
+.iv-grid-frame { flex:1; min-height:0; }
+.iv-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:13px; align-content:start; height:100%; overflow-y:auto; scrollbar-width:none; padding:0 4px 5px 0; }
+.iv-grid::-webkit-scrollbar, .iv-inspector::-webkit-scrollbar { display:none; }
+.iv-card { position:relative; padding:10px 11px 12px; min-width:0; color:#dae3e7; border:1px solid #c4b38045; border-radius:7px; background:linear-gradient(#2b3d4a,#1c2c37); text-align:left; }
+.iv-card[data-rarity="4"] { border-bottom:2px solid #b890e0; }
+.iv-card[data-rarity="5"] { border-bottom:2px solid #cbb479; }
+.iv-card.selected { outline:1px solid #d7c38b; outline-offset:-1px; background:linear-gradient(#35464e,#283a42); }
+.iv-card-heading { display:grid; grid-template-columns:22px minmax(0,1fr) 43px; align-items:start; gap:5px; min-height:36px; }
+.iv-element { width:21px; height:21px; object-fit:contain; }
+.iv-card-heading strong { margin:0; text-align:center; font:14px/1.25 Etna,Inter,sans-serif; }
+.iv-cost { color:#d3c49f; text-align:right; white-space:nowrap; font:11px/1.8 Inter,sans-serif; }
+.iv-card-body { display:grid; grid-template-columns:36% minmax(0,1fr); align-items:center; gap:9px; margin:5px 0 9px; }
+.iv-card-art { position:relative; min-width:0; }
+.iv-card-art > img { display:block; width:100%; height:98px; object-fit:contain; }
+.iv-card:has(.iv-card-body > .iv-card-art:only-child) .iv-card-body { grid-template-columns:minmax(0,1fr); }
+.iv-card:has(.iv-card-body > .iv-card-art:only-child) .iv-card-art > img { height:140px; }
+.iv-owner-portrait { display:block; width:24px; height:24px; position:absolute; bottom:0; left:0; border:1px solid #c6b477a0; border-radius:50%; overflow:hidden; background:#253540; }
+.iv-owner-portrait img { display:block; width:100%; height:100%; object-fit:cover; }
+.iv-stat-pair { display:flex; justify-content:space-between; align-items:baseline; gap:8px; font:12px/1.6 Inter,sans-serif; color:#bccbd4; }
+.iv-stat-pair b { font-weight:500; white-space:nowrap; }
+.iv-stat-pair.primary { color:#e0d3ad; font-size:13px; }
+.iv-stat-pair.primary b { font-size:17px; }
+.iv-roll-list { display:grid; gap:3px; }
+.iv-roll.bc-echo-roll { font:12px/16px Inter,sans-serif; gap:5px; }
+.iv-roll b { font-size:12px; }
+.iv-inspector-frame { height:100%; min-height:0; overflow:visible; }
+.iv-inspector { height:100%; box-sizing:border-box; padding:18px; overflow-y:auto; scrollbar-width:none; }
+.iv-inspector h2 { font:21px/1.25 Etna,Inter,sans-serif; text-align:center; margin:0; }
+.iv-preview-heading { display:grid; grid-template-columns:42px minmax(0,1fr) 42px; gap:4px; align-items:baseline; }
+.iv-preview-heading h2 { grid-column:2; }
+.iv-preview-heading > span { font:12px Inter,sans-serif; color:#d6c49d; text-align:right; white-space:nowrap; }
+.iv-preview-stage { position:relative; margin:9px 0 12px; }
+.iv-preview-stage .wb-art { height:210px; margin:0; }
+.iv-preview-stage .wb-art > img { display:block; width:100%; height:100%; object-fit:contain; box-sizing:border-box; padding:18px 30px 0; }
+.iv-preview-stage .wb-art.wb-compact { height:90px; }
+.iv-preview-stage .wb-view-switch { top:27px; }
+.iv-preview-set { display:flex; position:absolute; z-index:2; top:0; left:0; gap:6px; align-items:center; background:transparent; font:13px/1.4 Inter,sans-serif; color:#d3dfe3; }
+.iv-preview-set img { width:22px; height:22px; object-fit:contain; }
+.iv-preview-stage > .iv-owner-portrait { bottom:4px; left:4px; }
+.iv-preview-mains { display:grid; gap:3px; margin:14px 0 18px; max-width:220px; }
+.iv-preview-mains .iv-stat-pair { justify-content:flex-start; gap:12px; font-size:13px; }
+.iv-preview-mains .primary { font-size:14px; }
+.iv-preview-mains .primary b { font-size:19px; }
+.iv-preview-info { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:14px; border-top:1px solid #acbcc72b; padding-top:14px; }
+.iv-preview-info h3 { font:13px/1.4 Inter,sans-serif; color:#d3c49f; margin:0 0 10px; }
+.iv-preview-info .wc-reading { margin:0; border:0; padding:0; }
+.iv-preview-info .iv-roll-list { gap:5px; }
+.iv-inspector .wb-reading { font-size:12px; }
+.iv-inspector .wb-reading-title { font-size:13px; }
+.iv-inspector .wb-echo-skill .wb-brief { font-size:12px; line-height:1.6; }
+.iv-inspector .wb-set-reading { margin-top:16px; padding-top:14px; border-top:1px solid #acbcc72b; }
+.iv-inspector .wb-set-threshold { font-size:12px; }
+.iv-inspector .wb-set-threshold > span:first-child { font-size:16px; }
+.iv-inspector details summary { cursor:pointer; }
+.iv-inspector details p { font:12px/1.7 Inter,sans-serif; color:#b9cbd3; white-space:pre-line; }
+.iv-inspector .iv-hero { display:block; width:100%; height:250px; object-fit:contain; margin:14px 0; }
+.iv-meta { display:flex; justify-content:center; gap:12px; font:12px Inter,sans-serif; color:#b4c6d0; }
+.iv-section { border-top:1px solid #acbcc72b; margin-top:16px; padding-top:16px; }
+.iv-section h3 { font:14px Etna,Inter,sans-serif; margin:0 0 12px; }
+.iv-mini { display:flex; gap:10px; align-items:center; font:12px/1.5 Inter,sans-serif; margin:9px 0; }
+.iv-mini img { width:44px; height:44px; object-fit:contain; }
+.iv-action { display:block; width:100%; text-align:center; margin-top:20px; padding:11px; border:1px solid #cab57d70; border-radius:5px; color:#e5d7b5; background:#bba16b16; font:12px Inter,sans-serif; text-decoration:none; }
+.iv-empty { grid-column:1/-1; text-align:center; padding:70px 12px; color:#a7bac5; font:14px/1.7 Inter,sans-serif; }
+.iv-grid-frame > .wb-edge-scroll, .iv-inspector-frame > .wb-edge-scroll { background:none; }
+@media(max-width:1600px) {
+ .iv-page { width:calc(100% - 48px); }
+ .iv-layout { grid-template-columns:170px minmax(0,1fr) 390px; gap:14px; }
+ .iv-grid { grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:11px; }
+ .iv-inspector { padding:16px; }
+ .iv-preview-info { gap:10px; }
+ .iv-preview-stage .wb-art { height:195px; }
+ .iv-preview-heading h2 { font-size:19px; }
+ .iv-card-heading strong { font-size:13px; }
+}
+/* Compact vertical equipment cards: identity, art, main stats, rolls, owner. */
+.iv-grid.iv-echo-grid { grid-template-columns:repeat(auto-fill, minmax(178px,184px)); align-items:start; }
+.iv-echo-card { padding:10px 10px 8px; }
+.iv-echo-name { min-height:36px; display:flex; align-items:flex-start; justify-content:center; }
+.iv-echo-name strong { font:14px/1.25 Etna,Inter,sans-serif; text-align:center; overflow-wrap:anywhere; }
+.iv-echo-art-stage { position:relative; margin:3px 0 8px; }
+.iv-echo-art-stage > .iv-element { position:absolute; top:1px; left:0; z-index:1; }
+.iv-echo-art-stage > .iv-cost { position:absolute; top:1px; right:0; z-index:1; font-size:10px; }
+.iv-echo-card .iv-card-art > img { height:113px; width:100%; padding:9px 8px 0; box-sizing:border-box; }
+.iv-echo-card .iv-card-mains { margin-bottom:9px; }
+.iv-echo-card .iv-stat-pair { justify-content:flex-start; gap:9px; }
+.iv-echo-card .iv-stat-pair.primary b { font-size:16px; }
+.iv-echo-card .iv-roll-list { gap:4px; }
+.iv-echo-card .iv-roll.bc-echo-roll { font-size:11px; gap:3px; }
+.iv-echo-card .iv-roll b { font-size:11px; }
+.iv-card-owner { height:27px; position:relative; margin-top:5px; }
+.iv-card-owner > .iv-owner-portrait { left:auto; right:0; bottom:0; width:23px; height:23px; }

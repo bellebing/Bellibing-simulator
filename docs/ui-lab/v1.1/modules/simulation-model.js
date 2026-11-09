@@ -25,7 +25,7 @@ export function simulationModel(person, saved, expected = {}) {
       const recommendation = target?.rows.find(row => row.metric === metric);
       const observed = saved.sandboxBuild?sandboxObserved?saved.sandboxStatProjection.observedValues[metric]??null:null:saved.hasRecordedRun && !incompleteProjection ? saved.stats[index]?.[1] : null;
       return { id:metric, label:stats[index][0], recommended:recommendation?.status === 'READY' ? recommendation.displayValue : null,
-        source:recommendation?.sourceValue ?? null, expected:incompleteProjection ? null : expected[metric] ?? null,
+        source:recommendation?.sourceValue ?? null, expected:saved.sandboxBuild?saved.sandboxStatProjection?.expectedValues?.[metric]??null:incompleteProjection ? null : expected[metric] ?? null,
         simulated:observed!==undefined&&observed!==null&&observed!=='—'?observed:null };
     }) };
 }

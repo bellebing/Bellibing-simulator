@@ -19,6 +19,7 @@ export function renderObservedCheckpointOptions(advice){
 // Production uses the existing selected-slot workspace. The original detailed
 // renderer remains available for preserved review/tests, outside that route.
 export function renderSelectedImproveOpportunity(analysis,selectedSlot){
+ if(analysis?.reason==='REPLACEMENT_COST_SEARCH_PENDING')return `<p>Slot ranking and replacement cost Pending.</p>${Number.isFinite(analysis.current?.teamTotal)?`<p>Current team · ${number(analysis.current.teamTotal,0)} model DPS</p>`:''}<p>Completed candidates are compared with this actual build. Future-roll DPS decisions are not available yet.</p>`;
  if(!known(analysis))return `<p role="status">${analysis?.status==='CALCULATING'?'Calculating…':'Pending · '+html(analysis?.reason??'Actual supported team required')}</p>`;
  const d=analysis.decisionEvidence,row=analysis.slots?.find(s=>s.slot===selectedSlot);
  const next=Number.isInteger(d.recommendedSlot)&&d.recommendedSlot>=0&&d.recommendedSlot<5?`<button type="button" data-improve-slot="${d.recommendedSlot}">Work on Echo ${d.recommendedSlot+1}</button>`:'Pending';
@@ -61,8 +62,18 @@ const qualifiedQuality=q=>q?.status==='AVAILABLE'&&q.kind==='FIVE_CONTEXT_QUALIF
 const neutralStates=new Set(['SIMILAR_TUNER_COST','UNCERTAIN']);
 const actionLabels={CONTINUE:'Continue',RESTART_DATA_RECOVERY:'Start new Echo',RESTART_FEED:'Start new Echo'};
 const benefitLabels={LESS_NEW_ECHOES:'Less Echoes needed',HIGHER_CHANCE_THIS_ATTEMPT:'Higher chance this attempt',HIGHER_FIVE_STAT_CHANCE:'Chance for 5/5 stats'};
+export function localAdviceSummary(advice){
+ if(advice?.kind!=='CURRENT_BOUND_ECHO_ADVICE'||!advice.buildComparison)return '';
+ const comparison=advice.buildComparison,gain=comparison?.delta?.teamTotal;
+ const goal=advice.goalStatus==='MET'?'Manual targets met':advice.goalStatus==='NOT_MET'?'Manual targets not met':'Manual Echo targets';
+ if(comparison?.status==='EXPERIMENTAL'&&Number.isFinite(gain))return `<span class="advice-build-gain">${signed(gain,0)} team DPS · experimental</span><small>${goal}</small><details><summary>Build comparison</summary><p>Current ${number(comparison.current?.teamTotal,0)} → candidate ${number(comparison.candidate?.teamTotal,0)} model DPS. Other four Echoes, team and rotation are fixed.</p><p>Replacement cost and future-roll policy Pending.</p></details>`;
+ const raw=advice.targetGuidance??{};
+ const continued=raw.continue?.tuners?.approximate,restarted=raw.discard?.tuners?.approximate;
+ return `<small>${goal}</small><details><summary>Decision scope</summary>${Number.isFinite(continued)&&Number.isFinite(restarted)?`<p>Until manual targets · Continue ${number(continued,0)} / Restart ${number(restarted,0)} gross Tuners.</p>`:''}<p>${comparison?.reason==='COMPLETE_CANDIDATE_REQUIRED'?'Record the remaining rolls for a full-build DPS comparison.':'Actual supported team and complete investment data are needed for DPS comparison.'}</p><p>Manual-target advice excludes DPS value and resource recovery.</p></details>`;
+}
 export function checkpointVerdict(advice){
  if(!advice)return 'Record the result from your game';
+ if(advice.buildComparison?.current?.rotationAcceptance?.status==='NOT_MET'||advice.buildComparison?.candidate?.rotationAcceptance?.status==='NOT_MET')return 'ER not met · DPS comparison unavailable';
  if(advice.winner==='KEEP_TEMPORARY')return 'Keep for comparison · model upgrade';
  if(advice.status==='RESOURCE_BLOCKED')return 'Not enough resources';
  if(advice.comparison?.version===1){

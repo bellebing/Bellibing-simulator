@@ -1,3 +1,4 @@
+import {buildProductUI} from './build-product-ui.mjs';
 import {buildInventory} from './build-inventory.mjs';
 import {buildSandbox} from './build-sandbox.mjs';
 import { compilePublicBrowserModules } from './public-web-boundary.mjs';
@@ -92,4 +93,5 @@ for (const asset of ['echo-template-configuration.mjs', 'improve-settings.js', '
 
 await buildSandbox();
 buildInventory();
+await buildProductUI();
 verifyPublicArtifact();

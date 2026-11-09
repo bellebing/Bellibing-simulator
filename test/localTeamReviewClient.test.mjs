@@ -3,6 +3,24 @@ import assert from 'node:assert/strict';
 import {setTimeout as delay} from 'node:timers/promises';
 import {createLocalTeamReview,hasCompleteTeamBuilds} from '../docs/ui-lab/v1.1/modules/local-team-review.js';
 import {team,own} from './helpers/localTeamFixture.mjs';
+import {createSandboxWorkspace} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
+import {emptyResourceInventory} from '../docs/assets/resourceInventory.js';
+
+test('Sandbox Expected build and Change use mean-build DPS instead of the fixed reference',async()=>{
+ const originalDocument=globalThis.document,originalLocation=globalThis.location;let html='';
+ const child={classList:{add(){}},isConnected:true,dataset:{},set innerHTML(v){html=v;},querySelector(selector){return {dataset:{},set textContent(v){},set innerHTML(v){if(selector==='[data-team-dps-body]')html=v;}};}};
+ globalThis.document={createElement:()=>child};globalThis.location={hostname:'127.0.0.1'};
+ const result=n=>({status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:n*3,characterContributions:team.characterIds.map(characterId=>({characterId,dps:n}))});
+ const w=createSandboxWorkspace();w.select('augusta');
+ const input={mode:'SANDBOX',team,selectedCharacterId:'augusta',scope:w.readContext(emptyResourceInventory(),0)};
+ let erFailure=false;
+ const fetchImpl=async(_url,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='status'?{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'}:{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'EXPERIMENTAL',current:result(900),expected:{...result(100),statisticalBasis:'DPS_AT_EXPECTED_STATS_NOT_EXPECTED_DPS'},candidate:erFailure?{status:'PENDING',reason:'WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET',rotationAcceptance:{status:'NOT_MET',requirements:[{characterId:'augusta',actual:1,required:1.163}]}}:result(110)}}});
+ try{const c=createLocalTeamReview({readInput:()=>input,fetchImpl});await delay(0);c.mount({querySelector:()=>child});await delay(250);assert.ok(html.includes('Expected build'));assert.ok(!html.includes('>900<'));assert.ok(html.includes('>100<'));assert.ok(html.includes('data-change="up">+10<'));assert.ok(!html.includes('-790'));
+  input.candidates=[null];erFailure=true;c.checkFresh();assert.ok(html.includes('>100<'),'a new run must retain the matching Expected row');assert.ok(!html.includes('>110<'));
+  await delay(250);assert.ok(html.includes('ER not met'));assert.ok(html.includes('100.0% / 116.3% required'));assert.ok(html.includes('>100<'));assert.ok(!html.includes('local-team-relative'));
+ }
+ finally{globalThis.document=originalDocument;globalThis.location=originalLocation;}
+});
 // Deferred transport ignores abort deliberately: generation/snapshot checks must
 // independently prevent an old successful response from becoming current.
 for(const change of ['resources','team','empty-team'])test('late successful results cannot overwrite a new Pending '+change+' context',async()=>{
@@ -16,14 +34,14 @@ for(const change of ['resources','team','empty-team'])test('late successful resu
   const data=JSON.parse(options.body);
   if(data.action==='status')return {ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'})};
   requests++;
-  if(requests===1){started();return new Promise(ok=>{release=()=>ok({ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'EXPERIMENTAL',current:{status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:123456,characterContributions:team.characterIds.map(characterId=>({characterId,dps:41152}))},candidate:null}})});});}
+  if(requests===1){started();return new Promise(ok=>{release=()=>ok({ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'EXPERIMENTAL',current:null,candidate:{status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:123456,characterContributions:team.characterIds.map(characterId=>({characterId,dps:41152}))}}})});});}
   return {ok:true,json:async()=>({protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'PENDING',reason:'COMPLETE_ACCOUNT_TEAM_REQUIRED',current:null,candidate:null}})};
  };
  try{
   const controller=createLocalTeamReview({readInput:()=>input,fetchImpl});await delay(0);controller.mount({querySelector:()=>child});enabledHandler({target:{checked:true}});
   await firstStarted;input=change==='resources'?{...input,scope:{resources:2}}:change==='team'?{...input,team:{...team,id:'guide-augusta-mortefi-the-shorekeeper-augusta-slots-4',characterIds:['augusta','mortefi','the-shorekeeper']},records:[]}:{...input,team:null,records:[]};controller.checkFresh();await delay(300);
-  assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Complete your team in Build':'Complete the team in Build'));release();await delay(0);
-  assert.ok(!html.includes('123,456'));assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Complete your team in Build':'Complete the team in Build'));assert.equal(requests,change==='resources'?2:1);
+  assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Five complete Echoes per teammate required':'Complete the team in Build'));release();await delay(0);
+  assert.ok(!html.includes('123,456'));assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Five complete Echoes per teammate required':'Complete the team in Build'));assert.equal(requests,change==='resources'?2:1);
  }finally{globalThis.document=originalDocument;globalThis.location=originalLocation;}
 });
 
@@ -34,8 +52,10 @@ test('relative Echo changes use each actor baseline and omit undefined zero-base
  globalThis.document={createElement:()=>child};globalThis.location={hostname:'127.0.0.1'};
  const result=values=>({status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:values.reduce((a,b)=>a+b,0),characterContributions:team.characterIds.map((characterId,i)=>({characterId,dps:values[i]}))});
  const input={mode:'IMPROVE',selectedCharacterId:'augusta',team,records:own().records,candidates:[]};
+ input.candidates=[structuredClone(input.records.find(r=>r.characterId==='augusta').buildState.echoSets.sets[input.records.find(r=>r.characterId==='augusta').buildState.echoSets.activeSetId].slots[0])];
  let reply={status:'EXPERIMENTAL',current:result([100,0,100]),candidate:result([110,10,80])};
- const fetchImpl=async(_url,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='status'?{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'}:{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:reply}});
+ let measurements=0;
+ const fetchImpl=async(_url,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='status'?{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'}:{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:reply.status,current:reply.current,candidate:measurements++%2===0?reply.current:reply.candidate}}});
  try{
   const controller=createLocalTeamReview({readInput:()=>({...input,scope:{revision}}),fetchImpl});await delay(0);controller.mount({querySelector:()=>child});handler({target:{checked:true}});await delay(250);
   assert.ok(html.includes('data-change="up">+10<small class="local-team-relative">+10%</small>'));

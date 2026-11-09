@@ -1,0 +1,253 @@
+import {mountCarousel} from '../../ui-lab/v1.1/modules/carousel.js';
+import {accountCarouselPreview} from '../../ui-lab/v1.1/modules/account-carousel-preview.js';
+import {readCharacterFocus} from '../../ui-lab/v1.1/modules/character-focus.js';
+import {productAsset} from '../assets.js';
+import {productLink} from '../product-navigation.js';
+import {createProductStore} from '../product-store.js';
+import {CHARACTER_CATALOG} from '../../ui-lab/v1.1/modules/catalog.js';
+import {escapeHtml as escape} from '../../ui-lab/v1.1/modules/util.js';
+import {createReviewStore, freshDraft, accountWithDraft} from '../build-candidate/state.js';
+import {emptyAccount, createAugustaPilotExampleBuilds, WEAPON_EFFECT_CATALOG} from '../build-candidate/models-entry.js';
+import {statPreference, rollPresentation, rollSignalMarkup} from '../build-candidate/stat-guidance.js';
+import {previewStage, echoSkillOverview, sonataOverview, weaponEffectsOverview} from '../build-candidate/workbench-b-presentation.js';
+import {installFixedScroll} from '../build-candidate/edge-scroll.js';
+
+const $ = selector => document.querySelector(selector);
+const clone = structuredClone;
+const buildURL = productLink('build');
+const sources = ['echoes/browser-data.json', 'weapons/browser-data.json', 'skills-runtime.json', 'echoes/manifest.json', 'weapons/manifest.json'];
+const [echoes, weapons, skills, echoArt, weaponArt] = await Promise.all(sources.map(async path => {
+  const response = await fetch('/docs/ui-prototypes/assets/' + path);
+  if (!response.ok) throw Error('Inventory source unavailable');
+  return response.json();
+}));
+const catalog = {
+  characters: CHARACTER_CATALOG,
+  echoes: echoes.echoes,
+  weapons: weapons.weapons,
+  statEditor: echoes.statEditor,
+  sourceBinding: 'BELLIBING_CANONICAL_LOCAL_REVIEW'
+};
+let store = await createProductStore(catalog, skills.characters);
+let snapshot = store.snapshot();
+let mode = 'account';
+let kind = 'echo';
+let query = '';
+let selected = null;
+let artworkView = 'art';
+const character = id => CHARACTER_CATALOG.find(person => person.id === id);
+const setById = id => echoes.sonataSets.find(set => set.id === id);
+const illustratedEchoIds = new Set(['echo-60001215', 'echo-60000975', 'echo-60001615', 'echo-60000235', 'echo-60000285']);
+
+const asset = productAsset;
+function image(path, label = '', className = '') {
+  if (!path) return '';
+  return `<img src="${escape(asset(path))}" alt="${escape(label)}" class="${className}" draggable="false">`;
+}
+function artwork(itemKind, id) {
+  if (itemKind === 'character') return character(id)?.art;
+  if (itemKind === 'echo' && illustratedEchoIds.has(id)) {
+    return '/artifacts/build-ui-prototype/build-candidate/echo-art/' + id + '-illustrated.png';
+  }
+  const manifest = itemKind === 'echo' ? echoArt : weaponArt;
+  return manifest.icons.find(icon => icon[itemKind + 'Id'] === id)?.targetPath;
+}
+function exampleAccount() {
+  const example = createAugustaPilotExampleBuilds().find(build => build.characterId === 'augusta');
+  const draft = freshDraft('augusta', skills.characters.find(person => person.characterId === 'augusta'));
+  draft.weaponId = example.weapon.id;
+  draft.weaponRank = example.weapon.rank;
+  draft.weaponInstanceId = 'example-weapon';
+  const names = ['The False Sovereign', 'Hurriclaw', 'Nightmare: Violet-Feathered Heron', 'Aero Predator', 'Baby Viridblaze Saurian'];
+  draft.echoes = example.echoes.map((card, index) => {
+    const identity = echoes.echoes.find(echo => echo.name === names[index]);
+    const setName = index < 3 ? 'Crown of Valor' : 'Void Thunder';
+    const set = echoes.sonataSets.find(candidate => candidate.name === setName);
+    if (!identity.sonataSetIds.includes(set.id)) throw Error('Example Sonata assignment is incompatible');
+    return {...clone(card), instanceId: 'example-echo-' + index, speciesId: identity.id, selectedSonataSetId: set.id};
+  });
+  return accountWithDraft(emptyAccount(), draft, catalog);
+}
+const demo = null;
+const account = () => snapshot.account;
+function equipment(person) {
+  const build = person.record.build;
+  const activeSet = build.echoSets.sets[build.echoSets.activeSetId];
+  return [build.weaponInstanceId, ...activeSet.slots].filter(Boolean);
+}
+function ownerOf(itemId) {
+  return Object.values(account().characters).find(person => equipment(person).includes(itemId));
+}
+function identity(item) {
+  if (kind === 'character') return character(item.id);
+  return (kind === 'echo' ? echoes.echoes : weapons.weapons).find(source => source.id === item.catalogId);
+}
+function number(value, percent = false) {
+  if (!Number.isFinite(value)) return 'Pending';
+  return new Intl.NumberFormat('en-US', {maximumFractionDigits: 2}).format(percent ? value * 100 : value) + (percent ? '%' : '');
+}
+const statName = name => ({'Flat ATK': 'ATK', 'Flat HP': 'HP', 'Flat DEF': 'DEF'}[name] ?? name);
+const statValue = stat => number(stat?.value, !!stat && !stat.name.startsWith('Flat '));
+function ownerPortrait(person) {
+  if (!person) return '';
+  return `<span class="iv-owner-portrait" title="${escape(person.name)}" aria-label="Equipped by ${escape(person.name)}">${image(character(person.id)?.face, person.name)}</span>`;
+}
+function statPair(stat, primary = false) {
+  return `<div class="iv-stat-pair ${primary ? 'primary' : ''}"><span>${escape(statName(stat?.name ?? 'Pending'))}</span><b>${statValue(stat)}</b></div>`;
+}
+function rollRows(card, personId) {
+  return `<div class="iv-roll-list">${Array.from({length: 5}, (_, index) => {
+    const roll = card.substats[index];
+    return `<div class="bc-echo-roll iv-roll"><span>${roll ? escape(roll.name) + statPreference(personId, roll.name) : '+' + (index + 1) * 5}</span>${rollSignalMarkup()}<b>${roll ? rollPresentation(roll.name, roll.value, statValue(roll)) : 'Not rolled'}</b></div>`;
+  }).join('')}</div>`;
+}
+function rows() {
+  const items = kind === 'character'
+    ? Object.values(account().characters).filter(person => person.owned)
+    : Object.values(account().items).filter(item => item.kind === kind);
+  return items.filter(item => identity(item)?.name.toLowerCase().includes(query.toLowerCase()));
+}
+function itemCard(item) {
+  const source = identity(item);
+  const owner = kind === 'character' ? null : ownerOf(item.id);
+  let icon = '';
+  let corner = '';
+  let information = '';
+  if (kind === 'character') {
+    icon = image('/docs/ui-prototypes/assets/builder-icons/elements/' + source.element?.toLowerCase() + '.webp', source.element, 'iv-element');
+    corner = 'S' + item.record.build.sequenceLevel;
+  } else if (kind === 'echo') {
+    const set = setById(item.data.selectedSonataSetId);
+    icon = image(set?.artPath, set?.name, 'iv-element');
+    corner = 'COST ' + source.cost;
+    information = `<div class="iv-card-mains">${statPair(item.data.mainStat, true)}${statPair(item.data.secondaryMainStat)}</div>`;
+  } else {
+    information = `<div class="iv-card-mains">${weaponStats(item, source)}</div>`;
+  }
+  const art = `<div class="iv-card-art">${image(artwork(kind, source.id), source.name)}${kind === 'echo' ? '' : ownerPortrait(owner)}</div>`;
+  if (kind === 'echo') return `<button class="iv-card iv-echo-card ${selected === item.id ? 'selected' : ''}" data-iv-item="${item.id}" data-rarity="${source.rarity ?? item.data?.rank ?? ''}">
+    <div class="iv-echo-name"><strong>${escape(source.name)}</strong></div>
+    <div class="iv-echo-art-stage">${icon}<span class="iv-cost">${corner}</span>${art}</div>
+    ${information}${rollRows(item.data, owner?.id)}
+    <div class="iv-card-owner">${ownerPortrait(owner)}</div>
+  </button>`;
+  return `<button class="iv-card ${selected === item.id ? 'selected' : ''}" data-iv-item="${item.id}" data-rarity="${source.rarity ?? item.data?.rank ?? ''}">
+    <div class="iv-card-heading">${icon}<strong>${escape(source.name)}</strong><span class="iv-cost">${corner}</span></div>
+    <div class="iv-card-body">${art}${information}</div>
+    ${kind === 'echo' ? rollRows(item.data, owner?.id) : ''}
+  </button>`;
+}
+function weaponStats(item, source) {
+  const complete = item.data.level === 90;
+  return `<div class="iv-stat-pair primary"><span>ATK</span><b>${number(complete ? source.level90BaseAtk : null)}</b></div>
+    <div class="iv-stat-pair"><span>${escape(source.secondary?.stat ?? 'Pending')}</span><b>${number(complete ? source.secondary?.value : null, true)}</b></div>`;
+}
+function render() {
+  $('#ivOrigin').textContent = 'Inventory';
+  $('#ivExample').setAttribute('aria-pressed', mode === 'example');
+  $('#ivAccount').setAttribute('aria-pressed', mode === 'account');
+  $('.iv-tabs').innerHTML = [['character', 'Characters'], ['weapon', 'Weapons'], ['echo', 'Echoes']].map(([category, label]) => {
+    const count = category === 'character' ? Object.values(account().characters).filter(person => person.owned).length : Object.values(account().items).filter(item => item.kind === category).length;
+    return `<button data-iv-kind="${category}" aria-pressed="${kind === category}"><span>${label}</span><b>${count}</b></button>`;
+  }).join('');
+  const items = rows();
+  if (!items.some(item => item.id === selected)) selected = items[0]?.id ?? null;
+  $('#ivKind').textContent = {character: 'Characters', weapon: 'Weapons', echo: 'Echoes'}[kind];
+  $('#ivCount').textContent = items.length + ' items';
+  $('#ivGrid').classList.toggle('iv-echo-grid', kind === 'echo');
+  $('#ivGrid').innerHTML = items.length ? items.map(itemCard).join('') : `<div class="iv-empty">No matching owned items.<a class="iv-action" href="${buildURL}">Open Build</a></div>`;
+  renderInspector(items.find(item => item.id === selected));
+}
+function echoInspector(item, source, owner) {
+  const set = setById(item.data.selectedSonataSetId);
+  const equippedIds = owner ? equipment(owner) : [];
+  const equipped = equippedIds.map(id => account().items[id]).filter(entry => entry?.kind === 'echo').map(entry => ({...entry.data, speciesId: entry.catalogId}));
+  const slot = equipped.findIndex(entry => entry.speciesId === source.id);
+  const stage = previewStage(artwork('echo', source.id), 'echo', artworkView);
+  return `<div class="iv-preview-heading"><h2>${escape(source.name)}</h2><span>COST ${source.cost}</span></div>
+    <div class="iv-preview-stage"><div class="iv-preview-set">${image(set?.artPath, set?.name)}<span>${escape(set?.name ?? 'Sonata pending')}</span></div>${stage}${ownerPortrait(owner)}</div>
+    <div class="iv-preview-mains">${statPair(item.data.mainStat, true)}${statPair(item.data.secondaryMainStat)}</div>
+    <div class="iv-preview-info"><section><h3>Substats</h3>${rollRows(item.data, owner?.id)}</section>${echoSkillOverview(source.skill)}</div>
+    ${sonataOverview(set, equipped, slot, {...item.data, speciesId: source.id})}`;
+}
+function renderInspector(item) {
+  const host = $('#ivInspector');
+  if (!item) {
+    host.innerHTML = '<div class="iv-empty">Select an item</div>';
+    return;
+  }
+  const source = identity(item);
+  const owner = kind === 'character' ? null : ownerOf(item.id);
+  if (kind === 'echo') {
+    host.innerHTML = echoInspector(item, source, owner);
+    return;
+  }
+  if (kind === 'character') {
+    const references = equipment(item).map(id => account().items[id]).filter(Boolean);
+    host.innerHTML = `<h2>${escape(source.name)}</h2>${image(artwork(kind, source.id), source.name, 'iv-hero')}
+      <div class="iv-meta"><span>${escape(source.element)}</span><span>${escape(source.weaponType)}</span><span>S${item.record.build.sequenceLevel}</span></div>
+      <section class="iv-section"><h3>Equipped</h3>${references.map(entry => {
+        const equipmentSource = (entry.kind === 'echo' ? echoes.echoes : weapons.weapons).find(candidate => candidate.id === entry.catalogId);
+        return `<div class="iv-mini">${image(artwork(entry.kind, entry.catalogId), equipmentSource?.name)}<span>${escape(equipmentSource?.name ?? 'Pending')}</span></div>`;
+      }).join('')}</section><button class="iv-action" data-iv-build="${item.id}">Open Build</button>`;
+    return;
+  }
+  host.innerHTML = `<h2>${escape(source.name)}</h2><div class="iv-preview-stage">${previewStage(artwork(kind, source.id), 'weapon', artworkView)}${ownerPortrait(owner)}</div>
+    <div class="iv-meta"><span>Lv. ${item.data.level}</span><span>R${item.data.refinement}</span></div>
+    <div class="iv-preview-mains">${weaponStats(item, source)}</div>
+    ${weaponEffectsOverview(WEAPON_EFFECT_CATALOG.filter(effect => effect.weaponId === source.id), item.data.refinement)}`;
+}
+$('#ivSearch').addEventListener('input', event => {
+  query = event.target.value;
+  render();
+});
+function useAccount(nextMode) {
+  store = store;
+  snapshot = store.snapshot();
+  mode = nextMode;
+  selected = null;
+  render();
+}
+$('#ivExample').onclick = () => useAccount('example');
+$('#ivAccount').onclick = () => useAccount('account');
+document.addEventListener('click', event => {
+  const button = event.target.closest('button');
+  if (!button) return;
+  if (button.dataset.ivKind) {
+    kind = button.dataset.ivKind;
+    selected = null;
+    render();
+  }
+  if (button.dataset.ivItem) {
+    selected = button.dataset.ivItem;
+    if(kind==='character')inventoryCarousel.setSelected(selected);
+    artworkView = 'art';
+    render();
+  }
+  if (button.dataset.wbView) {
+    artworkView = button.dataset.wbView;
+    renderInspector(rows().find(item => item.id === selected));
+  }
+  if (button.dataset.ivBuild) {
+    if (mode === 'account') {
+      const next = clone(snapshot);
+      if (!next.drafts[button.dataset.ivBuild]) return;
+      next.selected = button.dataset.ivBuild;
+      store.commit(next);
+    }
+    location.href = productLink('build',{character:button.dataset.ivBuild});
+  }
+});
+addEventListener('storage', event => {
+  if (event.key === 'bellibing.build-candidate.review.v1' && mode === 'account') useAccount('account');
+});
+render();
+installFixedScroll($('#ivGrid'), 'iv-grid-frame', 'Scroll Inventory', {anchor: $('.iv-browser'), edge: 'right'});
+installFixedScroll($('#ivInspector'), 'iv-inspector-frame', 'Scroll item details', {anchor: $('#ivInspector'), edge: 'right'});
+
+
+const heading=document.createElement('div');heading.className='heading-carousel';
+heading.innerHTML='<div class="ribbon-rest"><div class="portraits" id="portraits"></div><button id="openGallery" class="expand-gallery" aria-expanded="false" aria-controls="characterGallery" aria-label="Browse account Characters">⌄</button></div>';
+document.querySelector('#productNavigation').append(heading);
+const gallery=document.createElement('div');gallery.className='carousel-anchor global-carousel-anchor';gallery.innerHTML='<section id="characterCarousel" class="character-ribbon" aria-label="Character selector"></section>';document.body.append(gallery);
+const inventoryCarousel=mountCarousel({selectedId:readCharacterFocus(snapshot.selected),compactPresentation:true,accountOnly:true,preview:id=>accountCarouselPreview(character(id),store.session.storage),onSelect:id=>{kind='character';selected=id;render();}});

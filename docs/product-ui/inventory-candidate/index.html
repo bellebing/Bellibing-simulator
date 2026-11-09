@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <base href="/docs/ui-lab/v1.1/">
+  <title>Bellibing / Inventory prototype</title>
+  <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/3c1a4128f95e2109303b045eda4bfe8a?family=Etna">
+  <link rel="stylesheet" href="../v1/style.css">
+  <link rel="stylesheet" href="lab.css">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="/artifacts/build-ui-prototype/build-candidate/candidate.css">
+  <link rel="stylesheet" href="/artifacts/build-ui-prototype/build-candidate/workbench-concept.css">
+  <link rel="stylesheet" href="/artifacts/build-ui-prototype/build-candidate/workbench-b.css">
+  <link rel="stylesheet" href="/artifacts/build-ui-prototype/prototype-navigation.css">
+  <link rel="stylesheet" href="/artifacts/build-ui-prototype/inventory-candidate/inventory.css">
+</head>
+<body class="ui-lab bc-body" data-prototype-page="inventory">
+  <div class="bc-review">
+    <span id="ivOrigin">INVENTORY CONCEPT / example account</span>
+    <div>
+      <button id="ivExample" aria-pressed="true">Example account</button>
+      <button id="ivAccount" aria-pressed="false">B review account</button>
+    </div>
+  </div>
+  <header class="bc-nav"></header>
+  <main class="iv-page">
+    <h1>Inventory</h1>
+    <div class="iv-layout">
+      <aside class="iv-panel iv-left">
+        <input id="ivSearch" class="iv-search-input" type="search" placeholder="Search Inventory" aria-label="Search Inventory">
+        <div class="iv-tabs" aria-label="Inventory categories"></div>
+      </aside>
+      <section class="iv-panel iv-browser" aria-label="Inventory items">
+        <div class="iv-list-heading"><h2 id="ivKind"></h2><span id="ivCount"></span></div>
+        <div id="ivGrid" class="iv-grid"></div>
+      </section>
+      <aside id="ivInspector" class="iv-panel iv-inspector" aria-label="Selected item"></aside>
+    </div>
+  </main>
+  <script type="module" src="/artifacts/build-ui-prototype/prototype-navigation.js"></script>
+  <script type="module" src="/artifacts/build-ui-prototype/inventory-candidate/inventory.js"></script>
+</body>
+</html>

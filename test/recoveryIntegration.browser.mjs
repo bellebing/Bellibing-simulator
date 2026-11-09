@@ -15,7 +15,8 @@ test('recovery routes preserve physical ownership, observations, saved teams and
  page.on('pageerror',error=>errors.push(error.stack));const out='artifacts/recovery-review';await mkdir(out,{recursive:true});
  let account=accountFromLegacy(uxAccountFixture().account,catalog);
  for(const id of ['iuno','the-shorekeeper']){const value=scan(id);for(const echo of value.echoes){echo.rank=5;echo.level=25;}account=saveReviewedScan(account,value,catalog,{reviewed:true,assign:true});}
- const goto=route=>page.goto(base+'/'+route+'/?profile=recovery-browser&character=augusta');
+ // Exercise retained advanced tools here; productIntegration.browser.mjs covers the new default routes.
+ const goto=route=>page.goto(base+'/'+route+(['build','inventory','teams'].includes(route)?'/legacy.html':'/')+'?profile=recovery-browser&character=augusta');
  const snapshot=()=>page.evaluate(()=>bellibingAccountSession.store.snapshot());
  try{
   await goto('inventory');await page.waitForFunction(()=>globalThis.bellibingAccountSession);
@@ -55,7 +56,7 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   await page.waitForFunction(donor=>bellibingAccountSession.store.snapshot().characters.iuno.record.build.echoSets.sets['set-1'].slots[0]===donor,donor);
   assert.equal(Object.keys((await snapshot()).items).length,18);
   const download=page.waitForEvent('download');await page.locator('[data-backup]').click();const file=await download,backup=JSON.parse(await readFile(await file.path(),'utf8'));
-  const restored=await context.newPage();await restored.goto(base+'/inventory/?profile=recovery-empty-restore');await restored.locator('[data-restore]').setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});await restored.locator('[data-confirm-restore]').click();
+  const restored=await context.newPage();await restored.goto(base+'/inventory/legacy.html?profile=recovery-empty-restore');await restored.locator('[data-restore]').setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});await restored.locator('[data-confirm-restore]').click();
   await restored.waitForFunction(()=>Object.keys(bellibingAccountSession.store.snapshot()?.items??{}).length===18);
   const secondDownload=restored.waitForEvent('download');await restored.locator('[data-backup]').click();const secondFile=await secondDownload,reexport=JSON.parse(await readFile(await secondFile.path(),'utf8'));
   for(const key of ['items','characters','userData'])assert.deepEqual(reexport.account[key],backup.account[key]);await restored.close();

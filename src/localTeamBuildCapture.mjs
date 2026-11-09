@@ -15,10 +15,12 @@ export async function captureLocalTeamBuilds(input){
   if(build?.kind!=='SANDBOX_BUILD'||build.characterId!==selectedCharacterId||!team.characterIds.includes(selectedCharacterId))return fail('SANDBOX_REFERENCE_INPUT_PENDING');
   // No account records or account-owned equipment enter the Sandbox payload.
   const ownership={kind:'SANDBOX_BUILD',id:build.id,revision:await hash({team,scope,candidates:input.candidates})};
-  const configurations=scope.slots?.map(s=>s.configuration&&({speciesId:s.configuration.echoId,cost:s.configuration.cost,selectedSonataSetId:s.configuration.selectedSonataSetId}));
+  const configurations=scope.slots?.map(s=>s.configuration&&({speciesId:s.configuration.echoId,cost:s.configuration.cost,selectedSonataSetId:s.configuration.selectedSonataSetId,mainStatName:s.configuration.mainStatName}));
   const observed=(input.candidates??[]).some(Boolean);
   const cards=observed?Array.from({length:5},(_,i)=>card(input.candidates?.[i],`sandbox:${build.id}:${i}`)??null):null;
-  return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards}}};
+  const settings=scope.context?.settings;
+  const expectation=settings&&scope.slots?.length===5&&scope.slots.every(s=>s.active)?{version:'EXPECTED_STATIC_LOADOUT_V1',gate:Number(settings.gate),erTarget:clone(settings.erTarget),target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flexCount??0}}:null;
+  return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards,...(expectation?{expectation}:{})}}};
  }
  if(mode!=='IMPROVE')return fail('BUILD_OWNERSHIP_PENDING');
  const actual=input.actualInvestments;
@@ -40,7 +42,7 @@ export async function captureLocalTeamBuilds(input){
  });
  const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:localTeamReference(team.id).enemy,acceptReferenceStateSchedule:true};
  const current=createFixedTeamScenarioRequest({...common,builds});if(current.status!=='CAPTURED')return fail(current.reason);
- if(builds.some(b=>b.echoes?.length!==5||b.echoes.some(c=>!c)))return fail('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
+ if(builds.some(b=>b.echoes?.length!==5))return fail('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
  const next=clone(builds),selected=next.find(b=>b.characterId===selectedCharacterId),slots=[];
  for(const [i,c]of (input.candidates??[]).entries())if(c){slots.push(i);selected.echoes[i]=card(c,`candidate:${selectedCharacterId}:${i}`);}
  if(input.candidateBaseline)selected.baseline=clone(input.candidateBaseline);

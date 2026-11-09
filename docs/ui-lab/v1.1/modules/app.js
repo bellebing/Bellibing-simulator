@@ -1,3 +1,9 @@
+import {ownedTeamContext} from './character-context.js';
+import {createImproveSearchClient} from './improve-search-client.js';
+import {readCharacterFocus} from './character-focus.js';
+import {accountCarouselPreview} from './account-carousel-preview.js';
+import {mountImprovePresets} from './improve-presets.js';
+import {mountImproveEchoPicker} from './improve-echo-picker.js';
 import echoAdviceCatalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import {validateEchoTemplateConfiguration} from '../../../ui-prototypes/assets/echo-template-configuration.mjs';
 import {mountEchoAdvisor} from './echo-advisor.js';
@@ -42,10 +48,10 @@ import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
 let accountOwner=null;
-if(globalThis.BELLIBING_WORKSPACE_ROUTES&&new URLSearchParams(location.search).get('sandbox')==='false'){const {accountSession}=await import('../../inventory/account-session.js');accountOwner=await accountSession();}
+if(globalThis.BELLIBING_WORKSPACE_ROUTES&&['false','true'].includes(new URLSearchParams(location.search).get('sandbox'))){const {accountSession}=await import('../../inventory/account-session.js');accountOwner=await accountSession();}
 const localStorage=accountOwner?.storage??globalThis.localStorage;
 
-function echoCard(echo,options={}){return renderEchoCard(echo,{...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:compactReview&&accountMode&&!options.candidate});}
+function echoCard(echo,options={}){return renderEchoCard(echo,{characterId:selectedId,...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:false});}
 
 const query = new URLSearchParams(location.search);
 const compactReview=query.get('layout')!=='legacy'&&query.get('demonstration')!=='true'&&query.get('review')!=='configuration';
@@ -69,6 +75,7 @@ const resources = mountResourceInventory($('#resourceInventory'),sandbox?undefin
 const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
 const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
+let improvePresets=null;
 let accountSaveQueue=Promise.resolve();
 function saveAccountSettings(){
  if(sandbox||!accountOwner)return;
@@ -79,11 +86,12 @@ function saveAccountSettings(){
 const improveSettings = mountImproveSettings($('#echoSettings'), {getState: () => state, onEdit: (action, source) => {settingsConfigurationChanged(state);saveAccountSettings();characterCard.edit(action, source);}, onSettle: () => characterCard.settle()});
 const sonataSelection = sandbox?null:mountSonataSelection($('.sonata-section'), {getState: () => state,onEdit:()=>{settingsConfigurationChanged(state);saveAccountSettings();}});
 const people = new Map(CHARACTER_CATALOG.map(person => [person.id, person]));
-let selectedId = CHARACTER_CATALOG.some(p=>p.id===query.get('character'))?query.get('character'):'augusta';
+let selectedId = readCharacterFocus(Object.keys(accountOwner?.store.snapshot()?.characters??{})[0]??'augusta');
 let uiContextRevision=0;
 const demonstration = !sandbox&&query.get('demonstration') === 'true';
 const configurationReview=!sandbox&&query.get('review')==='configuration';
 const accountMode=!sandbox&&!demonstration&&!configurationReview;
+if(accountMode)$('#simulate').hidden=true;
 if(demonstration||configurationReview){
  for(const selector of ['.demo-note','.target','.mode-switch'])$(selector).hidden=false;
  // Isolated historical fixtures retain their approved three-tab geometry.
@@ -113,7 +121,7 @@ let sandboxRun=null,runSlots=null,runInspectionSlot=null,runLoop=false,preRunMet
 let hostStatus='CHECKING',hostProbeBinding=null;
 let preflightStatus={status:'CHECKING',reasons:[]};
 const sandboxClient=sandbox?(browserBeta?createBrowserSandboxClient:createSandboxClient)({readContext:()=>sandboxWorkspace.readContext(resources.read(),resources.revision()),readEvaluationContext:()=>compactReview?null:state.sandboxEvaluationContext??(!expertMode&&['augusta','iuno','the-shorekeeper'].includes(state.id)&&!!sourceTeamView(state)?.selectedTeam&&['augusta','iuno','the-shorekeeper'].every(id=>sourceTeamView(state).selectedTeam.characterIds.includes(id))?{kind:'SYNTHETIC_REFERENCE_TEAM',id:'AUGUSTA_IUNO_SHOREKEEPER_REFERENCE_V1',version:1}:null),onChange:run=>{sandboxRun=run;if(run?.status==='PENDING'){preflightStatus={status:'PENDING',reasons:run.reasons??[]};preRunMetrics=null;}runSlots=run?observedSlots(run.view):null;if(!runSlots)runInspectionSlot=null;resourceCost.present({comparison:run?.metrics?.costComparison,expected:expectedResourceRecord(run?.metrics),simulated:run?.simulatedCost?{status:'VERIFIED',...run.simulatedCost.gross}:null});if(carousel)renderWorkspace();}}):null;
-var echoAdvisor=null,localTeamReview=null;
+var echoAdvisor=null,localTeamReview=null,improveSearchClient=null;
 let candidateRun=null,candidatePreflight={status:'CHECKING',reasons:[]},candidateMetricsBinding=null,candidateMetricsTimer;
 function readImproveOwner(){let policyStorage;try{policyStorage=['bellibing.improve.policy.v3','bellibing.improve.simple-settings.v2'].map(key=>localStorage.getItem(key));}catch{policyStorage='ACCOUNT_SETTINGS_UNREADABLE';}return {kind:'ACCOUNT_BUILD',policyStorage,record:readProductionBuildRecord(localStorage,people.get(selectedId)),inventory:resources.read(),inventoryRevision:resources.revision(),state:Object.fromEntries(['id','selectedSlot','statSections','minima','flexCount','settingsMode','gate','erTarget','sonataPool','canonicalSettingsSource','accountSettingsPending','accountPolicyBinding'].map(k=>[k,state[k]]).concat([['configurationSession',{active:[...state.configurationSession.active]}]]))};}
 const candidateSession=accountMode?createImproveCandidateSession({readOwner:readImproveOwner,onChange:run=>{
@@ -142,15 +150,19 @@ if(sandbox||accountMode){
 }
 
 if(accountMode){const panel=document.createElement('div');panel.id='compactAccountTeamPanel';panel.className='side-content';$('.character-content').after(panel);}
+const candidateTemplates=new Map();
+let improveEchoPicker=null;
 function readEchoAdviceContext(){
  const owner=readImproveOwner(),record=owner.record,slot=state.selectedSlot,build=record.buildState;
  const card=build?.echoSets?.sets?.[build.echoSets.activeSetId]?.slots?.[slot];
- let template=null;if(card)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:card.echoId,cost:card.cost,rank:card.rank,mainStatName:card.mainStat?.name,selectedSonataSetId:card.selectedSonataSetId});}catch{}
+ const saved=accountOwner?.store.snapshot()?.userData?.observations?.[selectedId]?.slots?.find(row=>row.slot===slot)?.session?.candidate;
+ const chosen=candidateTemplates.get(selectedId+':'+slot)??saved??card??sandboxStandard(selectedId)?.slots[slot]?.configuration;
+ let template=null;if(chosen)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:chosen.echoId??chosen.speciesId,cost:chosen.cost,rank:5,mainStatName:chosen.mainStatName??chosen.mainStat?.name,selectedSonataSetId:chosen.selectedSonataSetId});}catch{}
  let settings;try{settings=settingsSnapshot(state);}catch{return {owner:{characterId:selectedId,slot,record},pending:'Settings Pending'};}
- const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!card?'Choose an equipped Echo':!template?'Echo configuration Pending':null;
+ const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!template?'Echo configuration Pending':null;
  const teamInput=readLocalTeamInput(),
   currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:false}:null;
- return {owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
+ return {dpsSearch:state.improveSearch,dpsPlan:state.improvePlan,dpsReview:state.improveDpsReview,owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
    ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,actualInvestmentRequired:true}}:{})},template,
   ...(currentAdvice?{currentAdvice}:{}),
   target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
@@ -161,7 +173,7 @@ function interactiveNetCost(){
   tuners:spent.tuners-spent.returnedTuners,tubes:Object.fromEntries(Object.keys(spent.tubes).map(id=>[id,spent.tubes[id]-spent.returnedTubes[id]]))}:null;
 }
 let advisedOwner=null,advisorRenderQueued=false;
-if(accountMode)echoAdvisor=mountEchoAdvisor({readContext:readEchoAdviceContext,onRender:()=>{if(typeof feedback!=='undefined')renderFeedback();},onCard:card=>{
+if(accountMode)echoAdvisor=mountEchoAdvisor({readContext:readEchoAdviceContext,onRender:()=>{if(typeof feedback!=='undefined'&&!advisorRenderQueued){advisorRenderQueued=true;queueMicrotask(()=>{advisorRenderQueued=false;renderWorkspace();});}},onCard:card=>{
  resourceCost.present({simulated:interactiveNetCost()});
  if(card){advisedOwner={state,slot:state.selectedSlot,id:card.id};state.accountCandidates[state.selectedSlot]=structuredClone(card);
  const history=echoAdvisor?.snapshot()?.history??[];state.configurationSession.histories[state.selectedSlot]=observedSlots({slots:[{slot:1,trash:history.filter(e=>e.kind==='DISCARD').map(e=>({card:e.card,reason:e.recovery?(e.recovery.method==='FEED'?'Fed into next Echo':'Materials recovered'):'User discarded · no recovery applied'}))}]})[0].trash;document.body.classList.toggle('has-advisor-trash',history.some(e=>e.kind==='DISCARD'));}
@@ -215,8 +227,18 @@ function renderFeedback() {
   if(echoAdvisor?.available()){
    const run=echoAdvisor.snapshot(),input=readEchoAdviceContext(),level=run?.candidate.level??0;
    $('#simulate').disabled=!!input.pending||level===25||!!run?.aborted;
-   $('#simulate').querySelector('span:nth-child(2)').textContent='RECORD +'+Math.min(25,level+5);$('#simulate').title='Enter the exact substat and roll value observed in your game';
-   $('#feedbackTitle').textContent=level===25?(run?.advice?.status==='TARGET_SUCCESS'?'Target met':'Echo complete'):'Real Echo · observed rolls';
+   $('#simulate').hidden=true;$('#simulate').querySelector('span:nth-child(2)').textContent='RECORD +'+Math.min(25,level+5);$('#simulate').title='Enter the exact substat and roll value observed in your game';
+   const decision=echoAdvisor.feedback();
+   $('#feedbackTitle').textContent=decision.title??echoAdvisor.verdict();
+   let explanation=$('#improveFeedbackDetails');
+   if(!explanation){explanation=document.createElement('div');explanation.id='improveFeedbackDetails';$('#workshopFeedback').after(explanation);}
+   explanation.innerHTML=echoAdvisor.feedbackMarkup(decision);
+   $('#newCard').dataset.adviceTone=decision.tone;
+   $('#newCard').dataset.adviceScope=decision.scope;
+   $('#newCard').style.setProperty('--advice-strength',String(decision.chance === null ? .35 : .35 + .65 * decision.chance));
+   resourceCost.present({expected:echoAdvisor.expectedCost(),simulated:interactiveNetCost(),labels:{expected:'Expected',simulated:'Spent'}});
+   const costTable=$('#resourceCost table');costTable.title=state.improvePlan?.dpsEnabled?'Estimated future gross cost to the next DPS step, including replacements under the sampled Gate policy. Spent shows net recorded workspace receipts after returns.':'Expected future gross Tuners until configured stat targets, including replacements. Spent shows recorded workspace receipts.';
+
    $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Enter the roll observed in game';
    $('#sandboxAbort').disabled=!run||level===25||!!run.aborted;$('#sandboxExport').disabled=!run;
    $('#sandboxCostDetails').innerHTML='';$('#sandboxHostStatus').textContent='Local Echo advice · gross Tuners';
@@ -242,9 +264,21 @@ function renderWorking() {
   const shown=displayedEchoes()[slot];
   $('#currentCard').previousElementSibling.firstElementChild.textContent=shown?.configured?'CONFIGURED ECHO':runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY ECHO':'CURRENT ECHO';
   $('#currentCard').innerHTML = echoCard(shown, { footer:runSlots?.[slot]?.current&&!runSlots[slot].complete?'TEMPORARY':'ACTIVE' });
+  if(accountMode){const rows=$('#currentCard .substats');if(rows){const heading=document.createElement('h4');heading.className='comparison-substats-title';heading.textContent='Substats';rows.prepend(heading);}}
+
   const proposed=displayedCandidates()[slot],advice=echoAdvisor?.snapshot()?.advice;
-  $('#newCard').innerHTML = echoCard(proposed, { candidate: true, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
-  if(accountMode){const caption=$('#newCard').previousElementSibling.querySelector('.caption-detail');caption.textContent=echoAdvisor?.available()?'OBSERVED CANDIDATE':'CANDIDATE';if(state.onAccount&&!echoAdvisor?.snapshot()?.candidate){const edit=document.createElement('button');edit.type='button';edit.className='echo-edit';edit.dataset.editCandidate=String(slot);edit.textContent=proposed?'Edit Candidate':'Add Candidate';caption.replaceChildren(edit);}}
+  $('#newCard').innerHTML = echoCard(proposed??(accountMode?echoAdvisor?.candidateCard():null), { candidate: true,editorMarkup:accountMode?echoAdvisor?.editorMarkup():null, footer: proposed?.level===25?(advice?.status==='TARGET_SUCCESS'?'TARGET MET':'COMPLETE'):'UNFINISHED' });
+  if(accountMode){
+   $('#currentCard .card-bottom')?.remove();
+   const actions=$('#newCard .card-bottom');
+   if(actions&&echoAdvisor?.available()){actions.className='card-bottom candidate-actions';actions.innerHTML=echoAdvisor.cardActions();}
+   const currentCaption=$('#currentCard').previousElementSibling;
+   currentCaption.firstElementChild.textContent='Current Echo';
+   currentCaption.querySelector('.caption-detail').hidden=true;
+   const caption=$('#newCard').previousElementSibling;
+   caption.innerHTML='<button type="button" class="echo-change" data-change-echo>Change Echo</button><span>New Echo</span>';
+   improveEchoPicker?.render();
+  }
   $('#slotLabel').textContent = String(slot + 1).padStart(2, '0');
   renderFeedback();
 }
@@ -256,6 +290,14 @@ function renderSlots() {
     const available=true;
     return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${demonstration?'':'<div class="slot-controls">'}${activationMarkup(index,active,available,demonstration)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${(editable||(accountMode&&state.onAccount))?'':' disabled'}>Edit</button>` : ''}${demonstration?'':'</div>'}</div>`;
   }).join('');
+  if(accountMode&&state.improveSearch?.characterId===state.id&&state.improveSearch?.status==='ESTIMATED'){
+   const best=state.improveSearch.recommendedSlot;
+   document.querySelectorAll('#slots [data-slot]').forEach(button=>{
+    const selected=Number(button.dataset.slot)===best;
+    button.classList.toggle('is-next-improvement',selected);
+    if(selected){const label=button.querySelector('.echo-status-label');if(label){label.classList.add('improve-next-slot');label.textContent='Start here · estimated';}}
+   });
+  }
   positionActivationMarks($('#slots'));
   const session=state.configurationSession;
   if(state.accountProjection){const cards=state.accountProjection.slots??[];$('.loadout-heading .small-muted').textContent=`${cards.filter(Boolean).length} equipped · ${cards.reduce((n,c)=>n+(c?.cost??0),0)} / 12 Cost`;}else if(session?.mode==='simulate'){
@@ -302,7 +344,7 @@ function readLocalTeamInput(){
  const ids=team?.characterIds??[];
  const records=accountMode?ids.map(id=>readProductionBuildRecord(localStorage,people.get(id))):[];
  let candidates=Array(5).fill(null);
- if(accountMode){if(echoAdvisor?.snapshot()?.candidate)candidates=echoAdvisor.comparisonCandidates();else candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);}
+ if(accountMode){if(echoAdvisor?.snapshot()?.candidate)candidates=echoAdvisor.comparisonCandidates(state.selectedSlot);else candidates[state.selectedSlot]=structuredClone(state.accountCandidates?.[state.selectedSlot]??null);if(echoAdvisor?.incompleteEdit())candidates[state.selectedSlot]=null;}
  if(sandbox&&sandboxRun?.view?.status==='GOAL_SUCCESS'){
   const selected=state.configurationSession.active.flatMap((active,i)=>active?[i]:[]),slots=sandboxRun.view.slots??[];
   if(selected.length&&selected.every(i=>slots.some(s=>s.slot===i+1&&s.complete&&s.current?.level===25))){
@@ -310,11 +352,15 @@ function readLocalTeamInput(){
 
   }
  }
- return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,candidates,candidateLabel:accountMode&&echoAdvisor?.snapshot()?.candidate?'Observed':'Candidate',pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,actualInvestments:accountMode?Object.fromEntries(records.map(record=>[record.characterId,{characterLevel:record.buildState?.characterLevel,weaponLevel:record.buildState?.weaponLevel,weaponRefinement:record.buildState?.weaponRefinement}])):undefined,candidates,candidateLabel:accountMode&&echoAdvisor?.snapshot()?.candidate?'Observed':'Candidate',pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }
-localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,onAvailable:()=>renderCharacter(),onReferenceInvestmentChange:()=>echoAdvisor?.sync()});
+localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,autoReference:accountMode,readSearch:()=>state.improveSearch,onAvailable:()=>renderCharacter(),onResult:value=>{state.improveDpsReview=value;renderFeedback();},onReferenceInvestmentChange:()=>echoAdvisor?.sync()});
+if(accountMode){
+ improveSearchClient=createImproveSearchClient({readInput:()=>({teamInput:readLocalTeamInput(),useReference:localTeamReview.referenceInvestmentAccepted(),slot:state.selectedSlot,template:readEchoAdviceContext().template,rolls:echoAdvisor?.snapshot()?.candidate?.substats??[],plan:{dpsEnabled:state.improvePlan?.dpsEnabled,minimumDpsPercent:state.improvePlan?.minimumDpsPercent},erTarget:state.erTarget,gate:settingsSnapshot(state).gate}),onResult:value=>{state.improveSearch=value;if(carousel)renderWorkspace();localTeamReview?.redraw();}});
+ setInterval(()=>improveSearchClient.refresh(),1000);
+}
 // Other member builds can change in Build/another tab; invalidate the entire
 // comparison immediately even if the selected member's Candidate is unchanged.
 if(sandbox||accountMode)setInterval(()=>localTeamReview.checkFresh(),200);
@@ -354,7 +400,7 @@ function renderTeamPanel(panel){
 
 function renderCharacter() {
   const person = people.get(selectedId);
-  if(sandbox)state.sandboxStatProjection=sandboxStats(state,sandboxRun);
+  if(sandbox){const matching=metricsBinding===JSON.stringify({context:sandboxWorkspace.readContext(resources.read(),resources.revision()),evaluationContext:state.sandboxEvaluationContext??null});state.sandboxStatProjection=sandboxStats(state,sandboxRun,matching&&preflightStatus.status==='READY'?preRunMetrics?.expectedCost:null);}
   characterCard.render(person, state);
   if(compactReview)$('#character .side-title').textContent=person.name;
   if(accountMode)renderTeamPanel($('#compactAccountTeamPanel'));
@@ -378,6 +424,7 @@ function renderSettings() {
   $('.compact-gate').textContent = state.gate;
   document.querySelectorAll('.gate-options button').forEach(button => { button.classList.toggle('selected', button.textContent === state.gate); button.setAttribute('aria-pressed', button.textContent === state.gate); });
   improveSettings.render();
+  improvePresets?.render();
   sonataSelection?.render();
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
@@ -411,6 +458,7 @@ async function probeSandboxHost(binding){
 }
 
 function syncAccountState(){
+ state.accountPreferredTeamContextId=ownedTeamContext(selectedId,accountOwner?.store.snapshot()?.userData?.teams??[]);
  restoreOwnedSettings(state,localStorage);
  if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state);state.accountSourcesInitialized=true;}
  try{restoreWorkspaceSettings(state,accountOwner?.store.snapshot()?.userData?.workspaceSettings?.[state.id]);}catch(error){state.accountSettingsPending=error.message;}
@@ -425,7 +473,7 @@ function syncAccountState(){
   echoAdvisor.sync();
   if(echoAdvisor.snapshot()?.candidate)state.accountCandidates[state.selectedSlot]=echoAdvisor.snapshot().candidate;
  }
- const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot});
+ const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:echoAdvisor?.incompleteEdit()?null:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot,expected:state.improveSearch});
  state.accountProjection=projection;
  state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
  const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
@@ -433,7 +481,7 @@ function syncAccountState(){
 }
 function renderWorkspace() {
   if(accountMode)syncAccountState();
-  const emptyAccount=accountMode&&!state.accountProjection?.slots?.some(Boolean);
+  const emptyAccount=accountMode&&!state.onAccount;
   document.body.classList.toggle('account-build-empty',emptyAccount);
   let buildAction=document.querySelector('.empty-build-action');
   if(accountMode&&!buildAction){buildAction=document.createElement('a');buildAction.className='empty-build-action';buildAction.href='../build/';buildAction.textContent='Open Build';document.querySelector('#simulate').after(buildAction);}
@@ -452,27 +500,18 @@ function renderWorkspace() {
   carousel?.refresh();
 }
 
-function layout(last = 'character') {
+function layout() {
   const shell = $('#composition');
   const settings = $('#settings');
   const character = $('#character');
+  const expandedSettings = settings.classList.contains('expanded');
+  const expandedCharacter = character.classList.contains('expanded');
   const available = shell.clientWidth;
-  let expandedSettings = settings.classList.contains('expanded');
-  let expandedCharacter = character.classList.contains('expanded');
-  const characterWidth = available < 1550 ? 290 : Math.min(480, Math.floor(available * .24));
-  const gaps = 2 * parseFloat(getComputedStyle(shell).columnGap);
-  const workshopStyle = getComputedStyle($('.workshop'));
-  const workshopMinimum = 1000 + parseFloat(workshopStyle.borderLeftWidth) + parseFloat(workshopStyle.borderRightWidth);
-  const settingsWidth = Math.min(350, available - workshopMinimum - gaps - 58);
-  if (settingsWidth < 300) expandedSettings = false;
-  const required = workshopMinimum + gaps + (expandedSettings ? settingsWidth : 58) + (expandedCharacter ? characterWidth : 58);
-  if (available < required) {
-    if (last === 'settings') expandedCharacter = false;
-    else expandedSettings = false;
-  }
-  settings.classList.toggle('expanded', expandedSettings);
-  character.classList.toggle('expanded', expandedCharacter);
-  shell.style.gridTemplateColumns = `${expandedSettings ? settingsWidth : 58}px minmax(${workshopMinimum}px,1fr) ${expandedCharacter ? characterWidth : 58}px`;
+  const settingsWidth = Math.min(340, Math.max(290, available * .18));
+  const characterWidth = Math.min(450, Math.max(300, available * .24));
+  // A toggle owns its own panel. Available width changes the workbench, never
+  // the other panel's state. Narrow layouts retain their existing stacked CSS.
+  shell.style.gridTemplateColumns = `${expandedSettings ? settingsWidth : 58}px minmax(0,1fr) ${expandedCharacter ? characterWidth : 58}px`;
   $('#settingsToggle').setAttribute('aria-expanded', expandedSettings);
   $('#characterToggle').setAttribute('aria-expanded', expandedCharacter);
   $('#settingsToggle').title = `${expandedSettings ? 'Collapse' : 'Expand'} Improve Settings`;
@@ -553,7 +592,24 @@ $('#slots').addEventListener('click', event => {
   if(accountMode){renderWorkspace();}else{renderWorking();renderSlots();}
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
-$('#newCard').previousElementSibling.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-candidate]');if(accountMode&&edit)workshopEditor.openObserved(Number(edit.dataset.editCandidate),edit);});
+if(accountMode)improveEchoPicker=mountImproveEchoPicker({
+ getContext:()=>({characterId:selectedId,slot:state.selectedSlot,template:readEchoAdviceContext().template}),
+ onUse:useCandidateTemplate
+});
+function useCandidateTemplate(template){
+ const key=selectedId+':'+state.selectedSlot,previous=candidateTemplates.get(key);
+ candidateTemplates.set(key,template);
+ try{echoAdvisor.replaceCandidate();}catch(error){if(previous)candidateTemplates.set(key,previous);else candidateTemplates.delete(key);throw error;}
+ renderWorkspace();
+}
+document.querySelector('.interaction').addEventListener('click',event=>{
+ if(!event.target.closest('[data-use-improve-suggestion]'))return;
+ const search=state.improveSearch,suggestion=search?.recommendation;
+ if(search?.status!=='ESTIMATED'||search.characterId!==selectedId||suggestion?.slot!==state.selectedSlot)return;
+ const template=readEchoAdviceContext().template;
+ if(template)useCandidateTemplate({...template,mainStatName:suggestion.mainStatName});
+});
+$('#newCard').previousElementSibling.addEventListener('click',event=>{if(event.target.closest('[data-change-echo]'))improveEchoPicker?.open();});
 $('#piles').addEventListener('click', event => {
   const button = event.target.closest('button.pile-card');
   if (button) inspectPile(Number(button.closest('[data-pile]').dataset.pile), Number(button.dataset.historyIndex), button);
@@ -565,6 +621,8 @@ $('#discardedEcho').onchange=event=>{const index=Number(event.target.value);if(i
 $('#previousCard').onclick = () => { if (inspection.index > 0) { inspection.index--; renderInspection(); } };
 $('#nextCard').onclick = () => { if (inspection.index < displayedHistories()[inspection.slot].length - 1) { inspection.index++; renderInspection(); } };
 
+document.addEventListener('improve-echo-picker-closed',()=>{if(accountMode)renderWorkspace();});
+$('#newCard').addEventListener('click',event=>{if(accountMode&&echoAdvisor?.available())echoAdvisor.editCard(event);});
 $('#settingsToggle').onclick = () => { $('#settings').classList.toggle('expanded'); layout('settings'); };
 $('#characterToggle').onclick = () => { $('#character').classList.toggle('expanded'); layout('character'); };
 let resizeTimer;
@@ -626,18 +684,26 @@ if(!demonstration&&!configurationReview){
  const routes=globalThis.BELLIBING_WORKSPACE_ROUTES;
  const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
  mountWorkspaceHeader($('.site-header'),{build:routes?.build??assetURL('../../ui-prototypes/v34-functional.html')+'?workspace=build',improve:href('improve'),sandbox:href('sandbox')},sandbox?'sandbox':'improve');
+ if(accountMode){
+  improvePresets=mountImprovePresets({getState:()=>state,onSave:()=>{saveAccountSettings();renderFeedback();},onManual:()=>{state.settingsMode='Customize';state.sourcePreferenceGuidance=null;state.accountSettingsPending=null;settingsConfigurationChanged(state);renderSettings();saveAccountSettings();}});
+  const placeCarousel=()=>{const header=document.querySelector('.workspace-header');const carouselHeading=document.querySelector('.heading-carousel');if(header&&carouselHeading)header.append(carouselHeading);};
+  placeCarousel();document.addEventListener('bellibing-header-ready',placeCarousel);
+  const costs=document.createElement('div');costs.className='improve-cost-footer';costs.append($('#resourceCost'));
+  $('.working-area .interaction').append(costs);
+
+ }
  const badge=document.createElement('p');badge.className='workspace-identity';badge.textContent=sandbox?'Sandbox · hypothetical · no account changes':'Improve · equipped Current + observed Candidate';$('.page-heading>div').append(badge);
 }
 if(accountMode)setInterval(()=>{if(echoAdvisor?.available()){echoAdvisor.sync();return;}candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
 renderWorkspace();
 layout();
-carousel = mountCarousel({ selectedId, onSelect: id => {
+carousel = mountCarousel({ selectedId,compactPresentation:!!accountOwner,accountOnly:!!accountOwner, onSelect: id => {
   workshopEditor.close();if(accountMode)candidateSession.invalidate();
   uiContextRevision++;selectedId = id;
   state = characterState(id);
   renderWorkspace();
-}, preview:sandbox?id=>sandboxWorkspace.preview(id):accountMode?id=>{const record=readProductionBuildRecord(localStorage,people.get(id));return {onAccount:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',hasBuild:record.status==='OBSERVED_PRODUCTION_BUILD_RECORD',slots:record.buildState?.echoSets?.sets?.[record.buildState.echoSets.activeSetId]?.slots?.filter(Boolean).length??0,weapon:WEAPON_CATALOG.find(w=>w.id===record.buildState?.weaponId)?.name??null,stats:['—','—','—']};}:undefined,standalone:sandbox,accountLabel:accountMode?'account':undefined });
+}, preview:accountOwner?id=>accountCarouselPreview(people.get(id),localStorage):sandbox?id=>sandboxWorkspace.preview(id):undefined,standalone:sandbox,accountLabel:accountMode?'account':undefined });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }
 if (query.get('compact') === 'true') { $('#settings').classList.remove('expanded'); $('#character').classList.remove('expanded'); layout(); }
 if (globalThis.BELLIBING_LAB_REVIEW) {

@@ -27,7 +27,7 @@ export async function buildSandbox(directory='dist'){
  cpSync(join(source,'workspace-navigation.css'),join(out,'workspace-navigation.css'));
 
  writeFileSync(join(out,'index.html'),html);installSandboxRelease(out);
- const improve=resolve(directory,'improve');mkdirSync(improve,{recursive:true});writeFileSync(join(improve,'index.html'),html.replace('aria-current="page"','').replace('data-workspace="improve"','data-workspace="improve" aria-current="page"').replace("url.searchParams.set('sandbox','true')","url.searchParams.set('sandbox','false')").replace('href="sandbox.css"','href="../sandbox/sandbox.css"').replace('src="app.js"','src="../sandbox/app.js"'));
+ const improve=resolve(directory,'improve');mkdirSync(improve,{recursive:true});writeFileSync(join(improve,'index.html'),html.replace('aria-current="page"','').replace('data-workspace="improve"','data-workspace="improve" aria-current="page"').replace("url.searchParams.set('sandbox','true')","url.searchParams.set('sandbox','false')").replace('href="sandbox.css"','href="../sandbox/sandbox.css"').replace('src="app.js"','src="../sandbox/app.js"').replaceAll('src="assets/','src="../sandbox/assets/'));
  return ['build/index.html','sandbox/workspace-navigation.css','improve/index.html','sandbox/app.js','sandbox/index.html','sandbox/sandbox.css','sandbox/engine-release.json',...readdirSync('docs/ui-lab/v1/assets').map(p=>'sandbox/assets/'+p)];
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await buildSandbox(process.argv[2]??'dist');

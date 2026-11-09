@@ -9,7 +9,7 @@ export function buildInventory(directory='dist'){
  for(const name of ['account-session.js','integration.js'])writeFileSync(join(out,name),readFileSync(join(source,name),'utf8').replaceAll('../../../src/','./'));
  cpSync(join(source,'integration.css'),join(out,'integration.css'));
  cpSync(join(source,'art'),join(out,'art'),{recursive:true});
- for(const name of ['inventoryAccount.mjs','inventoryAccountStore.mjs'])cpSync(join('src',name),join(out,name));
+ for(const name of ['inventoryAccount.mjs','inventoryAccountStore.mjs','buildCardImage.mjs'])cpSync(join('src',name),join(out,name));
  const characters=JSON.parse(readFileSync(join(directory,'data/character-database.json'),'utf8')).characters.filter(c=>c.releaseStatus==='RELEASED').map(({id,name,weaponType,element})=>({id,name,weaponType,element}));
  const echoes=JSON.parse(readFileSync('docs/ui-prototypes/assets/echoes/browser-data.json','utf8')),weapons=JSON.parse(readFileSync('docs/ui-prototypes/assets/weapons/browser-data.json','utf8'));
  const catalog={characters,echoes:echoes.echoes,sonataSets:echoes.sonataSets,statEditor:echoes.statEditor,weapons:weapons.weapons.filter(w=>w.releaseStatus==='RELEASED')};

@@ -1,0 +1,66 @@
+import {readCharacterFocus} from '../ui-lab/v1.1/modules/character-focus.js';
+import {accountSession} from '../ui-lab/inventory/account-session.js';
+import {productDraftFromAccount,productDraftFromScan,scanFromProductDraft,applyProductDraft} from '../../src/productBuildDraft.mjs';
+import {safeDocument} from '../../src/inventoryAccount.mjs';
+import {validateDraft} from './build-candidate/state.js';
+export async function createProductStore(catalog,trees) {
+ const session=await accountSession();
+ if(!session.store.status().writable)throw Error(session.store.status().error+' Original account is preserved.');
+ let owner=session.stage();
+ let baselineRevision=session.store.snapshot()?.revision??null;
+ const key='bellibing.product.build-drafts.v1:'+session.profile;
+ let serialized=localStorage.getItem(key),saved;
+ if(serialized){try{saved=JSON.parse(serialized);}catch{throw Error('Build drafts need recovery. Original draft bytes are preserved.');}}
+ if(saved&&(saved.version!==1||!saved.accountId||!saved.drafts||!saved.selected))throw Error('Unsupported Build drafts. Original bytes preserved.');
+ if(saved&&saved.accountId!==owner.id) {
+  // A new stage on an empty profile has no durable identity yet. Do not attach
+  // old drafts to a different existing/cloud account automatically.
+  if(session.store.snapshot())throw Error('Build drafts belong to another account. Export them before switching accounts.');
+  owner.id=saved.accountId;
+ }
+ const projected={};
+ for(const id of [...Object.keys(owner.characters),...Object.keys(owner.unownedDrafts??{})])projected[id]=productDraftFromAccount(owner,id,trees.find(t=>t.characterId===id));
+ const bases=Object.fromEntries(Object.entries(owner.characters).map(([id,c])=>[id,JSON.stringify(c.record)]));
+ const conflicts=new Set(Object.keys(saved?.baseCharacters??{}).filter(id=>saved.baseCharacters[id]!==bases[id]&&JSON.stringify(saved.drafts[id])!==JSON.stringify(projected[id])));
+ let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts:{...projected,...(saved?.drafts??{})},savedDrafts:structuredClone(projected),account:owner};
+ if(!catalog.characters.some(c=>c.id===state.selected))state.selected='augusta';
+ const api={session,snapshot:()=>structuredClone(state),commit(next){
+  if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before editing.');
+  const payload={version:1,accountId:owner.id,selected:next.selected,drafts:next.drafts,baseCharacters:Object.fromEntries(Object.entries(owner.characters).map(([id,c])=>[id,JSON.stringify(c.record)]))};
+  const bytes=JSON.stringify(payload);localStorage.setItem(key,bytes);serialized=bytes;state={...structuredClone(next),account:owner};return api.snapshot();
+ },stageImport(scan){
+  const imported=productDraftFromScan(scan,catalog,trees.find(t=>t.characterId===scan.character?.id));
+  // Preserve an overwritten local draft before staging another observation.
+  const previous=state.drafts[imported.characterId];
+  if(previous)localStorage.setItem(key+':before-import:'+crypto.randomUUID(),JSON.stringify({accountId:owner.id,draft:previous,createdAt:new Date().toISOString()}));
+  const next=api.snapshot();next.selected=imported.characterId;next.drafts[imported.characterId]=imported;
+  return api.commit(next);
+ },async saveDraft(draft){
+  const savingBytes=serialized;
+  if(conflicts.has(draft.characterId))throw Error('This saved build changed since your local draft. The draft is preserved; review it against Account tools before replacing the saved build.');
+  if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before saving.');
+  if(draft.importObservation){
+   safeDocument(draft);
+   const observation=scanFromProductDraft(draft);
+   let result;
+   if(globalThis.bellibingScannerPromise)result=await (await globalThis.bellibingScannerPromise).validate(observation);
+   else{const response=await fetch('/local-import/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(observation)});result=await response.json();if(!response.ok)throw Error(result.error??'Import validation unavailable.');}
+   if(!Array.isArray(result.issues))throw Error('Import validation unavailable.');
+   if(result.issues.length)throw Error(result.issues.map(issue=>issue.path+': '+issue.message).join('\n'));
+   // Awaiting validation must not permit a different tab to replace the draft.
+   if(localStorage.getItem(key)!==savingBytes)throw Error('Build draft changed during validation. Review it before saving.');
+  }else validateDraft(draft,catalog,trees);
+  // stage() preserves the current authoritative account and resource envelope.
+  if((session.store.snapshot()?.revision??null)!==baselineRevision)throw Error('Account changed. Reload before updating this build.');
+  const current=session.stage();if(!session.store.snapshot())current.id=owner.id;
+  if(current.id!==owner.id)throw Error('Account changed. Reload and review before saving.');
+  if(session.legacyBytes()&&!session.store.snapshot())throw Error('Back up and migrate the existing account using Account tools before saving.');
+  const next=applyProductDraft(current,draft,catalog);
+  owner=await session.store.commit(next,{reason:'EXPLICIT_PRODUCT_BUILD_SAVE'});
+  baselineRevision=owner.revision;state.account=owner;state.savedDrafts[draft.characterId]=structuredClone(draft);
+  try{api.commit(state);}catch{ /* The durable account is already saved; preserve the previous draft bytes for recovery. */ }
+  return api.snapshot();
+ },rawDrafts:()=>serialized};
+ return api;
+}
+

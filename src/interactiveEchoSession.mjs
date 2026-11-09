@@ -59,6 +59,10 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
   const input=readContext(),{slot,...owner}=input.owner;binding=identity(owner);ownerCharacter=owner.characterId;activeSlot=slot;session=slots.get(slot)?.session??null;rng=null;settings=null;
   sync();emit();return snapshot();
  }
+ function resetSlot(){
+  sync();generation++;controller?.abort();clearTimeout(timer);
+  slots.delete(activeSlot);session=null;rng=null;settings=null;emit();return snapshot();
+ }
  function reset(){generation++;controller?.abort();clearTimeout(timer);session=null;rng=null;slots.clear();activeSlot=null;binding=null;settings=null;emit();}
  function sync(){
   const input=readContext(),{slot,...owner}=input.owner,next=identity(owner),changed=binding!==null&&binding!==next;
@@ -89,6 +93,19 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
    session.advice=reply.result;session.pending=null;emit();
   }catch{if(token===generation&&session){session.pending='ADVICE_UNAVAILABLE';emit();}}},100);
  }
+ // Correct recorded values without spending resources or changing the account.
+ // Every observation in this candidate's history retains the same prefix.
+ function correctRolls(rolls){
+  sync();
+  if(mode!=='OBSERVED'||!session?.candidate||session.aborted||session.recoveryPending)throw Error('OBSERVED_CANDIDATE_REQUIRED');
+  if(!Array.isArray(rolls)||rolls.length!==session.candidate.substats.length)throw Error('OBSERVED_PREFIX_LENGTH_MISMATCH');
+  const seen=new Set();for(const roll of rolls){assertExactRank5SubstatRoll(roll);if(seen.has(roll.name))throw Error('DUPLICATE_OBSERVED_STAT');seen.add(roll.name);}
+  const next=clone(session);
+  next.candidate.substats=clone(rolls);
+  for(const event of next.history)if(event.kind==='OBSERVATION'&&event.card.id===next.candidate.id)event.card.substats=clone(rolls.slice(0,event.card.level/5));
+  next.revision++;next.advice=null;next.pending='CALCULATING';session=next;
+  slots.set(activeSlot,{session,rng});assess();return snapshot();
+ }
  function remaining(input){
   const inventory=readResourceInventory(input.inventory),spent=totals();
   const after=(q,n,r=0)=>{if(q.kind==='UNLIMITED')return clone(q);const count=q.count-n+r;if(!Number.isSafeInteger(count)||count<0)throw Error('INSUFFICIENT_SESSION_BUDGET');return {kind:'FINITE',count};};
@@ -118,7 +135,7 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
   if(!session){const seed=seedFactory(),tubes=()=>Object.fromEntries(ECHO_TUBES.map(t=>[t.id,0]));session={id:'interactive:'+seed+':slot:'+activeSlot,revision:0,candidate:null,spent:{tuners:0,echoes:0,tubes:tubes()},returned:{tuners:0,tubes:tubes()},progress:{cumulativeEchoEXP:0,tunedThrough:0},history:[],advice:null,pending:null};}
   if(discard||!session.candidate){
    if(session.candidate){session.history.push({kind:staged?.keep?'KEEP':'DISCARD',card:clone(session.candidate),recommended:session.advice?.winner??null,recovery:clone(staged?.recovery??null)});
-    if(staged?.keep)session.incumbent={card:clone(session.candidate),progress:clone(session.progress)};
+    if(staged?.keep&&session.candidate.level===25)session.incumbent={card:clone(session.candidate),progress:clone(session.progress)};
    }
    if(staged?.recovery){const returned=staged.recovery.ledger.returned;session.returned.tuners+=returned.tuners;for(const t of ECHO_TUBES)session.returned.tubes[t.id]+=returned.tubes[t.id];}
    const seed=seedFactory(),template={...freshTemplate,id:session.id+':'+session.spent.echoes};rng=new SeededRng(seed);
@@ -158,5 +175,13 @@ export function createInteractiveEchoSession({readContext,onChange=()=>{},reques
    return advance(true,{resource,recovery:result});
   }finally{if(captured.recoveryPending){captured.recoveryPending=false;if(session===captured)emit();}}
  }
- return {sync,reset,snapshot,checkpoint,resume,remainingInventory:()=>remaining(readContext()),comparisonCandidates,abort(){controller?.abort();generation++;clearTimeout(timer);if(session){session.aborted=true;session.pending='ABORTED';emit();}},advance:observation=>advance(false,null,observation),discard,refresh:assess};
+ // Preserve recorded candidates and receipts when selecting a different fresh Echo.
+ function startCandidate(){
+  if(mode!=='OBSERVED')throw Error('OBSERVED_CANDIDATE_REQUIRED');
+  const input=sync();
+  if(!session?.candidate)return snapshot();
+  if(session.recoveryPending||session.aborted)throw Error('CANDIDATE_NOT_EDITABLE');
+  return advance(true,{resource:canPay(input,true,null,true),keep:true});
+ }
+ return {sync,reset,resetSlot,snapshot,checkpoint,resume,correctRolls,startCandidate,remainingInventory:()=>remaining(readContext()),comparisonCandidates,abort(){controller?.abort();generation++;clearTimeout(timer);if(session){session.aborted=true;session.pending='ABORTED';emit();}},advance:observation=>advance(false,null,observation),discard,refresh:assess};
 }

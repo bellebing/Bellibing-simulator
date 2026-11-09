@@ -1,17 +1,22 @@
+import {isInside} from './local-paths.mjs';
 // Loopback-only static app + data-only proxy to the separately licensed scanner.
-// No private engine, guest capability, remote runtime or deployment is started.
+// Engine-free by default. BELLIBING_LOCAL_ENGINE explicitly connects the existing
+// private local review build and handlers; no remote runtime or deployment starts.
 import {spawn} from 'node:child_process';
 import {resolve} from 'node:path';
 import {readFile} from 'node:fs/promises';
 import {startPreview} from './preview-simulator-v1.mjs';
+import {localProductEngine} from './local-product-engine.mjs';
 const port=Number(process.env.IMPORT_PORT??8765),scannerPort=Number(process.env.SCANNER_PORT??8766);
 if(!Number.isInteger(scannerPort)||scannerPort<1024||scannerPort>65535||scannerPort===port)throw Error('Invalid separate scanner port.');
 const root=resolve('docs/ui-lab/scanner-poc');
 const browserMode=process.env.IMPORT_SCANNER==='browser',browserRoot=resolve('artifacts/browser-scanner');
+const engine=process.env.BELLIBING_LOCAL_ENGINE?await localProductEngine(process.env.BELLIBING_LOCAL_ENGINE):null;
 const child=browserMode?null:spawn(process.env.SCANNER_PYTHON??'python',[resolve(root,'serve.py'),'--port',String(scannerPort)],{env:{...process.env,TESSDATA_PREFIX:resolve(root,'tessdata'),...(process.env.SCANNER_PYTHONPATH?{PYTHONPATH:process.env.SCANNER_PYTHONPATH}:{})},stdio:['ignore','ignore','inherit']});
 let scannerReady=false;child?.on('exit',()=>{scannerReady=false;});child?.on('error',()=>{scannerReady=false;});
 const send=(res,status,value)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(value));};
 const server=await startPreview({port,reviewHandler:async(req,res,{origin})=>{
+ if(await engine?.handle(req,res,{origin}))return true;
  const path=new URL(req.url,origin).pathname;
  if(process.env.ACCOUNT_REVIEW==='1'&&path==='/account-review.js'){
   try{res.writeHead(200,{'Content-Type':'text/javascript','Cache-Control':'no-store'});res.end(await readFile('artifacts/account-review/account-review.js'));}catch{send(res,404,{error:'Build the local account review first.'});}return true;
@@ -19,7 +24,7 @@ const server=await startPreview({port,reviewHandler:async(req,res,{origin})=>{
  if(browserMode&&path.startsWith('/browser-scanner/')){
   if(req.method!=='GET'){send(res,405,{error:'Read-only browser scanner assets.'});return true;}
   const file=resolve(browserRoot,'.'+decodeURIComponent(path.slice('/browser-scanner'.length)));
-  if(!file.startsWith(browserRoot+'/')){send(res,403,{error:'Invalid asset path.'});return true;}
+  if(!isInside(browserRoot,file)){send(res,403,{error:'Invalid asset path.'});return true;}
   try{const bytes=await readFile(file),type=file.endsWith('.js')||file.endsWith('.mjs')?'text/javascript':file.endsWith('.json')?'application/json':file.endsWith('.wasm')?'application/wasm':'application/octet-stream';res.writeHead(200,{'Content-Type':type,'X-Content-Type-Options':'nosniff'});res.end(bytes);}catch{send(res,404,{error:'Prepare browser scanner assets first.'});}return true;
  }
  if((browserMode||process.env.ACCOUNT_REVIEW==='1')&&['/build/','/improve/','/inventory/','/sandbox/'].includes(path)){
@@ -43,5 +48,5 @@ const server=await startPreview({port,reviewHandler:async(req,res,{origin})=>{
  return true;
 }});
 const interval=browserMode?null:setInterval(async()=>{if(scannerReady)return;try{const r=await fetch(`http://127.0.0.1:${scannerPort}/api/catalog`,{signal:AbortSignal.timeout(1500)});scannerReady=r.ok;}catch{}},500);interval?.unref();
-const stop=()=>{clearInterval(interval);child?.kill();server.close();};process.on('SIGINT',()=>{stop();process.exit(0);});process.on('SIGTERM',()=>{stop();process.exit(0);});
+const stop=()=>{clearInterval(interval);child?.kill();engine?.close();server.close();};process.on('SIGINT',()=>{stop();process.exit(0);});process.on('SIGTERM',()=>{stop();process.exit(0);});
 console.log(`Local Character Import: http://127.0.0.1:${server.address().port}/build/`);

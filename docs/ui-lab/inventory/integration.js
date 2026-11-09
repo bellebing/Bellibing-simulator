@@ -1,4 +1,5 @@
 import {accountSession} from './account-session.js';
+import {scannerImage} from '../../../src/buildCardImage.mjs';
 import {accountFromLegacy,saveReviewedScan,exportAccount,parseBackup,moveItem,reviewBuildFacts} from '../../../src/inventoryAccount.mjs';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const session=await accountSession(),{catalog,store,profile}=session;
@@ -13,8 +14,8 @@ const accountBinding=()=>{const a=store.snapshot();return a?a.id+':'+a.revision:
 addEventListener('bellibing-inventory-changed',()=>{if(!draft)return;reviewToken=null;const check=sheet.querySelector('[data-reviewed]');if(check)check.checked=false;const save=sheet.querySelector('[data-save-scan]');if(save)save.disabled=true;});
 const actions=document.createElement('div');actions.className='inventory-actions';actions.innerHTML=`<a href="${link('inventory')}" data-open-inventory>Inventory</a><button type="button" data-open-import>Import Character</button>`;document.querySelector('.workspace-header').append(actions);
 for(const a of document.querySelectorAll('.workspace-header a[href]')){const u=new URL(a.href);if(u.origin===location.origin&&profile!=='default'){u.searchParams.set('profile',profile);a.href=u;}}
-const trigger=actions.querySelector('[data-open-import]');trigger.setAttribute('aria-label','Import Character');trigger.setAttribute('aria-expanded','false');trigger.setAttribute('aria-controls','character-import-review');sheet.id='character-import-review';
-const buildRoute=location.pathname.includes('/build/');trigger.hidden=!buildRoute;trigger.onclick=()=>mode==='import'&&!sheet.hidden?closeSheet():openImport();
+const productTrigger=document.querySelector('[data-product-import]');if(productTrigger)actions.hidden=true;const trigger=productTrigger??actions.querySelector('[data-open-import]');trigger.setAttribute('aria-label','Import Character');trigger.setAttribute('aria-expanded','false');trigger.setAttribute('aria-controls','character-import-review');sheet.id='character-import-review';
+const buildRoute=location.pathname.includes('/build/');trigger.hidden=!buildRoute;trigger.onclick=event=>{event?.preventDefault();return mode==='import'&&!sheet.hidden?closeSheet():openImport();};
 function positionImport(){if(mode!=='import'||sheet.hidden)return;const anchor=trigger.getBoundingClientRect(),width=Math.min(draft?680:300,innerWidth-32);sheet.style.width=width+'px';sheet.style.left=Math.max(16,Math.min(anchor.right-width,innerWidth-width-16))+'px';sheet.style.top=document.querySelector('.workspace-header').getBoundingClientRect().bottom+10+'px';}
 function closeSheet(){sheet.hidden=true;trigger.setAttribute('aria-expanded','false');trigger.focus({preventScroll:true});}
 addEventListener('resize',positionImport);addEventListener('scroll',positionImport,true);
@@ -22,7 +23,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mode==='import'&&!s
 document.addEventListener('pointerdown',e=>{if(mode==='import'&&!sheet.hidden&&!sheet.contains(e.target)&&!trigger.contains(e.target))closeSheet();});
 function rememberDraft(){try{if(draft)sessionStorage.setItem(draftKey,JSON.stringify({draft,original,scanData}));else sessionStorage.removeItem(draftKey);draftStored=true;}catch{draftStored=false;message('Draft is kept on this page only: browser session storage is full. Save or export before leaving.',true);}trigger.dataset.hasDraft=String(!!draft);}
 addEventListener('beforeunload',e=>{if(draft&&!draftStored){e.preventDefault();e.returnValue='';}});
-try{const saved=JSON.parse(sessionStorage.getItem(draftKey)??'null');if(saved?.draft&&saved?.original&&typeof saved.scanData==='string'&&/^data:image\/(jpeg|png);base64,/.test(saved.scanData)){draft=saved.draft;original=saved.original;scanData=saved.scanData;imageURL=scanData;trigger.dataset.hasDraft='true';}}catch{draftStored=false;}
+try{const saved=JSON.parse(sessionStorage.getItem(draftKey)??'null');if(!productTrigger&&saved?.draft&&saved?.original&&typeof saved.scanData==='string'&&/^data:image\/(jpeg|png);base64,/.test(saved.scanData)){draft=saved.draft;original=saved.original;scanData=saved.scanData;imageURL=scanData;trigger.dataset.hasDraft='true';}}catch{draftStored=false;}
 
 const message=(text,error=false)=>{const host=sheet.querySelector('[data-owned-message]');if(host){host.textContent=text+(draft&&!draftStored?' Draft is kept on this page only; save or export before leaving.':'');host.className=error?'owned-errors':'owned-message';}};
 function download(value,name){const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
@@ -43,7 +44,7 @@ function chrome(title){sheet.hidden=false;sheet.dataset.mode=mode;sheet.style.cs
   button.onclick=async()=>{try{if(before||session.legacyBytes())backup();await store.commit(imported,{expectedRevision:before?.revision??null,expectedAccountId:before?.id??null,reason:'EXPLICIT_JSON_RESTORE'});showInventory();message('Backup restored. Physical item IDs and supported account data preserved.');}catch(err){message(err.message,true);}};
  }catch(err){message(err.message,true);}};
 }
-function openImport(){if(!buildRoute){const url=new URL(link('build'),location.origin);url.searchParams.set('import','true');location.href=url.href;return;}mode='import';chrome('Import Character');sheet.classList.toggle('has-review',!!draft);sheet.querySelector('[data-owned-content]').innerHTML=`<label class="owned-drop" tabindex="0">Drag build card here<input type="file" accept="image/jpeg,image/png" data-card-upload></label><div data-review></div>`;
+function openImport(){if(!buildRoute){const url=new URL(link('build'),location.origin);url.searchParams.set('import','true');location.href=url.href;return;}mode='import';chrome('Import Character');sheet.classList.toggle('has-review',!!draft);sheet.querySelector('[data-owned-content]').innerHTML=`<label class="owned-drop" tabindex="0">${productTrigger?'Drop a build image':'Drag build card here'}<input type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" data-card-upload></label><div data-review></div>`;
  const upload=sheet.querySelector('[data-card-upload]');upload.onchange=e=>{scanFile(e.target.files[0]);e.target.value='';};
  sheet.querySelector('.owned-drop').onkeydown=e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();upload.click();}};
  if(draft){(bitmap?Promise.resolve(bitmap):fetch(scanData).then(r=>r.blob()).then(createImageBitmap)).then(value=>{bitmap=value;if(mode==='import'&&!sheet.hidden)renderReview();}).catch(()=>message('Original preview unavailable; upload the original again before saving.',true));}
@@ -51,12 +52,17 @@ function openImport(){if(!buildRoute){const url=new URL(link('build'),location.o
 }
 async function scanFile(file){if(!file||busy)return;if(mode!=='import'||sheet.hidden)openImport();
  busy=true;reviewToken=null;const reviewed=sheet.querySelector('[data-reviewed]');if(reviewed)reviewed.checked=false;const save=sheet.querySelector('[data-save-scan]');if(save)save.disabled=true;
- try{if(file.size>5*1024*1024)throw Error('Choose a file up to 5 MiB.');if(!['image/jpeg','image/png'].includes(file.type))throw Error('Use JPEG or PNG.');
+ try{const input=await scannerImage(file);
   message('Recognizing your card…');const revision=reviewRevision;
   let result;
-  if(globalThis.bellibingScannerPromise)result=await (await globalThis.bellibingScannerPromise).scan(file);
-  else{const r=await fetch('/local-import/scan',{method:'POST',headers:{'Content-Type':file.type},body:file});result=await r.json();if(!r.ok)throw Error(result.error??'Scanner unavailable.');}
+  if(globalThis.bellibingScannerPromise)result=await (await globalThis.bellibingScannerPromise).scan(input);
+  else{const r=await fetch('/local-import/scan',{method:'POST',headers:{'Content-Type':input.type},body:input});result=await r.json();if(!r.ok)throw Error(result.error??'Scanner unavailable.');}
   if(revision!==reviewRevision)return;
+  if(productTrigger){
+   if(!globalThis.bellibingProductImport)throw Error('Build is not ready to receive the import.');
+   await globalThis.bellibingProductImport.stage(result.draft);
+   draft=null;original=null;scanData=null;reviewToken=null;reviewRevision++;rememberDraft();closeSheet();return;
+  }
   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});const decoded=await createImageBitmap(file);
   original=structuredClone(result.draft);draft=structuredClone(original);scanData=data;imageURL=data;bitmap?.close();bitmap=decoded;reviewRevision++;rememberDraft();
   if(mode==='import'){sheet.classList.add('has-review');renderReview();positionImport();message(`Recognition finished in ${(result.elapsedMs/1000).toFixed(1)} s. Review before saving.`);}

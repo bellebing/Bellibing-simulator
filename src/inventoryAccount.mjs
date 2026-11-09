@@ -199,6 +199,27 @@ export function moveItem(account,itemId,characterId,slot,catalog){
  return validateAccount(next,catalog);
 }
 
+// Explicit Improve equip acquires one observed physical item. Replaced items,
+// inactive sets and unrelated account data remain in the canonical account.
+export function equipObservedEcho(account,characterId,slot,candidate,catalog,{expectedItemId}={}){
+ const build=account.characters[characterId]?.record.build;
+ const slots=build?.echoSets?.sets?.[build.echoSets.activeSetId]?.slots;
+ assert(slots&&Number.isInteger(slot)&&slot>=0&&slot<5,'Choose an owned Echo slot.');
+ assert(slots[slot]===expectedItemId,'Equipped Echo changed. Review it before equipping.');
+ assert(candidate?.id&&candidate.rank===5&&[0,5,10,15,20,25].includes(candidate.level)&&candidate.substats?.length===candidate.level/5,'Complete the observed checkpoint before equipping.');
+ const speciesId=candidate.speciesId??candidate.echoId;
+ const identity=catalog.echoes.find(row=>row.id===speciesId);
+ assert(candidate.mainStat&&candidate.secondaryMainStat&&candidate.selectedSonataSetId,'Complete the Echo configuration.');
+ assert(validStat(candidate.mainStat,catalog.statEditor.mainStatsByCostAndLevel[candidate.cost]?.[candidate.level]??[])&&validStat(candidate.secondaryMainStat,[catalog.statEditor.secondaryMainStatsByCostAndLevel[candidate.cost]?.[candidate.level]]),'Echo stats must match the observed checkpoint.');
+ const data={cost:candidate.cost,rank:candidate.rank,level:candidate.level,selectedSonataSetId:candidate.selectedSonataSetId,mainStat:copy(candidate.mainStat),secondaryMainStat:copy(candidate.secondaryMainStat),substats:copy(candidate.substats)};
+ validateEcho(data,identity,catalog);
+ const next=copy(account),itemId='observed:'+candidate.id;
+ const previous=next.items[itemId];
+ assert(!previous||previous.kind==='echo'&&previous.catalogId===speciesId&&JSON.stringify(previous.data)===JSON.stringify(data),'This observed Echo has already changed in Inventory.');
+ next.items[itemId]=previous??{id:itemId,kind:'echo',catalogId:speciesId,data,provenance:{kind:'MANUAL_BUILD',observedCandidateId:candidate.id}};
+ return moveItem(next,itemId,characterId,slot,catalog);
+}
+
 // Explicit observation completion updates existing physical instances; never acquires or equips.
 export function reviewBuildFacts(account,characterId,facts,catalog,{reviewed=false}={}){
  assert(reviewed,'Review confirmation required.');safeDocument(facts);

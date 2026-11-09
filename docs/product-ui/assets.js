@@ -1,0 +1,1 @@
+export function productAsset(path){return path?.replace(/^\/?docs\/ui-prototypes\//,'../ui-preview/').replace(/^\/?docs\/ui-lab\/v1\/assets\//,'../sandbox/assets/').replace(/^assets\//,'../ui-preview/assets/');}

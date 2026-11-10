@@ -1,5 +1,6 @@
 import {ownedTeamContext} from './character-context.js';
 import {createImproveSearchClient} from './improve-search-client.js';
+import {improveSlotRanking,improveRankMarkup,improveUpgradeMarkup} from './improve-slot-ranking.js';
 import {expectedMatchesAccountTeam} from './improve-comparison-basis.js';
 import {readCharacterFocus} from './character-focus.js';
 import {accountCarouselPreview} from './account-carousel-preview.js';
@@ -292,12 +293,15 @@ function renderSlots() {
     return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${demonstration?'':'<div class="slot-controls">'}${activationMarkup(index,active,available,demonstration)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${(editable||(accountMode&&state.onAccount))?'':' disabled'}>Edit</button>` : ''}${demonstration?'':'</div>'}</div>`;
   }).join('');
   const currentSearch=accountMode?freshImproveSearch():null;
-  if(currentSearch?.characterId===state.id&&currentSearch?.status==='ESTIMATED'){
-   const best=currentSearch.recommendedSlot;
+  if(accountMode){
+   const ranking=improveSlotRanking(currentSearch?.characterId===state.id?currentSearch:null);
    document.querySelectorAll('#slots [data-slot]').forEach(button=>{
-    const selected=Number(button.dataset.slot)===best;
-    button.classList.toggle('is-next-improvement',selected);
-    if(selected){const label=button.querySelector('.echo-status-label');if(label){label.classList.add('improve-next-slot');label.textContent='Start here · estimated';}}
+    const row=ranking[Number(button.dataset.slot)];
+    button.classList.toggle('is-next-improvement',row.start);
+    button.parentElement.classList.add('has-upgrade-rank');
+    button.insertAdjacentHTML('beforebegin',improveRankMarkup(row));
+    const footer=button.querySelector('.card-bottom');
+    if(footer){footer.classList.add('improve-upgrade-footer');footer.innerHTML=improveUpgradeMarkup(row);}
    });
   }
   positionActivationMarks($('#slots'));

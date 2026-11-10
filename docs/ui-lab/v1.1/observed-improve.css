@@ -253,3 +253,14 @@ body.has-echo-advisor .cost-comparison{display:table}
 .picker-echo-item .picker-echo { flex:0 0 auto; }
 .picker-quick-mains { flex-wrap:wrap; }
 .picker-quick-mains button { flex:1 1 68px; }
+
+/* Contextual upgrade rank sits above the equipment, alongside existing controls. */
+.account-workspace .activation-slot.has-upgrade-rank{grid-template-rows:30px auto;row-gap:8px}
+.account-workspace .improve-slot-heading{grid-row:1;grid-column:1;justify-self:start;display:flex;align-items:center;gap:8px;max-width:calc(100% - 75px);color:#d5dce0}
+.account-workspace .improve-rank-number{font-family:Etna,sans-serif;font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.account-workspace .improve-start-flag{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#efb7ae;padding:3px 6px;border-left:2px solid #d28f85;background:linear-gradient(90deg,#d28f8524,transparent)}
+.account-workspace .activation-slot .slot.is-next-improvement{border-color:#d49b8e;box-shadow:0 0 0 1px #d49b8e50,0 0 12px #d49b8e16}
+.account-workspace .improve-upgrade-footer{padding:10px 12px!important;min-height:56px}
+.account-workspace .improve-slot-upgrade{display:grid;gap:5px;width:100%;font-size:12px;text-align:left;color:var(--muted)}
+.account-workspace .improve-upgrade-cost{display:flex;align-items:baseline;justify-content:space-between;gap:8px;color:#cbd4da;font-variant-numeric:tabular-nums}
+.account-workspace .improve-upgrade-cost strong{color:#e5d5ac;font-size:14px;font-weight:500}

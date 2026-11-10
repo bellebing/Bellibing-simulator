@@ -1,35 +1,32 @@
-// Presentation of comparable, whole-build replacement estimates. No stat scorer.
+// Presentation of private whole-build estimates. No browser ranking or damage model.
 import {escapeHtml} from './util.js';
-
 export function improveSlotRanking(search){
- const empty=()=>Array.from({length:5},(_,slot)=>({slot,cost:null,rank:null,start:false}));
+ const empty=()=>Array.from({length:5},(_,slot)=>({slot,cost:null,bounds:null,rank:null,start:false,precision:'UNAVAILABLE',samples:null}));
  if(search?.status!=='ESTIMATED'||search.scope?.goal!=='INCREASE_TEAM_DPS'||!Number.isFinite(search.targetDps)||!Array.isArray(search.slots)||search.slots.length!==5)return empty();
- const rows=empty();
- if(new Set(search.slots.map(r=>r?.slot)).size!==5)return rows;
+ const rows=empty();if(new Set(search.slots.map(r=>r?.slot)).size!==5)return rows;
  for(const row of search.slots){
   if(!Number.isInteger(row?.slot)||row.slot<0||row.slot>4)return empty();
-  const cost=row.expectedCost?.tuners,p=row.probability;
-  if(row.status==='ESTIMATED'&&Number.isFinite(cost)&&cost>0&&p?.successes>0&&p.samples>=p.successes&&p.estimate>0&&p.estimate<=1)rows[row.slot].cost=cost;
+  const cost=row.expectedCost?.tuners,p=row.probability,result=rows[row.slot];
+  result.precision=row.estimation?.status??'UNAVAILABLE';result.samples=row.estimation?.samples??null;
+  const b=row.costBounds?.tuners;
+  if(Number.isFinite(b?.lower)&&b.lower>=0&&(b.upper===null||Number.isFinite(b.upper)&&b.upper>=b.lower))result.bounds=b;
+  if(row.status==='ESTIMATED'&&Number.isFinite(cost)&&cost>0&&p?.successes>0&&p.samples>=p.successes&&p.estimate>0&&p.estimate<=1)result.cost=cost;
+  const rank=search.ranking?.slots?.find(r=>r.slot===row.slot)?.rank;
+  if(['RESOLVED','UNCERTAIN'].includes(result.precision)&&result.cost!==null&&Number.isInteger(rank)&&rank>=1&&rank<=5)result.rank=rank;
  }
- const known=rows.filter(r=>r.cost!==null);
- if(known.length===5)for(const row of known){
-  // A five-slot rank needs five comparable costs. Equal costs share a rank.
-  row.rank=5-known.filter(other=>other.cost<row.cost).length;
- }
- if(known.length){
-  const cheapest=Math.min(...known.map(r=>r.cost)),tied=known.filter(row=>row.cost===cheapest);
-  const first=tied.find(row=>row.slot===search.recommendedSlot)??tied[0];
-  first.start=true;
- }
+ const first=rows.find(r=>r.rank===1);
+ if(first&&search.ranking?.status==='START_RESOLVED'&&search.recommendedSlot===first.slot)first.start=true;
  return rows;
 }
-
 export function improveRankMarkup(row){
- const explanation='Estimated upgrade rank: 1 hardest, 5 easiest. Same next team DPS step; four other Echoes unchanged. Equal costs share a rank. Numeric ranks require five resolved costs. Start is one suggested choice among the resolved estimates.';
+ const explanation='Estimated upgrade rank: 1 best place to start, 5 least cost-effective. Same next team DPS step; four other Echoes unchanged. Overlapping or unresolved estimates remain unranked.';
  return `<div class="improve-slot-heading${row.start?' is-upgrade-start':''}" title="${escapeHtml(explanation)}">${row.rank===null?'':`<span class="improve-rank-number" aria-label="Upgrade rank ${row.rank}">${row.rank}</span>`}${row.start?'<span class="improve-start-flag">Start</span>':''}</div>`;
 }
-
 export function improveUpgradeMarkup(row){
- const amount=row.cost===null?'Not estimated':'≈ '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(row.cost);
- return `<div class="improve-slot-upgrade" title="Estimated average gross Tuners for the same next team DPS improvement; includes restarts. An unresolved estimate is not zero."><span>Upgrade</span><span class="improve-upgrade-cost">Tuners <strong>${amount}</strong></span></div>`;
+ const format=n=>new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n);
+ const amount=row.cost!==null?'≈ '+format(row.cost):row.bounds?'≥ '+format(row.bounds.lower):'Unavailable';
+ const uncertain=row.precision!=='RESOLVED'||row.rank===null;
+ const detail=row.bounds?` Cost bounds ${format(row.bounds.lower)}–${row.bounds.upper===null?'unresolved':format(row.bounds.upper)} Tuners.`:'';
+ const title=`Estimated average gross Tuners for the same next team DPS improvement; includes restarts. ${row.samples??0} attempts.${detail} ${uncertain?'Ordering or cost remains uncertain.':''}`;
+ return `<div class="improve-slot-upgrade" title="${escapeHtml(title)}"><span>Upgrade${uncertain?' · Uncertain':''}</span><span class="improve-upgrade-cost">Tuners <strong>${amount}</strong></span></div>`;
 }

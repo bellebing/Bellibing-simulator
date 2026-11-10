@@ -2,6 +2,15 @@
 
 Uppdaterat 2026-11-10 efter ägarens förtydligande. Fortsättning på PR #365, WIP-bas `df887a67`. Ingen publicering ingår.
 
+## Senaste rättning: jämförbar uppgraderingskostnad
+
+- Rankningen läses från den privata motorns osäkerhetsbedömning: **1 = bästa startval, 5 = dyrast att förbättra** mot samma nästa DPS-steg. Frontend sorterar inte längre ett litet stickprov på egen hand.
+- Kostnader med svagt underlag märks `Uncertain`. En olöst konkurrent tappas inte bort ur rankningen. Relativ ordning kan vara styrkt även om den absoluta kostnaden fortfarande har stor osäkerhet.
+- Preview-kandidaten skickas separat från de fem utrustade Echo-mallarna. Vald slot, species och observerade rolls ska inte ändra underlaget för de fem utrustade kortens rankning.
+- Befintlig native-utvärderare och kostnadsregler återanvänds. Den privata sökningen har fått större, successivt utökade urval och kostnadsgränser. Ingen ny DPS-kalkylator eller layout har lagts till.
+- Avgränsad native-kontroll gjord med syntetisk Chisa och de visade substatkombinationerna, inte ägarens sparade konto. Vald slot/prefix bevarade rankningsunderlaget. Sällsynta förbättringar fick ett större urval och osäkra kostnader förblev märkta. Råa motordetaljer och verifieringsunderlag finns endast i det privata repot.
+- Prestanda återstår: native-kontrollen tog cirka 6½ minut. Lokal timeout är utökad; tyngre lag kan fortfarande ta för lång tid. Ingen full testsvit eller universell Character-/utrustningstäckning är verifierad.
+
 ## Senaste genomgång: ER och hela Improve-flödet
 
 - ER-fältet använde tidigare en benchmarkreferens (120 % för bland annat Chisa). Nya standardförslag läses nu från Character-guidens ER-intervall. Chisa: 125 %+ i den sparade källan. Augusta: ägarens 115–125 %. Manuella numeriska mål, även äldre sparade värden, bevaras. Övre intervallgränsen är ingen gräns som underkänner extra ER. Lagberoende källvillkor bevaras; rotationens faktiska energikrav är en separat kontroll.

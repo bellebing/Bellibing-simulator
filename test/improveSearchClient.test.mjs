@@ -12,6 +12,15 @@ test('Improve sends Gate and ER with the selected saved build without mutating i
  assert.equal(results.at(-1).characterId,'augusta');assert.equal(results.at(-1).useReference,true);
  assert.deepEqual(raw,before);
 });
+
+test('preview template is separate from all five equipped ranking templates',async()=>{
+ const raw=input(),requests=[];raw.template={echoId:'preview-species',cost:4,selectedSonataSetId:'preview-set',mainStatName:'CRIT DMG'};
+ const before=structuredClone(raw);
+ const client=createImproveSearchClient({readInput:()=>raw,onResult:()=>{},fetchImpl:async(_,options)=>{requests.push(JSON.parse(options.body));return {ok:true,json:async()=>({protocol:'BELLIBING_IMPROVE_SEARCH_V1',result:{status:'ESTIMATED'}})};}});
+ await client.refresh();await pause();
+ assert.equal(requests[0].templates[0].cost,1);assert.equal(requests[0].templates[0].mainStat.name,'ATK%');
+ assert.equal(requests[0].candidateTemplate.speciesId,'preview-species');assert.equal(requests[0].candidateTemplate.mainStat.name,'CRIT DMG');assert.deepEqual(raw,before);
+});
 test('disabled optimisation stops requests and rejects a late response',async()=>{
  let raw=input(),resolveReply;const results=[];
  const client=createImproveSearchClient({readInput:()=>raw,onResult:r=>results.push(r),fetchImpl:()=>new Promise(resolve=>{resolveReply=resolve;})});

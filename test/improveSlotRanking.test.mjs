@@ -1,33 +1,19 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {improveSlotRanking,improveRankMarkup,improveUpgradeMarkup} from '../docs/ui-lab/v1.1/modules/improve-slot-ranking.js';
-const search=costs=>({status:'ESTIMATED',targetDps:101,scope:{goal:'INCREASE_TEAM_DPS'},slots:costs.map((cost,slot)=>({slot,status:'ESTIMATED',expectedCost:cost===null?null:{tuners:cost},probability:{successes:cost===null?0:10,samples:128,estimate:cost===null?0:10/128}}))});
-
-test('rank 1 is hardest and 5 cheapest for a common whole-build DPS improvement',()=>{
- const input=search([500,100,1000,250,750]),before=structuredClone(input),rows=improveSlotRanking(input);
- assert.deepEqual(rows.map(r=>r.rank),[3,5,1,4,2]);
- assert.deepEqual(rows.filter(r=>r.start).map(r=>r.slot),[1]);assert.deepEqual(input,before);
+const search=()=>({status:'ESTIMATED',targetDps:101,scope:{goal:'INCREASE_TEAM_DPS'},recommendedSlot:1,ranking:{status:'START_RESOLVED',slots:[3,1,5,2,4].map((rank,slot)=>({rank,slot}))},slots:[500,100,1000,250,750].map((cost,slot)=>({slot,status:'ESTIMATED',expectedCost:{tuners:cost},costBounds:{tuners:{lower:cost*.9,upper:cost*1.1}},estimation:{status:'RESOLVED',samples:8192},probability:{successes:1000,samples:8192,estimate:1000/8192}}))});
+test('private confidence-backed rank uses 1 as best start; browser does not recalculate it',()=>{
+ const input=search(),before=structuredClone(input),rows=improveSlotRanking(input);
+ assert.deepEqual(rows.map(r=>r.rank),[3,1,5,2,4]);assert.deepEqual(rows.filter(r=>r.start).map(r=>r.slot),[1]);assert.deepEqual(input,before);
  assert.match(improveUpgradeMarkup(rows[1]),/Tuners <strong>≈ 100<\/strong>/);
 });
-
-test('unresolved costs are not infinity, zero, or evidence for best rank',()=>{
- const rows=improveSlotRanking(search([500,null,100,300,200]));
- assert.equal(rows[1].rank,null);assert.equal(rows[1].cost,null);assert.equal(rows[1].start,false);
- assert.ok(rows.every(r=>r.rank===null));assert.equal(rows[2].start,true);
- assert.match(improveUpgradeMarkup(rows[1]),/<strong>Not estimated<\/strong>/);
- assert.doesNotMatch(improveRankMarkup(rows[2]),/improve-rank-number/);
+test('unresolved competitors and overlapping costs remain visible without invented ranks',()=>{
+ const input=search();input.ranking={status:'ORDER_UNCERTAIN',slots:input.slots.map(r=>({slot:r.slot,rank:null}))};input.recommendedSlot=null;
+ const missing=input.slots[1];missing.expectedCost=null;missing.estimation.status='RARE_EVENT_UNRESOLVED';missing.probability.successes=0;missing.probability.estimate=0;missing.costBounds.tuners={lower:20000,upper:null};
+ const rows=improveSlotRanking(input);assert.ok(rows.every(r=>r.rank===null&&!r.start));assert.match(improveUpgradeMarkup(rows[1]),/≥ 20,000/);assert.match(improveUpgradeMarkup(rows[1]),/Uncertain/);assert.doesNotMatch(improveRankMarkup(rows[0]),/improve-rank-number/);
 });
-
-test('ties share a rank but only one start is suggested; incomplete comparisons never show intervals',()=>{
- const tied=improveSlotRanking({...search([100,200,300,400,100]),recommendedSlot:4});
- assert.equal(tied[0].rank,5);assert.equal(tied[4].rank,5);
- assert.deepEqual(tied.filter(r=>r.start).map(r=>r.slot),[4]);
- const partial=improveSlotRanking(search([800,null,800,null,6400]));
- assert.ok(partial.every(r=>r.rank===null));assert.deepEqual(partial.filter(r=>r.start).map(r=>r.slot),[0]);
- assert.doesNotMatch(partial.map(improveRankMarkup).join(''),/2–5|1–3/);
- for(const input of [null,{...search([1,2,3,4,5]),status:'CALCULATING'},{...search([1,2,3,4,5]),scope:{goal:'RESTORE_ROTATION_ER'}},{...search([1,2,3,4,5]),slots:Array(5).fill(search([1,2,3,4,5]).slots[0])}]){
-  const rows=improveSlotRanking(input);assert.ok(rows.every(r=>r.rank===null&&r.cost===null&&!r.start));
- }
- const invalid=search([1,2,3,4,5]);invalid.slots[0].expectedCost.tuners=Infinity;
- assert.equal(improveSlotRanking(invalid)[0].rank,null);
+test('old 128-sample responses never establish a start or ranking',()=>{
+ const input=search();delete input.ranking;input.slots.forEach(r=>delete r.estimation);
+ assert.ok(improveSlotRanking(input).every(r=>r.rank===null&&!r.start));
+ for(const input of [null,{...search(),status:'CALCULATING'},{...search(),scope:{goal:'RESTORE_ROTATION_ER'}},{...search(),slots:Array(5).fill(search().slots[0])}])assert.ok(improveSlotRanking(input).every(r=>r.rank===null&&r.cost===null&&!r.start));
 });

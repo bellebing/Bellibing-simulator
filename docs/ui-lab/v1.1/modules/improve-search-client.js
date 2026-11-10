@@ -38,18 +38,16 @@ export function createImproveSearchClient({readInput,onResult,fetchImpl=fetch}){
     if(!Array.isArray(cards)||cards.length!==5)throw Error('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
     const standard=sandboxStandard(current.selectedCharacterId);
     const templates=cards.map((card,index)=>card?structuredClone(card):(()=>{const c=standard?.slots[index]?.configuration;return c?{id:'new-slot-'+index,speciesId:c.echoId,cost:c.cost,selectedSonataSetId:c.selectedSonataSetId,mainStat:{name:c.mainStatName}}:null;})());
-    if(raw.template){
-     templates[raw.slot]={...templates[raw.slot],speciesId:raw.template.echoId??raw.template.speciesId,cost:raw.template.cost,selectedSonataSetId:raw.template.selectedSonataSetId,mainStat:{name:raw.template.mainStatName}};
-    }
+    const candidateTemplate=raw.template?{...templates[raw.slot],speciesId:raw.template.echoId??raw.template.speciesId,cost:raw.template.cost,selectedSonataSetId:raw.template.selectedSonataSetId,mainStat:{name:raw.template.mainStatName}}:templates[raw.slot];
     const referenceScenario=temporaryTeamScenario(raw.teamInput);
     if(token!==generation||JSON.stringify(readInput())!==identity)return;
     controller=new AbortController();
     const response=await requestAvailable(fetchImpl,{method:'POST',headers:{'Content-Type':'application/json','X-Bellibing-Review':'1'},credentials:'same-origin',signal:controller.signal,
-     body:JSON.stringify({current,templates,slot:raw.slot,rolls:raw.rolls??[],referenceScenario,referenceMinimumPercent:raw.plan?.dpsEnabled?raw.plan.minimumDpsPercent:null,minimumDps:0,gate:raw.gate,erTarget:raw.erTarget?.enabled?effectiveErTarget(current.selectedCharacterId,raw.erTarget):null})});
+     body:JSON.stringify({current,templates,candidateTemplate,slot:raw.slot,rolls:raw.rolls??[],referenceScenario,referenceMinimumPercent:raw.plan?.dpsEnabled?raw.plan.minimumDpsPercent:null,minimumDps:0,gate:raw.gate,erTarget:raw.erTarget?.enabled?effectiveErTarget(current.selectedCharacterId,raw.erTarget):null})});
     if(!response.ok)throw Error('IMPROVE_SEARCH_UNAVAILABLE');
     const reply=await response.json();
     if(reply.protocol!=='BELLIBING_IMPROVE_SEARCH_V1')throw Error('INVALID_SEARCH_RESPONSE');
-    if(token===generation&&JSON.stringify(readInput())===identity)onResult({...reply.result,basis,characterId:raw.teamInput.selectedCharacterId,accountBuildIdentity:JSON.stringify(raw.teamInput.records.find(r=>r.characterId===raw.teamInput.selectedCharacterId)?.buildState),selectedTemplate:templates[raw.slot],teamIdentity:JSON.stringify(raw.teamInput.team),teamBuildIdentity:accountTeamBasis(raw.teamInput),useReference:raw.useReference});
+    if(token===generation&&JSON.stringify(readInput())===identity)onResult({...reply.result,basis,characterId:raw.teamInput.selectedCharacterId,accountBuildIdentity:JSON.stringify(raw.teamInput.records.find(r=>r.characterId===raw.teamInput.selectedCharacterId)?.buildState),selectedTemplate:candidateTemplate,teamIdentity:JSON.stringify(raw.teamInput.team),teamBuildIdentity:accountTeamBasis(raw.teamInput),useReference:raw.useReference});
    }catch(error){if(token===generation)onResult({status:'PENDING',reason:error.message});}
   },350);
  }

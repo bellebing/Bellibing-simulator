@@ -18,7 +18,7 @@ export async function localProductEngine(directory){
  if(bytes.length!==file.bytes||createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw Error('Local engine review hash mismatch.');
  const manifest={version:1,status:'LOCAL_REVIEW_ONLY',files:[{path:file.path,sha256:file.sha256,bytes:file.bytes}]};
  const team=createLocalTeamDpsHandler({engineDirectory:root});
- const improve=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/improve-search',entry:'scripts/team-dps/improve-stdio.mjs',protocol:'BELLIBING_IMPROVE_SEARCH_V1',persistent:true,timeoutMs:120000});
+ const improve=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/improve-search',entry:'scripts/team-dps/improve-stdio.mjs',protocol:'BELLIBING_IMPROVE_SEARCH_V1',persistent:true,timeoutMs:600000});
  const advisor=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',protocol:'BELLIBING_ECHO_ADVICE_V1'});
  return {async handle(req,res,context){
   if(await improve(req,res,context)||await advisor(req,res,context)||await team(req,res,context))return true;

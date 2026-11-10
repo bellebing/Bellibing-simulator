@@ -28,7 +28,7 @@ export function feedbackMarkup(value){
   const chance=p=>!p?'—':p.successes===0&&p.samples>1?'Not resolved':percent(p.estimate);
   const suggestion=s.recommendation,canUse=s.repairingEnergy&&suggestion?.slot===row.slot&&suggestion.mainStatName!==s.selectedTemplate?.mainStat?.name;
   const action=canUse?'<button type="button" class="improve-use-suggestion" data-use-improve-suggestion>Use '+esc(suggestion.mainStatName)+' main stat</button>':'';
-  return '<p class="improve-short-reason">'+esc(value.reason)+'</p>'+action+'<div class="improve-paths"><div class="improve-path"><strong>Start new</strong><b>'+chance(s.slots[row.slot]?.probability)+'</b><span>≈ '+format(row.restartCost?.tuners)+' Tuners</span></div><div class="improve-path"><strong>Continue</strong><b>'+chance(row.probability)+'</b><span>≈ '+format(row.continueCost?.tuners)+' Tuners</span></div></div>';
+  return '<p class="improve-short-reason">'+esc(value.reason)+'</p>'+action+'<div class="improve-paths"><div class="improve-path"><strong>Start new</strong><b>'+chance(row.restartProbability??s.slots[row.slot]?.probability)+'</b><span>≈ '+format(row.restartCost?.tuners)+' Tuners</span></div><div class="improve-path"><strong>Continue</strong><b>'+chance(row.probability)+'</b><span>≈ '+format(row.continueCost?.tuners)+' Tuners</span></div></div>';
 
  }
 

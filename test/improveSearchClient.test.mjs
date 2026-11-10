@@ -35,3 +35,10 @@ test('empty owned slots stay empty in Current and use separate future replacemen
  const client=createImproveSearchClient({readInput:()=>raw,onResult:()=>{},fetchImpl:async(_,options)=>{requests.push(JSON.parse(options.body));return {ok:true,json:async()=>({protocol:'BELLIBING_IMPROVE_SEARCH_V1',result:{status:'ESTIMATED'}})};}});
  await client.refresh();await pause();assert.equal(requests.length,1);assert.equal(requests[0].current.cards[4],null);assert.ok(requests[0].templates[4]?.mainStat.name);assert.deepEqual(raw,before);
 });
+
+test('own-team mode reports missing actual investments instead of silently using a reference team',async()=>{
+ const {own,team}=await import('./helpers/localTeamFixture.mjs'),raw=input();raw.useReference=false;raw.teamInput={mode:'IMPROVE',selectedCharacterId:'augusta',team,records:own().records,scope:{},actualInvestments:{}};
+ let requests=0;const results=[];
+ const client=createImproveSearchClient({readInput:()=>raw,onResult:r=>results.push(r),fetchImpl:async()=>{requests++;throw Error('unexpected fallback');}});
+ await client.refresh();await pause();assert.equal(requests,0);assert.equal(results.at(-1).reason,'ENTER_ACTUAL_TEAM_INVESTMENTS');
+});

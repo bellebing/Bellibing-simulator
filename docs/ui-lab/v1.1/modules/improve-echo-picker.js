@@ -1,4 +1,4 @@
-import mainProfiles from './default-loadouts.json' with {type:'json'};
+import {recommendedMainStats,recommendedSetIds,recommendationOrder} from '../../../../src/characterRecommendations.mjs';
 import {installFixedScroll} from '../../../product-ui/build-candidate/edge-scroll.js';
 import catalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import manifest from '../../../ui-prototypes/assets/echoes/manifest.json' with {type:'json'};
@@ -19,23 +19,24 @@ export function mountImproveEchoPicker({getContext,onUse}){
  let opened=false,binding=null,preview=null,query='',cost=null,sets=[],mainOpen=false,setOpen=false;
  const key=()=>{const c=getContext();return c.characterId+':'+c.slot;};
  function close(){disposeScroll();opened=false;host.hidden=true;area.classList.remove('choosing-echo');document.querySelector('[data-change-echo]')?.focus({preventScroll:true});}
- function mains(cost){const c=getContext(),p=mainProfiles.characters.find(row=>row.characterId===c.characterId);return [...new Set((p?.slots??[]).filter(row=>row.cost===cost).flatMap(row=>row.sourceMainStats??[]).sort((a,b)=>a.priority-b.priority).map(row=>row.stat))].filter(name=>catalog.statEditor.mainStatsByCostAndLevel[cost][0].some(r=>r.name===name));}
+ function mains(cost){return recommendedMainStats(getContext().characterId,cost,catalog.statEditor.mainStatsByCostAndLevel[cost][0].map(row=>row.name));}
  function render(){
   if(!opened)return;
   if(key()!==binding){close();return;}
   const c=getContext(),scroll=host.querySelector('.improve-echo-grid')?.scrollTop??0;
-  const recommended=catalog.loadoutProfiles?.find(row=>row.characterId===c.characterId)?.sonataSetIds??[];
-  const ordered=[...catalog.sonataSets].sort((a,b)=>b.sourceId-a.sourceId);
+  const recommended=recommendedSetIds(c.characterId);
+  const ordered=recommendationOrder([...catalog.sonataSets].sort((a,b)=>b.sourceId-a.sourceId),recommended);
   const setButton=set=>`<button type="button" data-picker-set="${esc(set.id)}" aria-pressed="${sets.includes(set.id)}"><img src="${path(set.artPath)}" alt=""><span>${esc(set.name)}</span>${recommended.includes(set.id)?'<span aria-label="Recommended">★</span>':''}</button>`;
   const group=(name,rows)=>rows.length?`<div class="picker-set-group"><small>${name}</small>${rows.map(setButton).join('')}</div>`:'';
   const rows=catalog.echoes.filter(row=>row.releaseStatus==='RELEASED'&&(cost===null||row.cost===cost)&&(!sets.length||sets.some(id=>row.sonataSetIds.includes(id)))&&row.name.toLowerCase().includes(query.toLowerCase()));
   if(sets.length)rows.sort((a,b)=>sets.findIndex(id=>a.sonataSetIds.includes(id))-sets.findIndex(id=>b.sonataSetIds.includes(id)));
+  if(!sets.length)rows.sort((a,b)=>{const rank=item=>Math.min(...item.sonataSetIds.map(id=>recommended.includes(id)?recommended.indexOf(id):Infinity));return rank(a)-rank(b);});
   const selectedIcons=sets.map(id=>catalog.sonataSets.find(s=>s.id===id)).filter(Boolean).map(s=>`<img src="${path(s.artPath)}" alt="${esc(s.name)}">`).join('');
   disposeScroll();
   host.innerHTML=`<header><strong>Choose Echo</strong><input type="search" data-picker-search aria-label="Search Echoes" placeholder="Search Echoes" value="${esc(query)}"><button type="button" data-picker-cancel aria-label="Close Echo selection">×</button></header>
    <div class="picker-filters"><details class="picker-sets"><summary>Sonata Sets <span>${selectedIcons||'All'}</span></summary><div class="picker-set-options"><button type="button" data-picker-set="all" aria-pressed="${!sets.length}">All Sonata Sets</button>${group('Recommended',ordered.filter(s=>recommended.includes(s.id)))}${group('Other',ordered.filter(s=>!recommended.includes(s.id)))}</div></details>
    <div class="picker-costs" role="group" aria-label="Filter by Cost">${[null,4,3,1].map(value=>`<button type="button" data-picker-cost="${value??'all'}" aria-pressed="${cost===value}">${value===null?'All Costs':'Cost '+value}</button>`).join('')}</div></div>
-   <div class="improve-echo-grid">${rows.map(row=>{const rail=(sets.length?sets:row.sonataSetIds).filter(id=>row.sonataSetIds.includes(id)).map(id=>catalog.sonataSets.find(s=>s.id===id)).filter(Boolean);return `<div class="picker-echo-item"><button type="button" class="picker-echo" data-picker-echo="${esc(row.id)}" aria-pressed="${preview?.echoId===row.id}"><strong>${esc(row.name)}</strong><span class="picker-art"><span class="picker-set-rail">${rail.map(s=>`<img src="${path(s.artPath)}" alt="${esc(s.name)}">`).join('')}</span><img src="${path(images.get(row.id))}" alt=""></span><small>COST ${row.cost}</small></button><div class="picker-quick-mains">${mains(row.cost).slice(0,2).map(name=>`<button type="button" data-picker-quick="${esc(row.id)}" data-main="${esc(name)}">${esc(name)}</button>`).join('')}</div></div>`;}).join('')||'<p>No Echoes match</p>'}</div>
+   <div class="improve-echo-grid">${rows.map(row=>{const rail=(sets.length?sets:row.sonataSetIds).filter(id=>row.sonataSetIds.includes(id)).map(id=>catalog.sonataSets.find(s=>s.id===id)).filter(Boolean);return `<div class="picker-echo-item"><button type="button" class="picker-echo" data-picker-echo="${esc(row.id)}" aria-pressed="${preview?.echoId===row.id}"><strong>${esc(row.name)}</strong><span class="picker-art"><span class="picker-set-rail">${rail.map(s=>`<img src="${path(s.artPath)}" alt="${esc(s.name)}">`).join('')}</span><img src="${path(images.get(row.id))}" alt=""></span><small>COST ${row.cost}</small></button><div class="picker-quick-mains">${mains(row.cost).map(name=>`<button type="button" data-picker-quick="${esc(row.id)}" data-main="${esc(name)}">${esc(name)}</button>`).join('')}</div></div>`;}).join('')||'<p>No Echoes match</p>'}</div>
    <footer><button type="button" data-picker-cancel>Cancel</button><button type="button" data-picker-use ${preview?.mainStatName?'':'disabled'}>Use Echo</button></footer>`;
   const grid=host.querySelector('.improve-echo-grid');
   grid.scrollTop=scroll;

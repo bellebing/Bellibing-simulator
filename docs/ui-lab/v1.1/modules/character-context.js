@@ -1,16 +1,19 @@
 import coverage from '../../../../data/research/dps-first-team-coverage-review.json' with {type:'json'};
 import catalog from './character-contexts.json' with {type:'json'};
 import defaults from './sandbox-defaults.json' with {type:'json'};
+import {accountTeamContext,accountTeamContextId} from '../../../../src/accountTeamContext.mjs';
 export function characterContext(characterId,contextId=null,memberOrder=null){
  const character=catalog.characters.find(c=>c.characterId===characterId);
  if(!character)return null;
  const options=character.contextIds.map(id=>catalog.teams.find(t=>t.id===id));
+ const accountTeam=accountTeamContext(contextId);
+ if(accountTeam?.characterIds.includes(characterId))options.push(accountTeam);
  const reference=coverage.rows.find(r=>r.characterId===characterId&&r.modelExecutable)?.firstTeamContextId;
  const id=contextId??reference??character.defaultContextId;
  const team=options.find(t=>t.id===id)??null;
  const ordered=team&&Array.isArray(memberOrder)&&memberOrder[0]===characterId&&new Set(memberOrder).size===3&&memberOrder.every(id=>team.characterIds.includes(id))?memberOrder:null;
  return {character,options,team,memberIds:ordered??(team?[characterId,...team.characterIds.filter(id=>id!==characterId)]:[characterId,null,null]),
-  status:team?(contextId?'USER_SELECTED_SOURCE_CONTEXT':reference&&reference!==character.defaultContextId?'REVIEWED_EXECUTABLE_REFERENCE':character.defaultStatus):character.defaultStatus};
+  status:team?(accountTeam?'USER_SELECTED_COMPOSED_ACCOUNT_MODEL':contextId?'USER_SELECTED_SOURCE_CONTEXT':reference&&reference!==character.defaultContextId?'REVIEWED_EXECUTABLE_REFERENCE':character.defaultStatus):character.defaultStatus};
 }
 export function selectCharacterTeam(state,contextId){
  const context=characterContext(state.id,contextId);
@@ -40,13 +43,14 @@ export function teamMemberStandards(context){
 }
 
 
-// Prefer an existing saved account trio when a source rotation for that exact
-// trio exists. Never silently compose a new rotation or replace teammates.
+// Preserve the player's saved trio. Reuse an exact guide context where present;
+// otherwise request a declared experimental composition of member modules.
 export function ownedTeamContext(characterId,savedTeams=[]){
  const context=characterContext(characterId);if(!context)return null;
  for(const saved of savedTeams){
   if(saved.characterIds?.length!==3||!saved.characterIds.includes(characterId))continue;
   const options=context.options.filter(team=>team.characterIds.every(id=>saved.characterIds.includes(id)));
   const match=options.find(team=>team.id===context.team?.id)??options[0];if(match)return match.id;
+  const composed=accountTeamContextId(saved.characterIds);if(composed)return composed;
  }return null;
 }

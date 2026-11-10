@@ -1,3 +1,5 @@
+import {installChoiceDismissal,installTransientChoiceDismissal} from '../../ui-lab/v1.1/modules/choice-dismissal.js';
+import {recommendedMainStats,recommendedSetIds,recommendedWeaponIds,recommendationOrder} from '../../../src/characterRecommendations.mjs';
 import {accountCarouselPreview} from '../../ui-lab/v1.1/modules/account-carousel-preview.js';
 import {substatEditorMarkup as sharedSubstatEditor} from '../../ui-lab/v1.1/modules/substat-editor.js';
 import {productDraftBuildIdentity,productInvestmentPending} from '../../../src/productBuildDraft.mjs';
@@ -21,7 +23,6 @@ let carousel=null;
 const image=(p,alt='',cls='')=>`<img src="${esc(asset(p))}" alt="${esc(alt)}" class="${cls}" draggable="false">`;
 const [facts,weapons,echoes,skills,sequences,echoManifest]=await Promise.all(['build-stats/runtime-data.json','weapons/browser-data.json','echoes/browser-data.json','skills-runtime.json','sequence-runtime.json','echoes/manifest.json'].map(p=>fetch('/docs/ui-prototypes/assets/'+p).then(r=>{if(!r.ok)throw Error('Required source asset unavailable: '+p);return r.json();})));
 const catalog={characters:CHARACTER_CATALOG,echoes:echoes.echoes,weapons:weapons.weapons,statEditor:echoes.statEditor,sourceBinding:'BELLIBING_CANONICAL_LOCAL_REVIEW'};
-const loadoutTemplates = await fetch('../product-ui/default-loadouts.json').then(response => { if (!response.ok) throw Error('Main stat recommendations unavailable'); return response.json(); });
 const domain={facts,weapons,echoes,trees:skills.characters,sequences:sequences.characters};
 const store=await createProductStore(catalog,skills.characters);
 let root=store.snapshot(),person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
@@ -105,7 +106,19 @@ function render(){
  $('#bcHero').src=asset(person.art);$('.bc-environment').style.backgroundImage=`linear-gradient(90deg,#0b152070,transparent 35%,transparent 65%,#0b152070),url('/docs/ui-lab/inventory/art/${person.element.toLowerCase()}.webp')`;
  $('.bc-summary section h2 span').textContent='Lv. '+(Object.hasOwn(draft(),'characterLevel')?(draft().characterLevel??'Pending'):root.account.characters[person.id]?(root.account.characters[person.id].record.build.characterLevel??'Pending'):90);renderStats();renderWeapon();renderSkills();renderSequences();renderEchoes();renderAccount();
 }
-function closeEditor(returnFocus=true){clearPreviewScroll();const focus=ui.returnSelector;ui.panel=null;ui.preview=null;ui.weaponPreview=null;$('#bcEditor').hidden=true;$('#bcEditor').replaceChildren();$('.bc-center').classList.remove('editing');renderWeapon();renderEchoes();if(returnFocus&&focus)document.querySelector(focus)?.focus({preventScroll:true});}
+function rememberWorkshopPreview(){
+ if(ui.panel==='weapon'){
+  const key=person.id+':weapon',value={base:JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]),preview:{id:ui.weaponPreview,rank:ui.weaponRank}};safeDocument(value);
+  if(JSON.stringify(root.workshopPreviews?.[key])!==JSON.stringify(value)){const next=clone(root);next.workshopPreviews??={};next.workshopPreviews[key]=value;persist(next);}return;
+ }
+ if(ui.panel!=='echo')return;
+ const key=person.id+':'+ui.slot,value={base:JSON.stringify(draft().echoes[ui.slot]),preview:clone(ui.preview)};
+ safeDocument(value);
+ if(JSON.stringify(root.workshopPreviews?.[key])===JSON.stringify(value))return;
+ const next=clone(root);next.workshopPreviews??={};next.workshopPreviews[key]=value;persist(next);
+}
+function restoredEchoPreview(index){const saved=root.workshopPreviews?.[person.id+':'+index];return saved&&saved.base===JSON.stringify(draft().echoes[index])?clone(saved.preview):clone(draft().echoes[index]);}
+function closeEditor(returnFocus=true){rememberWorkshopPreview();clearPreviewScroll();const focus=ui.returnSelector;ui.panel=null;ui.preview=null;ui.weaponPreview=null;$('#bcEditor').hidden=true;$('#bcEditor').replaceChildren();$('.bc-center').classList.remove('editing');renderWeapon();renderEchoes();if(returnFocus&&focus)document.querySelector(focus)?.focus({preventScroll:true});}
 function editor(kind,title,body,footer='',headerTools=''){
  const oldScroll=$('.bc-inspector')?.scrollTop??0,listScroll=$('.bc-echo-browser .bc-catalog-grid')?.scrollTop??0;
  clearPreviewScroll();
@@ -114,7 +127,7 @@ function editor(kind,title,body,footer='',headerTools=''){
  installPreviewScroll($('.wc-preview'));
  if($('.bc-inspector'))$('.bc-inspector').scrollTop=oldScroll;if($('.bc-echo-browser .bc-catalog-grid'))$('.bc-echo-browser .bc-catalog-grid').scrollTop=listScroll;if(ui.focusEditor){ui.focusEditor=false;$('.bc-editor-header .bc-close').focus({preventScroll:true});}
 }
-function showPanel(kind){carousel.close();ui.panel=kind;ui.focusEditor=true;}
+function showPanel(kind){rememberWorkshopPreview();carousel.close();ui.panel=kind;ui.focusEditor=true;}
 const characterElements=['Spectro','Havoc','Aero','Glacio','Fusion','Electro'];
 const characterWeaponIcons={Sword:'SP_IconNorKnife.webp',Broadblade:'SP_IconNorSword.webp',Pistols:'SP_IconNorGun.webp',Gauntlets:'SP_IconNorFist.webp',Rectifier:'SP_IconNorMagic.webp'};
 const characterWeaponIcon=(type,cls='')=>characterWeaponIcons[type]?image('/docs/ui-prototypes/assets/builder-icons/skills/'+characterWeaponIcons[type],type,cls):'';
@@ -122,18 +135,19 @@ const characterElementIcon=c=>c.element?image('/docs/ui-prototypes/assets/builde
 const characterIdentity=c=>characterElementIcon(c)+'<strong>'+esc(c.name)+'</strong>'+characterWeaponIcon(c.weaponType,'wb-character-weapon');
 const characterRarity=c=>[4,5].includes(c.rarity)?'<span class="wb-character-rarity" aria-label="'+c.rarity+'-star">'+c.rarity+'&#9733;</span>':'';
 const characterTagTone=t=>({'Main Damage Dealer':'role','Resonance Skill DMG':'damage','Heavy Attack DMG':'damage','Unison':'unison','Electro Flare':'electro','Coordinated Attack':'coordinated','Aero DMG':'aero','Aero DMG Amplification':'aero','Electro DMG':'electro'}[t]??'neutral');
-let characterQuery='',characterElement=null,characterWeapon=null,characterPreview=null,characterSkill=null;
+let characterQuery='',characterElement=null,characterRarityFilter=null,characterWeapon=null,characterPreview=null,characterSkill=null;
 function openCharacterBrowser(){
  ui.returnSelector='[data-bc-open="character"]';showPanel('character');
- characterQuery='';characterElement=null;characterWeapon=null;characterSkill=null;
+ characterQuery='';characterElement=null;characterRarityFilter=null;characterWeapon=null;characterSkill=null;
  characterPreview=CHARACTER_CATALOG.find(c=>!root.account.characters[c.id]?.owned)?.id??null;
  renderCharacterBrowser();
 }
 function renderCharacterBrowser(){
  const scroll=$('.wb-character-catalog')?.scrollTop??0;
- const rows=CHARACTER_CATALOG.filter(c=>!root.account.characters[c.id]?.owned&&(!characterElement||c.element===characterElement)&&(!characterWeapon||c.weaponType===characterWeapon)&&c.name.toLowerCase().includes(characterQuery.toLowerCase()));
+ const rows=CHARACTER_CATALOG.filter(c=>!root.account.characters[c.id]?.owned&&(!characterRarityFilter||c.rarity===characterRarityFilter)&&(!characterElement||c.element===characterElement)&&(!characterWeapon||c.weaponType===characterWeapon)&&c.name.toLowerCase().includes(characterQuery.toLowerCase()));
  const selected=CHARACTER_CATALOG.find(c=>c.id===characterPreview);
  const filters=characterElements.map(e=>'<button data-wb-character-element="'+e+'" aria-label="'+e+'" title="'+e+'" aria-pressed="'+(characterElement===e)+'">'+image('/docs/ui-prototypes/assets/builder-icons/elements/'+e.toLowerCase()+'.webp')+'</button>').join('');
+ const rarityFilters=[5,4].map(rarity=>'<button data-wb-character-rarity="'+rarity+'" aria-label="'+rarity+'-star Characters" aria-pressed="'+(characterRarityFilter===rarity)+'">'+rarity+'&#9733;</button>').join('');
  const weaponFilters=Object.keys(characterWeaponIcons).map(type=>'<button data-wb-character-weapon="'+type+'" aria-label="'+type+'" title="'+type+'" aria-pressed="'+(characterWeapon===type)+'">'+characterWeaponIcon(type)+'</button>').join('');
  const cards=rows.map(c=>'<button class="wb-character-card '+(c.id===characterPreview?'selected':'')+'" data-rarity="'+esc(c.rarity)+'" data-wb-character-preview="'+c.id+'" aria-label="'+esc(c.name+', '+(c.rarity?c.rarity+'-star, ':'')+(c.element??'Element pending')+', '+(c.weaponType??'Weapon type pending'))+'" aria-pressed="'+(c.id===characterPreview)+'"><span class="wb-character-card-identity">'+characterIdentity(c)+'</span><span class="wb-character-card-art">'+image(c.art,c.name)+characterRarity(c)+'</span></button>').join('');
  const profile=CHARACTER_PREVIEW_INFO[selected?.id];
@@ -143,19 +157,19 @@ function renderCharacterBrowser(){
  const skillButtons=nodes.map(n=>'<button data-wb-character-skill="'+n.id+'" title="'+esc(n.name)+'" aria-label="'+esc((skillRoles[n.role]??'Skill')+': '+n.name)+'" aria-pressed="'+(n.id===characterSkill)+'">'+(n.assetPath?image(n.assetPath,n.name):'<span>Modes</span>')+'</button>').join('');
  const skillInfo=activeSkill?'<section class="wb-character-skill-info"><small>'+esc(skillRoles[activeSkill.role]??'Skill')+'</small><h4>'+esc(activeSkill.name)+'</h4><details open><summary>Description</summary><p>'+esc(activeSkill.description||'Details pending source verification.')+'</p></details></section>':'';
  const preview=selected?'<div class="wb-character-preview-identity">'+characterIdentity(selected)+'</div><div class="wb-character-portrait" data-rarity="'+esc(selected.rarity)+'">'+image(selected.art,selected.name)+characterRarity(selected)+'</div>'+(profile?.tags?.length?'<div class="wb-character-tags">'+profile.tags.map(t=>'<span data-tone="'+characterTagTone(t)+'">'+esc(t)+'</span>').join('')+'</div>':'')+(profile?.summary?'<p class="wb-character-summary">'+esc(profile.summary)+'</p>':'')+(nodes.length?'<section class="wb-character-skill-section"><h4>Skills</h4><div class="wb-character-skill-picker" role="group" aria-label="Character skills">'+skillButtons+'</div>'+skillInfo+'</section>':'<p class="wb-character-pending">Skill details pending source verification.</p>'):'<p>No Character selected</p>';
- editor('character','Add Character','<div class="wc-workbench wb-character-workbench"><div class="wc-browser"><div class="wb-character-filterbar"><div class="wb-character-elements" role="group" aria-label="Filter Characters by element">'+filters+'</div><div class="wb-character-weapons" role="group" aria-label="Filter Characters by weapon type">'+weaponFilters+'</div></div><div class="wc-catalog wb-character-catalog">'+(cards||'<p class="wb-character-empty">No Characters match</p>')+'</div></div><div class="bc-inspector wc-preview wb-character-preview">'+preview+'</div></div>',selected?'<button class="bc-primary" '+(!selected.element||!selected.weaponType?'disabled ':'')+'data-wb-character-build="'+selected.id+'">'+(!selected.element||!selected.weaponType?'Details pending':root.drafts[selected.id]?'Continue Build':'Build Character')+'</button>':'','<input id="wbCharacterSearch" class="wb-header-search" type="search" placeholder="Search Characters" aria-label="Search Characters" value="'+esc(characterQuery)+'">');
+ editor('character','Add Character','<div class="wc-workbench wb-character-workbench"><div class="wc-browser"><div class="wb-character-filterbar"><div class="wb-character-elements" role="group" aria-label="Filter Characters by element">'+filters+'</div><div class="wb-character-rarities" role="group" aria-label="Filter Characters by rarity">'+rarityFilters+'</div><div class="wb-character-weapons" role="group" aria-label="Filter Characters by weapon type">'+weaponFilters+'</div></div><div class="wc-catalog wb-character-catalog">'+(cards||'<p class="wb-character-empty">No Characters match</p>')+'</div></div><div class="bc-inspector wc-preview wb-character-preview">'+preview+'</div></div>',selected?'<button class="bc-primary" '+(!selected.element||!selected.weaponType?'disabled ':'')+'data-wb-character-build="'+selected.id+'">'+(!selected.element||!selected.weaponType?'Details pending':root.drafts[selected.id]?'Continue Build':'Build Character')+'</button>':'','<input id="wbCharacterSearch" class="wb-header-search" type="search" placeholder="Search Characters" aria-label="Search Characters" value="'+esc(characterQuery)+'">');
  $('.wb-character-catalog').scrollTop=scroll;
 }
 async function buildNewCharacter(id){
  const identity=CHARACTER_CATALOG.find(c=>c.id===id);
  if(!identity?.element||!identity.weaponType||root.account.characters[id]?.owned)return;
- if(id!==person.id&&!await confirmInline('Switch Character?','Your current draft is saved.','Switch'))return;
+ rememberWorkshopPreview();
  const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);
- person=CHARACTER_CATALOG.find(c=>c.id===id);closeEditor(false);message();render();carousel.setSelected(id);
+ closeEditor(false);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();carousel.setSelected(id);
 }
-function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');ui.weaponPreview=draft().weaponId;ui.weaponRank=draft().weaponRank;ui.weaponQuery='';renderWeaponEditor();renderWeapon();}
+function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery='';renderWeaponEditor();renderWeapon();}
 function renderWeaponEditor() {
- const rows = weapons.weapons.filter(item => item.weaponType === person.weaponType && artForWeapon(item.id) && item.name.toLowerCase().includes(ui.weaponQuery.toLowerCase()));
+ const rows = recommendationOrder(weapons.weapons.filter(item => item.weaponType === person.weaponType && artForWeapon(item.id) && item.name.toLowerCase().includes(ui.weaponQuery.toLowerCase())),recommendedWeaponIds(person.id));
  const item = weapon(ui.weaponPreview);
  const same = item?.id === draft().weaponId && ui.weaponRank === draft().weaponRank;
  const browser = `<div class="wc-browser"><div class="bc-toolbar"><input class="bc-search" id="bcWeaponSearch" placeholder="Search Weapons" aria-label="Search Weapons" value="${esc(ui.weaponQuery)}"></div><div class="wc-catalog bc-catalog-grid">${rows.map(row => `<button class="bc-browse ${row.id === item?.id ? 'selected' : ''}" data-bc-weapon-id="${row.id}">${image(artForWeapon(row.id))}<span>${esc(row.name)}</span></button>`).join('')}</div></div>`;
@@ -173,8 +187,7 @@ function previewFrom(identity, previous = null) {
   mainStat:clone(echoes.statEditor.mainStatsByCostAndLevel[identity.cost][level].find(row=>row.name===recommendedMains(identity.cost)[0])??echoes.statEditor.mainStatsByCostAndLevel[identity.cost][level][0]), secondaryMainStat:clone(echoes.statEditor.secondaryMainStatsByCostAndLevel[identity.cost][level]), substats:[]};
 }
 function mainStatOptions(item) {
- const profile = loadoutTemplates.characters.find(entry => entry.characterId === person.id);
- const recommended = (profile?.slots ?? []).filter(slot => slot.cost === item.cost).flatMap(slot => slot.sourceMainStats ?? []).sort((a,b) => a.priority - b.priority).map(stat => stat.stat);
+ const recommended = recommendedMains(item.cost);
  const allowed = echoes.statEditor.mainStatsByCostAndLevel[item.cost][item.level??25];
  const group = (title, stats) => stats.length ? `<section class="wb-main-group"><h4>${title}</h4>${stats.map(stat => selectButton('data-bc-main',stat.name,pretty(stat.name)+' '+statValue(stat.name,stat.value),false,item.mainStat?.name===stat.name)).join('')}</section>` : '';
  const preferred = allowed.filter(stat => recommended.includes(stat.name)).sort((a,b) => recommended.indexOf(a.name)-recommended.indexOf(b.name));
@@ -188,7 +201,7 @@ function nextIncompleteRoll(after) {
  return [...indexes.slice(after + 1), ...indexes.slice(0, after + 1)].find(index => !ui.preview.substats[index]?.name || !Number.isFinite(ui.preview.substats[index]?.value)) ?? null;
 }
 
-function openEcho(index){ui.returnSelector='[data-bc-echo="'+index+'"]';showPanel('echo');ui.slot=index;ui.preview=clone(draft().echoes[index]);ui.rollEditor=null;ui.rollMove=null;ui.echoQuery='';ui.cost=null;ui.sets=[];renderEchoEditor();renderEchoes();}
+function openEcho(index){ui.returnSelector='[data-bc-echo="'+index+'"]';showPanel('echo');ui.slot=index;ui.preview=restoredEchoPreview(index);ui.rollEditor=null;ui.rollMove=null;ui.echoQuery='';ui.cost=null;ui.sets=[];renderEchoEditor();renderEchoes();}
 function committedPreview(){
  const item=clone(ui.preview);if(!item)throw Error('Choose an Echo.');if(!item.mainStat)throw Error('Choose a Main Stat.');
  const last=item.substats.findLastIndex(row=>row!=null),rolls=Array.from({length:last+1},(_,i)=>item.substats[i]??null);
@@ -207,24 +220,23 @@ function sonataFilterMarkup(setOrder, recommendedIds, open) {
  const icons = selected.map(set => `<span title="${esc(set.name)}">${image(set.artPath, set.name)}</span>`).join('');
  return `<details class="bc-choice wb-sonata-filter" ${open ? 'open' : ''}><summary aria-label="Sonata Sets${selected.length ? ': ' + esc(selected.map(set => set.name).join(', ')) : ': All'}"><span>Sonata Sets</span><span class="wb-selected-sets">${icons || '<span class="wb-all-sets">All</span>'}</span></summary><div class="bc-options"><button class="wb-all-option ${!ui.sets.length ? 'selected' : ''}" data-bc-set-filter="all" aria-pressed="${!ui.sets.length}">All Sonata Sets</button>${group('Recommended', setOrder.filter(set => recommendedIds.includes(set.id)))}${group('Other', setOrder.filter(set => !recommendedIds.includes(set.id)))}</div></details>`;
 }
-function recommendedMains(cost){
- const profile=loadoutTemplates.characters.find(entry=>entry.characterId===person.id);
- return [...new Set((profile?.slots??[]).filter(slot=>slot.cost===cost).flatMap(slot=>slot.sourceMainStats??[]).sort((a,b)=>a.priority-b.priority).map(stat=>stat.stat))].filter(name=>echoes.statEditor.mainStatsByCostAndLevel[cost][0].some(row=>row.name===name));
+function recommendedMains(cost){return recommendedMainStats(person.id,cost,echoes.statEditor.mainStatsByCostAndLevel[cost][0].map(row=>row.name));
 }
 function echoBrowseCard(row, selectedId) {
  const matchingSets = ui.sets.length ? ui.sets.filter(id => row.sonataSetIds.includes(id)) : row.sonataSetIds;
  const rail = matchingSets.map(id => echoes.sonataSets.find(set => set.id === id)).filter(Boolean).map(set => `<span title="${esc(set.name)}">${image(set.artPath, set.name)}</span>`).join('');
- return `<div class="wb-browse-item"><button class="bc-browse ${row.id === selectedId ? 'selected' : ''}" data-bc-species="${row.id}"><span class="wb-browse-name">${esc(row.name)}</span><span class="wb-browse-art"><span class="wb-browse-rail">${rail}</span>${image(artForEcho(row.id))}</span><small>COST ${row.cost}</small></button><div class="wb-quick-mains">${recommendedMains(row.cost).slice(0,2).map(name=>`<button data-bc-quick-species="${row.id}" data-main="${esc(name)}" aria-label="Preview ${esc(row.name)} with ${esc(name)}">${esc(name)}</button>`).join('')}</div></div>`;
+ return `<div class="wb-browse-item"><button class="bc-browse ${row.id === selectedId ? 'selected' : ''}" data-bc-species="${row.id}"><span class="wb-browse-name">${esc(row.name)}</span><span class="wb-browse-art"><span class="wb-browse-rail">${rail}</span>${image(artForEcho(row.id))}</span><small>COST ${row.cost}</small></button><div class="wb-quick-mains">${recommendedMains(row.cost).map(name=>`<button data-bc-quick-species="${row.id}" data-main="${esc(name)}" aria-label="Preview ${esc(row.name)} with ${esc(name)}">${esc(name)}</button>`).join('')}</div></div>`;
 }
 function renderEchoEditor() {
  const matching = echoes.echoes.filter(item => (ui.cost === null || item.cost === ui.cost) && (!ui.sets.length || item.sonataSetIds.some(set => ui.sets.includes(set))) && item.name.toLowerCase().includes(ui.echoQuery.toLowerCase()));
  if (ui.sets.length) matching.sort((a, b) => ui.sets.findIndex(id => a.sonataSetIds.includes(id)) - ui.sets.findIndex(id => b.sonataSetIds.includes(id)));
- const setOrder = [...echoes.sonataSets].sort((a, b) => b.sourceId - a.sourceId);
+ if(!ui.sets.length)matching.sort((a,b)=>{const ids=recommendedSetIds(person.id),rank=item=>Math.min(...item.sonataSetIds.map(id=>ids.includes(id)?ids.indexOf(id):Infinity));return rank(a)-rank(b);});
+ const setOrder = recommendationOrder([...echoes.sonataSets].sort((a, b) => b.sourceId - a.sourceId),recommendedSetIds(person.id));
  const item = ui.preview;
  const unchanged = item && JSON.stringify(item) === JSON.stringify(draft().echoes[ui.slot]);
  const identity = item ? species(item.speciesId) : null;
  const error = validatePreview();
- const recommendedIds = echoes.loadoutProfiles?.find(profile => profile.characterId === person.id)?.sonataSetIds ?? [];
+ const recommendedIds = recommendedSetIds(person.id);
  const filterOpen = Boolean(document.querySelector('.wb-sonata-filter')?.open);
  const setFilter = sonataFilterMarkup(setOrder, recommendedIds, filterOpen);
  const costFilter = '<div class="wb-cost-buttons" role="group" aria-label="Filter by Cost">'+[null,4,3,1].map(cost => selectButton('data-bc-cost',cost ?? 'all',cost === null ? 'All' : 'Cost '+cost,false,ui.cost === cost)).join('')+'</div>';
@@ -250,6 +262,7 @@ function renderEchoEditor() {
  }
  editor('echo', 'Echo Workshop · Slot ' + (ui.slot + 1), `<div class="wc-workbench">${browser}${preview}</div>`, `<button class="bc-quiet bc-danger" data-bc-unequip="echo" ${!draft().echoes[ui.slot] ? 'disabled' : ''}>Unequip</button><button class="bc-primary" data-bc-equip="echo" ${error || unchanged ? 'disabled' : ''}>${unchanged ? 'Equipped' : 'Equip Echo'}</button>`, `<input id="bcEchoSearch" class="bc-search wb-header-search" placeholder="Search Echoes" aria-label="Search Echoes" value="${esc(ui.echoQuery)}">`);
  if (item && error) $('#bcEditorError').textContent = error;
+ rememberWorkshopPreview();
 }
 function openSkill(id) {
  if (!treeFor(person.id).nodes.some(node => node.id === id)) return;
@@ -295,7 +308,7 @@ function openSequence(number) {
 }
 function confirmInline(title,copy,action){return new Promise(resolve=>{if(ui.prompt)ui.prompt(false);ui.prompt=result=>{ui.prompt=null;$('#bcConfirm').hidden=true;$('#bcConfirm').replaceChildren();resolve(result);};$('#bcConfirm').hidden=false;$('#bcConfirm').innerHTML=`<h3>${esc(title)}</h3><p>${esc(copy)}</p><div><button class="bc-quiet" data-bc-confirm="no">Cancel</button><button class="bc-primary" data-bc-confirm="yes">${esc(action)}</button></div>`;$('#bcConfirm [data-bc-confirm="yes"]').focus();});}
 render();
-carousel=mountCarousel({selectedId:person.id,compactPresentation:true,accountOnly:true,accountLabel:'review account',ownsInteraction:node=>$('#bcConfirm').contains(node),beforeSelect:async id=>id===person.id||await confirmInline('Switch Character?','Your draft is saved for this Character.','Switch'),onSelect:id=>{closeEditor(false);const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();},preview:id=>accountCarouselPreview(CHARACTER_CATALOG.find(p=>p.id===id),store.session.storage)
+carousel=mountCarousel({selectedId:person.id,compactPresentation:true,accountOnly:true,accountLabel:'review account',ownsInteraction:node=>$('#bcConfirm').contains(node),beforeSelect:async()=>{rememberWorkshopPreview();return true;},onSelect:id=>{closeEditor(false);const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();},preview:id=>accountCarouselPreview(CHARACTER_CATALOG.find(p=>p.id===id),store.session.storage)
 });
 $('#openGallery').addEventListener('click',()=>{if(ui.panel)closeEditor(false);});
 $('#bcMore').onclick=()=>{ui.more=!ui.more;renderStats();};
@@ -313,14 +326,15 @@ document.addEventListener('click',async event=>{
   if(a.bcOpen==='character')openCharacterBrowser();
   if(a.wbCharacterPreview){characterPreview=a.wbCharacterPreview;characterSkill=null;renderCharacterBrowser();}
   if(a.wbCharacterSkill){characterSkill=a.wbCharacterSkill;renderCharacterBrowser();}
+  if(a.wbCharacterRarity){const rarity=Number(a.wbCharacterRarity);characterRarityFilter=characterRarityFilter===rarity?null:rarity;renderCharacterBrowser();}
   if(a.wbCharacterWeapon){characterWeapon=characterWeapon===a.wbCharacterWeapon?null:a.wbCharacterWeapon;renderCharacterBrowser();}
   if(a.wbCharacterElement){characterElement=characterElement===a.wbCharacterElement?null:a.wbCharacterElement;renderCharacterBrowser();}
   if(a.wbCharacterBuild)await buildNewCharacter(a.wbCharacterBuild);
   if(a.bcOpen==='weapon')openWeapon();
   if(a.bcOpen==='skills')openSkill(treeFor(person.id).nodes.find(node=>node.kind==='skill')?.id);
   if(a.bcEcho!==undefined)openEcho(Number(a.bcEcho));
-  if(a.bcWeaponId){ui.weaponPreview=a.bcWeaponId;renderWeaponEditor();renderWeapon();}
-  if(a.bcWeaponRank){ui.weaponRank=Number(a.bcWeaponRank);renderWeaponEditor();renderWeapon();}
+  if(a.bcWeaponId){ui.weaponPreview=a.bcWeaponId;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
+  if(a.bcWeaponRank){ui.weaponRank=Number(a.bcWeaponRank);rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
   if(a.bcEquip==='weapon'){change(d=>{if(d.weaponId!==ui.weaponPreview){d.weaponInstanceId=crypto.randomUUID();d.weaponLevel=90;}d.weaponId=ui.weaponPreview;d.weaponLevel=90;d.weaponRank=ui.weaponRank;});renderWeaponEditor();}
   if(a.bcEquip==='echo'){const problem=validatePreview();if(problem)throw Error(problem);change(d=>{d.echoes[ui.slot]=committedPreview();});renderEchoEditor();}
   if(a.bcUnequip){change(d=>{if(a.bcUnequip==='weapon'){d.weaponId=null;d.weaponInstanceId=null;}else d.echoes[ui.slot]=null;});closeEditor();}
@@ -329,8 +343,8 @@ document.addEventListener('click',async event=>{
   if(a.bcCost){ui.cost=a.bcCost==='all'?null:Number(a.bcCost);renderEchoEditor();}
   if(a.bcSetFilter){if(a.bcSetFilter==='all')ui.sets=[];else if(ui.sets.includes(a.bcSetFilter))ui.sets=ui.sets.filter(s=>s!==a.bcSetFilter);else ui.sets.push(a.bcSetFilter);renderEchoEditor();}
   if(a.bcLevel!==undefined){ui.rollEditor=null;ui.rollMove=null;const e=ui.preview;e.level=Number(a.bcLevel);e.substats=Array.from({length:e.level/5},(_,i)=>e.substats[i]??null);e.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[e.cost][e.level].find(s=>s.name===e.mainStat?.name)??null);e.secondaryMainStat=clone(echoes.statEditor.secondaryMainStatsByCostAndLevel[e.cost][e.level]);renderEchoEditor();}
-  if(a.bcMain){ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level??25].find(s=>s.name===a.bcMain));ui.rollEditor=nextIncompleteRoll(-1);renderEchoEditor();}
-  if(a.bcSonata&&a.bcSonata!==ui.preview.selectedSonataSetId&&await confirmInline('Switch Sonata Set?','This changes only the preview until you equip the Echo.','Switch Set')){ui.preview.selectedSonataSetId=a.bcSonata;renderEchoEditor();}
+  if(a.bcMain){ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level??25].find(s=>s.name===a.bcMain));ui.rollEditor=null;renderEchoEditor();}
+  if(a.bcSonata&&a.bcSonata!==ui.preview.selectedSonataSetId){ui.preview.selectedSonataSetId=a.bcSonata;renderEchoEditor();}
   if(a.wbRoll!==undefined){const index=Number(a.wbRoll);ui.rollMove=null;ui.rollEditor=ui.rollEditor===index?null:index;renderEchoEditor();}
   if(a.bcMoveCancel!==undefined){ui.rollMove=null;renderEchoEditor();}
   if(a.bcMoveConfirm!==undefined&&ui.rollMove){
@@ -355,7 +369,7 @@ document.addEventListener('click',async event=>{
 });
 document.addEventListener('click',event=>{const n=event.target.closest('[data-bc-skill]');if(n)try{openSkill(n.dataset.bcSkill);}catch(error){fail(error);}});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(ui.prompt){ui.prompt(false);return;}const open=$('#bcEditor details[open]');if(open){open.open=false;return;}closeEditor();}if((event.key==='Enter'||event.key===' ')&&event.target.matches('[data-bc-skill]')){event.preventDefault();openSkill(event.target.dataset.bcSkill);}});
-globalThis.buildCandidateReview={snapshot:()=>clone(root),stats:allStats,storageKey:STORAGE_KEY,openEcho,openWeapon,selectCharacter:async id=>{if(!CHARACTER_CATALOG.some(c=>c.id===id))throw Error('Unknown Character');const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);location.reload();},get panel(){return ui.panel;},get preview(){return clone(ui.preview);}};
+globalThis.buildCandidateReview={snapshot:()=>clone(root),stats:allStats,storageKey:STORAGE_KEY,openEcho,openWeapon,selectCharacter:async id=>{if(!CHARACTER_CATALOG.some(c=>c.id===id))throw Error('Unknown Character');rememberWorkshopPreview();const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);carousel.setSelected(id);location.reload();},get panel(){return ui.panel;},get preview(){return clone(ui.preview);}};
 
 document.querySelector('.bc-review>span').textContent='CONCEPT B / compact information / isolated review account';
 
@@ -370,3 +384,10 @@ globalThis.bellibingProductImport={stage:async scan=>{
  carousel.close();render();message('Imported draft. Review in Build, then '+(root.account.characters[person.id]?'Update.':'Add to Account.'));
 }};
 import('../../ui-lab/inventory/integration.js').catch(error=>message('Import/account tools unavailable: '+error.message));
+
+// Outside interactions close the workbench after its local preview is preserved.
+document.addEventListener('pointerdown',event=>{if(ui.panel&&!ui.prompt&&!$('#bcEditor').contains(event.target)&&!$('#bcConfirm').contains(event.target))try{closeEditor(false);}catch(error){fail(error);}},true);
+window.addEventListener('pagehide',()=>{try{rememberWorkshopPreview();}catch{ /* Existing bytes remain available for recovery. */ }});
+
+installChoiceDismissal(document);
+installTransientChoiceDismissal(document,{selector:'#bcEditor .wb-substats',isOpen:()=>ui.rollEditor!==null,onClose:()=>{ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}});

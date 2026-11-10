@@ -5,6 +5,43 @@ import {createLocalTeamReview,hasCompleteTeamBuilds} from '../docs/ui-lab/v1.1/m
 import {team,own} from './helpers/localTeamFixture.mjs';
 import {createSandboxWorkspace} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
 import {emptyResourceInventory} from '../docs/assets/resourceInventory.js';
+import {accountTeamBasis} from '../docs/ui-lab/v1.1/modules/improve-comparison-basis.js';
+
+test('ER-short planned DPS stays visibly conditional and cannot produce a certified comparison',async()=>{
+ const originalLocation=globalThis.location;globalThis.location={hostname:'127.0.0.1'};
+ let html='';const text={};const child={classList:{add(){}},isConnected:true,dataset:{},querySelector(selector){return {dataset:{},set textContent(v){text[selector]=v;},set innerHTML(v){if(selector==='[data-team-dps-body]')html=v;}};}};
+ const input={mode:'IMPROVE',selectedCharacterId:'augusta',team,records:own().records,actualInvestments:Object.fromEntries(team.characterIds.map(id=>[id,{characterLevel:90,weaponLevel:90,weaponRefinement:1}])),scope:{}};
+ const conditional={status:'CONDITIONAL',basis:'PLANNED_ROTATION_ASSUMING_ENERGY_AVAILABLE',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),comparisonIdentity:'c'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'NOT_MET',requirements:[{characterId:'augusta',actual:1,required:1.2}]},teamTotal:300,characterContributions:team.characterIds.map(characterId=>({characterId,dps:100}))};
+ const blocked={status:'PENDING',reason:'WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET',rotationAcceptance:conditional.rotationAcceptance,conditionalDps:conditional};
+ let candidate=blocked;
+ const fetchImpl=async(_,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='status'?{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'}:{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'PENDING',current:blocked,candidate,delta:null}}});
+ try{
+  const client=createLocalTeamReview({readInput:()=>input,autoReference:true,fetchImpl});await delay(0);client.mount({querySelector:()=>child});await delay(250);
+  assert.match(html,/<th>Current \*<\/th>/);assert.match(html,/>300<\/td>/);
+  assert.match(text['.local-team-status'],/Planned rotation; ER not met/);
+  assert.equal(child.dataset.status,'PENDING');assert.doesNotMatch(html,/data-change="up"|data-change="down"/);
+  candidate={...conditional,status:'EXPERIMENTAL',rotationAcceptance:{status:'MET'}};
+  input.scope={candidateChanged:true};client.checkFresh();await delay(250);
+  assert.match(html,/<th>Candidate<\/th><td>100<\/td>/,'a legal candidate must remain visible beside ER-short Current');
+ }finally{globalThis.location=originalLocation;}
+});
+
+test('Expected disappears immediately when a teammate build or the model basis changes',async()=>{
+ const originalLocation=globalThis.location;globalThis.location={hostname:'127.0.0.1'};
+ let html='';const child={classList:{add(){}},isConnected:true,dataset:{},querySelector(selector){return {dataset:{},set textContent(v){},set innerHTML(v){if(selector==='[data-team-dps-body]')html=v;}};}};
+ const input={mode:'IMPROVE',selectedCharacterId:'augusta',team,records:own().records,actualInvestments:Object.fromEntries(team.characterIds.map(id=>[id,{characterLevel:90,weaponLevel:90,weaponRefinement:1}])),scope:{}};
+ const baseline={status:'EXPERIMENTAL',verification:'EXPERIMENTAL_FIXED_REFERENCE',teamDpsReady:false,authorizesCharacterUpgrade:false,contextIdentity:'a'.repeat(64),comparisonIdentity:'c'.repeat(64),provider:{sourceBinding:'b'.repeat(64)},rotationAcceptance:{status:'MET'},teamTotal:300,characterContributions:team.characterIds.map(characterId=>({characterId,dps:100}))};
+ let search={status:'ESTIMATED',characterId:'augusta',teamBuildIdentity:accountTeamBasis(input),useReference:false,current:structuredClone(baseline),selected:{expected:{teamDps:330,characterContributions:team.characterIds.map(characterId=>({characterId,dps:110}))}}};
+ const fetchImpl=async(_,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='status'?{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',status:'LOCAL_REVIEW_ONLY'}:{protocol:'BELLIBING_LOCAL_TEAM_REVIEW_V1',result:{status:'EXPERIMENTAL',current:baseline,candidate:null}}});
+ try{
+  const client=createLocalTeamReview({readInput:()=>input,readSearch:()=>search,autoReference:true,fetchImpl});await delay(0);client.mount({querySelector:()=>child});await delay(250);
+  assert.ok(html.includes('<th>Expected</th>'));assert.ok(html.includes('>330</td>'));
+  input.records[1].buildState.weaponId='changed-partner-weapon';client.redraw();assert.ok(!html.includes('<th>Expected</th>'));
+  await delay(250);
+  search.teamBuildIdentity=accountTeamBasis(input);search.current.provider.sourceBinding='d'.repeat(64);client.redraw();assert.ok(!html.includes('<th>Expected</th>'));
+  search.current.provider=structuredClone(baseline.provider);client.redraw();assert.ok(html.includes('<th>Expected</th>'));
+ }finally{globalThis.location=originalLocation;}
+});
 
 test('Sandbox Expected build and Change use mean-build DPS instead of the fixed reference',async()=>{
  const originalDocument=globalThis.document,originalLocation=globalThis.location;let html='';
@@ -40,8 +77,8 @@ for(const change of ['resources','team','empty-team'])test('late successful resu
  try{
   const controller=createLocalTeamReview({readInput:()=>input,fetchImpl});await delay(0);controller.mount({querySelector:()=>child});enabledHandler({target:{checked:true}});
   await firstStarted;input=change==='resources'?{...input,scope:{resources:2}}:change==='team'?{...input,team:{...team,id:'guide-augusta-mortefi-the-shorekeeper-augusta-slots-4',characterIds:['augusta','mortefi','the-shorekeeper']},records:[]}:{...input,team:null,records:[]};controller.checkFresh();await delay(300);
-  assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Five complete Echoes per teammate required':'Complete the team in Build'));release();await delay(0);
-  assert.ok(!html.includes('123,456'));assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Five complete Echoes per teammate required':'Complete the team in Build'));assert.equal(requests,change==='resources'?2:1);
+  assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Choose a Character build with five Echo slots':'Complete the team in Build'));release();await delay(0);
+  assert.ok(!html.includes('123,456'));assert.ok(html.includes(change==='empty-team'?'Choose a teammate':change==='team'?'Choose a Character build with five Echo slots':'Complete the team in Build'));assert.equal(requests,change==='resources'?2:1);
  }finally{globalThis.document=originalDocument;globalThis.location=originalLocation;}
 });
 

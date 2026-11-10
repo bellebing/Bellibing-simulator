@@ -251,3 +251,5 @@ body.has-echo-advisor .cost-comparison{display:table}
 .improve-echo-grid { grid-auto-rows:max-content; }
 .picker-echo-item { min-height:190px; height:max-content; }
 .picker-echo-item .picker-echo { flex:0 0 auto; }
+.picker-quick-mains { flex-wrap:wrap; }
+.picker-quick-mains button { flex:1 1 68px; }

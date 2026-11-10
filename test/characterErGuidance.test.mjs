@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {characterErGuidance,effectiveErTarget} from '../docs/ui-lab/v1.1/modules/character-er-guidance.js';
+import {erTargetPresentation} from '../docs/ui-lab/v1.1/modules/settings-state.js';
+test('ER guidance uses Character source ranges, owner range and preserves manual values',()=>{
+ assert.equal(characterErGuidance('chisa').minimum,125);
+ assert.equal(characterErGuidance('augusta').minimum,115);
+ assert.equal(characterErGuidance('augusta').maximum,125);
+ assert.equal(characterErGuidance('calcharo').maximum,160);
+ assert.ok(characterErGuidance('calcharo').conditions.length);
+ assert.equal(characterErGuidance('unknown'),null);
+ assert.equal(effectiveErTarget('chisa',{valuePercent:137}),137);
+ for(const valuePercent of [115,120,125,130])assert.equal(erTargetPresentation({characterId:'augusta',target:{enabled:true,valuePercent:null},total:{characterId:'augusta',status:'VERIFIED',valuePercent}}).status,'REACHED');
+ assert.equal(erTargetPresentation({characterId:'chisa',target:{enabled:true,valuePercent:null},total:{characterId:'chisa',status:'VERIFIED',valuePercent:120}}).status,'OUTSTANDING');
+});

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {catalog,scan} from './fixtures/inventory.mjs';
 import {emptyAccount,saveReviewedScan,saveOwnedTeam,exportAccount,parseBackup} from '../src/inventoryAccount.mjs';
-import {applyProductDraft,productDraftFromAccount,productInvestmentPending,productDraftFromScan,scanFromProductDraft} from '../src/productBuildDraft.mjs';
+import {applyProductDraft,productDraftFromAccount,productInvestmentPending,productDraftFromScan,scanFromProductDraft,restoreKnownDraftWeaponLevel} from '../src/productBuildDraft.mjs';
 const seeded=()=>saveReviewedScan(emptyAccount(),scan(),catalog,{reviewed:true,assign:true});
 
 test('OCR draft preserves exact observed values and safely merges only the active build',()=>{
@@ -54,4 +54,28 @@ test('build replacement retains removed equipment and rejects physical identity 
  const next=applyProductDraft(before,draft,catalog);assert.deepEqual(next.items[removed],before.items[removed]);
  const wrong=productDraftFromAccount(before,id,{nodes:[]});wrong.echoes[0].speciesId=wrong.echoes[1].speciesId;
  assert.throws(()=>applyProductDraft(before,wrong,catalog),/identity cannot change/);
+});
+
+
+test('saved physical weapon level survives a Build read and save without replacing unknown observations',()=>{
+ const account=seeded(),id=Object.keys(account.characters)[0],build=account.characters[id].record.build,weapon=account.items[build.weaponInstanceId];
+ weapon.data.level=90;delete build.weaponLevel;
+ const draft=productDraftFromAccount(account,id,{nodes:[]});assert.equal(draft.weaponLevel,90);
+ const saved=applyProductDraft(account,draft,catalog);assert.equal(saved.items[weapon.id].data.level,90);
+ // An explicitly unknown physical observation remains unknown even if stale
+ // presentation metadata claims a level.
+ weapon.data.level=null;build.weaponLevel=90;
+ const unknown=productDraftFromAccount(account,id,{nodes:[]});assert.equal(unknown.weaponLevel,null);
+ assert.equal(applyProductDraft(account,unknown,catalog).items[weapon.id].data.level,null);
+});
+
+
+test('legacy draft level recovery needs the same known physical weapon and never fills imported unknowns',()=>{
+ const account=seeded(),id=Object.keys(account.characters)[0],draft=productDraftFromAccount(account,id,{nodes:[]}),item=account.items[draft.weaponInstanceId];
+ item.data.level=90;draft.weaponLevel=null;
+ assert.equal(restoreKnownDraftWeaponLevel(draft,account).weaponLevel,90);assert.equal(draft.weaponLevel,null);
+ assert.equal(restoreKnownDraftWeaponLevel({...draft,importObservation:{}},account).weaponLevel,null);
+ assert.equal(restoreKnownDraftWeaponLevel({...draft,weaponId:'another'},account).weaponLevel,null);
+ assert.equal(restoreKnownDraftWeaponLevel({...draft,weaponLevel:80},account).weaponLevel,80);
+ item.data.level=null;assert.equal(restoreKnownDraftWeaponLevel(draft,account).weaponLevel,null);
 });

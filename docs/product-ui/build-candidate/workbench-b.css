@@ -618,3 +618,14 @@
 .wc-catalog .wb-browse-item { min-height:200px; height:max-content; }
 .wc-catalog .wb-browse-item .bc-browse { flex:0 0 auto; }
 @media(max-width:1600px){.wb-echo-filters { grid-template-columns:minmax(0,1fr); }.wb-cost-buttons { justify-content:flex-start; }.wb-sonata-filter > summary { white-space:nowrap; }}
+/* Keep multiple reviewed main-stat alternatives readable on narrow cards. */
+.wb-quick-mains, .picker-quick-mains { flex-wrap:wrap; }
+.wb-quick-mains button, .picker-quick-mains button { flex:1 1 68px; }
+
+/* Reserve the same title/art area regardless of Echo name length. */
+.wc-catalog .wb-browse-name { min-height:2.5em; display:flex; align-items:center; justify-content:center; }
+.wc-catalog .wb-browse-art { flex-shrink:0; }
+
+.wb-character-rarities{display:flex;gap:4px;align-items:center}.wb-character-rarities button{border:0;background:transparent;color:var(--muted,#b7c5cc);padding:5px;font:inherit;cursor:pointer}.wb-character-rarities button[aria-pressed="true"]{color:var(--gold,#dbc58f);background:rgba(219,197,143,.12);border-radius:4px}
+
+@media(max-width:1600px){.wb-character-filterbar{gap:3px}.wb-character-filterbar button{width:22px;padding:1px}.wb-character-filterbar img{width:19px;height:19px}.wb-character-rarities{gap:0}.wb-character-rarities button{padding:0}}

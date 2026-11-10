@@ -1,7 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {improveFeedback,feedbackMarkup,manualTargetExpectedCost} from '../docs/ui-lab/v1.1/modules/improve-feedback.js';
+import {improveFeedback,feedbackMarkup,manualTargetExpectedCost,sampledDpsFeedback} from '../docs/ui-lab/v1.1/modules/improve-feedback.js';
 const advice=(chance,winner='CONTINUE')=>({decision:winner==='CONTINUE'?'Continue':'Start new Echo',targetGuidance:{status:'VERIFIED',winner,certificate:{exactFixedPoint:true},targetChance:{approximate:chance},continue:{tuners:{approximate:80}},discard:{tuners:{approximate:100}}}});
+test('sample uncertainty is not displayed as impossible and global guidance is separate from selected roll advice',()=>{
+ const zero={estimate:0,lower:0,upper:.0291,samples:128,successes:0};
+ const search={status:'ESTIMATED',repairingEnergy:true,recommendedSlot:2,slots:[{probability:zero}],selected:{slot:0,observedRollCount:0,probability:zero,decision:'More samples needed'}};
+ let value=sampledDpsFeedback(search);assert.equal(value.title,'Start with Echo 3');
+ const markup=feedbackMarkup(value);assert.match(markup,/Not resolved/);assert.doesNotMatch(markup,/0%|Estimate details|2.91|outcomes/);
+ search.selected.slot=2;assert.equal(sampledDpsFeedback(search).title,'Roll your new Echo');
+ search.selected.observedRollCount=1;assert.equal(sampledDpsFeedback(search).title,'Comparison unresolved');
+ search.selected.observedRollCount=5;search.selected.decision='ER restored';assert.equal(sampledDpsFeedback(search).reason,'Candidate meets ER');
+});
 test('odds reflect conditional stat targets, and success plus miss totals 100%',()=>{
  const value=improveFeedback(advice(.275),{level:10});
  assert.equal(value.scope,'STAT_TARGETS');assert.equal(value.chance,.275);

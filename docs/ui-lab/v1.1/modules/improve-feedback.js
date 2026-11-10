@@ -1,3 +1,4 @@
+import {dpsReasonLabel} from './dps-status.js';
 import {ECHO_TUBES} from '../../../assets/resourceInventory.js';
 import {escapeHtml as esc} from './util.js';
 const probability=value=>Number.isFinite(value)&&value>=0&&value<=1?value:null;
@@ -24,12 +25,11 @@ export function feedbackMarkup(value){
   const s=value.search,row=s?.selected;
   if(s?.status!=='ESTIMATED')return '<p class="improve-short-reason">'+esc(value.reason)+'</p>';
   const format=n=>Number.isFinite(n)?new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(n):'—';
-  const suggestion=s.recommendation;
-  const suggestionLabel=suggestion?'Echo '+(suggestion.slot+1)+(s.repairingEnergy?' \u00b7 '+suggestion.mainStatName+' \u00b7 \u2248 '+format(suggestion.expectedCost?.tuners)+' Tuners':''):null;
-  const canUse=s.repairingEnergy&&suggestion?.slot===row.slot&&suggestion.mainStatName!==s.selectedTemplate?.mainStat?.name;
-  const suggestionAction=canUse?'<button type="button" class="improve-use-suggestion" data-use-improve-suggestion>Use '+esc(suggestion.mainStatName)+' main stat</button>':'';
-  const chance=p=>p?percent(p.estimate)+'<small>'+percent(p.lower)+'–'+percent(p.upper)+'</small>':'—';
-  return `<p class="improve-short-reason">${esc(value.reason)}</p><div class="improve-paths"><div class="improve-path"><strong>Start new</strong><b>${chance(s.slots[row.slot]?.probability)}</b><span>≈ ${format(row.restartCost?.tuners)} Tuners</span></div><div class="improve-path"><strong>Continue</strong><b>${chance(row.probability)}</b><span>≈ ${format(row.continueCost?.tuners)} Tuners</span></div></div><small>Chance to reach next DPS step · estimated</small><p class="improve-short-reason">${s.recommendedSlot===null?(s.repairingEnergy?'No ER-ready replacement found':'No improvement found in sample'):'Start with '+esc(suggestionLabel??'Echo '+(s.recommendedSlot+1))}</p>${suggestionAction}<details class="improve-search-scope"><summary>Estimate details</summary><p>Sampled whole-build comparison. ${s.scope?.policy==='SAMPLED_GATE_STOPPING_POLICY'?'Stopping policies are compared from Gate +'+s.scope.gate+'.':'Every attempt finishes at +25 in this estimate.'} Costs include restarts, exclude recovery and assume eligible Echoes and sufficient resources. The estimate compares a limited set of policies and may miss rare improvements. ${s.repairingEnergy?'First restore enough ER for the reference rotation. The DPS preset becomes the next goal after the rotation is feasible.':'Next step aims for up to 1% more team DPS toward the preset goal.'}</p><p>${row.probability?.samples??0} outcomes · 95% probability interval · ${s.repairingEnergy?'ER requirement enforced':'target '+format(s.targetDps)+' team DPS'}</p></details>`;
+  const chance=p=>!p?'—':p.successes===0&&p.samples>1?'Not resolved':percent(p.estimate);
+  const suggestion=s.recommendation,canUse=s.repairingEnergy&&suggestion?.slot===row.slot&&suggestion.mainStatName!==s.selectedTemplate?.mainStat?.name;
+  const action=canUse?'<button type="button" class="improve-use-suggestion" data-use-improve-suggestion>Use '+esc(suggestion.mainStatName)+' main stat</button>':'';
+  return '<p class="improve-short-reason">'+esc(value.reason)+'</p>'+action+'<div class="improve-paths"><div class="improve-path"><strong>Start new</strong><b>'+chance(s.slots[row.slot]?.probability)+'</b><span>≈ '+format(row.restartCost?.tuners)+' Tuners</span></div><div class="improve-path"><strong>Continue</strong><b>'+chance(row.probability)+'</b><span>≈ '+format(row.continueCost?.tuners)+' Tuners</span></div></div>';
+
  }
 
  if(value.scope==='DPS_OBJECTIVE')return `<p class="improve-short-reason">${esc(value.reason)}</p><strong class="improve-model-gain">Target ≥ ${value.target===null?esc(value.minimumPercent)+'% of reference':new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(value.target)+' team DPS'}</strong>${value.actual!==null?'<p>Candidate '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(value.actual)+'</p>':''}`;
@@ -57,9 +57,9 @@ export function dpsObjectiveFeedback(plan,review,candidate){
 }
 
 export function sampledDpsFeedback(search){
- if(search?.status!=='ESTIMATED')return {scope:'DPS_SEARCH',tone:'neutral',title:search?.status==='CALCULATING'?'Comparing Echoes…':'DPS comparison unavailable',reason:({MAIN_ECHO_REQUIRED_FOR_ROTATION:'Choose a main Echo for this rotation',IMPROVE_REVIEW_BUSY:'Engine busy. Try again shortly',WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET:'ER needed for this rotation',SOURCE_ECHO_SKILL_PENDING:'Echo skill needs model support',SOURCE_ROTATION_CAST_REQUIREMENTS_UNMET:'Rotation needs adjustment',SOURCE_CALCULATOR_PROFILE_PENDING:'Equipment needs model support',CHANGED_WEAPON_ROTATION_CONTEXT_PENDING:'Weapon needs model support'})[search?.reason]??search?.reason??'Complete your build',chance:null,search};
+ if(search?.status!=='ESTIMATED')return {scope:'DPS_SEARCH',tone:'neutral',title:search?.status==='CALCULATING'?'Comparing Echoes…':'DPS comparison unavailable',reason:search?.status==='CALCULATING'?'Comparing supported replacements':search?.reason?dpsReasonLabel(search.reason):'Choose DPS optimisation to compare Echoes',chance:null,search};
  const selected=search.selected,p=selected.probability?.estimate??null;
- return {scope:'DPS_SEARCH',tone:selected.decision==='New Echo wins'?'achieved':selected.decision==='Continue'?'positive':selected.decision==='Start new Echo'?'negative':'neutral',title:selected.decision,reason:search.repairingEnergy?'Restore ER for the rotation':search.basis==='TEMPORARY_REFERENCE_TEAM'?'Temporary reference team':'Your account team',chance:p,search};
+ return {scope:'DPS_SEARCH',tone:['New Echo wins','ER restored'].includes(selected.decision)?'achieved':selected.decision==='Continue'?'positive':selected.decision==='Start new Echo'?'negative':'neutral',title:selected.observedRollCount===0?(search.recommendedSlot===selected.slot?'Roll your new Echo':search.recommendedSlot!==null?'Start with Echo '+(search.recommendedSlot+1):'Choose a new Echo'):selected.decision==='More samples needed'?'Comparison unresolved':selected.decision,reason:search.plannedRotationComparison&&search.energyStatus==='NOT_MET'?'Planned rotation; ER not met':selected.decision==='ER restored'?'Candidate meets ER':search.repairingEnergy?'More ER needed':search.basis==='TEMPORARY_REFERENCE_TEAM'?'Temporary reference team':'Your account team',chance:p,search};
 }
 export function sampledDpsCost(search){
  const value=search?.status==='ESTIMATED'?search.selected?.expectedCost:null;

@@ -46,7 +46,8 @@ test('explicit binding ignores catalog and review array order; model discovery n
 });
 test('newly captured source trios have no invented timing and missing bindings fail explicitly',()=>{
  for(const id of ['chixia','lingyang']){
-  const c=characterContext(id);assert.equal(c.status,'SOURCE_REVIEWED_DEFAULT');assert.equal(c.team.rotation.status,'TIMING_MODULES_MISSING');assert.deepEqual(c.team.rotation.variants,[]);
+  const sourceDefault=catalog.characters.find(c=>c.characterId===id).defaultContextId;
+  const c=characterContext(id,sourceDefault);assert.equal(c.status,'USER_SELECTED_SOURCE_CONTEXT');assert.equal(c.team.rotation.status,'TIMING_MODULES_MISSING');assert.deepEqual(c.team.rotation.variants,[]);
   assert.equal(resolveCharacterDefaultTeam(id,{contexts:CHARACTER_SOURCE_TEAM_CONTEXTS.filter(t=>t.id!==c.team.id)}).status,'PENDING_SOURCE_DEFAULT_BINDING');
  }
 });

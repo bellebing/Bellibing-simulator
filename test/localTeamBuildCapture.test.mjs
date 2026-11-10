@@ -6,15 +6,15 @@ test('read-only actual account records require explicit investment and never fil
  const {records}=own(),input={mode:'IMPROVE',team,selectedCharacterId:'augusta',records,scope:{settings:1},acceptReferenceInvestment:true};
  const before=JSON.stringify(input),result=await captureLocalTeamBuilds(input);assert.equal(result.status,'CAPTURED');assert.equal(JSON.stringify(input),before);
  assert.equal((await captureLocalTeamBuilds({...input,acceptReferenceInvestment:false})).reason,'CONFIRM_REFERENCE_INVESTMENT');
- assert.equal((await captureLocalTeamBuilds({...input,records:records.slice(0,2)})).reason,'COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ const partial=await captureLocalTeamBuilds({...input,records:records.slice(0,2)});assert.equal(partial.status,'CAPTURED');assert.equal(partial.payload.current.builds.length,2);assert.deepEqual(partial.payload.current.participatingCharacterIds,records.slice(0,2).map(r=>r.characterId));
  assert.ok(result.payload.current.builds.every(b=>b.kind==='ACCOUNT_BUILD'&&b.weapon.rank===1));
 });
 
 
 
-test('source-calculator contexts capture explicit source enemy without altering the existing pilot reference',async()=>{
+test('product contexts capture the same explicit source enemy, including trios with a historical pilot',async()=>{
  const {default:contexts}=await import('../docs/ui-lab/v1.1/modules/character-contexts.json',{with:{type:'json'}});
- for(const id of ['guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22','guide-jinhsi-zhezhi-verina-jinhsi-slots-22','guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7','guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7','guide-special-calcharo-yinlin-youhu','guide-jinhsi-yuanwu-verina-jinhsi-slots-22','guide-camellya-roccia-verina-camellya-slots-6','guide-aemeath-denia-lupa-aemeath-slots-3']){
+ for(const id of ['guide-calcharo-lynae-verina-calcharo-slots-5','guide-calcharo-lynae-the-shorekeeper-calcharo-slots-5','guide-jinhsi-zhezhi-the-shorekeeper-jinhsi-slots-22','guide-jinhsi-zhezhi-verina-jinhsi-slots-22','guide-carlotta-zhezhi-the-shorekeeper-carlotta-slots-7','guide-carlotta-yangyang-the-shorekeeper-carlotta-slots-7','guide-special-calcharo-yinlin-youhu','guide-jinhsi-yuanwu-verina-jinhsi-slots-22','guide-camellya-roccia-verina-camellya-slots-6','guide-aemeath-denia-lupa-aemeath-slots-3']){
   const context=contexts.teams.find(t=>t.id===id),{records}=own({context});
   const captured=await captureLocalTeamBuilds({mode:'IMPROVE',team:context,selectedCharacterId:context.characterIds[0],records,scope:{},acceptReferenceInvestment:true});
   assert.equal(captured.status,'CAPTURED');assert.equal(captured.payload.current.enemy.defense,1592);
@@ -23,7 +23,7 @@ test('source-calculator contexts capture explicit source enemy without altering 
   for(const b of captured.payload.current.builds)assert.equal(b.modeId,context.modeRequirements?.[b.characterId]??'default');
  }
  const {records}=own(),pilot=await captureLocalTeamBuilds({mode:'IMPROVE',team,selectedCharacterId:'augusta',records,scope:{},acceptReferenceInvestment:true});
- assert.equal(pilot.payload.current.enemy.defense,1520);assert.equal(pilot.payload.current.enemy.resistanceByElement.Electro,0.1);
+ assert.equal(pilot.payload.current.enemy.defense,1592);assert.equal(pilot.payload.current.enemy.resistanceByElement.Electro,0.2);
 });
 
 test('Echo comparison captures equipped weapons and actual mixed Sequences without replacing Current',async()=>{
@@ -82,7 +82,7 @@ test('existing published role references capture the source enemy and exact mode
   for(const mode of ['IMPROVE']){const r=await captureLocalTeamBuilds({mode,team,selectedCharacterId:team.characterIds[0],records,scope:{},acceptReferenceInvestment:true});assert.equal(r.status,'CAPTURED');assert.equal(r.payload.current.enemy.defense,1592);assert.ok(Object.values(r.payload.current.enemy.resistanceByElement).every(r=>r===0.2));for(const b of r.payload.current.builds)assert.equal(b.modeId,team.modeRequirements?.[b.characterId]??'default');}
   assert.deepEqual(records,before);
  }
- for(const id of ['guide-augusta-iuno-the-shorekeeper-augusta-slots-4','guide-augusta-mortefi-the-shorekeeper-augusta-slots-4'])assert.equal(localTeamReference(id).defense,1520);
+ for(const id of ['guide-augusta-iuno-the-shorekeeper-augusta-slots-4','guide-augusta-mortefi-the-shorekeeper-augusta-slots-4'])assert.equal(localTeamReference(id).defense,1592);
  // Reference routing owns no capability flag. A published model can still be
  // mode-blocked; only the private evaluator can return actual Experimental DPS.
  const blocked=localTeamReference('guide-qiuyuan-sigrika-the-shorekeeper-qiuyuan-slots-32');assert.equal(blocked.defense,1592);assert.equal(blocked.teamDpsReady,undefined);assert.equal(blocked.status,undefined);
@@ -124,4 +124,16 @@ test('real Improve accepts explicitly entered actual levels/refinement without s
  for(const b of result.payload.current.builds){assert.equal(b.baseline.characterLevel,actualInvestments[b.characterId].characterLevel);assert.equal(b.weapon.level,actualInvestments[b.characterId].weaponLevel);assert.equal(b.weapon.rank,actualInvestments[b.characterId].weaponRefinement);}
  delete actualInvestments[f.team.characterIds[1]];
  assert.equal((await captureLocalTeamBuilds({...f,actualInvestments})).reason,'ENTER_ACTUAL_TEAM_INVESTMENTS');
+});
+
+test('solo capture retains only the owned selected Character and adds newly saved partners without mutation',async()=>{
+ const {records}=own(),selected=records.find(r=>r.characterId==='augusta');
+ const input={mode:'IMPROVE',team,selectedCharacterId:'augusta',records:[selected],actualInvestments:{augusta:{characterLevel:90,weaponLevel:90,weaponRefinement:1}},scope:{}};
+ const before=structuredClone(input),solo=await captureLocalTeamBuilds(input);
+ assert.equal(solo.status,'CAPTURED');assert.equal(solo.payload.current.builds.length,1);
+ assert.deepEqual(solo.payload.current.participatingCharacterIds,['augusta']);assert.deepEqual(input,before);
+ input.records.push(records[1]);input.actualInvestments[records[1].characterId]={characterLevel:90,weaponLevel:90,weaponRefinement:1};
+ const duo=await captureLocalTeamBuilds(input);assert.equal(duo.status,'CAPTURED');assert.equal(duo.payload.current.builds.length,2);
+ assert.notEqual(duo.payload.current.ownership.revision,solo.payload.current.ownership.revision);
+ assert.equal((await captureLocalTeamBuilds({...input,records:[]})).status,'PENDING');
 });

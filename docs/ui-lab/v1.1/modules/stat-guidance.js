@@ -1,4 +1,4 @@
-import contexts from './character-contexts.json' with {type:'json'};
+import {characterRecommendations} from '../../../../src/characterRecommendations.mjs';
 import {SUBSTAT_VALUE_TABLE, SUBSTAT_VALUE_PROBABILITIES} from '../../../assets/echoCoreRules.js';
 import {escapeHtml} from './util.js';
 
@@ -28,10 +28,8 @@ const profiles = {
 // Reuse the reviewed guide's leading priority groups for presentation only.
 // This never turns a preference into an acceptance requirement or a DPS weight.
 function sourcePreference(characterId) {
- const rows = contexts.characters.find(row => row.characterId === characterId)?.recommendations?.substatPriorities ?? [];
- const aliases = {'ATK':'Flat ATK','HP':'Flat HP','DEF':'Flat DEF','Resonance Skill DMG%':'Skill DMG','Skill DMG%':'Skill DMG','Resonance Liberation DMG%':'Liberation DMG','Liberation DMG%':'Liberation DMG','Basic Attack DMG%':'Basic Attack DMG','Heavy Attack DMG%':'Heavy Attack DMG'};
- const favorites = rows.flatMap(row => row.sourceText.split('>').slice(0,3).flatMap(group => group.split('='))).map(name => name.replace(/\([^)]*\)/g,'').trim()).map(name => aliases[name] ?? name).filter(name => Object.hasOwn(SUBSTAT_VALUE_TABLE,name));
- return {favorites, conditional:[]};
+ const entries=characterRecommendations(characterId)?.priorities.entries??[];
+ return {favorites:[...new Set(entries.filter(row=>row.rank<=3&&!row.condition).flatMap(row=>row.stats))],conditional:[...new Set(entries.filter(row=>row.rank<=3&&row.condition).flatMap(row=>row.stats))]};
 }
 
 export function statPreference(characterId, name) {

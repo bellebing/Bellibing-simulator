@@ -1,4 +1,5 @@
 import {restoreCanonicalSettings} from './canonical-settings.js';
+import {effectiveErTarget} from './character-er-guidance.js';
 import {restoreSourcePriorities} from './source-priorities.js';
 import { ECHO_SETTING_STATS, selectedFlexRequirement, SELECTED_FLEX_GROUP_ID } from './settings-catalog.js';
 export const STAT_SECTIONS = ['hard','flex','other'];
@@ -42,6 +43,7 @@ export function restoreRecommendedSettings(state) {
 // A presentation-only conditional comparison. No total is projected here and no
 // Echo requirement, acceptance decision or build state is modified.
 export function erTargetPresentation({characterId,target,total=null,allowIllustrative=false}) {
+  target={...target,valuePercent:effectiveErTarget(characterId,target)};
   const base={status:'DISABLED',isDemo:false,totalPercent:null};
   if(!target.enabled)return base;
   if(!Number.isFinite(target.valuePercent)||target.valuePercent<0)return {...base,status:'UNCONFIGURED'};

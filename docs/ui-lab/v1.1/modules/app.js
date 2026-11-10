@@ -1,5 +1,6 @@
 import {ownedTeamContext} from './character-context.js';
 import {createImproveSearchClient} from './improve-search-client.js';
+import {expectedMatchesAccountTeam} from './improve-comparison-basis.js';
 import {readCharacterFocus} from './character-focus.js';
 import {accountCarouselPreview} from './account-carousel-preview.js';
 import {mountImprovePresets} from './improve-presets.js';
@@ -162,7 +163,7 @@ function readEchoAdviceContext(){
  const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!template?'Echo configuration Pending':null;
  const teamInput=readLocalTeamInput(),
   currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:false}:null;
- return {dpsSearch:state.improveSearch,dpsPlan:state.improvePlan,dpsReview:state.improveDpsReview,owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
+ return {dpsSearch:freshImproveSearch(),dpsPlan:state.improvePlan,dpsReview:state.improveDpsReview,owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
    ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,actualInvestmentRequired:true}}:{})},template,
   ...(currentAdvice?{currentAdvice}:{}),
   target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
@@ -290,8 +291,9 @@ function renderSlots() {
     const available=true;
     return `<div class="activation-slot${active ? '' : ' is-inactive'}"><button class="slot ${index === (runInspectionSlot??state.selectedSlot) ? 'selected-slot' : ''}" data-slot="${index}" aria-pressed="${index === (runInspectionSlot??state.selectedSlot)}" aria-label="Select Echo slot ${index + 1}${echo ? `, ${escapeHtml(echo.name)}` : ', empty'}"><span class="slot-number" aria-hidden="true"></span>${echoCard(echo,{footer:session?.mode==='current'?'CURRENT':'SIMULATED'})}</button>${demonstration?'':'<div class="slot-controls">'}${activationMarkup(index,active,available,demonstration)}${session ? `<button type="button" class="echo-edit" data-edit-echo="${index}" aria-label="Edit Echo slot ${index+1}" title="${escapeHtml(configuredSlotTitle(state,index))}"${(editable||(accountMode&&state.onAccount))?'':' disabled'}>Edit</button>` : ''}${demonstration?'':'</div>'}</div>`;
   }).join('');
-  if(accountMode&&state.improveSearch?.characterId===state.id&&state.improveSearch?.status==='ESTIMATED'){
-   const best=state.improveSearch.recommendedSlot;
+  const currentSearch=accountMode?freshImproveSearch():null;
+  if(currentSearch?.characterId===state.id&&currentSearch?.status==='ESTIMATED'){
+   const best=currentSearch.recommendedSlot;
    document.querySelectorAll('#slots [data-slot]').forEach(button=>{
     const selected=Number(button.dataset.slot)===best;
     button.classList.toggle('is-next-improvement',selected);
@@ -356,7 +358,12 @@ function readLocalTeamInput(){
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }
-localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,autoReference:accountMode,readSearch:()=>state.improveSearch,onAvailable:()=>renderCharacter(),onResult:value=>{state.improveDpsReview=value;renderFeedback();},onReferenceInvestmentChange:()=>echoAdvisor?.sync()});
+function freshImproveSearch(){
+ const estimate=state.improveSearch;
+ if(estimate?.status!=='ESTIMATED')return estimate;
+ return expectedMatchesAccountTeam(estimate,readLocalTeamInput(),localTeamReview?.referenceInvestmentAccepted())?estimate:{status:'CALCULATING'};
+}
+localTeamReview=createLocalTeamReview({readInput:readLocalTeamInput,autoReference:accountMode,readSearch:freshImproveSearch,onAvailable:()=>renderCharacter(),onResult:value=>{state.improveDpsReview=value;renderFeedback();},onReferenceInvestmentChange:()=>echoAdvisor?.sync()});
 if(accountMode){
  improveSearchClient=createImproveSearchClient({readInput:()=>({teamInput:readLocalTeamInput(),useReference:localTeamReview.referenceInvestmentAccepted(),slot:state.selectedSlot,template:readEchoAdviceContext().template,rolls:echoAdvisor?.snapshot()?.candidate?.substats??[],plan:{dpsEnabled:state.improvePlan?.dpsEnabled,minimumDpsPercent:state.improvePlan?.minimumDpsPercent},erTarget:state.erTarget,gate:settingsSnapshot(state).gate}),onResult:value=>{state.improveSearch=value;if(carousel)renderWorkspace();localTeamReview?.redraw();}});
  setInterval(()=>improveSearchClient.refresh(),1000);
@@ -372,6 +379,7 @@ function renderTeamPanel(panel){
  const wasOpen=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
  panel.innerHTML=dpsConceptMarkup({
   characterId:selectedId,selection,roleChoices,hasCurrentBuild:hasCompleteTeamBuilds(readLocalTeamInput()),comparisonMode:sandbox?'SANDBOX':'IMPROVE',
+  visibleMemberIds:accountMode&&!localTeamReview.referenceInvestmentAccepted()?readLocalTeamInput().records.filter(r=>r.status==='OBSERVED_PRODUCTION_BUILD_RECORD').map(r=>r.characterId):null,
   expertMode:sandbox&&expertMode&&!compactReview,evaluationContext:sandbox?state.sandboxEvaluationContext:null,
   dps:sandbox?sandboxRun?.metrics?.dps??preRunMetrics?.dps??null:null,
   view:sandbox?sandboxRun?.view??null:null,comparisonSlot:state.sandboxComparisonSlot??null
@@ -473,7 +481,7 @@ function syncAccountState(){
   echoAdvisor.sync();
   if(echoAdvisor.snapshot()?.candidate)state.accountCandidates[state.selectedSlot]=echoAdvisor.snapshot().candidate;
  }
- const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:echoAdvisor?.incompleteEdit()?null:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot,expected:state.improveSearch});
+ const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:echoAdvisor?.incompleteEdit()?null:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot,expected:freshImproveSearch()});
  state.accountProjection=projection;
  state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
  const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
@@ -604,7 +612,7 @@ function useCandidateTemplate(template){
 }
 document.querySelector('.interaction').addEventListener('click',event=>{
  if(!event.target.closest('[data-use-improve-suggestion]'))return;
- const search=state.improveSearch,suggestion=search?.recommendation;
+ const search=freshImproveSearch(),suggestion=search?.recommendation;
  if(search?.status!=='ESTIMATED'||search.characterId!==selectedId||suggestion?.slot!==state.selectedSlot)return;
  const template=readEchoAdviceContext().template;
  if(template)useCandidateTemplate({...template,mainStatName:suggestion.mainStatName});

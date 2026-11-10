@@ -1,3 +1,4 @@
+import {installTransientChoiceDismissal} from './choice-dismissal.js';
 import {createRank5EchoAtLevel0} from '../../../../src/echoMainStats.ts';
 import {sampledDpsFeedback,sampledDpsCost} from './improve-feedback.js';
 import {dpsObjectiveFeedback} from './improve-feedback.js';
@@ -112,6 +113,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   requestAnimationFrame(()=>document.querySelector('#newCard [data-wb-roll]')?.focus({preventScroll:true}));
  });
  for(const root of [host,opportunities])root.addEventListener('focusout',()=>setTimeout(()=>draw(),0));
+ installTransientChoiceDismissal(document,{selector:'#newCard .wb-substats',isOpen:()=>rollEditor!==null,onClose:()=>{rollEditor=null;rollMove=null;onRender();}});
  window.addEventListener('pagehide',()=>{allowAutoExpand=false;rollEditor=null;rollMove=null;});
  window.addEventListener('pageshow',()=>{allowAutoExpand=false;rollEditor=null;rollMove=null;if(available)onRender();});
  (async()=>{
@@ -197,7 +199,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  }
  function cardActions(){
   const card=session?.snapshot()?.candidate;
-  return `<button type="button" data-reset-observed ${equipping?'disabled':''}>Reset</button><button type="button" data-equip-observed ${equipping||incompleteEdit()||(!card&&!context().template)||(card&&![0,5,10,15,20,25].includes(card.level))?'disabled':''}>${equipping?'Equipping…':'Equip Echo'}</button>`;
+  return `${message?'<span class="observed-edit-error" role="status">'+escapeHtml(verdict())+'</span>':''}<button type="button" data-reset-observed ${equipping?'disabled':''}>Reset</button><button type="button" data-equip-observed ${equipping||incompleteEdit()||(!card&&!context().template)||(card&&![0,5,10,15,20,25].includes(card.level))?'disabled':''}>${equipping?'Equipping…':'Equip Echo'}</button>`;
  }
  const verdict=()=>message?({ADVICE_UNAVAILABLE:'Advice service unavailable',INSUFFICIENT_ECHOES:'Not enough Echoes',INSUFFICIENT_TUNERS:'Not enough Tuners',INSUFFICIENT_TUBES:'Not enough Tubes'}[message]??message):incompleteEdit()?'Complete the selected roll':session?.snapshot()?.pending?pendingCopy(session.snapshot().pending):checkpointVerdict(session?.snapshot()?.advice);
  return {feedback(){const current=session?.snapshot(),c=context();if(c.dpsPlan?.dpsEnabled)return sampledDpsFeedback(c.dpsSearch);return improveFeedback(current?.advice,{level:current?.candidate.level??0,pending:!!current?.pending||incompleteEdit()});},feedbackMarkup,expectedCost(){if(context().dpsPlan?.dpsEnabled)return sampledDpsCost(context().dpsSearch);return incompleteEdit()||session?.snapshot()?.pending?null:manualTargetExpectedCost(session?.snapshot()?.advice);},cardActions,replaceCandidate(){if(equipping)throw Error('Wait for Equip Echo to finish');if(!session)throw Error('Echo editor is loading');if(session.snapshot()?.candidate)session.startCandidate();else session.sync();rollDraftKey=null;onRender();},candidateCard,editorMarkup,editCard,verdict,incompleteEdit,available:()=>available,sync(){if(available){restoreObserved();session.sync();refreshAnalysis();}},start:()=>{editorState();rollEditor=session.snapshot()?.candidate.substats.length??0;onRender();},reset:()=>session?.reset(),snapshot:()=>session?.snapshot()??null,comparisonCandidates:slot=>{const cards=session?.comparisonCandidates()??Array(5).fill(null);cards[slot]=incompleteEdit()?null:session?.snapshot()?.candidate??cards[slot];return cards;},abort:()=>{session?.abort();analysisController?.abort();clearTimeout(analysisTimer);analysisGeneration++;analysis={status:'PENDING',reason:'ABORTED'};draw();},export:()=>({kind:'BELLIBING_OBSERVED_IMPROVE_V1',session:session?.snapshot()??null,analysis,accountMutation:false})};

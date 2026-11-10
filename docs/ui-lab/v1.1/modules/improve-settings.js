@@ -1,7 +1,7 @@
 import { ECHO_SETTING_STATS } from './settings-catalog.js';
 import { STAT_SECTIONS, moveSettingStat, flexCountPresentation, editFlexCount, erTargetPresentation } from './settings-state.js';
 import { SETTING_METRICS } from './simulation-model.js';
-import { CHARACTER_TARGETS } from './targets.js';
+import {characterErGuidance} from './character-er-guidance.js';
 import { erTotalFixture } from './result-fixtures.js';
 import { escapeHtml } from './util.js';
 import {sourcePriorityMode} from './source-priorities.js';
@@ -92,15 +92,15 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   function er() {
     const state=getState(), fixture=erTotalFixture(state.id,document.querySelector('#erReview').value);
     const view=erTargetPresentation({characterId:state.id,target:state.erTarget,total:fixture??verifiedTotal,allowIllustrative:!!fixture});
-    const reference=CHARACTER_TARGETS.find(row=>row.characterId===state.id)?.rows.find(row=>row.metric==='TOTAL_ENERGY_REGEN'&&row.status==='READY');
-    const suggested=reference?.sourceValue?.reference;
-    const suggestedPercent=Number.isFinite(suggested)?Number((suggested*100).toFixed(6)):null;
+    const reference=characterErGuidance(state.id);
+    const suggestedPercent=reference?.minimum??null;
     const customize=state.settingsMode==='Customize';
     find('#erEnabled').checked=state.erTarget.enabled;
     find('#erTarget').dataset.status=view.status;
     find('#erTarget').dataset.demo=String(view.isDemo);
     find('#erTargetValue').hidden=customize;
-    find('#erTargetValue').textContent=reference?`${reference.displayValue} suggested`:'—';
+    find('#erTargetValue').textContent=reference?`${reference.label} suggested`:'—';
+    find('#erTarget').title=reference?.conditions.join(' ')??'';
     find('#erTargetEditor').hidden=!customize;
     find('#erTargetBadge').textContent=(view.isDemo?'Illustrative demo: ':'')+({
       DISABLED:'ER target disabled',

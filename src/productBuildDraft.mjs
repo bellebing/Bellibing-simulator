@@ -32,7 +32,7 @@ export function productDraftFromAccount(account, characterId, tree) {
  const person=account.characters[characterId], record=person?.record??account.unownedDrafts?.[characterId]?.record;
  if(!record) return null;
  const raw=record.build, weapon=account.items[raw.weaponInstanceId];
- const b=resolveBuildInvestmentDefaults({...raw,weaponId:weapon?.catalogId,weaponRefinement:weapon?.data.refinement},tree);
+ const b=resolveBuildInvestmentDefaults({...raw,weaponId:weapon?.catalogId,weaponLevel:weapon?.data&&Object.hasOwn(weapon.data,'level')?weapon.data.level:raw.weaponLevel,weaponRefinement:weapon?.data.refinement},tree);
  const slots=b.echoSets?.sets?.[b.echoSets.activeSetId]?.slots??Array(5).fill(null);
  return {characterId,characterLevel:b.characterLevel??null,weaponLevel:b.weaponLevel??null,sequence:b.sequenceLevel??null,weaponId:weapon?.catalogId??null,
   weaponRank:b.weaponRefinement??null,weaponInstanceId:weapon?.id??null,
@@ -73,7 +73,7 @@ export function productInvestmentPending(account, characterId, tree) {
  const raw=account.characters[characterId]?.record?.build;
  if(!raw)return false;
  const weapon=account.items[raw.weaponInstanceId];
- const b=resolveBuildInvestmentDefaults({...raw,weaponId:weapon?.catalogId,weaponRefinement:weapon?.data.refinement},tree);
+ const b=resolveBuildInvestmentDefaults({...raw,weaponId:weapon?.catalogId,weaponLevel:weapon?.data&&Object.hasOwn(weapon.data,'level')?weapon.data.level:raw.weaponLevel,weaponRefinement:weapon?.data.refinement},tree);
  return b.characterLevel!==90||b.forte?.schemaVersion!==1||b.minorForteUnknown===true||b.sequenceLevel==null||
   (!!b.weaponInstanceId&&(weapon?.data.level!==90||b.weaponRefinement==null));
 }
@@ -89,4 +89,14 @@ export function productDraftBuildIdentity(draft){
   forte:draft.forte,echoes:draft.echoes.map(e=>e?{instanceId:e.instanceId,speciesId:e.speciesId,cost:e.cost,rank:e.rank,level:e.level,selectedSonataSetId:e.selectedSonataSetId,mainStat:row(e.mainStat),secondaryMainStat:row(e.secondaryMainStat),substats:e.substats.map(row)}:null)};
  const stable=value=>Array.isArray(value)?'['+value.map(stable).join(',')+']':value&&typeof value==='object'?'{'+Object.keys(value).sort().map(key=>JSON.stringify(key)+':'+stable(value[key])).join(',')+'}':JSON.stringify(value);
  return stable(clean);
+}
+
+
+// Recover the legacy adapter's missing level only from the same physical weapon.
+// An imported unknown remains unknown; no level is inferred from its catalog ID.
+export function restoreKnownDraftWeaponLevel(draft,account){
+ if(!draft||draft.weaponLevel!=null||draft.importObservation)return draft;
+ const item=account.items?.[draft.weaponInstanceId];
+ if(item?.kind!=='weapon'||item.catalogId!==draft.weaponId||!Number.isInteger(item.data?.level)||item.data.level<1||item.data.level>90)return draft;
+ return {...draft,weaponLevel:item.data.level};
 }

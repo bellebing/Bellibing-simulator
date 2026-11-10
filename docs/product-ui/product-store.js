@@ -3,6 +3,7 @@ import {accountSession} from '../ui-lab/inventory/account-session.js';
 import {productDraftFromAccount,productDraftFromScan,scanFromProductDraft,applyProductDraft} from '../../src/productBuildDraft.mjs';
 import {safeDocument} from '../../src/inventoryAccount.mjs';
 import {validateDraft} from './build-candidate/state.js';
+import {reconcileProductDrafts,productDraftBases} from '../../src/productDraftReconciliation.mjs';
 export async function createProductStore(catalog,trees) {
  const session=await accountSession();
  if(!session.store.status().writable)throw Error(session.store.status().error+' Original account is preserved.');
@@ -12,6 +13,8 @@ export async function createProductStore(catalog,trees) {
  let serialized=localStorage.getItem(key),saved;
  if(serialized){try{saved=JSON.parse(serialized);}catch{throw Error('Build drafts need recovery. Original draft bytes are preserved.');}}
  if(saved&&(saved.version!==1||!saved.accountId||!saved.drafts||!saved.selected))throw Error('Unsupported Build drafts. Original bytes preserved.');
+ if(saved?.workshopPreviews)safeDocument(saved.workshopPreviews);
+ if(saved?.baseDrafts)safeDocument(saved.baseDrafts);
  if(saved&&saved.accountId!==owner.id) {
   // A new stage on an empty profile has no durable identity yet. Do not attach
   // old drafts to a different existing/cloud account automatically.
@@ -20,13 +23,15 @@ export async function createProductStore(catalog,trees) {
  }
  const projected={};
  for(const id of [...Object.keys(owner.characters),...Object.keys(owner.unownedDrafts??{})])projected[id]=productDraftFromAccount(owner,id,trees.find(t=>t.characterId===id));
- const bases=Object.fromEntries(Object.entries(owner.characters).map(([id,c])=>[id,JSON.stringify(c.record)]));
- const conflicts=new Set(Object.keys(saved?.baseCharacters??{}).filter(id=>saved.baseCharacters[id]!==bases[id]&&JSON.stringify(saved.drafts[id])!==JSON.stringify(projected[id])));
- let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts:{...projected,...(saved?.drafts??{})},savedDrafts:structuredClone(projected),account:owner};
+ const {drafts,conflicts}=reconcileProductDrafts({account:owner,projected,saved,trees});
+ let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts,savedDrafts:structuredClone(projected),workshopPreviews:structuredClone(saved?.workshopPreviews??{}),account:owner};
  if(!catalog.characters.some(c=>c.id===state.selected))state.selected='augusta';
  const api={session,snapshot:()=>structuredClone(state),commit(next){
   if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before editing.');
-  const payload={version:1,accountId:owner.id,selected:next.selected,drafts:next.drafts,baseCharacters:Object.fromEntries(Object.entries(owner.characters).map(([id,c])=>[id,JSON.stringify(c.record)]))};
+  // Keep an unresolved draft's original base across reloads. Advancing it to
+  // today's account would hide the conflict on the next page visit.
+  const {baseCharacters,baseDrafts}=productDraftBases({account:owner,savedDrafts:state.savedDrafts,saved,conflicts});
+  const payload={version:1,accountId:owner.id,selected:next.selected,drafts:next.drafts,workshopPreviews:next.workshopPreviews??{},baseCharacters,baseDrafts};
   const bytes=JSON.stringify(payload);localStorage.setItem(key,bytes);serialized=bytes;state={...structuredClone(next),account:owner};return api.snapshot();
  },stageImport(scan){
   const imported=productDraftFromScan(scan,catalog,trees.find(t=>t.characterId===scan.character?.id));

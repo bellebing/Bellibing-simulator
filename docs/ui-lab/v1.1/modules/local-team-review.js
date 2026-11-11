@@ -1,5 +1,5 @@
 import {DPS_REASON_LABELS as labels} from './dps-status.js';
-import {sameDpsModelBasis,expectedMatchesAccountTeam,dpsComparisonWinner} from './improve-comparison-basis.js';
+import {sameDpsModelBasis,expectedMatchesAccountTeam,dpsComparisonWinner,dpsValueDirection} from './improve-comparison-basis.js';
 import {temporaryTeamReview} from './temporary-team-review.js';
 import {captureLocalTeamBuilds} from '../../../../src/localTeamBuildCapture.mjs';
 import {sourceTeamRoles} from './team-selection.js';
@@ -41,7 +41,12 @@ export function createLocalTeamReview({readInput,readSearch=()=>null,autoReferen
    const detail=requirements.filter(v=>Number.isFinite(v.actual)&&Number.isFinite(v.required)&&v.actual+1e-9<v.required).map(v=>`${names[v.characterId]??v.characterId}: ${(v.actual*100).toFixed(1)}% / ${(v.required*100).toFixed(1)}% required`).join('; ');
    const cell=id=>!activeIds.includes(id)?'\u2014':valid(shown,conditional)?fmt(shown.characterContributions.find(m=>m.characterId===id).dps):erFailed&&requirements.some(v=>v.characterId===id&&v.actual+1e-9<v.required)?'ER not met':'—';
    const rowId=label==='Current'?'current':label==='New Echo'?'new':null;
-   return `<tr${rowId?' data-dps-row="'+rowId+'"':''}${rowId&&dpsWinner===rowId?' data-dps-winner="'+rowId+'"':''}${label==='Expected build'?' title="Model DPS at expected Hard/Flex build stats; total-ER conditioning and mean DPS across RNG outcomes are not included. Teammates use fixed reference profiles."':''}><th>${label}${conditional?' *':''}</th>${ids.map(id=>`<td${erFailed?` title="${escapeHtml(detail)}"`:''}>${cell(id)}</td>`).join('')}<td class="team-total"${erFailed?` title="${escapeHtml(detail)}"`:''}>${valid(shown,conditional)?fmt(shown.teamTotal):erFailed?'ER not met':'—'}</td></tr>`;
+   const direction=id=>{
+    if(!rowId||!comparable||!valid(shown,conditional))return 'equal';
+    const other=rowId==='current'?comparisonCandidate:comparisonBaseline;
+    return dpsValueDirection(id===null?shown.teamTotal:shown.characterContributions.find(m=>m.characterId===id)?.dps,id===null?other.teamTotal:other.characterContributions.find(m=>m.characterId===id)?.dps);
+   };
+   return `<tr${rowId?' data-dps-row="'+rowId+'"':''}${rowId&&dpsWinner===rowId?' data-dps-winner="'+rowId+'"':''}${rowId&&dpsWinner&&dpsWinner!==rowId?' data-dps-loser="'+rowId+'"':''}${label==='Expected build'?' title="Model DPS at expected Hard/Flex build stats; total-ER conditioning and mean DPS across RNG outcomes are not included. Teammates use fixed reference profiles."':''}><th>${label}${conditional?' *':''}</th>${ids.map(id=>`<td data-dps-change="${direction(id)}"${erFailed?` title="${escapeHtml(detail)}"`:''}>${cell(id)}</td>`).join('')}<td class="team-total" data-dps-change="${direction(null)}"${erFailed?` title="${escapeHtml(detail)}"`:''}>${valid(shown,conditional)?fmt(shown.teamTotal):erFailed?'ER not met':'—'}</td></tr>`;
   };
   const comparisonBaseline=valid(baseline?.conditionalDps,true)?baseline.conditionalDps:baseline;
   const comparisonCandidate=valid(result?.candidate?.conditionalDps,true)?result.candidate.conditionalDps:result?.candidate;
@@ -53,7 +58,7 @@ export function createLocalTeamReview({readInput,readSearch=()=>null,autoReferen
    const shown=Math.abs(value)<.5?0:value;
    const base=index===ids.length?comparisonBaseline.teamTotal:comparisonBaseline.characterContributions.find(m=>m.characterId===ids[index]).dps,percent=base>0?value/base*100:null;
    const relative=Number.isFinite(percent)&&(shown!==0||value===0)?`<small class="local-team-relative">${percent>0?'+':''}${new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(percent)}%</small>`:'';
-   return `<td data-change="${shown>0?'up':shown<0?'down':'equal'}">${shown>0?'+':''}${fmt(shown)}${relative}</td>`;
+   return `<td data-change="${dpsValueDirection(base+value,base)}">${shown>0?'+':''}${fmt(shown)}${relative}</td>`;
   };
   const complete=sandbox||enabled||activeIds.includes(input?.selectedCharacterId);
   const shownCandidate=valid(result?.candidate?.conditionalDps,true)||valid(baseline?.conditionalDps,true)&&valid(result?.candidate)||comparable||sandbox&&(result?.candidate?.reason==='WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET'||result?.expected?.status==='PENDING'&&valid(result?.candidate))?result.candidate:null;

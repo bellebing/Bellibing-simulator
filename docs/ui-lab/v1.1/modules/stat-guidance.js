@@ -33,12 +33,13 @@ function sourcePreference(characterId) {
 }
 
 export function statPreference(characterId, name) {
- const profile = profiles[characterId] ?? sourcePreference(characterId);
+ const source=sourcePreference(characterId),owner=profiles[characterId];
+ const profile={favorites:[...new Set([...source.favorites,...(owner?.favorites??[])])],conditional:[...new Set([...source.conditional,...(owner?.conditional??[])])]};
  if (profile?.favorites.includes(name)) {
   return `<span class="wb-stat-priority" role="img" aria-label="Priority stat"></span>`;
  }
  if (profile?.conditional.includes(name)) {
-  return `<span class="wb-stat-priority" role="img" aria-label="Energy Regen as needed; depends on team and rotation"></span>`;
+  return `<span class="wb-stat-priority" role="img" aria-label="${escapeHtml(name)} as needed; depends on team and rotation"></span>`;
  }
  return '';
 }

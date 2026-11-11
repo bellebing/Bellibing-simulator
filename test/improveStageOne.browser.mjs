@@ -40,6 +40,20 @@ test('stat-only Improve keeps real DPS comparison independent until explicit Equ
   await page.locator('[data-preset=BUDGET]').evaluate(el=>el.click());
   assert.equal(await page.locator('.improve-dps-enable input').isChecked(),false,'a preset must not silently switch optimisation on');
   await page.waitForFunction(()=>/\d/.test(document.querySelector('[data-dps-row=current] .team-total')?.textContent??''));
+  await page.waitForFunction(()=>[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].length===5&&[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].every(el=>/\d/.test(el.textContent)));
+  const statCosts=await page.locator('#slots .improve-upgrade-cost strong').allTextContents();
+  assert.equal(new Set(statCosts).size,1,'identical stat targets share exact fresh-echo economics');
+  assert.equal(await page.locator('#slots .improve-rank-number, #slots .improve-start-flag').count(),0);
+  const originalCost=statCosts[0];
+  if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();
+  await page.locator('#erEnabled').check();
+  await page.locator('#erTargetInput').fill('108');
+  await page.locator('#erTargetInput').dispatchEvent('change');
+  await page.waitForFunction(original=>[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].some(el=>/\d/.test(el.textContent)&&el.textContent!==original),originalCost);
+  assert.equal(await page.locator('#echoSettings [data-stat-id="Energy Regen"]').count(),0,'ER is a separate whole-build goal');
+  await page.waitForFunction(()=>document.querySelector('#erTargetBadge')?.textContent==='ER target not reached');
+  await page.locator('#erEnabled').uncheck();
+  await page.waitForFunction(original=>[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].every(el=>el.textContent===original),originalCost);
   const before=await page.evaluate(()=>JSON.stringify(bellibingAccountSession.store.snapshot().characters));
   for(const [index,name]of ['CRIT Rate','CRIT DMG','ATK%','Heavy Attack DMG','Energy Regen'].entries()){
    await page.locator('#newCard [data-wb-roll="'+index+'"]').click();
@@ -57,6 +71,17 @@ test('stat-only Improve keeps real DPS comparison independent until explicit Equ
    const rows=[...el.querySelectorAll('[data-dps-row]')];
    return rows.map(r=>({id:r.dataset.dpsRow,value:Number(r.querySelector('.team-total').textContent.replace(/[^\d.-]/g,'')),winner:r.dataset.dpsWinner}));
   });
+  assert.equal(await page.locator('[data-dps-loser]').count(),1);
+  const lines=await page.locator('[data-dps-row]').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>getComputedStyle(c).boxShadow)));
+  assert.ok(lines.every(cells=>cells.length===5&&cells.every(v=>v.includes('inset')&&v.includes('2px'))),'underline spans all five cells');
+  const animations=await page.evaluate(()=>{
+   const holder=document.createElement('div');holder.className='echo-card';document.body.append(holder);
+   const make=(tier,priority)=>{const row=document.createElement('div');row.className='substat';row.innerHTML='<span>'+ (priority?'<span class="wb-stat-priority"></span>':'')+'</span><span class="wb-roll-signal"></span><span class="wb-roll-tier wb-roll-'+tier+'">value</span>';holder.append(row);return getComputedStyle(row.querySelector('.wb-roll-signal')).animationName;};
+   const names=[make('middle',true),make('middle',false),make('lower',true)];holder.remove();return names;
+  });
+  assert.deepEqual(animations,['wb-middle-breathe','none','none']);
+  assert.equal(await page.locator('[data-dps-winner] > td[data-dps-change="up"]').count()>0,true);
+  assert.equal(await page.locator('[data-dps-loser] > td[data-dps-change="down"]').count()>0,true);
   assert.equal(totals.find(r=>r.winner)?.id,totals[1].value>totals[0].value?'new':'current');
   await page.waitForFunction(()=>document.querySelector('#feedbackTitle')?.textContent==='Targets met');
   assert.equal(await page.evaluate(()=>JSON.stringify(bellibingAccountSession.store.snapshot().characters)),before);

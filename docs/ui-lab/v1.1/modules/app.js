@@ -1,3 +1,5 @@
+import {accountStatTarget,normalizeAccountStatSettings} from './account-stat-targets.js';
+import {createRank5EchoAtLevel0,primaryMainStatValueAtLevel} from '../../../../src/echoMainStats.ts';
 import {ownedTeamContext} from './character-context.js';
 import {createImproveSearchClient} from './improve-search-client.js';
 import {improveSlotRanking,improveRankMarkup,improveUpgradeMarkup} from './improve-slot-ranking.js';
@@ -161,13 +163,23 @@ function readEchoAdviceContext(){
  const chosen=candidateTemplates.get(selectedId+':'+slot)??saved??card??sandboxStandard(selectedId)?.slots[slot]?.configuration;
  let template=null;if(chosen)try{template=validateEchoTemplateConfiguration(echoAdviceCatalog,{echoId:chosen.echoId??chosen.speciesId,cost:chosen.cost,rank:5,mainStatName:chosen.mainStatName??chosen.mainStat?.name,selectedSonataSetId:chosen.selectedSonataSetId});}catch{}
  let settings;try{settings=settingsSnapshot(state);}catch{return {owner:{characterId:selectedId,slot,record},pending:'Settings Pending'};}
+ const baseTarget={hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0};
+ const statTargets=Array.from({length:5},(_,index)=>accountStatTarget({characterId:selectedId,target:baseTarget,erTarget:state.erTarget,currentER:state.accountProjection?.current?.energyRegen,baseER:state.accountProjection?.erBases?.[index]}));
+ let candidateRequirements=statTargets[slot];
+ if(template){try{
+  const blank={...createRank5EchoAtLevel0({id:'er-preview',cost:template.cost,primaryMainStat:template.mainStatName}),echoId:template.echoId??template.speciesId,selectedSonataSetId:template.selectedSonataSetId};
+  const projection=accountProjection(people.get(selectedId),localStorage,{candidate:blank,slot});
+  const baseER=projection.candidate?.energyRegen+(blank.mainStat.name==='Energy Regen'?primaryMainStatValueAtLevel(blank.cost,'Energy Regen',25)-blank.mainStat.value:0);
+  candidateRequirements=accountStatTarget({characterId:selectedId,target:baseTarget,erTarget:state.erTarget,currentER:state.accountProjection?.current?.energyRegen,baseER});
+ }catch{}}
+ state.statErRequirement=candidateRequirements.er;state.statErRequirements=statTargets.map(r=>r.er);
  const pending=record.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'?'Choose an owned Character':!template?'Echo configuration Pending':null;
  const teamInput=readLocalTeamInput(),
   currentAdvice=teamInput?{...teamInput,candidates:Array(5).fill(null),acceptReferenceInvestment:false}:null;
  return {dpsSearch:freshImproveSearch(),dpsPlan:state.improvePlan,dpsReview:state.improveDpsReview,owner:{kind:'ACCOUNT_BUILD',characterId:selectedId,slot,record,
    ...(currentAdvice?{teamContext:{team:currentAdvice.team,records:currentAdvice.records,actualInvestmentRequired:true}}:{})},template,
   ...(currentAdvice?{currentAdvice}:{}),
-  target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flex.length?settings.flexCount:0},gate:settings.gate,inventory:owner.inventory,pending};
+  statTargets:statTargets.map(r=>r.target),erRequirement:candidateRequirements.er,target:candidateRequirements.target,gate:settings.gate,inventory:owner.inventory,pending};
 }
 function interactiveNetCost(){
  const spent=echoAdvisor?.snapshot()?.workspaceSpent;
@@ -296,6 +308,14 @@ function renderSlots() {
   if(accountMode){
    const ranking=improveSlotRanking(currentSearch?.characterId===state.id?currentSearch:null);
    document.querySelectorAll('#slots [data-slot]').forEach(button=>{
+    if(!state.improvePlan?.dpsEnabled){
+     const er=state.statErRequirements?.[Number(button.dataset.slot)],cost=echoAdvisor?.statTargetCost(Number(button.dataset.slot)),footer=button.querySelector('.card-bottom');
+     if(footer){footer.classList.add('improve-upgrade-footer');footer.innerHTML='<div class="improve-slot-upgrade" title="Expected average gross Tuners to meet Hard/Flex stat targets, including optimal checkpoint restarts. Not a DPS upgrade cost."><span>Stat targets</span><span class="improve-upgrade-cost">Tuners <strong>'+ (Number.isFinite(cost?.tuners)?'\u2248 '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(cost.tuners):'\u2014')+'</strong></span></div>';}
+     if(footer&&er?.status==='REQUIRED_FOR_BUILD'){footer.querySelector('.improve-slot-upgrade').title+=' Includes ER needed to reach '+er.goal+'% across the build; four other Echoes unchanged.';}
+     if(footer&&er?.status==='PROGRESS_TOWARD_BUILD'){footer.querySelector('.improve-slot-upgrade').title+=' Includes a positive ER step. Reaching '+er.goal+'% needs further build changes; this is not the cost to finish the whole ER goal.';}
+     if(footer&&er?.status==='NEEDS_OTHER_SLOTS_OR_MAIN_STAT'){footer.querySelector('.improve-slot-upgrade').title+=' ER goal needs other slots or an ER main stat; this is only the stat-target cost.';}
+     return;
+    }
     const row=ranking[Number(button.dataset.slot)];
     button.classList.toggle('is-next-improvement',row.start);
     button.parentElement.classList.add('has-upgrade-rank');
@@ -486,7 +506,7 @@ function syncAccountState(){
   if(echoAdvisor.snapshot()?.candidate)state.accountCandidates[state.selectedSlot]=echoAdvisor.snapshot().candidate;
  }
  const person=people.get(selectedId),projection=accountProjection(person,localStorage,{candidate:echoAdvisor?.incompleteEdit()?null:state.accountCandidates[state.selectedSlot],slot:state.selectedSlot,expected:freshImproveSearch()});
- state.accountProjection=projection;
+ state.accountProjection=projection;normalizeAccountStatSettings(state);
  state.weapon=projection.weapon?.name??'Weapon Pending';state.sequenceLevel=projection.build?.sequenceLevel??null;state.forte=projection.build?.forte??null;
  const present=card=>{if(!card)return null;try{return observedSlots({slots:[{slot:1,current:{...card,speciesId:card.echoId}}]})[0].current;}catch{return null;}};
  state.echoes=(projection.slots??Array(5).fill(null)).map(present);state.configurationSession.candidates=state.accountCandidates.map(present);state.onAccount=projection.record.status==='OBSERVED_PRODUCTION_BUILD_RECORD';
@@ -509,6 +529,7 @@ function renderWorkspace() {
   renderPiles();
   renderCharacter();
   renderSettings();
+  if(accountMode)improveSettings.presentER({characterId:state.id,status:'VERIFIED',valuePercent:state.accountProjection?.current?.energyRegen*100});
   carousel?.refresh();
 }
 

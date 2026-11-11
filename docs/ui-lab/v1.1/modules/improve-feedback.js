@@ -5,15 +5,16 @@ const probability=value=>Number.isFinite(value)&&value>=0&&value<=1?value:null;
 const percent=value=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(value*100)+'%';
 
 // Presentation only. Manual-target probability never establishes build utility.
-export function improveFeedback(advice,{level=0,pending=false}={}){
+export function improveFeedback(advice,{level=0,pending=false,erRequirement=null}={}){
  const raw=advice?.targetGuidance;
  if(pending||!raw||raw.certificate?.exactFixedPoint!==true)return {scope:'PENDING',tone:'neutral',reason:pending?'Updating advice':'Record the next roll',chance:null};
  const chance=probability(raw.targetChance?.approximate);
  const complete=level===25;
  const secured=!complete&&chance===1;
- const title=secured?'Finish to +25':complete?(raw.status==='TARGET_SUCCESS'?'Targets met':'Targets not met'):advice.decision;
- const reason=secured?'Stat targets already secured':complete?'Configured stat targets':chance===0?'Targets no longer reachable':raw.status==='BEFORE_GATE'?'Before your chosen Gate':raw.winner==='DISCARD'?'Restart costs fewer Tuners':raw.winner==='CONTINUE'?'Continue costs fewer Tuners':'No resolved cost comparison';
- return {alternatives:{continue:{chance:probability(raw.continue?.chance?.approximate),tuners:raw.continue?.tuners?.approximate??null},restart:{chance:probability(raw.discard?.chance?.approximate),tuners:raw.discard?.tuners?.approximate??null}},scope:'STAT_TARGETS',tone:secured||raw.status==='TARGET_SUCCESS'?'achieved':raw.winner==='CONTINUE'?'positive':raw.winner==='DISCARD'?'negative':'caution',title,reason,chance};
+ const erElsewhere=['NEEDS_OTHER_SLOTS_OR_MAIN_STAT','PROGRESS_TOWARD_BUILD'].includes(erRequirement?.status);
+ const title=erElsewhere&&(secured||complete&&raw.status==='TARGET_SUCCESS')?'Stat targets met; ER remains':secured?'Finish to +25':complete?(raw.status==='TARGET_SUCCESS'?'Targets met':'Targets not met'):advice.decision;
+ const reason=erElsewhere?(erRequirement.status==='PROGRESS_TOWARD_BUILD'?'Positive ER step; build goal remains':'ER needs another slot or main stat'):secured?'Stat targets already secured':complete?'Configured stat targets':chance===0?'Targets no longer reachable':raw.status==='BEFORE_GATE'?'Before your chosen Gate':raw.winner==='DISCARD'?'Restart costs fewer Tuners':raw.winner==='CONTINUE'?'Continue costs fewer Tuners':'No resolved cost comparison';
+ return {alternatives:{continue:{chance:probability(raw.continue?.chance?.approximate),tuners:raw.continue?.tuners?.approximate??null},restart:{chance:probability(raw.discard?.chance?.approximate),tuners:raw.discard?.tuners?.approximate??null}},scope:'STAT_TARGETS',tone:erElsewhere?'caution':secured||raw.status==='TARGET_SUCCESS'?'achieved':raw.winner==='CONTINUE'?'positive':raw.winner==='DISCARD'?'negative':'caution',title,reason,chance};
 }
 export function feedbackMarkup(value){
  if(value.scope==='DPS_SEARCH'){

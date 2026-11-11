@@ -1,5 +1,17 @@
 # Improve: riktning och kvarvarande arbete
 
+## Statläget: kontroll 2026-11-11
+
+- Kontolägets 59 registrerade Characters har nu körbara, redigerbara statkrav. Där guiden bara anger prioriteter används ett uttryckligt UI-startvärde: minst en prioriterad stat på vald kanonisk miniminivå. Detta är inte ett påstående om guidens per-Echo-krav. Sandboxens källpresets lämnas oförändrade.
+- ER är ett separat byggmål, inte en synlig Hard/Flex-rad. Fyra utrustade Echoes, vapen, permanenta seteffekter och kandidatens mainstat ingår i återstående ER-behov. När dessa redan täcker målet krävs ingen ytterligare ER-roll.
+- Om en enda ersättare kan nå ER-målet används motsvarande kanoniska ER-tröskel i samma exakta statmotor. Annars kan nästa steg kräva den lägsta lagliga ER-roll som faktiskt ökar byggens ER. Det märks som delmål; kostnaden får inte beskrivas som kostnaden att slutföra hela ER-målet. En slot som inte kan ge sådan förbättring pekar på andra slots/mainstat. Efter Equip räknas behovet om från kontot.
+- Färskkostnader under utrustade kort hålls åtskilda från kandidatens preview och återstående kostnad. Likadana matematiska mål delar beräkning; olika ER-behov kan ge olika kostnad. Inga DPS-rankningar skapas i statläget.
+- Guideprioriteter för samtliga 59 Characters är anslutna till favoritmarkeringarna. Kanoniska rollvärden, sannolikheter och guldanimation behålls. Villkor i ER-guidningen bevaras; saknade numeriska guidevärden hittas inte på.
+
+Verifierat: 43 riktade offentliga tester, 5 310 exakta privata stat-/checkpointkontroller för 59 Characters × fem Gates × ER av/nåbart mål/delmål × sex rollsteg, utan underkända kontroller. Isolerat browserkonto verifierar ER på/av, ändrad kostnad, separat ER-ruta, fem kortkostnader, numerisk DPS-jämförelse, manuella rolls och Equip. Detta är syntetiska byggen, inte ägarens konto.
+
+**DPS är fortfarande inte universellt färdigt.** Numerisk DPS erhölls för 58/59 Characters med UI:ts rekommenderade fulla modellag; Havoc Rover blockerades av huvud-Echo-stöd. Endast 35/59 kunde få numerisk solo-DPS i de granskade befintliga kontexterna. Övriga solo-fall behöver kompatibla rotationer/resursförberedelser eller modellkomplettering. Dessa luckor har inte dolts eller ersatts med statpoäng. Godtyckliga egna lag/utrustningar är inte därmed universellt verifierade. Expected-statistik i statläget saknar fortfarande en ansluten producent för den optimala policyns accepterade utfall och får inte fyllas med DPS-sökningens gamla resultat. Ingen privat motorkod ändrades i denna fortsättning; detaljerade motorunderlag ligger kvar privat.
+
 ## Etappstatus 2026-11-11
 
 - Etapp 1 finns bevarad separat. Browserregressionen med DPS-optimering avstängd har körts om och passerat: statråd och DPS-jämförelse är separata, och kontot ändras först vid Equip.

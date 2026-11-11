@@ -1,3 +1,4 @@
+import {createRank5EchoAtLevel0,primaryMainStatValueAtLevel} from '../../../../src/echoMainStats.ts';
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
 import {projectStaticBuildStats,projectExpectedStaticBuildStats} from '../../../../src/buildStatProjection.mjs';
 import {normalizeForteState,forteStats} from '../../../../src/characterForteUi.mjs';
@@ -47,7 +48,13 @@ export function accountProjection(person,storage,{candidate=null,slot=0,expected
  try{
   if(slots.reduce((n,c)=>n+(c?.cost??0),0)>12||!slots.every(card=>card==null||valid(card)))throw Error('INVALID_OWNED_ECHOES');
   const project=cards=>projectStaticBuildStats({...input,echoSlots:cards,activeWeaponStats:[...input.activeWeaponStats,...staticSonataRows(cards,{echoes:catalog.echoes,sonataSets:catalog.sonataSets,sonataEffects:facts.sonataEffects}).rows]});
-  result.current=project(slots);result.currentValues=statValues(result.current,person);result.reason='OBSERVED_CANDIDATE_REQUIRED';
+  result.current=project(slots);
+  result.erBases=slots.map((card,index)=>{
+   if(!card)return project(slots).energyRegen;
+   const blank={...card,...createRank5EchoAtLevel0({id:card.id,cost:card.cost,primaryMainStat:card.mainStat.name})};
+   return project(slots.map((c,i)=>i===index?blank:c)).energyRegen+(card.mainStat.name==='Energy Regen'?primaryMainStatValueAtLevel(card.cost,'Energy Regen',25)-blank.mainStat.value:0);
+  });
+  result.currentValues=statValues(result.current,person);result.reason='OBSERVED_CANDIDATE_REQUIRED';
   if(expected?.status==='ESTIMATED'&&expected.characterId===person.id&&expected.selected?.slot===slot&&expected.accountBuildIdentity===JSON.stringify(build)&&expected.selected?.expected?.echoContributions){
    const template=expected.selectedTemplate;
    if(template){

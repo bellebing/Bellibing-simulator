@@ -20,3 +20,9 @@ export function expectedMatchesAccountTeam(estimate,input,useReference){
  return estimate?.status==='ESTIMATED'&&estimate.characterId===input?.selectedCharacterId&&
   estimate.teamBuildIdentity===accountTeamBasis(input)&&Boolean(estimate.useReference)===Boolean(useReference);
 }
+
+export function dpsValueDirection(value,other){
+ if(![value,other].every(n=>Number.isFinite(n)&&n>=0))return 'equal';
+ const delta=value-other,tolerance=1e-9*Math.max(1,value,other);
+ return Math.abs(delta)<=tolerance?'equal':delta>0?'up':'down';
+}

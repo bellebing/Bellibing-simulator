@@ -46,7 +46,7 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   }
   function lists(focusId=null) {
     const state=getState();
-    STAT_SECTIONS.forEach(section=>{find(`[data-stat-section="${section}"]`).innerHTML=state.statSections[section].map(id=>row(id,section)).join('');});
+    STAT_SECTIONS.forEach(section=>{find(`[data-stat-section="${section}"]`).innerHTML=state.statSections[section].filter(id=>!state.accountProjection||id!=='Energy Regen').map(id=>row(id,section)).join('');});
     find('#otherStats').open=state.otherExpanded;count();mode();
     if(focusId) [...host.querySelectorAll('[data-minimum]')].find(row=>row.dataset.minimum===focusId)?.querySelector('.handle').focus({preventScroll:false});
   }
@@ -102,7 +102,8 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
     find('#erTargetValue').textContent=reference?`${reference.label} suggested`:'—';
     find('#erTarget').title=reference?.conditions.join(' ')??'';
     find('#erTargetEditor').hidden=!customize;
-    find('#erTargetBadge').textContent=(view.isDemo?'Illustrative demo: ':'')+({
+    const sideGoal=state.statErRequirement;
+    find('#erTargetBadge').textContent=sideGoal?.status==='PROGRESS_TOWARD_BUILD'?'ER needed across the build':sideGoal?.status==='NEEDS_OTHER_SLOTS_OR_MAIN_STAT'?'ER needs other slots or main stat':(view.isDemo?'Illustrative demo: ':'')+({
       DISABLED:'ER target disabled',
       UNCONFIGURED:'ER target needs a valid percentage',
       UNAVAILABLE:'Verified ER total unavailable',

@@ -9,6 +9,12 @@ test('ER guidance uses Character source ranges, owner range and preserves manual
  assert.equal(characterErGuidance('calcharo').maximum,160);
  assert.ok(characterErGuidance('calcharo').conditions.length);
  assert.equal(characterErGuidance('unknown'),null);
+ assert.equal(characterErGuidance('mornye').minimum,240);
+ assert.match(characterErGuidance('mornye').conditions.join(' '),/Before Echo and Passive/);
+ assert.equal(characterErGuidance('the-shorekeeper').minimum,230);
+ assert.equal(characterErGuidance('iuno').minimum,120);
+ assert.match(characterErGuidance('iuno').conditions.join(' '),/100% \(DPS\)/);
+ assert.equal(characterErGuidance('zhezhi'),null,'no numeric recommendation is invented');
  assert.equal(effectiveErTarget('chisa',{valuePercent:137}),137);
  for(const valuePercent of [115,120,125,130])assert.equal(erTargetPresentation({characterId:'augusta',target:{enabled:true,valuePercent:null},total:{characterId:'augusta',status:'VERIFIED',valuePercent}}).status,'REACHED');
  assert.equal(erTargetPresentation({characterId:'chisa',target:{enabled:true,valuePercent:null},total:{characterId:'chisa',status:'VERIFIED',valuePercent:120}}).status,'OUTSTANDING');

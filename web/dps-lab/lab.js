@@ -75,12 +75,18 @@ export function normalizeDpsLab(reply){
    !t.instants.every(e=>!e.sourceEventId||ids.has(e.sourceEventId))||
    !t.links.every(l=>ids.has(l.fromId)&&ids.has(l.toId)&&l.fromId!==l.toId&&
     ['CLOCK_SPAN_OF_ACTION','NATIVE_HIT_MATCH','NATIVE_BUFF_ACTIVATED','NATIVE_BUFF_STAT_APPLIED'].includes(l.relation)))return pending('TIMELINE_CAUSALITY_INVALID');
-  if(!t.intervals.filter(e=>e.type==='NATIVE_BUFF_LIFECYCLE').every(b=>
+  if(!t.intervals.filter(e=>e.type==='NATIVE_BUFF_LIFECYCLE').every(b=>{
+    const cause=objects.find(x=>x.id===b.sourceEventId);
+    const causeValid=cause&&cause.name===b.sourceAction&&cause.characterId===b.triggerCharacterId&&
+     (b.carryIn?
+      cause.kind==='NATIVE_BUFF_CAUSE'&&near(cause.atFrame,b.activationFrame):
+      cause.type==='NATIVE_ACTION_START'&&near(cause.atSeconds,(b.activationFrame-t.originFrame)/60));
+    return causeValid&&
     t.links.some(l=>l.fromId===b.sourceEventId&&l.toId===b.id&&l.relation==='NATIVE_BUFF_ACTIVATED')&&
     b.nativeDamageActionIds.every(id=>t.instants.some(i=>i.id===id&&i.type==='NATIVE_ACTION_START')&&
       t.links.some(l=>l.fromId===b.id&&l.toId===id&&l.relation==='NATIVE_BUFF_STAT_APPLIED'))&&
-    b.nativeMatchedHitIds.every(id=>t.instants.some(i=>i.id===id&&i.type==='NATIVE_DAMAGE_LANDING'&&b.nativeDamageActionIds.includes(i.sourceEventId)))
-  ))return pending('BUFF_CAUSE_OR_HIT_PROOF_INVALID');
+    b.nativeMatchedHitIds.every(id=>t.instants.some(i=>i.id===id&&i.type==='NATIVE_DAMAGE_LANDING'&&b.nativeDamageActionIds.includes(i.sourceEventId)));
+  }))return pending('BUFF_CAUSE_OR_HIT_PROOF_INVALID');
   if(!r.events.every(e=>t.instants.some(i=>i.id===e.id&&near(i.atSeconds,e.atSeconds)&&i.track===e.track)))return pending('TIMELINE_EVENT_MISMATCH');
   const derivedEnd=Math.max(r.durationSeconds,...t.instants.map(e=>e.atSeconds),...t.intervals.map(e=>e.endSeconds));
   if(!near(derivedEnd,t.visibleEndSeconds))return pending('TIMELINE_VISIBLE_END_MISMATCH');

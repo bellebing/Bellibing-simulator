@@ -8,6 +8,8 @@ export function improveSlotRanking(search){
   if(!Number.isInteger(row?.slot)||row.slot<0||row.slot>4)return empty();
   const cost=row.expectedCost?.tuners,p=row.probability,result=rows[row.slot];
   result.precision=row.estimation?.status??'UNAVAILABLE';result.samples=row.estimation?.samples??null;
+  result.goalDps=search.targetDps;
+  result.conditionalSamples=row.estimation?.method==='EXACT_POLICY_ECONOMICS_CONDITIONAL_CANONICAL_KL_FIXED_LOOKS';
   const b=row.costBounds?.tuners;
   if(Number.isFinite(b?.lower)&&b.lower>=0&&(b.upper===null||Number.isFinite(b.upper)&&b.upper>=b.lower))result.bounds=b;
   if(row.status==='ESTIMATED'&&Number.isFinite(cost)&&cost>0&&p?.successes>0&&p.samples>=p.successes&&p.estimate>0&&p.estimate<=1)result.cost=cost;
@@ -27,6 +29,7 @@ export function improveUpgradeMarkup(row){
  const amount=row.cost!==null?'≈ '+format(row.cost):row.bounds?'≥ '+format(row.bounds.lower):'Unavailable';
  const uncertain=row.precision!=='RESOLVED'||row.rank===null;
  const detail=row.bounds?` Cost bounds ${format(row.bounds.lower)}–${row.bounds.upper===null?'unresolved':format(row.bounds.upper)} Tuners.`:'';
- const title=`Estimated average gross Tuners for the same next team DPS improvement; includes restarts. ${row.samples??0} attempts.${detail} ${uncertain?'Ordering or cost remains uncertain.':''}`;
+ const target=Number.isFinite(row.goalDps)?` Team DPS target: above Current, at least ${new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).format(row.goalDps)}.`:'';
+ const title=`Estimated average gross Tuners; includes restarts.${target} ${row.samples??0} ${row.conditionalSamples?'evaluated surviving completions; exact checkpoint economics':'attempts'}.${detail} ${uncertain?'Ordering or cost remains uncertain.':''}`;
  return `<div class="improve-slot-upgrade" title="${escapeHtml(title)}"><span>Upgrade${uncertain?' · Uncertain':''}</span><span class="improve-upgrade-cost">Tuners <strong>${amount}</strong></span></div>`;
 }

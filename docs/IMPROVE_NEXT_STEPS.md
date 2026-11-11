@@ -5,8 +5,9 @@
 - Etapp 1 finns bevarad separat. Browserregressionen med DPS-optimering avstängd har körts om och passerat: statråd och DPS-jämförelse är separata, och kontot ändras först vid Equip.
 - Etapp 2 är ansluten till den lokala Improve-tjänsten. Fem slots jämförs mot samma Current och mål, med övriga fyra Echoes oförändrade. Slotbyte återanvänder den färdiga analysen.
 - Hela Chisa-analysen har tidsmätts, inte bara enskilda DPS-anrop. Ett separat browserkonto har också kontrollerat fem kostnadsresultat och återanvändning vid slotbyte. Ägarens konto har inte använts.
-- Osäkra kostnader ska fortfarande anges som osäkra. En säker startrekommendation är inte samma sak som att samtliga fem inbördes placeringar är fastställda. Det senare är ännu inte uppnått i det kontrollerade Chisa-fallet.
+- Samtliga fem placeringar är nu fastställda i det kontrollerade Chisa-fallet och kostnaderna har kontrollerats med en separat simulering. Osäkra resultat i andra fall ska fortfarande anges som osäkra, utan påhittade ranknummer.
 - Den breda privata verifieringen är inte grön. Den äldre integritetskontrollen är jämförd med sparad utgångsversion; dess manifest har inte skrivits om för att dölja avvikelser. Detaljerad motorevidens och mätresultat hålls i det privata projektet.
+- Sex äldre testfel i fixtures och plattformsantaganden är rättade. Kvarvarande äldre avvikelser är klassificerade per test i det privata projektet; de historiska integritetsmanifesten har inte ändrats.
 - Ingen merge, publicering eller ändring av den godkända layouten ingår. Fullständig roster-/utrustningstäckning och universellt snabba, precist ordnade femslotsresultat återstår.
 
 ## Fortsättning 2026-11-11

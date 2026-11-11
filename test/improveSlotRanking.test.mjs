@@ -17,3 +17,10 @@ test('old 128-sample responses never establish a start or ranking',()=>{
  assert.ok(improveSlotRanking(input).every(r=>r.rank===null&&!r.start));
  for(const input of [null,{...search(),status:'CALCULATING'},{...search(),scope:{goal:'RESTORE_ROTATION_ER'}},{...search(),slots:Array(5).fill(search().slots[0])}])assert.ok(improveSlotRanking(input).every(r=>r.rank===null&&r.cost===null&&!r.start));
 });
+
+test('cost tooltip identifies the actual DPS target and conditional completion sample',()=>{
+ const input=search();input.slots.forEach(r=>r.estimation.method='EXACT_POLICY_ECONOMICS_CONDITIONAL_CANONICAL_KL_FIXED_LOOKS');
+ const markup=improveUpgradeMarkup(improveSlotRanking(input)[0]);
+ assert.match(markup,/at least 101/);assert.match(markup,/8192 evaluated surviving completions; exact checkpoint economics/);
+ assert.doesNotMatch(markup,/8192 attempts/);
+});

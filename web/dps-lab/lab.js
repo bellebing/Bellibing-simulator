@@ -169,7 +169,7 @@ if(typeof window!=='undefined'&&d){
   }else detailRow(panel,'Verifierat parent-event','PENDING');
   if(item.note)detailRow(panel,'Begränsning',item.note);
   const outgoing=t.links.filter(l=>l.fromId===item.id);
-  if(outgoing.length)detailRow(panel,'Relaterade objekt',outgoing.map(l=>l.toId+' ['+l.relation+']').join(', '));
+  if(outgoing.length)detailRow(panel,'Relaterade objekt',outgoing.length+' native länkar · '+outgoing.slice(0,4).map(l=>l.toId+' ['+l.relation+']').join(', ')+(outgoing.length>4?' · +'+(outgoing.length-4)+' till i datamodellen':''));
   detailRow(panel,'Körningsidentitet',item.runIdentity.slice(0,12)+'…');
  };
  const renderTracks=run=>{

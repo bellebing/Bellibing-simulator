@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090a0d">
+  <title>DPS Lab · Bellibing Simulator</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div><div class="eyebrow">BELLIBING SIMULATOR / DEVELOPMENT ONLY</div><h1>DPS <span>Lab</span></h1><p>Native rotation replay. En klocka, fyra händelsespår. Ingen simulerad demo-data.</p></div>
+      <a href="../build/">← Build</a>
+    </header>
+    <div class="layout">
+      <aside class="panel">
+        <h2>Rotation</h2>
+        <p class="muted">Stödda native team-presets från privat motor. Fritt lagval och egna actions är ännu inte byggda.</p>
+        <label for="rotation">Native preset</label>
+        <select id="rotation" disabled><option>Kontrollerar lokal motor…</option></select>
+        <div id="members" class="members" aria-live="polite"></div>
+        <button id="run" disabled>▶ Beräkna native rotation</button>
+        <div class="notice" id="connection" role="status">Ansluter till lokal utvecklingsmotor…</div>
+        <p class="tiny">Kräver lokal privat engine-checkout via produktens existing HTTP review server. Ingen privat kod laddas i webbläsaren.</p>
+      </aside>
+      <section class="panel timeline-panel">
+        <div class="row-heading"><h2>Händelser</h2><span id="clock">— s</span></div>
+        <div id="ruler" class="ruler" aria-label="Gemensam tidsaxel"></div>
+        <div id="tracks" class="tracks" aria-live="polite"></div>
+        <div class="notice" id="coverage">Kör en native rotation för att se exakt vilka spår motorn exponerar.</div>
+      </section>
+      <aside class="panel results">
+        <h2>Resultat</h2>
+        <div class="stat"><small>Total skada</small><strong id="damage">—</strong></div>
+        <div class="stat"><small>Rotationstid</small><strong id="duration">—</strong></div>
+        <div class="stat"><small>Team DPS</small><strong id="dps">—</strong></div>
+        <h3>Karaktärsbidrag</h3><div id="shares" class="shares muted">Ingen körning än.</div>
+        <h3>Vald händelse</h3><div id="selected" class="details muted">Klicka på en händelse.</div>
+        <p class="tiny">EXPERIMENTAL source-native reference, inte kvalificerad gameplay-DPS. Skada räknas endast från samma native-körning.</p>
+      </aside>
+    </div>
+  </main>
+  <script type="module" src="./lab.js"></script>
+</body>
+</html>

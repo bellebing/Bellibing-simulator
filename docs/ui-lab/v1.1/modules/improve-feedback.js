@@ -6,18 +6,13 @@ const percent=value=>new Intl.NumberFormat('en-US',{maximumFractionDigits:2}).fo
 
 // Presentation only. Manual-target probability never establishes build utility.
 export function improveFeedback(advice,{level=0,pending=false}={}){
- const comparison=advice?.buildComparison;
- if(!pending&&level===25&&comparison?.status==='EXPERIMENTAL'&&Number.isFinite(comparison.delta?.teamTotal)){
-  const gain=comparison.delta.teamTotal;
-  return {scope:'DPS_COMPARISON',tone:gain>0?'positive':gain<0?'negative':'neutral',title:gain>0?'New Echo wins':gain<0?'Current Echo wins':'Same model DPS',reason:'Completed build comparison',chance:null,gain};
- }
  const raw=advice?.targetGuidance;
  if(pending||!raw||raw.certificate?.exactFixedPoint!==true)return {scope:'PENDING',tone:'neutral',reason:pending?'Updating advice':'Record the next roll',chance:null};
  const chance=probability(raw.targetChance?.approximate);
  const complete=level===25;
  const secured=!complete&&chance===1;
  const title=secured?'Finish to +25':complete?(raw.status==='TARGET_SUCCESS'?'Targets met':'Targets not met'):advice.decision;
- const reason=secured?'Stat targets already secured':complete?'DPS comparison still required':chance===0?'Targets no longer reachable':raw.status==='BEFORE_GATE'?'Before your chosen Gate':raw.winner==='DISCARD'?'Restart costs fewer Tuners':raw.winner==='CONTINUE'?'Continue costs fewer Tuners':'No resolved cost comparison';
+ const reason=secured?'Stat targets already secured':complete?'Configured stat targets':chance===0?'Targets no longer reachable':raw.status==='BEFORE_GATE'?'Before your chosen Gate':raw.winner==='DISCARD'?'Restart costs fewer Tuners':raw.winner==='CONTINUE'?'Continue costs fewer Tuners':'No resolved cost comparison';
  return {alternatives:{continue:{chance:probability(raw.continue?.chance?.approximate),tuners:raw.continue?.tuners?.approximate??null},restart:{chance:probability(raw.discard?.chance?.approximate),tuners:raw.discard?.tuners?.approximate??null}},scope:'STAT_TARGETS',tone:secured||raw.status==='TARGET_SUCCESS'?'achieved':raw.winner==='CONTINUE'?'positive':raw.winner==='DISCARD'?'negative':'caution',title,reason,chance};
 }
 export function feedbackMarkup(value){
@@ -38,13 +33,16 @@ export function feedbackMarkup(value){
  const options=value.alternatives;
  const option=(label,key)=>{const row=options[key];return `<div class="improve-path"><strong>${label}</strong><b>${row.chance===null?'—':percent(row.chance)}</b><small>success this attempt</small><span>${Number.isFinite(row.tuners)?'≈ '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(row.tuners):'—'} Tuners</span></div>`;};
  const comparison=options?`<div class="improve-paths" aria-label="Restart versus Continue">${option('Start new','restart')}${option('Continue','continue')}</div><small class="improve-path-scope">Gross cost until targets · includes restarts</small>`:'';
- return `${comparison?'':'<p class="improve-short-reason">'+esc(value.reason)+'</p>'}${comparison}<div class="improve-odds" data-odds-scope="${value.scope}"><span>Chance to meet targets</span><div class="improve-chance-bar" ${known?'role="meter" aria-label="Chance to meet configured stat targets at +25" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(value.chance*100)+'"':'aria-label="Chance unavailable"'} style="--success:${known?value.chance*100:0}%"><span></span></div><div class="improve-odds-labels"><span>Success <b>${known?percent(value.chance):'—'}</b></span><span>Miss <b>${known?percent(1-value.chance):'—'}</b></span></div><small>Stat targets · DPS odds pending</small></div>`;
+ return `${comparison?'':'<p class="improve-short-reason">'+esc(value.reason)+'</p>'}${comparison}<div class="improve-odds" data-odds-scope="${value.scope}"><span>Chance to meet targets</span><div class="improve-chance-bar" ${known?'role="meter" aria-label="Chance to meet configured stat targets at +25" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+(value.chance*100)+'"':'aria-label="Chance unavailable"'} style="--success:${known?value.chance*100:0}%"><span></span></div><div class="improve-odds-labels"><span>Success <b>${known?percent(value.chance):'—'}</b></span><span>Miss <b>${known?percent(1-value.chance):'—'}</b></span></div><small>Stat targets</small></div>`;
 }
 export function manualTargetExpectedCost(advice){
  const raw=advice?.targetGuidance;
  if(raw?.certificate?.exactFixedPoint!==true)return null;
  const cost=raw.status==='TARGET_SUCCESS'?0:raw.status==='BEFORE_GATE'||raw.winner==='CONTINUE'?raw.continue?.tuners?.approximate:raw.discard?.tuners?.approximate;
- return Number.isFinite(cost)&&cost>=0?{status:'VERIFIED',basis:'MANUAL_TARGET_GROSS_FROM_NOW',tuners:cost,echoes:null,tubes:null}:null;
+ const resources=raw.resources?.optimal,echoes=resources?.echoes?.approximate,exp=resources?.exp?.approximate;
+ const premium=ECHO_TUBES.find(t=>t.id==='premium');
+ const tubes=Number.isFinite(exp)&&exp>=0?Object.fromEntries(ECHO_TUBES.map(t=>[t.id,t.id==='premium'?exp/premium.echoExp:0])):null;
+ return Number.isFinite(cost)&&cost>=0?{status:'VERIFIED',basis:'MANUAL_TARGET_GROSS_FROM_NOW',tuners:cost,echoes:Number.isFinite(echoes)&&echoes>=0?echoes:null,tubes,tubeReference:Boolean(tubes)}:null;
 }
 
 export function dpsObjectiveFeedback(plan,review,candidate){

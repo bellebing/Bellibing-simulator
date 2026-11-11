@@ -22,7 +22,7 @@ export function mountImprovePresets({getState, onSave, onManual}) {
   const minimum = host.querySelector('.improve-dps-target input');
   const plan = () => {
     const value = getState().improvePlan ??= {preset:'RECOMMENDED', advancedOpen:false};
-    value.dpsEnabled ??= true;
+    value.dpsEnabled ??= false;
     value.minimumDpsPercent ??= presets[value.preset].minimum;
     return value;
   };
@@ -43,7 +43,6 @@ export function mountImprovePresets({getState, onSave, onManual}) {
     const button = event.target.closest('[data-preset]');
     if (!button) return;
     plan().preset = button.dataset.preset;
-    plan().dpsEnabled = true;
     plan().minimumDpsPercent = presets[button.dataset.preset].minimum;
     render();onSave();
   });

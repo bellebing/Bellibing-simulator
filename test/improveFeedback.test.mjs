@@ -14,7 +14,7 @@ test('sample uncertainty is not displayed as impossible and global guidance is s
 test('odds reflect conditional stat targets, and success plus miss totals 100%',()=>{
  const value=improveFeedback(advice(.275),{level:10});
  assert.equal(value.scope,'STAT_TARGETS');assert.equal(value.chance,.275);
- const markup=feedbackMarkup(value);assert.match(markup,/27.5%/);assert.match(markup,/72.5%/);assert.match(markup,/DPS odds pending/);
+ const markup=feedbackMarkup(value);assert.match(markup,/27.5%/);assert.match(markup,/72.5%/);assert.doesNotMatch(markup,/DPS odds pending/);
 });
 test('cost recommendation controls tone independently of probability thresholds',()=>{
  assert.equal(improveFeedback(advice(.1),{level:15}).tone,'positive');
@@ -36,9 +36,9 @@ test('a completed target success is separate from a completed DPS win',()=>{
  const input=advice(1);input.targetGuidance.status='TARGET_SUCCESS';
  assert.equal(improveFeedback(input,{level:25}).title,'Targets met');assert.equal(manualTargetExpectedCost(input).tuners,0);
  input.buildComparison={status:'EXPERIMENTAL',delta:{teamTotal:12}};
- assert.equal(improveFeedback(input,{level:25}).title,'New Echo wins');
- input.buildComparison.delta.teamTotal=-12;assert.equal(improveFeedback(input,{level:25}).title,'Current Echo wins');
- input.buildComparison.delta.teamTotal=0;assert.equal(improveFeedback(input,{level:25}).title,'Same model DPS');
+ assert.equal(improveFeedback(input,{level:25}).title,'Targets met');
+ input.buildComparison.delta.teamTotal=-12;assert.equal(improveFeedback(input,{level:25}).title,'Targets met');
+ input.buildComparison.delta.teamTotal=0;assert.equal(improveFeedback(input,{level:25}).title,'Targets met');
 });
 test('invalid probabilities stay unavailable and no expected Echo or Tube counts are inferred',()=>{
  assert.equal(improveFeedback(advice(1.01),{level:10}).chance,null);

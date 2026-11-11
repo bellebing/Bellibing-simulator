@@ -1,5 +1,5 @@
 import {DPS_REASON_LABELS as labels} from './dps-status.js';
-import {sameDpsModelBasis,expectedMatchesAccountTeam} from './improve-comparison-basis.js';
+import {sameDpsModelBasis,expectedMatchesAccountTeam,dpsComparisonWinner} from './improve-comparison-basis.js';
 import {temporaryTeamReview} from './temporary-team-review.js';
 import {captureLocalTeamBuilds} from '../../../../src/localTeamBuildCapture.mjs';
 import {sourceTeamRoles} from './team-selection.js';
@@ -34,16 +34,19 @@ export function createLocalTeamReview({readInput,readSearch=()=>null,autoReferen
   }
   const valid=(r,conditional=false)=>(r?.status==='EXPERIMENTAL'||conditional&&r?.status==='CONDITIONAL'&&r.basis==='PLANNED_ROTATION_ASSUMING_ENERGY_AVAILABLE')&&r.verification==='EXPERIMENTAL_FIXED_REFERENCE'&&r.teamDpsReady===false&&r.authorizesCharacterUpgrade===false&&typeof r.contextIdentity==='string'&&/^[a-f0-9]{64}$/.test(r.contextIdentity)&&(!Object.hasOwn(r,'comparisonIdentity')||typeof r.comparisonIdentity==='string'&&/^[a-f0-9]{64}$/.test(r.comparisonIdentity))&&typeof r.provider?.sourceBinding==='string'&&/^[a-f0-9]{64}$/.test(r.provider.sourceBinding)&&(r.rotationAcceptance?.status==='MET'||conditional&&r.rotationAcceptance?.status==='NOT_MET')&&Number.isFinite(r.teamTotal)&&r.teamTotal>=0&&Array.isArray(r.characterContributions)&&r.characterContributions.length===activeIds.length&&activeIds.every(id=>r.characterContributions.filter(m=>m.characterId===id&&Number.isFinite(m.dps)&&m.dps>=0).length===1)&&Math.abs(r.characterContributions.reduce((n,m)=>n+m.dps,0)-r.teamTotal)<1e-6*Math.max(1,r.teamTotal);
   const baseline=sandbox?result?.expected?.statisticalBasis==='DPS_AT_EXPECTED_STATS_NOT_EXPECTED_DPS'?result.expected:null:result?.current;
+  let dpsWinner=null;
   const row=(label,r)=>{
    const planned=r?.conditionalDps,conditional=valid(planned,true);const shown=conditional?planned:r;
    const erFailed=r?.reason==='WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET'&&r.rotationAcceptance?.status==='NOT_MET',requirements=r?.rotationAcceptance?.requirements??[];
    const detail=requirements.filter(v=>Number.isFinite(v.actual)&&Number.isFinite(v.required)&&v.actual+1e-9<v.required).map(v=>`${names[v.characterId]??v.characterId}: ${(v.actual*100).toFixed(1)}% / ${(v.required*100).toFixed(1)}% required`).join('; ');
    const cell=id=>!activeIds.includes(id)?'\u2014':valid(shown,conditional)?fmt(shown.characterContributions.find(m=>m.characterId===id).dps):erFailed&&requirements.some(v=>v.characterId===id&&v.actual+1e-9<v.required)?'ER not met':'—';
-   return `<tr${label==='Expected build'?' title="Model DPS at expected Hard/Flex build stats; total-ER conditioning and mean DPS across RNG outcomes are not included. Teammates use fixed reference profiles."':''}><th>${label}${conditional?' *':''}</th>${ids.map(id=>`<td${erFailed?` title="${escapeHtml(detail)}"`:''}>${cell(id)}</td>`).join('')}<td class="team-total"${erFailed?` title="${escapeHtml(detail)}"`:''}>${valid(shown,conditional)?fmt(shown.teamTotal):erFailed?'ER not met':'—'}</td></tr>`;
+   const rowId=label==='Current'?'current':label==='New Echo'?'new':null;
+   return `<tr${rowId?' data-dps-row="'+rowId+'"':''}${rowId&&dpsWinner===rowId?' data-dps-winner="'+rowId+'"':''}${label==='Expected build'?' title="Model DPS at expected Hard/Flex build stats; total-ER conditioning and mean DPS across RNG outcomes are not included. Teammates use fixed reference profiles."':''}><th>${label}${conditional?' *':''}</th>${ids.map(id=>`<td${erFailed?` title="${escapeHtml(detail)}"`:''}>${cell(id)}</td>`).join('')}<td class="team-total"${erFailed?` title="${escapeHtml(detail)}"`:''}>${valid(shown,conditional)?fmt(shown.teamTotal):erFailed?'ER not met':'—'}</td></tr>`;
   };
   const comparisonBaseline=valid(baseline?.conditionalDps,true)?baseline.conditionalDps:baseline;
   const comparisonCandidate=valid(result?.candidate?.conditionalDps,true)?result.candidate.conditionalDps:result?.candidate;
   const comparable=valid(comparisonBaseline,comparisonBaseline?.status==='CONDITIONAL')&&(!sandbox||baseline.statisticalBasis==='DPS_AT_EXPECTED_STATS_NOT_EXPECTED_DPS')&&valid(comparisonCandidate,comparisonCandidate?.status==='CONDITIONAL')&&sameDpsModelBasis(comparisonBaseline,comparisonCandidate);
+  dpsWinner=!sandbox&&comparable?dpsComparisonWinner(comparisonBaseline,comparisonCandidate):null;
   const delta=comparable?ids.map(id=>comparisonCandidate.characterContributions.find(m=>m.characterId===id)?.dps-comparisonBaseline.characterContributions.find(m=>m.characterId===id)?.dps).concat(comparisonCandidate.teamTotal-comparisonBaseline.teamTotal):null;
   const changeCell=(value,index)=>{
    if(!delta||!Number.isFinite(value))return '<td>—</td>';
@@ -56,14 +59,14 @@ export function createLocalTeamReview({readInput,readSearch=()=>null,autoReferen
   const shownCandidate=valid(result?.candidate?.conditionalDps,true)||valid(baseline?.conditionalDps,true)&&valid(result?.candidate)||comparable||sandbox&&(result?.candidate?.reason==='WHOLE_TEAM_ENERGY_REQUIREMENT_NOT_MET'||result?.expected?.status==='PENDING'&&valid(result?.candidate))?result.candidate:null;
   const estimate=readSearch();
   const expectedRow=!sandbox&&expectedMatchesAccountTeam(estimate,input,enabled)&&sameDpsModelBasis(baseline?.conditionalDps??baseline,estimate.current?.conditionalDps??estimate.current)&&estimate.selected?.expected?`<tr title="Sampled mean of successful single-slot replacements, four equipped Echoes unchanged"><th>Expected</th>${ids.map(id=>`<td>${fmt(estimate.selected.expected.characterContributions.find(m=>m.characterId===id)?.dps)}</td>`).join('')}<td class="team-total">${fmt(estimate.selected.expected.teamDps)}</td></tr>`:'';
-  const rows=complete?row(sandbox?'Expected build':'Current',baseline)+expectedRow+row(sandbox?'Simulated':input?.candidateLabel==='Observed'?'Observed':'Candidate',shownCandidate)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
+  const rows=complete?row(sandbox?'Expected build':'Current',baseline)+expectedRow+row(sandbox?'Simulated':'New Echo',shownCandidate)+`<tr class="local-team-delta"><th>Change</th>${Array.from({length:ids.length+1},(_,i)=>changeCell(delta?.[i],i)).join('')}</tr>`:`<tr><td colspan="5" class="team-next-action">${team?'<a href="../build/">Complete your team in Build</a>':''}</td></tr>`;
   const currentReady=valid(baseline),status=currentReady?'EXPERIMENTAL':'PENDING';
   container.dataset.status=status;
   container.querySelector('[data-team-status]').textContent=valid(baseline?.conditionalDps,true)?'Planned DPS *':currentReady?'Model estimate':message==='Calculating…'?'Calculating…':'DPS not supported';
   container.querySelector('[data-team-dps-body]').innerHTML=team?rows:'';
   const table=container.querySelector('.team-dps-table');table.dataset.status=comparable?'EXPERIMENTAL':'PENDING';
   container.querySelector('.local-team-status').textContent=team?(complete&&!['Calculating…','Select Lv90 / R1 reference','DPS calculation not supported'].includes(message)&&!message.startsWith('Experimental')?message:''):input?.pendingSelection==='VARIANT'?'':'Choose a teammate';
-  if(valid(baseline?.conditionalDps,true))container.querySelector('.local-team-status').textContent='* Planned rotation; ER not met';
+  if(valid(baseline?.conditionalDps,true)||valid(result?.candidate?.conditionalDps,true))container.querySelector('.local-team-status').textContent='* Planned rotation; ER not met';
   if(currentReady&&team?.compositionBasis==='EXPERIMENTAL_MEMBER_MODULES')container.querySelector('.local-team-status').textContent='Model composition · first slot is Main DPS';
   container.querySelector('[data-team-reference]').innerHTML=sandbox?'':`<label class="local-team-enable" title="Temporary source team with reference levels, Skills and R1. Uses your selected Character’s Echoes and weapon identity. Nothing is saved to your account."><input type="checkbox" data-local-team-enable ${enabled?'checked':''}> Use recommended team · temporary</label>${enabled?'<small class="local-team-reference-note">Reference levels / Skills / R1; your Sequence</small>':''}`;
 

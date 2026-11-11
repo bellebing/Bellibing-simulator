@@ -47,7 +47,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
   }throw Error('ANALYSIS_LIMIT');
  }
  const requestAdvice=async(body,signal)=>{
-  if(!service){const input={...body,candidate:body.candidate??session.snapshot()?.candidate,slot:body.slot??context().owner.slot};return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:await localObservedAdvice(input,{targetAdvice:input=>post(input,signal),teamReview:input=>teamReview(input,signal)})};}
+  if(!context().dpsPlan?.dpsEnabled||!service){const input={...body,candidate:body.candidate??session.snapshot()?.candidate,slot:body.slot??context().owner.slot};return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:await localObservedAdvice(input,{targetAdvice:input=>post(input,signal)})};}
   if(!body.currentInput)return {protocol:'BELLIBING_ECHO_ADVICE_V1',result:{status:'PENDING',reason:'ACTUAL_TEAM_REQUIRED'}};
   const requestedMetric=metric,requestedObjective=objective;
   const captureStart=performance.now(),captured=await captureObservedImproveCurrent(body.currentInput);performance.measure('bellibing-improve:capture',{start:captureStart,end:performance.now()});
@@ -72,6 +72,7 @@ export function mountEchoAdvisor({readContext,onCard,onRender=()=>{}}){
  }
  function initialize(createInteractiveEchoSession){session=createInteractiveEchoSession({mode:'OBSERVED',readContext:context,requestAdvice,requestRecovery:post,onChange:value=>{if(value?.candidate){lastCard=value.candidate;onCard(value.candidate);}else{if(lastCard)onCard(null);lastCard=null;}saveObserved();draw();onRender();}});restoreObserved();}
  function refreshAnalysis(){
+  if(!service||!context().dpsPlan?.dpsEnabled){analysisController?.abort();clearTimeout(analysisTimer);analysisGeneration++;analysis=null;analysisKey=null;return;}
   const c=context();try{c.inventory=session.remainingInventory();}catch{c.pending='INSUFFICIENT_SESSION_BUDGET';}const {slot,...owner}=c.owner;const key=JSON.stringify({owner,inventory:c.inventory,pending:c.pending});if(key===analysisKey)return;
   analysisKey=key;analysis=null;analysisController?.abort();clearTimeout(analysisTimer);const token=++analysisGeneration;draw(true);
   const captureStart=performance.now();analysisTimer=setTimeout(async()=>{try{

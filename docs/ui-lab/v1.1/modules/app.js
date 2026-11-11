@@ -358,7 +358,7 @@ function readLocalTeamInput(){
 
   }
  }
- return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,actualInvestments:accountMode?Object.fromEntries(records.map(record=>[record.characterId,{characterLevel:record.buildState?.characterLevel,weaponLevel:record.buildState?.weaponLevel,weaponRefinement:record.buildState?.weaponRefinement}])):undefined,candidates,candidateLabel:accountMode&&echoAdvisor?.snapshot()?.candidate?'Observed':'Candidate',pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
+ return {mode:sandbox?'SANDBOX':'IMPROVE',selectedCharacterId:selectedId,team,records,actualInvestments:accountMode?Object.fromEntries(records.map(record=>[record.characterId,{characterLevel:record.buildState?.characterLevel,weaponLevel:record.buildState?.weaponLevel,weaponRefinement:record.buildState?.weaponRefinement}])):undefined,candidates,candidateLabel:'New Echo',pendingSelection:selection?.pendingChoice?'VARIANT':selection?.pendingSupport?'THIRD':null,
   names:Object.fromEntries(ids.map(id=>[id,people.get(id)?.name])),
   scope:sandbox?sandboxWorkspace.readContext(resources.read(),resources.revision()):improveCandidateContext(readImproveOwner())};
 }

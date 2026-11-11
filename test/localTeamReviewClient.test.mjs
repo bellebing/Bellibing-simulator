@@ -22,7 +22,7 @@ test('ER-short planned DPS stays visibly conditional and cannot produce a certif
   assert.equal(child.dataset.status,'PENDING');assert.doesNotMatch(html,/data-change="up"|data-change="down"/);
   candidate={...conditional,status:'EXPERIMENTAL',rotationAcceptance:{status:'MET'}};
   input.scope={candidateChanged:true};client.checkFresh();await delay(250);
-  assert.match(html,/<th>Candidate<\/th><td>100<\/td>/,'a legal candidate must remain visible beside ER-short Current');
+  assert.match(html,/<th>New Echo<\/th><td>100<\/td>/,'a legal candidate must remain visible beside ER-short Current');
  }finally{globalThis.location=originalLocation;}
 });
 

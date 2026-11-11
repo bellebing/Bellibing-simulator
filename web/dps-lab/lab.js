@@ -20,7 +20,7 @@ export function normalizeDpsLab(reply){
  if(!r.coverage||!TRACKS.every(t=>['EXPOSED','PARTIAL','NOT_EXPOSED'].includes(r.coverage[t.id])))return {status:'PENDING',reason:'COVERAGE_PENDING'};
  return r;
 }
-const d=document;
+const d=typeof document==='undefined'?null:document;
 if(typeof window!=='undefined'&&d){
  const $=id=>d.getElementById(id);
  const format=n=>n.toLocaleString('sv-SE',{maximumFractionDigits:2});

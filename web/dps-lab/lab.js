@@ -147,14 +147,14 @@ if(typeof window!=='undefined'&&d){
    detailRow(panel,'Aktivering (global frame)',item.activationFrame);
    detailRow(panel,'Avslutning (global frame)',item.expirationFrame);
    detailRow(panel,'Orsak till avslutning',item.endReason+(item.endCauseAction?' · '+item.endCauseAction:''));
-   detailRow(panel,'Omfattning',item.recipientKind+' · '+item.recipients.join(', '));
+   detailRow(panel,'Mottagarregel',item.recipientKind);
    detailRow(panel,'Överförd från tidigare cykel',item.carryIn?'JA · originalstart bevarad':'Nej');
    detailRow(panel,'Native refresh',item.refreshes.length?item.refreshes.map(x=>x.atFrame+' → '+x.expiresAtFrame+' ('+(x.viaAction||'okänd')+')').join('; '):'Ingen');
    detailRow(panel,'Verifierade statbidrag',item.effectRows.length?item.effectRows.map(x=>x.stat+' = '+x.value).join('; '):'PENDING · inga i aktuell cykel');
    detailRow(panel,'Påverkade native actions',item.nativeDamageActionIds.length);
    detailRow(panel,'Entydigt länkade hit records',item.nativeMatchedHitIds.length+' · övrig hit-attribution PENDING');
   }
-  detailRow(panel,'Mottagare',item.targetId||'PENDING · inte exponerad');
+  detailRow(panel,'Mottagare',item.type==='NATIVE_BUFF_LIFECYCLE'?item.recipients.join(', '):(item.targetId||'PENDING · inte exponerad'));
   if(item.damage!==undefined)detailRow(panel,item.type==='NATIVE_DAMAGE_LANDING'?'Hit ledger-skada':'Action-medelskada',format(item.damage));
   if(item.concertoBefore!==undefined)detailRow(panel,'Concerto snapshot',format(item.concertoBefore)+' → '+format(item.concertoAfter));
   if(item.sourceEventId){

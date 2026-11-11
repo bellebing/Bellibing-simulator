@@ -9,6 +9,8 @@ import { spawnSync } from 'node:child_process';
 rmSync('dist', { recursive: true, force: true });
 mkdirSync('dist', { recursive: true });
 mkdirSync('dist/ui-preview', { recursive: true });
+// Explicit, isolated developer route. Static client contains no engine code.
+cpSync('web/dps-lab', 'dist/dps-lab', { recursive: true });
 
 const weaponBrowserDataCheck = spawnSync(process.execPath, [
   '--experimental-strip-types', 'scripts/export-ui-weapon-browser-data.ts', '--check',

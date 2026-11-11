@@ -30,4 +30,10 @@ export async function buildSandbox(directory='dist'){
  const improve=resolve(directory,'improve');mkdirSync(improve,{recursive:true});writeFileSync(join(improve,'index.html'),html.replace('aria-current="page"','').replace('data-workspace="improve"','data-workspace="improve" aria-current="page"').replace("url.searchParams.set('sandbox','true')","url.searchParams.set('sandbox','false')").replace('href="sandbox.css"','href="../sandbox/sandbox.css"').replace('src="app.js"','src="../sandbox/app.js"').replaceAll('src="assets/','src="../sandbox/assets/'));
  return ['build/index.html','sandbox/workspace-navigation.css','improve/index.html','sandbox/app.js','sandbox/index.html','sandbox/sandbox.css','sandbox/engine-release.json',...readdirSync('docs/ui-lab/v1/assets').map(p=>'sandbox/assets/'+p)];
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await buildSandbox(process.argv[2]??'dist');
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){
+ const directory=process.argv[2]??'dist';
+ const product=existsSync(join(directory,'product-ui/navigation.js'));
+ await buildSandbox(directory);
+ // A focused rebuild must not replace an installed product shell with the Lab header.
+ if(product)await (await import('./build-product-ui.mjs')).buildProductUI(directory);
+}

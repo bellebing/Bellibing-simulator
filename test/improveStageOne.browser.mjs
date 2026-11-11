@@ -36,6 +36,13 @@ test('stat-only Improve keeps real DPS comparison independent until explicit Equ
   await page.evaluate(a=>bellibingAccountSession.store.commit(a),account);
   await page.goto(base+'/improve/?profile=stage-one&character=augusta');
   await page.waitForSelector('.improve-dps-enable input',{state:'attached'});
+  await page.waitForSelector('#productNavigation > nav > a');
+  for(const width of [1440,1920]){
+   await page.setViewportSize({width,height:1080});
+   const navigation=await page.locator('#productNavigation > nav').evaluate(nav=>({left:nav.getBoundingClientRect().left,geometry:[...nav.querySelectorAll('a')].map(a=>({text:a.textContent,left:a.getBoundingClientRect().left,right:a.getBoundingClientRect().right,hit:document.elementFromPoint(a.getBoundingClientRect().x+a.getBoundingClientRect().width/2,a.getBoundingClientRect().y+a.getBoundingClientRect().height/2)?.className})),links:[...nav.querySelectorAll('a')].map(a=>{const r=a.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return !!hit&&hit.closest('a')===a;})}));
+   assert.ok(navigation.left<width*.25,'page links remain at the left');
+   assert.deepEqual(navigation.links,[true,true,true,true,true],'carousel must not cover navigation at '+width+JSON.stringify(navigation.geometry));
+  }
   assert.equal(await page.locator('.improve-dps-enable input').isChecked(),false);
   await page.locator('[data-preset=BUDGET]').evaluate(el=>el.click());
   assert.equal(await page.locator('.improve-dps-enable input').isChecked(),false,'a preset must not silently switch optimisation on');
@@ -72,8 +79,10 @@ test('stat-only Improve keeps real DPS comparison independent until explicit Equ
    return rows.map(r=>({id:r.dataset.dpsRow,value:Number(r.querySelector('.team-total').textContent.replace(/[^\d.-]/g,'')),winner:r.dataset.dpsWinner}));
   });
   assert.equal(await page.locator('[data-dps-loser]').count(),1);
-  const lines=await page.locator('[data-dps-row]').evaluateAll(rows=>rows.map(r=>[...r.cells].map(c=>getComputedStyle(c).boxShadow)));
-  assert.ok(lines.every(cells=>cells.length===5&&cells.every(v=>v.includes('inset')&&v.includes('2px'))),'underline spans all five cells');
+  const lines=await page.locator('[data-dps-row]').evaluateAll(rows=>rows.map(r=>({winner:!!r.dataset.dpsWinner,content:getComputedStyle(r,'::after').content,animation:getComputedStyle(r,'::after').animationName,width:parseFloat(getComputedStyle(r,'::after').width),rowWidth:r.getBoundingClientRect().width})));
+  assert.ok(lines.find(r=>r.winner).animation.includes('dps-winner-flow'));
+  assert.ok(Math.abs(lines.find(r=>r.winner).width-lines.find(r=>r.winner).rowWidth)<2,'one continuous winner line');
+  assert.equal(lines.find(r=>!r.winner).content,'none','loser has no line');
   const animations=await page.evaluate(()=>{
    const holder=document.createElement('div');holder.className='echo-card';document.body.append(holder);
    const make=(tier,priority)=>{const row=document.createElement('div');row.className='substat';row.innerHTML='<span>'+ (priority?'<span class="wb-stat-priority"></span>':'')+'</span><span class="wb-roll-signal"></span><span class="wb-roll-tier wb-roll-'+tier+'">value</span>';holder.append(row);return getComputedStyle(row.querySelector('.wb-roll-signal')).animationName;};

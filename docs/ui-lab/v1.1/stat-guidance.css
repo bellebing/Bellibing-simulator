@@ -59,6 +59,6 @@
 .ui-lab .echo-card .substat strong { font-size:inherit; }
 
 /* Only the existing middle-tier leader breathes; gold effects stay unchanged. */
-:is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-middle) > .wb-roll-signal { animation: wb-middle-breathe 3.6s ease-in-out infinite; }
-@keyframes wb-middle-breathe { 0%,100% { opacity:.65; box-shadow:0 0 2px #d483ff35; } 50% { opacity:1; box-shadow:0 0 5px #d483ff75; } }
+:is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-middle) > .wb-roll-signal { height:2px; animation: wb-middle-breathe 2.6s ease-in-out infinite; }
+@keyframes wb-middle-breathe { 0%,100% { opacity:.55; box-shadow:0 0 2px #d483ff45; } 50% { opacity:1; box-shadow:0 0 8px #d483ffb3; } }
 @media (prefers-reduced-motion: reduce) { :is(.wb-roll-toggle, .echo-card .substat):has(.wb-stat-priority):has(.wb-roll-middle) > .wb-roll-signal { animation:none; } }

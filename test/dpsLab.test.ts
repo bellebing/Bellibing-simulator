@@ -86,3 +86,33 @@ test('point stays at exact x, block has exact width and overlapping labels get d
  assert.equal(point.x,20);
  assert.ok(new Set(entries.items.map(x=>x.row)).size>=2);
 });
+
+
+test('V2 provenance: carried-in native buff has prior-cycle source and independent expiry',()=>{
+ const fixture=typed(),t=fixture.result.timeline,id=fixture.result.runIdentity;
+ t.priorSources=[{id:'prior-0',runIdentity:id,name:'Intro from prior cycle',
+  characterId:'b',kind:'NATIVE_BUFF_CAUSE',sourceCycle:'PRIOR_TO_SELECTED_CYCLE',atFrame:420}];
+ t.intervals.push({id:'buff-1',runIdentity:id,type:'NATIVE_BUFF_LIFECYCLE',
+  track:'buffs',name:'Source-verified skill-buff fixture',characterId:'b',
+  sourceCharacterId:'b',originKind:'WEAPON',originName:'Source Weapon',
+  sourceGear:'Source Weapon',sourceAction:'Intro from prior cycle',
+  activationCondition:'Source-granted when Intro casts',
+  recipientKind:'TEAM',recipients:['a','b','c'],
+  startSeconds:0,endSeconds:3,
+  activationFrame:420,expirationFrame:780,cycleOriginFrame:600,carryIn:true,
+  endReason:'DURATION_EXPIRED',endCauseAction:null,
+  refreshes:[],effectRows:[{stat:'DmgBonus',value:24}],
+  nativeDamageActionIds:['e1'],nativeMatchedHitIds:[],sourceEventId:'prior-0'
+ });
+ t.links.push({fromId:'prior-0',toId:'buff-1',relation:'NATIVE_BUFF_ACTIVATED'});
+ t.links.push({fromId:'buff-1',toId:'e1',relation:'NATIVE_BUFF_STAT_APPLIED'});
+ assert.equal(normalizeDpsLab(fixture).status,'EXPERIMENTAL');
+ const a=structuredClone(fixture);a.result.timeline.priorSources[0].atFrame=650;
+ assert.equal(normalizeDpsLab(a).reason,'TIMELINE_PRIOR_CAUSE_INVALID');
+ const b=structuredClone(fixture);b.result.timeline.intervals[1].activationFrame=600;
+ assert.equal(normalizeDpsLab(b).reason,'BUFF_LIFECYCLE_INVALID');
+ const c=structuredClone(fixture);c.result.timeline.links=c.result.timeline.links.filter(x=>x.relation!=='NATIVE_BUFF_ACTIVATED');
+ assert.equal(normalizeDpsLab(c).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
+ const x=structuredClone(fixture);x.result.timeline.intervals[1].nativeMatchedHitIds=['made-up-hit'];
+ assert.equal(normalizeDpsLab(x).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
+});

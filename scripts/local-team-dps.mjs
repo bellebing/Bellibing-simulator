@@ -2,7 +2,7 @@
 // never imported into the public bundle or exposed as a static asset.
 import {spawn} from 'node:child_process';
 import {resolve} from 'node:path';
-export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route='/local-review/team-dps',entry='scripts/team-dps/stdio.mjs',protocol='BELLIBING_LOCAL_TEAM_REVIEW_V1',persistent=false}={}){
+export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,maxOutputBytes=65536,route='/local-review/team-dps',entry='scripts/team-dps/stdio.mjs',protocol='BELLIBING_LOCAL_TEAM_REVIEW_V1',persistent=false}={}){
  let busy=false,worker=null,pendingLine=null,streamBuffer='';
  const json=(res,status,data)=>{if(res.destroyed||res.writableEnded)return;res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
  const handler=async(req,res,{origin})=>{
@@ -20,7 +20,7 @@ export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route
    const output=await new Promise((ok,bad)=>{
     if(persistent){
      if(!worker){streamBuffer='';const spawned=spawn(process.execPath,['--experimental-strip-types',resolve(engineDirectory,entry),'--stream'],{cwd:engineDirectory,stdio:['pipe','pipe','pipe']});worker=spawned;worker.stderr.resume();worker.stdin.on('error',()=>{});const retired=()=>{if(worker===spawned){pendingLine?.(Error('UNAVAILABLE'));worker=null;}};worker.on('error',retired);worker.on('close',retired);
-      worker.stdout.on('data',chunk=>{if(worker!==spawned)return;streamBuffer+=chunk.toString();if(Buffer.byteLength(streamBuffer)>65536){pendingLine?.(Error('OUTPUT_BOUND'));worker?.kill();return;}const at=streamBuffer.indexOf('\n');if(at>=0){const line=streamBuffer.slice(0,at);streamBuffer=streamBuffer.slice(at+1);try{const value=JSON.parse(line);if(value.protocol!==protocol||!value.result)throw Error();pendingLine?.(null,value);}catch{pendingLine?.(Error('UNAVAILABLE'));}}});
+      worker.stdout.on('data',chunk=>{if(worker!==spawned)return;streamBuffer+=chunk.toString();if(Buffer.byteLength(streamBuffer)>maxOutputBytes){pendingLine?.(Error('OUTPUT_BOUND'));worker?.kill();return;}const at=streamBuffer.indexOf('\n');if(at>=0){const line=streamBuffer.slice(0,at);streamBuffer=streamBuffer.slice(at+1);try{const value=JSON.parse(line);if(value.protocol!==protocol||!value.result)throw Error();pendingLine?.(null,value);}catch{pendingLine?.(Error('UNAVAILABLE'));}}});
      }
      const child=worker;let settled=false;
      // Until the private service exposes resumable jobs, retire an abandoned
@@ -37,7 +37,7 @@ export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route
     const timer=setTimeout(()=>{child.kill();finish(Error('TIMEOUT'));},timeoutMs);
     req.once('aborted',aborted);res.once('close',aborted);child.on('error',()=>finish(Error('UNAVAILABLE')));
     child.stdin.on('error',()=>{});child.stderr.resume();
-    child.stdout.on('data',chunk=>{bytes+=chunk.length;if(bytes>65536){child.kill();finish(Error('OUTPUT_BOUND'));}else result.push(chunk);});
+    child.stdout.on('data',chunk=>{bytes+=chunk.length;if(bytes>maxOutputBytes){child.kill();finish(Error('OUTPUT_BOUND'));}else result.push(chunk);});
     child.on('close',code=>{try{const value=JSON.parse(Buffer.concat(result));if(value.protocol!==protocol||!value.result||code!==0&&value.result.status!=='PENDING')throw Error();finish(null,value);}catch{finish(Error('UNAVAILABLE'));}});
     child.stdin.end(JSON.stringify(input));
    });

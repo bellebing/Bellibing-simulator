@@ -113,6 +113,10 @@ test('V2 provenance: carried-in native buff has prior-cycle source and independe
  assert.equal(normalizeDpsLab(b).reason,'BUFF_LIFECYCLE_INVALID');
  const c=structuredClone(fixture);c.result.timeline.links=c.result.timeline.links.filter(x=>x.relation!=='NATIVE_BUFF_ACTIVATED');
  assert.equal(normalizeDpsLab(c).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
+ const mismatch=structuredClone(fixture);mismatch.result.timeline.priorSources[0].name='different action';
+ assert.equal(normalizeDpsLab(mismatch).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
+ const actor=structuredClone(fixture);actor.result.timeline.intervals[1].triggerCharacterId='a';
+ assert.equal(normalizeDpsLab(actor).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
  const x=structuredClone(fixture);x.result.timeline.intervals[1].nativeMatchedHitIds=['made-up-hit'];
  assert.equal(normalizeDpsLab(x).reason,'BUFF_CAUSE_OR_HIT_PROOF_INVALID');
 });

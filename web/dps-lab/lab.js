@@ -55,8 +55,8 @@ export function placeTimelineObjects(instants,intervals,pixelsPerSecond){
  const until=[];
  for(const item of all){
   const left=item.shape==='point'?item.x-9:item.x;
-  const right=item.shape==='point'?item.x+108:item.x+Math.max(70,item.width);
-  let row=until.findIndex(x=>x+10<=left);
+  const right=item.shape==='point'?item.x+10:item.x+Math.max(12,item.width);
+  let row=until.findIndex(x=>x+5<=left);
   if(row<0){row=until.length;until.push(right);}else until[row]=right;
   item.row=row;
  }
@@ -91,6 +91,7 @@ if(typeof window!=='undefined'&&d){
   if('atSeconds' in item)detailRow(panel,'Tidpunkt',format(item.atSeconds)+' s');
   if('startSeconds' in item){detailRow(panel,'Start',format(item.startSeconds)+' s');detailRow(panel,'Slut',format(item.endSeconds)+' s');detailRow(panel,'Klockintervall',format(item.endSeconds-item.startSeconds)+' s');}
   if(item.kind)detailRow(panel,'Native typ',item.kind);
+  detailRow(panel,'Mottagare',item.targetId||'PENDING · inte exponerad');
   if(item.damage!==undefined)detailRow(panel,item.type==='NATIVE_DAMAGE_LANDING'?'Hit ledger-skada':'Action-medelskada',format(item.damage));
   if(item.concertoBefore!==undefined)detailRow(panel,'Concerto snapshot',format(item.concertoBefore)+' → '+format(item.concertoAfter));
   if(item.sourceEventId){
@@ -133,7 +134,7 @@ if(typeof window!=='undefined'&&d){
    const spans=t?.intervals.filter(e=>e.track===track.id)||[];
    const plot=makeRow(track.name,run?.coverage[track.id]||'PENDING');
    const layout=placeTimelineObjects(events,spans,pxPerSecond);
-   plot.style.height=Math.min(1600,Math.max(61,layout.rows*33+25))+'px';
+   plot.style.height=Math.max(61,layout.rows*25+24)+'px';
    for(const value of ticks){
     const guide=make('div','time-guide');guide.style.left=value*pxPerSecond+'px';plot.append(guide);
    }
@@ -148,7 +149,7 @@ if(typeof window!=='undefined'&&d){
    for(const entry of layout.items){
     const item=entry.data,btn=make('button','timeline-item '+entry.shape+' '+track.id+(item.type==='NATIVE_DAMAGE_LANDING'?' hit':''));
     btn.type='button';btn.dataset.eventId=item.id;btn.dataset.shape=entry.shape;
-    btn.style.left=entry.x+'px';btn.style.top=(entry.row*33+16)+'px';
+    btn.style.left=entry.x+'px';btn.style.top=(entry.row*25+16)+'px';
     const when=entry.shape==='point'?format(item.atSeconds)+' s':format(item.startSeconds)+'–'+format(item.endSeconds)+' s';
     btn.setAttribute('aria-label',item.name+' · '+when+' · '+track.name);
     btn.title=item.name+' · '+when;

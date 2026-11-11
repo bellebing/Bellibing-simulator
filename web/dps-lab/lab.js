@@ -74,8 +74,11 @@ if(typeof window!=='undefined'&&d){
      for(const [label,value] of [['Tid',format(event.atSeconds)+' s'],['Karaktär',event.characterId],['Typ',event.kind],['Status',event.note||'Native event']]){
       const line=d.createElement('div');set(line,label+': '+value);details.append(line);
      }
-     if(validNumber(event.damage)){const line=d.createElement('div');set(line,'Skada: '+format(event.damage));details.append(line);}
+     if(validNumber(event.damage)){const line=d.createElement('div');set(line,'Native action-medelskada: '+format(event.damage));details.append(line);}
      else{const line=d.createElement('div');set(line,'Skada per handling: ej exponerad / ej attribuerad');details.append(line);}
+     if(validNumber(event.concertoBefore)&&validNumber(event.concertoAfter)){
+      const line=d.createElement('div');set(line,'Concerto (native snapshot): '+format(event.concertoBefore)+' → '+format(event.concertoAfter));details.append(line);
+     }
     };lane.append(btn);
    }
    row.append(label,lane);$('tracks').append(row);

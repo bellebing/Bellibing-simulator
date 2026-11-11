@@ -18,14 +18,16 @@ export async function localProductEngine(directory){
  if(bytes.length!==file.bytes||createHash('sha256').update(bytes).digest('hex')!==file.sha256)throw Error('Local engine review hash mismatch.');
  const manifest={version:1,status:'LOCAL_REVIEW_ONLY',files:[{path:file.path,sha256:file.sha256,bytes:file.bytes}]};
  const team=createLocalTeamDpsHandler({engineDirectory:root});
+ // Read-only DPS Lab: a separate allowlisted native trace observer in the private checkout.
+ const dpsLab=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/dps-lab',entry:'scripts/team-dps/dps-lab-stdio.mjs',protocol:'BELLIBING_DPS_LAB_V1'});
  const improve=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/improve-search',entry:'scripts/team-dps/improve-stdio.mjs',protocol:'BELLIBING_IMPROVE_SEARCH_V1',persistent:true,timeoutMs:600000});
  const advisor=createLocalTeamDpsHandler({engineDirectory:root,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',protocol:'BELLIBING_ECHO_ADVICE_V1'});
  return {async handle(req,res,context){
-  if(await improve(req,res,context)||await advisor(req,res,context)||await team(req,res,context))return true;
+  if(await dpsLab(req,res,context)||await improve(req,res,context)||await advisor(req,res,context)||await team(req,res,context))return true;
   const path=new URL(req.url,context.origin).pathname;
   if(!['/sandbox/engine-release.json','/sandbox/sandbox-engine.worker.js'].includes(path))return false;
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405).end();return true;}
   res.writeHead(200,{'Content-Type':path.endsWith('.json')?'application/json':'text/javascript','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});
   res.end(req.method==='HEAD'?undefined:path.endsWith('.json')?JSON.stringify(manifest):bytes);return true;
- },close(){improve.close();advisor.close();team.close();}};
+ },close(){dpsLab.close();improve.close();advisor.close();team.close();}};
 }

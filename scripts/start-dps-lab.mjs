@@ -21,7 +21,7 @@ if(pkg.name!=='bellibing-engine-private')throw Error('Expected a private Bellibi
 
 const handler=createLocalTeamDpsHandler({
  engineDirectory:root,route:'/local-review/dps-lab',
- entry:'scripts/team-dps/dps-lab-stdio.mjs',protocol:'BELLIBING_DPS_LAB_V1',timeoutMs:60000
+ entry:'scripts/team-dps/dps-lab-stdio.mjs',protocol:'BELLIBING_DPS_LAB_V1',timeoutMs:60000,maxOutputBytes:262144
 });
 const files=new Map([
  ['/dps-lab/',['../web/dps-lab/index.html','text/html; charset=utf-8']],

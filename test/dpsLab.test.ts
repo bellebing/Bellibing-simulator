@@ -94,7 +94,7 @@ test('V2 provenance: carried-in native buff has prior-cycle source and independe
   characterId:'b',kind:'NATIVE_BUFF_CAUSE',sourceCycle:'PRIOR_TO_SELECTED_CYCLE',atFrame:420}];
  t.intervals.push({id:'buff-1',runIdentity:id,type:'NATIVE_BUFF_LIFECYCLE',
   track:'buffs',name:'Source-verified skill-buff fixture',characterId:'b',
-  sourceCharacterId:'b',originKind:'WEAPON',originName:'Source Weapon',
+  sourceCharacterId:'b',triggerCharacterId:'b',originKind:'WEAPON',originName:'Source Weapon',
   sourceGear:'Source Weapon',sourceAction:'Intro from prior cycle',
   activationCondition:'Source-granted when Intro casts',
   recipientKind:'TEAM',recipients:['a','b','c'],

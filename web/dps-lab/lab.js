@@ -25,13 +25,52 @@ export function normalizeDpsLab(reply){
   const t=r.timeline;
   if(t?.version!=='BELLIBING_DPS_TIMELINE_V1'||t.runIdentity!==r.runIdentity||t.timebase!=='SOURCE_NATIVE_GAME_FRAMES_60_PER_SECOND'||!validNumber(t.originFrame)||!validNumber(t.dpsCycleSeconds)||!near(t.dpsCycleSeconds,r.durationSeconds)||!validNumber(t.visibleEndSeconds)||t.visibleEndSeconds<r.durationSeconds-1e-6||!(t.activeRotationSeconds===null||validNumber(t.activeRotationSeconds)))return pending('TIMELINE_CLOCK_INVALID');
   if(!Array.isArray(t.instants)||!Array.isArray(t.intervals)||!Array.isArray(t.links)||t.instants.length>2400||t.intervals.length>1600||t.links.length>3600||!Number.isSafeInteger(t.unlinkedHitCount)||t.unlinkedHitCount<0)return pending('TIMELINE_SHAPE_INVALID');
+  const prior=t.priorSources??[];
+  if(!Array.isArray(prior)||prior.length>100||
+     !prior.every(e=>text(e.id)&&text(e.name)&&e.runIdentity===r.runIdentity&&
+      r.rotation.characterIds.includes(e.characterId)&&validNumber(e.atFrame)&&e.atFrame<t.originFrame&&
+      e.kind==='NATIVE_BUFF_CAUSE'&&e.sourceCycle==='PRIOR_TO_SELECTED_CYCLE'))return pending('TIMELINE_PRIOR_CAUSE_INVALID');
   const validBase=e=>text(e.id)&&text(e.type)&&text(e.name)&&trackIds.has(e.track)&&r.rotation.characterIds.includes(e.characterId)&&e.runIdentity===r.runIdentity;
   if(!t.instants.every(e=>validBase(e)&&validNumber(e.atSeconds)&&e.atSeconds<=t.visibleEndSeconds+1e-6&&(e.damage===undefined||validNumber(e.damage))))return pending('TIMELINE_INSTANT_INVALID');
   if(!t.intervals.every(e=>validBase(e)&&validNumber(e.startSeconds)&&validNumber(e.endSeconds)&&e.endSeconds>e.startSeconds&&e.endSeconds<=t.visibleEndSeconds+1e-6&&text(e.sourceEventId)))return pending('TIMELINE_INTERVAL_INVALID');
-  const objects=[...t.instants,...t.intervals],ids=new Set(objects.map(e=>e.id));
-  if(ids.size!==objects.length||!t.intervals.every(e=>t.instants.some(i=>i.id===e.sourceEventId))||
+  // A buff is an independent effect, not an action's animation. A carry-in
+  // block begins at visual x=0 but preserves its actual older native start.
+  for(const b of t.intervals.filter(e=>e.type==='NATIVE_BUFF_LIFECYCLE')){
+   if(b.track!=='buffs'||!['CHARACTER_ABILITY','WEAPON','ECHO','SONATA','PASSIVE','OTHER_NATIVE'].includes(b.originKind)||
+    !text(b.originName)||!text(b.sourceAction)||!text(b.sourceGear)||!text(b.activationCondition)||
+    !r.rotation.characterIds.includes(b.sourceCharacterId)||b.characterId!==b.sourceCharacterId||
+    !['TEAM','MEMBER'].includes(b.recipientKind)||!Array.isArray(b.recipients)||
+    b.recipients.length<1||b.recipients.length>3||new Set(b.recipients).size!==b.recipients.length||
+    !b.recipients.every(x=>r.rotation.characterIds.includes(x))||
+    (b.recipientKind==='TEAM'&&b.recipients.length!==3)||
+    (b.recipientKind==='MEMBER'&&b.recipients.length!==1)||
+    !validNumber(b.activationFrame)||!validNumber(b.expirationFrame)||b.expirationFrame<=b.activationFrame||
+    !validNumber(b.cycleOriginFrame)||!near(b.cycleOriginFrame,t.originFrame)||
+    b.carryIn!==(b.activationFrame<t.originFrame)||
+    !near(b.startSeconds,Math.max(0,(b.activationFrame-t.originFrame)/60))||
+    !near(b.endSeconds,(b.expirationFrame-t.originFrame)/60)||
+    !['DURATION_EXPIRED','NATIVE_REVOKED_OR_CONSUMED'].includes(b.endReason)||
+    !(b.endCauseAction===null||text(b.endCauseAction))||
+    !Array.isArray(b.refreshes)||b.refreshes.length>100||!b.refreshes.every(x=>validNumber(x.atFrame)&&validNumber(x.expiresAtFrame)&&x.expiresAtFrame>x.atFrame&&x.atFrame>=b.activationFrame&&x.atFrame<=b.expirationFrame&&
+      (x.viaAction===null||text(x.viaAction)))||
+    !Array.isArray(b.nativeDamageActionIds)||b.nativeDamageActionIds.length>500||
+    !Array.isArray(b.nativeMatchedHitIds)||b.nativeMatchedHitIds.length>500||
+    !Array.isArray(b.effectRows)||b.effectRows.length>8||
+    !b.effectRows.every(x=>typeof x.stat==='string'&&x.stat.length<=80&&Number.isFinite(x.value))
+   )return pending('BUFF_LIFECYCLE_INVALID');
+  }
+  const objects=[...t.instants,...t.intervals,...prior],ids=new Set(objects.map(e=>e.id));
+  if(ids.size!==objects.length||!t.intervals.every(e=>
+      e.type==='NATIVE_BUFF_LIFECYCLE'?objects.some(i=>i.id===e.sourceEventId):t.instants.some(i=>i.id===e.sourceEventId))||
    !t.instants.every(e=>!e.sourceEventId||ids.has(e.sourceEventId))||
-   !t.links.every(l=>ids.has(l.fromId)&&ids.has(l.toId)&&l.fromId!==l.toId&&['CLOCK_SPAN_OF_ACTION','NATIVE_HIT_MATCH'].includes(l.relation)))return pending('TIMELINE_CAUSALITY_INVALID');
+   !t.links.every(l=>ids.has(l.fromId)&&ids.has(l.toId)&&l.fromId!==l.toId&&
+    ['CLOCK_SPAN_OF_ACTION','NATIVE_HIT_MATCH','NATIVE_BUFF_ACTIVATED','NATIVE_BUFF_STAT_APPLIED'].includes(l.relation)))return pending('TIMELINE_CAUSALITY_INVALID');
+  if(!t.intervals.filter(e=>e.type==='NATIVE_BUFF_LIFECYCLE').every(b=>
+    t.links.some(l=>l.fromId===b.sourceEventId&&l.toId===b.id&&l.relation==='NATIVE_BUFF_ACTIVATED')&&
+    b.nativeDamageActionIds.every(id=>t.instants.some(i=>i.id===id&&i.type==='NATIVE_ACTION_START')&&
+      t.links.some(l=>l.fromId===b.id&&l.toId===id&&l.relation==='NATIVE_BUFF_STAT_APPLIED'))&&
+    b.nativeMatchedHitIds.every(id=>t.instants.some(i=>i.id===id&&i.type==='NATIVE_DAMAGE_LANDING'&&b.nativeDamageActionIds.includes(i.sourceEventId)))
+  ))return pending('BUFF_CAUSE_OR_HIT_PROOF_INVALID');
   if(!r.events.every(e=>t.instants.some(i=>i.id===e.id&&near(i.atSeconds,e.atSeconds)&&i.track===e.track)))return pending('TIMELINE_EVENT_MISMATCH');
   const derivedEnd=Math.max(r.durationSeconds,...t.instants.map(e=>e.atSeconds),...t.intervals.map(e=>e.endSeconds));
   if(!near(derivedEnd,t.visibleEndSeconds))return pending('TIMELINE_VISIBLE_END_MISMATCH');
@@ -91,11 +130,25 @@ if(typeof window!=='undefined'&&d){
   if('atSeconds' in item)detailRow(panel,'Tidpunkt',format(item.atSeconds)+' s');
   if('startSeconds' in item){detailRow(panel,'Start',format(item.startSeconds)+' s');detailRow(panel,'Slut',format(item.endSeconds)+' s');detailRow(panel,'Klockintervall',format(item.endSeconds-item.startSeconds)+' s');}
   if(item.kind)detailRow(panel,'Native typ',item.kind);
+  if(item.type==='NATIVE_BUFF_LIFECYCLE'){
+   detailRow(panel,'Effektursprung',item.originKind+' · '+item.originName);
+   detailRow(panel,'Utlösande handling',item.sourceAction);
+   detailRow(panel,'Native villkor',item.activationCondition);
+   detailRow(panel,'Aktivering (global frame)',item.activationFrame);
+   detailRow(panel,'Avslutning (global frame)',item.expirationFrame);
+   detailRow(panel,'Orsak till avslutning',item.endReason+(item.endCauseAction?' · '+item.endCauseAction:''));
+   detailRow(panel,'Omfattning',item.recipientKind+' · '+item.recipients.join(', '));
+   detailRow(panel,'Överförd från tidigare cykel',item.carryIn?'JA · originalstart bevarad':'Nej');
+   detailRow(panel,'Native refresh',item.refreshes.length?item.refreshes.map(x=>x.atFrame+' → '+x.expiresAtFrame+' ('+(x.viaAction||'okänd')+')').join('; '):'Ingen');
+   detailRow(panel,'Verifierade statbidrag',item.effectRows.length?item.effectRows.map(x=>x.stat+' = '+x.value).join('; '):'PENDING · inga i aktuell cykel');
+   detailRow(panel,'Påverkade native actions',item.nativeDamageActionIds.length);
+   detailRow(panel,'Entydigt länkade hit records',item.nativeMatchedHitIds.length+' · övrig hit-attribution PENDING');
+  }
   detailRow(panel,'Mottagare',item.targetId||'PENDING · inte exponerad');
   if(item.damage!==undefined)detailRow(panel,item.type==='NATIVE_DAMAGE_LANDING'?'Hit ledger-skada':'Action-medelskada',format(item.damage));
   if(item.concertoBefore!==undefined)detailRow(panel,'Concerto snapshot',format(item.concertoBefore)+' → '+format(item.concertoAfter));
   if(item.sourceEventId){
-   const source=t.instants.find(e=>e.id===item.sourceEventId);
+   const source=t.instants.find(e=>e.id===item.sourceEventId)||t.priorSources?.find(e=>e.id===item.sourceEventId);
    detailRow(panel,'Orsak / källa',source?source.name+' ('+source.id+')':'PENDING');
   }else detailRow(panel,'Verifierat parent-event','PENDING');
   if(item.note)detailRow(panel,'Begränsning',item.note);
@@ -184,8 +237,9 @@ if(typeof window!=='undefined'&&d){
    const line=make('div','share');line.append(make('span','',c.characterId),make('strong','',format(c.damage)+' dmg · '+format(c.dps)+' DPS'));$('shares').append(line);
   }
   set($('coverage'),(run.explanation||'Endast native-exponerad data.')+
+   (t.intervals.some(x=>x.type==='NATIVE_BUFF_LIFECYCLE')?' · Buff-spåret visar endast källverifierade effektinstanser.':' · Fullständiga buff-livscykler Pending.')+
    (t.unlinkedHitCount?' · '+t.unlinkedHitCount+' skadeträffar saknar entydig koppling till snapshot och är inte placerade på ett antaget spår.':''));
-  set($('selected'),'Klicka på en punkt eller ett verifierat klockintervall. Buff- och summon-livslängder är Pending.');
+  set($('selected'),'Klicka på native action, träff eller buff för att se ursprung → orsak → effekter. Ej verifierade buffs/summons är Pending.');
   renderTracks(run);
  };
  const populate=reply=>{
@@ -204,7 +258,7 @@ if(typeof window!=='undefined'&&d){
    const reply=await post({action:'run',presetId:$('rotation').value});
    const run=normalizeDpsLab(reply);
    if(run.status!=='EXPERIMENTAL'){status('PENDING: '+run.reason,true);set($('coverage'),'Samma-körning-verifiering saknas. DPS visas inte.');return;}
-   render(run);status('Native replay klar · EXPERIMENTAL; buff-livslängder och fria byten är Pending.');
+   render(run);status('Native replay klar · EXPERIMENTAL; verifierade buffkedjor kan visas, övriga är Pending.');
   }catch(error){status('PENDING: lokal privat motor ej tillgänglig ('+error.message+').',true);}
   finally{$('run').disabled=!presets.length;}
  });

@@ -1,11 +1,29 @@
 import test from 'node:test';
 import {request as httpRequest} from 'node:http';
 import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
+import {mkdtemp,mkdir,writeFile,rm,access} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {startPreview} from '../scripts/preview-simulator-v1.mjs';
 import {createLocalTeamDpsHandler} from '../scripts/local-team-dps.mjs';
+
+test('abandoned persistent search releases the worker and cannot deliver its result to the next job',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'bellibing-cancel-')),site=join(root,'site'),engine=join(root,'private');
+ for(const file of ['index.html','build/index.html','sandbox/index.html','improve/index.html','review-build.json']){await mkdir(join(site,file,'..'),{recursive:true});await writeFile(join(site,file),'{}');}
+ await mkdir(engine,{recursive:true});
+ await writeFile(join(engine,'stream.mjs'),`import {createInterface} from 'node:readline';import {writeFileSync} from 'node:fs';for await(const line of createInterface({input:process.stdin})){const input=JSON.parse(line);if(input.slow){writeFileSync('started','1');await new Promise(r=>setTimeout(r,4000));}process.stdout.write(JSON.stringify({protocol:'TEST_SEARCH',result:{id:input.id}})+'\\n');}`);
+ const handler=createLocalTeamDpsHandler({engineDirectory:engine,entry:'stream.mjs',persistent:true,protocol:'TEST_SEARCH'}),server=await startPreview({directory:site,port:0,reviewHandler:handler}),origin=`http://127.0.0.1:${server.address().port}`;
+ const controller=new AbortController(),post=(data,signal)=>fetch(origin+'/local-review/team-dps',{method:'POST',headers:{Origin:origin,'Content-Type':'application/json','X-Bellibing-Review':'1'},body:JSON.stringify(data),signal});
+ try{
+  const abandoned=post({slow:true,id:'old'},controller.signal).catch(()=>null);
+  for(let i=0;i<100;i++){try{await access(join(engine,'started'));break;}catch{await new Promise(r=>setTimeout(r,20));}}
+  await access(join(engine,'started'));controller.abort();await abandoned;
+  const started=performance.now();let response;
+  for(let i=0;i<20;i++){response=await post({id:'new'});if(response.status!==429)break;await new Promise(r=>setTimeout(r,30));}
+  assert.equal(response.status,200);assert.equal((await response.json()).result.id,'new');
+  assert.ok(performance.now()-started<2000,'new job must not wait for the four-second abandoned search');
+ }finally{controller.abort();handler.close();server.closeAllConnections();await new Promise(ok=>server.close(ok));await rm(root,{recursive:true,force:true});}
+});
 test('loopback review bridge enforces host/origin/JSON bounds and never serves engine files',async()=>{
  const root=await mkdtemp(join(tmpdir(),'bellibing-team-bridge-')),site=join(root,'site'),engine=join(root,'private');
  for(const file of ['index.html','build/index.html','sandbox/index.html','improve/index.html','review-build.json']){await mkdir(join(site,file,'..'),{recursive:true});await writeFile(join(site,file),'{}');}

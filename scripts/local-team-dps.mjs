@@ -4,7 +4,7 @@ import {spawn} from 'node:child_process';
 import {resolve} from 'node:path';
 export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route='/local-review/team-dps',entry='scripts/team-dps/stdio.mjs',protocol='BELLIBING_LOCAL_TEAM_REVIEW_V1',persistent=false}={}){
  let busy=false,worker=null,pendingLine=null,streamBuffer='';
- const json=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
+ const json=(res,status,data)=>{if(res.destroyed||res.writableEnded)return;res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
  const handler=async(req,res,{origin})=>{
   const url=new URL(req.url,origin);if(url.pathname!==route)return false;
   const error=(status,reason)=>{json(res,status,{status:'PENDING',reason});return true;};
@@ -23,7 +23,9 @@ export function createLocalTeamDpsHandler({engineDirectory,timeoutMs=30000,route
       worker.stdout.on('data',chunk=>{if(worker!==spawned)return;streamBuffer+=chunk.toString();if(Buffer.byteLength(streamBuffer)>65536){pendingLine?.(Error('OUTPUT_BOUND'));worker?.kill();return;}const at=streamBuffer.indexOf('\n');if(at>=0){const line=streamBuffer.slice(0,at);streamBuffer=streamBuffer.slice(at+1);try{const value=JSON.parse(line);if(value.protocol!==protocol||!value.result)throw Error();pendingLine?.(null,value);}catch{pendingLine?.(Error('UNAVAILABLE'));}}});
      }
      const child=worker;let settled=false;
-     const aborted=()=>{}; // Finish this bounded batch privately; do not retire other jobs.
+     // Until the private service exposes resumable jobs, retire an abandoned
+     // synchronous search. It must not occupy the only worker for minutes.
+     const aborted=()=>{if(settled)return;finish(Error('ABORTED'));if(worker===child)worker=null;child.kill();};
      const finish=(error,value)=>{if(settled)return;settled=true;clearTimeout(timer);req.off('aborted',aborted);res.off('close',aborted);pendingLine=null;error?bad(error):ok(value);};
      const timer=setTimeout(()=>{child.kill();if(worker===child)worker=null;finish(Error('TIMEOUT'));},timeoutMs);
      req.once('aborted',aborted);res.once('close',aborted);pendingLine=finish;child.stdin.write(JSON.stringify(input)+'\n');return;

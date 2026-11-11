@@ -1,5 +1,25 @@
 # Improve: riktning och kvarvarande arbete
 
+## Fortsättning 2026-11-11
+
+- Etapp 1 är bevarad i separata lokala commits i simulatorn och motorrepot. Ingen push, merge eller publicering har gjorts.
+- Etapp 2: äldre återupptagbar analys har kontrollerats mot dagens native-modell med Chisa. Slot-/prefixbyte återanvände tidigare slotresultat; ändrad utrustning ogiltigförklarade det gamla jobbet. Det lilla testurvalet verifierar återanvändning, inte rankningens precision.
+- Gemensam checkpoint-ekonomi för slotkostnad och Continue/Restart är under utveckling. Avgränsade kontroller mot handräknat exempel och oberoende uttömmande policyjämförelse passerade för samtliga Gates.
+- Detta är ännu inte inkopplat i produktens automatiska DPS-rankning. Effektiv native-utvärdering, tillförlitlig sannolikhetsmodell, osäkerhetskontroll och slutlig integration återstår. Ingen ny prestandagaranti eller universell DPS-täckning är verifierad.
+
+## Två etapper: status 2026-11-10
+
+Arbetsgren: `feat/improve-staged-integration-20261110`. Ingen merge eller publicering.
+
+- Etapp 1: statrådgivningen är separerad från DPS-jämförelsen. Hard/Flex, Gate och Continue/Restart styr även när ett färdigt Echo vinner DPS men missar statkraven. DPS-tjänsten behöver inte anropas för att ge statråd.
+- Nya ospecificerade inställningar börjar med DPS Optimisation OFF. Sparat uttryckligt val bevaras. Preset-byte aktiverar inte längre DPS-optimering automatiskt.
+- Team DPS använder benämningen New Echo. Jämförbara resultat kan markera Current eller New Echo grönt; lika, saknade eller oförenliga resultat ger ingen vinnare. Villkorad DPS behåller ER-markeringen. Gul favoritstatmarkering är oförändrad.
+- Förväntade Echoes och EXP följer samma privata statpolicy som Tuners. Tubes visas som Gold-equivalent EXP-referens, inte som en lösning för spelarens ändliga Tube-lager.
+- Regression: fokuserade policy-, jämförelse-, konto-, Equip- och klientkontroller har passerat. Ett riktigt Chrome-flöde mot lokala privata tjänster kontrollerade ett isolerat syntetiskt Augusta-konto: DPS Optimisation OFF, fem registrerade rolls, båda vinnarmarkeringarna, förväntade resurser och kontosparande först vid Equip. Detta bevisar inte rosterbred DPS-täckning eller produktionsanslutning.
+- Reproducerbart browsertest: `test/improveStageOne.browser.mjs`, med `BELLIBING_LOCAL_ENGINE` och vid behov `BELLIBING_CHROMIUM_PATH`. Utan privat lokal tjänst är testet uttryckligen överhoppat; det får inte räknas som godkänt gränssnittstest.
+- Etapp 2 är påbörjad men inte färdig. Val av slot/observerad roll avbryter inte längre samma pågående femslotsjobb. Ett faktiskt övergivet jobb släpper arbetaren. Den gemensamma kostnadspolicyn, förberedd native-DPS och återupptagbar V1-analys återstår. Den äldre automatiska sökningen är därför fortfarande experimentell.
+- Ingen full testsvit, privat Worker-smoke eller slutlig releaseverifiering har genomförts i denna etapp.
+
 Uppdaterat 2026-11-10 efter ägarens förtydligande. Fortsättning på PR #365, WIP-bas `df887a67`. Ingen publicering ingår.
 
 ## Senaste rättning: jämförbar uppgraderingskostnad

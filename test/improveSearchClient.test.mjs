@@ -3,6 +3,21 @@ import assert from 'node:assert/strict';
 import {createImproveSearchClient} from '../docs/ui-lab/v1.1/modules/improve-search-client.js';
 const pause=()=>new Promise(resolve=>setTimeout(resolve,400));
 const input=()=>({useReference:true,teamInput:{selectedCharacterId:'augusta',team:{id:'reference'},records:[{characterId:'augusta',buildState:{sequenceLevel:3,weaponId:'weapon',echoSets:{activeSetId:'a',sets:{a:{slots:Array.from({length:5},(_,i)=>({echoId:'echo-'+i,cost:1,mainStat:{name:'ATK%'},substats:[]}))}}}}}]},slot:0,gate:15,plan:{dpsEnabled:true,minimumDpsPercent:95},erTarget:{enabled:true,valuePercent:120}});
+
+test('focus and roll edits wait for the existing five-slot job instead of cancelling it',async()=>{
+ const raw=input(),requests=[],results=[];let finish;
+ const response=()=>({ok:true,json:async()=>({protocol:'BELLIBING_IMPROVE_SEARCH_V1',result:{status:'ESTIMATED'}})});
+ const client=createImproveSearchClient({readInput:()=>raw,onResult:r=>results.push(r),fetchImpl:async(_,options)=>{
+  requests.push({body:JSON.parse(options.body),signal:options.signal});
+  if(requests.length===1)return new Promise(resolve=>{finish=()=>resolve(response());});return response();
+ }});
+ await client.refresh();await pause();raw.slot=3;raw.rolls=[{name:'CRIT Rate',value:.075}];
+ raw.teamInput.candidates=[null,null,null,{level:5},null];await client.refresh();await pause();
+ assert.equal(requests.length,1);assert.equal(requests[0].signal.aborted,false);
+ finish();await pause();
+ assert.equal(requests.length,2);assert.equal(requests[1].body.slot,3);assert.deepEqual(requests[1].body.rolls,raw.rolls);
+ assert.equal(results.filter(r=>r.status==='ESTIMATED').length,1);
+});
 test('Improve sends Gate and ER with the selected saved build without mutating it',async()=>{
  const raw=input(),before=structuredClone(raw),requests=[],results=[];
  const client=createImproveSearchClient({readInput:()=>raw,onResult:r=>results.push(r),fetchImpl:async(_,options)=>{requests.push(JSON.parse(options.body));return {ok:true,json:async()=>({protocol:'BELLIBING_IMPROVE_SEARCH_V1',result:{status:'ESTIMATED'}})};}});

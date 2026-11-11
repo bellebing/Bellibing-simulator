@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {spawn} from 'node:child_process';
+import {request} from 'node:http';
 import {mkdtempSync,mkdirSync,rmSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
@@ -35,8 +36,12 @@ test('DPS Lab starts as localhost-only, serves three static assets, and proxies 
   assert.equal(js.status,200);assert.match(await js.text(),/normalizeDpsLab/);
   const forbidden=await fetch(address+'/package.json');
   assert.equal(forbidden.status,404);
-  const badHost=await fetch(address+'/dps-lab/',{headers:{Host:'another-site.invalid'}});
-  assert.equal(badHost.status,403);
+  // fetch() normalizes forbidden Host overrides; raw HTTP verifies the guard.
+  const badHost=await new Promise((done,reject)=>{
+   const req=request(address+'/dps-lab/',{headers:{host:'another-site.invalid'}},res=>{res.resume();res.on('end',()=>done(res.statusCode));});
+   req.on('error',reject);req.end();
+  });
+  assert.equal(badHost,403);
   const make=(origin)=>fetch(address+'/local-review/dps-lab',{method:'POST',headers:{'content-type':'application/json','x-bellibing-review':'1',origin},body:JSON.stringify({action:'list'})});
   assert.equal((await make('http://another-site.invalid')).status,403);
   const reply=await make(address);

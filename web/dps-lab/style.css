@@ -22,3 +22,8 @@ label{display:block;margin:18px 0 8px;color:var(--gold);font-size:12px;font-weig
 .details{padding:11px;background:#0b0d11;border:1px solid #30323b;border-radius:9px;min-height:115px;font-size:11px;line-height:1.65;overflow-wrap:anywhere}.details strong{display:block;color:#f2d08d;font-size:13px}.detail-row{margin:6px 0 0}.detail-key{color:var(--muted);margin-right:5px}
 @media(max-width:1180px){.layout{grid-template-columns:minmax(195px,245px) minmax(0,1fr)}.results{grid-column:2}}
 @media(max-width:710px){.shell{width:calc(100% - 18px);padding-top:20px}.layout{grid-template-columns:1fr}.results{grid-column:1}.top{align-items:start;flex-direction:column}.timeline-row{grid-template-columns:99px max-content}.row-label{padding:10px 6px;font-size:10px}.row-label small{font-size:9px}.timeline-scroll{max-height:70vh}.panel{padding:14px}.timeline-panel{padding:14px 7px}}
+
+/* Dense native traces: all points remain clickable at their exact timestamp.
+   Names appear on hover/focus/selection instead of forcing 20+ stacked rows. */
+.timeline-item.point .tag{visibility:hidden;opacity:0;transition:opacity .1s linear}
+.timeline-item.point:hover .tag,.timeline-item.point:focus-visible .tag,.timeline-item.point.selected .tag{visibility:visible;opacity:1}

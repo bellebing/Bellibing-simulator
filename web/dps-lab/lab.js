@@ -25,6 +25,16 @@ export function normalizeDpsLab(reply){
   const t=r.timeline;
   if(t?.version!=='BELLIBING_DPS_TIMELINE_V1'||t.runIdentity!==r.runIdentity||t.timebase!=='SOURCE_NATIVE_GAME_FRAMES_60_PER_SECOND'||!validNumber(t.originFrame)||!validNumber(t.dpsCycleSeconds)||!near(t.dpsCycleSeconds,r.durationSeconds)||!validNumber(t.visibleEndSeconds)||t.visibleEndSeconds<r.durationSeconds-1e-6||!(t.activeRotationSeconds===null||validNumber(t.activeRotationSeconds)))return pending('TIMELINE_CLOCK_INVALID');
   if(!Array.isArray(t.instants)||!Array.isArray(t.intervals)||!Array.isArray(t.links)||t.instants.length>2400||t.intervals.length>1600||t.links.length>3600||!Number.isSafeInteger(t.unlinkedHitCount)||t.unlinkedHitCount<0)return pending('TIMELINE_SHAPE_INVALID');
+  if(t.unlinkedHitReasons!==undefined){
+   const reasons=t.unlinkedHitReasons;
+   const allowed=['FOLDED_MULTIHIT_CAST_ROW','PRIOR_CYCLE_CAST_OR_QUEUED_WINDOW',
+    'ALREADY_CONSUMED_NUMERIC_MATCH','NO_SOURCE_SLOT_IN_TRACE','TRACE_TIMING_OR_AVERAGE_UNRESOLVED'];
+   if(!reasons||typeof reasons!=='object'||Array.isArray(reasons)||
+    Object.keys(reasons).some(key=>!allowed.includes(key))||
+    !allowed.every(key=>Number.isSafeInteger(reasons[key])&&reasons[key]>=0)||
+    allowed.reduce((s,key)=>s+reasons[key],0)!==t.unlinkedHitCount
+   )return pending('HIT_GAP_DIAGNOSTICS_INVALID');
+  }
   const prior=t.priorSources??[];
   if(!Array.isArray(prior)||prior.length>100||
      !prior.every(e=>text(e.id)&&text(e.name)&&e.runIdentity===r.runIdentity&&
@@ -238,7 +248,8 @@ if(typeof window!=='undefined'&&d){
   }
   set($('coverage'),(run.explanation||'Endast native-exponerad data.')+
    (t.intervals.some(x=>x.type==='NATIVE_BUFF_LIFECYCLE')?' · Buff-spåret visar endast källverifierade effektinstanser.':' · Fullständiga buff-livscykler Pending.')+
-   (t.unlinkedHitCount?' · '+t.unlinkedHitCount+' skadeträffar saknar entydig koppling till snapshot och är inte placerade på ett antaget spår.':''));
+   (t.unlinkedHitCount?' · '+t.unlinkedHitCount+' native HitRecords saknar garanterat action-ID. Typning: '+
+    (t.unlinkedHitReasons?Object.entries(t.unlinkedHitReasons).filter(([_,n])=>n>0).map(([k,n])=>k+'='+n).join(', '):'PENDING')+'.':''));
   set($('selected'),'Klicka på native action, träff eller buff för att se ursprung → orsak → effekter. Ej verifierade buffs/summons är Pending.');
   renderTracks(run);
  };

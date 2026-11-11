@@ -48,7 +48,7 @@ export function normalizeDpsLab(reply){
   for(const b of t.intervals.filter(e=>e.type==='NATIVE_BUFF_LIFECYCLE')){
    if(b.track!=='buffs'||!['CHARACTER_ABILITY','WEAPON','ECHO','SONATA','PASSIVE','OTHER_NATIVE'].includes(b.originKind)||
     !text(b.originName)||!text(b.sourceAction)||!text(b.sourceGear)||!text(b.activationCondition)||
-    !r.rotation.characterIds.includes(b.sourceCharacterId)||b.characterId!==b.sourceCharacterId||
+    !r.rotation.characterIds.includes(b.sourceCharacterId)||!r.rotation.characterIds.includes(b.triggerCharacterId)||b.characterId!==b.sourceCharacterId||
     !['TEAM','MEMBER'].includes(b.recipientKind)||!Array.isArray(b.recipients)||
     b.recipients.length<1||b.recipients.length>3||new Set(b.recipients).size!==b.recipients.length||
     !b.recipients.every(x=>r.rotation.characterIds.includes(x))||
@@ -142,7 +142,7 @@ if(typeof window!=='undefined'&&d){
   if(item.kind)detailRow(panel,'Native typ',item.kind);
   if(item.type==='NATIVE_BUFF_LIFECYCLE'){
    detailRow(panel,'Effektursprung',item.originKind+' · '+item.originName);
-   detailRow(panel,'Utlösande handling',item.sourceAction);
+   detailRow(panel,'Utlösande handling',item.sourceAction+' · '+item.triggerCharacterId);
    detailRow(panel,'Native villkor',item.activationCondition);
    detailRow(panel,'Aktivering (global frame)',item.activationFrame);
    detailRow(panel,'Avslutning (global frame)',item.expirationFrame);

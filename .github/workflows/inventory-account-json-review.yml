@@ -11,6 +11,7 @@ on:
       - 'docs/product-ui/build-candidate/workbench-b.js'
       - 'test/ownedBuildAccountSync.test.mjs'
       - 'test/ownedBuildAccountSync.browser.mjs'
+      - 'test/productImport.browser.mjs'
       - 'docs/ui-lab/inventory/integration.js'
       - 'docs/ui-lab/inventory/integration.css'
       - 'docs/product-ui/inventory-candidate/inventory.js'
@@ -52,4 +53,4 @@ jobs:
       - name: Test real product and retained legacy JSON restore flows
         env:
           CHROME_BIN: /usr/bin/google-chrome
-        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/ownedBuildAccountSync.browser.mjs
+        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/ownedBuildAccountSync.browser.mjs test/productImport.browser.mjs

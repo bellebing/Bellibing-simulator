@@ -25,7 +25,13 @@ export async function createProductStore(catalog,trees) {
  const projected={};
  for(const id of [...Object.keys(owner.characters),...Object.keys(owner.unownedDrafts??{})])projected[id]=productDraftFromAccount(owner,id,trees.find(t=>t.characterId===id));
  const {drafts,conflicts}=reconcileProductDrafts({account:owner,projected,saved,trees});
- let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts,savedDrafts:structuredClone(projected),workshopPreviews:structuredClone(saved?.workshopPreviews??{}),previewCharacters:structuredClone(saved?.previewCharacters??{}),account:owner};
+ // Older local drafts may contain real unsaved experiments. Preserve them as
+ // Preview on first load rather than silently treating them as account edits.
+ const previewCharacters=structuredClone(saved?.previewCharacters??{});
+ for(const [characterId,working] of Object.entries(drafts)){
+  if(owner.characters[characterId]?.owned&&projected[characterId]&&working&&productDraftBuildIdentity(working)!==productDraftBuildIdentity(projected[characterId]))previewCharacters[characterId]??=true;
+ }
+ let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts,savedDrafts:structuredClone(projected),workshopPreviews:structuredClone(saved?.workshopPreviews??{}),previewCharacters,account:owner};
  if(!catalog.characters.some(c=>c.id===state.selected))state.selected='augusta';
  const api={session,snapshot:()=>structuredClone(state),commit(next){
   if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before editing.');

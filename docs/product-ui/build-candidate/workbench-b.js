@@ -125,8 +125,8 @@ function renderEchoes(){
 function renderAccount(){
  const owned=root.account.characters[person.id]?.owned,preview=root.previewCharacters?.[person.id],unchanged=owned&&productDraftBuildIdentity(root.savedDrafts[person.id])===productDraftBuildIdentity(draft());
  $('#bcAccount').textContent=owned?(preview==='import'?'Save reviewed import':preview?'Preview only':saveFailed?'Save blocked':unchanged?'On Account · saved':'Saving automatically'):'Add to Account';
- $('#bcAccount').disabled=!!owned&&(!!preview&&preview!=='import'||!!saveFailed||unchanged);
- const toggle=$('#bcPreviewMode');toggle.hidden=!owned;toggle.textContent=preview?'Discard Preview · Account':'Test / Preview';toggle.setAttribute('aria-pressed',String(!!preview));
+ $('#bcAccount').disabled=!!owned&&(preview!=='import'||!!saveFailed||unchanged);
+ const toggle=$('#bcPreviewMode');if(toggle){toggle.hidden=!owned;toggle.textContent=preview?'Discard Preview · Account':'Test / Preview';toggle.setAttribute('aria-pressed',String(!!preview));}
 }
 function render(){
  carousel?.setSelected(person.id);
@@ -348,10 +348,11 @@ const modeButton=document.createElement('button');modeButton.id='bcPreviewMode';
  modeButton.onclick=()=>{try{
   if(saveFailed)throw Error('Unsaved account change must be reviewed before switching modes. Reload this page.');
   if(root.account.characters[person.id]?.owned){
-   root=store.setPreviewMode(person.id,!root.previewCharacters?.[person.id]);
-   ui.panel&&closeEditor(false);render();message(root.previewCharacters?.[person.id]?'Test / Preview: no changes to Inventory.':'Back to saved Account build.');
+   ui.panel&&closeEditor(false);
+   root=store.setPreviewMode(person.id,!root.previewCharacters?.[person.id]);render();message(root.previewCharacters?.[person.id]?'Test / Preview: no changes to Inventory.':'Back to saved Account build.');
   }
  }catch(error){fail(error);}};
+ renderAccount();
  $('#bcAccount').onclick=async()=>{const button=$('#bcAccount');button.disabled=true;try{
   if(saveFailed)throw saveFailed;
   const current=clone(draft()),items=root.account.items;

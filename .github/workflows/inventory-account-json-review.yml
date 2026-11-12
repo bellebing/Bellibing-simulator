@@ -53,4 +53,7 @@ jobs:
       - name: Test real product and retained legacy JSON restore flows
         env:
           CHROME_BIN: /usr/bin/google-chrome
-        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/ownedBuildAccountSync.browser.mjs test/productImport.browser.mjs
+        run: |
+          timeout 120s node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs
+          timeout 120s node --experimental-strip-types --test test/ownedBuildAccountSync.browser.mjs
+          timeout 120s node --experimental-strip-types --test test/productImport.browser.mjs

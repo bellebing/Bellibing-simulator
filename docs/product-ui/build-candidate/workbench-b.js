@@ -64,13 +64,13 @@ const inAccountMode=id=>!!root.account.characters[id]?.owned;
 let saveQueue=Promise.resolve(),saveFailed=null,saveNumber=0;
 function queueAccountSave(snapshot){
  const number=++saveNumber;
- $('#bcSaved').textContent='Saving to Inventory…';
+ $('#bcSaved').textContent='Saving Current Build…';
  saveQueue=saveQueue.then(async()=>{
   if(saveFailed)throw saveFailed;
   return store.saveDraft(snapshot);
  }).then(saved=>{
   root=saved;
-  if(number===saveNumber){$('#bcSaved').textContent='Saved to Inventory';message('');render();}
+  if(number===saveNumber){$('#bcSaved').textContent='Current Build saved';message('');render();}
  }).catch(error=>{
   saveFailed=error;
   $('#bcSaved').textContent='NOT SAVED — reload and review';

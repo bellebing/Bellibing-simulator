@@ -67,6 +67,30 @@ export function applyProductDraft(account,draft,catalog) {
  return validateAccount(next,catalog);
 }
 
+
+
+// Account Mode is restricted to existing physical IDs. A new ID must be named
+// by the explicit Add Item action; catalog/species equality is never identity.
+// Moving an owned item also releases its former active owner without deleting it.
+export function applyOwnedProductDraft(account,draft,catalog,{addedItemIds=[]}={}) {
+ const ids=[...(draft.weaponId?[draft.weaponInstanceId]:[]),...draft.echoes.filter(Boolean).map(e=>e.instanceId)];
+ if(ids.some(id=>typeof id!=='string'||!id)||new Set(ids).size!==ids.length)throw Error('Physical item ID is missing or duplicated.');
+ const newIds=ids.filter(id=>!account.items[id]),approved=new Set(addedItemIds);
+ if(approved.size!==addedItemIds.length||newIds.length!==approved.size||newIds.some(id=>!approved.has(id)))
+  throw Error('New physical items require an explicit Add Echo or Add Weapon choice. Use Test / Preview to experiment.');
+ const adjusted=structuredClone(account);
+ for(const [characterId,character] of Object.entries(adjusted.characters)){
+  if(characterId===draft.characterId)continue;
+  const build=character.record.build;
+  if(ids.includes(build.weaponInstanceId))build.weaponInstanceId=null;
+  if(build.echoSets){
+   const active=build.echoSets.sets[build.echoSets.activeSetId];
+   if(active)active.slots=active.slots.map(id=>ids.includes(id)?null:id);
+  }
+ }
+ return applyProductDraft(adjusted,draft,catalog);
+}
+
 // Display calculations only when the saved observation establishes the actual
 // investments supported by the current static projector. Missing is not zero.
 export function productInvestmentPending(account, characterId, tree) {

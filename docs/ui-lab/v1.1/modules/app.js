@@ -62,6 +62,17 @@ const query = new URLSearchParams(location.search);
 const compactReview=query.get('layout')!=='legacy'&&query.get('demonstration')!=='true'&&query.get('review')!=='configuration';
 if(compactReview)document.body.classList.add('compact-review');
 const sandbox=query.get('sandbox')==='true';
+// Disclosure preferences are presentation-only; the Sandbox never adopts an AccountStore.
+const panelPrefs=createUiPreferenceStore(localStorage,accountOwner?.profile??'standalone-sandbox',sandbox?'detached-sandbox-ui':accountOwner?.stage().id??'detached-improve-ui');
+const panelScope=id=>(sandbox?'sandbox:':'improve:')+id+':panels';
+function savePanelPrefs(){
+ panelPrefs.write(panelScope(selectedId),{settings:$('#settings').classList.contains('expanded'),character:$('#character').classList.contains('expanded')});
+}
+function restorePanelPrefs(){
+ const saved=panelPrefs.read(panelScope(selectedId));
+ if(typeof saved.settings==='boolean')$('#settings').classList.toggle('expanded',saved.settings);
+ if(typeof saved.character==='boolean')$('#character').classList.toggle('expanded',saved.character);
+}
 const browserBeta=sandbox&&query.get('execution')==='browser';
 const expertMode=sandbox&&!browserBeta&&query.get('review')==='expert';
 const sandboxWorkspace=sandbox?createSandboxWorkspace():null;
@@ -79,7 +90,7 @@ const resources = mountResourceInventory($('#resourceInventory'),sandbox?undefin
 }}:{}),{sandbox});
 const resourceCost=mountResourceCost($('#resourceCost'));
 if(sandbox)document.querySelectorAll('[data-cost-role]').forEach(cell=>{cell.title=cell.dataset.costRole==='expected'?'Pending: no matching verified Expected Cost producer':'Awaiting an actual Sandbox run';});
-const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); layout('character'); }});
+const characterCard = mountResultsPanel($('.character-content'), {onReveal: () => { $('#character').classList.add('expanded'); savePanelPrefs(); layout('character'); }});
 let improvePresets=null;
 let accountSaveQueue=Promise.resolve();
 function saveAccountSettings(){
@@ -401,7 +412,10 @@ function renderTeamPanel(panel){
  const selection=sourceTeamView(state);
  if(!selection)return;
  const roleChoices=Object.fromEntries(['main','partner','third'].map(role=>[role,sourceTeamChoices(state,role)]));
- const wasOpen=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
+ const panelKey=(sandbox?'sandbox:':'improve:')+selectedId+':team-panel';
+ const sameCharacter=panel.dataset.prefCharacter===selectedId;
+ const savedTeamPanels=panelPrefs.read(panelKey);
+ const wasOpen=sameCharacter?[...panel.querySelectorAll('details[open]')].map(n=>n.className):Array.isArray(savedTeamPanels.open)?savedTeamPanels.open:[];
  panel.innerHTML=dpsConceptMarkup({
   characterId:selectedId,selection,roleChoices,hasCurrentBuild:hasCompleteTeamBuilds(readLocalTeamInput()),comparisonMode:sandbox?'SANDBOX':'IMPROVE',
   visibleMemberIds:accountMode&&!localTeamReview.referenceInvestmentAccepted()?readLocalTeamInput().records.filter(r=>r.status==='OBSERVED_PRODUCTION_BUILD_RECORD').map(r=>r.characterId):null,
@@ -409,7 +423,16 @@ function renderTeamPanel(panel){
   dps:sandbox?sandboxRun?.metrics?.dps??preRunMetrics?.dps??null:null,
   view:sandbox?sandboxRun?.view??null:null,comparisonSlot:state.sandboxComparisonSlot??null
  });
+ panel.dataset.prefCharacter=selectedId;
  panel.querySelectorAll('details').forEach(n=>{n.open=wasOpen.includes(n.className);});
+ if(!panel.dataset.prefToggleHook){
+  panel.dataset.prefToggleHook='1';
+  panel.addEventListener('toggle',event=>{
+   if(!event.target.matches('details')||!event.target.isConnected)return;
+   const opened=[...panel.querySelectorAll('details[open]')].map(n=>n.className);
+   panelPrefs.write((sandbox?'sandbox:':'improve:')+panel.dataset.prefCharacter+':team-panel',{open:opened});
+  },true);
+ }
  localTeamReview.mount(panel);
  const captured=state;
  const variantDialog=button=>{
@@ -658,8 +681,8 @@ $('#nextCard').onclick = () => { if (inspection.index < displayedHistories()[ins
 
 document.addEventListener('improve-echo-picker-closed',()=>{if(accountMode)renderWorkspace();});
 $('#newCard').addEventListener('click',event=>{if(accountMode&&echoAdvisor?.available())echoAdvisor.editCard(event);});
-$('#settingsToggle').onclick = () => { $('#settings').classList.toggle('expanded'); layout('settings'); };
-$('#characterToggle').onclick = () => { $('#character').classList.toggle('expanded'); layout('character'); };
+$('#settingsToggle').onclick = () => { $('#settings').classList.toggle('expanded'); savePanelPrefs(); layout('settings'); };
+$('#characterToggle').onclick = () => { $('#character').classList.toggle('expanded'); savePanelPrefs(); layout('character'); };
 let resizeTimer;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
@@ -731,12 +754,14 @@ if(!demonstration&&!configurationReview){
 }
 if(accountMode)setInterval(()=>{if(echoAdvisor?.available()){echoAdvisor.sync();return;}candidateSession.checkFresh();const b=improveCandidateContext(readImproveOwner());if(b!==candidateMetricsBinding)renderWorkspace();},100);
 $('#focusDemo').onchange = event => characterCard.setDemo(event.target.checked);
+restorePanelPrefs();
 renderWorkspace();
 layout();
 carousel = mountCarousel({ selectedId,compactPresentation:!!accountOwner,accountOnly:!!accountOwner, onSelect: id => {
   workshopEditor.close();if(accountMode)candidateSession.invalidate();
   uiContextRevision++;selectedId = id;
   state = characterState(id);
+  restorePanelPrefs();
   renderWorkspace();
 }, preview:accountOwner?id=>accountCarouselPreview(people.get(id),localStorage):sandbox?id=>sandboxWorkspace.preview(id):undefined,standalone:sandbox,accountLabel:accountMode?'account':undefined });
 if (query.get('settings') === 'expanded') { $('#settings').classList.add('expanded'); layout('settings'); }

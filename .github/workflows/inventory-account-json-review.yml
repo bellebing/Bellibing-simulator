@@ -16,6 +16,11 @@ on:
       - 'test/ownedBuildAccountSync.browser.mjs'
       - 'test/productImport.browser.mjs'
       - 'docs/ui-lab/inventory/integration.js'
+      - 'scripts/local-character-scanner.mjs'
+      - 'scripts/start-bellibing-local.mjs'
+      - 'test/localCharacterScanner.test.mjs'
+      - 'test/localCharacterScanner.browser.mjs'
+      - 'docs/CHARACTER_IMPORT_LOCAL.md'
       - 'docs/ui-lab/inventory/integration.css'
       - 'docs/product-ui/inventory-candidate/inventory.js'
       - 'docs/product-ui/inventory-candidate/inventory.css'
@@ -49,6 +54,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Canonical account backup and store regressions
         run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs test/ownedBuildAccountSync.test.mjs test/productBuildDraft.test.mjs
+      - name: Local Character scanner child and HTTP boundary regressions
+        run: node --experimental-strip-types --test test/localCharacterScanner.test.mjs
       - name: Build actual product Inventory
         run: npm run build
       - name: Use runner-installed Google Chrome
@@ -60,3 +67,4 @@ jobs:
           timeout 120s node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs
           timeout 120s node --experimental-strip-types --test test/ownedBuildAccountSync.browser.mjs
           timeout 120s node --experimental-strip-types --test test/productImport.browser.mjs
+          timeout 120s node --experimental-strip-types --test test/localCharacterScanner.browser.mjs

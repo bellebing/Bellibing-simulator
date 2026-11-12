@@ -38,9 +38,9 @@ jobs:
         run: node --experimental-strip-types --test test/uiFilterPreferences.test.ts test/characterRecommendations.test.ts test/productBuildDraft.test.mjs
       - name: Strict public build
         run: npm run build
-      - name: Install real Chromium
-        run: npx playwright install --with-deps chromium
-      - name: Augusta / Cartethyia owned-account Chromium acceptance
+      - name: Augusta / Cartethyia owned-account Chrome acceptance
+        env:
+          BELLIBING_CHROMIUM_PATH: /usr/bin/google-chrome
         run: node --experimental-strip-types --test test/filterPresets.browser.mjs
       - name: Diff integrity
         run: git diff --check HEAD^

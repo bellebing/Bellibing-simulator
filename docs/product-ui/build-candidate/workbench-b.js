@@ -81,7 +81,9 @@ function queueAccountSave(snapshot){
 function validateEditableDraft(value){if(value.importObservation)safeDocument(value);else validateDraft(value,catalog,skills.characters);}
 function change(mutator){
  if(saveFailed)throw Error('Previous change was NOT SAVED. Reload and review the saved Build before editing.');
- const next=clone(root),id=person.id;mutator(next.drafts[id]);validateEditableDraft(next.drafts[id]);
+ const next=clone(root),id=person.id;
+ try{mutator(next.drafts[id]);validateEditableDraft(next.drafts[id]);}
+ catch(error){$('#bcSaved').textContent='NOT SAVED — invalid Build change';throw error;}
  const savedCharacter=inAccountMode(id);
  try{persist(next);}catch(error){$('#bcSaved').textContent='NOT SAVED — reload and review';throw error;}
  message();render();

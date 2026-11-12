@@ -54,7 +54,8 @@ test('WebP stages unsaved Character for Add; later imported data cannot silently
    catch(error){return error.message;}
   },observation);
   assert.match(outcome,/preserved for recovery/);
-  assert.equal(await page.locator('#bcAccount').isHidden(),true,'no Update button');
+  const button=await page.locator('#bcAccount').evaluate(el=>({hidden:el.hidden,style:el.style.display,computed:getComputedStyle(el).display,text:el.textContent,selected:globalThis.buildCandidateReview?.snapshot().selected,owners:Object.keys(globalThis.buildCandidateReview?.snapshot().account.characters??{}),currentName:document.querySelector('#bcName')?.textContent}));
+  assert.equal(await page.locator('#bcAccount').isHidden(),true,'no Update button: '+JSON.stringify(button));
   assert.deepEqual(await page.evaluate(()=>buildCandidateReview.snapshot().account),before);
   const recovery=await page.evaluate(()=>Object.keys(localStorage).filter(key=>key.includes(':pending-owned-import:')));
   assert.ok(recovery.length,'original imported draft is archived without updating Account');

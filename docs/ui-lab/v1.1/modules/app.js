@@ -63,7 +63,7 @@ const compactReview=query.get('layout')!=='legacy'&&query.get('demonstration')!=
 if(compactReview)document.body.classList.add('compact-review');
 const sandbox=query.get('sandbox')==='true';
 // Disclosure preferences are presentation-only; the Sandbox never adopts an AccountStore.
-const panelPrefs=createUiPreferenceStore(localStorage,accountOwner?.profile??'standalone-sandbox',sandbox?'detached-sandbox-ui':accountOwner?.stage().id??'detached-improve-ui');
+const panelPrefs=createUiPreferenceStore(globalThis.localStorage,accountOwner?.profile??'standalone-sandbox',sandbox?'detached-sandbox-ui':accountOwner?.stage().id??'detached-improve-ui');
 const panelScope=id=>(sandbox?'sandbox:':'improve:')+id+':panels';
 function savePanelPrefs(){
  panelPrefs.write(panelScope(selectedId),{settings:$('#settings').classList.contains('expanded'),character:$('#character').classList.contains('expanded')});
@@ -650,7 +650,7 @@ $('#slots').addEventListener('click', event => {
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
 if(accountMode)improveEchoPicker=mountImproveEchoPicker({
- preferences:createUiPreferenceStore(localStorage,accountOwner.profile,accountOwner.stage().id),
+ preferences:createUiPreferenceStore(globalThis.localStorage,accountOwner.profile,accountOwner.stage().id),
  getContext:()=>({characterId:selectedId,slot:state.selectedSlot,template:readEchoAdviceContext().template}),
  onUse:useCandidateTemplate
 });

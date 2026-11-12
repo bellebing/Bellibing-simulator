@@ -42,7 +42,9 @@ jobs:
         run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs
       - name: Build actual product Inventory
         run: npm run build
-      - name: Install Chromium browser
-        run: npx playwright install --with-deps chromium
+      - name: Use runner-installed Google Chrome
+        run: command -v google-chrome && google-chrome --version
       - name: Test real product and retained legacy JSON restore flows
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
         run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/recoveryIntegration.browser.mjs

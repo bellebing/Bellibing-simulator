@@ -48,7 +48,7 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Canonical account backup and store regressions
-        run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs test/ownedBuildAccountSync.test.mjs
+        run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs test/ownedBuildAccountSync.test.mjs test/productBuildDraft.test.mjs
       - name: Build actual product Inventory
         run: npm run build
       - name: Use runner-installed Google Chrome

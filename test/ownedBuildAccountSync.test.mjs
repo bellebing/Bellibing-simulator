@@ -5,6 +5,7 @@ import {catalog,scan} from './fixtures/inventory.mjs';
 import {emptyAccount,saveReviewedScan,validateAccount,moveItem,exportAccount,parseBackup} from '../src/inventoryAccount.mjs';
 import {openAccountStore} from '../src/inventoryAccountStore.mjs';
 import {productDraftFromAccount,applyOwnedProductDraft} from '../src/productBuildDraft.mjs';
+import {validateDraft} from '../docs/product-ui/build-candidate/state.js';
 
 // All stats and item identities below come from the existing canonical editor.
 function exampleAccount(){
@@ -100,4 +101,23 @@ test('changing a physical item owner moves only that ID and never duplicates an 
  assert.ok(moved.items['physical-echo-A']);
  assert.ok(moved.items['physical-echo-B']);
  assert.equal(Object.keys(moved.items).length,Object.keys(next.items).length);
+});
+
+test('unknown imported Sequence and partial Echo stay unknown during valid Current edits',()=>{
+ const observed=scan('augusta');
+ observed.sequence=null;
+ observed.echoes[0].substats=[];observed.echoes[0].level=null;observed.echoes[0].rank=null;
+ const account=saveReviewedScan(emptyAccount(),observed,catalog,{reviewed:true,assign:true});
+ const tree={nodes:[]},draft=productDraftFromAccount(account,'augusta',tree),id=draft.echoes[0].instanceId;
+ assert.equal(draft.sequence,null);
+ assert.equal(draft.echoes[0].level,null);
+ assert.equal(draft.echoes[0].rank,null);
+ draft.sequence=1;
+ assert.doesNotThrow(()=>validateDraft(draft,catalog,[],{account}), 'only the existing partial observation is allowed');
+ const next=applyOwnedProductDraft(account,draft,catalog);
+ assert.equal(next.characters.augusta.record.build.sequenceLevel,1);
+ assert.deepEqual(next.items[id],account.items[id], 'unrelated Sequence edit preserves partial physical observation exactly');
+ const malicious=structuredClone(draft);
+ malicious.echoes[0].mainStat.value=12345;
+ assert.throws(()=>validateDraft(malicious,catalog,[],{account}),/Invalid|Echo/,'editing the partial Echo still requires valid canonical stats');
 });

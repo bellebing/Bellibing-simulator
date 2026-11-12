@@ -20,7 +20,8 @@ test('Chromium: character-source Echo presets, five slot Cost, manual filters an
   const profile='source-filter-acceptance-'+Date.now();
   await openBuild(page,base,profile,'augusta');
   await page.locator('#bcAccount').click();
-  await page.waitForFunction(()=>document.querySelector('#bcStatus')?.textContent==='Saved to account.');
+  await page.waitForFunction(()=>!!globalThis.buildCandidateReview?.snapshot().account.characters.augusta?.owned);
+  assert.equal(await page.locator('#bcSaved').innerText(),'Current Build · saved');
   for(const [slot,cost] of [4,3,3,1,1].entries()){
    await openSlot(page,slot);assert.equal(await costs(page),String(cost),'Augusta slot '+(slot+1));
    assert.match(await page.locator('.wb-slot-guidance').innerText(),new RegExp('Cost '+cost));

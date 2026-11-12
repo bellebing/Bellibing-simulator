@@ -8,7 +8,7 @@ export function productDraftFromScan(scan,catalog,tree) {
  const levels={'normal-attack':scan.skills?.basic,skill:scan.skills?.skill,circuit:scan.skills?.circuit,intro:scan.skills?.intro,liberation:scan.skills?.liberation};
  const forte=normalizeForteState(tree??{nodes:[]},{schemaVersion:1,levels,enabled:{}});
  return {characterId:scan.character.id,characterLevel:scan.character.level??null,sequence:scan.sequence??null,
-  weaponId:scan.weapon?.id??null,weaponLevel:scan.weapon?.level??null,weaponRank:scan.weapon?.refinement??1,weaponInstanceId:crypto.randomUUID(),
+  weaponId:scan.weapon?.id??null,weaponLevel:scan.weapon?.level??null,weaponRank:scan.weapon?.refinement??null,weaponInstanceId:crypto.randomUUID(),
   forte:normalizeForteState(tree??{nodes:[]},{...forte,enabled:normalizeForteState(tree??{nodes:[]},null).enabled}),importForte:structuredClone(forte),
   assumedBuildFacts:[...(scan.weapon?.refinement==null?['Weapon rank defaults to R1']:[]),'Minor Forte defaults to unlocked'],
   importObservation:structuredClone(scan),

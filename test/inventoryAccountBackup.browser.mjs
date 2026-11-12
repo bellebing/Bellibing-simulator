@@ -43,7 +43,7 @@ test('product Inventory JSON export, empty restore, rejected imports and guarded
   const firstReload=restored.waitForEvent('load');
   await restored.locator('[data-confirm-restore]').click();
   await firstReload;
-  await restored.waitForFunction(id=>bellibingAccountSession?.store.snapshot()?.id===id,backup.account.id);
+  await restored.waitForFunction(id=>globalThis.bellibingAccountSession?.store.snapshot()?.id===id,backup.account.id);
   assert.deepEqual(await restored.evaluate(()=>bellibingAccountSession.store.snapshot()),backup.account);
   await restored.locator('[data-iv-kind="weapon"]').click();assert.equal(await restored.locator('.iv-card').count(),3);
   await restored.locator('[data-iv-kind="echo"]').click();assert.equal(await restored.locator('.iv-card').count(),15);
@@ -64,7 +64,7 @@ test('product Inventory JSON export, empty restore, rejected imports and guarded
   const secondReload=restored.waitForEvent('load');
   await restored.locator('[data-confirm-restore]').click();
   await secondReload;
-  await restored.waitForFunction(revision=>bellibingAccountSession?.store.snapshot()?.revision>revision,backup.account.revision);
+  await restored.waitForFunction(revision=>globalThis.bellibingAccountSession?.store.snapshot()?.revision>revision,backup.account.revision);
   const replaced=await restored.evaluate(()=>bellibingAccountSession.store.snapshot());
   assert.deepEqual(replaced.items,before.items);
   assert.deepEqual(replaced.characters,before.characters);

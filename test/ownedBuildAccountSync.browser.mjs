@@ -25,6 +25,7 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   await page.locator('[data-bc-echo="0"]').click();
   await page.locator('[data-bc-species="'+species.id+'"]').first().click();
   await chooseMain('HP%');
+  assert.equal(await page.locator('#bcEditorError').textContent(),'','Echo must be valid before its explicit Add action');
   await page.locator('[data-bc-equip="echo"]').click();
   await page.locator('[data-bc-confirm="yes"]').click();
   await page.waitForFunction(()=>document.querySelector('#bcSaved')?.textContent==='Saved to Inventory');

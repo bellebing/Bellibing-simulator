@@ -13,7 +13,7 @@ export function accountWithDraft(account,draft,catalog){
  next.characters[character.id]={id:character.id,name:character.name,owned:true,revision:(previous?.revision??0)+1,record:{character:character.name,build:{characterLevel:90,sequenceLevel:draft.sequence,forte:clone(draft.forte),weaponInstanceId:weaponId,echoSets:{schemaVersion:1,activeSetId:'set-1',defaultSetId:'set-1',sets:{'set-1':{id:'set-1',name:'Build',slots}}}}}};
  next.revision++;return validateAccount(next,catalog);
 }
-export function validateDraft(draft,catalog,trees){
+export function validateDraft(draft,catalog,trees,{account=null}={}){
  assert(draft&&catalog.characters.some(c=>c.id===draft.characterId),'Unknown draft Character.');
  // Imported Characters can have an unknown (null) Sequence; preserve that
  // observation until the user explicitly selects S0–S6. Never infer S0.
@@ -24,7 +24,19 @@ export function validateDraft(draft,catalog,trees){
  const tree=trees.find(t=>t.characterId===draft.characterId)??{nodes:[]};
  const normalized=normalizeForteState(tree,draft.forte);
  assert(JSON.stringify(normalized)===JSON.stringify(draft.forte),'Invalid Skills state or prerequisites.');
- for(const e of draft.echoes){if(!e)continue;const source=catalog.echoes.find(row=>row.id===e.speciesId);assert(source&&source.cost===e.cost,'Echo identity mismatch.');assertEchoStatsEditorSelection(e);assert(source.sonataSetIds.includes(e.selectedSonataSetId),'Incompatible Sonata assignment.');}
+ for(const e of draft.echoes){
+  if(!e)continue;
+  const source=catalog.echoes.find(row=>row.id===e.speciesId);
+  assert(source&&source.cost===e.cost,'Echo identity mismatch.');
+  const existing=account?.items?.[e.instanceId];
+  const fields=['cost','rank','level','selectedSonataSetId','mainStat','secondaryMainStat','substats'];
+  const untouchedObserved=existing?.kind==='echo'&&existing.catalogId===e.speciesId&&fields.every(field=>
+   JSON.stringify(e[field]??null)===JSON.stringify(existing.data[field]??null));
+  // Unknown details from a previously validated owned item are not fabricated
+  // just to change Sequence/Forte. New or edited Echoes must be fully valid.
+  if(!untouchedObserved)assertEchoStatsEditorSelection(e);
+  assert(untouchedObserved&&e.selectedSonataSetId==null||source.sonataSetIds.includes(e.selectedSonataSetId),'Incompatible Sonata assignment.');
+ }
  // Reuse the account's ownership, duplicate-species, weapon-type and cost rules.
  accountWithDraft(emptyAccount(),draft,catalog);return draft;
 }

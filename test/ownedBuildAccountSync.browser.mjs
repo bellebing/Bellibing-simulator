@@ -53,16 +53,33 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   await inventory.waitForFunction(()=>document.querySelectorAll('.iv-card').length===2);
   assert.equal(await inventory.locator('.iv-card').count(),2,'Open Inventory updates after Build commit without reload');
   assert.deepEqual(await inventory.evaluate(()=>bellibingAccountSession.store.snapshot().items),withB.items);
+
+  // Correct the equipped physical B, not a new item: ID stays identical in
+  // both Build and the Inventory tab already open alongside it.
+  await chooseMain('HP%');
+  await page.locator('[data-bc-equip="echo"]').click();
+  await page.waitForFunction(revision=>bellibingAccountSession.store.snapshot().revision>revision,withB.revision);
+  const corrected=await page.evaluate(()=>bellibingAccountSession.store.snapshot());
+  assert.equal(corrected.characters.augusta.record.build.echoSets.sets['set-1'].slots[0],idB);
+  assert.equal(corrected.items[idB].data.mainStat.name,'HP%');
+  await inventory.waitForFunction(id=>bellibingAccountSession.store.snapshot().items[id]?.data.mainStat.name==='HP%',idB);
+  await chooseMain('CRIT DMG');
+  await page.locator('[data-bc-equip="echo"]').click();
+  await page.waitForFunction(revision=>bellibingAccountSession.store.snapshot().revision>revision,corrected.revision);
+  const reverted=await page.evaluate(()=>bellibingAccountSession.store.snapshot());
+  assert.equal(reverted.characters.augusta.record.build.echoSets.sets['set-1'].slots[0],idB);
+  assert.equal(reverted.items[idB].data.mainStat.name,'CRIT DMG');
+  await inventory.waitForFunction(id=>bellibingAccountSession.store.snapshot().items[id]?.data.mainStat.name==='CRIT DMG',idB);
   await page.locator('#bcPreviewMode').click();
   assert.equal(await page.locator('#bcPreviewMode').getAttribute('aria-pressed'),'true');
   await page.locator('[data-bc-echo="0"]').click();
   await page.locator('[data-bc-new-echo]').click();
   await page.locator('[data-bc-equip="echo"]').click();
   assert.match(await page.locator('#bcSaved').innerText(),/Preview/);
-  assert.deepEqual(await page.evaluate(()=>bellibingAccountSession.store.snapshot()),withB,'Preview must not write to AccountStore');
+  assert.deepEqual(await page.evaluate(()=>bellibingAccountSession.store.snapshot()),reverted,'Preview must not write to AccountStore');
   await page.reload();await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
   assert.equal(await page.locator('#bcPreviewMode').getAttribute('aria-pressed'),'true','Preview mode survives reload as a safety boundary');
-  assert.deepEqual(await page.evaluate(()=>bellibingAccountSession.store.snapshot()),withB);
+  assert.deepEqual(await page.evaluate(()=>bellibingAccountSession.store.snapshot()),reverted);
   await page.locator('#bcPreviewMode').click();
   assert.equal(await page.locator('#bcPreviewMode').getAttribute('aria-pressed'),'false');
 

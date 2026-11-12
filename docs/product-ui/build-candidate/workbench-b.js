@@ -222,7 +222,7 @@ async function buildNewCharacter(id){
  if(!identity?.element||!identity.weaponType||root.account.characters[id]?.owned)return;
  rememberWorkshopPreview();
  const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);
- closeEditor(false);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();carousel.setSelected(id);
+ closeEditor(false);person=CHARACTER_CATALOG.find(c=>c.id===id);ui.more=filterPrefs.read(buildPref('summary')).more===true;message();render();carousel.setSelected(id);
 }
 function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery=filterPrefs.read(buildPref('weapon')).query??'';renderWeaponEditor();renderWeapon();}
 function renderWeaponEditor() {

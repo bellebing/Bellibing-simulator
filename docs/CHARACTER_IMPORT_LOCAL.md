@@ -2,7 +2,49 @@
 
 The recovery candidate reuses #360's extended #362 scanner and single physical Inventory owner, within the existing Build route. #361 supplies approved Build/Team/Inventory presentation, not OCR. Compact Import opens an anchored review; explicit save returns to the same Builder with the saved Character selected. Unknown observations remain unknown. Current acceptance and pending work are recorded in [the integration review](ONE_PR_INTEGRATION_REVIEW.md).
 
-## Run
+## Normal Windows one-click launch (127.0.0.1:8767)
+
+The existing `scripts/start-bellibing-local.mjs` now starts the **existing**
+`docs/ui-lab/scanner-poc/serve.py` scanner as a separate loopback-only child
+alongside its private-backed public preview. Import in `/build/` posts to
+`/local-import/scan` on the **same origin**; the launcher forwards only the
+validated image/review payload to the scanner and returns its JSON. No manual
+second server, GPL source in the public bundle, remote upload, account mutation
+or engine/runtime change is involved. The scanner is stopped when the local
+launcher closes. The standalone launcher below is still available for isolated
+scanner review.
+
+First-time **scanner dependencies** remain required; the local launcher does
+not silently install Python, OpenCV or Tesseract. On Windows, install Python
+3.12+ and Tesseract CLI with English language data available (`tesseract
+--list-langs` should include `eng`). From the public repository root:
+
+```powershell
+py -3.12 -m venv docs/ui-lab/scanner-poc/.venv
+docs/ui-lab/scanner-poc/.venv/Scripts/python.exe -m pip install -r docs/ui-lab/scanner-poc/requirements.txt
+```
+
+The launcher automatically selects this local venv when present; use
+`SCANNER_PYTHON` to override it. `SCANNER_PORT` is optional; by default a free
+loopback port is selected, avoiding collisions with the 8767 web server.
+A prepared `docs/ui-lab/scanner-poc/tessdata/eng.traineddata` takes precedence;
+otherwise the system Tesseract language configuration is preserved.
+If dependencies are missing, **Build, Inventory, Improve and DPS Lab still
+open**, but import shows a specific retry/setup message instead of an empty
+HTTP 405 / JSON parsing exception. No account commit occurs on scanner failure.
+
+The pre-existing browser-local WASM scanner was reviewed: its separately
+prepared, locally cached Pyodide/OpenCV/Tesseract assets are appropriate for
+browser proof runs, but preparing and distributing them on Windows would
+expand this small fix and change the scanner/license boundary. We therefore
+reuse the already integrated Python data-only API, not a new OCR engine.
+Focused CI tests cover loopback routing, request rejection, scanner loss and a
+real Chromium Build → Inventory journey using a **synthetic scanner response**.
+They do **not** independently verify OCR of a real original card, a physical
+Windows machine, or the private engine startup; those require owner/local
+acceptance before calling this fully resolved.
+
+## Standalone scanner review launcher
 
 Foundation continuation adds local browser-WASM recognition and emulator-only
 account review. The original Foundation implementation record remains preserved in #360; it is historical evidence, not current acceptance.

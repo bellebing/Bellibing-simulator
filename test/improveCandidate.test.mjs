@@ -38,7 +38,12 @@ test('missing real Current, unsupported account ER and saved-policy blockers rem
  }
 });
 test('whole-build static dominance stays separate from mixed trades, ER, effects and ranking',()=>{
- const f=fixture();f.account.drafts.Augusta.build.echoSets.sets.owned.slots[0].substats[1].value=40;const storage={getItem:()=>JSON.stringify(f.account)},candidate=structuredClone(f.cards[0]);
+ const f=fixture();
+ // Comparison requires explicit investment facts. The generic fixture leaves
+ // those unobserved and production must not silently default to level 90.
+ Object.assign(f.account.drafts.Augusta.build,{characterLevel:90,weaponLevel:90,weaponRefinement:1});
+ f.account.drafts.Augusta.build.echoSets.sets.owned.slots[0].substats[1].value=40;
+ const storage={getItem:()=>JSON.stringify(f.account)},candidate=structuredClone(f.cards[0]);
  candidate.substats[0].value=360;let p=accountProjection(person,storage,{candidate,slot:0});assert.equal(p.comparison.status,'STATIC_DOMINANCE');assert.equal(p.comparison.authorizesCostRanking,false);assert.equal(p.comparison.authorizesAutomaticEquip,false);
  candidate.substats[1].value=30;p=accountProjection(person,storage,{candidate,slot:0});assert.equal(p.comparison.status,'PENDING');assert.equal(p.comparison.reason,'CROSS_STAT_TRADES_PENDING');
 });

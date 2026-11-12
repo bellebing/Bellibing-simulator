@@ -27,22 +27,62 @@ try{const saved=JSON.parse(sessionStorage.getItem(draftKey)??'null');if(!product
 
 const message=(text,error=false)=>{const host=sheet.querySelector('[data-owned-message]');if(host){host.textContent=text+(draft&&!draftStored?' Draft is kept on this page only; save or export before leaving.':'');host.className=error?'owned-errors':'owned-message';}};
 function download(value,name){const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function backup(){const value=exportAccount(session.stage(),catalog);download(value,'Bellibing_Inventory_Backup.json');backedUp=true;message('Validated backup downloaded. Original legacy storage remains unchanged.');return value;}
-function chrome(title){sheet.hidden=false;sheet.dataset.mode=mode;sheet.style.cssText='';trigger.setAttribute('aria-expanded',String(mode==='import'));sheet.innerHTML=`<div class="owned-toolbar"><h2>${esc(title)}</h2><button type="button" data-close>Close</button><button type="button" data-backup>Export JSON backup</button><label>Restore JSON<input type="file" accept="application/json,.json" data-restore></label></div><p data-owned-message class="owned-message" role="status"></p><div data-owned-content></div>`;
- sheet.querySelector('[data-close]').onclick=closeSheet;sheet.querySelector('[data-backup]').onclick=()=>{try{backup();}catch(e){message(e.message,true);}};
+function backup(){
+ const existing=store.snapshot();
+ const value=exportAccount(existing??session.stage(),catalog);
+ const stamp=new Date().toISOString().replace(/[:.]/g,'-');
+ download(value,'Bellibing_Account_'+profile+'_'+stamp+'.json');
+ backedUp=true;message('Account JSON downloaded. Keep this file somewhere safe.');return value;
+}
+function chrome(title){sheet.hidden=false;sheet.dataset.mode=mode;sheet.style.cssText='';trigger.setAttribute('aria-expanded',String(mode==='import'));sheet.innerHTML=`<div class="owned-toolbar"><h2>${esc(title)}</h2><button type="button" data-close>Close</button><button type="button" data-backup>Export Account JSON</button><button type="button" data-import-account>Import Account JSON</button><input type="file" accept="application/json,.json" aria-label="Select Account JSON backup" data-restore hidden></div><p data-owned-message class="owned-message" role="status"></p><div data-owned-content></div>`;
+ sheet.querySelector('[data-close]').onclick=closeSheet;sheet.querySelector('[data-backup]').onclick=()=>{try{backup();}catch(e){message(e.message,true);}};sheet.querySelector('[data-import-account]').onclick=()=>sheet.querySelector('[data-restore]').click();
  const recovery=document.createElement('details');recovery.innerHTML='<summary>Recovery before-states</summary><button type="button" data-show-recovery>Review saved recovery points</button><div data-recovery-list></div>';sheet.append(recovery);
  recovery.querySelector('[data-show-recovery]').onclick=async()=>{const list=recovery.querySelector('[data-recovery-list]');list.replaceChildren();const entries=(await store.recovery()).slice(-5).reverse();if(!entries.length){list.textContent='No account changes have been saved.';return;}
   for(const entry of entries){const row=document.createElement('div');row.className='owned-row';const action=document.createElement('button');action.type='button';action.textContent=entry.previous?'Review before-state from '+entry.createdAt:'Review return to original legacy / empty profile';row.append(action);list.append(row);
    action.onclick=()=>{const revision=store.snapshot()?.revision??null,accountId=store.snapshot()?.id??null;row.replaceChildren();const text=document.createElement('span');text.textContent=entry.previous?'Restore prior account; a backup of the present account will be downloaded.':'Return to the original untouched legacy storage, or an empty profile. The present account is backed up first.';const confirm=document.createElement('button');confirm.type='button';confirm.textContent='Confirm recovery';confirm.dataset.confirmRecovery='';const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel recovery';cancel.onclick=()=>row.remove();row.append(text,confirm,cancel);confirm.onclick=async()=>{try{backup();await store.rollback(entry,{expectedRevision:revision,expectedAccountId:accountId});showInventory();message('Recovery completed. Original legacy keys remain unchanged.');}catch(error){message(error.message,true);}};};
   }
  };
- sheet.querySelector('[data-restore]').onchange=async e=>{try{
-  const file=e.target.files[0];if(!file)return;if(file.size>5*1024*1024)throw Error('Backup must be at most 5 MiB.');const imported=parseBackup(await file.text(),catalog),before=store.snapshot();
-  const host=sheet.querySelector('[data-owned-content]');host.replaceChildren();const info=document.createElement('p');info.textContent=`Restore ${Object.keys(imported.characters).length} Characters and ${Object.keys(imported.items).length} physical items. ${before||session.legacyBytes()?'This replaces the selected local profile after backup.':'The selected local profile is empty.'}`;host.append(info);
-  const button=document.createElement('button');button.textContent=before||session.legacyBytes()?'Back up and replace this local profile':'Confirm restore into empty profile';button.dataset.confirmRestore='';host.append(button);
-  const cancel=document.createElement('button');cancel.textContent='Cancel restore';cancel.onclick=()=>showInventory();host.append(cancel);
-  button.onclick=async()=>{try{if(before||session.legacyBytes())backup();await store.commit(imported,{expectedRevision:before?.revision??null,expectedAccountId:before?.id??null,reason:'EXPLICIT_JSON_RESTORE'});showInventory();message('Backup restored. Physical item IDs and supported account data preserved.');}catch(err){message(err.message,true);}};
- }catch(err){message(err.message,true);}};
+ sheet.querySelector('[data-restore]').onchange=async e=>{
+  const file=e.target.files?.[0];e.target.value='';if(!file)return;
+  const host=sheet.querySelector('[data-owned-content]');host.replaceChildren();
+  try{
+   if(!store.status().writable)throw Error('This profile is read-only. Download original account recovery data first.');
+   if(file.size>5*1024*1024)throw Error('Backup must be at most 5 MiB.');
+   const imported=parseBackup(await file.text(),catalog),before=store.snapshot(),originalLegacy=session.legacyBytes();
+   const owned=Object.values(imported.characters).filter(c=>c.owned).length;
+   const weapons=Object.values(imported.items).filter(i=>i.kind==='weapon').length;
+   const echoes=Object.values(imported.items).filter(i=>i.kind==='echo').length;
+   const occupied=!!before||!!originalLegacy;
+   const summary=document.createElement('p');summary.dataset.restoreSummary='';
+   summary.textContent=`Restore ${owned} owned Characters, ${weapons} Weapons and ${echoes} Echoes (${weapons+echoes} physical items), ${imported.userData?.teams?.length??0} Teams. All saved builds, settings and equipment IDs are kept. ${occupied?'Your existing local profile will be REPLACED.':'Your local profile is empty.'}`;
+   const approve=document.createElement('label');approve.className='owned-restore-approval';
+   approve.innerHTML='<input type="checkbox" data-approve-restore> I approve restoring this account into the selected local profile.';
+   const confirm=document.createElement('button');confirm.type='button';confirm.dataset.confirmRestore='';
+   confirm.textContent='Confirm account restore';confirm.disabled=true;
+   const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';
+   cancel.onclick=()=>showInventory();
+   let protectedCopy=!occupied;
+   const backupFirst=document.createElement('button');backupFirst.type='button';backupFirst.dataset.backupBeforeRestore='';
+   backupFirst.textContent='1. Download backup of existing account';
+   const info=document.createElement('p');info.textContent=occupied?'Before replacing anything, download your existing account and keep the file. Then explicitly approve replacement.':'This restores the imported account without changing other profiles.';
+   const sameAccount=()=>{const live=store.snapshot();return (live?.id??null)===(before?.id??null)&&(live?.revision??null)===(before?.revision??null)&&session.legacyBytes()===originalLegacy;};
+   backupFirst.onclick=()=>{try{
+    if(!sameAccount())throw Error('Account changed since file review. Select the JSON file again.');
+    backup();protectedCopy=true;backupFirst.disabled=true;backupFirst.textContent='Existing account backup downloaded';
+    confirm.disabled=!approve.querySelector('input').checked;
+   }catch(error){message(error.message,true);}};
+   approve.querySelector('input').onchange=()=>{confirm.disabled=!(protectedCopy&&approve.querySelector('input').checked);};
+   if(occupied)host.append(summary,info,backupFirst,approve,confirm,cancel);
+   else host.append(summary,info,approve,confirm,cancel);
+   confirm.onclick=async()=>{try{
+    if(!protectedCopy||!approve.querySelector('input').checked||!sameAccount())throw Error('Restore approval or account backup is missing/stale. Select the JSON file again.');
+    confirm.disabled=true;
+    await store.commit(imported,{expectedRevision:before?.revision??null,expectedAccountId:before?.id??null,reason:'EXPLICIT_JSON_RESTORE'});
+    showInventory();message('Account restored. Physical item IDs, builds and equipment links preserved.');
+   }catch(error){confirm.disabled=false;message(error.message,true);}};
+  }catch(error){showInventory();message('Import rejected; existing account unchanged. '+error.message,true);}
+ };
+
 }
 function openImport(){if(!buildRoute){const url=new URL(link('build'),location.origin);url.searchParams.set('import','true');location.href=url.href;return;}mode='import';chrome('Import Character');sheet.classList.toggle('has-review',!!draft);sheet.querySelector('[data-owned-content]').innerHTML=`<label class="owned-drop" tabindex="0">${productTrigger?'Drop a build image':'Drag build card here'}<input type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" data-card-upload></label><div data-review></div>`;
  const upload=sheet.querySelector('[data-card-upload]');upload.onchange=e=>{scanFile(e.target.files[0]);e.target.value='';};

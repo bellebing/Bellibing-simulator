@@ -1,0 +1,46 @@
+name: Build Filter Preferences Chromium Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'src/uiFilterPreferences.mjs'
+      - 'src/characterRecommendations.mjs'
+      - 'docs/product-ui/build-candidate/**'
+      - 'docs/product-ui/inventory-candidate/**'
+      - 'docs/product-ui/team-candidate/**'
+      - 'docs/ui-lab/v1.1/modules/app.js'
+      - 'docs/ui-lab/v1.1/modules/improve-echo-picker.js'
+      - 'test/uiFilterPreferences.test.ts'
+      - 'test/filterPresets.browser.mjs'
+      - '.github/workflows/filter-preferences-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: filter-preferences-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --no-audit --no-fund
+      - name: Source and account-preference regressions
+        run: node --experimental-strip-types --test test/uiFilterPreferences.test.ts test/characterRecommendations.test.ts test/productBuildDraft.test.mjs
+      - name: Strict public build
+        run: npm run build
+      - name: Install real Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Augusta / Cartethyia owned-account Chromium acceptance
+        run: node --experimental-strip-types --test test/filterPresets.browser.mjs
+      - name: Diff integrity
+        run: git diff --check HEAD^

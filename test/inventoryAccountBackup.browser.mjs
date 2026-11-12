@@ -40,7 +40,9 @@ test('product Inventory JSON export, empty restore, rejected imports and guarded
   assert.match(await restored.locator('[data-restore-summary]').innerText(),/3 owned Characters, 3 Weapons, 15 Echoes/);
   assert.equal(await restored.locator('[data-confirm-restore]').isDisabled(),true);
   await restored.locator('[data-approve-restore]').check();
+  const firstReload=restored.waitForEvent('load');
   await restored.locator('[data-confirm-restore]').click();
+  await firstReload;
   await restored.waitForFunction(id=>bellibingAccountSession?.store.snapshot()?.id===id,backup.account.id);
   assert.deepEqual(await restored.evaluate(()=>bellibingAccountSession.store.snapshot()),backup.account);
   await restored.locator('[data-iv-kind="weapon"]').click();assert.equal(await restored.locator('.iv-card').count(),3);
@@ -59,7 +61,9 @@ test('product Inventory JSON export, empty restore, rejected imports and guarded
   const safetyFile=await safetyDownload;
   assert.deepEqual(JSON.parse(await readFile(await safetyFile.path(),'utf8')).account,backup.account);
   assert.equal(await restored.locator('[data-confirm-restore]').isEnabled(),true);
+  const secondReload=restored.waitForEvent('load');
   await restored.locator('[data-confirm-restore]').click();
+  await secondReload;
   await restored.waitForFunction(revision=>bellibingAccountSession?.store.snapshot()?.revision>revision,backup.account.revision);
   const replaced=await restored.evaluate(()=>bellibingAccountSession.store.snapshot());
   assert.deepEqual(replaced.items,before.items);

@@ -235,7 +235,7 @@ function renderWeaponEditor() {
  editor('weapon', 'Weapon', `<div class="wc-workbench">${browser}${preview}</div>`, `<button class="bc-quiet bc-danger" data-bc-unequip="weapon" ${!draft().weaponId ? 'disabled' : ''}>Unequip</button><button class="bc-primary" data-bc-equip="weapon" ${!item || same || !Number.isInteger(ui.weaponRank) ? 'disabled' : ''}>${same ? 'Equipped' : 'Choose Weapon'}</button>`);
 }
 function choice(label,options){return `<details class="bc-choice"><summary>${esc(label)}</summary><div class="bc-options">${options}</div></details>`;}
-function selectButton(attr,value,label,disabled=false,selected=false){return `<button ${attr}="${esc(value)}" ${disabled?'disabled':''} class="${selected?'selected':''}">${esc(label)}</button>`;}
+function selectButton(attr,value,label,disabled=false,selected=false){return `<button ${attr}="${esc(value)}" ${disabled?'disabled':''} aria-pressed="${selected}" class="${selected?'selected':''}">${esc(label)}</button>`;}
 function previewFrom(identity, previous = null) {
  if (previous?.speciesId === identity.id) return clone(previous);
  const level = 0;

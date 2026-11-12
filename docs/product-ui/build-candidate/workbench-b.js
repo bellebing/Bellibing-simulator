@@ -132,6 +132,7 @@ function renderEchoes(){
 function renderAccount(){
  const owned=!!root.account.characters[person.id]?.owned;
  $('#bcAccount').hidden=owned;
+ $('#bcAccount').style.display=owned?'none':'';
  $('#bcAccount').textContent='Add Character';
  $('#bcAccount').disabled=owned;
 }
@@ -436,9 +437,10 @@ installFixedScroll(document.querySelector(".bc-right"), "wb-equipped-frame", "Sc
 
 globalThis.bellibingProductImport={stage:async scan=>{
  closeEditor(false);
- root=store.stageImport(scan);person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
+ try{root=store.stageImport(scan);}catch(error){renderAccount();throw error;}
+ person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
  const url=new URL(location.href);url.searchParams.set('character',person.id);url.searchParams.delete('import');history.replaceState(null,'',url);
- carousel.close();render();message('Imported draft. Review in Build, then '+(root.account.characters[person.id]?'Update.':'Add to Account.'));
+ carousel.close();render();message('Imported draft. Review in Build, then Add Character.');
 }};
 import('../../ui-lab/inventory/integration.js').catch(error=>message('Import/account tools unavailable: '+error.message));
 

@@ -34,7 +34,8 @@ test('WebP stages unsaved Character for Add; later imported data cannot silently
   assert.deepEqual(await page.evaluate(()=>scannerInputs),[{type:'image/png',width:1920,height:1080}]);
   let state=await page.evaluate(()=>buildCandidateReview.snapshot());
   assert.deepEqual(Object.keys(state.account.characters),[]);
-  assert.equal(state.drafts.ciaccona.weaponRank,null);assert.equal(state.drafts.ciaccona.echoes[0].level,null);
+  assert.equal(state.drafts.ciaccona.weaponRank,null);assert.equal(state.drafts.ciaccona.echoes[0].level,25,'five observed complete rolls determine +25');
+  assert.equal(state.drafts.ciaccona.importObservation.echoes[0].level,null,'original unknown observed level remains in immutable source evidence');
   await page.reload();await page.waitForFunction(()=>!!globalThis.bellibingProductImport);
   assert.equal(await page.locator('#bcName').textContent(),'Ciaccona');
   await page.evaluate(()=>{globalThis.bellibingScannerPromise=Promise.resolve({validate:async()=>({issues:[{path:'echoes.0',message:'Review source conflict'}]})});});

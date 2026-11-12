@@ -45,7 +45,7 @@ test('Build auto-saves Sequence/Echo Main/Substats; Improve Current and JSON agr
   await chooseMain('HP%');
   assert.equal(await page.locator('#bcEditorError').textContent(),'');
   await page.locator('[data-bc-equip="echo"]').click();
-  await page.waitForFunction(()=>document.querySelector('#bcSaved')?.textContent==='Saved to Inventory');
+  await page.waitForFunction(()=>document.querySelector('#bcSaved')?.textContent==='Current Build saved');
   const withEcho=await current(),id=withEcho.characters.augusta.record.build.echoSets.sets['set-1'].slots[0];
   assert.ok(id);assert.equal(withEcho.items[id].data.mainStat.name,'HP%');
   await inventory.goto(base+'/inventory/?profile='+profile);

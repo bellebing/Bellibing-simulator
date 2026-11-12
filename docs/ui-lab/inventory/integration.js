@@ -26,6 +26,16 @@ addEventListener('beforeunload',e=>{if(draft&&!draftStored){e.preventDefault();e
 try{const saved=JSON.parse(sessionStorage.getItem(draftKey)??'null');if(!productTrigger&&saved?.draft&&saved?.original&&typeof saved.scanData==='string'&&/^data:image\/(jpeg|png);base64,/.test(saved.scanData)){draft=saved.draft;original=saved.original;scanData=saved.scanData;imageURL=scanData;trigger.dataset.hasDraft='true';}}catch{draftStored=false;}
 
 const message=(text,error=false)=>{const host=sheet.querySelector('[data-owned-message]');if(host){host.textContent=text+(draft&&!draftStored?' Draft is kept on this page only; save or export before leaving.':'');host.className=error?'owned-errors':'owned-message';}};
+async function localImportJSON(response,operation){
+ let value;
+ try{value=await response.json();}catch{
+  throw Error('Character scanner returned an invalid response. Restart Bellibing Local and retry; your account is unchanged.');
+ }
+ if(!value||typeof value!=='object'||Array.isArray(value))throw Error('Character scanner returned an invalid response. Your account is unchanged.');
+ if(!response.ok)throw Error(typeof value.error==='string'&&value.error?value.error:operation+' unavailable. Your account is unchanged.');
+ return value;
+}
+
 function download(value,name){const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function backup(){
  const existing=store.snapshot();
@@ -96,7 +106,7 @@ async function scanFile(file){if(!file||busy)return;if(mode!=='import'||sheet.hi
   message('Recognizing your card…');const revision=reviewRevision;
   let result;
   if(globalThis.bellibingScannerPromise)result=await (await globalThis.bellibingScannerPromise).scan(input);
-  else{const r=await fetch('/local-import/scan',{method:'POST',headers:{'Content-Type':input.type},body:input});result=await r.json();if(!r.ok)throw Error(result.error??'Scanner unavailable.');}
+  else{const r=await fetch('/local-import/scan',{method:'POST',headers:{'Content-Type':input.type},body:input});result=await localImportJSON(r,'Image recognition');}
   if(revision!==reviewRevision)return;
   if(productTrigger){
    if(!globalThis.bellibingProductImport)throw Error('Build is not ready to receive the import.');
@@ -129,7 +139,7 @@ function renderReview(){sheet.classList.add('has-review');positionImport();const
  host.querySelector('[data-reset-scan]').onclick=()=>{draft=structuredClone(original);reviewRevision++;reviewToken=null;rememberDraft();renderReview();};
  for(const check of host.querySelectorAll('[data-reviewed],[data-assign],[data-replace]'))check.onchange=async()=>{
   const token=reviewRevision,binding=accountBinding(),checked=host.querySelector('[data-reviewed]').checked;host.querySelector('[data-save-scan]').disabled=true;if(!checked||busy)return;
-  try{let v;if(globalThis.bellibingScannerPromise)v=await (await globalThis.bellibingScannerPromise).validate(draft);else{const r=await fetch('/local-import/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(draft)});v=await r.json();if(!r.ok)throw Error(v.error??'Validation unavailable.');}if(token!==reviewRevision||binding!==accountBinding())return;host.querySelector('[data-validation]').textContent=v.issues.map(x=>x.path+': '+x.message).join('\n');if(v.issues.length)return;
+  try{let v;if(globalThis.bellibingScannerPromise)v=await (await globalThis.bellibingScannerPromise).validate(draft);else{const r=await fetch('/local-import/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(draft)});v=await localImportJSON(r,'Review validation');}if(token!==reviewRevision||binding!==accountBinding())return;host.querySelector('[data-validation]').textContent=v.issues.map(x=>x.path+': '+x.message).join('\n');if(v.issues.length)return;
    saveReviewedScan(session.stage(),draft,catalog,{reviewed:true,assign:host.querySelector('[data-assign]').checked,replace:host.querySelector('[data-replace]').checked,originalScan:original});reviewToken=token;reviewedAccount=binding;host.querySelector('[data-save-scan]').disabled=false;rememberDraft();
   }catch(err){host.querySelector('[data-validation]').textContent=err.message;}
  };

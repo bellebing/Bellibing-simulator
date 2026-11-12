@@ -163,8 +163,31 @@ export function saveReviewedScan(account,draft,catalog,{reviewed=false,replace=f
  next.characters[source.id]={id:source.id,name:source.name,owned:true,record:{...(previous?.record??{}),character:source.name,build,createdAt:previous?.record.createdAt??now,updatedAt:now}};
  return validateAccount(next,catalog);
 }
+// Exporting a canonical account must never turn an accidentally persisted
+// credential into a downloadable backup. Refuse the export instead of silently
+// deleting fields and falsely advertising a complete account backup.
+function assertNoAccountSecrets(account){
+ const forbidden=/^(?:access_?token|refresh_?token|id_?token|auth_?token|authorization|bearer_?token|api_?key|client_?secret|private_?key|password|passwd|credential[s]?|session_?token|cookie[s]?)$/;
+ const inspect=(value)=>{
+  if(!value||typeof value!=='object')return;
+  for(const [key,item] of Object.entries(value)){
+   const normalized=key.replace(/([a-z])([A-Z])/g,'$1_$2').replace(/-/g,'_').toLowerCase();
+   assert(!forbidden.test(normalized),'Account contains a sensitive authentication field; backup blocked.');
+   inspect(item);
+  }
+ };
+ inspect(account);
+ // Legacy recovery and supported setting payloads are JSON strings; check
+ // their field names as well without interpreting ordinary free-form text.
+ for(const value of [...Object.values(account.legacyRecovery??{}),...Object.values(account.userData?.storage??{})]){
+  if(typeof value!=='string')continue;
+  try{inspect(JSON.parse(value));}catch(error){
+   if(error?.message?.includes('sensitive authentication field'))throw error;
+  }
+ }
+}
 export function exportAccount(account,catalog){
- validateAccount(account,catalog);assert(typeof catalog.sourceBinding==='string','Canonical source identity required.');
+ validateAccount(account,catalog);assertNoAccountSecrets(account);assert(typeof catalog.sourceBinding==='string','Canonical source identity required.');
  const value={format:BACKUP_FORMAT,schemaVersion:BACKUP_SCHEMA,catalogBinding:catalog.sourceBinding,exportedAt:new Date().toISOString(),account:copy(account),
   catalog:{characters:catalog.characters.map(({id,name,weaponType})=>({id,name,weaponType})),echoes:catalog.echoes.map(({id,cost,sonataSetIds})=>({id,cost,sonataSetIds})),weapons:catalog.weapons.map(({id,weaponType})=>({id,weaponType})),statEditor:copy(catalog.statEditor)}};
  // Never offer a backup that our own importer would refuse for size/complexity.
@@ -174,6 +197,7 @@ export function parseBackup(text,catalog){
  const value=readJson(text);
  assert(value.format===BACKUP_FORMAT&&[1,BACKUP_SCHEMA].includes(value.schemaVersion),'Unsupported backup format/version.');
  const next=copy(value.account);
+ assertNoAccountSecrets(next);
  if(value.catalogBinding!==catalog.sourceBinding){
   assert(value.schemaVersion===BACKUP_SCHEMA&&object(value.catalog),'Canonical source changed; reviewed migration required.');
   validateAccount(next,value.catalog);

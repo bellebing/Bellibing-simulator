@@ -10,6 +10,7 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
  const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||process.env.BELLIBING_CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
  const context=await browser.newContext({viewport:{width:1440,height:900}}),page=await context.newPage(),inventory=await context.newPage(),other=await context.newPage();
  const errors=[];for(const p of [page,inventory,other])p.on('pageerror',error=>errors.push(error.message));
+ const chooseMain=async name=>{await page.locator('.wc-echo-preview .wb-feature-stat summary').click();await page.locator('[data-bc-main="'+name+'"]').first().click();};
  try{
   const species=catalog.echoes.find(e=>e.name==='The False Sovereign');
   assert.ok(species);
@@ -23,7 +24,7 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
 
   await page.locator('[data-bc-echo="0"]').click();
   await page.locator('[data-bc-species="'+species.id+'"]').first().click();
-  await page.locator('[data-bc-main="HP%"]').first().click();
+  await chooseMain('HP%');
   await page.locator('[data-bc-equip="echo"]').click();
   await page.locator('[data-bc-confirm="yes"]').click();
   await page.waitForFunction(()=>document.querySelector('#bcSaved')?.textContent==='Saved to Inventory');
@@ -32,7 +33,7 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   assert.ok(withA.items[idA]);assert.equal(withA.items[idA].data.mainStat.name,'HP%');
 
   await page.locator('[data-bc-new-echo]').click();
-  await page.locator('[data-bc-main="CRIT DMG"]').first().click();
+  await chooseMain('CRIT DMG');
   await page.locator('[data-bc-equip="echo"]').click();
   await page.locator('[data-bc-confirm="yes"]').click();
   await page.waitForFunction(previous=>document.querySelector('#bcSaved')?.textContent==='Saved to Inventory'&&bellibingAccountSession.store.snapshot()?.characters.augusta.record.build.echoSets.sets['set-1'].slots[0]!==previous,idA);
@@ -64,7 +65,7 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   await other.waitForFunction(()=>!!globalThis.buildCandidateReview);
   await other.evaluate(async()=>bellibingAccountSession.store.saveUserData('bellibing.improve.policy.v3','{"version":3}'));
   await page.locator('[data-bc-echo="0"]').click();
-  await page.locator('[data-bc-main="HP%"]').first().click();
+  await chooseMain('HP%');
   await page.locator('[data-bc-equip="echo"]').click();
   await page.waitForFunction(()=>document.querySelector('#bcSaved')?.textContent.includes('NOT SAVED'));
   assert.match(await page.locator('#bcStatus').innerText(),/Account changed|another tab|Reload/);

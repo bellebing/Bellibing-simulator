@@ -249,7 +249,7 @@ let inspectedId=null;
 function restoreInspectorDetails(item) {
  const host=$('#ivInspector');inspectedId=item?.id??null;
  const saved=inspectedId?filterPrefs.read('inventory:inspector:'+inspectedId):{};
- host.querySelectorAll('details').forEach((node,index)=>{node.open=Array.isArray(saved.expanded)&&saved.expanded.includes(index);});
+ if(Array.isArray(saved.expanded))host.querySelectorAll('details').forEach((node,index)=>{node.open=saved.expanded.includes(index);});
 }
 function renderInspector(item) {
   const host = $('#ivInspector');

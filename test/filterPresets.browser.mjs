@@ -39,6 +39,8 @@ test('Chromium: character-source Echo presets, five slot Cost, manual filters an
   await setFilter('sonata-3');
   assert.deepEqual((await selectedSets(page)).sort(),['sonata-20','sonata-3']);
   assert.equal(await inventoryCount(page),countBefore,'filter selection must not create physical inventory');
+  // The Sonata details dropdown overlays the Echo grid: close it before choosing a card.
+  if(await page.locator('.wb-sonata-filter').evaluate(node=>node.open))await page.locator('.wb-sonata-filter summary').click();
   const species=page.locator('[data-bc-species]').first();
   assert.ok(await species.count()>0,'source-backed Cost 3 + Sonata options must offer Echoes');
   await species.click();

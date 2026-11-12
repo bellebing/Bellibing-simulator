@@ -32,6 +32,11 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   const idA=withA.characters.augusta.record.build.echoSets.sets['set-1'].slots[0];
   assert.ok(withA.items[idA]);assert.equal(withA.items[idA].data.mainStat.name,'HP%');
 
+  // Keep Inventory open while Build changes: no reload, polling or draft projection.
+  await inventory.goto(base+'/inventory/?profile='+profile);
+  await inventory.locator('[data-iv-kind="echo"]').click();
+  assert.equal(await inventory.locator('.iv-card').count(),1);
+
   await page.locator('[data-bc-new-echo]').click();
   await chooseMain('CRIT DMG');
   await page.locator('[data-bc-equip="echo"]').click();
@@ -44,9 +49,8 @@ test('product Build Account Mode saves two same-species physical Echoes, Preview
   assert.equal(withB.items[idB].data.mainStat.name,'CRIT DMG');
   assert.equal(Object.values(withB.items).filter(e=>e.catalogId===species.id).length,2);
 
-  await inventory.goto(base+'/inventory/?profile='+profile);
-  await inventory.locator('[data-iv-kind="echo"]').click();
-  assert.equal(await inventory.locator('.iv-card').count(),2,'Inventory shows both individual physical Echoes');
+  await inventory.waitForFunction(()=>document.querySelectorAll('.iv-card').length===2);
+  assert.equal(await inventory.locator('.iv-card').count(),2,'Open Inventory updates after Build commit without reload');
   assert.deepEqual(await inventory.evaluate(()=>bellibingAccountSession.store.snapshot().items),withB.items);
   await page.locator('#bcPreviewMode').click();
   assert.equal(await page.locator('#bcPreviewMode').getAttribute('aria-pressed'),'true');

@@ -56,10 +56,18 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   await page.waitForFunction(donor=>bellibingAccountSession.store.snapshot().characters.iuno.record.build.echoSets.sets['set-1'].slots[0]===donor,donor);
   assert.equal(Object.keys((await snapshot()).items).length,18);
   const download=page.waitForEvent('download');await page.locator('[data-backup]').click();const file=await download,backup=JSON.parse(await readFile(await file.path(),'utf8'));
-  const restored=await context.newPage();await restored.goto(base+'/inventory/legacy.html?profile=recovery-empty-restore');await restored.locator('[data-restore]').setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});await restored.locator('[data-confirm-restore]').click();
+  const restored=await context.newPage();await restored.goto(base+'/inventory/legacy.html?profile=recovery-empty-restore');await restored.locator('[data-restore]').setInputFiles({name:'backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});await restored.locator('[data-approve-restore]').check();await restored.locator('[data-confirm-restore]').click();
   await restored.waitForFunction(()=>Object.keys(bellibingAccountSession.store.snapshot()?.items??{}).length===18);
   const secondDownload=restored.waitForEvent('download');await restored.locator('[data-backup]').click();const secondFile=await secondDownload,reexport=JSON.parse(await readFile(await secondFile.path(),'utf8'));
-  for(const key of ['items','characters','userData'])assert.deepEqual(reexport.account[key],backup.account[key]);await restored.close();
+  assert.deepEqual(reexport.account,backup.account,'empty-profile browser restore must preserve all canonical account fields');
+   const beforeInvalid=await restored.evaluate(()=>bellibingAccountSession.store.snapshot());
+   await restored.locator('[data-restore]').setInputFiles({name:'corrupt.json',mimeType:'application/json',buffer:Buffer.from('{oops')});
+   await restored.waitForFunction(()=>document.querySelector('[data-owned-message]')?.textContent.includes('Import rejected'));
+   assert.deepEqual(await restored.evaluate(()=>bellibingAccountSession.store.snapshot()),beforeInvalid);
+   await restored.locator('[data-restore]').setInputFiles({name:'future.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({...backup,schemaVersion:999}))});
+   await restored.waitForFunction(()=>document.querySelector('[data-owned-message]')?.textContent.includes('Import rejected'));
+   assert.deepEqual(await restored.evaluate(()=>bellibingAccountSession.store.snapshot()),beforeInvalid);
+   await restored.close();
   // Restore both original assignments explicitly before visual review.
   const equip=async(itemId,id)=>{await page.locator(`[data-item-id="${itemId}"]`).click();await page.locator('[data-equip-character]').selectOption(id);await page.locator('[data-equip-slot]').selectOption('0');await page.locator('[data-equip]').click();};
   await equip(donor,'augusta');await equip(original.characters.iuno.record.build.echoSets.sets['set-1'].slots[0],'iuno');

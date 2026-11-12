@@ -1,4 +1,5 @@
-import {projectStaticBuildStats,projectExpectedStaticBuildStats} from './buildStatProjection.mjs';
+import {projectStaticBuildStats} from './buildStatProjection.mjs';
+import {projectExpectedStaticBuildStats} from './expectedBuildStatProjection.mjs';
 import {inspectSandboxSonata} from './sandboxSonata.mjs';
 
 export const SANDBOX_STATIC_STATS_VERSION='BELLIBING_SANDBOX_STATIC_STATS_V1';

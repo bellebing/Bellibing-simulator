@@ -69,15 +69,13 @@ export function applyProductDraft(account,draft,catalog) {
 
 
 
-// Account Mode is restricted to existing physical IDs. A new ID must be named
-// by the explicit Add Item action; catalog/species equality is never identity.
-// Moving an owned item also releases its former active owner without deleting it.
-export function applyOwnedProductDraft(account,draft,catalog,{addedItemIds=[]}={}) {
+// The Character Builder owns one Current Build per saved Character. Internally
+// its equipped items still have stable IDs: same species/slot corrections keep
+// their IDs; changing species may allocate a new ID while old items remain.
+// Moving an existing physical ID releases its former active owner safely.
+export function applyOwnedProductDraft(account,draft,catalog) {
  const ids=[...(draft.weaponId?[draft.weaponInstanceId]:[]),...draft.echoes.filter(Boolean).map(e=>e.instanceId)];
  if(ids.some(id=>typeof id!=='string'||!id)||new Set(ids).size!==ids.length)throw Error('Physical item ID is missing or duplicated.');
- const newIds=ids.filter(id=>!account.items[id]),approved=new Set(addedItemIds);
- if(approved.size!==addedItemIds.length||newIds.length!==approved.size||newIds.some(id=>!approved.has(id)))
-  throw Error('New physical items require an explicit Add Echo or Add Weapon choice. Use Test / Preview to experiment.');
  const adjusted=structuredClone(account);
  for(const [characterId,character] of Object.entries(adjusted.characters)){
   if(characterId===draft.characterId)continue;

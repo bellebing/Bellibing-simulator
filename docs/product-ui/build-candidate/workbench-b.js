@@ -26,7 +26,7 @@ const catalog={characters:CHARACTER_CATALOG,echoes:echoes.echoes,weapons:weapons
 const domain={facts,weapons,echoes,trees:skills.characters,sequences:sequences.characters};
 const store=await createProductStore(catalog,skills.characters);
 let root=store.snapshot(),person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
-const ui={panel:null,slot:0,preview:null,weaponPreview:null,weaponRank:1,weaponQuery:'',echoQuery:'',cost:null,sets:[],previewView:'art',rollEditor:null,rollMove:null,more:false,skillId:null,prompt:null,weaponItemId:null};
+const ui={panel:null,slot:0,preview:null,weaponPreview:null,weaponRank:1,weaponQuery:'',echoQuery:'',cost:null,sets:[],previewView:'art',rollEditor:null,rollMove:null,more:false,skillId:null,prompt:null,weaponItemId:null,weaponNewCopy:false};
 const treeFor=id=>skills.characters.find(c=>c.characterId===id)??{nodes:[]};
 const draft=()=>root.drafts[person.id];
 const species=id=>echoes.echoes.find(e=>e.id===id);
@@ -195,14 +195,15 @@ async function buildNewCharacter(id){
  const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);
  closeEditor(false);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();carousel.setSelected(id);
 }
-function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');ui.weaponItemId=draft().weaponInstanceId;const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery='';renderWeaponEditor();renderWeapon();}
+function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');ui.weaponItemId=draft().weaponInstanceId;ui.weaponNewCopy=false;const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery='';renderWeaponEditor();renderWeapon();}
 function renderWeaponEditor() {
  const rows = recommendationOrder(weapons.weapons.filter(item => item.weaponType === person.weaponType && artForWeapon(item.id) && item.name.toLowerCase().includes(ui.weaponQuery.toLowerCase())),recommendedWeaponIds(person.id));
  const item = weapon(ui.weaponPreview);
- const same = item?.id === draft().weaponId && ui.weaponRank === draft().weaponRank;
+ const same = item?.id === draft().weaponId && ui.weaponRank === draft().weaponRank && !ui.weaponNewCopy && (!ui.weaponItemId || ui.weaponItemId === draft().weaponInstanceId);
  const ownedWeapons=Object.values(root.account.items).filter(entry=>entry.kind==='weapon'&&weapon(entry.catalogId)?.weaponType===person.weaponType);
  const ownChoices=ownedWeapons.length?'<details class="bc-choice"><summary>Equip owned Weapon ('+ownedWeapons.length+')</summary><div class="bc-options">'+ownedWeapons.map(entry=>'<button data-bc-owned-weapon-id="'+esc(entry.id)+'">'+esc(weapon(entry.catalogId)?.name??entry.catalogId)+' · R'+(entry.data.refinement??'?')+' · '+esc(entry.id.slice(-8))+'</button>').join('')+'</div></details>':'';
- const browser = `<div class="wc-browser">${ownChoices}<div class="bc-toolbar"><input class="bc-search" id="bcWeaponSearch" placeholder="Search Weapons" aria-label="Search Weapons" value="${esc(ui.weaponQuery)}"></div><div class="wc-catalog bc-catalog-grid">${rows.map(row => `<button class="bc-browse ${row.id === item?.id ? 'selected' : ''}" data-bc-weapon-id="${row.id}">${image(artForWeapon(row.id))}<span>${esc(row.name)}</span></button>`).join('')}</div></div>`;
+ const newCopy=ui.weaponPreview?'<button class="bc-quiet" data-bc-new-weapon>New physical copy (not owned yet)</button>':'';
+ const browser = `<div class="wc-browser">${ownChoices}${newCopy}<div class="bc-toolbar"><input class="bc-search" id="bcWeaponSearch" placeholder="Search Weapons" aria-label="Search Weapons" value="${esc(ui.weaponQuery)}"></div><div class="wc-catalog bc-catalog-grid">${rows.map(row => `<button class="bc-browse ${row.id === item?.id ? 'selected' : ''}" data-bc-weapon-id="${row.id}">${image(artForWeapon(row.id))}<span>${esc(row.name)}</span></button>`).join('')}</div></div>`;
  const effectRows = WEAPON_EFFECT_CATALOG.filter(effect => effect.weaponId === item?.id);
  const preview = item ? `<div class="bc-inspector wc-preview wb-weapon-preview"><h3>${esc(item.name)}</h3><div class="wb-meta"><span>Lv. 90</span>${choice('R' + (ui.weaponRank??'?'), [1,2,3,4,5].map(rank => selectButton('data-bc-weapon-rank', rank, 'R' + rank, false, rank === ui.weaponRank)).join(''))}<span>${same ? 'Equipped' : 'Preview'}</span></div><div class="wb-hero"><div class="wb-hero-stats"><div class="wb-feature-stat"><span>${esc(item.secondary?.stat ?? 'Secondary stat')}</span><strong>${statMarkup(item.secondary?.stat ?? '', item.secondary?.value)}</strong></div><div class="wb-support-stat"><span>ATK</span><b>${numberMarkup(item.level90BaseAtk)}</b></div></div>${previewStage(artForWeapon(item.id), 'weapon', ui.previewView)}</div>${Number.isInteger(ui.weaponRank)?weaponEffectsOverview(effectRows, ui.weaponRank):'<section class="wb-weapon-effects"><h4>Weapon effect</h4><p>Choose weapon rank to show its effect.</p></section>'}</div>` : '<div class="bc-inspector wc-preview"><p>Choose a Weapon to preview</p></div>';
  editor('weapon', 'Weapon', `<div class="wc-workbench">${browser}${preview}</div>`, `<button class="bc-quiet bc-danger" data-bc-unequip="weapon" ${!draft().weaponId ? 'disabled' : ''}>Unequip</button><button class="bc-primary" data-bc-equip="weapon" ${!item || same ? 'disabled' : ''}>${same ? 'Equipped' : 'Choose Weapon'}</button>`);
@@ -272,7 +273,8 @@ function renderEchoEditor() {
  const costFilter = '<div class="wb-cost-buttons" role="group" aria-label="Filter by Cost">'+[null,4,3,1].map(cost => selectButton('data-bc-cost',cost ?? 'all',cost === null ? 'All' : 'Cost '+cost,false,ui.cost === cost)).join('')+'</div>';
  const ownedEchoes=Object.values(root.account.items).filter(entry=>entry.kind==='echo'&&species(entry.catalogId));
  const ownChoices=ownedEchoes.length?'<details class="bc-choice"><summary>Equip owned Echo ('+ownedEchoes.length+')</summary><div class="bc-options">'+ownedEchoes.map(entry=>'<button data-bc-owned-echo-id="'+esc(entry.id)+'">'+esc(species(entry.catalogId).name)+' · +'+(entry.data.level??'?')+' · '+esc(entry.data.mainStat?.name??'Pending')+' · '+esc(entry.id.slice(-8))+'</button>').join('')+'</div></details>':'';
- const browser = `<div class="wc-browser bc-echo-browser">${ownChoices}<div class="wb-echo-filters"><div class="wc-filter">${setFilter}</div><div class="wb-cost-filter">${costFilter}</div></div><div class="wc-catalog bc-catalog-grid">${matching.map(row => echoBrowseCard(row, identity?.id)).join('') || '<p>No matching Echoes</p>'}</div></div>`;
+ const newCopy=ui.preview?'<button class="bc-quiet" data-bc-new-echo>New copy of this Echo (not owned yet)</button>':'';
+ const browser = `<div class="wc-browser bc-echo-browser">${ownChoices}${newCopy}<div class="wb-echo-filters"><div class="wc-filter">${setFilter}</div><div class="wb-cost-filter">${costFilter}</div></div><div class="wc-catalog bc-catalog-grid">${matching.map(row => echoBrowseCard(row, identity?.id)).join('') || '<p>No matching Echoes</p>'}</div></div>`;
 
  let preview = '<div class="bc-inspector wc-preview"><p>Choose an Echo to preview</p></div>';
  if (item) {
@@ -382,15 +384,16 @@ document.addEventListener('click',async event=>{
   if(a.bcOpen==='weapon')openWeapon();
   if(a.bcOpen==='skills')openSkill(treeFor(person.id).nodes.find(node=>node.kind==='skill')?.id);
   if(a.bcEcho!==undefined)openEcho(Number(a.bcEcho));
-  if(a.bcOwnedWeaponId){const item=root.account.items[a.bcOwnedWeaponId];if(item?.kind!=='weapon')throw Error('Owned Weapon no longer exists.');ui.weaponItemId=item.id;ui.weaponPreview=item.catalogId;ui.weaponRank=item.data.refinement??1;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
-   if(a.bcWeaponId){if(ui.weaponPreview!==a.bcWeaponId)ui.weaponItemId=null;ui.weaponPreview=a.bcWeaponId;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
+  if(a.bcOwnedWeaponId){const item=root.account.items[a.bcOwnedWeaponId];if(item?.kind!=='weapon')throw Error('Owned Weapon no longer exists.');ui.weaponItemId=item.id;ui.weaponNewCopy=false;ui.weaponPreview=item.catalogId;ui.weaponRank=item.data.refinement??1;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
+   if(a.bcNewWeapon){ui.weaponItemId=null;ui.weaponNewCopy=true;renderWeaponEditor();}
+   if(a.bcWeaponId){if(ui.weaponPreview!==a.bcWeaponId)ui.weaponItemId=null;ui.weaponNewCopy=false;ui.weaponPreview=a.bcWeaponId;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
   if(a.bcWeaponRank){ui.weaponRank=Number(a.bcWeaponRank);rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
   if(a.bcEquip==='weapon'){
     const existing=ui.weaponItemId&&root.account.items[ui.weaponItemId]?.catalogId===ui.weaponPreview?ui.weaponItemId:null;
-    const itemId=existing??(draft().weaponId===ui.weaponPreview?draft().weaponInstanceId:crypto.randomUUID());
+    const itemId=ui.weaponNewCopy?crypto.randomUUID():(existing??(draft().weaponId===ui.weaponPreview?draft().weaponInstanceId:crypto.randomUUID()));
     const added=!root.account.items[itemId]&&inAccountMode(person.id)?[itemId]:[];
     if(added.length&&!await confirmInline('Add Weapon to Inventory?','This creates one new physical Weapon. To test instead, select Test / Preview.','Add Weapon'))return;
-    change(d=>{d.weaponInstanceId=itemId;d.weaponId=ui.weaponPreview;d.weaponLevel=existing?(root.account.items[itemId].data.level??null):90;d.weaponRank=ui.weaponRank;},{addedItemIds:added});ui.weaponItemId=itemId;renderWeaponEditor();
+    change(d=>{d.weaponInstanceId=itemId;d.weaponId=ui.weaponPreview;d.weaponLevel=existing?(root.account.items[itemId].data.level??null):90;d.weaponRank=ui.weaponRank;},{addedItemIds:added});ui.weaponItemId=itemId;ui.weaponNewCopy=false;renderWeaponEditor();
    }
   if(a.bcEquip==='echo'){
     const problem=validatePreview();if(problem)throw Error(problem);
@@ -399,7 +402,8 @@ document.addEventListener('click',async event=>{
     change(d=>{d.echoes[ui.slot]=card;},{addedItemIds:added});renderEchoEditor();
    }
   if(a.bcUnequip){change(d=>{if(a.bcUnequip==='weapon'){d.weaponId=null;d.weaponInstanceId=null;}else d.echoes[ui.slot]=null;});closeEditor();}
-  if(a.bcOwnedEchoId){const item=root.account.items[a.bcOwnedEchoId];if(item?.kind!=='echo')throw Error('Owned Echo no longer exists.');ui.preview={instanceId:item.id,speciesId:item.catalogId,...clone(item.data)};ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
+  if(a.bcNewEcho&&ui.preview){ui.preview=previewFrom(species(ui.preview.speciesId),null);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
+   if(a.bcOwnedEchoId){const item=root.account.items[a.bcOwnedEchoId];if(item?.kind!=='echo')throw Error('Owned Echo no longer exists.');ui.preview={instanceId:item.id,speciesId:item.catalogId,...clone(item.data)};ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
    if(a.bcQuickSpecies){ui.preview=previewFrom(species(a.bcQuickSpecies),ui.preview);ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level].find(r=>r.name===a.main));ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
   if(a.bcSpecies){ui.preview=previewFrom(species(a.bcSpecies),ui.preview);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
   if(a.bcCost){ui.cost=a.bcCost==='all'?null:Number(a.bcCost);renderEchoEditor();}

@@ -32,7 +32,7 @@ const catalog = {
 };
 let store = await createProductStore(catalog, skills.characters);
 let snapshot = store.snapshot();
-const filterPrefs=createUiPreferenceStore(globalThis.localStorage,store.session.profile,snapshot.account.id);
+const filterPrefs=createUiPreferenceStore(globalThis.localStorage,store.session.profile,store.session.store.snapshot()?.id??'empty-profile');
 const initialBrowser=filterPrefs.read('inventory:browser');
 let mode = 'account';
 let kind = ['character','weapon','echo'].includes(initialBrowser.kind)?initialBrowser.kind:'echo';

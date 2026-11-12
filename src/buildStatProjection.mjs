@@ -25,17 +25,7 @@ function projectEchoTotals(echoSlots,contract){
   }return{totals,cardCount};
 }
 function total(name,...sources){return sources.reduce((sum,source)=>sum+(source?.[name]??0),0)}
-export function projectStaticBuildStats(input={}){
-  return projectFromEchoTotals(input,projectEchoTotals(input.echoSlots??[],input.echoStatContract));
-}
-// Expected contributions are fractional statistical aggregates, never legal
-// equipment cards. Keep this entry separate from committed-card validation.
-export function projectExpectedStaticBuildStats(input,rows){
-  const names=new Set(['Flat HP','Flat ATK','Flat DEF',...STATIC_BUILD_STATS]);
-  if(!Array.isArray(rows)||rows.some(r=>!r||r.value<0))throw Error('Invalid expected Echo contributions');
-  return projectFromEchoTotals(input,{totals:rowsToTotals(rows,'Expected Echo',names),cardCount:5},'EXPECTED_STATIC_BUILD_STATS_ONLY');
-}
-function projectFromEchoTotals({character,weapon=null,activeForteStats=[],activeSequenceStats=[],activeWeaponStats=[]}={},echoProjection,scope='STATIC_BUILD_STATS_ONLY'){
+export function projectStaticBuildStats({character,weapon=null,echoSlots=[],echoStatContract,activeForteStats=[],activeSequenceStats=[],activeWeaponStats=[]}={}){
   if(!character||typeof character.element!=='string')throw new Error('Build stat projection requires a canonical Character');
   const level90=character.level90??{},baseCombat=character.baseCombat??{};
   for(const key of ['hp','atk','def'])if(!finite(level90[key]))throw new Error('Character '+key+' is unresolved');
@@ -45,10 +35,10 @@ function projectFromEchoTotals({character,weapon=null,activeForteStats=[],active
   const weaponEffects=rowsToTotals(activeWeaponStats,'Reviewed static Weapon',STATIC_BUILD_STATS);
   const weaponTotals={};let weaponBaseAtk=0;
   if(weapon){if(!finite(weapon.level90BaseAtk))throw new Error('Equipped Weapon base ATK is unresolved');weaponBaseAtk=weapon.level90BaseAtk;if(weapon.secondary){if(!WEAPON_SECONDARY_STATS.has(weapon.secondary.stat)||!finite(weapon.secondary.value))throw new Error('Unsupported equipped Weapon secondary stat');add(weaponTotals,weapon.secondary.stat,weapon.secondary.value)}}
-  const echo=echoProjection.totals;
+  const echoProjection=projectEchoTotals(echoSlots,echoStatContract),echo=echoProjection.totals;
   const hpPct=total('HP%',forte,sequence,weaponEffects,weaponTotals,echo),atkPct=total('ATK%',forte,sequence,weaponEffects,weaponTotals,echo),defPct=total('DEF%',forte,sequence,weaponEffects,weaponTotals,echo),elementStat=character.element+' DMG';
   return Object.freeze({
-    scope,hp:level90.hp*(1+hpPct)+total('Flat HP',echo),atk:(level90.atk+weaponBaseAtk)*(1+atkPct)+total('Flat ATK',echo),def:level90.def*(1+defPct)+total('Flat DEF',echo),
+    scope:'STATIC_BUILD_STATS_ONLY',hp:level90.hp*(1+hpPct)+total('Flat HP',echo),atk:(level90.atk+weaponBaseAtk)*(1+atkPct)+total('Flat ATK',echo),def:level90.def*(1+defPct)+total('Flat DEF',echo),
     energyRegen:baseCombat.energyRegen+total('Energy Regen',sequence,weaponEffects,weaponTotals,echo),critRate:baseCombat.critRate+total('CRIT Rate',forte,sequence,weaponEffects,weaponTotals,echo),critDamage:baseCombat.critDamage+total('CRIT DMG',forte,sequence,weaponEffects,weaponTotals,echo),
     elementDamageBonus:total(elementStat,forte,sequence,weaponEffects,echo)+total('All Attribute DMG',weaponEffects),elementDamageLabel:character.element+' DMG Bonus',
     basicAttackDamageBonus:total('Basic Attack DMG',sequence,weaponEffects,echo),heavyAttackDamageBonus:total('Heavy Attack DMG',sequence,weaponEffects,echo),resonanceSkillDamageBonus:total('Skill DMG',sequence,weaponEffects,echo),resonanceLiberationDamageBonus:total('Liberation DMG',sequence,weaponEffects,echo),healingBonus:total('Healing Bonus',forte,sequence,weaponEffects,echo),

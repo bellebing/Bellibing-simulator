@@ -4,6 +4,7 @@ import {readCharacterFocus} from '../../ui-lab/v1.1/modules/character-focus.js';
 import {productAsset} from '../assets.js';
 import {productLink} from '../product-navigation.js';
 import {createProductStore} from '../product-store.js';
+import {createUiPreferenceStore} from '../../../src/uiFilterPreferences.mjs';
 import {exportAccount,parseBackup} from '../../../src/inventoryAccount.mjs';
 import {CHARACTER_CATALOG} from '../../ui-lab/v1.1/modules/catalog.js';
 import {escapeHtml as escape} from '../../ui-lab/v1.1/modules/util.js';
@@ -31,11 +32,15 @@ const catalog = {
 };
 let store = await createProductStore(catalog, skills.characters);
 let snapshot = store.snapshot();
+const filterPrefs=createUiPreferenceStore(globalThis.localStorage,store.session.profile,snapshot.account.id);
+const initialBrowser=filterPrefs.read('inventory:browser');
 let mode = 'account';
-let kind = 'echo';
-let query = '';
-let selected = null;
-let artworkView = 'art';
+let kind = ['character','weapon','echo'].includes(initialBrowser.kind)?initialBrowser.kind:'echo';
+let query = typeof initialBrowser.query==='string'?initialBrowser.query:'';
+let selected = typeof initialBrowser.selected==='string'?initialBrowser.selected:null;
+let artworkView = ['art','icon'].includes(initialBrowser.artworkView)?initialBrowser.artworkView:'art';
+const saveBrowser=()=>filterPrefs.write('inventory:browser',{kind,query,selected,artworkView});
+$('#ivSearch').value=query;
 // The product Inventory uses the same canonical account store and portable
 // backup format as the retained Account tools. No second account database.
 const canonical=store.session;
@@ -240,16 +245,24 @@ function echoInspector(item, source, owner) {
     <div class="iv-preview-info"><section><h3>Substats</h3>${rollRows(item.data, owner?.id)}</section>${echoSkillOverview(source.skill)}</div>
     ${sonataOverview(set, equipped, slot, {...item.data, speciesId: source.id})}`;
 }
+let inspectedId=null;
+function restoreInspectorDetails(item) {
+ const host=$('#ivInspector');inspectedId=item?.id??null;
+ const saved=inspectedId?filterPrefs.read('inventory:inspector:'+inspectedId):{};
+ host.querySelectorAll('details').forEach((node,index)=>{node.open=Array.isArray(saved.expanded)&&saved.expanded.includes(index);});
+}
 function renderInspector(item) {
   const host = $('#ivInspector');
   if (!item) {
     host.innerHTML = '<div class="iv-empty">Select an item</div>';
+    restoreInspectorDetails(null);
     return;
   }
   const source = identity(item);
   const owner = kind === 'character' ? null : ownerOf(item.id);
   if (kind === 'echo') {
     host.innerHTML = echoInspector(item, source, owner);
+    restoreInspectorDetails(item);
     return;
   }
   if (kind === 'character') {
@@ -260,15 +273,18 @@ function renderInspector(item) {
         const equipmentSource = (entry.kind === 'echo' ? echoes.echoes : weapons.weapons).find(candidate => candidate.id === entry.catalogId);
         return `<div class="iv-mini">${image(artwork(entry.kind, entry.catalogId), equipmentSource?.name)}<span>${escape(equipmentSource?.name ?? 'Pending')}</span></div>`;
       }).join('')}</section><button class="iv-action" data-iv-build="${item.id}">Open Build</button>`;
+    restoreInspectorDetails(item);
     return;
   }
   host.innerHTML = `<h2>${escape(source.name)}</h2><div class="iv-preview-stage">${previewStage(artwork(kind, source.id), 'weapon', artworkView)}${ownerPortrait(owner)}</div>
     <div class="iv-meta"><span>Lv. ${item.data.level}</span><span>R${item.data.refinement}</span></div>
     <div class="iv-preview-mains">${weaponStats(item, source)}</div>
     ${weaponEffectsOverview(WEAPON_EFFECT_CATALOG.filter(effect => effect.weaponId === source.id), item.data.refinement)}`;
+  restoreInspectorDetails(item);
 }
 $('#ivSearch').addEventListener('input', event => {
   query = event.target.value;
+  saveBrowser();
   render();
 });
 function useAccount(nextMode) {
@@ -286,16 +302,19 @@ document.addEventListener('click', event => {
   if (button.dataset.ivKind) {
     kind = button.dataset.ivKind;
     selected = null;
+    saveBrowser();
     render();
   }
   if (button.dataset.ivItem) {
     selected = button.dataset.ivItem;
     if(kind==='character')inventoryCarousel.setSelected(selected);
     artworkView = 'art';
+    saveBrowser();
     render();
   }
   if (button.dataset.wbView) {
     artworkView = button.dataset.wbView;
+    saveBrowser();
     renderInspector(rows().find(item => item.id === selected));
   }
   if (button.dataset.ivBuild) {
@@ -308,6 +327,11 @@ document.addEventListener('click', event => {
     location.href = productLink('build',{character:button.dataset.ivBuild});
   }
 });
+$('#ivInspector').addEventListener('toggle',event=>{
+ if(!event.target.matches('details')||!inspectedId)return;
+ const expanded=[...$('#ivInspector').querySelectorAll('details')].flatMap((node,index)=>node.open?[index]:[]);
+ filterPrefs.write('inventory:inspector:'+inspectedId,{expanded});
+},true);
 addEventListener('storage', event => {
   if (event.key === 'bellibing.build-candidate.review.v1' && mode === 'account') useAccount('account');
 });

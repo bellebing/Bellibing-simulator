@@ -8,6 +8,7 @@ import {readCharacterFocus} from './character-focus.js';
 import {accountCarouselPreview} from './account-carousel-preview.js';
 import {mountImprovePresets} from './improve-presets.js';
 import {mountImproveEchoPicker} from './improve-echo-picker.js';
+import {createUiPreferenceStore} from '../../../../src/uiFilterPreferences.mjs';
 import echoAdviceCatalog from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
 import {validateEchoTemplateConfiguration} from '../../../ui-prototypes/assets/echo-template-configuration.mjs';
 import {mountEchoAdvisor} from './echo-advisor.js';
@@ -626,6 +627,7 @@ $('#slots').addEventListener('click', event => {
   $(`[data-slot="${state.selectedSlot}"]`).focus({ preventScroll: true });
 });
 if(accountMode)improveEchoPicker=mountImproveEchoPicker({
+ preferences:createUiPreferenceStore(localStorage,accountOwner.profile,accountOwner.stage().id),
  getContext:()=>({characterId:selectedId,slot:state.selectedSlot,template:readEchoAdviceContext().template}),
  onUse:useCandidateTemplate
 });

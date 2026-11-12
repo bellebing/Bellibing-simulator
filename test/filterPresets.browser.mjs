@@ -122,14 +122,17 @@ test('Chromium: Inventory search/category and detached Sandbox disclosures persi
   const initialSettings=await page.locator('#settingsToggle').getAttribute('aria-expanded');
   const initialCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
   await page.locator('#settingsToggle').click();
-  await page.locator('#characterToggle').click();
   const newSettings=await page.locator('#settingsToggle').getAttribute('aria-expanded');
+  assert.notEqual(newSettings,initialSettings,JSON.stringify({errors,settingsClass:await page.locator('#settings').getAttribute('class')}));
+  await page.reload();
+  await page.waitForFunction(()=>document.body.classList.contains('product-workspace')&&document.querySelector('#settingsToggle')?.getAttribute('aria-expanded')!==null);
+  assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'),newSettings,'Sandbox settings expansion survives reload');
+  const beforeCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
+  await page.locator('#characterToggle').click();
   const newCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
-  assert.notEqual(newSettings,initialSettings);
-  assert.notEqual(newCharacter,initialCharacter);
+  assert.notEqual(newCharacter,beforeCharacter,JSON.stringify({errors,characterClass:await page.locator('#character').getAttribute('class')}));
   await page.reload();
   await page.waitForFunction(()=>document.body.classList.contains('product-workspace')&&document.querySelector('#characterToggle')?.getAttribute('aria-expanded')!==null);
-  assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'),newSettings);
   assert.equal(await page.locator('#characterToggle').getAttribute('aria-expanded'),newCharacter);
   assert.deepEqual(errors,[]);
  }finally{await browser.close();await new Promise(ok=>server.close(ok));}

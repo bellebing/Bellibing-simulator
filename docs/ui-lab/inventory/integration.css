@@ -32,3 +32,17 @@
 .owned-filter-row{display:flex;align-items:center;gap:8px;margin:4px 0 20px}.owned-filter-row button{border-radius:20px;font-size:10px;background:transparent;padding:8px 12px;border-color:#2a373b;color:#939da0}.owned-filter-row button[aria-pressed=true]{border-color:#a38b56;color:#e4e5df}.owned-filter-row>small{margin-left:auto;font-size:10px;color:#939da0}
 .owned-inline[data-mode="import"] .owned-fields{grid-template-columns:repeat(3,minmax(0,1fr))}.owned-inline[data-mode="import"] .owned-echoes{display:block}.owned-inline[data-mode="import"] .owned-echo[hidden]{display:none!important}.owned-inline[data-mode="import"] .owned-echo{display:grid;grid-template-columns:200px minmax(0,1fr);gap:0 14px}.owned-inline[data-mode="import"] .owned-echo h3{grid-column:1/-1}.owned-inline[data-mode="import"] .owned-echo>canvas{grid-column:1;grid-row:2/11;position:sticky;top:0}.owned-inline[data-mode="import"] .owned-echo>:not(h3):not(canvas){grid-column:2}.owned-inline[data-mode="import"] .owned-echo .owned-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:0 0 8px}.owned-inline[data-mode="import"] .owned-toolbar{gap:6px;margin:0}.owned-inline[data-mode="import"] .owned-toolbar h2{display:none}.owned-review-tabs{display:flex;align-items:center;gap:8px;margin:10px 0}.owned-review-tabs>span{margin-right:auto;color:#b9bdc1;font-size:12px}.owned-review-tabs button{padding:6px 10px}.owned-review-tabs button[aria-pressed=true]{border-color:#d1b67c;color:#d1b67c}.owned-original-card{font-size:11px}
 .owned-page .owned-item{height:180px;min-width:0;border-color:#2a373b;background:linear-gradient(135deg,#192126,#10171b)!important;border-radius:10px;padding:12px;font-size:11px}.owned-page .owned-item[aria-current]{outline:0;border-color:#c7ac70;background:linear-gradient(120deg,#2a2a20,#192225)!important}.owned-page .owned-item img{width:92px;height:80px;margin:4px auto}.owned-page .owned-item>strong{font-weight:400}.owned-page .owned-item-main{display:block;border-top:1px solid #ffffff0a;margin-top:7px;padding-top:6px;font-size:11px;color:#d1b67c}.owned-page .owned-inspector{border-color:#3c4240;background:linear-gradient(135deg,#192122,#11191b);border-radius:12px;padding:22px;min-height:550px}.owned-page .owned-inspector>img{width:180px;height:180px}.owned-page .owned-inspector h3{font-size:22px;font-weight:400;color:#e4e5df}.owned-page .owned-inspector>[data-equip]{width:100%;margin-top:14px;background:#c7ac70;color:#11191b}.owned-roster{font-size:11px}
+
+/* Portable account actions stay in the Inventory header across Echoes,
+   Weapons and Saved Characters. File selection remains a browser-native input. */
+.owned-inline[data-mode="inventory"] .owned-toolbar [data-backup],
+.owned-inline[data-mode="inventory"] .owned-toolbar [data-import-account]{font-weight:650;border-color:#bfa26c;padding:10px 16px}
+.owned-inline[data-mode="inventory"] .owned-toolbar [data-import-account]{background:#c9ad77;color:#15191a}
+.owned-restore-approval{display:flex!important;gap:10px!important;align-items:center!important;margin:14px 0;font-size:13px!important;color:#e7dcc2!important}
+.owned-restore-approval input{accent-color:#d1b67c;width:18px;height:18px}
+.owned-inline [data-restore-summary]{max-width:850px;line-height:1.65}
+.owned-inline [data-backup-before-restore]{margin-right:12px}
+@media(max-width:700px){
+ .owned-inline[data-mode="inventory"] .owned-toolbar [data-backup],
+ .owned-inline[data-mode="inventory"] .owned-toolbar [data-import-account]{flex:1 1 175px}
+}

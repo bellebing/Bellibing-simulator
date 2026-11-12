@@ -5,6 +5,7 @@ import {productInvestmentPending} from '../../../src/productBuildDraft.mjs';
 import {productAsset} from '../assets.js';
 import {productLink} from '../product-navigation.js';
 import {createProductStore} from '../product-store.js';
+import {createUiPreferenceStore} from '../../../src/uiFilterPreferences.mjs';
 import {saveOwnedTeam} from '../../../src/inventoryAccount.mjs';
 import {ALTERNATIVE_TEAM_CONTEXTS} from '../../../src/data/alternativeTeamContexts.ts';
 import {suggestAccountTeams} from './team-suggestions.js';
@@ -28,6 +29,8 @@ const echoImage=id=>echoArt.icons.find(item=>item.echoId===id)?.targetPath;
 const weaponImage=id=>weaponArt.icons.find(item=>item.weaponId===id)?.targetPath;
 const reviewStore = await createProductStore(catalog, skills.characters);
 const account = reviewStore.snapshot();
+const filterPrefs=createUiPreferenceStore(globalThis.localStorage,reviewStore.session.profile,account.account.id);
+let inspectedCharacterId=null;
 const examples = ['augusta', 'iuno', 'the-shorekeeper', 'jiyan', 'mortefi', 'verina'];
 const modes = new Map([
   ['general', 'General play'], ['open-world', 'Open world'],
@@ -104,6 +107,7 @@ function render() {
 }
 function renderDetails() {
   const id = currentTeam()[state.selectedMember];
+  inspectedCharacterId=id??null;
   const person = people.get(id);
   if (!person) {
     $('#tcDetails').innerHTML = '<h2>Character details</h2><p class="bc-inspector-meta">Choose a team member</p>';
@@ -127,7 +131,7 @@ function renderDetails() {
   $('#tcDetails').innerHTML = `<h2>${escape(person.name)}</h2>${image(person.art, 'tc-detail-art')}
     <section class="tc-detail-section"><h3>Equipped build</h3>${weapon ? `<div class="tc-weapon">${image(weaponImage(weapon.id))}<div><strong>${escape(weapon.name)}</strong><small>Lv. ${equipment?.data.level??'?'} · R${equipment?.data.refinement??'?'}</small></div></div>` : '<p>Weapon not equipped</p>'}
     <div class="tc-detail-row"><span>Echoes</span><b>${draft ? draft.echoes.filter(Boolean).length + '/5' : '—'}</b></div>${values.map(([name, value]) => `<div class="tc-detail-row"><span>${name}</span><b>${Number.isFinite(value) ? value.toLocaleString('en-US', {maximumFractionDigits: 1}) : draft ? 'Pending' : '—'}</b></div>`).join('')}</section>
-    ${context?`<details class="tc-team-conditions"><summary>Team conditions</summary><p>${escape(context.whySv)}</p>${context.conditionsSv.map(condition=>'<p>'+escape(condition)+'</p>').join('')}</details>`:''}
+    ${context?`<details class="tc-team-conditions" ${filterPrefs.read('teams:conditions:'+id).open?'open':''}><summary>Team conditions</summary><p>${escape(context.whySv)}</p>${context.conditionsSv.map(condition=>'<p>'+escape(condition)+'</p>').join('')}</details>`:''}
     <section class="tc-detail-section"><h3>Alternatives</h3>${alternatives.length?alternatives.map(({candidate,reviewed})=>`<button class="tc-alternative" data-replace-with="${candidate}">${image(people.get(candidate).face)}<span>${escape(people.get(candidate).name)}</span>${reviewed?'<small>Source option</small>':''}</button>`).join(''):'<p>No unassigned alternatives on this account</p>'}</section>`;
 }
 function choose(slot) {
@@ -141,6 +145,11 @@ function choose(slot) {
   selector.setSelected(id);
   selector.open();
 }
+$('#tcDetails').addEventListener('toggle',event=>{
+ if(event.target.matches('.tc-team-conditions')&&inspectedCharacterId){
+  filterPrefs.write('teams:conditions:'+inspectedCharacterId,{open:event.target.open});
+ }
+},true);
 resetTeams();
 render();
 selector=mountCarousel({selectedId:readCharacterFocus(ownedIds()[0]??'augusta'),compactPresentation:true,accountOnly:true,preview:id=>accountCarouselPreview(people.get(id),reviewStore.session.storage),onSelect:id=>{focusTeamCharacter(id);render();}});

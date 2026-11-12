@@ -100,3 +100,36 @@ test('Chromium: character-source Echo presets, five slot Cost, manual filters an
   assert.deepEqual(errors,[]);
  }finally{await browser.close();await new Promise(ok=>server.close(ok));}
 });
+
+test('Chromium: Inventory search/category and detached Sandbox disclosures persist without an Account write',async()=>{
+ const server=await startPreview({port:0}),base='http://127.0.0.1:'+server.address().port,browser=await launch();
+ try{
+  const page=await browser.newPage({viewport:{width:1440,height:900}}),errors=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  const profile='independent-panels-'+Date.now();
+  await page.goto(base+'/inventory/?profile='+profile);
+  await page.locator('#ivSearch').waitFor();
+  await page.locator('#ivSearch').fill('keep-my-search');
+  await page.locator('[data-iv-kind="weapon"]').click();
+  await page.reload();
+  await page.locator('#ivSearch').waitFor();
+  assert.equal(await page.locator('#ivSearch').inputValue(),'keep-my-search');
+  assert.equal(await page.locator('[data-iv-kind="weapon"]').getAttribute('aria-pressed'),'true');
+  await page.goto(base+'/sandbox/?profile='+profile);
+  await page.locator('#settingsToggle').waitFor();
+  const initialSettings=await page.locator('#settingsToggle').getAttribute('aria-expanded');
+  const initialCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
+  await page.locator('#settingsToggle').click();
+  await page.locator('#characterToggle').click();
+  const newSettings=await page.locator('#settingsToggle').getAttribute('aria-expanded');
+  const newCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
+  assert.notEqual(newSettings,initialSettings);
+  assert.notEqual(newCharacter,initialCharacter);
+  await page.reload();
+  await page.locator('#settingsToggle').waitFor();
+  await page.waitForFunction(()=>document.querySelector('#characterToggle')?.getAttribute('aria-expanded')!==null);
+  assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'),newSettings);
+  assert.equal(await page.locator('#characterToggle').getAttribute('aria-expanded'),newCharacter);
+  assert.deepEqual(errors,[]);
+ }finally{await browser.close();await new Promise(ok=>server.close(ok));}
+});

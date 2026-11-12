@@ -6,6 +6,11 @@ on:
     paths:
       - 'src/inventoryAccount.mjs'
       - 'src/inventoryAccountStore.mjs'
+      - 'src/productBuildDraft.mjs'
+      - 'docs/product-ui/product-store.js'
+      - 'docs/product-ui/build-candidate/workbench-b.js'
+      - 'test/ownedBuildAccountSync.test.mjs'
+      - 'test/ownedBuildAccountSync.browser.mjs'
       - 'docs/ui-lab/inventory/integration.js'
       - 'docs/ui-lab/inventory/integration.css'
       - 'docs/product-ui/inventory-candidate/inventory.js'
@@ -39,7 +44,7 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Canonical account backup and store regressions
-        run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs
+        run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs test/ownedBuildAccountSync.test.mjs
       - name: Build actual product Inventory
         run: npm run build
       - name: Use runner-installed Google Chrome
@@ -47,4 +52,4 @@ jobs:
       - name: Test real product and retained legacy JSON restore flows
         env:
           CHROME_BIN: /usr/bin/google-chrome
-        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs
+        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/ownedBuildAccountSync.browser.mjs

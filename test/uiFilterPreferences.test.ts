@@ -53,6 +53,16 @@ test('UI preferences restore explicit manual Cost All, Sonata All, searches and 
  const detached=reloaded.read('build:augusta:echo');detached.sets.push('sonata-20');
  assert.deepEqual(reloaded.read('build:augusta:echo').sets,[]);
 });
+test('separate Build/Improve/Team panel writers never erase unrelated UI groups',()=>{
+ const storage=memoryStorage();
+ const build=createUiPreferenceStore(storage,'local','same-account');
+ const improve=createUiPreferenceStore(storage,'local','same-account');
+ build.write('build:augusta:echo',{sets:['sonata-20']});
+ improve.write('improve:augusta:echo',{sets:['sonata-3']});
+ build.write('build:augusta:echo-slot:2',{cost:1});
+ assert.deepEqual(improve.read('build:augusta:echo-slot:2'),{cost:1});
+ assert.deepEqual(build.read('improve:augusta:echo'),{sets:['sonata-3']});
+});
 test('invalid optional UI preference JSON fails open without overwriting original bytes',()=>{
  const storage=memoryStorage();
  const writer=createUiPreferenceStore(storage,'local','account-a');

@@ -82,7 +82,7 @@ export async function createProductStore(catalog,trees) {
    // Awaiting validation must not permit a different tab to replace the draft.
    if(localStorage.getItem(key)!==savingBytes)throw Error('Build draft changed during validation. Review it before saving.');
    }
-  }else validateDraft(draft,catalog,trees);
+  }else validateDraft(draft,catalog,trees,{account:owner});
   // stage() preserves the current authoritative account and resource envelope.
   if((session.store.snapshot()?.revision??null)!==baselineRevision)throw Error('Account changed. Reload before updating this build.');
   const current=session.stage();if(!session.store.snapshot())current.id=owner.id;

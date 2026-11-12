@@ -29,7 +29,7 @@ const echoImage=id=>echoArt.icons.find(item=>item.echoId===id)?.targetPath;
 const weaponImage=id=>weaponArt.icons.find(item=>item.weaponId===id)?.targetPath;
 const reviewStore = await createProductStore(catalog, skills.characters);
 const account = reviewStore.snapshot();
-const filterPrefs=createUiPreferenceStore(globalThis.localStorage,reviewStore.session.profile,account.account.id);
+const filterPrefs=createUiPreferenceStore(globalThis.localStorage,reviewStore.session.profile,reviewStore.session.store.snapshot()?.id??'empty-profile');
 let inspectedCharacterId=null;
 const examples = ['augusta', 'iuno', 'the-shorekeeper', 'jiyan', 'mortefi', 'verina'];
 const modes = new Map([

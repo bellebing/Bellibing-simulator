@@ -11,7 +11,7 @@ test('Build auto-saves Sequence/Echo Main/Substats; Improve Current and JSON agr
  const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||process.env.BELLIBING_CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
  const context=await browser.newContext({acceptDownloads:true,viewport:{width:1440,height:900}});
  const page=await context.newPage(),inventory=await context.newPage(),improve=await context.newPage(),restore=await context.newPage(),other=await context.newPage(),errors=[];
- for(const p of [page,inventory,improve,restore,other])p.on('pageerror',e=>errors.push(e.message));
+ for(const p of [page,inventory,improve,restore,other]){p.setDefaultTimeout(18000);p.on('pageerror',e=>errors.push(e.message));}
  const profile='single-current-augusta';
  const current=()=>page.evaluate(()=>bellibingAccountSession.store.snapshot());
  const chooseMain=async name=>{
@@ -123,7 +123,7 @@ test('Build auto-saves Sequence/Echo Main/Substats; Improve Current and JSON agr
 test('retired global Preview/local drafts survive as recovery, but owned Build loads only AccountStore Current',async()=>{
  const server=await startPreview({port:0}),base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||process.env.BELLIBING_CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
- const context=await browser.newContext(),page=await context.newPage();
+ const context=await browser.newContext(),page=await context.newPage();page.setDefaultTimeout(18000);
  try{
   const profile='old-preview-recovery',key='bellibing.product.build-drafts.v1:'+profile;
   await page.goto(base+'/build/?profile='+profile+'&character=augusta');

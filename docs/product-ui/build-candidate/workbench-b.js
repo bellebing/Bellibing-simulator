@@ -385,7 +385,7 @@ document.addEventListener('click',async event=>{
   if(a.bcOpen==='skills')openSkill(treeFor(person.id).nodes.find(node=>node.kind==='skill')?.id);
   if(a.bcEcho!==undefined)openEcho(Number(a.bcEcho));
   if(a.bcOwnedWeaponId){const item=root.account.items[a.bcOwnedWeaponId];if(item?.kind!=='weapon')throw Error('Owned Weapon no longer exists.');ui.weaponItemId=item.id;ui.weaponNewCopy=false;ui.weaponPreview=item.catalogId;ui.weaponRank=item.data.refinement??1;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
-   if(a.bcNewWeapon){ui.weaponItemId=null;ui.weaponNewCopy=true;renderWeaponEditor();}
+   if('bcNewWeapon' in a){ui.weaponItemId=null;ui.weaponNewCopy=true;renderWeaponEditor();}
    if(a.bcWeaponId){if(ui.weaponPreview!==a.bcWeaponId)ui.weaponItemId=null;ui.weaponNewCopy=false;ui.weaponPreview=a.bcWeaponId;rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
   if(a.bcWeaponRank){ui.weaponRank=Number(a.bcWeaponRank);rememberWorkshopPreview();renderWeaponEditor();renderWeapon();}
   if(a.bcEquip==='weapon'){
@@ -402,7 +402,7 @@ document.addEventListener('click',async event=>{
     change(d=>{d.echoes[ui.slot]=card;},{addedItemIds:added});renderEchoEditor();
    }
   if(a.bcUnequip){change(d=>{if(a.bcUnequip==='weapon'){d.weaponId=null;d.weaponInstanceId=null;}else d.echoes[ui.slot]=null;});closeEditor();}
-  if(a.bcNewEcho&&ui.preview){ui.preview=previewFrom(species(ui.preview.speciesId),null);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
+  if('bcNewEcho' in a&&ui.preview){ui.preview=previewFrom(species(ui.preview.speciesId),null);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
    if(a.bcOwnedEchoId){const item=root.account.items[a.bcOwnedEchoId];if(item?.kind!=='echo')throw Error('Owned Echo no longer exists.');ui.preview={instanceId:item.id,speciesId:item.catalogId,...clone(item.data)};ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
    if(a.bcQuickSpecies){ui.preview=previewFrom(species(a.bcQuickSpecies),ui.preview);ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level].find(r=>r.name===a.main));ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
   if(a.bcSpecies){ui.preview=previewFrom(species(a.bcSpecies),ui.preview);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}

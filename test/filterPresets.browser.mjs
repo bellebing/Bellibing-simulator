@@ -108,15 +108,17 @@ test('Chromium: Inventory search/category and detached Sandbox disclosures persi
   page.on('pageerror',error=>errors.push(error.message));
   const profile='independent-panels-'+Date.now();
   await page.goto(base+'/inventory/?profile='+profile);
-  await page.locator('#ivSearch').waitFor();
+  // Inventory's tab buttons are created only after async account/catalog initialization.
+  await page.locator('[data-iv-kind="echo"]').waitFor();
   await page.locator('#ivSearch').fill('keep-my-search');
   await page.locator('[data-iv-kind="weapon"]').click();
+  await page.locator('[data-iv-kind="weapon"][aria-pressed="true"]').waitFor();
   await page.reload();
-  await page.locator('#ivSearch').waitFor();
+  await page.locator('[data-iv-kind="weapon"][aria-pressed="true"]').waitFor();
   assert.equal(await page.locator('#ivSearch').inputValue(),'keep-my-search');
   assert.equal(await page.locator('[data-iv-kind="weapon"]').getAttribute('aria-pressed'),'true');
   await page.goto(base+'/sandbox/?profile='+profile);
-  await page.locator('#settingsToggle').waitFor();
+  await page.waitForFunction(()=>document.body.classList.contains('product-workspace')&&document.querySelector('#settingsToggle')?.getAttribute('aria-expanded')!==null);
   const initialSettings=await page.locator('#settingsToggle').getAttribute('aria-expanded');
   const initialCharacter=await page.locator('#characterToggle').getAttribute('aria-expanded');
   await page.locator('#settingsToggle').click();
@@ -126,8 +128,7 @@ test('Chromium: Inventory search/category and detached Sandbox disclosures persi
   assert.notEqual(newSettings,initialSettings);
   assert.notEqual(newCharacter,initialCharacter);
   await page.reload();
-  await page.locator('#settingsToggle').waitFor();
-  await page.waitForFunction(()=>document.querySelector('#characterToggle')?.getAttribute('aria-expanded')!==null);
+  await page.waitForFunction(()=>document.body.classList.contains('product-workspace')&&document.querySelector('#characterToggle')?.getAttribute('aria-expanded')!==null);
   assert.equal(await page.locator('#settingsToggle').getAttribute('aria-expanded'),newSettings);
   assert.equal(await page.locator('#characterToggle').getAttribute('aria-expanded'),newCharacter);
   assert.deepEqual(errors,[]);

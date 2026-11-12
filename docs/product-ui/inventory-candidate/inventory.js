@@ -273,7 +273,7 @@ $('#ivSearch').addEventListener('input', event => {
 });
 function useAccount(nextMode) {
   store = store;
-  snapshot = store.snapshot();
+  snapshot = {...store.snapshot(),account:persisted.snapshot()??store.snapshot().account};
   mode = nextMode;
   selected = null;
   render();
@@ -312,6 +312,13 @@ addEventListener('storage', event => {
   if (event.key === 'bellibing.build-candidate.review.v1' && mode === 'account') useAccount('account');
 });
 render();
+// AccountStore is the live authority even while Inventory stays open in another tab.
+// Never refresh this view from the local Build draft (which may be Preview).
+persisted.subscribe(value=>{
+ if(!value)return;
+ snapshot={...snapshot,account:value};
+ render();
+});
 installFixedScroll($('#ivGrid'), 'iv-grid-frame', 'Scroll Inventory', {anchor: $('.iv-browser'), edge: 'right'});
 installFixedScroll($('#ivInspector'), 'iv-inspector-frame', 'Scroll item details', {anchor: $('#ivInspector'), edge: 'right'});
 

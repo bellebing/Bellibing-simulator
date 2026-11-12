@@ -48,8 +48,8 @@ test('WebP stages unsaved Character for Add; later imported data cannot silently
   // A later observation must not silently replace an owned Current Build.
   // Preserve the old imported facts as a separate recovery-only local draft.
   observation.sequence=1;
-  const outcome=await page.evaluate(imported=>{
-   try{globalThis.bellibingProductImport.stage(imported);return 'WRONG: changed Current';}
+  const outcome=await page.evaluate(async imported=>{
+   try{await globalThis.bellibingProductImport.stage(imported);return 'WRONG: changed Current';}
    catch(error){return error.message;}
   },observation);
   assert.match(outcome,/preserved for recovery/);

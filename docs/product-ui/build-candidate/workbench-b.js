@@ -78,7 +78,7 @@ function queueAccountSave(snapshot){
  });
 }
 
-function validateEditableDraft(value){if(value.importObservation)safeDocument(value);else validateDraft(value,catalog,skills.characters);}
+function validateEditableDraft(value){if(value.importObservation)safeDocument(value);else validateDraft(value,catalog,skills.characters,{account:root.account});}
 function change(mutator){
  if(saveFailed)throw Error('Previous change was NOT SAVED. Reload and review the saved Build before editing.');
  const next=clone(root),id=person.id;

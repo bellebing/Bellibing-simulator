@@ -156,11 +156,14 @@ export async function startLocal(options) {
     if (manifest.status !== 'LOCAL_REVIEW_ONLY' || manifest.files.length !== 1) throw Error('Lokal Worker kunde inte kvalificeras.');
     const reviewHandler=existsSync(join(engine,'scripts/team-dps/stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine}):null;
     const advisorHandler=existsSync(join(engine,'scripts/echo-advisor-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',persistent:true,protocol:'BELLIBING_ECHO_ADVICE_V1'}):null;
-    const localHandler=async(req,res,context)=>(await advisorHandler?.(req,res,context))||(await reviewHandler?.(req,res,context));
+    // Local-only DPS Lab lives beside Build/Improve/Sandbox on the SAME private-backed
+    // preview origin. Never ship the private native evaluator in the browser bundle.
+    const dpsLabHandler=existsSync(join(engine,'scripts/team-dps/dps-lab-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/dps-lab',entry:'scripts/team-dps/dps-lab-stdio.mjs',protocol:'BELLIBING_DPS_LAB_V1',timeoutMs:60000}):null;
+    const localHandler=async(req,res,context)=>(await dpsLabHandler?.(req,res,context))||(await advisorHandler?.(req,res,context))||(await reviewHandler?.(req,res,context));
     const server = await startPreview({directory: site, port: options.port, reviewHandler:localHandler});
-    server.once('close',()=>{advisorHandler?.close();reviewHandler?.close();});
+    server.once('close',()=>{dpsLabHandler?.close();advisorHandler?.close();reviewHandler?.close();});
     const base = `http://127.0.0.1:${server.address().port}`;
-    console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
+    console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\nDPS Lab (experimentell): ${base}/dps-lab/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
     if (options.open) await openBrowser(base + '/build/').catch(() => console.log(`Webbläsaren kunde inte öppnas automatiskt. Öppna ${base}/build/`));
     await waitForStop(server);
   } finally { releaseLock(); }

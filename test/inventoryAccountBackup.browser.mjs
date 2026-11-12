@@ -71,3 +71,36 @@ test('product Inventory JSON export, empty restore, rejected imports and guarded
   await context.close();await browser.close();await new Promise(resolve=>server.close(resolve));
  }
 });
+
+
+test('retained legacy Inventory tools restore the same complete JSON and reject unsafe versions in Chromium',async()=>{
+ const server=await startPreview({port:0}),base='http://127.0.0.1:'+server.address().port;
+ const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||undefined,headless:true,args:['--no-sandbox']});
+ const context=await browser.newContext({acceptDownloads:true}),donor=await context.newPage(),receiver=await context.newPage(),errors=[];
+ for(const page of [donor,receiver])page.on('pageerror',error=>errors.push(error.stack));
+ try{
+  let account=emptyAccount();
+  for(const id of ['augusta','iuno','the-shorekeeper'])account=saveReviewedScan(account,scan(id),catalog,{reviewed:true,assign:true});
+  account=saveOwnedTeam(account,{name:'Saved owned trio',characterIds:['augusta','iuno','the-shorekeeper']},catalog);
+  await donor.goto(base+'/inventory/legacy.html?profile=portable-legacy-donor');
+  await donor.locator('[data-backup]').waitFor();
+  await donor.evaluate(async input=>{await bellibingAccountSession.store.commit(input);},account);
+  const dl=donor.waitForEvent('download');await donor.locator('[data-backup]').click();
+  const file=await dl,backup=JSON.parse(await readFile(await file.path(),'utf8'));
+  await receiver.goto(base+'/inventory/legacy.html?profile=portable-legacy-target');
+  await receiver.locator('[data-import-account]').click();
+  await receiver.locator('[data-restore]').setInputFiles({name:'portable.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(backup))});
+  assert.match(await receiver.locator('[data-restore-summary]').innerText(),/3 owned Characters, 3 Weapons and 15 Echoes/);
+  assert.equal(await receiver.locator('[data-confirm-restore]').isDisabled(),true);
+  await receiver.locator('[data-approve-restore]').check();
+  await receiver.locator('[data-confirm-restore]').click();
+  await receiver.waitForFunction(id=>bellibingAccountSession?.store.snapshot()?.id===id,backup.account.id);
+  assert.deepEqual(await receiver.evaluate(()=>bellibingAccountSession.store.snapshot()),backup.account);
+  for(const malformed of ['{broken',JSON.stringify({...backup,schemaVersion:999})]){
+   await receiver.locator('[data-restore]').setInputFiles({name:'broken.json',mimeType:'application/json',buffer:Buffer.from(malformed)});
+   await receiver.waitForFunction(()=>document.querySelector('[data-owned-message]')?.textContent.includes('Import rejected'));
+   assert.deepEqual(await receiver.evaluate(()=>bellibingAccountSession.store.snapshot()),backup.account);
+  }
+  assert.deepEqual(errors,[]);
+ }finally{await context.close();await browser.close();await new Promise(resolve=>server.close(resolve));}
+});

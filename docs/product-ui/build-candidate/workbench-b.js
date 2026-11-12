@@ -56,7 +56,11 @@ const statMarkup = (name, value) => numberMarkup(value, pct(name));
 
 function message(text=''){$('#bcStatus').textContent=text;}
 function fail(error){message(error.message??String(error));const host=$('#bcEditorError');if(host)host.textContent=error.message??String(error);}
-function persist(next){root=store.commit(next);$('#bcSaved').textContent='Draft stored on this device';}
+function persist(next){
+ root=store.commit(next);
+ if(root.previewCharacters?.[root.selected])$('#bcSaved').textContent='Test / Preview — Inventory unchanged';
+ else if(!root.account.characters[root.selected]?.owned)$('#bcSaved').textContent='Draft stored on this device · not in Inventory';
+}
 const inAccountMode=id=>!!root.account.characters[id]?.owned&&!root.previewCharacters?.[id];
 let saveQueue=Promise.resolve(),saveFailed=null,saveNumber=0;
 function queueAccountSave(snapshot,addedItemIds=[]){

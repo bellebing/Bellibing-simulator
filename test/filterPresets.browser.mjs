@@ -68,14 +68,14 @@ test('Chromium: character-source Echo presets, five slot Cost, manual filters an
   assert.deepEqual(await selectedSets(page),['all']);
   assert.equal(await page.locator('#bcEchoSearch').inputValue(),'Echo-that-does-not-exist');
   assert.equal(await inventoryCount(page),afterEquip,'filters must not touch physical Inventory');
-  await page.evaluate(()=>{buildCandidateReview.selectCharacter('cartethyia');});
-  await page.waitForFunction(()=>document.querySelector('#bcName')?.textContent==='Cartethyia');
+  {const navigation=page.waitForEvent('load');await page.evaluate(()=>{buildCandidateReview.selectCharacter('cartethyia');});await navigation;}
+  await page.waitForFunction(()=>!!globalThis.buildCandidateReview&&document.querySelector('#bcName')?.textContent==='Cartethyia');
   for(const [slot,cost] of [4,4,1,1,1].entries()){
    await openSlot(page,slot);
    assert.equal(await costs(page),String(cost),'Cartethyia slot '+(slot+1));
   }
-  await page.evaluate(()=>{buildCandidateReview.selectCharacter('augusta');});
-  await page.waitForFunction(()=>document.querySelector('#bcName')?.textContent==='Augusta');
+  {const navigation=page.waitForEvent('load');await page.evaluate(()=>{buildCandidateReview.selectCharacter('augusta');});await navigation;}
+  await page.waitForFunction(()=>!!globalThis.buildCandidateReview&&document.querySelector('#bcName')?.textContent==='Augusta');
   await openSlot(page,2);
   assert.equal(await costs(page),'1','Augusta manual slot choice survives character switch');
   assert.deepEqual(await selectedSets(page),['all']);

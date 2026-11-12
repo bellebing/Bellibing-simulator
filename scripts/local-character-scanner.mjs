@@ -34,7 +34,7 @@ export async function startLocalCharacterScanner({env=process.env,python,script=
   if(!existsSync(script))throw Error('Scanner source missing.');
   child=spawnProcess(configured,[script,'--port',String(scannerPort)],{
    cwd:root,windowsHide:true,stdio:['ignore','ignore','inherit'],
-   env:{...env,TESSDATA_PREFIX:join(scannerRoot,'tessdata')}
+   env:{...env,...(existsSync(join(scannerRoot,'tessdata','eng.traineddata'))?{TESSDATA_PREFIX:join(scannerRoot,'tessdata')}:{})}
   });
   child.on('error',()=>{ready=false;failed=true;});
   child.on('exit',()=>{ready=false;failed=true;});

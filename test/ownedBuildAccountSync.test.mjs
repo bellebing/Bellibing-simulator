@@ -24,7 +24,7 @@ function exampleAccount(){
  return validateAccount(account,catalog);
 }
 
-test('AccountStore: two identical-species items, Equip/Unequip, same-ID Edit, Preview, JSON restore',async()=>{
+test('AccountStore: one Current Build, Equip/Unequip, same-ID Edit, automatic item tracking and JSON restore',async()=>{
  const factory=new IDBFactory();
  const first=await openAccountStore({catalog,indexedDB:factory,BroadcastChannel:null,profile:'augusta-account'});
  const second=await openAccountStore({catalog,indexedDB:factory,BroadcastChannel:null,profile:'augusta-account'});
@@ -55,13 +55,17 @@ test('AccountStore: two identical-species items, Equip/Unequip, same-ID Edit, Pr
   assert.deepEqual(productDraftFromAccount(saved,'augusta',{nodes:[]}).echoes[0].mainStat,saved.items['physical-echo-B'].data.mainStat);
   assert.equal(saved.items[weaponId].id,weaponId);
 
-  const preview=productDraftFromAccount(saved,'augusta',{nodes:[]});
-  preview.echoes[0]={...preview.echoes[0],instanceId:'test-only-echo'};
-  assert.throws(()=>applyOwnedProductDraft(saved,preview,catalog),/explicit Add Echo/);
-  assert.deepEqual(first.snapshot(),saved,'20 preview variations must not write even one physical item');
-  const acquired=applyOwnedProductDraft(saved,preview,catalog,{addedItemIds:['test-only-echo']});
-  assert.ok(acquired.items['test-only-echo'],'a new physical item is possible only after explicit acquisition');
-  assert.equal(first.snapshot().items['test-only-echo'],undefined);
+  // Build a Character only edits Current. Switching species creates an
+  // internal identity; the previously worn Echo remains in the account.
+  const nextSpecies=catalog.echoes.find(e=>e.cost===saved.items['physical-echo-B'].data.cost&&e.id!==saved.items['physical-echo-B'].catalogId);
+  assert.ok(nextSpecies);
+  const changed=productDraftFromAccount(saved,'augusta',{nodes:[]});
+  changed.echoes[0]={...changed.echoes[0],instanceId:'replacement-echo',speciesId:nextSpecies.id,selectedSonataSetId:nextSpecies.sonataSetIds[0]};
+  const replaced=applyOwnedProductDraft(saved,changed,catalog);
+  assert.ok(replaced.items['replacement-echo'],'new species receives an internal ID');
+  assert.deepEqual(replaced.items['physical-echo-B'],saved.items['physical-echo-B'],'old physical Echo is not destroyed');
+  assert.equal(replaced.characters.augusta.record.build.echoSets.sets['set-1'].slots[0],'replacement-echo');
+  assert.deepEqual(first.snapshot(),saved,'no write occurs without a successful AccountStore commit');
 
   await assert.rejects(second.commit(stale,{expectedRevision:stale.revision,expectedAccountId:stale.id}),/another tab/);
   assert.deepEqual(first.snapshot(),saved,'stale-tab save cannot erase newer equipment');

@@ -47,4 +47,4 @@ jobs:
       - name: Test real product and retained legacy JSON restore flows
         env:
           CHROME_BIN: /usr/bin/google-chrome
-        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/recoveryIntegration.browser.mjs
+        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs

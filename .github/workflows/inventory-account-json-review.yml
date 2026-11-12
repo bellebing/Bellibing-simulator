@@ -1,0 +1,48 @@
+name: Inventory Account JSON Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'src/inventoryAccount.mjs'
+      - 'src/inventoryAccountStore.mjs'
+      - 'docs/ui-lab/inventory/integration.js'
+      - 'docs/ui-lab/inventory/integration.css'
+      - 'docs/product-ui/inventory-candidate/inventory.js'
+      - 'docs/product-ui/inventory-candidate/inventory.css'
+      - 'test/inventoryPortableAccount.test.mjs'
+      - 'test/inventoryAccountBackup.browser.mjs'
+      - 'test/recoveryIntegration.browser.mjs'
+      - 'package.json'
+      - '.github/workflows/inventory-account-json-review.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: inventory-json-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  portable-account:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Canonical account backup and store regressions
+        run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs
+      - name: Build actual product Inventory
+        run: npm run build
+      - name: Install Chromium browser
+        run: npx playwright install --with-deps chromium
+      - name: Test real product and retained legacy JSON restore flows
+        run: node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs test/recoveryIntegration.browser.mjs

@@ -124,8 +124,8 @@ function renderEchoes(){
 }
 function renderAccount(){
  const owned=root.account.characters[person.id]?.owned,preview=root.previewCharacters?.[person.id],unchanged=owned&&productDraftBuildIdentity(root.savedDrafts[person.id])===productDraftBuildIdentity(draft());
- $('#bcAccount').textContent=owned?(preview==='import'?'Save reviewed import':preview?'Preview only':saveFailed?'Save blocked':unchanged?'On Account · saved':'Saving automatically'):'Add to Account';
- $('#bcAccount').disabled=!!owned&&(preview!=='import'||!!saveFailed||unchanged);
+ $('#bcAccount').textContent=owned?(preview==='import'?'Save reviewed import':preview?'Apply Preview to Account':saveFailed?'Save blocked':unchanged?'On Account · saved':'Saving automatically'):'Add to Account';
+ $('#bcAccount').disabled=!!owned&&(!preview||!!saveFailed||unchanged);
  const toggle=$('#bcPreviewMode');if(toggle){toggle.hidden=!owned;toggle.textContent=preview?'Discard Preview · Account':'Test / Preview';toggle.setAttribute('aria-pressed',String(!!preview));}
 }
 function render(){
@@ -359,6 +359,7 @@ const modeButton=document.createElement('button');modeButton.id='bcPreviewMode';
   if(saveFailed)throw saveFailed;
   const current=clone(draft()),items=root.account.items;
   const newIds=[...(current.weaponId?[current.weaponInstanceId]:[]),...current.echoes.filter(Boolean).map(e=>e.instanceId)].filter(id=>!items[id]);
+  if(root.account.characters[person.id]?.owned&&root.previewCharacters?.[person.id]&&!await confirmInline('Apply Preview to real Account?','This replaces the saved equipment and edits owned physical items. Old unequipped items remain owned.','Apply Preview')){renderAccount();return;}
   if(root.account.characters[person.id]?.owned&&newIds.length&&!await confirmInline('Add physical items to Inventory?',newIds.length+' new physical item(s) will be created. Existing items stay in Inventory.','Add items and save')){renderAccount();return;}
   root=await store.saveDraft(current,{addedItemIds:newIds});
   if(root.previewCharacters?.[person.id])root=store.setPreviewMode(person.id,false);

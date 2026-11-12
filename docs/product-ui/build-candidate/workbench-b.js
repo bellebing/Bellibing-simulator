@@ -1,5 +1,6 @@
 import {installChoiceDismissal,installTransientChoiceDismissal} from '../../ui-lab/v1.1/modules/choice-dismissal.js';
-import {recommendedMainStats,recommendedSetIds,recommendedWeaponIds,recommendationOrder} from '../../../src/characterRecommendations.mjs';
+import {recommendedMainStats,recommendedSetIds,recommendedWeaponIds,recommendationOrder,recommendedEchoSlot,recommendedEchoFilterSetIds} from '../../../src/characterRecommendations.mjs';
+import {createUiPreferenceStore} from '../../../src/uiFilterPreferences.mjs';
 import {accountCarouselPreview} from '../../ui-lab/v1.1/modules/account-carousel-preview.js';
 import {substatEditorMarkup as sharedSubstatEditor} from '../../ui-lab/v1.1/modules/substat-editor.js';
 import {productDraftBuildIdentity,productInvestmentPending} from '../../../src/productBuildDraft.mjs';
@@ -26,9 +27,24 @@ const catalog={characters:CHARACTER_CATALOG,echoes:echoes.echoes,weapons:weapons
 const domain={facts,weapons,echoes,trees:skills.characters,sequences:sequences.characters};
 const store=await createProductStore(catalog,skills.characters);
 let root=store.snapshot(),person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
-const ui={panel:null,slot:0,preview:null,weaponPreview:null,weaponRank:1,weaponQuery:'',echoQuery:'',cost:null,sets:[],previewView:'art',rollEditor:null,rollMove:null,more:false,skillId:null,prompt:null};
+const filterPrefs=createUiPreferenceStore(globalThis.localStorage,store.session.profile,root.account.id);
+const ui={panel:null,slot:0,preview:null,weaponPreview:null,weaponRank:1,weaponQuery:'',echoQuery:'',cost:null,sets:[],sonataOpen:false,previewView:'art',rollEditor:null,rollMove:null,more:false,skillId:null,prompt:null};
 const treeFor=id=>skills.characters.find(c=>c.characterId===id)??{nodes:[]};
 const draft=()=>root.drafts[person.id];
+const buildPref=section=>'build:'+person.id+':'+section;
+const allowedEchoCost=cost=>cost===null||[1,3,4].includes(cost);
+function restoreEchoFilters(index){
+ const common=filterPrefs.read(buildPref('echo'));
+ const sets=Array.isArray(common.sets)?common.sets:recommendedEchoFilterSetIds(person.id);
+ ui.sets=[...new Set(sets.filter(id=>echoes.sonataSets.some(set=>set.id===id)))];
+ ui.echoQuery=typeof common.query==='string'?common.query:'';
+ ui.sonataOpen=common.sonataOpen===true;
+ const saved=filterPrefs.read(buildPref('echo-slot:'+index));
+ ui.cost=Object.hasOwn(saved,'cost')&&allowedEchoCost(saved.cost)?saved.cost:recommendedEchoSlot(person.id,index)?.cost??null;
+}
+function saveEchoFilters(){filterPrefs.write(buildPref('echo'),{sets:[...ui.sets],query:ui.echoQuery,sonataOpen:ui.sonataOpen});}
+function saveCharacterBrowser(){filterPrefs.write('build:character-browser',{query:characterQuery,element:characterElement,rarity:characterRarityFilter,weapon:characterWeapon,preview:characterPreview});}
+ui.more=filterPrefs.read(buildPref('summary')).more===true;
 const species=id=>echoes.echoes.find(e=>e.id===id);
 const weapon=id=>weapons.weapons.find(w=>w.id===id);
 const illustratedEchoes = new Set(['echo-60001215', 'echo-60000975', 'echo-60001615', 'echo-60000235', 'echo-60000285']);
@@ -174,8 +190,13 @@ const characterTagTone=t=>({'Main Damage Dealer':'role','Resonance Skill DMG':'d
 let characterQuery='',characterElement=null,characterRarityFilter=null,characterWeapon=null,characterPreview=null,characterSkill=null;
 function openCharacterBrowser(){
  ui.returnSelector='[data-bc-open="character"]';showPanel('character');
- characterQuery='';characterElement=null;characterRarityFilter=null;characterWeapon=null;characterSkill=null;
- characterPreview=CHARACTER_CATALOG.find(c=>!root.account.characters[c.id]?.owned)?.id??null;
+ const saved=filterPrefs.read('build:character-browser');
+ characterQuery=typeof saved.query==='string'?saved.query:'';
+ characterElement=characterElements.includes(saved.element)?saved.element:null;
+ characterRarityFilter=[4,5].includes(saved.rarity)?saved.rarity:null;
+ characterWeapon=Object.hasOwn(characterWeaponIcons,saved.weapon)?saved.weapon:null;
+ characterSkill=null;
+ characterPreview=CHARACTER_CATALOG.some(c=>c.id===saved.preview&&!root.account.characters[c.id]?.owned)?saved.preview:CHARACTER_CATALOG.find(c=>!root.account.characters[c.id]?.owned)?.id??null;
  renderCharacterBrowser();
 }
 function renderCharacterBrowser(){
@@ -203,7 +224,7 @@ async function buildNewCharacter(id){
  const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);
  closeEditor(false);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();carousel.setSelected(id);
 }
-function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery='';renderWeaponEditor();renderWeapon();}
+function openWeapon(){ui.returnSelector='[data-bc-open="weapon"]';showPanel('weapon');const saved=root.workshopPreviews?.[person.id+':weapon'],restore=saved?.base===JSON.stringify([draft().weaponId,draft().weaponRank,draft().weaponLevel]);ui.weaponPreview=restore?saved.preview.id:draft().weaponId;ui.weaponRank=restore?saved.preview.rank:draft().weaponRank;ui.weaponQuery=filterPrefs.read(buildPref('weapon')).query??'';renderWeaponEditor();renderWeapon();}
 function renderWeaponEditor() {
  const rows = recommendationOrder(weapons.weapons.filter(item => item.weaponType === person.weaponType && artForWeapon(item.id) && item.name.toLowerCase().includes(ui.weaponQuery.toLowerCase())),recommendedWeaponIds(person.id));
  const item = weapon(ui.weaponPreview);
@@ -237,7 +258,7 @@ function nextIncompleteRoll(after) {
  return [...indexes.slice(after + 1), ...indexes.slice(0, after + 1)].find(index => !ui.preview.substats[index]?.name || !Number.isFinite(ui.preview.substats[index]?.value)) ?? null;
 }
 
-function openEcho(index){ui.returnSelector='[data-bc-echo="'+index+'"]';showPanel('echo');ui.slot=index;ui.preview=restoredEchoPreview(index);ui.rollEditor=null;ui.rollMove=null;ui.echoQuery='';ui.cost=null;ui.sets=[];renderEchoEditor();renderEchoes();}
+function openEcho(index){ui.returnSelector='[data-bc-echo="'+index+'"]';showPanel('echo');ui.slot=index;ui.preview=restoredEchoPreview(index);ui.rollEditor=null;ui.rollMove=null;restoreEchoFilters(index);renderEchoEditor();renderEchoes();}
 function committedPreview(){
  const item=clone(ui.preview);if(!item)throw Error('Choose an Echo.');if(!item.mainStat)throw Error('Choose a Main Stat.');
  const last=item.substats.findLastIndex(row=>row!=null),rolls=Array.from({length:last+1},(_,i)=>item.substats[i]??null);
@@ -256,7 +277,10 @@ function sonataFilterMarkup(setOrder, recommendedIds, open) {
  const icons = selected.map(set => `<span title="${esc(set.name)}">${image(set.artPath, set.name)}</span>`).join('');
  return `<details class="bc-choice wb-sonata-filter" ${open ? 'open' : ''}><summary aria-label="Sonata Sets${selected.length ? ': ' + esc(selected.map(set => set.name).join(', ')) : ': All'}"><span>Sonata Sets</span><span class="wb-selected-sets">${icons || '<span class="wb-all-sets">All</span>'}</span></summary><div class="bc-options"><button class="wb-all-option ${!ui.sets.length ? 'selected' : ''}" data-bc-set-filter="all" aria-pressed="${!ui.sets.length}">All Sonata Sets</button>${group('Recommended', setOrder.filter(set => recommendedIds.includes(set.id)))}${group('Other', setOrder.filter(set => !recommendedIds.includes(set.id)))}</div></details>`;
 }
-function recommendedMains(cost){return recommendedMainStats(person.id,cost,echoes.statEditor.mainStatsByCostAndLevel[cost][0].map(row=>row.name));
+function recommendedMains(cost){
+ const allowed=echoes.statEditor.mainStatsByCostAndLevel[cost][0].map(row=>row.name);
+ const slot=recommendedEchoSlot(person.id,ui.slot);
+ return slot?.cost===cost?slot.mainStats.filter(name=>allowed.includes(name)):recommendedMainStats(person.id,cost,allowed);
 }
 function echoBrowseCard(row, selectedId) {
  const matchingSets = ui.sets.length ? ui.sets.filter(id => row.sonataSetIds.includes(id)) : row.sonataSetIds;
@@ -273,10 +297,12 @@ function renderEchoEditor() {
  const identity = item ? species(item.speciesId) : null;
  const error = validatePreview();
  const recommendedIds = recommendedSetIds(person.id);
- const filterOpen = Boolean(document.querySelector('.wb-sonata-filter')?.open);
+ const filterOpen = ui.sonataOpen;
  const setFilter = sonataFilterMarkup(setOrder, recommendedIds, filterOpen);
  const costFilter = '<div class="wb-cost-buttons" role="group" aria-label="Filter by Cost">'+[null,4,3,1].map(cost => selectButton('data-bc-cost',cost ?? 'all',cost === null ? 'All' : 'Cost '+cost,false,ui.cost === cost)).join('')+'</div>';
- const browser = `<div class="wc-browser bc-echo-browser"><div class="wb-echo-filters"><div class="wc-filter">${setFilter}</div><div class="wb-cost-filter">${costFilter}</div></div><div class="wc-catalog bc-catalog-grid">${matching.map(row => echoBrowseCard(row, identity?.id)).join('') || '<p>No matching Echoes</p>'}</div></div>`;
+ const slotAdvice=recommendedEchoSlot(person.id,ui.slot);
+ const guide=slotAdvice?'<p class="wb-slot-guidance">Guide slot '+(ui.slot+1)+': <strong>Cost '+slotAdvice.cost+'</strong> · '+esc(slotAdvice.sourceText)+'</p>':'<p class="wb-slot-guidance">Slot recommendation Pending</p>';
+ const browser = `<div class="wc-browser bc-echo-browser"><div class="wb-echo-filters"><div class="wc-filter">${setFilter}</div><div class="wb-cost-filter">${costFilter}</div></div>${guide}<div class="wc-catalog bc-catalog-grid">${matching.map(row => echoBrowseCard(row, identity?.id)).join('') || '<p>No matching Echoes</p>'}</div></div>`;
 
  let preview = '<div class="bc-inspector wc-preview"><p>Choose an Echo to preview</p></div>';
  if (item) {
@@ -345,10 +371,10 @@ function openSequence(number) {
 }
 function confirmInline(title,copy,action){return new Promise(resolve=>{if(ui.prompt)ui.prompt(false);ui.prompt=result=>{ui.prompt=null;$('#bcConfirm').hidden=true;$('#bcConfirm').replaceChildren();resolve(result);};$('#bcConfirm').hidden=false;$('#bcConfirm').innerHTML=`<h3>${esc(title)}</h3><p>${esc(copy)}</p><div><button class="bc-quiet" data-bc-confirm="no">Cancel</button><button class="bc-primary" data-bc-confirm="yes">${esc(action)}</button></div>`;$('#bcConfirm [data-bc-confirm="yes"]').focus();});}
 render();
-carousel=mountCarousel({selectedId:person.id,compactPresentation:true,accountOnly:true,accountLabel:'review account',ownsInteraction:node=>$('#bcConfirm').contains(node),beforeSelect:async()=>{rememberWorkshopPreview();return true;},onSelect:id=>{closeEditor(false);const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);person=CHARACTER_CATALOG.find(c=>c.id===id);message();render();},preview:id=>accountCarouselPreview(CHARACTER_CATALOG.find(p=>p.id===id),store.session.storage)
+carousel=mountCarousel({selectedId:person.id,compactPresentation:true,accountOnly:true,accountLabel:'review account',ownsInteraction:node=>$('#bcConfirm').contains(node),beforeSelect:async()=>{rememberWorkshopPreview();return true;},onSelect:id=>{closeEditor(false);const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);person=CHARACTER_CATALOG.find(c=>c.id===id);ui.more=filterPrefs.read(buildPref('summary')).more===true;message();render();},preview:id=>accountCarouselPreview(CHARACTER_CATALOG.find(p=>p.id===id),store.session.storage)
 });
 $('#openGallery').addEventListener('click',()=>{if(ui.panel)closeEditor(false);});
-$('#bcMore').onclick=()=>{ui.more=!ui.more;renderStats();};
+$('#bcMore').onclick=()=>{ui.more=!ui.more;filterPrefs.write(buildPref('summary'),{more:ui.more});renderStats();};
 renderAccount();
 $('#bcSaved').textContent=inAccountMode(person.id)?'Current Build · saved':'Local draft · not yet on Account';
 $('#bcAccount').onclick=async()=>{
@@ -363,8 +389,8 @@ $('#bcAccount').onclick=async()=>{
 };
 $('#bcExport').onclick=()=>{const blob=new Blob([JSON.stringify({format:'bellibing-build-candidate',state:root},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='bellibing-build-review.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 $('#bcImport').disabled=true;$('#bcImport').onchange=async event=>{try{const file=event.target.files?.[0];if(!file)return;if(file.size>5*1024*1024)throw Error('Review backup is too large.');const backup=safeDocument(JSON.parse(await file.text()));if(backup.format!=='bellibing-build-candidate')throw Error('This is not a Build candidate backup.');if(!await confirmInline('Import review backup?','This replaces only the isolated review drafts and review account.','Import'))return;root=store.restore(backup.state);location.reload();}catch(error){fail(error);}finally{event.target.value='';}};
-document.addEventListener('input',event=>{if(event.target.id!=='wbCharacterSearch')return;const pos=event.target.selectionStart;characterQuery=event.target.value;renderCharacterBrowser();const input=$('#wbCharacterSearch');input.focus();input.setSelectionRange(pos,pos);});
-document.addEventListener('input',event=>{const id=event.target.id;if(id!=='bcWeaponSearch'&&id!=='bcEchoSearch')return;const pos=event.target.selectionStart;if(id==='bcWeaponSearch'){ui.weaponQuery=event.target.value;renderWeaponEditor();}else{ui.echoQuery=event.target.value;renderEchoEditor();}const input=$('#'+id);input.focus();input.setSelectionRange(pos,pos);});
+document.addEventListener('input',event=>{if(event.target.id!=='wbCharacterSearch')return;const pos=event.target.selectionStart;characterQuery=event.target.value;saveCharacterBrowser();renderCharacterBrowser();const input=$('#wbCharacterSearch');input.focus();input.setSelectionRange(pos,pos);});
+document.addEventListener('input',event=>{const id=event.target.id;if(id!=='bcWeaponSearch'&&id!=='bcEchoSearch')return;const pos=event.target.selectionStart;if(id==='bcWeaponSearch'){ui.weaponQuery=event.target.value;filterPrefs.write(buildPref('weapon'),{query:ui.weaponQuery});renderWeaponEditor();}else{ui.echoQuery=event.target.value;saveEchoFilters();renderEchoEditor();}const input=$('#'+id);input.focus();input.setSelectionRange(pos,pos);});
 document.addEventListener('click',async event=>{
  const b=event.target.closest('button');if(!b)return;const a=b.dataset;
  try{
@@ -372,11 +398,11 @@ document.addEventListener('click',async event=>{
   if(b.hasAttribute('data-bc-close')){closeEditor();return;}
   if(a.wbView){ui.previewView=a.wbView;if(ui.panel==='weapon')renderWeaponEditor();else if(ui.panel==='echo')renderEchoEditor();}
   if(a.bcOpen==='character')openCharacterBrowser();
-  if(a.wbCharacterPreview){characterPreview=a.wbCharacterPreview;characterSkill=null;renderCharacterBrowser();}
+  if(a.wbCharacterPreview){characterPreview=a.wbCharacterPreview;characterSkill=null;saveCharacterBrowser();renderCharacterBrowser();}
   if(a.wbCharacterSkill){characterSkill=a.wbCharacterSkill;renderCharacterBrowser();}
-  if(a.wbCharacterRarity){const rarity=Number(a.wbCharacterRarity);characterRarityFilter=characterRarityFilter===rarity?null:rarity;renderCharacterBrowser();}
-  if(a.wbCharacterWeapon){characterWeapon=characterWeapon===a.wbCharacterWeapon?null:a.wbCharacterWeapon;renderCharacterBrowser();}
-  if(a.wbCharacterElement){characterElement=characterElement===a.wbCharacterElement?null:a.wbCharacterElement;renderCharacterBrowser();}
+  if(a.wbCharacterRarity){const rarity=Number(a.wbCharacterRarity);characterRarityFilter=characterRarityFilter===rarity?null:rarity;saveCharacterBrowser();renderCharacterBrowser();}
+  if(a.wbCharacterWeapon){characterWeapon=characterWeapon===a.wbCharacterWeapon?null:a.wbCharacterWeapon;saveCharacterBrowser();renderCharacterBrowser();}
+  if(a.wbCharacterElement){characterElement=characterElement===a.wbCharacterElement?null:a.wbCharacterElement;saveCharacterBrowser();renderCharacterBrowser();}
   if(a.wbCharacterBuild)await buildNewCharacter(a.wbCharacterBuild);
   if(a.bcOpen==='weapon')openWeapon();
   if(a.bcOpen==='skills')openSkill(treeFor(person.id).nodes.find(node=>node.kind==='skill')?.id);
@@ -398,8 +424,8 @@ document.addEventListener('click',async event=>{
   if(a.bcUnequip){change(d=>{if(a.bcUnequip==='weapon'){d.weaponId=null;d.weaponInstanceId=null;}else d.echoes[ui.slot]=null;});closeEditor();}
    if(a.bcQuickSpecies){ui.preview=previewFrom(species(a.bcQuickSpecies),ui.preview);ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level].find(r=>r.name===a.main));ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
   if(a.bcSpecies){ui.preview=previewFrom(species(a.bcSpecies),ui.preview);ui.rollEditor=null;ui.rollMove=null;renderEchoEditor();}
-  if(a.bcCost){ui.cost=a.bcCost==='all'?null:Number(a.bcCost);renderEchoEditor();}
-  if(a.bcSetFilter){if(a.bcSetFilter==='all')ui.sets=[];else if(ui.sets.includes(a.bcSetFilter))ui.sets=ui.sets.filter(s=>s!==a.bcSetFilter);else ui.sets.push(a.bcSetFilter);renderEchoEditor();}
+  if(a.bcCost){ui.cost=a.bcCost==='all'?null:Number(a.bcCost);filterPrefs.write(buildPref('echo-slot:'+ui.slot),{cost:ui.cost});renderEchoEditor();}
+  if(a.bcSetFilter){if(a.bcSetFilter==='all')ui.sets=[];else if(ui.sets.includes(a.bcSetFilter))ui.sets=ui.sets.filter(s=>s!==a.bcSetFilter);else ui.sets.push(a.bcSetFilter);saveEchoFilters();renderEchoEditor();}
   if(a.bcLevel!==undefined){ui.rollEditor=null;ui.rollMove=null;const e=ui.preview;e.level=Number(a.bcLevel);e.substats=Array.from({length:e.level/5},(_,i)=>e.substats[i]??null);e.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[e.cost][e.level].find(s=>s.name===e.mainStat?.name)??null);e.secondaryMainStat=clone(echoes.statEditor.secondaryMainStatsByCostAndLevel[e.cost][e.level]);renderEchoEditor();}
   if(a.bcMain){ui.preview.mainStat=clone(echoes.statEditor.mainStatsByCostAndLevel[ui.preview.cost][ui.preview.level??25].find(s=>s.name===a.bcMain));ui.rollEditor=null;renderEchoEditor();}
   if(a.bcSonata&&a.bcSonata!==ui.preview.selectedSonataSetId){ui.preview.selectedSonataSetId=a.bcSonata;renderEchoEditor();}
@@ -426,6 +452,11 @@ document.addEventListener('click',async event=>{
  }catch(error){fail(error);}
 });
 document.addEventListener('click',event=>{const n=event.target.closest('[data-bc-skill]');if(n)try{openSkill(n.dataset.bcSkill);}catch(error){fail(error);}});
+document.addEventListener('toggle',event=>{
+ if(event.target.matches?.('.wb-sonata-filter')&&ui.panel==='echo'){
+  ui.sonataOpen=event.target.open;saveEchoFilters();
+ }
+},true);
 document.addEventListener('keydown',event=>{if(event.key==='Escape'){if(ui.prompt){ui.prompt(false);return;}const open=$('#bcEditor details[open]');if(open){open.open=false;return;}closeEditor();}if((event.key==='Enter'||event.key===' ')&&event.target.matches('[data-bc-skill]')){event.preventDefault();openSkill(event.target.dataset.bcSkill);}});
 globalThis.buildCandidateReview={snapshot:()=>clone(root),stats:allStats,storageKey:STORAGE_KEY,openEcho,openWeapon,selectCharacter:async id=>{if(!CHARACTER_CATALOG.some(c=>c.id===id))throw Error('Unknown Character');rememberWorkshopPreview();const next=clone(root);next.selected=id;if(!next.drafts[id])next.drafts[id]=freshDraft(id,treeFor(id));persist(next);carousel.setSelected(id);location.reload();},get panel(){return ui.panel;},get preview(){return clone(ui.preview);}};
 

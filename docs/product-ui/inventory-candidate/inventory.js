@@ -4,6 +4,7 @@ import {readCharacterFocus} from '../../ui-lab/v1.1/modules/character-focus.js';
 import {productAsset} from '../assets.js';
 import {productLink} from '../product-navigation.js';
 import {createProductStore} from '../product-store.js';
+import {exportAccount,parseBackup} from '../../../src/inventoryAccount.mjs';
 import {CHARACTER_CATALOG} from '../../ui-lab/v1.1/modules/catalog.js';
 import {escapeHtml as escape} from '../../ui-lab/v1.1/modules/util.js';
 import {createReviewStore, freshDraft, accountWithDraft} from '../build-candidate/state.js';
@@ -35,6 +36,75 @@ let kind = 'echo';
 let query = '';
 let selected = null;
 let artworkView = 'art';
+// The product Inventory uses the same canonical account store and portable
+// backup format as the retained Account tools. No second account database.
+const canonical=store.session;
+const persisted=canonical.store;
+const accountActions=document.createElement('section');
+accountActions.className='iv-account-actions';
+accountActions.setAttribute('aria-label','Account JSON backup and restore');
+accountActions.innerHTML='<div class="iv-account-buttons"><button type="button" data-backup>Export Account JSON</button><button type="button" data-import-account>Import Account JSON</button><input type="file" data-restore accept="application/json,.json" aria-label="Select Account JSON backup" hidden></div><p data-account-status role="status" aria-live="polite"></p><div data-account-restore-preview></div>';
+$('.iv-page > h1').after(accountActions);
+const accountStatus=(text,error=false)=>{const node=accountActions.querySelector('[data-account-status]');node.textContent=text;node.classList.toggle('error',error);};
+function downloadJson(value,name){
+ const blob=new Blob([JSON.stringify(value,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function exportCurrentAccount(){
+ const value=exportAccount(persisted.snapshot()??canonical.stage(),canonical.catalog);
+ downloadJson(value,'Bellibing_Account_'+canonical.profile+'_'+new Date().toISOString().replace(/[:.]/g,'-')+'.json');
+ accountStatus('Account JSON downloaded. Keep a safe copy.');return value;
+}
+accountActions.querySelector('[data-backup]').onclick=()=>{try{exportCurrentAccount();}catch(error){accountStatus(error.message,true);}};
+accountActions.querySelector('[data-import-account]').onclick=()=>accountActions.querySelector('[data-restore]').click();
+accountActions.querySelector('[data-restore]').onchange=async event=>{
+ const file=event.target.files?.[0];event.target.value='';if(!file)return;
+ const preview=accountActions.querySelector('[data-account-restore-preview]');preview.replaceChildren();accountStatus('');
+ try{
+  if(!persisted.status().writable)throw Error('This account needs read-only recovery; import is blocked.');
+  if(file.size>5*1024*1024)throw Error('Backup must be at most 5 MiB.');
+  const imported=parseBackup(await file.text(),canonical.catalog),before=persisted.snapshot(),legacyBefore=canonical.legacyBytes();
+  const occupied=!!before||!!legacyBefore;
+  const weapons=Object.values(imported.items).filter(i=>i.kind==='weapon').length;
+  const echoes=Object.values(imported.items).filter(i=>i.kind==='echo').length;
+  const characters=Object.values(imported.characters).filter(c=>c.owned).length;
+  const summary=document.createElement('p');summary.dataset.restoreSummary='';
+  summary.textContent=`Import ${characters} owned Characters, ${weapons} Weapons, ${echoes} Echoes (${weapons+echoes} unique physical items) and ${imported.userData?.teams?.length??0} Teams. Their saved builds, Forte, settings, equipment assignments and item IDs will be preserved. ${occupied?'This REPLACES the current local account.':'This local profile is empty.'}`;
+  const safeguard=document.createElement('button');safeguard.type='button';safeguard.dataset.backupBeforeRestore='';
+  safeguard.textContent='1. Download backup of current account';
+  const approval=document.createElement('label');approval.className='iv-restore-approval';
+  approval.innerHTML='<input type="checkbox" data-approve-restore> I have saved my backup (if applicable) and explicitly approve this restore.';
+  const confirm=document.createElement('button');confirm.type='button';confirm.dataset.confirmRestore='';
+  confirm.textContent='Confirm account restore';confirm.disabled=true;
+  const cancel=document.createElement('button');cancel.type='button';cancel.textContent='Cancel';
+  cancel.onclick=()=>preview.replaceChildren();
+  let protectedCopy=!occupied;
+  const unchanged=()=>{const now=persisted.snapshot();return (now?.id??null)===(before?.id??null)&&(now?.revision??null)===(before?.revision??null)&&canonical.legacyBytes()===legacyBefore;};
+  safeguard.onclick=()=>{try{
+   if(!unchanged())throw Error('Account changed. Review the JSON again.');
+   exportCurrentAccount();protectedCopy=true;safeguard.disabled=true;safeguard.textContent='Current account backup downloaded';
+   confirm.disabled=!approval.querySelector('input').checked;
+  }catch(error){accountStatus(error.message,true);}};
+  approval.querySelector('input').onchange=()=>{confirm.disabled=!(protectedCopy&&approval.querySelector('input').checked);};
+  const note=document.createElement('p');
+  note.textContent=occupied?'Save the current backup before replacement. Unsubmitted local Build drafts are separate and will be archived locally if the account identity changes.':'This only changes the selected local profile.';
+  preview.append(summary,note);if(occupied)preview.append(safeguard);
+  preview.append(approval,confirm,cancel);
+  confirm.onclick=async()=>{try{
+   if(!protectedCopy||!approval.querySelector('input').checked||!unchanged())throw Error('Approval, safety backup or account revision is missing. Re-select the JSON.');
+   confirm.disabled=true;
+   const draftKey='bellibing.product.build-drafts.v1:'+canonical.profile;
+   const changeIdentity=imported.id!==(before?.id??canonical.stage().id);
+   const rawDraft=changeIdentity?localStorage.getItem(draftKey):null;
+   if(rawDraft)localStorage.setItem(draftKey+':before-account-restore:'+crypto.randomUUID(),rawDraft);
+   await persisted.commit(imported,{expectedRevision:before?.revision??null,expectedAccountId:before?.id??null,reason:'EXPLICIT_JSON_RESTORE'});
+   if(changeIdentity)localStorage.removeItem(draftKey);
+   location.reload();
+  }catch(error){confirm.disabled=false;accountStatus(error.message,true);}};
+ }catch(error){accountStatus('Import rejected; saved account unchanged. '+error.message,true);}
+};
+
 const character = id => CHARACTER_CATALOG.find(person => person.id === id);
 const setById = id => echoes.sonataSets.find(set => set.id === id);
 const illustratedEchoIds = new Set(['echo-60001215', 'echo-60000975', 'echo-60001615', 'echo-60000235', 'echo-60000285']);

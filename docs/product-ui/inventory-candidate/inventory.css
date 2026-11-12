@@ -105,3 +105,19 @@ body { min-height:100vh; background:radial-gradient(ellipse at 40% 0,#30414d,#14
 .iv-echo-card .iv-roll b { font-size:11px; }
 .iv-card-owner { height:27px; position:relative; margin-top:5px; }
 .iv-card-owner > .iv-owner-portrait { left:auto; right:0; bottom:0; width:23px; height:23px; }
+
+/* Default product Inventory: always-visible account portability for every tab. */
+.iv-account-actions{display:grid;gap:8px;margin:-6px 0 14px;color:#dfdfd7;font:12px/1.5 Inter,Arial,sans-serif}
+.iv-account-buttons{display:flex;gap:10px;flex-wrap:wrap}
+.iv-account-buttons button,.iv-account-actions [data-account-restore-preview] button{cursor:pointer;padding:9px 14px;border:1px solid #bba677;border-radius:6px;background:#263946;color:#eddfbf;font:600 12px Inter,Arial,sans-serif}
+.iv-account-buttons [data-import-account]{background:#ceb780;color:#1c2629}
+.iv-account-actions [data-account-status]{margin:0;min-height:0;color:#e1c17e}
+.iv-account-actions [data-account-status]:empty{display:none}
+.iv-account-actions [data-account-status].error{color:#ffb4a7}
+.iv-account-actions [data-account-restore-preview]:not(:empty){border:1px solid #bca57a80;background:#192934;border-radius:8px;padding:16px;max-width:850px}
+.iv-account-actions [data-account-restore-preview] p{margin:0 0 12px}
+.iv-account-actions [data-account-restore-preview] button{margin:4px 8px 4px 0}
+.iv-account-actions [data-account-restore-preview] button:disabled{cursor:not-allowed;opacity:.45}
+.iv-restore-approval{display:flex;gap:10px;align-items:center;margin:12px 0;font-size:13px}
+.iv-restore-approval input{accent-color:#d1b67c;width:18px;height:18px}
+@media(max-width:650px){.iv-account-buttons button{flex:1 1 160px}.iv-account-actions{margin-top:0}}

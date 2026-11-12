@@ -11,7 +11,7 @@ test('OCR draft preserves exact observed values and safely merges only the activ
  const observation={kind:'bellibing-scanner-review',schemaVersion:1,...scan(id)};
  const tree={nodes:[{kind:'skill',role:'normal-attack',parents:[]}]};
  const draft=productDraftFromScan(observation,catalog,tree);
- assert.equal(draft.weaponRank,1);assert.equal(draft.echoes[0].rank,5);assert.equal(draft.echoes[0].level,25);
+ assert.equal(draft.weaponRank,null,'unverified imported refinement remains unknown');assert.equal(draft.echoes[0].rank,5);assert.equal(draft.echoes[0].level,25);
  assert.equal(draft.importObservation.weapon.refinement,null);
  assert.equal(scanFromProductDraft(draft).skills.basic,10);
  const next=applyProductDraft(before,draft,catalog);

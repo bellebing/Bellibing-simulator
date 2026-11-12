@@ -10,7 +10,8 @@ export function productDraftFromScan(scan,catalog,tree) {
  return {characterId:scan.character.id,characterLevel:scan.character.level??null,sequence:scan.sequence??null,
   weaponId:scan.weapon?.id??null,weaponLevel:scan.weapon?.level??null,weaponRank:scan.weapon?.refinement??null,weaponInstanceId:crypto.randomUUID(),
   forte:normalizeForteState(tree??{nodes:[]},{...forte,enabled:normalizeForteState(tree??{nodes:[]},null).enabled}),importForte:structuredClone(forte),
-  assumedBuildFacts:[...(scan.weapon?.refinement==null?['Weapon rank defaults to R1']:[]),'Minor Forte defaults to unlocked'],
+  // Unknown imported refinements and minor Forte unlocks remain Pending.
+  assumedBuildFacts:[],
   importObservation:structuredClone(scan),
   echoes:scan.echoes.map(e=>!catalog.echoes.some(identity=>identity.id===e?.echoId)?null:({instanceId:crypto.randomUUID(),speciesId:e.echoId,cost:e.cost,rank:e.rank??(e.level===25||e.substats?.length===5?5:null),level:e.level??(e.substats?.length===5&&(e.rank==null||e.rank===5)?25:null),
    selectedSonataSetId:e.sonataId,mainStat:structuredClone(e.mainStat),secondaryMainStat:structuredClone(e.secondaryMainStat),substats:structuredClone(e.substats??[]),evidence:structuredClone(e.evidence??null)}))};

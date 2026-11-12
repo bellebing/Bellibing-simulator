@@ -608,6 +608,8 @@
 .wb-echo-filters { grid-template-columns: minmax(0,1fr) auto; }
 .wb-cost-buttons { display:flex; gap:4px; flex-wrap:wrap; }
 .wb-cost-buttons button { padding:7px 9px; white-space:nowrap; }
+.wb-slot-guidance { margin:-3px 0 10px; font-size:12px; line-height:1.4; color:#b8c9d2; }
+.wb-slot-guidance strong { color:#e6d6aa; font-weight:650; }
 .wb-browse-item { display:flex; flex-direction:column; min-width:0; border:1px solid #a8b7bf22; border-radius:5px; overflow:hidden; }
 .wc-catalog .wb-browse-item .bc-browse { border:0; flex:1; width:100%; }
 .wb-quick-mains { display:flex; justify-content:center; gap:5px; padding:0 6px 8px; }

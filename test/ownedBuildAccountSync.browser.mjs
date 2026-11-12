@@ -119,3 +119,40 @@ test('Build auto-saves Sequence/Echo Main/Substats; Improve Current and JSON agr
   await context.close();await browser.close();await new Promise(resolve=>server.close(resolve));
  }
 });
+
+test('retired global Preview/local drafts survive as recovery, but owned Build loads only AccountStore Current',async()=>{
+ const server=await startPreview({port:0}),base='http://127.0.0.1:'+server.address().port;
+ const browser=await chromium.launch({executablePath:process.env.CHROME_BIN||process.env.BELLIBING_CHROMIUM_PATH||undefined,headless:true,args:['--no-sandbox']});
+ const context=await browser.newContext(),page=await context.newPage();
+ try{
+  const profile='old-preview-recovery',key='bellibing.product.build-drafts.v1:'+profile;
+  await page.goto(base+'/build/?profile='+profile+'&character=augusta');
+  await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
+  await page.locator('#bcAccount').click();
+  await page.waitForFunction(()=>document.querySelector('#bcStatus')?.textContent.includes('Character added.'));
+  const before=await page.evaluate(()=>bellibingAccountSession.store.snapshot());
+  assert.equal(before.characters.augusta.record.build.sequenceLevel,0);
+  const oldBytes=await page.evaluate(key=>{
+   const old=JSON.parse(localStorage.getItem(key));
+   old.drafts.augusta.sequence=6;old.previewCharacters={augusta:true};
+   const bytes=JSON.stringify(old);localStorage.setItem(key,bytes);
+   return bytes;
+  },key);
+  await page.reload();await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
+  assert.equal(await page.evaluate(()=>buildCandidateReview.snapshot().drafts.augusta.sequence),0,'old unsaved Preview cannot become Current');
+  assert.deepEqual(await page.evaluate(()=>bellibingAccountSession.store.snapshot()),before,'no silent migration or account write');
+  assert.equal(await page.evaluate(key=>localStorage.getItem(key),key),oldBytes,'raw old draft remains intact until first new action');
+  assert.equal(await page.locator('#bcPreviewMode').count(),0);
+  await page.locator('[data-bc-sequence="1"]').first().click();
+  await page.locator('[data-wc-sequence-commit="1"]').click();
+  await page.waitForFunction(rev=>bellibingAccountSession.store.snapshot().revision>rev,before.revision);
+  const archived=await page.evaluate(key=>{
+   const keys=Object.keys(localStorage).filter(k=>k.startsWith(key+':before-single-current-build:'));
+   return {keys,bytes:keys.map(k=>localStorage.getItem(k))};
+  },key);
+  assert.equal(archived.keys.length,1);
+  assert.equal(archived.bytes[0],oldBytes,'legacy unsaved draft and Preview intent remain recoverable byte-for-byte');
+  await page.reload();await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
+  assert.equal(await page.evaluate(()=>buildCandidateReview.snapshot().drafts.augusta.sequence),1);
+ }finally{await context.close();await browser.close();await new Promise(resolve=>server.close(resolve));}
+});

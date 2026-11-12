@@ -25,13 +25,18 @@ export async function openAccountStore({catalog,profile='default',indexedDB=glob
      const old=r.result??null;
      if((old?.revision??null)!==expectedRevision||(old?.id??null)!==expectedAccountId)throw Error('Account changed in another tab. Reload and review again.');
      if(old&&candidate.id!==old.id&&!['EXPLICIT_JSON_RESTORE','EXPLICIT_ROLLBACK','EXPLICIT_CLOUD_RESTORE'].includes(reason))throw Error('Account replacement requires explicit restore.');
-     const previousBuilds=old?legacyProjection(old).drafts:{},nextBuilds=legacyProjection(candidate).drafts;
-     for(const c of Object.values(candidate.characters)){
-      const previous=old?.characters[c.id];
-      const unchanged=previous&&previous.owned===c.owned&&JSON.stringify(previousBuilds[c.name]?.build)===JSON.stringify(nextBuilds[c.name]?.build);
-      c.revision=previous?(previous.revision??1)+(unchanged?0:1):(c.revision??1);
+     // An empty-profile JSON restore preserves the exported account byte-for-byte.
+     // Replacing an occupied profile must advance the revision for stale-tab safety.
+     const jsonRestore=reason==='EXPLICIT_JSON_RESTORE';
+     if(!jsonRestore){
+      const previousBuilds=old?legacyProjection(old).drafts:{},nextBuilds=legacyProjection(candidate).drafts;
+      for(const c of Object.values(candidate.characters)){
+       const previous=old?.characters[c.id];
+       const unchanged=previous&&previous.owned===c.owned&&JSON.stringify(previousBuilds[c.name]?.build)===JSON.stringify(nextBuilds[c.name]?.build);
+       c.revision=previous?(previous.revision??1)+(unchanged?0:1):(c.revision??1);
+      }
      }
-     candidate.revision=(old?.revision??0)+1;
+     if(!jsonRestore||old)candidate.revision=Math.max(old?.revision??0,candidate.revision)+1;
      const protectedPoint=!!old&&!old.userData||/MIGRAT|CONFLICT|ROLLBACK|RESTORE/.test(reason);
      tx.objectStore('recovery').add({profile,reason,protected:protectedPoint,previous:old,nextRevision:candidate.revision,createdAt:new Date().toISOString()});
      // Prune only ordinary points in this profile, in the same transaction.
@@ -39,7 +44,11 @@ export async function openAccountStore({catalog,profile='default',indexedDB=glob
      cursor.onsuccess=()=>{const row=cursor.result;if(!row){for(const key of ordinary.slice(0,-10))tx.objectStore('recovery').delete(key);return;}if(row.value.profile===profile&&!row.value.protected)ordinary.push(row.key);row.continue();};
      accounts.put(candidate,profile);
      if(cloud){tx.objectStore('outbox').delete(profile);tx.objectStore('sync').put({uid:cloud.uid,accountId:candidate.id,remoteRevision:cloud.remoteRevision},profile);}
-     else tx.objectStore('outbox').put({profile,accountId:candidate.id,revision:candidate.revision,operationId:crypto.randomUUID(),account:structuredClone(candidate)},profile);
+     else{
+      // A local account replacement must not inherit the old cloud account link.
+      if(jsonRestore&&old?.id!==candidate.id)tx.objectStore('sync').delete(profile);
+      tx.objectStore('outbox').put({profile,accountId:candidate.id,revision:candidate.revision,operationId:crypto.randomUUID(),account:structuredClone(candidate)},profile);
+     }
     }catch(e){issue=e;tx.abort();}};
     tx.oncomplete=resolve;tx.onabort=()=>reject(issue??tx.error??Error('Save aborted; account unchanged.'));tx.onerror=()=>{};
    });snapshot=candidate;rawRecord=structuredClone(candidate);channel?.postMessage({profile,revision:candidate.revision});notify();return api.snapshot();

@@ -15,7 +15,9 @@ export function accountWithDraft(account,draft,catalog){
 }
 export function validateDraft(draft,catalog,trees){
  assert(draft&&catalog.characters.some(c=>c.id===draft.characterId),'Unknown draft Character.');
- assert(Number.isInteger(draft.sequence)&&draft.sequence>=0&&draft.sequence<=6,'Invalid Sequence.');
+ // Imported Characters can have an unknown (null) Sequence; preserve that
+ // observation until the user explicitly selects S0–S6. Never infer S0.
+ assert(draft.sequence==null||(Number.isInteger(draft.sequence)&&draft.sequence>=0&&draft.sequence<=6),'Invalid Sequence.');
  // No equipped Weapon has no refinement: never invent an owned Weapon rank.
  assert((!draft.weaponId&&draft.weaponRank==null)||(Number.isInteger(draft.weaponRank)&&draft.weaponRank>=1&&draft.weaponRank<=5),'Invalid Weapon rank.');
  assert(Array.isArray(draft.echoes)&&draft.echoes.length===5,'Five Echo slots are required.');

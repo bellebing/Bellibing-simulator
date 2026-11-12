@@ -1,6 +1,7 @@
 import {createRank5EchoAtLevel0,primaryMainStatValueAtLevel} from '../../../../src/echoMainStats.ts';
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
-import {projectStaticBuildStats,projectExpectedStaticBuildStats} from '../../../../src/buildStatProjection.mjs';
+import {projectStaticBuildStats} from '../../../../src/buildStatProjection.mjs';
+import {projectExpectedStaticBuildStats} from '../../../../src/expectedBuildStatProjection.mjs';
 import {normalizeForteState,forteStats} from '../../../../src/characterForteUi.mjs';
 import facts from './sandbox-stat-sources.json' with {type:'json'};
 import weapons from '../../../ui-prototypes/assets/weapons/browser-data.json' with {type:'json'};

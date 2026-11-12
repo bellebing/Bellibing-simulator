@@ -25,43 +25,44 @@ export async function createProductStore(catalog,trees) {
  const projected={};
  for(const id of [...Object.keys(owner.characters),...Object.keys(owner.unownedDrafts??{})])projected[id]=productDraftFromAccount(owner,id,trees.find(t=>t.characterId===id));
  const {drafts,conflicts}=reconcileProductDrafts({account:owner,projected,saved,trees});
- // Older local drafts may contain real unsaved experiments. Preserve them as
- // Preview on first load rather than silently treating them as account edits.
- const previewCharacters=structuredClone(saved?.previewCharacters??{});
- for(const [characterId,working] of Object.entries(drafts)){
-  if(owner.characters[characterId]?.owned&&projected[characterId]&&working&&productDraftBuildIdentity(working)!==productDraftBuildIdentity(projected[characterId]))previewCharacters[characterId]??=true;
- }
- let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts,savedDrafts:structuredClone(projected),workshopPreviews:structuredClone(saved?.workshopPreviews??{}),previewCharacters,account:owner};
+ // The saved account always wins for an owned Character. Older local drafts,
+ // workshop previews and the retired global Preview mode are recovery data,
+ // never an alternative Current Build. Preserve the ORIGINAL bytes before the
+ // first local write; leaving this page untouched does not mutate storage.
+ const ownedIds=new Set(Object.keys(owner.characters));
+ const oldPreviews=saved?.workshopPreviews??{};
+ const needsRecovery=!!serialized&&([...ownedIds].some(id=>
+  (saved?.drafts?.[id]&&productDraftBuildIdentity(saved.drafts[id])!==productDraftBuildIdentity(projected[id]))
+  ||saved?.previewCharacters?.[id]
+  ||Object.keys(oldPreviews).some(key=>key.startsWith(id+':'))));
+ let recoveryBytes=needsRecovery?serialized:null;
+ for(const id of ownedIds){drafts[id]=projected[id];conflicts.delete(id);}
+ const workshopPreviews=Object.fromEntries(Object.entries(oldPreviews).filter(([key])=>![...ownedIds].some(id=>key.startsWith(id+':'))));
+ let state={schemaVersion:1,revision:0,selected:readCharacterFocus(saved?.selected??Object.keys(owner.characters)[0]??'augusta'),drafts,savedDrafts:structuredClone(projected),workshopPreviews:structuredClone(workshopPreviews),account:owner};
  if(!catalog.characters.some(c=>c.id===state.selected))state.selected='augusta';
  const api={session,snapshot:()=>structuredClone(state),commit(next){
   if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before editing.');
-  // Keep an unresolved draft's original base across reloads. Advancing it to
-  // today's account would hide the conflict on the next page visit.
+  if(recoveryBytes!==null){
+   localStorage.setItem(key+':before-single-current-build:'+crypto.randomUUID(),recoveryBytes);
+   recoveryBytes=null; // On quota failure, throw before changing the live draft.
+  }
+  // Preserve unresolved unowned draft bases across reloads.
   const {baseCharacters,baseDrafts}=productDraftBases({account:owner,savedDrafts:state.savedDrafts,saved,conflicts});
-  const payload={version:1,accountId:owner.id,selected:next.selected,drafts:next.drafts,workshopPreviews:next.workshopPreviews??{},previewCharacters:next.previewCharacters??{},baseCharacters,baseDrafts};
+  const payload={version:1,accountId:owner.id,selected:next.selected,drafts:next.drafts,workshopPreviews:next.workshopPreviews??{},baseCharacters,baseDrafts};
   const bytes=JSON.stringify(payload);localStorage.setItem(key,bytes);serialized=bytes;state={...structuredClone(next),account:owner};return api.snapshot();
  },stageImport(scan){
   const imported=productDraftFromScan(scan,catalog,trees.find(t=>t.characterId===scan.character?.id));
   // Preserve an overwritten local draft before staging another observation.
   const previous=state.drafts[imported.characterId];
   if(previous)localStorage.setItem(key+':before-import:'+crypto.randomUUID(),JSON.stringify({accountId:owner.id,draft:previous,createdAt:new Date().toISOString()}));
-  const next=api.snapshot();next.selected=imported.characterId;next.drafts[imported.characterId]=imported;
-  // Reviewed import is an explicit proposal, not an automatic acquisition.
-  next.previewCharacters??={};next.previewCharacters[imported.characterId]=true;
-  return api.commit(next);
- },setPreviewMode(characterId,preview){
-  if(!state.drafts[characterId])throw Error('No Build selected.');
-  const next=api.snapshot();next.previewCharacters??={};
-  if(preview)next.previewCharacters[characterId]=true;
-  else{
-   if(next.account.characters[characterId]?.owned){
-    next.drafts[characterId]=structuredClone(next.savedDrafts[characterId]??productDraftFromAccount(owner,characterId,trees.find(t=>t.characterId===characterId)));
-   }
-   delete next.previewCharacters[characterId];
-   for(const key of Object.keys(next.workshopPreviews??{}))if(key.startsWith(characterId+':'))delete next.workshopPreviews[key];
+  if(owner.characters[imported.characterId]?.owned){
+   // Old import entrypoints cannot replace the one Current Build implicitly.
+   localStorage.setItem(key+':pending-owned-import:'+crypto.randomUUID(),JSON.stringify({accountId:owner.id,draft:imported,createdAt:new Date().toISOString()}));
+   throw Error('Imported observation preserved for recovery. The saved Character was not changed.');
   }
+  const next=api.snapshot();next.selected=imported.characterId;next.drafts[imported.characterId]=imported;
   return api.commit(next);
- },async saveDraft(draft,{addedItemIds=[]}={}){
+ },async saveDraft(draft){
   const savingBytes=serialized;
   if(conflicts.has(draft.characterId))throw Error('This saved build changed since your local draft. The draft is preserved; review it against Account tools before replacing the saved build.');
   if(localStorage.getItem(key)!==serialized)throw Error('Build drafts changed in another tab. Reload before saving.');
@@ -88,14 +89,12 @@ export async function createProductStore(catalog,trees) {
   if(current.id!==owner.id)throw Error('Account changed. Reload and review before saving.');
   if(session.legacyBytes()&&!session.store.snapshot())throw Error('Back up and migrate the existing account using Account tools before saving.');
   const owned=!!current.characters[draft.characterId]?.owned;
-  const next=owned?applyOwnedProductDraft(current,draft,catalog,{addedItemIds}):applyProductDraft(current,draft,catalog);
+  const next=owned?applyOwnedProductDraft(current,draft,catalog):applyProductDraft(current,draft,catalog);
   owner=await session.store.commit(next,{expectedRevision:baselineRevision,expectedAccountId:session.store.snapshot()?.id??null,reason:'EXPLICIT_PRODUCT_BUILD_SAVE'});
   baselineRevision=owner.revision;state.account=owner;
   const projection=productDraftFromAccount(owner,draft.characterId,trees.find(t=>t.characterId===draft.characterId));
   state.savedDrafts[draft.characterId]=structuredClone(projection);
-  if(!state.previewCharacters?.[draft.characterId]){
-   if(productDraftBuildIdentity(draft)===productDraftBuildIdentity(state.drafts[draft.characterId]))state.drafts[draft.characterId]=structuredClone(projection);
-  }
+  if(productDraftBuildIdentity(draft)===productDraftBuildIdentity(state.drafts[draft.characterId]))state.drafts[draft.characterId]=structuredClone(projection);
   try{api.commit(state);}catch{ /* The durable account is already saved; preserve the previous draft bytes for recovery. */ }
   return api.snapshot();
  },rawDrafts:()=>serialized};

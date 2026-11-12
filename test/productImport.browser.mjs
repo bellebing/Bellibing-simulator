@@ -8,7 +8,7 @@ test('WebP stages unsaved Character for Add; later imported data cannot silently
  const server=await startPreview({port:0}),base='http://127.0.0.1:'+server.address().port;
  const browser=await chromium.launch({headless:true,...(process.env.BELLIBING_CHROMIUM_PATH?{executablePath:process.env.BELLIBING_CHROMIUM_PATH}:{})});
  try{
-  const page=await browser.newPage({viewport:{width:1920,height:1080}}),errors=[];
+  const page=await browser.newPage({viewport:{width:1920,height:1080}}),errors=[];page.setDefaultTimeout(18000);
   page.on('pageerror',error=>errors.push(error.message));
   await page.goto(base+'/build/?profile=ocr-build');await page.waitForFunction(()=>!!globalThis.bellibingProductImport);
   await page.waitForSelector('[data-product-import][aria-controls]');

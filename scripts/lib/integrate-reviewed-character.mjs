@@ -89,7 +89,7 @@ if(id!=='hsin'){
  }
  writeFileSync(canonicalPath,text);
  const intrinsicPath='src/data/characterIntrinsicStats.ts';let t=readFileSync(intrinsicPath,'utf8');
- const anchor=id==='lily'?"  verified('lingyang'":"  verified('taoqi'";
+ const anchor=id==='lily'?"  verified('lingyang'":"  verified(\n    'taoqi'";
  check(t.includes(anchor)&&!t.includes("verified('"+id+"'"),'new intrinsic identity/anchor '+id);
  t=t.replace(anchor,"  verified('"+id+"', "+JSON.stringify(stats)+", ['Arikatsu 3.8 pinned permanent Forte source nodes @"+pins.sources.arikatsu.commit+"'], ['Original eight nodes; conditional mechanics excluded.'], '2026-11-13'),\n"+anchor);
  writeFileSync(intrinsicPath,t);

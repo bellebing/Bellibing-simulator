@@ -10,6 +10,7 @@ on:
       - 'docs/product-ui/product-store.js'
       - 'docs/product-ui/build-candidate/workbench-b.js'
       - 'src/characterOriginalRelease.mjs'
+      - 'docs/ui-lab/tools/export-catalog.mjs'
       - 'test/characterOriginalRelease.test.mjs'
       - 'test/characterOriginalRelease.browser.mjs'
       - 'docs/product-ui/build-candidate/workbench-b.html'
@@ -72,7 +73,9 @@ jobs:
       - name: Local Character scanner child and HTTP boundary regressions
         run: node --experimental-strip-types --test test/localCharacterScanner.test.mjs
       - name: Source-bound original Character release order regression
-        run: node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
+        run: |
+          node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
+          node --experimental-strip-types docs/ui-lab/tools/export-catalog.mjs --check
       - name: Build actual product Inventory
         run: npm run build
       - name: Use runner-installed Google Chrome

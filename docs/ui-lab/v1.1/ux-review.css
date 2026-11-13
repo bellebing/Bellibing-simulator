@@ -117,24 +117,24 @@
 
 .account-workspace.has-candidate-run .trash-panel{display:block}
 
-/* All desktop panels can remain open. The workbench owns its reflow. */
+/* Modern product desktop panels can remain open; isolated V1 demo keeps approved geometry. */
 @media(min-width:1001px) {
- .ui-lab #composition > *, .ui-lab .working-area > * { min-width:0; }
- .ui-lab .workshop { container-type:inline-size; }
- .ui-lab .working-area { width:100%; max-width:1060px; grid-template-columns:minmax(0,1fr) minmax(210px,.95fr) minmax(0,1fr); gap:20px; }
- .ui-lab .working-card .echo-card { width:100%; min-width:0; }
- .ui-lab .working-card .echo-art { height:180px; }
- .ui-lab .working-card .echo-art img { max-height:100%; max-width:100%; object-fit:contain; }
- .ui-lab .slots,.ui-lab .piles { grid-template-columns:repeat(5,minmax(0,1fr)); }
- .ui-lab .slots .echo-card,.ui-lab .piles .echo-card { min-width:0; width:100%; }
+ .ui-lab.product-workspace #composition > *, .ui-lab.product-workspace .working-area > * { min-width:0; }
+ .ui-lab.product-workspace .workshop { container-type:inline-size; }
+ .ui-lab.product-workspace .working-area { width:100%; max-width:1060px; grid-template-columns:minmax(0,1fr) minmax(210px,.95fr) minmax(0,1fr); gap:20px; }
+ .ui-lab.product-workspace .working-card .echo-card { width:100%; min-width:0; }
+ .ui-lab.product-workspace .working-card .echo-art { height:180px; }
+ .ui-lab.product-workspace .working-card .echo-art img { max-height:100%; max-width:100%; object-fit:contain; }
+ .ui-lab.product-workspace .slots,.ui-lab.product-workspace .piles { grid-template-columns:repeat(5,minmax(0,1fr)); }
+ .ui-lab.product-workspace .slots .echo-card,.ui-lab.product-workspace .piles .echo-card { min-width:0; width:100%; }
  @container(max-width:860px) {
-  .ui-lab .slots,.ui-lab .piles { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .ui-lab.product-workspace .slots,.ui-lab.product-workspace .piles { grid-template-columns:repeat(3,minmax(0,1fr)); }
  }
  @container(max-width:660px) {
-  .ui-lab .working-area { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
-  .ui-lab .interaction { grid-column:1/-1; grid-row:2; padding-top:8px; }
-  .ui-lab .working-card .echo-art { height:155px; }
-  .ui-lab .slots,.ui-lab .piles { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .ui-lab.product-workspace .working-area { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:16px; }
+  .ui-lab.product-workspace .interaction { grid-column:1/-1; grid-row:2; padding-top:8px; }
+  .ui-lab.product-workspace .working-card .echo-art { height:155px; }
+  .ui-lab.product-workspace .slots,.ui-lab.product-workspace .piles { grid-template-columns:repeat(3,minmax(0,1fr)); }
  }
 }
 #resourceCost { flex-direction:column; align-items:center; }

@@ -30,7 +30,7 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   page.on('pageerror',e=>errors.push(e.message));
   page.setDefaultTimeout(25000);
   let account=emptyAccount();
-  for(const id of ['augusta','qingxiao','baizhi'])account=saveReviewedScan(account,scan(id),catalog,{reviewed:true,assign:true});
+  for(const id of ['augusta','qingxiao','jiyan','baizhi'])account=saveReviewedScan(account,scan(id),catalog,{reviewed:true,assign:true});
   await page.goto(base+'/inventory/?profile='+profile);
   await page.waitForFunction(()=>!!globalThis.bellibingAccountSession);
   await page.evaluate(async value=>{await bellibingAccountSession.store.commit(value);},account);
@@ -46,6 +46,9 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   await visit('augusta');
   assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
   assert.deepEqual(await names('flex'),['ATK%','Heavy Attack DMG','Flat ATK'],'account Improve keeps the canonical ER goal separate from Echo Hard/Flex');
+  await visit('jiyan');
+  assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(await names('flex'),['ATK%','Flat ATK','Heavy Attack DMG']);
   await visit('qingxiao');
   assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
   assert.deepEqual(await names('flex'),['ATK%','Flat ATK']);

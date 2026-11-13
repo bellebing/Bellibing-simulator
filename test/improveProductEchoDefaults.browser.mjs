@@ -68,6 +68,7 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   assert.equal(await page.getByRole('slider',{name:'ATK% minimum'}).inputValue(),'1');
   assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
   await page.locator('.improve-reset-targets').click();
+  await page.waitForFunction(()=>document.querySelector('#echoSettings [data-stat-id="ATK%"] input')?.value==='0');
   assert.equal(await page.getByRole('slider',{name:'ATK% minimum'}).inputValue(),'0');
   assert.deepEqual(await names('flex'),['ATK%','Flat ATK']);
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.userData?.workspaceSettings?.qingxiao?.minima?.['ATK%']===0);

@@ -21,14 +21,15 @@ test('built product saves resources and Gate in the Inventory owner and retains 
   const input=saveReviewedScan(emptyAccount(),scan('augusta'),catalog,{reviewed:true,assign:true});
   await page.evaluate(async input=>{const {accountSession}=await import('/inventory/account-session.js'),owner=await accountSession();await owner.store.commit(input);},input);
   await page.goto(url+'/improve/?character=augusta&profile=foundation-test');
-  await page.locator('#settingsToggle').click();
+  const showSettings=async()=>{if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();};
+  await showSettings();
   const tuners=page.locator('[data-resource="tuners"] input');await tuners.waitFor();
   await tuners.fill('321');await tuners.press('Enter');
   await page.waitForFunction(()=>{const a=window.bellibingAccountSession?.store.snapshot();return a?.userData.storage['bellibing.improve.policy.v3']?.includes('321');});
   await page.locator('.gate-options button').filter({hasText:'+10'}).click();
   await page.waitForFunction(()=>window.bellibingAccountSession?.store.snapshot()?.userData.workspaceSettings?.augusta?.gate==='+10');
   const before=await page.evaluate(()=>window.bellibingAccountSession.store.snapshot());
-  await page.reload();await page.locator('#settingsToggle').click();await tuners.waitFor();assert.equal(await tuners.inputValue(),'321');
+  await page.reload();await showSettings();await tuners.waitFor();assert.equal(await tuners.inputValue(),'321');
   await page.waitForFunction(()=>document.querySelector('.compact-gate')?.textContent==='+10');
   const after=await page.evaluate(()=>window.bellibingAccountSession.store.snapshot());assert.deepEqual(after,before);
   // Real current ownership must retain IndexedDB identity through the new reader.
@@ -38,7 +39,7 @@ test('built product saves resources and Gate in the Inventory owner and retains 
   await page.goto(url+'/inventory/?profile=foundation-test');await page.locator('[data-iv-kind=character]').click();await page.locator('[data-iv-item=augusta]').waitFor();await page.locator('[data-iv-kind=echo]').click();
   assert.equal(await page.locator('[data-iv-item]').count(),5);await page.locator('[data-iv-kind="weapon"]').click();assert.equal(await page.locator('[data-iv-item]').count(),1);
   await page.setViewportSize({width:1920,height:1080});await page.goto(url+'/improve/?character=augusta&profile=foundation-test');
-  await page.locator('#settingsToggle').click();await page.waitForFunction(()=>document.querySelector('.compact-gate')?.textContent==='+10');await page.screenshot({path:'artifacts/foundation/improve-persistence-1920.png'});
+  await showSettings();await page.waitForFunction(()=>document.querySelector('.compact-gate')?.textContent==='+10');await page.screenshot({path:'artifacts/foundation/improve-persistence-1920.png'});
   const future=await page.evaluate(async()=>{
    const owner=window.bellibingAccountSession,value=owner.store.snapshot();value.schemaVersion=999;value.futureNote='preserve every field';owner.store.close();
    const db=await new Promise(resolve=>{const r=indexedDB.open('bellibing-owned-inventory');r.onsuccess=()=>resolve(r.result);});

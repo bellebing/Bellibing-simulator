@@ -67,6 +67,12 @@ jobs:
             test "$status" -eq 3
             node -e "let c=require('/tmp/review-$id.json');if(c.catalogPresence!=='EXISTS'||c.release.canonicalStatus!=='RELEASED'||c.checks.level90.status!=='PASS'||c.checks.sourceAssets.status!=='PASS')throw Error('$id source coverage missing: '+JSON.stringify(c.gaps));console.log('$id canonical source ready; Chrome proof required.')"
           done
+      - name: Regenerate exact live source-coverage reports (61 released / 59 native kits)
+        run: |
+          node --experimental-strip-types scripts/report-character-actions.ts
+          node --experimental-strip-types scripts/report-character-forte-rules.ts
+          node --experimental-strip-types scripts/report-character-inherent-passives.ts
+          node --experimental-strip-types scripts/report-character-outro-effects.ts
       - name: Exact original-game bytes and generated presentation parity
         run: |
           npm run audit:ui-builder-icons
@@ -97,7 +103,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add scripts/public-web-assets.json src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
+          git add docs/CHARACTER_ACTIONS_COVERAGE.md docs/CHARACTER_FORTE_RULES_COVERAGE.md docs/CHARACTER_INHERENT_PASSIVES_COVERAGE.md docs/CHARACTER_OUTRO_EFFECT_COVERAGE.md \
+            scripts/public-web-assets.json src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
             data/source/character-forte-ui.json data/source/character-sequence-ui.json \
             data/source/character-sequence-build-stat-review.json \
             docs/ui-lab/v1.1/modules/catalog.js docs/ui-prototypes/assets

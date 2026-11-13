@@ -11,7 +11,7 @@ const sourceById=new Map(source.characters.map(character=>[character.characterId
 const projected=[...resolver.listCharacterIds()].map(id=>projectSequenceCharacter(sourceById.get(id),resolver.resolve(id)));
 
 test('all released Characters expose source-backed S1-S6 identity, title, description and canonical icon mapping',()=>{
-  assert.equal(projected.length,57);
+  assert.equal(projected.length,60);
   let chains=0;
   for(const character of projected){
     const assets=resolver.resolve(character.characterId);assert.ok(assets);
@@ -30,11 +30,11 @@ test('all released Characters expose source-backed S1-S6 identity, title, descri
       assert.equal(chain.description,sequenceSourceText(row.descriptionTemplate,row.params));
       assert.ok(chain.name&&chain.description);
       const manifestAsset=manifest.assets.find(candidate=>candidate.assetId===chain.assetId);
-      assert.equal(manifestAsset.sourceKey,'wuwabuild');
+      assert.equal(manifestAsset.sourceKey,['hsin','lily','suoming'].includes(character.characterId)?'wuwabuild38':'wuwabuild');
       assert.equal(manifestAsset.sourcePath,'public'+row.icon);
     }
   }
-  assert.equal(chains,342);
+  assert.equal(chains,360);
 });
 
 test('safe source formatting substitutes only source params and removes markup without paraphrasing',()=>{

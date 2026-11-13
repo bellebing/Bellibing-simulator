@@ -10,10 +10,14 @@ AccountStore, Build, Inventory or DPS Lab. The source of relative substat releva
 Those guide records provide rankings and conditions; **none supplies a universal
 per-Echo minimum, required Hard pair, or required Flex count**.
 
-Bellibing explicitly chooses a product convention for a conservative, reviewed
-set of ordinary CRIT DPS characters: Hard **CRIT Rate + CRIT DMG**, Flex
-the first (up to 3) individually mapped, unconditioned applicable non-CRIT
-substats in actual guide priority order, **all Hard AND at least 1 Flex**.
+Bellibing explicitly chooses product standards for **all 59 Characters**:
+the existing 26 ordinary CRIT DPS rules are unchanged; the 32 newly covered
+Characters use actual DPR `Substat / Substat Value` marginal percentages
+(13) where available, otherwise the existing reviewed Prydwen relative
+substat priorities (19). Hard may be zero, one or two for support/special
+mechanics; Flex defaults to **at least 1 selected stat**, with all Hard
+Requirements AND at least N Flex retained. No gameplay or per-Echo source
+requirement is inferred.
 All minima are the **lowest existing canonical Rank-5 substat roll tier**,
 not source-verbatim target thresholds or estimated optimum values.
 Conditional whole-build Energy Regen is excluded: its target depends on actual
@@ -22,39 +26,124 @@ not arbitrarily promoted as individual priorities. ER Target remains separate.
 Manual / Customize preferences are account-owned and take precedence.
 A visible **Restore Hard/Flex Recommended** control explicitly restores the
 Character's product default and clears only that Character's saved V3 override
-through AccountStore. A Character without an approved default instead sees
-**Restore source priorities (Hard/Flex default pending)**. Existing resource
-budgets, other Characters and pending legacy settings are preserved.
+through AccountStore. Other Characters, resource budgets and pending legacy
+settings are preserved. Settings display their source family and link:
+**DPR Substat Value** (scenario-specific) or **Prydwen guide** (relative order).
+DPR numbers are the percentage *sensitivity*, never the much larger
+`General Stat Recommendation` or `Stats used for Calcs` total stat values.
 
-## Verified source eligibility / pending coverage
+## Finished product coverage — 59/59
 
-- **26 scoped ordinary CRIT DPS**: Aemeath, Calcharo, Camellya, Carlotta,
-  Changli, Chisa, Chixia, Danjin, Encore, Galbrena, Hsin, Jinhsi, Jiyan,
-  Lingyang, Lucilla, Lucy, Luuk Herssen, Phoebe, Phrolova, Qingxiao,
-  Qiuyuan, Rebecca, Roccia, Rover (Havoc), Xiangli Yao, Zani.
-  These must all have an unambiguous CRIT Rate/CRIT DMG source main-stat
-  first cost-4 slot and valid mapped priority content, or the adapter
-  deliberately returns Pending.
-- **Augusta**: retains the previously owner-approved, canonical
-  Hard CRIT Rate/CRIT DMG, Flex ATK% / Heavy Attack DMG / Energy Regen /
-  Flat ATK, Flex count 1, minimum tiers unchanged. The existing ordinary
-  account Improve adapter treats **Energy Regen as a separate whole-build
-  target** and therefore shows three Flex rows (ATK%, Heavy Attack DMG, Flat ATK)
-  in the per-Echo UI; no ER math or policy semantics were changed.
-- **32 Pending** (complete source-ID list): `aalto`, `baizhi`, `brant`,
-  `buling`, `cantarella`, `cartethyia`, `ciaccona`, `denia`, `hiyuki`,
-  `iuno`, `jianxin`, `jingran`, `lumi`, `lupa`, `lynae`, `mornye`,
-  `mortefi`, `rover-aero`, `rover-electro`, `rover-spectro`, `sanhua`,
-  `sigrika`, `suisui`, `taoqi`, `the-shorekeeper`, `verina`,
-  `yangyang`, `yangyang-xuanling`, `yinlin`, `youhu`, `yuanwu`,
-  `zhezhi`. The reasons differ: support/healer or hybrid priorities, HP/DEF
-  mechanics, conditional CRIT/ER, no unambiguous reviewed DPS scope, or a
-  source configuration that does not justify automatic per-Echo Hard/Flex.
-  Existing source priority display is not a reviewed requirement policy.
-  **Pending is not a claim that these Characters can never benefit from CRIT.**
+All 59 released Characters have a usable default **in the ordinary Improve
+account UI**. Count by exclusive source family: **13 DPR**, **45 Prydwen**
+(26 existing unchanged + 19 added), and **1 Augusta owner-approved canonical**
+default. This is 59 **product** policies, **not** 59 source-certified
+per-Echo rules, native team-DPS profiles or verified private Expected results.
 
-Coverage refers to **Bellibing product defaults**: 27 of 59 including Augusta.
-It is **not** 27 source-certified per-Echo requirement policies.
+### 27 unchanged defaults
+
+The original **26 Prydwen-backed ordinary CRIT DPS** retain their previous
+Hard CRIT Rate / CRIT DMG and guide-ordered Flex selection:
+Aemeath, Calcharo, Camellya, Carlotta, Changli, Chisa, Chixia, Danjin,
+Encore, Galbrena, Hsin, Jinhsi, Jiyan, Lingyang, Lucilla, Lucy,
+Luuk Herssen, Phoebe, Phrolova, Qingxiao, Qiuyuan, Rebecca, Roccia,
+Rover (Havoc), Xiangli Yao and Zani.
+
+**Augusta** keeps canonical approved Hard CRIT Rate / CRIT DMG and the
+full historical Flex ATK% / Heavy Attack DMG / Energy Regen / Flat ATK
+with Flex1 at its existing valid tiers. The ordinary account UI already
+separates whole-build Energy Regen from the per-Echo pool and thus displays
+three per-Echo Flex entries. No policy/math alteration was made.
+
+### 13 newly implemented DPR Substat Value defaults
+
+The source snapshot is **`src/data/improveDprSubstatSensitivities.mjs`**,
+captured from live `DPR Calc Results` on 2026-11-13. It contains all thirteen
+source-row percentages (including recorded zeros) and each sheet ID, tab
+title, exact cells, source URL and WIP marker. It is *source data*, **not**
+a second recommendation/policy database. The product selector
+`src/improveProductEchoDefaults.mjs` sorts positive DPR marginal values,
+separately excludes Energy Regen from per-Echo requirements and applies the
+following explicitly bounded Hard choices. Flex order below follows measured
+non-Hard sensitivity. Every default requires **at least one Flex**.
+
+| Character (DPR tab) | Hard | Flex, highest measured priority first |
+| --- | --- | --- |
+| Buling (WIP) | CRIT Rate, CRIT DMG | ATK%, Liberation DMG, Flat ATK |
+| Cartethyia | CRIT Rate | HP%, Basic Attack DMG, CRIT DMG |
+| Ciaccona | CRIT Rate, CRIT DMG | ATK%, Flat ATK, Liberation DMG |
+| Denia | CRIT Rate, CRIT DMG | ATK%, Liberation DMG, Flat ATK |
+| Hiyuki | CRIT Rate, CRIT DMG | ATK%, Liberation DMG, Flat ATK |
+| Iuno (Sub DPS tab) | CRIT Rate, CRIT DMG | ATK%, Liberation DMG, Flat ATK |
+| Jingran | CRIT Rate, CRIT DMG | Heavy Attack DMG, ATK%, Flat ATK |
+| Lupa | CRIT Rate, CRIT DMG | ATK%, Liberation DMG, Flat ATK |
+| Lynae | CRIT Rate, CRIT DMG | ATK%, Basic Attack DMG, Flat ATK |
+| Mornye | *none* | Liberation DMG, CRIT DMG, DEF% |
+| Sigrika | CRIT Rate, CRIT DMG | ATK%, Flat ATK |
+| Suisui | CRIT DMG | CRIT Rate, HP%, Basic Attack DMG |
+| Yangyang Xuanling (Xuanling tab) | CRIT Rate, CRIT DMG | Heavy Attack DMG, ATK%, Flat ATK |
+
+Examples, verified in the live source's actual **Substat Value** area:
+
+- **Iuno** (`I27:J39`): CRIT DMG **6.29%**, CRIT Rate **5.40%**,
+  ATK% **2.99%**, Liberation DMG **2.80%**. This is the `Iuno`
+  tab, not the separate `Iuno MDPS (WIP)` variant.
+- **Cartethyia** (`K27:L39`): CRIT Rate **5.20%**, HP% **2.42%**,
+  Basic Attack DMG **1.70%**, CRIT DMG **1.51%**. HP scaling is
+  not replaced by a blind double-CRIT Hard.
+- **Hiyuki** (`I27:J39`): CRIT DMG **4.79%**, CRIT Rate
+  **4.42%**, ATK% **2.38%**.
+- **Sigrika** (`I27:J39`): CRIT Rate **5.42%**, CRIT DMG
+  **4.57%**, ATK% **2.46%**, Energy Regen **2.23%**.
+  The next non-ER candidate after Flat ATK contributes only **0.14%**
+  in this scenario, so the owner default keeps two meaningful Flex entries.
+- **Mornye** (`J27:K39`): Liberation DMG **3.88%**, CRIT DMG
+  **3.79%**, Energy Regen **3.52%**, DEF% **2.78%**. There is
+  *no forced CRIT Hard*; ER remains the separate whole-build goal.
+
+**Scenario limitation:** DPR Substat Value is marginal percentage
+sensitivity *within the tab's scenario*. WIP data such as Buling are
+explicitly flagged, not disguised as stable universal rules.
+A DPR **0.00%** Energy Regen sensitivity does not imply that ER is
+useless or unnecessary for a different team/rotation.
+Jingran's **HP until 50,000** and other conditional build-stat goals
+do not gain invented targets from these substat comparisons.
+
+### 19 newly implemented Prydwen guide-only defaults
+
+No usable DPR `Substat / Substat Value` pair was available for these
+Characters in the selected source sheet. Their existing, separately
+reviewed `characterEquipmentAssociations.ts` stat ordering is reused,
+without a scraper, duplicate source model or fabricated quantitative
+sensitivity. Hard and optional role-scoping are **Bellibing's choices**.
+
+| Character | Hard | Guide-ordered Flex |
+| --- | --- | --- |
+| Aalto | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Baizhi | *none* | HP%, Flat HP |
+| Brant | CRIT Rate, CRIT DMG | Basic Attack DMG, ATK%, Flat ATK |
+| Cantarella | CRIT Rate, CRIT DMG | ATK%, Flat ATK, Basic Attack DMG |
+| Jianxin | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Lumi | CRIT Rate, CRIT DMG | ATK%, Flat ATK |
+| Mortefi | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Rover Aero | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Rover Electro | CRIT Rate, CRIT DMG | ATK%, Skill DMG, Flat ATK |
+| Rover Spectro | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Sanhua | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Taoqi | *none* | DEF%, Flat DEF |
+| Shorekeeper | *none* | CRIT DMG, Liberation DMG, HP% |
+| Verina | *none* | ATK%, Flat ATK |
+| Yangyang | *none* | CRIT Rate, CRIT DMG, ATK% |
+| Yinlin | CRIT Rate, CRIT DMG | ATK%, Flat ATK, Skill DMG |
+| Youhu | *none* | ATK%, Flat ATK, Skill DMG |
+| Yuanwu | *none* | DEF%, Flat DEF |
+| Zhezhi | CRIT Rate, CRIT DMG | ATK%, Basic Attack DMG, Flat ATK |
+
+All Hard and Flex rows map to existing legal substat names. Their minimums
+are the **lowest verified Rank-5 canonical roll tiers chosen by Bellibing**,
+not source-provided thresholds. The existing **all Hard + at least 1 of
+selected Flex** engine contract remains unchanged. There are **no remaining
+Character source-priority gaps** for this bounded product-standard task.
 
 ### Qingxiao example
 
@@ -108,20 +197,21 @@ unresolved current-checkpoint cost remain Pending. A supported verified
 certificate still displays its computed value unchanged, with the exact
 fresh-start-vs-observed checkpoint distinction. No fabricated estimate.
 
-## Test and release boundaries
+## Verification and release boundaries
 
-- Focused Node: roster exact count, source gate, Qingxiao/Support/Augusta
-  boundaries, canonical minima, explicit Recommended/reset and
-  verified/Pending status-DTO adapter.
-- Chromium: actual compiled Improve account UI for Augusta, Qingxiao,
-  Baizhi with isolated synthetic owned records; manual edit -> Character
-  switch/reload -> Recommended; HTTP mock covers verified and
-  unavailable response display; unchanged Inventory item bytes.
-  Historical source-only accounts may present an editable default after
-  existing account normalization; that is not a reviewed Hard/Flex policy.
-- Existing CI account/Build/Inventory/Improve and filter regressions run in
-  the same Draft gate. Mock HTTP is not private-engine numeric verification.
-- Remaining: real owner Windows account/character/preset reproduction,
-  actual paired private echo-advisor response for Qingxiao/default and
-  other representative presets, broader FULL/UI Lab, production acceptance.
-  No merge or deployment.
+- 59/59 source-backed product eligibility is a **pure configuration / UI**
+  readiness assertion. Guide source rows retain their existing
+  `SOURCE_PRIORITY_GUIDANCE_ONLY` semantics for other consumers.
+- Focused Node checks guard all 59 policies, uniqueness, per-Echo feasibility,
+  legal canonical minima, DPR-vs-guide family/provenance, exact percentages,
+  unchanged Augusta, support/HP/DEF cases, explicit Recommended reset and
+  override/AccountStore protections.
+- Built Chromium covers Augusta, Iuno, Cartethyia, Mornye, Baizhi,
+  guide-only Brant, existing Qingxiao/Jiyan, Character navigation,
+  manual override/reload/Recommended and unchanged physical Inventory items.
+  Expected responses in the browser gate use a synthetic HTTP DTO,
+  **not a private-engine numeric claim**.
+- Existing account/inventory/Build/test/build gates are retained. Broader FULL
+  and live owner Windows/public-private Expected-Tuner replay remain
+  separate pending work. No merge or deployment.
+

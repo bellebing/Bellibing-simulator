@@ -565,18 +565,33 @@ function renderWorkspace() {
   carousel?.refresh();
 }
 
-function layout() {
+function layout(last) {
   const shell = $('#composition');
   const settings = $('#settings');
   const character = $('#character');
-  const expandedSettings = settings.classList.contains('expanded');
-  const expandedCharacter = character.classList.contains('expanded');
   const available = shell.clientWidth;
-  const settingsWidth = Math.min(340, Math.max(290, available * .18));
-  const characterWidth = Math.min(450, Math.max(300, available * .24));
-  // A toggle owns its own panel. Available width changes the workbench, never
-  // the other panel's state. Narrow layouts retain their existing stacked CSS.
-  shell.style.gridTemplateColumns = `${expandedSettings ? settingsWidth : 58}px minmax(0,1fr) ${expandedCharacter ? characterWidth : 58}px`;
+  let expandedSettings = settings.classList.contains('expanded');
+  let expandedCharacter = character.classList.contains('expanded');
+  if (demonstration || configurationReview) {
+    // The isolated approved V1 visual review retains its 1000px workbench and
+    // exclusive side-panel behavior. Modern product/Sandbox workspaces retain
+    // independently expanded panels and responsive reflow below.
+    const characterWidth = available < 1550 ? 290 : 324;
+    const need = 1000 + 24 + (expandedSettings ? 280 : 58) + (expandedCharacter ? characterWidth : 58);
+    if (available < need) {
+      if (last === 'settings') expandedCharacter = false;
+      else expandedSettings = false;
+    }
+    settings.classList.toggle('expanded', expandedSettings);
+    character.classList.toggle('expanded', expandedCharacter);
+    shell.style.gridTemplateColumns = `${expandedSettings ? 280 : 58}px minmax(1000px,1fr) ${expandedCharacter ? characterWidth : 58}px`;
+  } else {
+    const settingsWidth = Math.min(340, Math.max(290, available * .18));
+    const characterWidth = Math.min(450, Math.max(300, available * .24));
+    // A toggle owns its own panel. Available width changes the workbench, never
+    // the other panel's state. Narrow layouts retain their existing stacked CSS.
+    shell.style.gridTemplateColumns = `${expandedSettings ? settingsWidth : 58}px minmax(0,1fr) ${expandedCharacter ? characterWidth : 58}px`;
+  }
   $('#settingsToggle').setAttribute('aria-expanded', expandedSettings);
   $('#characterToggle').setAttribute('aria-expanded', expandedCharacter);
   $('#settingsToggle').title = `${expandedSettings ? 'Collapse' : 'Expand'} Improve Settings`;

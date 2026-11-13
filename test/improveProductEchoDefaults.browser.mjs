@@ -7,7 +7,7 @@ import {startPreview} from '../scripts/preview-simulator-v1.mjs';
 import {emptyAccount,saveReviewedScan} from '../src/inventoryAccount.mjs';
 import {catalog,scan} from './fixtures/inventory.mjs';
 
-test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pending Expected and account isolation',async()=>{
+test('Chromium: Augusta, Iuno, Cartethyia, Mornye, guide-only support, overrides and Inventory isolation',async()=>{
  let calls=[],status='VERIFIED';
  const handler=async(req,res)=>{
   if(req.url!=='/local-review/echo-advisor')return false;
@@ -30,7 +30,7 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   page.on('pageerror',e=>errors.push(e.message));
   page.setDefaultTimeout(25000);
   let account=emptyAccount();
-  for(const id of ['augusta','qingxiao','jiyan','baizhi'])account=saveReviewedScan(account,scan(id),catalog,{reviewed:true,assign:true});
+  for(const id of ['augusta','qingxiao','jiyan','iuno','cartethyia','mornye','brant','baizhi'])account=saveReviewedScan(account,scan(id),catalog,{reviewed:true,assign:true});
   await page.goto(base+'/inventory/?profile='+profile);
   await page.waitForFunction(()=>!!globalThis.bellibingAccountSession);
   await page.evaluate(async value=>{await bellibingAccountSession.store.commit(value);},account);
@@ -61,9 +61,30 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   assert.equal(await page.locator('.setting-mode button').filter({hasText:'Customize'}).getAttribute('aria-pressed'),'true');
   // Persisted workspace writes are asynchronous. Read them from the true AccountStore.
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.userData?.workspaceSettings?.qingxiao?.minima?.['ATK%']===1);
+  await visit('iuno');
+  assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(await names('flex'),['ATK%','Liberation DMG','Flat ATK'],'Iuno must use actual DPR marginal value priority');
+  assert.match(await page.locator('#sourcePriorityStatus').innerText(),/DPR Substat Value.*scenario-specific/);
+  assert.match(await page.locator('#sourcePriorityStatus a').getAttribute('href'),/gid=19849676/);
+  assert.equal(await page.locator('#flexCountLabel').innerText(),'At least 1 of 3');
+  await visit('cartethyia');
+  assert.deepEqual(await names('hard'),['CRIT Rate']);
+  assert.deepEqual(await names('flex'),['HP%','Basic Attack DMG','CRIT DMG'],'HP must outrank other non-Hard stats from DPR');
+  assert.match(await page.locator('#sourcePriorityStatus').innerText(),/DPR Substat Value/);
+  await visit('mornye');
+  assert.deepEqual(await names('hard'),[],'Mornye cannot inherit universal CRIT Hard requirements');
+  assert.deepEqual(await names('flex'),['Liberation DMG','CRIT DMG','DEF%']);
+  assert.equal((await names('flex')).includes('Energy Regen'),false,'DPR ER 3.52% must stay a whole-build goal');
+  assert.ok(await page.locator('#erEnabled').count(),'ER remains a separate Improve control');
+  await visit('brant');
+  assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
+  assert.deepEqual(await names('flex'),['Basic Attack DMG','ATK%','Flat ATK'],'missing DPR Substat Value falls back to reviewed guide order');
+  assert.match(await page.locator('#sourcePriorityStatus').innerText(),/Prydwen reviewed guide/);
   await visit('baizhi');
   assert.deepEqual(await names('hard'),[],'support cannot inherit DPS CRIT requirements');
-  assert.equal(await page.locator('.setting-mode button').filter({hasText:'Customize'}).getAttribute('aria-pressed'),'true','legacy account-mode source priorities are an editable choice, not a recommended per-Echo default');
+  assert.deepEqual(await names('flex'),['HP%','Flat HP']);
+  assert.match(await page.locator('#sourcePriorityStatus').innerText(),/Prydwen reviewed guide/);
+  assert.equal(await page.locator('.setting-mode button').filter({hasText:'Recommended'}).getAttribute('aria-pressed'),'true','support has a ready Bellibing product default without forced CRIT');
   await page.waitForFunction(()=>[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].some(x=>x.textContent==='Pending'));
   await page.waitForFunction(()=>document.querySelector('#resourceCost [data-expected-reason]')?.hidden===false);
   assert.match(await page.locator('#resourceCost [data-expected-reason]').innerText(),/Expected Tuners pending/);

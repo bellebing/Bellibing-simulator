@@ -34,9 +34,10 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   }
   function count() {
     const state=getState(), view=flexCountPresentation(state), slider=find('#flexCount');
-    const guidance=sourcePriorityMode(state);find('.flex-count').hidden=guidance;
-    find('#sourcePriorityStatus').hidden=!guidance;
-    find('#sourcePriorityStatus').textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`:'';
+    const guidance=sourcePriorityMode(state),product=state.settingsMode==='Recommended'&&state.productEchoDefault?.characterId===state.id;
+    find('.flex-count').hidden=guidance;
+    find('#sourcePriorityStatus').hidden=!(guidance||product);
+    find('#sourcePriorityStatus').textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`:product?'Bellibing product default · stats follow reviewed guide priorities; lowest canonical roll minima and Flex count 1 are product choices, not source-verified per-Echo thresholds.':'';
     if(guidance){find('#flexCountError').hidden=true;return;}
     find('#flexCountLabel').textContent=state.flexCount===null?view.message:`At least ${state.flexCount} of ${state.statSections.flex.length}`;
     slider.min=state.flexCount===null?'0':'1';slider.max=String(Math.max(1,view.maximum));

@@ -4,6 +4,8 @@ on:
     types: [opened, reopened, synchronize]
     paths:
       - 'src/data/characters.ts'
+      - 'src/profileReadinessRegistry.ts'
+      - 'src/data/characterMechanicsSourceReview.ts'
       - 'src/characterImportCoverage.mjs'
       - 'src/characterImportSourceCapture.mjs'
       - 'src/characterOriginalRelease.mjs'

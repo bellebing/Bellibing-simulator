@@ -59,7 +59,7 @@ export function mountCarousel({ selectedId, onSelect,preview:readPreview=preview
     }
     info.innerHTML = `<div class="focus-caption">${focused === selected ? 'SELECTED CHARACTER' : 'PREVIEW'}${standalone?' · SANDBOX':!preview.onAccount ? ' · CATALOG' : ''}${person.artStatus === 'PORTRAIT_FALLBACK' ? ' · HERO ART PENDING' : ''}</div>
       <div class="focus-name">${escapeHtml(person.name)}</div>
-      <div class="focus-meta">${preview.hasBuild ? `${escapeHtml(preview.weapon)} <i>·</i> ${Array.from({ length: 5 }, (_, index) => `<span class="socket ${index >= preview.slots ? 'empty' : ''}"></span>`).join('')} ${preview.slots}/5 Echoes` : 'No saved build'}</div>
+      <div class="focus-meta">${preview.hasBuild ? `${escapeHtml(preview.weapon)} <i>·</i> ${Array.from({ length: 5 }, (_, index) => `<span class="socket ${index >= preview.slots ? 'empty' : ''}"></span>`).join('')} ${preview.slots}/5 Echoes` : accountLabel === 'demo account' ? 'No saved demo build' : 'No saved build'}</div>
       <div class="focus-stats">${['ATK', 'CRIT RATE', 'CRIT DMG'].map((label, index) => `<div><strong>${escapeHtml(preview.stats[index])}</strong><span>${label}</span></div>`).join('')}</div>`;
   }
 

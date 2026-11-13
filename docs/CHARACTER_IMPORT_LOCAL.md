@@ -170,3 +170,16 @@ Source artwork attribution and exact upstream identity are retained under `art/`
 Continue exclusively in Draft #365. Source PRs and their recorded histories remain preserved; no source PR closure, history rewrite, merge, deployment or backend activation is authorized. The account/sync review remains isolated from the public artifact.
 
 #363/private #46 remain deferred for paired compatibility and owner approval. The preserved version-aware presentation helpers do not establish a compatible deployed result producer. Private #47 is excluded.
+
+## End-to-end Echo validation (Draft PR #365)
+The Suisui owner Build screenshot exposed a missing secondary Main Stat on the
+first 3-cost +25 Echo even though the other four had readable secondaries.
+A scanner-side change now uses exact whole-row and split label/value OCR for
+**every cost (1/3/4)**. If OCR is unreadable, a fixed cost/+25 secondary is
+derived ONLY after five separately parsed distinct legal-tier substats prove
+the checkpoint. The original OCR and `requiresReview` remain available.
+A contradictory explicit OCR number is never overwritten. Any other invalid
+stat remains pending and rejects account save; never guess an Echo identity,
+Sonata, Main Stat or substat tier. Regression tests cover all five Echo positions
+and mixed 4/3/3/1/1 costs. This does not claim actual owner Windows success
+until OCR, Add Character, reload and Inventory are tested.

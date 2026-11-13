@@ -101,24 +101,72 @@ def read_main(panel, cost):
                     method='Tight label OCR + exact canonical value (original strip retained)'
     return {'stat':stat,'raw':raw,'method':method}
 
-def read_secondary(panel):
-    raw=panel[183:225,15:360]
-    text=' '.join(card.tess_batch([card._upscale2(cv2.cvtColor(raw,cv2.COLOR_BGR2GRAY))],'--psm 7'))
-    m=re.search(r'\b(ATK|HP)\b.*?(\d+)',text)
-    return {'stat':{'name':'Flat '+m.group(1),'value':float(m.group(2))} if m else {'name':None,'value':None},'raw':text}
+
+def _exact_secondary(stat, cost):
+    expected=data.CATALOG['statEditor']['secondaryMainStatsByCostAndLevel'].get(str(cost),{}).get('25')
+    return (expected is not None and stat.get('name')==expected['name']
+            and type(stat.get('value')) in (int,float)
+            and abs(stat['value']-expected['value'])<1e-12)
+
+def _complete_canonical_rolls(rolls):
+    if len(rolls)!=5: return False
+    legal=data.CATALOG['statEditor']['substats']
+    seen=set()
+    for row in rolls:
+        if not isinstance(row,dict): return False
+        name=row.get('name'); value=row.get('value')
+        source=next((r for r in legal if r['name']==name),None)
+        if name in seen or source is None or type(value) not in (int,float): return False
+        if not any(abs(value-v)<1e-12 for v in source['values']): return False
+        seen.add(name)
+    return True
+
+def read_secondary(panel, cost):
+    """Independent OCR of the fixed secondary for every cost 1/3/4 Echo."""
+    region=panel[183:225,15:360]
+    gray=cv2.cvtColor(region,cv2.COLOR_BGR2GRAY)
+    raw=' '.join(card.tess_batch([card._upscale2(gray)],'--psm 7'))
+    def parse(text):
+        match=re.search(r'\b(ATK|HP)\b\s*[:+]?\s*(\d+(?:\.\d+)?)\b',text,re.I)
+        return {'name':'Flat '+match.group(1).upper(),'value':float(match.group(2))} if match else {'name':None,'value':None}
+    observed=parse(raw)
+    if _exact_secondary(observed,cost):
+        return {'stat':observed,'raw':raw,'method':'Full-row OCR; exact canonical'}
+    # Independent split name/value pass, to avoid icon/artwork or dim text
+    # swallowing a field. Wrong or missing values remain unresolved.
+    left,right=card.tess_batch([card._upscale2(gray[:,:255]),card._upscale2(gray[:,255:])],'--psm 7')
+    retried=left.strip()+' '+right.strip()
+    candidate=parse(retried)
+    if _exact_secondary(candidate,cost):
+        return {'stat':candidate,'raw':raw,'retry':retried,'method':'Split-row OCR; exact canonical'}
+    return {'stat':{'name':None,'value':None},'raw':raw,'retry':retried,
+            'method':'Unresolved secondary; review required'}
 
 def read_echo(panel):
     eid, score, sid, identity_evidence=recognize_echo(panel)
     cost=data.ECHO_COSTS.get(eid) or card.get_echo_cost(panel) or None
-    main=read_main(panel,cost); secondary=read_secondary(panel)
+    main=read_main(panel,cost); secondary=read_secondary(panel,cost)
     rows,names,values=card.read_substat_rows(card._crop_region(panel,card.ECHO_REGIONS['subs_names']),card._crop_region(panel,card.ECHO_REGIONS['subs_values']))
     subs=[]
     for row,raw_name,raw_value in zip(rows,names,values):
         subs.append(review_substat(row,raw_name,raw_value))
+    evidence={**identity_evidence,'main':main['raw'],'mainMethod':main['method'],
+              'secondary':secondary['raw'],'secondaryRetry':secondary.get('retry'),
+              'secondaryMethod':secondary['method'],
+              'note':'Rank and level are not printed; left unknown. Stats checked against Rank-5 +25 compatibility.'}
+    # Five distinct legal observed rolls prove the +25 checkpoint for this
+    # original-card scope. Exactly ONE fixed secondary exists per cost at +25.
+    # On unreadable OCR only, recover that source fact and flag its derivation
+    # for explicit review; never overwrite contradictory numeric observations.
+    if secondary['stat']['name'] is None and _complete_canonical_rolls(subs):
+        expected=data.CATALOG['statEditor']['secondaryMainStatsByCostAndLevel'].get(str(cost),{}).get('25')
+        if expected and not re.search(r'\b(?:ATK|HP)\b\s*[:+]?\s*\d+',secondary['raw'],re.I):
+            secondary['stat']=dict(expected)
+            evidence['secondaryRecovery']={'status':'FIXED_CANONICAL_SECONDARY_FROM_FIVE_ROLLS',
+                'requiresReview':True,'raw':secondary['raw'],'retry':secondary.get('retry')}
     return {'echoId':eid,'sonataId':sid,'cost':cost,'rank':None,'level':None,
             'mainStat':main['stat'],'secondaryMainStat':secondary['stat'],'substats':subs,
-            'evidence':{**identity_evidence,'main':main['raw'],'secondary':secondary['raw'],
-                        'note':'Rank and level are not printed; left unknown. Stats checked against Rank-5 +25 compatibility.'}}
+            'evidence':evidence}
 
 def scan(image_bytes):
     start=time.monotonic()

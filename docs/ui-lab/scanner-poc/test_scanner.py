@@ -147,6 +147,66 @@ class ValidationTests(unittest.TestCase):
             result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
             self.assertNotEqual(result['stat'],{'name':'ATK%','value':.18})
 
+    def test_secondary_full_and_split_ocr_for_all_costs(self):
+        from unittest.mock import patch
+        rules=scanner.data.CATALOG['statEditor']
+        for cost in (1,3,4):
+            expected=rules['secondaryMainStatsByCostAndLevel'][str(cost)]['25']
+            label=expected['name'].removeprefix('Flat ')
+            number=str(int(expected['value']))
+            with (self.subTest(cost=cost),patch.object(scanner.card,'tess_batch',return_value=[label+' '+number])):
+                self.assertEqual(scanner.read_secondary(np.zeros((413,368,3),np.uint8),cost)['stat'],expected)
+            with (self.subTest(cost=cost),patch.object(scanner.card,'tess_batch',
+                    side_effect=[['Unreadable'],[label,number]])):
+                result=scanner.read_secondary(np.zeros((413,368,3),np.uint8),cost)
+                self.assertEqual(result['stat'],expected)
+                self.assertIn('Split-row',result['method'])
+            with (self.subTest(cost=cost),patch.object(scanner.card,'tess_batch',
+                    side_effect=[['Unreadable'],[label,'99999']])):
+                self.assertIsNone(scanner.read_secondary(np.zeros((413,368,3),np.uint8),cost)['stat']['name'])
+
+    def test_secondary_cost_recovery_only_from_five_exact_distinct_rolls(self):
+        from unittest.mock import patch
+        rules=scanner.data.CATALOG['statEditor']
+        legal=[{'name':r['name'],'value':r['values'][0]} for r in rules['substats'][:5]]
+        echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)
+        main={'stat':rules['mainStatsByCostAndLevel']['3']['25'][0],'raw':'main','method':'Full'}
+        for raw,invalid in [('Unreadable',False),('ATK 999',False),('Unreadable',True)]:
+            with (self.subTest(raw=raw,invalid=invalid),
+                  patch.object(scanner,'recognize_echo',return_value=(echo['id'],1,echo['sonataSetIds'][0],{})),
+                  patch.object(scanner,'read_main',return_value=main),
+                  patch.object(scanner,'read_secondary',return_value={'stat':{'name':None,'value':None},
+                      'raw':raw,'retry':'noise','method':'Unresolved'}),
+                  patch.object(scanner.card,'read_substat_rows',return_value=(legal,['']*5,['']*5)),
+                  patch.object(scanner,'review_substat',side_effect=lambda row,*a:row)):
+                rows=[dict(x) for x in legal]
+                if invalid: rows[-1]={'name':None,'value':None}
+                with patch.object(scanner.card,'read_substat_rows',return_value=(rows,['']*5,['']*5)):
+                    result=scanner.read_echo(np.zeros((413,368,3),np.uint8))
+                should_recover=raw=='Unreadable' and not invalid
+                if should_recover:
+                    self.assertEqual(result['secondaryMainStat'],rules['secondaryMainStatsByCostAndLevel']['3']['25'])
+                    self.assertTrue(result['evidence']['secondaryRecovery']['requiresReview'])
+                    self.assertEqual(result['evidence']['secondaryRecovery']['raw'],raw)
+                else:
+                    self.assertIsNone(result['secondaryMainStat']['name'])
+                    self.assertNotIn('secondaryRecovery',result['evidence'])
+
+    def test_all_five_mixed_cost_positions_validated_together(self):
+        draft=valid();rules=scanner.data.CATALOG['statEditor']
+        costs=[4,3,3,1,1]
+        for i,cost in enumerate(costs):
+            identity=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==cost)
+            draft['echoes'][i]={'echoId':identity['id'],'sonataId':identity['sonataSetIds'][0],
+                'cost':cost,'rank':None,'level':None,
+                'mainStat':rules['mainStatsByCostAndLevel'][str(cost)]['25'][0],
+                'secondaryMainStat':rules['secondaryMainStatsByCostAndLevel'][str(cost)]['25'],
+                'substats':[{'name':x['name'],'value':x['values'][0]} for x in rules['substats'][:5]]}
+        self.assertEqual(scanner.validate_draft(draft),[])
+        for i in range(5):draft['echoes'][i]['secondaryMainStat']={'name':None,'value':None}
+        self.assertEqual([issue['path'] for issue in scanner.validate_draft(draft)],
+                         [f'echoes.{i}.secondaryMainStat' for i in range(5)])
+
     def test_weak_identity_is_not_promoted_and_rows_do_not_shift(self):
         from unittest.mock import patch
         echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)

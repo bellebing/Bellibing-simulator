@@ -35,14 +35,14 @@ test('Hsin has canonical source raw and date, but missing Build source assets is
  assert.equal(row.characterUsable,'PENDING');
  assert.equal(row.dpsReady,'PENDING');
 });
-test('Suoming is explicitly released from source rather than silently from calendar date',()=>{
+test('Suoming only changes from upcoming when original source review is integrated',()=>{
  const row=characterImportCoverage('suoming',fixture('suoming'),{asOf:'2026-11-13'});
  assert.equal(row.catalogPresence,'EXISTS');
- assert.equal(row.release.releaseNeedsReview,false);
- assert.equal(row.release.canonicalStatus,'RELEASED');
- assert.equal(row.checks.releasedAndVerified.status,'PASS');
- assert.equal(row.checks.level90.status,'PASS');
- assert.equal(row.checks.sourceAssets.status,'PENDING');
+ const integrated=CHARACTER_CATALOG.some(c=>c.id==='lily');
+ assert.equal(row.release.releaseNeedsReview,!integrated);
+ assert.equal(row.release.canonicalStatus,integrated?'RELEASED':'CONFIRMED_UPCOMING');
+ assert.equal(row.checks.releasedAndVerified.status,integrated?'PASS':'PENDING');
+ assert.equal(row.checks.level90.status,integrated?'PASS':'PENDING');
  assert.equal(row.characterUsable,'PENDING');
 });
 test('duplicate IDs fail closed even if otherwise source-supported',()=>{

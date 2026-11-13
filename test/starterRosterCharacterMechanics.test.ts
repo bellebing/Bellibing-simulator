@@ -181,11 +181,11 @@ test('starter-batch Tune Break facts stay at the shared-system boundary', () => 
 
 test('starter roster remains verified after later Character Mechanics batches advance canonical coverage', () => {
   const audit = auditCharacterMechanicsCoverage();
-  assert.equal(audit.releasedCount, 59);
+  assert.equal(audit.releasedCount, 61);
   assert.equal(audit.profileCount, 59);
   assert.equal(audit.verifiedCharacterIds.length, 59);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 0);
+  assert.equal(audit.unstartedCharacterIds.length, 2);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 

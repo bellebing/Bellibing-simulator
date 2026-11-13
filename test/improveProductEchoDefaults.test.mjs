@@ -6,6 +6,7 @@ import {initialSettings,restoreRecommendedSettings} from '../docs/ui-lab/v1.1/mo
 import {restoreProductEchoDefaults} from '../docs/ui-lab/v1.1/modules/product-echo-defaults.js';
 import {ECHO_SETTING_STATS} from '../docs/ui-lab/v1.1/modules/settings-catalog.js';
 import {expectedTunerReason,createStatTargetCost} from '../docs/ui-lab/v1.1/modules/stat-target-cost.js';
+import {clearOwnedImproveOverrides} from '../docs/ui-lab/v1.1/modules/account-settings.js';
 
 const presets=CHARACTER_GUIDE_RECOMMENDATIONS.map(row=>row.characterId).filter(id=>improveProductEchoDefault(id));
 const state=id=>({id,...initialSettings(id),accountProjection:{}});
@@ -68,4 +69,20 @@ test('Expected-Tuner status adapter preserves exact certificate and explicit una
  limit.sync(c);await new Promise(r=>setTimeout(r,0));
  assert.match(limit.read(c,0).reason,/limit/);
  assert.match(expectedTunerReason('TARGET_HAS_NO_FINITE_EXPECTATION'),/finite/);
+});
+
+test('explicit Recommended clears only selected Character V3 override through AccountStore, not another Character or budget',async()=>{
+ const saved={version:3,characters:{qingxiao:{schemaVersion:3,characterId:'qingxiao',mode:'MANUAL',overrides:{echoRequirements:{requiredOnEveryEcho:[],groups:[]}}},augusta:{schemaVersion:3,characterId:'augusta',mode:'MANUAL',overrides:{}}},pendingV2Characters:{}};
+ const data=new Map([['bellibing.improve.policy.v3',JSON.stringify(saved)]]);
+ const storage={getItem:key=>data.get(key)??null};
+ const store={saveUserData:async(key,value)=>data.set(key,value)};
+ assert.equal(await clearOwnedImproveOverrides('qingxiao',storage,store),true);
+ const after=JSON.parse(data.get('bellibing.improve.policy.v3'));
+ assert.equal(after.characters.qingxiao,undefined);
+ assert.deepEqual(after.characters.augusta,saved.characters.augusta);
+ assert.equal(await clearOwnedImproveOverrides('qingxiao',storage,store),false);
+ const pending={...after,pendingV2Characters:{qingxiao:{original:'retained'}}};
+ data.set('bellibing.improve.policy.v3',JSON.stringify(pending));
+ await assert.rejects(clearOwnedImproveOverrides('qingxiao',storage,store),/Legacy Improve settings require review/);
+ assert.deepEqual(JSON.parse(data.get('bellibing.improve.policy.v3')),pending);
 });

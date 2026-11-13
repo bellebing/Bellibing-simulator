@@ -80,7 +80,7 @@ test('revision owners preserve edit cycles and count shared inventory mutations,
   assert.deepEqual(a.revisions,b.revisions);assert.equal(a.revisions.inventory,revision+2);
 });
 
-test('all 59 source-bound defaults validate independently and do not fabricate missing alternatives or execution',async()=>{
+test('59 reviewed source-bound defaults validate independently and do not fabricate missing alternatives or execution',async()=>{
   const {default:defaults}=await import('../v1.1/modules/default-loadouts.json',{with:{type:'json'}});
   const {configuredCard}=await import('../v1.1/modules/configured-card.js');
   const {echoCard}=await import('../v1.1/modules/echo-card.js');
@@ -96,7 +96,7 @@ test('all 59 source-bound defaults validate independently and do not fabricate m
       assert.equal(session.provenance[index].kind,'RECOMMENDED_DEFAULT');
       const card=configuredCard(template),html=echoCard(card);
       assert.equal(card.main,template.mainStatName);assert.deepEqual(card.stats,[]);assert.equal(card.value,'—');
-      assert.ok(html.includes('CONFIGURED'));assert.ok(html.includes('class="level">CONFIGURED</span>'));assert.ok(html.includes('Not rolled'));
+      assert.ok(html.includes('CONFIGURED'));assert.ok(html.includes('class="level">CONFIGURED</span>'));assert.equal((html.match(/aria-label="\+\d+: not rolled"/g)??[]).length,5,'All five unrolled template checkpoints must be accessible');
       assert.equal(session.provenance[index].identityBasis,index===0?'SOURCE_MAIN_ECHO':'CANONICAL_COMPATIBLE_EXAMPLE');
     }
     if(row.context.required)assert.ok(session.configurations.every(c=>!c));

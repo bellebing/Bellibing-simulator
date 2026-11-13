@@ -17,8 +17,12 @@ import {CANONICAL_CONFIGURATION_SOURCE,SIMULATION_TRANSPORT_PROTOCOL} from '../s
 import {dpsConceptMarkup} from '../docs/ui-lab/v1.1/modules/dps-concept.js';
 const catalog={echoes:ECHO_CATALOG,sonataSets:SONATA_CATALOG};
 const contract={protocol:SIMULATION_TRANSPORT_PROTOCOL,publicSourceRevision:CANONICAL_CONFIGURATION_SOURCE,engineVersion:'UNIT_TEST_CONTRACT_ONLY'};
-test('coverage gate: all 59 released identities have independent source-bound canonical standard configurations',()=>{
- const released=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED');assert.equal(released.length,59);assert.deepEqual(coverage.characters.map(c=>c.characterId),released.map(c=>c.id));
+test('coverage gate: 61 released, 59 independently reviewed Sandbox standards and two explicitly pending',()=>{
+ const released=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED');assert.equal(released.length,61);
+ const reviewedIds=coverage.characters.map(c=>c.characterId),reviewed=new Set(reviewedIds);
+ assert.equal(reviewed.size,59,'Reviewed standard IDs must be unique');
+ assert.ok(reviewedIds.every(id=>released.some(c=>c.id===id)),'Reviewed standards must belong to released Characters');
+ assert.deepEqual(released.map(c=>c.id).filter(id=>!reviewed.has(id)).sort(),['lily','suoming'],'New releases stay pending until separate source-reviewed Sandbox standards exist');
  assert.deepEqual(coverage.summary,{released:59,valid:59,echoComplete:59,weaponComplete:59,pending:0});
  for(const c of coverage.characters){
   assert.equal(c.configurationValidity,'VALID',c.characterId);assert.equal(c.slots.length,5);assert.deepEqual(c.unresolved,[]);

@@ -52,14 +52,14 @@ test('discard presentation distinguishes observed stops, unknowns and unplaced c
   const html = echoCard(echo);
   assert.match(html, /DISCARDED/);
   assert.match(html, /DISCARDED AT \+15/);
-  assert.equal((html.match(/Not rolled/g) ?? []).length, 2);
-  assert.match(html, /<span>\+20<\/span><strong>Not rolled/);
-  assert.match(html, /<span>\+25<\/span><strong>Not rolled/);
+  assert.equal((html.match(/aria-label="\+\d+: not rolled"/g) ?? []).length, 2);
+  assert.match(html, /aria-label="\+20: not rolled"/);
+  assert.match(html, /aria-label="\+25: not rolled"/);
   const unplaced = echoCard({ ...echo, disposition: 'UNPLACED' });
-  assert.doesNotMatch(unplaced, /DISCARDED|Not rolled/);
+  assert.doesNotMatch(unplaced, /DISCARDED|not rolled/);
   const unknown = echoCard({ ...echo, level: null });
   assert.match(unknown, /DISCARDED · CHECKPOINT UNKNOWN/);
-  assert.doesNotMatch(unknown, /Not rolled|\+null|\+undefined/);
+  assert.doesNotMatch(unknown, /not rolled|\+null|\+undefined/);
 });
 
 
@@ -112,15 +112,16 @@ test('composition uses equipped assignment counts and never asserts active bonus
 });
 
 
-test('carousel position and momentum stay bounded across the full catalog', () => {
-  assert.equal(clampPosition(-2, 58), 0);
-  assert.equal(clampPosition(70, 58), 58);
-  assert.equal(snapTarget(0, -.02, 58), 0);
-  assert.equal(snapTarget(58, .02, 58), 58);
-  assert.equal(snapTarget(4.2, .006, 58), 5);
-  assert.equal(snapTarget(4.2, -.006, 58), 3);
-  assert.ok(snapTarget(4.2, 5, 58) <= 6, 'Momentum must not fling through the catalog');
-  assert.equal(snapTarget(4.2, .006, 58, true), 4, 'Reduced motion snaps to the nearest dragged position without a fling');
+test('carousel position and momentum stay bounded across the full current catalog', () => {
+  const maximum=CHARACTER_CATALOG.length-1;
+  assert.equal(clampPosition(-2,maximum),0);
+  assert.equal(clampPosition(maximum+12,maximum),maximum);
+  assert.equal(snapTarget(0,-.02,maximum),0);
+  assert.equal(snapTarget(maximum,.02,maximum),maximum);
+  assert.equal(snapTarget(4.2,.006,maximum),6);
+  assert.equal(snapTarget(4.2,-.006,maximum),2);
+  assert.equal(snapTarget(4.2,5,maximum),10,'Momentum carry is capped at six items, independent of catalog size');
+  assert.equal(snapTarget(4.2,.006,maximum,true),4,'Reduced motion snaps without velocity carry');
 });
 
 test('scaled artwork stays connected, recognizable and continuous at each position', () => {
@@ -245,7 +246,9 @@ test('ER Target presentation fails closed and distinguishes optional illustrativ
   const base={characterId:'augusta',target:{enabled:true,valuePercent:120}};
   assert.equal(erTargetPresentation(base).status,'UNAVAILABLE');
   assert.equal(erTargetPresentation({...base,target:{enabled:false,valuePercent:120}}).status,'DISABLED');
-  assert.equal(erTargetPresentation({...base,target:{enabled:true,valuePercent:null}}).status,'UNCONFIGURED');
+  assert.equal(erTargetPresentation({...base,target:{enabled:true,valuePercent:null}}).status,'UNAVAILABLE','Missing explicit ER inherits source-reviewed Augusta target; no observed total means unavailable');
+  assert.equal(erTargetPresentation({...base,target:{enabled:true,valuePercent:null},total:{status:'VERIFIED',characterId:'augusta',valuePercent:114}}).status,'OUTSTANDING');
+  assert.equal(erTargetPresentation({characterId:'not-a-character',target:{enabled:true,valuePercent:null}}).status,'UNCONFIGURED');
   const total={status:'VERIFIED',characterId:'augusta',valuePercent:120};
   assert.equal(erTargetPresentation({...base,total}).status,'REACHED');
   assert.equal(erTargetPresentation({...base,total:{...total,valuePercent:119.9}}).status,'OUTSTANDING');

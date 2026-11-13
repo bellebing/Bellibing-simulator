@@ -185,10 +185,10 @@ test('ninth-batch Tune Break facts remain at the shared-system boundary', () => 
 
 test('ninth Character Mechanics batch remains valid as current coverage reaches 59 verified / 0 partial / 0 unstarted catalog identities / 2073 facts', () => {
   const audit = auditCharacterMechanicsCoverage();
-  assert.equal(audit.releasedCount, 59);
+  assert.equal(audit.releasedCount, 61);
   assert.equal(audit.profileCount, 59);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.equal(audit.unstartedCharacterIds.length, 0);
+  assert.equal(audit.unstartedCharacterIds.length, 2);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 

@@ -15,12 +15,15 @@ import { PROFILE_CATALOGS } from '../src/data/profileCatalogs.ts';
 import { buildCharacterDatabase } from '../src/characterDatabase.ts';
 import { WEAPON_CAST_WINDOW_CONTRACTS } from '../src/combat/weaponCastWindowAdapter.ts';
 
-const released = CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED');
+// This guide/signature capture is pinned to 59 reviewed identities. The
+// new 3.8 Lily and released Suoming must remain explicit Pending (not fake BiS).
+const released = CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED' && !['lily', 'suoming'].includes(row.id));
 const weaponById = new Map(WEAPON_CATALOG.map(row => [row.id, row]));
 const ids = (rows: readonly { characterId: string }[]) => rows.map(row => row.characterId).sort();
 const consecutive = (rows: readonly { sourceOrder: number }[]) => assert.deepEqual(rows.map(row => row.sourceOrder), rows.map((_, i) => i + 1));
 
 test('every released identity has exactly one reviewed signature decision and a compatible released weapon', () => {
+  assert.equal(CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED').length, 61);
   assert.equal(released.length, 59);
   assert.deepEqual(ids(CHARACTER_SIGNATURE_ASSOCIATIONS), released.map(row => row.id).sort());
   assert.equal(CHARACTER_SIGNATURE_BY_ID.size, 59);
@@ -54,6 +57,9 @@ test('signature identity remains independent of guide rank; the free Aero Rover 
 
 test('all guide identities and source-order alternatives resolve without selecting equipment', () => {
   assert.deepEqual(ids(CHARACTER_GUIDE_RECOMMENDATIONS), released.map(row => row.id).sort());
+  for (const id of ['lily', 'suoming']) {
+    assert.ok(!CHARACTER_GUIDE_RECOMMENDATIONS.some(row=>row.characterId===id),id+' has no reviewed guide');
+  }
   const characters = new Map(CHARACTER_CATALOG.map(row => [row.id, row]));
   const echoes = new Set<string>(ECHO_CATALOG.map(row => row.id));
   const sets = new Set<string>(SONATA_CATALOG.map(row => row.id));

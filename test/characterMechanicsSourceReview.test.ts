@@ -12,14 +12,14 @@ test('roster-wide Character Mechanics source review distinguishes verified, sour
   const coverage = auditCharacterMechanicsCoverage();
   const review = auditCharacterMechanicsSourceReview();
 
-  assert.equal(coverage.releasedCount, 59);
+  assert.equal(coverage.releasedCount, 61);
   assert.equal(coverage.verifiedCharacterIds.length, 59);
   assert.deepEqual(coverage.partialCharacterIds, []);
-  assert.deepEqual(coverage.unstartedCharacterIds, []);
+  assert.deepEqual(coverage.unstartedCharacterIds, ['lily', 'suoming']);
   assert.equal(review.verifiedCharacterIds.length, 59);
   assert.deepEqual(review.sourceBlockedCharacterIds, []);
-  assert.deepEqual(review.unreviewedCharacterIds, []);
-  assert.equal(review.sourceReviewComplete, true);
+  assert.deepEqual(review.unreviewedCharacterIds, ['lily', 'suoming']);
+  assert.equal(review.sourceReviewComplete, false);
   assert.deepEqual(review.issues, []);
 });
 

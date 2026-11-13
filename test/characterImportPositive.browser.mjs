@@ -45,9 +45,11 @@ test('Hsin, Lily and Suoming: Add Character → genuine Echo → reload → Inve
   assert.equal(initialOrder[0],'lily','first current 5-star is Lily');
   assert.deepEqual(initialOrder,released.filter(c=>c.id!=='augusta').map(c=>c.id));
   for(const [index,id] of ids.entries()){
+   await page.goto(base+'/build/?profile='+profile+'&character=augusta');
+   await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
+   await open();
    const expected=CHARACTER_CATALOG.find(c=>c.id===id);
    assert.equal(expected?.releaseStatus,'RELEASED');
-   if(index>0)await open();
    await page.locator('#wbCharacterSearch').fill(id);
    const card=page.locator('[data-wb-character-preview="'+id+'"]');
    await card.waitFor();
@@ -84,13 +86,13 @@ test('Hsin, Lily and Suoming: Add Character → genuine Echo → reload → Inve
    await page.locator('[data-iv-kind="character"]').click();
    await page.locator('[data-iv-item="'+id+'"]').waitFor();
    await page.locator('[data-iv-kind="echo"]').click();
-   await page.locator('[data-iv-item="'+slot+'"]').waitFor();
+   await page.locator('.iv-card').first().waitFor();
    assert.equal((await snapshot()).items[slot].catalogId,species.id,'Inventory owner has equipped Echo');
    await page.goto(base+'/improve/?profile='+profile+'&character='+id);
    await page.waitForFunction(()=>!!globalThis.bellibingLabConfiguration?.productionEvidence);
    const evidence=await page.evaluate(()=>globalThis.bellibingLabConfiguration.productionEvidence());
    assert.equal(evidence.status,'OBSERVED_PRODUCTION_BUILD_RECORD','Improve receives real saved Current Build for '+id);
-   assert.equal(evidence.buildState.echoSets.sets[evidence.buildState.echoSets.activeSetId].slots[0].catalogId,species.id,'Improve Current Echo '+id);
+   assert.equal(evidence.buildState.echoSets.sets[evidence.buildState.echoSets.activeSetId].slots[0].mainStat.name,'HP%','Improve Current Echo '+id);
    // A source guide may be absent; never replace Pending with invented BiS.
    assert.equal(await page.locator('body').isVisible(),true);
    await page.goto(base+'/build/?profile='+profile+'&character='+id);

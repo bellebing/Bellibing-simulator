@@ -86,3 +86,15 @@ test('explicit Recommended clears only selected Character V3 override through Ac
  await assert.rejects(clearOwnedImproveOverrides('qingxiao',storage,store),/Legacy Improve settings require review/);
  assert.deepEqual(JSON.parse(data.get('bellibing.improve.policy.v3')),pending);
 });
+
+test('Recommended reset uses latest owned policy bytes rather than a stale browser mirror',async()=>{
+ const original={version:3,characters:{qingxiao:{schemaVersion:3,characterId:'qingxiao',mode:'MANUAL',overrides:{}},augusta:{keep:'old'}},pendingV2Characters:{}};
+ const latest={...original,characters:{...original.characters,augusta:{keep:'latest'}},extension:{futureCompatibleData:'keep'}};
+ const storage={getItem:key=>key==='bellibing.improve.policy.v3'?JSON.stringify(original):null};
+ let saved=null;
+ const store={snapshot:()=>({userData:{storage:{'bellibing.improve.policy.v3':JSON.stringify(latest)}}}),saveUserData:async(key,value)=>{assert.equal(key,'bellibing.improve.policy.v3');saved=JSON.parse(value);}};
+ assert.equal(await clearOwnedImproveOverrides('qingxiao',storage,store),true);
+ assert.equal(saved.characters.qingxiao,undefined);
+ assert.deepEqual(saved.characters.augusta,{keep:'latest'});
+ assert.deepEqual(saved.extension,latest.extension);
+});

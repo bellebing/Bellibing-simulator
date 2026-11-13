@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Existing source-bound Character workflow; no inference/scraping and no second database.
-// npm run import:character -- lily [--json] [--integrate] [--verify]
+// npm run import:character -- lily [--json] [--capture-source] [--integrate] [--verify]
 import {readFileSync, existsSync, writeFileSync, mkdirSync} from 'node:fs';
 import {dirname} from 'node:path';
 import {spawnSync} from 'node:child_process';
@@ -15,13 +15,13 @@ const usage = 'Usage: npm run import:character -- <canonical-id> [--json] [--int
 const args=process.argv.slice(2);
 if(!args.length || args.includes('--help')){console.log(usage);process.exit(args.includes('--help')?0:2);}
 const id=args[0];
-const knownFlags=new Set(['--json','--integrate','--verify','--output']);
+const knownFlags=new Set(['--json','--capture-source','--integrate','--verify','--output']);
 for(let i=1;i<args.length;i++){
  if(!knownFlags.has(args[i]))throw Error('Unknown option '+args[i]+'\n'+usage);
  if(args[i]==='--output')i++;
 }
 if(!/^[a-z][a-z0-9-]*$/.test(id))throw Error('Use a canonical lower-case Character ID, e.g. lily.');
-const json=args.includes('--json'),integrate=args.includes('--integrate'),verify=args.includes('--verify');
+const json=args.includes('--json'),integrate=args.includes('--integrate'),verify=args.includes('--verify'),capture=args.includes('--capture-source');
 const outputIndex=args.indexOf('--output');
 const output=outputIndex>=0?args[outputIndex+1]:null;
 if(outputIndex>=0 && (!output || output.startsWith('--')))throw Error('--output needs a file path.');
@@ -63,6 +63,7 @@ function command(command,args){
  if(ran.error)throw ran.error;
  if(ran.status!==0)throw Error('Command failed ('+ran.status+'): '+command+' '+args.join(' '));
 }
+if(capture)command(process.execPath,['scripts/capture-character-import-source.mjs',id]);
 let coverage=await report();
 if(integrate){
  // Only regenerate existing projections if original canonical facts and

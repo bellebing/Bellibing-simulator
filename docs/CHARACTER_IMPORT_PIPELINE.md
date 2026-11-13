@@ -3,12 +3,13 @@
 ## One entrypoint (safe, repeatable)
 
 `npm run import:character -- lily` prints an ID-scoped coverage report.
+`npm run import:character -- lily --capture-source` fetches pinned **original 3.8 game-client data + verified structured translations**, checks immutable Git blob IDs, confirms role/rarity/element/weapon/Lv1, 8 permanent stat nodes and six chains, and stages Skills/Sequence/candidate art paths in research. It does **not** fill canonical stats or pretend combat engine support. The same command works for Suoming. New patches need one pinned source profile and reviewed canonical role-ID mapping, not handwritten Skills.
 `npm run import:character -- hsin --json --output artifacts/character-import/hsin.json` returns machine-readable evidence.
 `npm run import:character -- <id> --integrate --verify` regenerates existing presentation artifacts and runs Node, foundation and strict build only **after** verified raw identity, Lv90, Forte, six Sequences and source-bound Builder assets have landed in their existing owners. On missing source fields it fails closed and does **not** integrate, invent numbers or mutate AccountStore.
 
 Exit 3 means Character Usable remains Pending, even if the report was generated successfully. The `--verify` option executes Node/foundation/build gates; browser and private native gates are independent. No deployment or merge.
 
-**This is an integration/audit runner, not an auto-scraper or an automatic authority for canonical promotion.** New structured upstream data must first go through existing factory evidence, reconciliation, source-validity review and reviewed canonical raw/asset/kit ingestion. Identity/release evidence can be recorded in `data/research/character-import/<id>.json` but is explicitly *noncanonical*. The CLI reads it; it does not rewrite gameplay records from a guide.
+**This is a structured-source capture + integration/audit runner, not an HTML scraper or automatic authority for canonical promotion.** New structured upstream data must first go through existing factory evidence, reconciliation, source-validity review and reviewed canonical raw/asset/kit ingestion. Identity/release evidence can be recorded in `data/research/character-import/<id>.json` but is explicitly *noncanonical*. The CLI reads it; it does not rewrite gameplay records from a guide.
 
 ## Source-of-truth and consumers
 
@@ -34,9 +35,9 @@ Exit 3 means Character Usable remains Pending, even if the report was generated 
 
 | Character | What exists | What stops Character Usable | DPS |
 |---|---|---|---|
-| **Lily**, canonical `lily` | Kuro 3.8 officially released 2026-11-12, 5★ Spectro/Pistols; original-release projection exists. Source-only intake pinned in `data/research/character-import/lily.json`. | No canonical raw Character row, verified complete Lv90 / Max Energy and permanent nodes, original reviewed skill/sequence artifacts, official-mapped portraits/hero art and recommendations. No fake release-row promotion. | Pending |
+| **Lily**, canonical `lily` | Kuro 3.8 officially released 2026-11-12, 5★ Spectro/Pistols; original-release projection exists. Source-only intake pinned in `data/research/character-import/lily.json`. | No canonical raw Character row, reviewed game-facing Lv90 rounding/reconciliation, production Skills/Sequences projection, imported portraits/hero assets and recommendations. Pinned 3.8 original role 1512 / Lv1 / tree / six chains are now available in repeatable source capture. No fake release-row promotion. | Pending |
 | **Hsin**, `hsin` | RELEASED raw 5★ Electro/Rectifier with reviewed Lv90 & permanent nodes, original 3.7 source-kit facts, release-order date, source-mapped portrait and guide-based Improve. Existing Add Character identity fields are populated. | Separate Builder icon manifest explicitly excludes Hsin. Forte/Sequence/Build Stats presentation source/projection remain Pending, Hero Art not READY. `Details pending` in preview is skill-detail fallback, not necessarily Add Character button disable; verify exact click failure in Chromium. | Pending |
-| **Suoming**, `suoming` | Canonical 5★ Electro/Sword **CONFIRMED_UPCOMING** partial raw, October 22 release-order projection and an old portrait mapping. Official 3.7 phase-II release was October 22. | Canonical status now stale; Lv90 fields null and released presentation/kit/asset sources missing. Do not mark RELEASED on calendar alone or replace nulls with 3.7 assumptions. | Pending |
+| **Suoming**, `suoming` | Canonical 5★ Electro/Sword **CONFIRMED_UPCOMING** partial raw, October 22 release-order projection and an old portrait mapping. Official 3.7 phase-II release was October 22. | Canonical status now stale; Lv90 fields null and production presentation/kit/asset sources missing, although pinned 3.8 original role 1312 data can be captured without guessing. Do not mark RELEASED on calendar alone or replace nulls with 3.7 assumptions. | Pending |
 
 **Important:** This change implements automated coverage, fail-closed source gating, derived projection integration and Node/foundation/build orchestration. It **does not** complete first-import data source review, source art acquisition, live Chromium acceptance or private DPS modeling. The 59 existing RELEASED Characters stay unchanged; never reinterpret V9.15 as the current architecture.
 

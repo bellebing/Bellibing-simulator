@@ -50,7 +50,8 @@
     "scanner:browser:prepare": "python3 scripts/prepare-browser-scanner.py",
     "test:scanner:browser": "node --experimental-strip-types --test test/browserScanner.browser.mjs",
     "preview:product": "node scripts/start-product-review.mjs",
-    "import:character": "node --experimental-strip-types scripts/import-character.mjs"
+    "import:character": "node --experimental-strip-types scripts/import-character.mjs",
+    "capture:character-source": "node scripts/capture-character-import-source.mjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "5.0.0",

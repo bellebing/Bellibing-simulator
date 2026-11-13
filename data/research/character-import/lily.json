@@ -27,5 +27,12 @@
   "sequences": "PENDING_SOURCE_REVIEW",
   "characterArt": "PENDING_CANONICAL_SOURCE_MAPPING",
   "signatureWeapon": "Lullaby (official name/5-star Pistols only; effects pending)",
-  "note": "External release evidence, NOT a canonical Character row or model. Missing numerical gameplay fields remain null; requires original structured release-game-data review and pinned art before promotion."
+  "note": "Release identity and new 3.8 pinned original structured source mapping are independently cross-checked; numerical Lv90 and entire mechanics still require reviewed canonical ingestion. This is not a Character database row.",
+  "sourceCapture": {
+    "patch": "3.8",
+    "sourceRoleId": 1512,
+    "sourceSnapshot": "data/research/character-import/source-pins/3.8.json",
+    "originalRoleNameKey": "RoleInfo_1512_Name",
+    "sourceBannerPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.webp"
+  }
 }

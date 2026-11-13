@@ -12,13 +12,13 @@ import {
   getCharacterGameData,
 } from '../src/data/characters.ts';
 
-test('character catalog contains the complete 60-profile roster with stable unique IDs', () => {
-  assert.equal(CHARACTER_CATALOG.length, 60);
-  assert.equal(CHARACTER_BY_ID.size, 60);
-  assert.equal(new Set(CHARACTER_CATALOG.map((character) => character.id)).size, 60);
+test('character catalog contains the complete 61-profile roster with stable unique IDs', () => {
+  assert.equal(CHARACTER_CATALOG.length, 61);
+  assert.equal(CHARACTER_BY_ID.size, 61);
+  assert.equal(new Set(CHARACTER_CATALOG.map((character) => character.id)).size, 61);
 
   const registry = createContentRegistry(CHARACTER_CATALOG);
-  assert.equal(registry.characters.size, 60);
+  assert.equal(registry.characters.size, 61);
   assert.equal(registry.weapons.size, 0);
   assert.equal(registry.echoSets.size, 0);
 });
@@ -28,8 +28,8 @@ test('current release classification is explicit instead of inheriting stale she
   const upcoming = CHARACTER_CATALOG.filter((character) => character.releaseStatus === 'CONFIRMED_UPCOMING');
   const wip = CHARACTER_CATALOG.filter((character) => character.releaseStatus === 'UNRELEASED_WIP');
 
-  assert.equal(released.length, 59);
-  assert.deepEqual(upcoming.map((character) => character.id), ['suoming']);
+  assert.equal(released.length, 61);
+  assert.deepEqual(upcoming.map((character) => character.id), []);
   assert.deepEqual(wip.map((character) => character.id).sort(), []);
 
   for (const character of released) {
@@ -40,7 +40,7 @@ test('current release classification is explicit instead of inheriting stale she
 
 test('released raw required fields can only be null through the explicit pending manifest', () => {
   const audit = auditReleasedCharacterRawCompleteness();
-  assert.equal(audit.releasedCount, 59);
+  assert.equal(audit.releasedCount, 61);
   assert.deepEqual(audit.unexpectedMissing, []);
   assert.deepEqual(audit.stalePending, []);
   assert.deepEqual(audit.unknownPendingCharacters, []);
@@ -151,11 +151,11 @@ test('released Hsin/Jingran have source-reviewed raw values without gameplay rea
     assert.ok(c.provenance.notes?.some(note=>note.includes('dedicated raw capacity property')),id);
   }
   const suoming=getCharacterGameData('suoming')!;
-  assert.equal(suoming.releaseStatus,'CONFIRMED_UPCOMING');
-  assert.deepEqual(suoming.level90,{hp:null,atk:null,def:null,maxEnergy:null});
-  assert.equal(suoming.verificationStatus,'PARTIALLY_VERIFIED');
-  assert.equal(suoming.provenance.checkedAt,'2026-10-06');
-  assert.deepEqual(suoming.baseCombat,{critRate:null,critDamage:null,energyRegen:null});
+  assert.equal(suoming.releaseStatus,'RELEASED');
+  assert.deepEqual(suoming.level90,{hp:10300,atk:463,def:1112,maxEnergy:125});
+  assert.equal(suoming.verificationStatus,'VERIFIED');
+  assert.equal(suoming.provenance.checkedAt,'2026-11-13');
+  assert.deepEqual(suoming.baseCombat,{critRate:.05,critDamage:1.5,energyRegen:1});
 });
 
 test('Batch 1 raw sign-off verifies four exact roster records without granting gameplay readiness', () => {

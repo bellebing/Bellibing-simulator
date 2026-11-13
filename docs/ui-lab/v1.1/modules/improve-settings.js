@@ -37,7 +37,14 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
     const guidance=sourcePriorityMode(state),product=state.settingsMode==='Recommended'&&state.productEchoDefault?.characterId===state.id;
     find('.flex-count').hidden=guidance;
     find('#sourcePriorityStatus').hidden=!(guidance||product);
-    find('#sourcePriorityStatus').textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`:product?'Bellibing product default · stats follow reviewed guide priorities; lowest canonical roll minima and Flex count 1 are product choices, not source-verified per-Echo thresholds.':'';
+    const sourceStatus=find('#sourcePriorityStatus'),source=state.productEchoDefault;
+    sourceStatus.textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`
+      :product?`Bellibing product default · ${source.sourceKind==='DPR_SUBSTAT_VALUE'?'DPR Substat Value ('+source.sourceSheetTitle+', scenario-specific marginal %)':'Prydwen reviewed guide substat priority'} · lowest canonical roll minima and Flex count 1 are product choices, not source-verified per-Echo thresholds. Energy Regen uses separate whole-build guidance. `
+      :'';
+    if(product&&source.sourceUrl){
+      const link=document.createElement('a');link.href=source.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';
+      link.textContent=source.sourceKind==='DPR_SUBSTAT_VALUE'?' View DPR source rows ('+source.sourceRange+')':' View Prydwen source';sourceStatus.append(link);
+    }
     if(guidance){find('#flexCountError').hidden=true;return;}
     find('#flexCountLabel').textContent=state.flexCount===null?view.message:`At least ${state.flexCount} of ${state.statSections.flex.length}`;
     slider.min=state.flexCount===null?'0':'1';slider.max=String(Math.max(1,view.maximum));

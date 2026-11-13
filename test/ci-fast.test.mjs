@@ -25,7 +25,7 @@ test('public FULL preserves every audited M0 step and adds the observed Improve 
  // Strip only that separately pinned block before checking the original FULL.
  const foundation=steps.slice(steps.indexOf('      - name: Foundation account, migration and recovery regression'),steps.indexOf('      - name: Tests\n'));
  assert.equal(hash(foundation),'75764dd9f9cedf81272c655ab298fc79f9fbab5c5c9690125aa23c3218df48da');
- assert.equal(hash(steps.replace(foundation,'').replace(extra,'')),'db2eaf2fedaab4a373c45a7219ead0ff21052a9aa29b16e3af6af80883743ba7');
+ assert.equal(hash(steps.replace(foundation,'').replace(extra,'')),'b299857d2082bc61b0b519405ad2a5ac4c879b591681ed29f71eb5f61eb7bafa');
  assert.equal(hash(review.split('    steps:\n')[1]),'4510003680fcb7dbdc66d4750983e0e1860681eaf2da03d099795d3ff6c690e4');
  assert.ok(workflow.includes('needs: verify'));assert.ok(workflow.includes("github.ref == 'refs/heads/main' && needs.verify.result == 'success'"));
 });

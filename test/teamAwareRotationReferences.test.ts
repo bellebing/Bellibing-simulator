@@ -17,7 +17,11 @@ const reference = (character: string, variant: string) => byId.get(`prydwen-${ch
 const instructions = (character: string, variant: string) => reference(character, variant).steps.map(step => step.instruction);
 
 test('all released identities have basic source references; priorities never masquerade as rotations', () => {
-  const released = CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED').map(row => row.id).sort();
+  // Exactly 59 source-reviewed Prydwen identities; 3.8 Lily and newly
+  // released Suoming have no approved rotation reference and remain Pending.
+  const currentReleased = CHARACTER_CATALOG.filter(row => row.releaseStatus === 'RELEASED').map(row => row.id);
+  assert.equal(currentReleased.length, 61);
+  const released = currentReleased.filter(id => !['lily','suoming'].includes(id)).sort();
   assert.equal(released.length, 59);
   assert.equal(references.length, 96);
   assert.equal(byId.size, references.length);

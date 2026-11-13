@@ -25,7 +25,8 @@ test('Chromium: latest 5-star above all 4-star, source chronology, filters, prev
   assert.deepEqual(await ids(page),expected.map(c=>c.id),'unfiltered catalog must follow first release, not alphabetical');
   assert.equal((await ids(page))[0],CHARACTER_CATALOG.some(c=>c.id==='lily')?'lily':'hsin','newest imported released 5-star appears first');
   assert.equal(await page.locator('.wb-character-card').first().getAttribute('data-rarity'),'5');
-  assert.equal(await page.locator('[data-wb-character-build="hsin"]').count(),1,'default preview follows newest');
+  const defaultPreview=CHARACTER_CATALOG.some(c=>c.id==='lily')?'lily':'hsin';
+  assert.equal(await page.locator('[data-wb-character-build="'+defaultPreview+'"]').count(),1,'default preview follows newest original release');
   assert.equal((await ids(page)).at(-1),expected.at(-1).id);
 
   await page.locator('[data-wb-character-rarity="4"]').click();

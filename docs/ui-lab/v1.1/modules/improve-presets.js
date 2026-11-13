@@ -1,3 +1,4 @@
+import {improveProductEchoDefault} from '../../../../src/improveProductEchoDefaults.mjs';
 const presets = {
   BUDGET: {label:'Budget', minimum:85},
   RECOMMENDED: {label:'Recommended', minimum:95},
@@ -39,6 +40,8 @@ export function mountImprovePresets({getState, onSave, onManual, onRecommended=(
     enabled.checked = value.dpsEnabled;
     if(document.activeElement !== minimum)minimum.value = value.minimumDpsPercent;
     host.querySelector('.improve-manual-targets').hidden = !getState().sourcePreferenceGuidance;
+    host.querySelector('.improve-reset-targets').textContent = getState().id==='augusta'||improveProductEchoDefault(getState().id)
+      ? 'Restore Hard/Flex Recommended' : 'Restore source priorities (Hard/Flex default pending)';
   }
   host.addEventListener('click', event => {
     const button = event.target.closest('[data-preset]');

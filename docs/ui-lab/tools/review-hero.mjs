@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { selectCardCharacter } from './review-character-card.mjs';
+import { CHARACTER_CATALOG } from '../v1.1/modules/catalog.js';
 
 const documentBox = locator => locator.evaluate(node => { const r = node.getBoundingClientRect(); return { x:r.x + scrollX, y:r.y + scrollY, width:r.width, height:r.height }; });
 export async function reviewHero(page, { width, variant, checks }) {
@@ -29,10 +30,15 @@ export async function reviewHero(page, { width, variant, checks }) {
     assert.equal(await hero.locator('.hero-visual .character-element').count(),0);
     if(id !== 'augusta') assert.equal(await hero.locator('.eyebrow').count(),0,'No fabricated epithet');
     if(id === 'hsin') {
-      assert.equal(await hero.locator('.hero-visual>img.portrait-fallback').count(),1);
-      const fallback = await documentBox(hero.locator('.hero-visual>img'));
-      assert.ok(fallback.x>=visual.x && fallback.x+fallback.width<=visual.x+visual.width);
-      assert.ok(fallback.y>=visual.y && fallback.y+fallback.height<=visual.y+visual.height);
+      // Hsin was fully source-promoted in the 61 RELEASED roster. The former
+      // portrait-fallback assumption predates reviewed Hero Art.
+      const source = CHARACTER_CATALOG.find(person => person.id === 'hsin');
+      assert.equal(source.artStatus, 'HERO', 'Reviewed Hsin Hero Art must remain source-backed');
+      assert.equal(await hero.locator('.hero-visual>img.portrait-fallback').count(), 0);
+      const art = hero.locator('.hero-visual>img');
+      assert.match(await art.getAttribute('alt'), /Hsin Character artwork/);
+      assert.ok((await art.getAttribute('src')).endsWith(source.art.split('/').at(-1)), 'Hero must render Hsin canonical art rather than another Character');
+      assert.equal(await art.evaluate(image => image.complete && image.naturalWidth > 0), true);
     }
     // Text ranges must remain inside the identity region, with no wrapping into
     // Sequence/artwork or clipping at the narrowest expanded side-panel width.

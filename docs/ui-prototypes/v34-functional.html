@@ -791,7 +791,7 @@ async function loadSequenceRuntimeData(){
   if(!response.ok)throw new Error('sequence runtime data '+response.status);
   const payload=await response.json();
   if(payload.schemaVersion!==3||payload.role!=='character-builder.runtime-sequences'||!Array.isArray(payload.characters))throw new Error('Unsupported Sequence runtime data schema');
-  if(payload.summary?.releasedCharacters!==57||payload.summary?.sourceBackedChains+payload.summary?.pendingChains!==342||payload.summary?.staticBuildStatSequences+payload.summary?.nonStaticMechanicSequences+payload.summary?.pendingBuildStatReviewSequences!==342)throw new Error('Unexpected Sequence runtime coverage');
+  if(payload.summary?.releasedCharacters!==60||payload.summary?.sourceBackedChains+payload.summary?.pendingChains!==360||payload.summary?.staticBuildStatSequences+payload.summary?.nonStaticMechanicSequences+payload.summary?.pendingBuildStatReviewSequences!==360)throw new Error('Unexpected Sequence runtime coverage');
   for(const character of payload.characters){
     if(!character.skills||BUILDER_CORE_SKILL_ROLES.some(role=>!character.skills[role]?.assetPath))throw new Error('Incomplete source-backed Skills runtime for '+character.characterId);
     if(!Array.isArray(character.chains)||character.chains.length!==6)throw new Error('Incomplete Sequence runtime for '+character.characterId);

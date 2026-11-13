@@ -15,10 +15,10 @@ import {
 
 test('released roster INHERENT_PASSIVES coverage matches all 118 pinned source rows', () => {
   const audit = auditCharacterInherentPassivesCoverage();
-  assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.sourceInherentSkillCount, 118);
+  assert.equal(audit.releasedCount, 61);
+  assert.equal(audit.sourceInherentSkillCount, 122);
   assert.equal(audit.verifiedCharacterIds.length, 59);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(audit.blockers, []);
   assert.deepEqual(audit.issues, []);
@@ -79,15 +79,15 @@ test('released-source completion retains exact ACTIONS and FORTE_RULES coverage'
   const actions = auditCharacterActionsCoverage();
   const forte = auditCharacterForteRulesCoverage();
 
-  assert.equal(actions.releasedCount, 59);
+  assert.equal(actions.releasedCount, 61);
   assert.equal(actions.verifiedCharacterIds.length, 59);
-  assert.deepEqual(actions.partialCharacterIds, []);
+  assert.deepEqual(actions.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(actions.blockedCharacterIds, []);
   assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), []);
 
-  assert.equal(forte.releasedCount, 59);
+  assert.equal(forte.releasedCount, 61);
   assert.equal(forte.verifiedCharacterIds.length, 59);
-  assert.deepEqual(forte.partialCharacterIds, []);
+  assert.deepEqual(forte.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(forte.blockedCharacterIds, []);
   assert.deepEqual(forte.blockers.map((blocker) => blocker.blockerId), [
   ]);

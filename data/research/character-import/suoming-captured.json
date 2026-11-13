@@ -1,0 +1,1678 @@
+{
+  "schemaVersion": 1,
+  "role": "character-import.original-structured-source-evidence",
+  "canonicalAuthority": false,
+  "promotionPolicy": "INDEPENDENT_FIELD_AND_MECHANIC_REVIEW_REQUIRED",
+  "characterId": "suoming",
+  "characterName": "Suoming",
+  "releasePatch": "3.7",
+  "originalReleaseDate": "2026-10-22",
+  "sourceRoleId": 1312,
+  "sourceIdentity": {
+    "Id": 1312,
+    "Name": "RoleInfo_1312_Name",
+    "QualityId": 5,
+    "WeaponType": 2,
+    "ElementId": 3,
+    "PropertyId": 1312,
+    "SkillTreeGroupId": 1312,
+    "ResonantChainGroupId": 1312,
+    "SkillId": 1312,
+    "MaxLevel": 90,
+    "FormationRoleCard": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_suoming_UI.T_IconRole_Pile_suoming_UI"
+  },
+  "level1": {
+    "Id": 1312,
+    "Lv": 1,
+    "LifeMax": 824,
+    "Atk": 37,
+    "Def": 91,
+    "EnergyMax": 12500,
+    "Crit": 500,
+    "CritDamage": 15000,
+    "EnergyEfficiency": 10000,
+    "ElementEnergyMax": 10000
+  },
+  "level90GrowthSource": {
+    "Id": 96,
+    "Level": 90,
+    "BreachLevel": 6,
+    "LifeMaxRatio": 125000,
+    "AtkRatio": 125000,
+    "DefRatio": 122222
+  },
+  "intrinsicSourceNodes": [
+    {
+      "nodeIndex": 9,
+      "nodeId": 1039,
+      "sourceProperty": [
+        {
+          "Id": 8,
+          "Value": 120,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "1.20%"
+      ],
+      "displayName": "Crit. Rate+",
+      "reviewedDisplayValues": [
+        "1.20%"
+      ]
+    },
+    {
+      "nodeIndex": 10,
+      "nodeId": 1040,
+      "sourceProperty": [
+        {
+          "Id": 10007,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "ATK+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 11,
+      "nodeId": 1041,
+      "sourceProperty": [
+        {
+          "Id": 10007,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "ATK+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 12,
+      "nodeId": 1042,
+      "sourceProperty": [
+        {
+          "Id": 8,
+          "Value": 120,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "1.20%"
+      ],
+      "displayName": "Crit. Rate+",
+      "reviewedDisplayValues": [
+        "1.20%"
+      ]
+    },
+    {
+      "nodeIndex": 13,
+      "nodeId": 1043,
+      "sourceProperty": [
+        {
+          "Id": 8,
+          "Value": 280,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "2.80%"
+      ],
+      "displayName": "Crit. Rate+",
+      "reviewedDisplayValues": [
+        "2.80%"
+      ]
+    },
+    {
+      "nodeIndex": 14,
+      "nodeId": 1044,
+      "sourceProperty": [
+        {
+          "Id": 10007,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "ATK+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    },
+    {
+      "nodeIndex": 15,
+      "nodeId": 1045,
+      "sourceProperty": [
+        {
+          "Id": 10007,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "ATK+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    },
+    {
+      "nodeIndex": 16,
+      "nodeId": 1046,
+      "sourceProperty": [
+        {
+          "Id": 8,
+          "Value": 280,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "2.80%"
+      ],
+      "displayName": "Crit. Rate+",
+      "reviewedDisplayValues": [
+        "2.80%"
+      ]
+    }
+  ],
+  "forteTree": [
+    {
+      "Id": 1031,
+      "NodeIndex": 1,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006201,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1032,
+      "NodeIndex": 2,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 2,
+      "Condition": [],
+      "SkillId": 1006202,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1033,
+      "NodeIndex": 3,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 3,
+      "Condition": [],
+      "SkillId": 1006203,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1034,
+      "NodeIndex": 4,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        7
+      ],
+      "NodeType": 3,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 1006204,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1035,
+      "NodeIndex": 5,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        4
+      ],
+      "NodeType": 3,
+      "Coordinate": 3,
+      "Condition": [
+        1
+      ],
+      "SkillId": 1006205,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1036,
+      "NodeIndex": 6,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 4,
+      "Condition": [],
+      "SkillId": 1006206,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1037,
+      "NodeIndex": 7,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 1,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006207,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1038,
+      "NodeIndex": 8,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 3,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006209,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1039,
+      "NodeIndex": 9,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        1
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_297_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_297_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI",
+      "Property": [
+        {
+          "Id": 8,
+          "Value": 120,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021013,
+          "Value": 3
+        },
+        {
+          "Key": 41100023,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500006
+    },
+    {
+      "Id": 1040,
+      "NodeIndex": 10,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        2
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_298_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_298_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI",
+      "Property": [
+        {
+          "Id": 10007,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021013,
+          "Value": 3
+        },
+        {
+          "Key": 41100023,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500005
+    },
+    {
+      "Id": 1041,
+      "NodeIndex": 11,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        3
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_299_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_299_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI",
+      "Property": [
+        {
+          "Id": 10007,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021013,
+          "Value": 3
+        },
+        {
+          "Key": 41100023,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500005
+    },
+    {
+      "Id": 1042,
+      "NodeIndex": 12,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        6
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_300_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_300_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI",
+      "Property": [
+        {
+          "Id": 8,
+          "Value": 120,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021013,
+          "Value": 3
+        },
+        {
+          "Key": 41100023,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500006
+    },
+    {
+      "Id": 1043,
+      "NodeIndex": 13,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        9
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_301_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_301_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "2.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI",
+      "Property": [
+        {
+          "Id": 8,
+          "Value": 280,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021014,
+          "Value": 3
+        },
+        {
+          "Key": 41100024,
+          "Value": 3
+        },
+        {
+          "Key": 41400354,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500008
+    },
+    {
+      "Id": 1044,
+      "NodeIndex": 14,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        10
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_302_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_302_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI",
+      "Property": [
+        {
+          "Id": 10007,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021014,
+          "Value": 3
+        },
+        {
+          "Key": 41100024,
+          "Value": 3
+        },
+        {
+          "Key": 41400354,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500007
+    },
+    {
+      "Id": 1045,
+      "NodeIndex": 15,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        11
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_303_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_303_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredattack_UI.T_Iconpropertyredattack_UI",
+      "Property": [
+        {
+          "Id": 10007,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021014,
+          "Value": 3
+        },
+        {
+          "Key": 41100024,
+          "Value": 3
+        },
+        {
+          "Key": 41400354,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500007
+    },
+    {
+      "Id": 1046,
+      "NodeIndex": 16,
+      "NodeGroup": 1312,
+      "ParentNodes": [
+        12
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_304_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_304_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "2.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertyredbaoji_UI.T_Iconpropertyredbaoji_UI",
+      "Property": [
+        {
+          "Id": 8,
+          "Value": 280,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021014,
+          "Value": 3
+        },
+        {
+          "Key": 41100024,
+          "Value": 3
+        },
+        {
+          "Key": 41400354,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500008
+    },
+    {
+      "Id": 1047,
+      "NodeIndex": 17,
+      "NodeGroup": 1312,
+      "ParentNodes": [],
+      "NodeType": 3,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006210,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    }
+  ],
+  "sequences": [
+    {
+      "sequence": 1,
+      "sourceChainId": 367,
+      "name": "Into the Blight Rain",
+      "descriptionTemplate": "<color=Highlight>Resonance Skill - Unfurled Canopy: Unforsaken Mind</color> is immune to interruption.\nThe DMG Multipliers of <color=Highlight>Intro Skill - Furled Canopy: Flash Rift</color>, <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color>, <color=Highlight>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color>, and <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color> are increased by {0}.",
+      "params": [
+        "60%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM1_UI.webp"
+    },
+    {
+      "sequence": 2,
+      "sourceChainId": 368,
+      "name": "Breaking Thunder, Slaying Evil",
+      "descriptionTemplate": "Crit. DMG is increased by {0}.\nCasting <color=Highlight>Outro Skill</color> increases the incoming Resonator's Crit. DMG by {1}, plus an additional {2} for each stack of <color=Highlight><te href=131111>Unison Boon</te></color> they have, up to {3}. This effect lasts for {4}s or until the Resonator is switched out.",
+      "params": [
+        "40%",
+        "10%",
+        "6%",
+        "24%",
+        "30"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM2_UI.webp"
+    },
+    {
+      "sequence": 3,
+      "sourceChainId": 369,
+      "name": "Lone Canopy, Solitary Road",
+      "descriptionTemplate": "Casting <color=Highlight>Intro Skill - Furled Canopy: Flash Rift</color> or <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color> grants {0} stacks of <color=Highlight><te href=131111>Unison Boon</te></color> for {1}s. This effect can be triggered once every {2}s.\n- If Suoming has already granted <color=Highlight><te href=131111>Unison Boon</te></color> and it is still in effect, gaining it again only resets its duration.\n\nCasting <color=Highlight>Resonance Liberation</color> grants Suoming {3} Basic Attack DMG Amplification for {4}s.",
+      "params": [
+        "1",
+        "30",
+        "25",
+        "30%",
+        "25"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM3_UI.webp"
+    },
+    {
+      "sequence": 4,
+      "sourceChainId": 370,
+      "name": "Covenant Borne Upon the Heart",
+      "descriptionTemplate": "Suoming's ATK is increased by {0}.",
+      "params": [
+        "20%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM4_UI.webp"
+    },
+    {
+      "sequence": 5,
+      "sourceChainId": 371,
+      "name": "Seal Deep, Never Forgotten",
+      "descriptionTemplate": "The DMG Multiplier of <color=Highlight>Resonance Liberation - Umbral Canopy: Miasma Lock</color> is increased by {0}.",
+      "params": [
+        "40%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM5_UI.webp"
+    },
+    {
+      "sequence": 6,
+      "sourceChainId": 372,
+      "name": "Nine Shadows at Her Side",
+      "descriptionTemplate": "The effect of each stack of <color=Highlight><te href=131111>Unison Boon</te></color> on all Resonators in the team is increased by {0}, up to {1} stacks of <color=Highlight><te href=131111>Unison Boon</te></color>.\nThe DMG Multiplier of <color=Highlight>Basic Attack - Umbral Canopy: Engraved Heart</color> is increased by {2}.\nWhen Suoming has <color=Highlight><te href=131204>Seal Master</te></color>, her Crit. DMG is further increased by {3}.",
+      "params": [
+        "50%",
+        "4",
+        "50%",
+        "200%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM6_UI.webp"
+    }
+  ],
+  "skills": [
+    {
+      "sourceSkillId": 1006201,
+      "sourceSkillType": 1,
+      "sourceSort": 1,
+      "name": "Furled Canopy",
+      "descriptionTemplate": "<color=Title>Basic Attack</color>\nPress or hold <color=Highlight>Normal Attack</color> to perform up to 3 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\n\n<color=Title>Basic Attack - Unfurled Canopy</color>\nWhile in the <color=Highlight>Deep Mind</color> state, <color=Highlight>Basic Attack</color> is replaced with <color=Highlight>Basic Attack - Unfurled Canopy</color>, performing up to 4 consecutive attacks, dealing <color=Thunder>Electro DMG</color>.\nHold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy Stage 1 and Stage 2</color> in succession.\nShortly after casting <color=Highlight>Basic Attack - Unfurled Canopy Stage 2</color>, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 1 and Stage 2</color> in succession, dealing <color=Thunder>Electro DMG</color>.\nShortly after casting <color=Highlight>Basic Attack - Unfurled Canopy Stage 3</color>, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy Stage 4</color>.\nShortly after casting <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 1</color>, press or hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 2</color>.\n\n<color=Title>Basic Attack - Unfurled Canopy: Whirling Thunder</color>\nDeal <color=Thunder>Electro DMG</color>.\n\n<color=Title>Mid-air Attack</color>\nConsume STA to perform a Plunging Attack, dealing <color=Thunder>Electro DMG</color>.\n\n<color=Title>Dodge Counter</color>\nPress <color=Highlight>Normal Attack</color> within a certain time after a successful Dodge to attack the target, dealing <color=Thunder>Electro DMG</color>.\n- While in the <color=Highlight>Deep Mind</color> state, <color=Highlight>Dodge Counter</color> is replaced with <color=Highlight>Dodge Counter - Unfurled Canopy</color>.\n- Shortly after casting the skill, press <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack Stage 3</color>.\n\n<color=Title>Dodge Counter - Unfurled Canopy</color>\nPress <color=Highlight>Normal Attack</color> within a certain time after a successful Dodge to attack the target, dealing <color=Thunder>Electro DMG</color>.\n- Shortly after casting the skill, press <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy Stage 3</color>.\n- Shortly after casting the skill, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 1</color>, dealing <color=Thunder>Electro DMG</color>.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1312001,
+          "name": "Basic Attack Stage 1 DMG",
+          "levels": [
+            "15.87%",
+            "17.17%",
+            "18.48%",
+            "20.3%",
+            "21.6%",
+            "23.09%",
+            "25.18%",
+            "27.26%",
+            "29.34%",
+            "31.55%"
+          ]
+        },
+        {
+          "sourceId": 1312002,
+          "name": "Basic Attack Stage 2 DMG",
+          "levels": [
+            "7.92%*2+15.83%",
+            "8.56%*2+17.12%",
+            "9.21%*2+18.42%",
+            "10.12%*2+20.24%",
+            "10.77%*2+21.54%",
+            "11.52%*2+23.03%",
+            "12.55%*2+25.1%",
+            "13.59%*2+27.18%",
+            "14.63%*2+29.26%",
+            "15.73%*2+31.46%"
+          ]
+        },
+        {
+          "sourceId": 1312003,
+          "name": "Basic Attack Stage 3 DMG",
+          "levels": [
+            "11.07%*3+22.14%",
+            "11.98%*3+23.96%",
+            "12.89%*3+25.77%",
+            "14.16%*3+28.32%",
+            "15.07%*3+30.13%",
+            "16.11%*3+32.22%",
+            "17.56%*3+35.12%",
+            "19.02%*3+38.03%",
+            "20.47%*3+40.93%",
+            "22.01%*3+44.02%"
+          ]
+        },
+        {
+          "sourceId": 1312004,
+          "name": "Basic Attack - Unfurled Canopy Stage 1 DMG",
+          "levels": [
+            "32.91%+16.46%*2",
+            "35.61%+17.81%*2",
+            "38.31%+19.16%*2",
+            "42.08%+21.04%*2",
+            "44.78%+22.39%*2",
+            "47.89%+23.95%*2",
+            "52.2%+26.1%*2",
+            "56.52%+28.26%*2",
+            "60.84%+30.42%*2",
+            "65.42%+32.71%*2"
+          ]
+        },
+        {
+          "sourceId": 1312005,
+          "name": "Basic Attack - Unfurled Canopy Stage 2 DMG",
+          "levels": [
+            "57.54%+19.18%*3",
+            "62.26%+20.76%*3",
+            "66.98%+22.33%*3",
+            "73.59%+24.53%*3",
+            "78.31%+26.11%*3",
+            "83.73%+27.91%*3",
+            "91.28%+30.43%*3",
+            "98.83%+32.95%*3",
+            "106.38%+35.46%*3",
+            "114.4%+38.14%*3"
+          ]
+        },
+        {
+          "sourceId": 1312006,
+          "name": "Basic Attack - Unfurled Canopy Stage 3 DMG",
+          "levels": [
+            "29.5%*2+29.5%*2",
+            "31.92%*2+31.92%*2",
+            "34.34%*2+34.34%*2",
+            "37.72%*2+37.72%*2",
+            "40.14%*2+40.14%*2",
+            "42.92%*2+42.92%*2",
+            "46.79%*2+46.79%*2",
+            "50.66%*2+50.66%*2",
+            "54.53%*2+54.53%*2",
+            "58.64%*2+58.64%*2"
+          ]
+        },
+        {
+          "sourceId": 1312007,
+          "name": "Basic Attack - Unfurled Canopy Stage 4 DMG",
+          "levels": [
+            "53.95%+53.95%+23.98%*3",
+            "58.37%+58.37%+25.95%*3",
+            "62.8%+62.8%+27.91%*3",
+            "68.99%+68.99%+30.66%*3",
+            "73.41%+73.41%+32.63%*3",
+            "78.5%+78.5%+34.89%*3",
+            "85.58%+85.58%+38.04%*3",
+            "92.65%+92.65%+41.18%*3",
+            "99.73%+99.73%+44.33%*3",
+            "107.25%+107.25%+47.67%*3"
+          ]
+        },
+        {
+          "sourceId": 1312008,
+          "name": "Dodge Counter DMG",
+          "levels": [
+            "13.92%*2+27.83%",
+            "15.06%*2+30.11%",
+            "16.2%*2+32.39%",
+            "17.79%*2+35.58%",
+            "18.94%*2+37.87%",
+            "20.25%*2+40.49%",
+            "22.07%*2+44.14%",
+            "23.9%*2+47.79%",
+            "25.72%*2+51.44%",
+            "27.66%*2+55.32%"
+          ]
+        },
+        {
+          "sourceId": 1312009,
+          "name": "Dodge Counter - Unfurled Canopy DMG",
+          "levels": [
+            "87.54%+29.18%*3",
+            "94.72%+31.58%*3",
+            "101.9%+33.97%*3",
+            "111.95%+37.32%*3",
+            "119.13%+39.71%*3",
+            "127.38%+42.46%*3",
+            "138.87%+46.29%*3",
+            "150.35%+50.12%*3",
+            "161.84%+53.95%*3",
+            "174.04%+58.02%*3"
+          ]
+        },
+        {
+          "sourceId": 1312010,
+          "name": "Plunging Attack DMG",
+          "levels": [
+            "42.35%",
+            "45.83%",
+            "49.3%",
+            "54.16%",
+            "57.63%",
+            "61.63%",
+            "67.18%",
+            "72.74%",
+            "78.29%",
+            "84.2%"
+          ]
+        },
+        {
+          "sourceId": 1312011,
+          "name": "Basic Attack - Unfurled Canopy: Whirling Thunder Stage 1 DMG",
+          "levels": [
+            "36.88%+18.44%*2+36.88%+36.88%",
+            "39.9%+19.95%*2+39.9%+39.9%",
+            "42.93%+21.47%*2+42.93%+42.93%",
+            "47.16%+23.58%*2+47.16%+47.16%",
+            "50.18%+25.09%*2+50.18%+50.18%",
+            "53.66%+26.83%*2+53.66%+53.66%",
+            "58.5%+29.25%*2+58.5%+58.5%",
+            "63.34%+31.67%*2+63.34%+63.34%",
+            "68.18%+34.09%*2+68.18%+68.18%",
+            "73.32%+36.66%*2+73.32%+73.32%"
+          ]
+        },
+        {
+          "sourceId": 1312012,
+          "name": "Basic Attack - Unfurled Canopy: Whirling Thunder Stage 2 DMG",
+          "levels": [
+            "28.51%*5",
+            "30.85%*5",
+            "33.19%*5",
+            "36.46%*5",
+            "38.8%*5",
+            "41.49%*5",
+            "45.23%*5",
+            "48.97%*5",
+            "52.71%*5",
+            "56.69%*5"
+          ]
+        },
+        {
+          "sourceId": 1312034,
+          "name": "Plunging Attack STA Cost",
+          "levels": [
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006202,
+      "sourceSkillType": 2,
+      "sourceSort": 2,
+      "name": "Furled Canopy: Rift Cleaver",
+      "descriptionTemplate": "Attack targets within range, dealing <color=Thunder>Electro DMG</color>.\n- Within a certain period after opening the umbrella and dashing forward, when attacked by an enemy target, Suoming becomes immune to this damage and stagnates nearby targets. She then becomes immune to interruption and receives 100% less DMG for a certain period, and casts <color=Highlight>Resonance Skill - Unfurled Canopy: Crimson Gleam</color>.\n- Entering the <color=Highlight>Deep Mind</color> state resets the Cooldown of <color=Highlight>Resonance Skill</color>.\n- While in the <color=Highlight>Awakened Mind</color> state, press <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 2</color>.\n- While in the <color=Highlight>Deep Mind</color> state, press <color=Highlight>Normal Attack</color> shortly after casting this skill to chain into <color=Highlight>Basic Attack - Unfurled Canopy Stage 3</color>.\n\n<color=Title>Resonance Skill - Unfurled Canopy: Crimson Gleam</color>\nAttack targets within range, dealing <color=Thunder>Electro DMG</color>.\n- While in the <color=Highlight>Awakened Mind</color> state, press <color=Highlight>Normal Attack</color> shortly after casting this skill to cast <color=Highlight>Basic Attack Stage 3</color>.\n- While in the <color=Highlight>Deep Mind</color> state, press <color=Highlight>Normal Attack</color> shortly after casting this skill to chain into <color=Highlight>Basic Attack - Unfurled Canopy Stage 4</color>.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1312013,
+          "name": "Resonance Skill - Furled Canopy: Rift Cleaver DMG",
+          "levels": [
+            "53.62%",
+            "58.02%",
+            "62.42%",
+            "68.57%",
+            "72.97%",
+            "78.03%",
+            "85.06%",
+            "92.1%",
+            "99.13%",
+            "106.61%"
+          ]
+        },
+        {
+          "sourceId": 1312014,
+          "name": "Resonance Skill - Unfurled Canopy: Crimson Gleam DMG",
+          "levels": [
+            "23.77%+11.89%*2+31.69%",
+            "25.72%+12.86%*2+34.29%",
+            "27.67%+13.84%*2+36.89%",
+            "30.4%+15.2%*2+40.53%",
+            "32.34%+16.17%*2+43.12%",
+            "34.59%+17.3%*2+46.11%",
+            "37.7%+18.85%*2+50.27%",
+            "40.82%+20.41%*2+54.43%",
+            "43.94%+21.97%*2+58.58%",
+            "47.25%+23.63%*2+63%"
+          ]
+        },
+        {
+          "sourceId": 1312015,
+          "name": "Resonance Skill - Furled Canopy: Rift Cleaver Cooldown",
+          "levels": [
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006203,
+      "sourceSkillType": 3,
+      "sourceSort": 3,
+      "name": "Umbral Canopy: Miasma Lock",
+      "descriptionTemplate": "While in the <color=Highlight>Deep Mind</color> state, <color=Highlight>Resonance Liberation</color> becomes available. Casting Resonance Liberation deals <color=Thunder>Electro DMG</color> to targets within range.\n- Casting <color=Highlight>Resonance Liberation</color> grants Suoming <color=Highlight><te href=131110>Unison</te></color> for {0}s.\nCan be cast in mid-air close to the ground.\n\n<color=Title>Blight Rain, Miasmic Thunder</color>\nWhile casting <color=Highlight>Outro Skill</color>, if Suoming has <color=Highlight><te href=131110>Unison</te></color>, when a Resonator on the field deals damage, a <color=Highlight>Thunder Crest</color> is summoned as a Coordinated Attack on the target, dealing <color=Thunder>Electro DMG</color>.\n- Within {1}s after this damage is dealt, a <color=Highlight>Thunder Crest</color> can be summoned each second. This effect is triggered once per second. The damage dealt by <color=Highlight>Thunder Crest</color> does not trigger this effect.\n- Only 1 <color=Highlight>Thunder Crest</color> can be summoned per second, up to {2} in total.\n- This effect lasts {3}s, or until the number of summoned <color=Highlight>Thunder Crest</color> reaches the limit.",
+      "descriptionParams": [
+        "5",
+        "3",
+        "6",
+        "8"
+      ],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1312021,
+          "name": "Resonance Liberation - Umbral Canopy: Miasma Lock DMG",
+          "levels": [
+            "30.63%*8+105%",
+            "33.14%*8+113.61%",
+            "35.65%*8+122.22%",
+            "39.17%*8+134.28%",
+            "41.68%*8+142.89%",
+            "44.57%*8+152.79%",
+            "48.59%*8+166.57%",
+            "52.6%*8+180.34%",
+            "56.62%*8+194.12%",
+            "60.89%*8+208.76%"
+          ]
+        },
+        {
+          "sourceId": 1312022,
+          "name": "Resonance Liberation - Umbral Canopy: Miasma Lock Cooldown",
+          "levels": [
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25"
+          ]
+        },
+        {
+          "sourceId": 1312023,
+          "name": "Resonance Cost",
+          "levels": [
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125",
+            "125"
+          ]
+        },
+        {
+          "sourceId": 1312024,
+          "name": "Concerto Regen",
+          "levels": [
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20"
+          ]
+        },
+        {
+          "sourceId": 1312025,
+          "name": "Resonance Liberation - Blight Rain, Miasmic Thunder DMG",
+          "levels": [
+            "30%",
+            "32.46%",
+            "34.92%",
+            "38.37%",
+            "40.83%",
+            "43.66%",
+            "47.59%",
+            "51.53%",
+            "55.47%",
+            "59.65%"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006206,
+      "sourceSkillType": 5,
+      "sourceSort": 4,
+      "name": "Furled Canopy: Flash Rift",
+      "descriptionTemplate": "Attack the target, dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- While in the <color=Highlight>Awakened Mind</color> state, casting this skill sends Suoming into the <color=Highlight>Deep Mind</color> state and clears all <color=Highlight><te href=131201>Delusion</te></color>.\n- While in the <color=Highlight>Deep Mind</color> state, <color=Highlight>Intro Skill</color> is replaced with <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color>.\n- While in the <color=Highlight>Awakened Mind</color> state, triggering Unison Response replaces <color=Highlight>Intro Skill</color> with <color=Highlight>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color>.\n- While in the <color=Highlight>Deep Mind</color> state, triggering Unison Response replaces <color=Highlight>Intro Skill</color> with <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color>.\n\n<color=Title>Intro Skill - Unfurled Canopy: Thunder Rending</color>\nDeal <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- Press <color=Highlight>Normal Attack</color> shortly after casting this skill to chain into <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 2</color>.\n\n<color=Title>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color>\nAttack the target, dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- Casting this skill sends Suoming into the <color=Highlight>Deep Mind</color> state and clears all <color=Highlight><te href=131201>Delusion</te></color>.\n\n<color=Title>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color>\nAttack the target, dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- While in the <color=Highlight>Deep Mind</color> state, press <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color> to chain into <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder Stage 2</color>.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1312026,
+          "name": "Intro Skill - Furled Canopy: Flash Rift DMG",
+          "levels": [
+            "55.78%*2+18.6%*4",
+            "60.35%*2+20.12%*4",
+            "64.92%*2+21.64%*4",
+            "71.33%*2+23.78%*4",
+            "75.9%*2+25.3%*4",
+            "81.16%*2+27.06%*4",
+            "88.48%*2+29.5%*4",
+            "95.8%*2+31.94%*4",
+            "103.11%*2+34.37%*4",
+            "110.89%*2+36.97%*4"
+          ]
+        },
+        {
+          "sourceId": 1312027,
+          "name": "Intro Skill - Unfurled Canopy: Thunder Rending DMG",
+          "levels": [
+            "66.11%+33.06%*2+66.11%+66.11%",
+            "71.53%+35.77%*2+71.53%+71.53%",
+            "76.95%+38.48%*2+76.95%+76.95%",
+            "84.54%+42.27%*2+84.54%+84.54%",
+            "89.96%+44.98%*2+89.96%+89.96%",
+            "96.19%+48.1%*2+96.19%+96.19%",
+            "104.87%+52.44%*2+104.87%+104.87%",
+            "113.54%+56.77%*2+113.54%+113.54%",
+            "122.21%+61.11%*2+122.21%+122.21%",
+            "131.43%+65.72%*2+131.43%+131.43%"
+          ]
+        },
+        {
+          "sourceId": 1312028,
+          "name": "Intro Skill - Furled Canopy: Sealed Delusion (Unison) DMG",
+          "levels": [
+            "55.78%*2+18.6%*4",
+            "60.35%*2+20.12%*4",
+            "64.92%*2+21.64%*4",
+            "71.33%*2+23.78%*4",
+            "75.9%*2+25.3%*4",
+            "81.16%*2+27.06%*4",
+            "88.48%*2+29.5%*4",
+            "95.8%*2+31.94%*4",
+            "103.11%*2+34.37%*4",
+            "110.89%*2+36.97%*4"
+          ]
+        },
+        {
+          "sourceId": 1312029,
+          "name": "Intro Skill - Unfurled Canopy: Whirling Thunder (Unison) DMG",
+          "levels": [
+            "66.11%+33.06%*2+66.11%+66.11%",
+            "71.53%+35.77%*2+71.53%+71.53%",
+            "76.95%+38.48%*2+76.95%+76.95%",
+            "84.54%+42.27%*2+84.54%+84.54%",
+            "89.96%+44.98%*2+89.96%+89.96%",
+            "96.19%+48.1%*2+96.19%+96.19%",
+            "104.87%+52.44%*2+104.87%+104.87%",
+            "113.54%+56.77%*2+113.54%+113.54%",
+            "122.21%+61.11%*2+122.21%+122.21%",
+            "131.43%+65.72%*2+131.43%+131.43%"
+          ]
+        },
+        {
+          "sourceId": 1312030,
+          "name": "Intro Skill - Furled Canopy: Flash Rift Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        },
+        {
+          "sourceId": 1312031,
+          "name": "Intro Skill - Unfurled Canopy: Thunder Rending Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        },
+        {
+          "sourceId": 1312032,
+          "name": "Intro Skill - Furled Canopy: Sealed Delusion (Unison) Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        },
+        {
+          "sourceId": 1312033,
+          "name": "Intro Skill - Unfurled Canopy: Whirling Thunder (Unison) Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006209,
+      "sourceSkillType": 11,
+      "sourceSort": 4,
+      "name": "Canopy Rumble",
+      "descriptionTemplate": "The incoming Resonator gains {0} Electro DMG Amplification for {2}s or until the Resonator is switched out. While having <color=Highlight><te href=131111>Unison Boon</te></color>, they also gain {1} Resonance Skill DMG Amplification.",
+      "descriptionParams": [
+        "20%",
+        "25%",
+        "8"
+      ],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006210,
+      "sourceSkillType": 12,
+      "sourceSort": 4,
+      "name": "Tune Break - Sword",
+      "descriptionTemplate": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+      "descriptionParams": [],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006207,
+      "sourceSkillType": 6,
+      "sourceSort": 5,
+      "name": "Bound Obsession, Forged Mind",
+      "descriptionTemplate": "<color=Title>Resonance Skill - Furled Canopy: Sealed Delusion</color>\nWhile in the <color=Highlight>Awakened Mind</color> state, when <color=Highlight><te href=131201>Delusion</te></color> reaches {0} points, <color=Highlight>Resonance Skill</color> is replaced with <color=Highlight>Resonance Skill - Furled Canopy: Sealed Delusion</color>, dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- Casting this skill sends Suoming into <color=Highlight>Deep Mind</color> and clears all <color=Highlight><te href=131201>Delusion</te></color>.\n\n<color=Title>Resonance Skill - Unfurled Canopy: Unforsaken Mind</color>\nWhile in the <color=Highlight>Deep Mind</color> state, when <color=Highlight><te href=131201>Delusion</te></color> reaches {1} points, <color=Highlight>Resonance Skill</color> is replaced with <color=Highlight>Resonance Skill - Unfurled Canopy: Unforsaken Mind</color>, pulling in nearby targets and dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n\n<color=Title>Basic Attack - Umbral Canopy: Engraved Heart</color>\nWithin a certain period after casting <color=Highlight>Resonance Skill - Unfurled Canopy: Unforsaken Mind</color>, <color=Highlight>Basic Attack</color> and <color=Highlight>Resonance Skill</color> are replaced with <color=Highlight>Basic Attack - Umbral Canopy: Engraved Heart</color>. Press or hold <color=Highlight>Normal Attack</color> or <color=Highlight>Resonance Skill</color> to cast this skill. Attack targets within range, dealing <color=Thunder>Electro DMG</color>, considered <color=Highlight>Basic Attack DMG</color>.\n- Casting this skill sends Suoming into <color=Highlight>Calamity Mind</color> and clears all <color=Highlight><te href=131201>Delusion</te></color>; she enters <color=Highlight>Awakened Mind</color> once the skill ends.\n- When casting this skill, hold <color=Highlight>Normal Attack</color> or <color=Highlight>Resonance Skill</color> to continuously attack the target for a certain period.\n- While casting this skill, Suoming is immune to DMG and interruption for a certain period.\n- During the skill action, she cannot move, dash, jump, dodge, or cast <color=Highlight>Basic Attack</color>, <color=Highlight>Resonance Skill</color>, <color=Highlight>Resonance Liberation</color>, <color=Highlight>Dodge Counter</color>, <color=Highlight>Plunging Attack</color>, <color=Highlight>Mid-air Attack</color>, or <color=Highlight>Intro Skill</color>, and Resonator switching is also restricted.\n\n<color=Title>Unison</color>\nWhen Suoming has <color=Highlight>Unison</color>, switching to another Resonator will remove her <color=Highlight>Unison</color> to trigger Suoming's Outro Skill and the incoming Resonator's Intro Skill. When Suoming's Concerto Energy is full and she has <color=Highlight>Unison</color>, only the <color=Highlight>Unison</color> effect is consumed.\n\n<color=Title>Unison Response</color>\nSuoming can trigger <color=Highlight>Unison Response</color>.\nWhen the active Resonator in the team has <color=Highlight><te href=131110>Unison</te></color>, Suoming triggers Unison Response after she is switched in and casts Intro Skill, granting all Resonators in the team {2} stacks of <color=Highlight><te href=131111>Unison Boon</te></color> for {3}s.\nSuoming can grant up to {4} stacks of <color=Highlight><te href=131111>Unison Boon</te></color>. Gaining it again only resets the duration.\n<color=Highlight>Unison Response</color> cannot be triggered in Co-op.\n\n<color=Title>Unison Boon</color>\nOnly the Resonators who can trigger Unison Response can gain this effect. Each stack of <color=Highlight>Unison Boon</color> increases the total DMG dealt by Resonators in the team who can trigger <color=Highlight><te href=131112>Unison Response</te></color> by {5}, up to {6} stacks.\n\n<color=Title>Delusion</color>\nCan hold up to {7} points of Delusion.\n- Hitting a target with <color=Highlight>Basic Attack</color>, <color=Highlight>Basic Attack - Unfurled Canopy</color>, <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder</color>, <color=Highlight>Dodge Counter</color>, <color=Highlight>Dodge Counter - Unfurled Canopy</color>, or <color=Highlight>Resonance Skill - Unfurled Canopy: Crimson Gleam</color> grants <color=Highlight>Delusion</color> if Suoming is the active Resonator.\n- Casting <color=Highlight>Resonance Liberation</color> grants {8} points of <color=Highlight>Delusion</color>.\n- Casting <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color> or <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color> grants {9} points of <color=Highlight>Delusion</color>.",
+      "descriptionParams": [
+        "800",
+        "800",
+        "1",
+        "30",
+        "1",
+        "3%",
+        "2",
+        "800",
+        "200",
+        "200"
+      ],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1312016,
+          "name": "Resonance Skill - Furled Canopy: Sealed Delusion DMG",
+          "levels": [
+            "31.58%*2+15.79%*4",
+            "34.17%*2+17.09%*4",
+            "36.76%*2+18.38%*4",
+            "40.39%*2+20.2%*4",
+            "42.97%*2+21.49%*4",
+            "45.95%*2+22.98%*4",
+            "50.1%*2+25.05%*4",
+            "54.24%*2+27.12%*4",
+            "58.38%*2+29.19%*4",
+            "62.78%*2+31.39%*4"
+          ]
+        },
+        {
+          "sourceId": 1312017,
+          "name": "Resonance Skill - Unfurled Canopy: Unforsaken Mind DMG",
+          "levels": [
+            "76.79%",
+            "83.09%",
+            "89.39%",
+            "98.2%",
+            "104.5%",
+            "111.74%",
+            "121.82%",
+            "131.89%",
+            "141.97%",
+            "152.67%"
+          ]
+        },
+        {
+          "sourceId": 1312018,
+          "name": "Basic Attack - Umbral Canopy: Engraved Heart DMG",
+          "levels": [
+            "780.37%",
+            "844.37%",
+            "908.33%",
+            "997.93%",
+            "1061.92%",
+            "1135.51%",
+            "1237.9%",
+            "1340.3%",
+            "1442.62%",
+            "1551.41%"
+          ]
+        },
+        {
+          "sourceId": 1312019,
+          "name": "Basic Attack - Umbral Canopy: Engraved Heart DMG (Hold)",
+          "levels": [
+            "9.76%*10+12.2%*8",
+            "10.56%*10+13.2%*8",
+            "11.36%*10+14.2%*8",
+            "12.48%*10+15.6%*8",
+            "13.28%*10+16.6%*8",
+            "14.2%*10+17.75%*8",
+            "15.48%*10+19.35%*8",
+            "16.76%*10+20.95%*8",
+            "18.04%*10+22.55%*8",
+            "19.4%*10+24.24%*8"
+          ]
+        },
+        {
+          "sourceId": 1312020,
+          "name": "Basic Attack - Umbral Canopy: Engraved Heart Concerto Regen",
+          "levels": [
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40",
+            "40"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006204,
+      "sourceSkillType": 4,
+      "sourceSort": 6,
+      "name": "Rain-Soaked Covenant",
+      "descriptionTemplate": "Casting <color=Highlight>Intro Skill - Furled Canopy: Flash Rift</color>, <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color>, <color=Highlight>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color>, or <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color> grants {0} Electro DMG Bonus for {1}s. Switching to another Resonator ends this effect early.\n- When Suoming casts <color=Highlight>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color> or <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color>, she additionally gains {2} points of Concerto Energy, triggered only once every {3}s.",
+      "descriptionParams": [
+        "50%",
+        "15",
+        "10",
+        "25"
+      ],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006205,
+      "sourceSkillType": 4,
+      "sourceSort": 7,
+      "name": "Sunken Seal, Forged Lock",
+      "descriptionTemplate": "When Suoming has <color=Highlight><te href=131110>Unison</te></color> and casts Outro Skill, she gains the <color=Highlight><te href=131203>Aligned Seals</te></color> effect for {0}s.\nWithin {1}s after Suoming casts <color=Highlight>Resonance Liberation</color> or <color=Highlight>Basic Attack - Umbral Canopy: Engraved Heart</color>, if she gains or has <color=Highlight><te href=131203>Aligned Seals</te></color>, her <color=Highlight>Outro Skill</color> grants the incoming Resonator {2} Electro DMG Bonus, plus an additional {3} for each stack of <color=Highlight><te href=131111>Unison Boon</te></color> they have, up to {4}. This effect lasts for {5}s or until the Resonator is switched out.\n\nWhen Suoming has <color=Highlight><te href=131110>Unison</te></color>, casting <color=Highlight>Resonance Skill - Furled Canopy: Rift Cleaver</color> removes <color=Highlight><te href=131110>Unison</te></color> and the <color=Highlight><te href=131111>Unison Boon</te></color> on her, consumes {6} points of Concerto Energy, and clears all <color=Highlight><te href=131201>Delusion</te></color>, granting the <color=Highlight><te href=131204>Seal Master</te></color> effect: the DMG Multipliers of <color=Highlight>Basic Attack - Unfurled Canopy</color> and <color=Highlight>Basic Attack - Unfurled Canopy: Whirling Thunder</color> are increased by {7}, each stage of both skills restores {8} additional points of Concerto Energy on hit, and Suoming's Crit. DMG is increased by {9}. This effect lasts for {10}s or until the Resonator is switched out.\n- Gaining <color=Highlight><te href=131110>Unison</te></color> ends this effect early.\n- Gaining the <color=Highlight><te href=131203>Aligned Seals</te></color> effect ends this effect early.\n- The <color=Highlight><te href=131204>Seal Master</te></color> effect cannot be gained while the <color=Highlight><te href=131203>Aligned Seals</te></color> effect is active.\n- While the <color=Highlight><te href=131204>Seal Master</te></color> effect is active, press or hold <color=Highlight>Normal Attack</color> shortly after casting <color=Highlight>Basic Attack - Unfurled Canopy Stage 4</color> to chain into <color=Highlight>Basic Attack - Unfurled Canopy Stage 2</color>.",
+      "descriptionParams": [
+        "30",
+        "8",
+        "30%",
+        "20%",
+        "40%",
+        "8",
+        "20",
+        "100%",
+        "5",
+        "100%",
+        "12"
+      ],
+      "maxLevel": 1,
+      "values": []
+    }
+  ],
+  "sourceIcons": {
+    "normal-attack": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorKnife.webp",
+    "skill": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingB1.webp",
+    "liberation": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingC1.webp",
+    "intro": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingQTE.webp",
+    "circuit": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingY.webp",
+    "outro": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingT.webp",
+    "tune-break": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakKnife.webp",
+    "inherent-1": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingD1.webp",
+    "inherent-2": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingD2.webp"
+  },
+  "sourceArt": {
+    "portrait": "/assets/UIResources/Common/Image/IconRoleHeadCircle256/T_IconRoleHeadCircle256_76_UI.webp",
+    "hero": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_SuoMing_UI.webp"
+  },
+  "provenance": {
+    "roles": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/role/roleinfo.json",
+      "gitBlobSha": "f3c75716f894deb5b592f26f2379909e4705aca3",
+      "sourceBytes": 579462,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/role/roleinfo.json"
+    },
+    "base": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/property/baseproperty.json",
+      "gitBlobSha": "6886682cd26c4f0a53eca43788e6155875f9d0f9",
+      "sourceBytes": 10850391,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/property/baseproperty.json"
+    },
+    "growth": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/property/rolepropertygrowth.json",
+      "gitBlobSha": "7608dd1aabe579a24a10ef8c94b1892aa1e1b21f",
+      "sourceBytes": 12913,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/property/rolepropertygrowth.json"
+    },
+    "tree": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/skillTree/skilltree.json",
+      "gitBlobSha": "58b69308fe5496a41186c880a9a8f48cef8864ef",
+      "sourceBytes": 789371,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/skillTree/skilltree.json"
+    },
+    "chains": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/resonate_chain/resonantchain.json",
+      "gitBlobSha": "77de372786db3455a7a4a18670c7ec40b267eb3b",
+      "sourceBytes": 239396,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/resonate_chain/resonantchain.json"
+    },
+    "characters": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "path": "public/Data/Characters.json",
+      "gitBlobSha": "3614fc5a8ab982ca8d32a0b0fa54217d46418420",
+      "sourceBytes": 8168810,
+      "url": "https://raw.githubusercontent.com/DommyMM/wuwabuild/0fa70f9282bb97c645b8669d3842f6a9e4ba5076/public/Data/Characters.json"
+    }
+  },
+  "notes": [
+    "Source-backed Lv1 and growth ratios are retained separately. Do NOT infer published Lv90 integer rounding.",
+    "EnergyMax is raw client capacity, not Resonance Liberation cost or a Forte gauge.",
+    "Descriptions, levels, Sequences and intrinsic source IDs are evidence; mechanics remain RAW_ONLY/PENDING until reviewed and modeled.",
+    "Pinned source image paths are not imported asset files or approved UI framing."
+  ]
+}

@@ -14,8 +14,8 @@ test('Hero Art browser projection is resolver-derived, released-only and fail-cl
 
   assert.equal(runtime.schemaVersion, 1);
   assert.equal(runtime.role, 'character.hero-art.runtime');
-  assert.deepEqual(runtime.summary, { releasedCharacters: 59, ready: 53, pending: 6 });
-  assert.equal(runtime.characters.length, 59);
+  assert.deepEqual(runtime.summary, { releasedCharacters: 61, ready: 56, pending: 5 });
+  assert.equal(runtime.characters.length, 61);
 
   const expectedIds = [...resolver.listReleasedCharacterIds()].sort();
   assert.deepEqual(runtime.characters.map((row: any) => row.characterId), expectedIds);
@@ -46,7 +46,7 @@ test('Hero Art browser projection is resolver-derived, released-only and fail-cl
 
   assert.deepEqual(
     runtime.characters.filter((row: any) => row.status === 'PENDING').map((row: any) => row.characterId),
-    ['hsin', 'jingran', 'rover-aero', 'rover-electro', 'rover-havoc', 'rover-spectro'],
+    ['jingran', 'rover-aero', 'rover-electro', 'rover-havoc', 'rover-spectro'],
   );
-  assert.equal(runtime.characters.some((row: any) => ['suoming'].includes(row.characterId)), false);
+  assert.equal(runtime.characters.some((row: any) => ['suoming', 'lily', 'hsin'].includes(row.characterId)), true);
 });

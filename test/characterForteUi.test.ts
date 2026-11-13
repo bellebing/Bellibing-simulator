@@ -10,7 +10,7 @@ const resolver=createCharacterBuilderAssetResolver(manifest);
 const trees=source.characters.map(c=>projectForteCharacter(c,resolver.resolve(c.characterId),manifest));
 const tree=trees.find(c=>c.characterId==='augusta');
 test('all released trees preserve per-Character game node IDs, parents, coordinates, text, and ten original level values',()=>{
-  assert.equal(trees.length,57);
+  assert.equal(trees.length,60);
   for(const t of trees){
     const s=source.characters.find(c=>c.characterId===t.characterId);
     assert.equal(t.nodes.length,16);assert.equal(t.nodes.filter(n=>n.kind==='stat').length,8);
@@ -67,7 +67,7 @@ test('different stat families are source-specific, including Mornye nonstandard 
   assert.ok(stats('aalto').some(n=>n.stat.stat==='Aero DMG'));
 });
 
-test('all 57 source-backed Minor Forte totals reconcile with canonical Character intrinsic totals',()=>{
+test('all 60 source-backed Minor Forte totals reconcile with canonical Character intrinsic totals',()=>{
   const sum=rows=>{
     const out={};
     for(const row of rows)out[row.stat]=Number(((out[row.stat]??0)+row.value).toFixed(10));
@@ -83,7 +83,7 @@ test('all 57 source-backed Minor Forte totals reconcile with canonical Character
     assert.deepEqual(forteTotal,intrinsicTotal,t.characterId);
     exact++;
   }
-  assert.equal(exact,57);
+  assert.equal(exact,60);
 });
 
 test('Mornye Healing nodes have original IDs, strand prerequisites and exact partial-unlock totals',()=>{

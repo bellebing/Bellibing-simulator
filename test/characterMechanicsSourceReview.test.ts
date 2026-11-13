@@ -8,7 +8,7 @@ import {
 } from '../src/data/characterMechanicsSourceReview.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 
-test('roster-wide Character Mechanics source review distinguishes verified, source-blocked and unreviewed characters', () => {
+test('roster-wide source review preserves 59 verified and explicitly marks Lily and Suoming unreviewed', () => {
   const coverage = auditCharacterMechanicsCoverage();
   const review = auditCharacterMechanicsSourceReview();
 

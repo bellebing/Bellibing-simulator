@@ -35,7 +35,7 @@ function renderSourceText(template: string, params: readonly string[]): string {
     .replace(/<[^>]*>/g, '');
 }
 
-test('OUTRO_EFFECT verifies all 59 released source rows', () => {
+test('OUTRO_EFFECT distinguishes 59 verified mechanics from two new released Pending kits', () => {
   const audit = auditCharacterOutroEffectsCoverage();
   assert.equal(audit.releasedCount, 61);
   assert.equal(audit.sourceOutroSkillCount, 61);

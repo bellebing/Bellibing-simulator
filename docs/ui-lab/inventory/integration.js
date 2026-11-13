@@ -110,7 +110,7 @@ async function scanFile(file){if(!file||busy)return;if(mode!=='import'||sheet.hi
   if(revision!==reviewRevision)return;
   if(productTrigger){
    if(!globalThis.bellibingProductImport)throw Error('Build is not ready to receive the import.');
-   await globalThis.bellibingProductImport.stage(result.draft);
+   await globalThis.bellibingProductImport.stage(result.draft,result.issues);
    draft=null;original=null;scanData=null;reviewToken=null;reviewRevision++;rememberDraft();closeSheet();return;
   }
   const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);});const decoded=await createImageBitmap(file);

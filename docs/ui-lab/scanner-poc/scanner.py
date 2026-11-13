@@ -134,8 +134,11 @@ def read_secondary(panel, cost):
         return {'stat':observed,'raw':raw,'method':'Full-row OCR; exact canonical'}
     # Independent split name/value pass, to avoid icon/artwork or dim text
     # swallowing a field. Wrong or missing values remain unresolved.
-    left,right=card.tess_batch([card._upscale2(gray[:,:255]),card._upscale2(gray[:,255:])],'--psm 7')
-    retried=left.strip()+' '+right.strip()
+    try:
+        left,right=card.tess_batch([card._upscale2(gray[:,:255]),card._upscale2(gray[:,255:])],'--psm 7')
+        retried=left.strip()+' '+right.strip()
+    except (RuntimeError,ValueError,OSError):
+        retried=''  # A failed retry must not erase the other four Echoes.
     candidate=parse(retried)
     if _exact_secondary(candidate,cost):
         return {'stat':candidate,'raw':raw,'retry':retried,'method':'Split-row OCR; exact canonical'}

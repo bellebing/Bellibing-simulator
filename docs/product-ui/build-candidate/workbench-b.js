@@ -4,6 +4,7 @@ import {createUiPreferenceStore} from '../../../src/uiFilterPreferences.mjs';
 import {accountCarouselPreview} from '../../ui-lab/v1.1/modules/account-carousel-preview.js';
 import {substatEditorMarkup as sharedSubstatEditor} from '../../ui-lab/v1.1/modules/substat-editor.js';
 import {productDraftBuildIdentity,productInvestmentPending} from '../../../src/productBuildDraft.mjs';
+import {formatScannerIssues} from '../../../src/scannerImportReview.mjs';
 import {productAsset} from '../assets.js';
 import '../product-navigation.js';
 import {createProductStore} from '../product-store.js';
@@ -71,7 +72,7 @@ function numberMarkup(value, percent = false) {
 }
 const statMarkup = (name, value) => numberMarkup(value, pct(name));
 
-function message(text=''){$('#bcStatus').textContent=text;}
+function message(text=''){const host=$('#bcStatus');host.textContent=text;host.toggleAttribute('data-import-issues',/^Import needs|^Echo \d/.test(text));}
 function fail(error){message(error.message??String(error));const host=$('#bcEditorError');if(host)host.textContent=error.message??String(error);}
 function persist(next){
  root=store.commit(next);
@@ -143,7 +144,7 @@ function renderSequences() {
    </button>`).join('');
 }
 function renderEchoes(){
- $('#bcEchoes').innerHTML=draft().echoes.map((e,i)=>{if(!e)return `<button class="bc-echo bc-echo-empty" data-bc-echo="${i}" aria-label="Choose Echo slot ${i+1}"><span>+</span><strong>Echo ${i+1}</strong></button>`;const identity=species(e.speciesId),set=echoes.sonataSets.find(s=>s.id===e.selectedSonataSetId);return `<button class="bc-echo ${ui.panel==='echo'&&ui.slot===i?'active':''}" data-bc-echo="${i}" aria-label="Edit Echo slot ${i+1}: ${esc(identity.name)}"><strong class="bc-echo-name">${esc(identity.name)}</strong><span class="bc-echo-set-rail">${set?image(set.artPath,set.name,'bc-set-icon'):''}</span><span class="bc-echo-art" title="${illustratedEchoes.has(identity.id)?'AI-generated concept illustration based on the source Echo icon':'Original source Echo artwork'}">${image(artForEcho(identity.id),identity.name)}<span class="bc-echo-meta"><span>COST ${identity.cost} \u00b7 +${e.level??'?'}</span></span></span><span class="bc-echo-copy"><span class="bc-echo-main"><span>${esc(pretty((e.mainStat?.name??'Pending')))}</span><b>${statMarkup(e.mainStat?.name??'Pending',e.mainStat?.value)}</b></span><span class="bc-echo-secondary"><span>${esc(pretty((e.secondaryMainStat?.name??'Pending')))}</span><b>${statMarkup(e.secondaryMainStat?.name??'Pending',e.secondaryMainStat?.value)}</b></span><span class="bc-echo-rolls">${Array.from({length:5},(_,n)=>{const roll=e.substats[n];return `<span class="bc-echo-roll"><span>${roll?esc(roll.name)+statPreference(person.id,roll.name):'+'+(n+1)*5}</span>${rollSignalMarkup()}<b>${roll?rollValueMarkup(roll):'Not rolled'}</b></span>`;}).join('')}</span></span></button>`;}).join('');
+ $('#bcEchoes').innerHTML=draft().echoes.map((e,i)=>{if(!e)return `<button class="bc-echo bc-echo-empty" data-bc-echo="${i}" aria-label="Choose Echo slot ${i+1}"><span>+</span><strong>Echo ${i+1}</strong></button>`;const identity=species(e.speciesId),set=echoes.sonataSets.find(s=>s.id===e.selectedSonataSetId);return `<button class="bc-echo ${ui.panel==='echo'&&ui.slot===i?'active':''}" data-bc-echo="${i}" aria-label="Edit Echo slot ${i+1}: ${esc(identity.name)}"><strong class="bc-echo-name">${esc(identity.name)}</strong><span class="bc-echo-set-rail">${set?image(set.artPath,set.name,'bc-set-icon'):''}</span><span class="bc-echo-art" title="${illustratedEchoes.has(identity.id)?'AI-generated concept illustration based on the source Echo icon':'Original source Echo artwork'}">${image(artForEcho(identity.id),identity.name)}<span class="bc-echo-meta"><span>COST ${identity.cost} \u00b7 +${e.level??'?'}</span></span></span><span class="bc-echo-copy"><span class="bc-echo-main"><span>${esc(pretty((e.mainStat?.name??'Pending')))}</span><b>${statMarkup(e.mainStat?.name??'Pending',e.mainStat?.value)}</b></span><span class="bc-echo-secondary" ${e.evidence?.secondaryRecovery?.requiresReview?'title="'+esc('OCR missed secondary: fixed cost/+25 stat recovered from five exact canonical substats. Compare with your original card.')+'"':''}><span>${esc(pretty((e.secondaryMainStat?.name??'Pending')))}${e.evidence?.secondaryRecovery?.requiresReview?' †':''}</span><b>${statMarkup(e.secondaryMainStat?.name??'Pending',e.secondaryMainStat?.value)}</b></span><span class="bc-echo-rolls">${Array.from({length:5},(_,n)=>{const roll=e.substats[n];return `<span class="bc-echo-roll"><span>${roll?esc(roll.name)+statPreference(person.id,roll.name):'+'+(n+1)*5}</span>${rollSignalMarkup()}<b>${roll?rollValueMarkup(roll):'Not rolled'}</b></span>`;}).join('')}</span></span></button>`;}).join('');
  $('#bcCost').textContent=draft().echoes.filter(Boolean).length+'/5 \u00b7 '+draft().echoes.reduce((sum,e)=>sum+(e?.cost??0),0)+'/12 Cost';
 }
 function renderAccount(){
@@ -468,12 +469,17 @@ installFixedScroll(document.querySelector(".bc-summary"), "wb-summary-frame", "S
 installFixedScroll(document.querySelector(".bc-right"), "wb-equipped-frame", "Scroll equipped Echoes");
 
 
-globalThis.bellibingProductImport={stage:async scan=>{
+globalThis.bellibingProductImport={stage:async (scan,issues=[])=>{
  closeEditor(false);
  try{root=store.stageImport(scan);}catch(error){renderAccount();throw error;}
  person=CHARACTER_CATALOG.find(c=>c.id===root.selected);
  const url=new URL(location.href);url.searchParams.set('character',person.id);url.searchParams.delete('import');history.replaceState(null,'',url);
- carousel.close();render();message('Imported draft. Review in Build, then Add Character.');
+ carousel.close();render();
+ const pending=Array.isArray(issues)?issues:[];
+ if(pending.length){
+  $('#bcSaved').textContent='Import review · '+pending.length+' field(s) need correction';
+  message('Import needs '+pending.length+' correction(s) before Add Character: '+formatScannerIssues(pending));
+ }else message('Imported draft. Review Echo values († = source-derived secondary), then Add Character.');
 }};
 import('../../ui-lab/inventory/integration.js').catch(error=>message('Import/account tools unavailable: '+error.message));
 

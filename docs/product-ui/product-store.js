@@ -2,6 +2,7 @@ import {readCharacterFocus} from '../ui-lab/v1.1/modules/character-focus.js';
 import {accountSession} from '../ui-lab/inventory/account-session.js';
 import {productDraftFromAccount,productDraftFromScan,scanFromProductDraft,applyProductDraft,applyOwnedProductDraft,productDraftBuildIdentity} from '../../src/productBuildDraft.mjs';
 import {safeDocument} from '../../src/inventoryAccount.mjs';
+import {formatScannerIssues} from '../../src/scannerImportReview.mjs';
 import {validateDraft} from './build-candidate/state.js';
 import {reconcileProductDrafts,productDraftBases} from '../../src/productDraftReconciliation.mjs';
 export async function createProductStore(catalog,trees) {
@@ -78,7 +79,7 @@ export async function createProductStore(catalog,trees) {
    if(globalThis.bellibingScannerPromise)result=await (await globalThis.bellibingScannerPromise).validate(observation);
    else{const response=await fetch('/local-import/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(observation)});result=await response.json();if(!response.ok)throw Error(result.error??'Import validation unavailable.');}
    if(!Array.isArray(result.issues))throw Error('Import validation unavailable.');
-   if(result.issues.length)throw Error(result.issues.map(issue=>issue.path+': '+issue.message).join('\n'));
+   if(result.issues.length)throw Error(formatScannerIssues(result.issues));
    // Awaiting validation must not permit a different tab to replace the draft.
    if(localStorage.getItem(key)!==savingBytes)throw Error('Build draft changed during validation. Review it before saving.');
    }

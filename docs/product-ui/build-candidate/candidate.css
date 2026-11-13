@@ -42,3 +42,8 @@
  .bc-echo-rolls{margin-top:2px;padding-top:2px;gap:0}.bc-echo-roll{font-size:13px;line-height:14px}
  .bc-echo-art>img{height:calc(100% - 18px)}
 }
+
+/* Scanner review: show ALL validation failures, not a clipped raw field path
+   at the bottom edge. Only the invalid-import state gets this overlay. */
+.bc-footer:has(#bcStatus[data-import-issues]){position:relative}
+.bc-footer #bcStatus[data-import-issues]{position:absolute;left:9px;bottom:calc(100% + 7px);width:min(820px,calc(100vw - 40px));max-width:none;max-height:160px;overflow:auto;z-index:12;padding:12px 15px;white-space:normal;line-height:1.5;font-size:13px;color:#f1c4aa;background:#261c22f5;border:1px solid #cf937d;border-radius:6px;box-shadow:0 5px 18px #0008}

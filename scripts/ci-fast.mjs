@@ -62,7 +62,14 @@ async function changedFiles(){
  try{return git('diff','--name-only','-z',base,head).split('\0').filter(Boolean);}catch{
   const repo=process.env.GITHUB_REPOSITORY;if(!/^[\w.-]+\/[\w.-]+$/.test(repo??'')||!process.env.GITHUB_TOKEN)throw Error('DIFF_BASE_UNAVAILABLE');
   const request=async url=>{const response=await fetch(url,{headers:{Authorization:'Bearer '+process.env.GITHUB_TOKEN,Accept:'application/vnd.github+json'}});if(!response.ok)throw Error('DIFF_METADATA_UNAVAILABLE');return response.json();};
-  const data=await request(`https://api.github.com/repos/${repo}/compare/${base}...${head}`);
+  let data;
+  try{data=await request(`https://api.github.com/repos/${repo}/compare/${base}...${head}`);}
+  catch(error){
+   // Large PR compares can be unavailable even when the exact-head paginated
+   // PR file list is valid. Preserve fail-closed head and file-count checks.
+   if(event.pull_request?.number)return completePrFiles({repo,head,number:event.pull_request.number,request});
+   throw error;
+  }
   if(!Array.isArray(data.files))throw Error('DIFF_METADATA_INCOMPLETE');
   if(data.files.length>=300)return completePrFiles({repo,head,number:event.pull_request?.number,request});
   return data.files.flatMap(f=>[f.filename,...(f.previous_filename?[f.previous_filename]:[])]);

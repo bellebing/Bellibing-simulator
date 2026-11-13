@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read # Read-only diff metadata for large draft PR FAST checks.
 
 # Cancel obsolete PR runs; main pushes retain independent FULL runs.
 concurrency:
@@ -355,7 +356,8 @@ jobs:
           retention-days: 7
 
   fast:
-    if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'pull_request' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'full-verification'))
+    # Label-only events do not change code; never spend a FAST run on them.
+    if: github.event_name == 'pull_request' && github.event.action != 'labeled' && github.event.action != 'unlabeled' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'full-verification')
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:

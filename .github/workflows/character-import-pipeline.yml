@@ -1,7 +1,7 @@
 name: Character Import Pipeline Review
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
     paths:
       - 'src/data/characters.ts'
       - 'src/profileReadinessRegistry.ts'
@@ -27,6 +27,8 @@ concurrency:
   cancel-in-progress: true
 jobs:
   import-gates:
+    # Avoid npm test + Chrome per draft checkpoint; final/explicit review retains this gate.
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && github.event.pull_request.number == 365 && (github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification')))
     runs-on: ubuntu-latest
     timeout-minutes: 55
     steps:
@@ -42,7 +44,7 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH));
-          if(event.number!==365||event.pull_request.head.ref!=='recovery/one-pr-build-team-improve-20261103'||!event.pull_request.draft)throw Error('Not the allowed Draft PR #365');
+          if(event.number!==365||event.pull_request.head.ref!=='recovery/one-pr-build-team-improve-20261103')throw Error('Not the allowed Draft PR #365');
           NODE
       - name: Setup Node 22
         uses: actions/setup-node@v4

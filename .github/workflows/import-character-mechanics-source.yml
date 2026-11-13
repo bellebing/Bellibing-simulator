@@ -2,6 +2,7 @@ name: Import Character Mechanics Source
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
     paths:
       - 'scripts/sync-character-mechanics.mjs'
       - 'scripts/generate-character-mechanics-review.mjs'
@@ -29,6 +30,8 @@ permissions:
 
 jobs:
   import:
+    # Draft #365 uses Verify FAST; keep these broad checks for explicit/final review.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number != 365 || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

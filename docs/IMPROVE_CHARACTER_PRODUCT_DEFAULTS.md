@@ -61,13 +61,23 @@ actual user-selected Character, preset, Gate, observed roll or account
 settings has been provided, so the exact original session remains unconfirmed.
 
 The old source-only Recommended adapter for Qingxiao had zero Hard, source
-priorities under Flex but `flexCount:null`. Its default policy projection also
-has `presetId:null` / `No verified default preset`. The ordinary Improve
-client passes `{target:{hard,flex,flexCount},gate,rolls}` to
-`/local-review/echo-advisor`; null Flex count violates the **existing private
-`createEchoMath` target input contract**, which returns a Pending error.
-`stat-target-cost.js` then swallowed both Pending and transport failures as
-`cost:null`, and the resource table rendered only an em dash.
+priorities under Flex but `flexCount:null` **before account-mode normalization**.
+Its canonical default policy projection has `presetId:null` /
+`No verified default preset`. However, the existing ordinary Improve account
+adapter `normalizeAccountStatSettings()` removes Energy Regen and, for
+source-only guidance with remaining Flex, auto-sets an **editable, non-source-
+certified Flex count of 1** and switches to Customize. Therefore the visible
+ordinary account route may already have passed a *structurally valid* target,
+rather than passing null to the engine. We must not claim the absent Expected
+was proved to be caused by a null count in the owner's original session.
+
+The actual visible-blank defect is proven by `stat-target-cost.js`: it mapped
+all private Pending/certificate/transport failures to `cost:null` without
+retaining their reason; the resource table rendered only an em dash.
+The original observed character/preset/Gate/private response code remains
+unknown until a live replay. The new product default supplies a clearer,
+source-ranked Hard2/Flex2 target for Qingxiao without changing the private
+math; it does not by itself establish why the owner saw no number.
 
 The private standalone gross-Tuner stat-target calculator has **no Character
 ID or preset requirement**; it consumes canonical stat names/tiers,
@@ -94,6 +104,8 @@ fresh-start-vs-observed checkpoint distinction. No fabricated estimate.
   Baizhi with isolated synthetic owned records; manual edit -> Character
   switch/reload -> Recommended; HTTP mock covers verified and
   unavailable response display; unchanged Inventory item bytes.
+  Historical source-only accounts may present an editable default after
+  existing account normalization; that is not a reviewed Hard/Flex policy.
 - Existing CI account/Build/Inventory/Improve and filter regressions run in
   the same Draft gate. Mock HTTP is not private-engine numeric verification.
 - Remaining: real owner Windows account/character/preset reproduction,

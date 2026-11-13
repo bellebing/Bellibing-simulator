@@ -40,12 +40,16 @@ export function restoreOwnedSettings(state,storage){
 // all other Characters, resources and pending migrations keep their values
 // inside the existing account-owned envelope. The AccountStore commit owns recovery/CAS.
 export async function clearOwnedImproveOverrides(characterId,storage,store){
- const saved=loadImprovePolicyStorage(storage);
+ const current=store.snapshot?.()?.userData?.storage?.[IMPROVE_POLICY_STORAGE_KEY];
+ const original=typeof current==='string'?current:storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
+ // AccountStore is authoritative when an owned V3 envelope exists; avoid
+ // restoring older localStorage bytes over newer resource/Character settings.
+ const source={getItem:key=>key===IMPROVE_POLICY_STORAGE_KEY?original:storage.getItem(key)};
+ const saved=loadImprovePolicyStorage(source);
  if(saved.pendingV2Characters[characterId])throw Error('Legacy Improve settings require review before Recommended reset.');
  if(!saved.characters[characterId])return false;
  // Retain every other field exactly as owned by the currently saved V3 JSON.
  // The typed loader above is a validator, not the serialization source.
- const original=storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
  if(original===null)throw Error('Legacy Improve settings require migration review.');
  const envelope=JSON.parse(original),characters={...envelope.characters};
  delete characters[characterId];

@@ -25,19 +25,22 @@ function assertPublishedAssetExists(assetPath: string): void {
   );
 }
 
-test('builder asset resolver exposes reviewed released Characters while fresh identities stay Pending', () => {
+test('builder asset resolver exposes reviewed released Characters while unresolved Jingran stays Pending', () => {
   const resolver = createCharacterBuilderAssetResolver(loadManifest());
   const expected = CHARACTER_CATALOG
-    .filter((character) => character.releaseStatus === 'RELEASED' && !['hsin', 'jingran'].includes(character.id))
+    .filter((character) => character.releaseStatus === 'RELEASED' && character.id !== 'jingran')
     .map((character) => character.id);
 
   assert.equal(CHARACTER_BUILDER_ASSET_MANIFEST_PATH, 'assets/builder-icons/manifest.json');
-  assert.equal(resolver.listCharacterIds().length, 57);
+  assert.equal(resolver.listCharacterIds().length, 60);
   assert.deepEqual(resolver.listCharacterIds(), expected);
 
   assert.equal(resolver.resolve('jingran'), null);
-  assert.equal(resolver.resolve('hsin'), null);
-  assert.equal(resolver.resolve('suoming'), null);
+  for (const id of ['hsin', 'lily', 'suoming']) {
+    const assets = resolver.resolve(id);
+    assert.ok(assets, `${id} must have source-backed Builder assets`);
+    assert.equal(assets.chains.length, 6);
+  }
   assert.equal(resolver.resolve('does-not-exist'), null);
 });
 
@@ -153,11 +156,11 @@ test('resolver rejects chain paths that do not match the declared Character fold
 
 test('released-only runtime contract rejects pending Character leakage even if a row is injected', () => {
   const manifest = loadManifest();
-  const leaked = structuredClone(manifest.characters[0]);
-  leaked.characterId = 'hsin';
-  leaked.characterName = 'Hsin';
+  // Mutate the real, unique released row: injecting a second Hsin would
+  // exercise duplicate detection instead of the intended release-status gate.
+  const leaked = manifest.characters.find((row: any) => row.characterId === 'hsin');
+  assert.ok(leaked);
   leaked.releaseStatus = 'UNRELEASED_WIP';
-  manifest.characters.push(leaked);
 
   assert.throws(
     () => createCharacterBuilderAssetResolver(manifest),

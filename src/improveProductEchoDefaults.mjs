@@ -93,7 +93,7 @@ function newProductDefault(characterId){
  const priorityNames=guidance.entries.filter(row=>!row.condition&&row.stats.length===1)
   .flatMap(row=>row.stats);
  const flex=[...new Set(priorityNames)]
-  .filter(name=>name!=='Energy Regen'&&!hard.includes(name)&&eligible.has(name)&&(!allowed||allowed.includes(name))).slice(0,3);
+  .filter(name=>name!=='Energy Regen'&&!hard.includes(name)&&(eligible.has(name)||allowed&&['CRIT Rate','CRIT DMG'].includes(name))&&(!allowed||allowed.includes(name))).slice(0,3);
  if(!flex.length)return null;
  return oneFlex({characterId,hard,flex,
   sourceKind:'PRYDWEN_GUIDE_PRIORITY',sourceUrl:source.sourceUrl,

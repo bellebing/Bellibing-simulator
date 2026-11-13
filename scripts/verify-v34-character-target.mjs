@@ -77,11 +77,11 @@ try {
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
     for (const [kind, path] of [['source', '/docs/ui-prototypes/v34-functional.html'], ['built', '/dist/ui-preview/']]) {
       await send('Page.navigate', { url: base + path });
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===61&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       await evaluate('localStorage.clear()');
       await send('Page.navigate', { url: base + path });
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
-      assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran']);
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===61&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran', 'suoming']);
       assert.deepEqual(await evaluate("['hsin','jingran'].map(id=>({id,stats:buildStatsCharacterById.has(id),skills:skillsPreviewByCharacterId.has(id),sequence:sequenceAssetsByCharacter.has(id)}))"), ['hsin','jingran'].map(id=>({id,stats:false,skills:false,sequence:false})));
       const data = await evaluate("import('./assets/improve-settings/character-targets.mjs').then(m=>m.CHARACTER_TARGET_PRESENTATIONS)");
       assert.deepEqual(data, expected, kind + ' browser data parity');
@@ -124,7 +124,7 @@ try {
       assert.equal(atk.minimum, 2345); assert.equal(atk.preferred, 2500);
       await shot(`artifacts/character-target-${kind}-customize-${width}x${height}.png`);
       await send('Page.reload');
-      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===59&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
+      await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===61&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       await evaluate("show('improve');improvePicker.select('Augusta')"); await sleep(700);
       assert.deepEqual(await evaluate('window.bellibingImproveSettings.getState().overrides.numericTargets'), custom, 'manual target reload persistence');
       await click('#improve-setting-target'); await click('[data-focus-key="clear:numericTargets"]');

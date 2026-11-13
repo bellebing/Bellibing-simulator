@@ -210,14 +210,14 @@ try {
   await navigate(send);
   await send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
   try {
-    await waitFor(send, "releasedCharacters.length===59 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
+    await waitFor(send, "releasedCharacters.length===61 && document.documentElement.dataset.sequenceCatalogReady==='true'", 'Character/Sequence catalogs did not become ready', 15000);
   } catch (error) {
     const diagnostic = await evaluate(send, "(async()=>({characterCards:document.querySelectorAll('#buildWheel .choice').length,characterManifestError:document.documentElement.dataset.characterManifestError||null,sequenceReady:document.documentElement.dataset.sequenceCatalogReady||null,sequenceError:document.documentElement.dataset.sequenceCatalogError||null,sequenceFetch:await fetch('assets/sequence-runtime.json',{cache:'no-store'}).then(async r=>({status:r.status,ok:r.ok,text:(await r.text()).slice(0,120)})).catch(e=>({error:String(e)}))}))()");
     throw new Error(error.message + ': ' + JSON.stringify(diagnostic));
   }
 
   const coverage = await evaluate(send, "(() => {const invalid=[];let sourceBacked=0,pending=0,staticBuild=0,nonStatic=0,pendingReview=0;for(const [id,row] of sequenceAssetsByCharacter){const chains=row?.chains||[];if(chains.length!==6||chains.some((chain,index)=>chain.sequence!==index+1||!Number.isInteger(chain.sourceChainId)||!chain.assetId||chain.assetPath!=='assets/builder-icons/chains/'+id+'/s'+(index+1)+'.webp'||!['SOURCE_BACKED','PENDING'].includes(chain.contentStatus)||!['STATIC_BUILD_STAT','NON_STATIC_MECHANIC','PENDING'].includes(chain.buildStatClassification)||!Array.isArray(chain.staticBuildStats)))invalid.push(id);for(const chain of chains){if(chain.contentStatus==='SOURCE_BACKED'&&chain.name&&chain.description)sourceBacked++;else if(chain.contentStatus==='PENDING'&&(!chain.name||!chain.description))pending++;else invalid.push(id+':S'+chain.sequence);if(chain.buildStatClassification==='STATIC_BUILD_STAT'&&chain.staticBuildStats.length)staticBuild++;else if(chain.buildStatClassification==='NON_STATIC_MECHANIC'&&!chain.staticBuildStats.length)nonStatic++;else if(chain.buildStatClassification==='PENDING'&&!chain.staticBuildStats.length)pendingReview++;else invalid.push(id+':review:S'+chain.sequence)}}const q=sequenceAssetsByCharacter.get('qingxiao')?.chains?.[0];return{count:sequenceAssetsByCharacter.size,invalid:[...new Set(invalid)],sourceBacked,pending,staticBuild,nonStatic,pendingReview,qingxiaoS1:q?{sourceChainId:q.sourceChainId,classification:q.buildStatClassification,stats:q.staticBuildStats.map(x=>({stat:x.stat,value:x.value}))}:null,samples:['aalto','augusta','chisa','the-shorekeeper'].map(id=>({id,chains:(sequenceAssetsByCharacter.get(id)?.chains||[]).map(chain=>({sourceChainId:chain.sourceChainId,name:chain.name,src:chain.assetPath}))}))}})()");
-  assert(coverage.count === 57 && coverage.invalid.length === 0 && coverage.sourceBacked === 342 && coverage.pending === 0 && coverage.staticBuild===20 && coverage.nonStatic===322 && coverage.pendingReview===0, 'Source-backed Sequence runtime/review coverage failed', coverage);
+  assert(coverage.count === 60 && coverage.invalid.length === 0 && coverage.sourceBacked === 360 && coverage.pending === 0 && coverage.staticBuild===20 && coverage.nonStatic===322 && coverage.pendingReview===18, 'Source-backed Sequence runtime/review coverage failed', coverage);
   assert(coverage.qingxiaoS1?.sourceChainId===331&&coverage.qingxiaoS1?.classification==='STATIC_BUILD_STAT'&&JSON.stringify(coverage.qingxiaoS1.stats)===JSON.stringify([{stat:'CRIT Rate',value:.16}]),'Qingxiao S1 reviewed static fact drifted',coverage.qingxiaoS1);
   assert(coverage.samples.every((sample) => sample.chains.length === 6 && sample.chains.every(chain=>chain.sourceChainId&&chain.name&&chain.src)), 'Sample Sequence identity/content coverage missing', coverage.samples);
 
@@ -365,7 +365,7 @@ try {
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Return to Chisa S2 failed');
 
   await navigate(send);
-  await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===59", 'Reload did not restore catalogs', 15000);
+  await waitFor(send, "document.readyState==='complete' && document.documentElement.dataset.sequenceCatalogReady==='true' && releasedCharacters.length===61", 'Reload did not restore catalogs', 15000);
   await evaluate(send, "show('build');buildPicker.select('Chisa')");
   await waitFor(send, "sequenceUi.characterId==='chisa' && sequenceUi.currentLevel===2", 'Reload did not restore Chisa committed Sequence');
   await sleep(900);
@@ -386,7 +386,7 @@ try {
     await moveAway(send); await sleep(180);
   }
 
-  console.log('v34 Sequence runtime verified: 57 Characters / 342 source-backed S1-S6, 20 reviewed static Build-stat Sequences / 322 non-static mechanics, Qingxiao S1 provenance, read-only hover, cumulative Set/Remove, Character isolation, reload persistence and desktop geometry.');
+  console.log('v34 Sequence runtime verified: 60 Characters / 360 source-backed S1-S6, 20 reviewed static Build-stat Sequences / 322 non-static mechanics / 18 explicit pending build-stat reviews, Qingxiao S1 provenance, read-only hover, cumulative Set/Remove, Character isolation, reload persistence and desktop geometry.');
   socket.close();
 } finally {
   chrome.kill('SIGTERM');

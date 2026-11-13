@@ -1,3 +1,38 @@
+# Character Import Pipeline — status i Draft PR #365 (2026-11-13)
+
+**Källhämtning → canonically source-reviewed Character → befintliga Build/Inventory/Improve → verkligt sparat konto är nu PASS för Hsin, Lily och Suoming i riktig Chromium.** Äldre utredning nedan är historisk och beskriver INTE längre nuläget.
+
+**Exakt implementation:** commit 9813a6d9725f0ba22745c77471dd74ac7c51d2bc, Actions Character Import Pipeline Review #43451976845 **SUCCESS**; PR #365 fortfarande Draft. Ingen merge, deployment eller privat DPS-claim.
+
+| Character | Verifierad Lv90 HP/ATK/DEF/Max Energy | Character Usable | Build/Inventory | Skills/Forte/Sequences | Improve | DPS Ready |
+| --- | --- | --- | --- | --- | --- | --- |
+| Hsin (Electro/Rectifier) | 10300 / 463 / 1112 / 125 | PASS | PASS | PASS (source/presentation) | PASS (källa/default + Current Build) | Pending |
+| Lily (Spectro/Pistols) | 16713 / 288 / 1100 / 175 | PASS | PASS; nyaste 5★ överst | PASS (source/presentation) | Pending (saknade verifierade rek/default; Current Build PASS) | Pending |
+| Suoming (Electro/Sword) | 10300 / 463 / 1112 / 125 | PASS | PASS; befintligt ID, RELEASED | PASS (source/presentation) | Pending (saknade verifierade rek/default; Current Build PASS) | Pending |
+
+**Nytt korrekt CLI-flöde på befintlig importer:**
+
+- npm run import:character -- lily --capture-source – hämtar original 3.8 source-capture utan att göra Character ägd.
+- npm run import:character -- hsin --promote-reviewed --integrate – en gång för ursprungsgranskad Hsin; samma kommando för lily och suoming. Kör inte --promote-reviewed igen på redan promoterade IDs: identitets-/assetduplicate guard blockerar.
+- npm run import:character -- lily --integrate – regenererar befintliga projections från redan bekräftade source-owners. Ingen ny databas.
+- npm run import:character -- lily --json – statisk coverage, som inte kan hävda Chromium-/privat DPS-bevis; source-absent Improve och DPS visas Pending.
+
+En befintlig builder-preview med 'Details pending' för Hsin var en **inaktiverad preview/select-knapp på grund av saknade presentation assets**, inte generell blockering av själva AccountStore Add Character. När Builder/Skills/Sequences/Hero Art laddats kan Add skapa normal owned Character. Riktig Google Chrome verifierade detta.
+
+Source owners: data/research/character-import/source-pins/3.8.json + ursprungliga lily-captured.json/suoming-captured.json, immutabla Git blob SHA, original Lv1 × Lv90 fixed-point /10000, half-up displayrounding och **EnergyMax/100** som faktisk maxenergi (inte Liberation cost). Befintliga src/data/characters.ts och characterIntrinsicStats.ts, data/source/character-{forte,sequence}-ui.json, source sequence review, originals assets Builder/portrait/hero manifest och befintliga UI/build/inventory generators. scripts/lib/integrate-reviewed-character.mjs återanvänder pipeline; scripts/update-reviewed-character-public-allowlist.mjs tillåter bara exakta SHA-kopplade riktiga originalbilder. Ingen parallell databas, påhittade stats, duplicerade Echoes eller fiktiva gear-rekommendationer.
+
+Verifierad pipeline: 61 RELEASED canonical Characters, 61 source-bundna Builder kits / 861 original-bytevaliderade assets, 60 med original Skill/Forte/Sequence-presentation. 18 nya Sequences har fortfarande statiska Build-stat modifier-classifications Pending och ingen genomförd privat DPS-mekanik. Build/Inventory kan ändå fungera utan dessa privata mekaniker.
+
+**Positiv real Chrome acceptance:** test/characterImportPositive.browser.mjs kör var och en av Hsin/Lily/Suoming via Build picker → source artwork → Select → **Add Character** → riktigt utrustat fysiskt Echo → AccountStore autosave → reload → samma Item och Character i Inventory → Improve Current Build → Augusta+föregående Inventory oförändrade → inga duplicate owned/import. test/characterOriginalRelease.browser.mjs bevisar Lily först, filter, sök och owned exclusion. Båda PASS i Actions #43451976845; Node/foundation, original SHA/asset audit och strict build PASS.
+
+**Kvarstående bred testgate:** npm test kördes separat och hade 64 FAIL / 1456 p.g.a. bl.a. historiskt fastlåsta 3.7 59/60 roster-assertions/rapporter. Detta är inte FULL PASS; korrigera historiska testspecifika invariants separat, inte via fabricerade DPS-värden. Privat native DPS, ägarens hostade konto och Windows live inte verifierat. PR fortfarande Draft, ingen merge/deploy.
+
+---
+
+## Historisk pre-import-analys (ersatt av statusen ovan)
+
+Texten nedan beskriver nuläget vid gamla bas-sha cb2b07311602caf54757d26d3bca4cafeac2c646 och är endast bevarad som historisk motivering.
+
 # Character Import Pipeline — Draft PR #365
 
 ## One entrypoint (safe, repeatable)

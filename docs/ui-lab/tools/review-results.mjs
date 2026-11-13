@@ -1,6 +1,7 @@
 import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { selectCardCharacter } from './review-character-card.mjs';
+import { CHARACTER_CATALOG } from '../v1.1/modules/catalog.js';
 export async function reviewResults(page,{width,checks,animated=false}) {
   const ensure = async id => { if (await page.locator(`#${id}Toggle`).getAttribute('aria-expanded') !== 'true') await page.locator(`#${id}Toggle`).click(); };
   const choose = mode => page.locator(`button[data-result-mode="${mode}"]`).click();
@@ -145,7 +146,10 @@ export async function reviewResults(page,{width,checks,animated=false}) {
     const framing=await page.locator('.results-art').evaluate(image=>({fit:getComputedStyle(image).objectFit,height:image.getBoundingClientRect().height,fallback:image.classList.contains('portrait-fallback')}));
     assert.equal(framing.fit,'contain','Banner should preserve artwork proportions');
     assert.ok(framing.height<=160,'Banner must not zoom the illustration excessively');
-    assert.equal(framing.fallback,id==='hsin');
+    const source = CHARACTER_CATALOG.find(person => person.id === id);
+    assert.ok(source, `Missing canonical Character ${id}`);
+    if(id === 'hsin') assert.equal(source.artStatus, 'HERO', 'Hsin reviewed Hero Art must not regress to portrait fallback');
+    assert.equal(framing.fallback, source.artStatus !== 'HERO', 'Results must respect canonical art source availability');
     assert.equal(await page.locator('.results-heading').evaluate(node=>node.getBoundingClientRect().height),92);
   }
   await selectCardCharacter(page,'augusta');

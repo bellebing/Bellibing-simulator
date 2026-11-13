@@ -21,7 +21,7 @@
     "releaseScope": "RELEASED_ONLY",
     "sourceVerification": "CANONICAL_CHARACTER_ID_TO_PINNED_SOURCE_ID_TO_CHARACTERS_JSON_ICON_BANNER_TO_EXACT_GIT_BLOB",
     "rover": "FAIL_CLOSED_UNTIL_GENDER_VARIANT_IDENTITY_IS_EXPLICIT",
-    "unreleased": "Suoming CONFIRMED_UPCOMING is excluded. Hsin/Jingran released identity does not promote Hero Art; source review remains Pending.",
+    "unreleased": "Suoming and Lily now use verified original source assets; existing nonimported candidates still fail closed.",
     "presentation": "Explicit reviewed metadata only. Never auto-center from transparent image bounds.",
     "presentationUnits": {
       "scale": "Unitless multiplier applied inside the Character-local focus art frame.",
@@ -31,9 +31,9 @@
     }
   },
   "summary": {
-    "releasedCharacters": 59,
-    "mapped": 53,
-    "pending": 6,
+    "releasedCharacters": 61,
+    "mapped": 56,
+    "pending": 5,
     "excludedUpcoming": 1,
     "excludedWip": 0
   },
@@ -1359,6 +1359,78 @@
         },
         "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
       }
+    },
+    {
+      "characterId": "hsin",
+      "characterName": "Hsin",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1311,
+      "sourceName": "Hsin",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xin_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Xin_UI.webp",
+      "sourceBlobSha": "eb28d53018daf35d2756e23b903f85743ea0014c",
+      "sourceBytes": 215910,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/hsin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
+      }
+    },
+    {
+      "characterId": "lily",
+      "characterName": "Lily",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1512,
+      "sourceName": "Lily",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.webp",
+      "sourceBlobSha": "83cd78ea1805f99a7fb7847c1d40db125a6c5a39",
+      "sourceBytes": 315850,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/lily.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
+      }
+    },
+    {
+      "characterId": "suoming",
+      "characterName": "Suoming",
+      "releaseStatus": "RELEASED",
+      "sourceCharacterId": 1312,
+      "sourceName": "Suoming",
+      "sourceBannerPath": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_SuoMing_UI.webp",
+      "sourceAssetPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_SuoMing_UI.webp",
+      "sourceBlobSha": "23a954af8e3aee7ada522863669b77540de6bb2f",
+      "sourceBytes": 247500,
+      "targetPath": "docs/ui-prototypes/assets/characters/hero-art/suoming.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
+      }
     }
   ],
   "pending": [
@@ -1471,14 +1543,6 @@
       ]
     },
     {
-      "characterId": "hsin",
-      "characterName": "Hsin",
-      "releaseStatus": "RELEASED",
-      "reasonCode": "SOURCE_REVIEW_PENDING",
-      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending.",
-      "candidates": []
-    },
-    {
       "characterId": "jingran",
       "characterName": "Jingran",
       "releaseStatus": "RELEASED",
@@ -1486,5 +1550,11 @@
       "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending.",
       "candidates": []
     }
-  ]
+  ],
+  "additionalSources": {
+    "wuwabuild38": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076"
+    }
+  }
 }

@@ -25,31 +25,36 @@
         "public/Data/Fetters.json"
       ],
       "assetRoot": "public/assets/"
+    },
+    "wuwabuild38": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "dataPaths": [
+        "public/Data/Characters.json"
+      ],
+      "assetRoot": "public/assets/"
     }
   },
   "importedAt": "2026-09-23",
   "policy": {
     "transform": "NONE_BYTE_IDENTICAL_COPY",
     "scope": "Selective builder-visible icons only; no bulk game UI dump.",
-    "characterCoverage": "58 source-resolved logical kits. Rover gender rows collapse only after identical kit-asset verification.",
-    "excludedCharacters": [
-      "hsin",
-      "suoming"
-    ],
+    "characterCoverage": "Reviewed original 3.8 source IDs extend existing 3.6 kits; all selected released kits must be manifest-resolved.",
+    "excludedCharacters": [],
     "materials": "PENDING_SOURCE_MAPPING. No EXP, Tuner or material icons are imported until item-ID -> name -> asset-path is source-resolved.",
     "genericUi": "Rarity stars, locks, plus/minus and generic buttons remain CSS/SVG/UI rather than imported game assets."
   },
   "summary": {
-    "physicalAssets": 822,
+    "physicalAssets": 861,
     "upstreamCharacterRows": 62,
-    "logicalCharacterKits": 58,
+    "logicalCharacterKits": 61,
     "upstreamSkillReferences": 496,
-    "skillReferences": 464,
-    "skills": 411,
+    "skillReferences": 488,
+    "skills": 432,
     "weaponTypeIconsWithinSkills": 5,
     "upstreamChainReferences": 372,
-    "chainReferences": 348,
-    "chains": 348,
+    "chainReferences": 366,
+    "chains": 366,
     "elements": 6,
     "sonataSets": 37,
     "statLabels": 20,
@@ -5396,6 +5401,261 @@
           "name": "Infinite Legacy",
           "assetId": "chain:zhezhi:s6",
           "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/zhezhi/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "hsin",
+      "characterName": "Hsin",
+      "releaseStatus": "RELEASED",
+      "sourceId": 1311,
+      "sourceName": "Hsin",
+      "skills": {
+        "normal-attack": {
+          "assetId": "skill:SP_IconNorMagic",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "assetId": "skill:SP_IconXinB1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinB1.webp"
+        },
+        "liberation": {
+          "assetId": "skill:SP_IconXinC1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinC1.webp"
+        },
+        "intro": {
+          "assetId": "skill:SP_IconXinQTE",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinQTE.webp"
+        },
+        "circuit": {
+          "assetId": "skill:SP_IconXinY",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinY.webp"
+        },
+        "outro": {
+          "assetId": "skill:SP_IconXinT",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinT.webp"
+        },
+        "inherent-1": {
+          "assetId": "skill:SP_IconXinD1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinD1.webp"
+        },
+        "inherent-2": {
+          "assetId": "skill:SP_IconXinD2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinD2.webp"
+        }
+      },
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 355,
+          "name": "A Boat to Cross the Rising Tide",
+          "assetId": "chain:hsin:s1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 356,
+          "name": "To Wake Is to Wonder What I Am",
+          "assetId": "chain:hsin:s2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 357,
+          "name": "A Dream of Return Among the Hills",
+          "assetId": "chain:hsin:s3",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 358,
+          "name": "A River of Lanterns, a River of Wishes",
+          "assetId": "chain:hsin:s4",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 359,
+          "name": "Forms Turn as the Heart Wills",
+          "assetId": "chain:hsin:s5",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 360,
+          "name": "The Moon Owes Its Light to the Living",
+          "assetId": "chain:hsin:s6",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lily",
+      "characterName": "Lily",
+      "releaseStatus": "RELEASED",
+      "sourceId": 1512,
+      "sourceName": "Lily",
+      "skills": {
+        "normal-attack": {
+          "assetId": "skill:SP_IconNorGun",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "assetId": "skill:SP_IconLiliB1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliB1.webp"
+        },
+        "liberation": {
+          "assetId": "skill:SP_IconLiliC1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliC1.webp"
+        },
+        "intro": {
+          "assetId": "skill:SP_IconLiliQTE",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliQTE.webp"
+        },
+        "circuit": {
+          "assetId": "skill:SP_IconLiliY",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliY.webp"
+        },
+        "outro": {
+          "assetId": "skill:SP_IconLiliT",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliT.webp"
+        },
+        "inherent-1": {
+          "assetId": "skill:SP_IconLiliD1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliD1.webp"
+        },
+        "inherent-2": {
+          "assetId": "skill:SP_IconLiliD2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliD2.webp"
+        }
+      },
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 373,
+          "name": "Look, White Flowers from the Ruins of Dreams",
+          "assetId": "chain:lily:s1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 374,
+          "name": "Listen, a Requiem from the Dream Cradle",
+          "assetId": "chain:lily:s2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 375,
+          "name": "May Your Soul Wander No More",
+          "assetId": "chain:lily:s3",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 376,
+          "name": "May Your Past Sink into Silence",
+          "assetId": "chain:lily:s4",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 377,
+          "name": "May You Find Peace in Endless Light",
+          "assetId": "chain:lily:s5",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 378,
+          "name": "May My Reverie Never End",
+          "assetId": "chain:lily:s6",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s6.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "suoming",
+      "characterName": "Suoming",
+      "releaseStatus": "RELEASED",
+      "sourceId": 1312,
+      "sourceName": "Suoming",
+      "skills": {
+        "normal-attack": {
+          "assetId": "skill:SP_IconNorKnife",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "assetId": "skill:SP_IconSuomingB1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingB1.webp"
+        },
+        "liberation": {
+          "assetId": "skill:SP_IconSuomingC1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingC1.webp"
+        },
+        "intro": {
+          "assetId": "skill:SP_IconSuomingQTE",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingQTE.webp"
+        },
+        "circuit": {
+          "assetId": "skill:SP_IconSuomingY",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingY.webp"
+        },
+        "outro": {
+          "assetId": "skill:SP_IconSuomingT",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingT.webp"
+        },
+        "inherent-1": {
+          "assetId": "skill:SP_IconSuomingD1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD1.webp"
+        },
+        "inherent-2": {
+          "assetId": "skill:SP_IconSuomingD2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD2.webp"
+        }
+      },
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 367,
+          "name": "Into the Blight Rain",
+          "assetId": "chain:suoming:s1",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s1.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 368,
+          "name": "Breaking Thunder, Slaying Evil",
+          "assetId": "chain:suoming:s2",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s2.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 369,
+          "name": "Lone Canopy, Solitary Road",
+          "assetId": "chain:suoming:s3",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s3.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 370,
+          "name": "Covenant Borne Upon the Heart",
+          "assetId": "chain:suoming:s4",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s4.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 371,
+          "name": "Seal Deep, Never Forgotten",
+          "assetId": "chain:suoming:s5",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s5.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 372,
+          "name": "Nine Shadows at Her Side",
+          "assetId": "chain:suoming:s6",
+          "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s6.webp"
         }
       ]
     }
@@ -12798,6 +13058,357 @@
       "targetPath": "docs/ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredwind_UI.webp",
       "sourceBytes": 4468,
       "sourceSha": "baebb6ddeacabc0454a391403099bdb1293cc62d"
+    },
+    {
+      "assetId": "skill:SP_IconXinB1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinB1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinB1.webp",
+      "sourceBytes": 2826,
+      "sourceSha": "ba8c49b2967668a0c86fdfc7209300155093903a"
+    },
+    {
+      "assetId": "skill:SP_IconXinC1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinC1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinC1.webp",
+      "sourceBytes": 3460,
+      "sourceSha": "b800c9135141048dd648f43d90d12482bb28960f"
+    },
+    {
+      "assetId": "skill:SP_IconXinQTE",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinQTE.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinQTE.webp",
+      "sourceBytes": 2788,
+      "sourceSha": "e3b69a354ab6b38283c151b1129c59e572fc057c"
+    },
+    {
+      "assetId": "skill:SP_IconXinY",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinY.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinY.webp",
+      "sourceBytes": 2380,
+      "sourceSha": "2ce90964ad9770da835462f50ef461ac3af79b95"
+    },
+    {
+      "assetId": "skill:SP_IconXinT",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinT.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinT.webp",
+      "sourceBytes": 3748,
+      "sourceSha": "0bf5a3909184bf2a81e502f3be6a2a24b49a8c78"
+    },
+    {
+      "assetId": "skill:SP_IconXinD1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinD1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinD1.webp",
+      "sourceBytes": 3852,
+      "sourceSha": "230025857fcebbb66b899de47c402ac9cf0b2227"
+    },
+    {
+      "assetId": "skill:SP_IconXinD2",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconXin/SP_IconXinD2.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconXinD2.webp",
+      "sourceBytes": 4332,
+      "sourceSha": "3cd6a701d91c393aa295881cea5e77200c5d816c"
+    },
+    {
+      "assetId": "chain:hsin:s1",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM1_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s1.webp",
+      "sourceBytes": 3096,
+      "sourceSha": "6f0a514b4ca29f2a9342fd8fead51b5c66d355cf"
+    },
+    {
+      "assetId": "chain:hsin:s2",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM2_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s2.webp",
+      "sourceBytes": 2832,
+      "sourceSha": "385790fe303f71b4ae14b9a7ced7f3bd5ac4b2db"
+    },
+    {
+      "assetId": "chain:hsin:s3",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM3_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s3.webp",
+      "sourceBytes": 3072,
+      "sourceSha": "263f7dbe6dd18247b646d195cd3c1a5b39d4ca60"
+    },
+    {
+      "assetId": "chain:hsin:s4",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM4_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s4.webp",
+      "sourceBytes": 3250,
+      "sourceSha": "0d018ba29c2124036fb043a600fd2be8b9ced34d"
+    },
+    {
+      "assetId": "chain:hsin:s5",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM5_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s5.webp",
+      "sourceBytes": 2914,
+      "sourceSha": "ea28f799f7c2e59d35ccf1799f80c4f8dce9e028"
+    },
+    {
+      "assetId": "chain:hsin:s6",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM6_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/hsin/s6.webp",
+      "sourceBytes": 2920,
+      "sourceSha": "0cac8778ea8e72227a3c5fd8c7079294231e7f97"
+    },
+    {
+      "assetId": "skill:SP_IconLiliB1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliB1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliB1.webp",
+      "sourceBytes": 3894,
+      "sourceSha": "02a4e21ed6ae111f4eab0943eb64cceeccba57be"
+    },
+    {
+      "assetId": "skill:SP_IconLiliC1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliC1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliC1.webp",
+      "sourceBytes": 4336,
+      "sourceSha": "e5cf3573f8878f7aeae5013c3272457e89316d78"
+    },
+    {
+      "assetId": "skill:SP_IconLiliQTE",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliQTE.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliQTE.webp",
+      "sourceBytes": 3746,
+      "sourceSha": "c9b2e71553ff7b8392004287cdbad5a10cabe388"
+    },
+    {
+      "assetId": "skill:SP_IconLiliY",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliY.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliY.webp",
+      "sourceBytes": 5344,
+      "sourceSha": "855758c139b8da371be6a86ccb61b342ecaee005"
+    },
+    {
+      "assetId": "skill:SP_IconLiliT",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliT.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliT.webp",
+      "sourceBytes": 4230,
+      "sourceSha": "b0001ec1d5f515d6fb52b100c9e93ed1ad278f85"
+    },
+    {
+      "assetId": "skill:SP_IconLiliD1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliD1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliD1.webp",
+      "sourceBytes": 3716,
+      "sourceSha": "c9f54c881b3781b287b7638b15ee115091144626"
+    },
+    {
+      "assetId": "skill:SP_IconLiliD2",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliD2.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconLiliD2.webp",
+      "sourceBytes": 5204,
+      "sourceSha": "38f8cc430869816c4d51455c0ae02ecae2667e85"
+    },
+    {
+      "assetId": "chain:lily:s1",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM1_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s1.webp",
+      "sourceBytes": 4334,
+      "sourceSha": "24a72521508be71d8f561c33677aa206652f4c3c"
+    },
+    {
+      "assetId": "chain:lily:s2",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM2_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s2.webp",
+      "sourceBytes": 4368,
+      "sourceSha": "abf1f6c368dcbbf120988e2cd7ec91b152e13c63"
+    },
+    {
+      "assetId": "chain:lily:s3",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM3_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s3.webp",
+      "sourceBytes": 4802,
+      "sourceSha": "875356fbf84e7d374b12a444f210c8766ad59c0d"
+    },
+    {
+      "assetId": "chain:lily:s4",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM4_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s4.webp",
+      "sourceBytes": 4390,
+      "sourceSha": "885baec3732635028d14849ee8ee2904be27c6a2"
+    },
+    {
+      "assetId": "chain:lily:s5",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM5_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s5.webp",
+      "sourceBytes": 4212,
+      "sourceSha": "5b84f806e06b0797de5d69daa91f6ba33a02c93e"
+    },
+    {
+      "assetId": "chain:lily:s6",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM6_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/lily/s6.webp",
+      "sourceBytes": 4412,
+      "sourceSha": "e6761bde639eb2028a8da3f511b4d3c45b8ceddf"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingB1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingB1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingB1.webp",
+      "sourceBytes": 3420,
+      "sourceSha": "c60e584490e9fcedf2e32bbb96acf5f163da9230"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingC1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingC1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingC1.webp",
+      "sourceBytes": 3736,
+      "sourceSha": "40c92925f86864262f51f218d123afb5093e4631"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingQTE",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingQTE.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingQTE.webp",
+      "sourceBytes": 3362,
+      "sourceSha": "5ba24e884ea9fe713b22b82eef6016a779260073"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingY",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingY.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingY.webp",
+      "sourceBytes": 3882,
+      "sourceSha": "db48b0a724ebcd5ae0995b5c3febf35d142a82e9"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingT",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingT.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingT.webp",
+      "sourceBytes": 2086,
+      "sourceSha": "9e72b4ca4d87efe40a0afb473a385eeb1cdfd3a5"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingD1",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingD1.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD1.webp",
+      "sourceBytes": 2910,
+      "sourceSha": "36eac87f236f95a2cc7386c848c1807914e3555b"
+    },
+    {
+      "assetId": "skill:SP_IconSuomingD2",
+      "family": "skill",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Atlas/SkillIcon/SkillIconSuoming/SP_IconSuomingD2.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD2.webp",
+      "sourceBytes": 3858,
+      "sourceSha": "3ef127288aa17f3c8424a31b5c5cef750921c997"
+    },
+    {
+      "assetId": "chain:suoming:s1",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM1_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s1.webp",
+      "sourceBytes": 2816,
+      "sourceSha": "e0bd4f3bcd27b36a8577330c00a93ea5a8c7d3d7"
+    },
+    {
+      "assetId": "chain:suoming:s2",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM2_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s2.webp",
+      "sourceBytes": 3308,
+      "sourceSha": "9b8ee6a823ce229d50c44be72d3eb6404dcb025f"
+    },
+    {
+      "assetId": "chain:suoming:s3",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM3_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s3.webp",
+      "sourceBytes": 3262,
+      "sourceSha": "1b22bbab84955d853f9e93a55e7a4c697849441c"
+    },
+    {
+      "assetId": "chain:suoming:s4",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM4_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s4.webp",
+      "sourceBytes": 3056,
+      "sourceSha": "222c243bac05b21f952a3948409d3181a8d1453a"
+    },
+    {
+      "assetId": "chain:suoming:s5",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM5_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s5.webp",
+      "sourceBytes": 3396,
+      "sourceSha": "9a8efccc07f0d78ba81874f9dc3c5593d5668fbc"
+    },
+    {
+      "assetId": "chain:suoming:s6",
+      "family": "chain",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM6_UI.webp",
+      "targetPath": "docs/ui-prototypes/assets/builder-icons/chains/suoming/s6.webp",
+      "sourceBytes": 3598,
+      "sourceSha": "03c4735e2b1e142778ae692e3c2f240093341c9b"
     }
   ]
 }

@@ -5526,15 +5526,273 @@ export const CHARACTER_CATALOG = [
   {
     "id": "hsin",
     "name": "Hsin",
-    "element": null,
+    "element": "Electro",
     "rarity": 5,
     "identityElement": "Electro",
     "weaponType": "Rectifier",
-    "sequences": [],
-    "forte": null,
+    "sequences": [
+      {
+        "sequence": 1,
+        "name": "A Boat to Cross the Rising Tide",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s1.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 2,
+        "name": "To Wake Is to Wonder What I Am",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s2.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 3,
+        "name": "A Dream of Return Among the Hills",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s3.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 4,
+        "name": "A River of Lanterns, a River of Wishes",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s4.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 5,
+        "name": "Forms Turn as the Heart Wills",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s5.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 6,
+        "name": "The Moon Owes Its Light to the Living",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/hsin/s6.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      }
+    ],
+    "forte": {
+      "nodes": [
+        {
+          "id": "1",
+          "parents": [],
+          "kind": "skill",
+          "role": "normal-attack",
+          "name": "Manifold Bloom",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconNorMagic.webp",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "id": "2",
+          "parents": [],
+          "kind": "skill",
+          "role": "skill",
+          "name": "Heartward by Moon",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinB1.webp",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "id": "3",
+          "parents": [],
+          "kind": "skill",
+          "role": "liberation",
+          "name": "Nexus Alight",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinC1.webp",
+          "column": 3,
+          "row": 0
+        },
+        {
+          "id": "4",
+          "parents": [
+            "7"
+          ],
+          "kind": "inherent",
+          "role": "inherent-1",
+          "name": "Tides of Succession",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinD1.webp",
+          "column": 2,
+          "row": 1
+        },
+        {
+          "id": "5",
+          "parents": [
+            "4"
+          ],
+          "kind": "inherent",
+          "role": "inherent-2",
+          "name": "Gleaning Simple Joys",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinD2.webp",
+          "column": 2,
+          "row": 2
+        },
+        {
+          "id": "6",
+          "parents": [],
+          "kind": "skill",
+          "role": "intro",
+          "name": "Glance on a Whim",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinQTE.webp",
+          "column": 4,
+          "row": 0
+        },
+        {
+          "id": "7",
+          "parents": [],
+          "kind": "skill",
+          "role": "circuit",
+          "name": "Forms Turn, Heart Abides",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinY.webp",
+          "column": 2,
+          "row": 0
+        },
+        {
+          "id": "8",
+          "parents": [],
+          "kind": "outro",
+          "role": "outro",
+          "name": "Herself a Thousand Lanterns",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconXinT.webp",
+          "column": -1,
+          "row": 0
+        },
+        {
+          "id": "9",
+          "parents": [
+            "1"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
+          "role": "stat-9",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "id": "10",
+          "parents": [
+            "2"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-10",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 1,
+          "row": 1
+        },
+        {
+          "id": "11",
+          "parents": [
+            "3"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-11",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 3,
+          "row": 1
+        },
+        {
+          "id": "12",
+          "parents": [
+            "6"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
+          "role": "stat-12",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 4,
+          "row": 1
+        },
+        {
+          "id": "13",
+          "parents": [
+            "9"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
+          "role": "stat-13",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 0,
+          "row": 2
+        },
+        {
+          "id": "14",
+          "parents": [
+            "10"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
+          "role": "stat-14",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 1,
+          "row": 2
+        },
+        {
+          "id": "15",
+          "parents": [
+            "11"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
+          "role": "stat-15",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 3,
+          "row": 2
+        },
+        {
+          "id": "16",
+          "parents": [
+            "12"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
+          "role": "stat-16",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 4,
+          "row": 2
+        }
+      ]
+    },
     "face": "../../ui-prototypes/assets/characters/portraits/hsin.png",
-    "art": "../../ui-prototypes/assets/characters/portraits/hsin.png",
-    "artStatus": "PORTRAIT_FALLBACK"
+    "art": "../../ui-prototypes/assets/characters/hero-art/hsin.webp",
+    "artStatus": "HERO"
   },
   {
     "id": "iuno",
@@ -6648,6 +6906,277 @@ export const CHARACTER_CATALOG = [
     },
     "face": "../../ui-prototypes/assets/characters/portraits/jiyan.png",
     "art": "../../ui-prototypes/assets/characters/hero-art/jiyan.webp",
+    "artStatus": "HERO"
+  },
+  {
+    "id": "lily",
+    "name": "Lily",
+    "element": "Spectro",
+    "rarity": 5,
+    "identityElement": "Spectro",
+    "weaponType": "Pistols",
+    "sequences": [
+      {
+        "sequence": 1,
+        "name": "Look, White Flowers from the Ruins of Dreams",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s1.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 2,
+        "name": "Listen, a Requiem from the Dream Cradle",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s2.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 3,
+        "name": "May Your Soul Wander No More",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s3.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 4,
+        "name": "May Your Past Sink into Silence",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s4.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 5,
+        "name": "May You Find Peace in Endless Light",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s5.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 6,
+        "name": "May My Reverie Never End",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/lily/s6.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      }
+    ],
+    "forte": {
+      "nodes": [
+        {
+          "id": "1",
+          "parents": [],
+          "kind": "skill",
+          "role": "normal-attack",
+          "name": "Mend and Cleanse",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconNorGun.webp",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "id": "2",
+          "parents": [],
+          "kind": "skill",
+          "role": "skill",
+          "name": "Dream Blend",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliB1.webp",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "id": "3",
+          "parents": [],
+          "kind": "skill",
+          "role": "liberation",
+          "name": "Into the Dream Cradle",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliC1.webp",
+          "column": 3,
+          "row": 0
+        },
+        {
+          "id": "4",
+          "parents": [
+            "7"
+          ],
+          "kind": "inherent",
+          "role": "inherent-1",
+          "name": "Woven Scent",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliD1.webp",
+          "column": 2,
+          "row": 1
+        },
+        {
+          "id": "5",
+          "parents": [
+            "4"
+          ],
+          "kind": "inherent",
+          "role": "inherent-2",
+          "name": "Flowers for You",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliD2.webp",
+          "column": 2,
+          "row": 2
+        },
+        {
+          "id": "6",
+          "parents": [],
+          "kind": "skill",
+          "role": "intro",
+          "name": "Blooming Dream",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliQTE.webp",
+          "column": 4,
+          "row": 0
+        },
+        {
+          "id": "7",
+          "parents": [],
+          "kind": "skill",
+          "role": "circuit",
+          "name": "Dreamland of Flowers",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliY.webp",
+          "column": 2,
+          "row": 0
+        },
+        {
+          "id": "8",
+          "parents": [],
+          "kind": "outro",
+          "role": "outro",
+          "name": "Blooming Fragrance",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconLiliT.webp",
+          "column": -1,
+          "row": 0
+        },
+        {
+          "id": "9",
+          "parents": [
+            "1"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-9",
+          "name": "Healing Bonus+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "id": "10",
+          "parents": [
+            "2"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-10",
+          "name": "HP+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
+          "column": 1,
+          "row": 1
+        },
+        {
+          "id": "11",
+          "parents": [
+            "3"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-11",
+          "name": "HP+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
+          "column": 3,
+          "row": 1
+        },
+        {
+          "id": "12",
+          "parents": [
+            "6"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-12",
+          "name": "Healing Bonus+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
+          "column": 4,
+          "row": 1
+        },
+        {
+          "id": "13",
+          "parents": [
+            "9"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
+          "role": "stat-13",
+          "name": "Healing Bonus+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
+          "column": 0,
+          "row": 2
+        },
+        {
+          "id": "14",
+          "parents": [
+            "10"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
+          "role": "stat-14",
+          "name": "HP+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
+          "column": 1,
+          "row": 2
+        },
+        {
+          "id": "15",
+          "parents": [
+            "11"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "HP%",
+            "value": 0.042
+          },
+          "role": "stat-15",
+          "name": "HP+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreenlife_UI.webp",
+          "column": 3,
+          "row": 2
+        },
+        {
+          "id": "16",
+          "parents": [
+            "12"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "Healing Bonus",
+            "value": 0.042
+          },
+          "role": "stat-16",
+          "name": "Healing Bonus+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertygreencure_UI.webp",
+          "column": 4,
+          "row": 2
+        }
+      ]
+    },
+    "face": "../../ui-prototypes/assets/characters/portraits/lily.webp",
+    "art": "../../ui-prototypes/assets/characters/hero-art/lily.webp",
     "artStatus": "HERO"
   },
   {
@@ -12780,6 +13309,277 @@ export const CHARACTER_CATALOG = [
     },
     "face": "../../ui-prototypes/assets/characters/portraits/suisui.png",
     "art": "../../ui-prototypes/assets/characters/hero-art/suisui.webp",
+    "artStatus": "HERO"
+  },
+  {
+    "id": "suoming",
+    "name": "Suoming",
+    "element": "Electro",
+    "rarity": 5,
+    "identityElement": "Electro",
+    "weaponType": "Sword",
+    "sequences": [
+      {
+        "sequence": 1,
+        "name": "Into the Blight Rain",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s1.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 2,
+        "name": "Breaking Thunder, Slaying Evil",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s2.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 3,
+        "name": "Lone Canopy, Solitary Road",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s3.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 4,
+        "name": "Covenant Borne Upon the Heart",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s4.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 5,
+        "name": "Seal Deep, Never Forgotten",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s5.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      },
+      {
+        "sequence": 6,
+        "name": "Nine Shadows at Her Side",
+        "art": "../../ui-prototypes/assets/builder-icons/chains/suoming/s6.webp",
+        "buildStatClassification": "PENDING",
+        "staticBuildStats": []
+      }
+    ],
+    "forte": {
+      "nodes": [
+        {
+          "id": "1",
+          "parents": [],
+          "kind": "skill",
+          "role": "normal-attack",
+          "name": "Furled Canopy",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconNorKnife.webp",
+          "column": 0,
+          "row": 0
+        },
+        {
+          "id": "2",
+          "parents": [],
+          "kind": "skill",
+          "role": "skill",
+          "name": "Furled Canopy: Rift Cleaver",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingB1.webp",
+          "column": 1,
+          "row": 0
+        },
+        {
+          "id": "3",
+          "parents": [],
+          "kind": "skill",
+          "role": "liberation",
+          "name": "Umbral Canopy: Miasma Lock",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingC1.webp",
+          "column": 3,
+          "row": 0
+        },
+        {
+          "id": "4",
+          "parents": [
+            "7"
+          ],
+          "kind": "inherent",
+          "role": "inherent-1",
+          "name": "Rain-Soaked Covenant",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD1.webp",
+          "column": 2,
+          "row": 1
+        },
+        {
+          "id": "5",
+          "parents": [
+            "4"
+          ],
+          "kind": "inherent",
+          "role": "inherent-2",
+          "name": "Sunken Seal, Forged Lock",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingD2.webp",
+          "column": 2,
+          "row": 2
+        },
+        {
+          "id": "6",
+          "parents": [],
+          "kind": "skill",
+          "role": "intro",
+          "name": "Furled Canopy: Flash Rift",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingQTE.webp",
+          "column": 4,
+          "row": 0
+        },
+        {
+          "id": "7",
+          "parents": [],
+          "kind": "skill",
+          "role": "circuit",
+          "name": "Bound Obsession, Forged Mind",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingY.webp",
+          "column": 2,
+          "row": 0
+        },
+        {
+          "id": "8",
+          "parents": [],
+          "kind": "outro",
+          "role": "outro",
+          "name": "Canopy Rumble",
+          "art": "../../ui-prototypes/assets/builder-icons/skills/SP_IconSuomingT.webp",
+          "column": -1,
+          "row": 0
+        },
+        {
+          "id": "9",
+          "parents": [
+            "1"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
+          "role": "stat-9",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 0,
+          "row": 1
+        },
+        {
+          "id": "10",
+          "parents": [
+            "2"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-10",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 1,
+          "row": 1
+        },
+        {
+          "id": "11",
+          "parents": [
+            "3"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.018000000000000002
+          },
+          "role": "stat-11",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 3,
+          "row": 1
+        },
+        {
+          "id": "12",
+          "parents": [
+            "6"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.012
+          },
+          "role": "stat-12",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 4,
+          "row": 1
+        },
+        {
+          "id": "13",
+          "parents": [
+            "9"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
+          "role": "stat-13",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 0,
+          "row": 2
+        },
+        {
+          "id": "14",
+          "parents": [
+            "10"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
+          "role": "stat-14",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 1,
+          "row": 2
+        },
+        {
+          "id": "15",
+          "parents": [
+            "11"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "ATK%",
+            "value": 0.042
+          },
+          "role": "stat-15",
+          "name": "ATK+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredattack_UI.webp",
+          "column": 3,
+          "row": 2
+        },
+        {
+          "id": "16",
+          "parents": [
+            "12"
+          ],
+          "kind": "stat",
+          "stat": {
+            "stat": "CRIT Rate",
+            "value": 0.027999999999999997
+          },
+          "role": "stat-16",
+          "name": "Crit. Rate+",
+          "art": "../../ui-prototypes/assets/builder-icons/stats/T_Iconpropertyredbaoji_UI.webp",
+          "column": 4,
+          "row": 2
+        }
+      ]
+    },
+    "face": "../../ui-prototypes/assets/characters/portraits/suoming.png",
+    "art": "../../ui-prototypes/assets/characters/hero-art/suoming.webp",
     "artStatus": "HERO"
   },
   {

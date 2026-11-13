@@ -9,6 +9,12 @@
       "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
       "sourceBytes": 9659340,
       "url": "https://raw.githubusercontent.com/DommyMM/wuwabuild/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json"
+    },
+    "characterImport38": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "path": "public/Data/Characters.json",
+      "gitBlobSha": "3614fc5a8ab982ca8d32a0b0fa54217d46418420"
     }
   },
   "policy": {
@@ -4301,6 +4307,254 @@
             "120%"
           ],
           "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_ZhezhiM6_UI.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "hsin",
+      "sourceId": 1311,
+      "sourceName": "Hsin",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 355,
+          "name": "A Boat to Cross the Rising Tide",
+          "descriptionTemplate": "Casting <color=Highlight>Resonance Liberation - Formshift</color> grants Hsin 2 stacks of <color=Highlight>Radiance Ward</color>, stacking up to {0} times. Switching to <color=Highlight>Answering Form</color> clears all stacks. When Hsin takes DMG from an enemy target's attack, 1 stack of <color=Highlight>Radiance Ward</color> can be consumed to make Her immune to interruption and reduce DMG taken by {1} for {2}s. This effect can be triggered once every {3}s.\n\nWhile in <color=Highlight>Resonance Mode - Unison</color>:\nThe DMG Multipliers of <color=Highlight>Intro Skill - Answering Form: Manifold Unison</color> and <color=Highlight>Intro Skill - Illumining Form: Manifold Unison</color> are increased by {6}, and each stack of <color=Highlight><te href=131111>Unison Boon</te></color> additionally increases the DMG Multipliers of <color=Highlight>Intro Skill - Answering Form: Manifold Unison</color> and <color=Highlight>Intro Skill - Illumining Form: Manifold Unison</color> by {7}, up to a total of {8} stacks.\n\nWhile in <color=Highlight>Resonance Mode - Electro Flare</color>:\nWhen Hsin enters combat, if <color=Highlight><te href=131113>Heart of Thunder</te></color> is below {13} stacks, it is increased to {13} stacks, triggered once every {12}s.\nThe DMG Multiplier of the <color=Highlight><te href=850013>Electro Flare</te></color> DMG triggered by <color=Highlight>Resonance Skill - Heartward by Moon</color> is increased to {16} x (the number of <color=Highlight>Heart of Thunder</color> stacks on Hsin) x (the <color=Highlight><te href=850013>Electro Flare</te></color> DMG Multiplier corresponding to the target's current <color=Highlight><te href=850013>Electro Flare</te></color> stacks).",
+          "params": [
+            "2",
+            "60%",
+            "1",
+            "1",
+            "4",
+            "100",
+            "15%",
+            "10%",
+            "4",
+            "400%",
+            "40%",
+            "10",
+            "12",
+            "50",
+            "5",
+            "210%",
+            "42%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM1_UI.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 356,
+          "name": "To Wake Is to Wonder What I Am",
+          "descriptionTemplate": "The DMG Multipliers of <color=Highlight>Heavy Attack - Answering Form: Realm Wanderer</color> and <color=Highlight>Heavy Attack - Answering Form: Realm Protector</color> are increased by {0}.\nThe DMG Multipliers of <color=Highlight>Heavy Attack - Illumining Form: Beholding All Horizons</color> and <color=Highlight>Heavy Attack - Illumining Form: Stilling All Horizons</color> are increased by {1}.\n\nWhen Hsin enters combat, reset the Cooldowns for Hsin to gain <color=Highlight><te href=131114>Resolution of Wishes</te></color> and <color=Highlight><te href=131115>Law of Heaven</te></color>, and restore {2} additional points of <color=Highlight><te href=131117>Answering Heart</te></color>. This effect can be triggered once every {3}s.",
+          "params": [
+            "60%",
+            "60%",
+            "100",
+            "12"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM2_UI.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 357,
+          "name": "A Dream of Return Among the Hills",
+          "descriptionTemplate": "The DMG Multiplier of <color=Highlight>Resonance Liberation - Pillars Across Heaven</color> is increased by {0}.\n\nWhile in <color=Highlight>Resonance Mode - Unison</color>:\nThe Crit. DMG of <color=Highlight>Resonance Liberation - Pillars Across Heaven</color> is increased by {1}, and each stack of <color=Highlight><te href=131111>Unison Boon</te></color> additionally increases its Crit. DMG by {2}, up to a total of {3} stacks.\n\nWhile in <color=Highlight>Resonance Mode - Electro Flare</color>:\nWhen the last stage of <color=Highlight>Resonance Liberation - Pillars Across Heaven</color> hits a target inflicted with <color=Highlight><te href=850013>Electro Flare</te></color>, it triggers 1 instance of <color=Highlight><te href=850013>Electro Flare</te></color> DMG, with its DMG Multiplier equal to {4} times the <color=Highlight><te href=850013>Electro Flare</te></color> DMG Multiplier corresponding to the current <color=Highlight><te href=850013>Electro Flare</te></color> stacks on the target.",
+          "params": [
+            "70%",
+            "20%",
+            "15%",
+            "4",
+            "1500%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM3_UI.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 358,
+          "name": "A River of Lanterns, a River of Wishes",
+          "descriptionTemplate": "All Resonators in the team gain {0} All-Attribute DMG Bonus for {1}s when a Resonator in the team triggers any of the following actions:\n- Inflict <color=Highlight><te href=850013>Electro Flare</te></color> or <color=Highlight><te href=150806>Electro Rage</te></color> on a target.\n- Gain <color=Highlight><te href=131110>Unison</te></color> while not having the effect.\n- Trigger <color=Highlight><te href=131112>Unison Response</te></color>.",
+          "params": [
+            "20%",
+            "30"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM4_UI.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 359,
+          "name": "Forms Turn as the Heart Wills",
+          "descriptionTemplate": "While in <color=Highlight>Illumining Form</color>, DMG taken by Hsin is reduced by {0}.\nWhen Hsin takes a fatal blow, She will not be knocked out, but instead restores {1} of Max HP and becomes immune to DMG and interruption for {2}s. This effect can be triggered once every {3} minutes.",
+          "params": [
+            "20%",
+            "100%",
+            "1",
+            "10"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM5_UI.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 360,
+          "name": "The Moon Owes Its Light to the Living",
+          "descriptionTemplate": "Targets take {0} more Resonance Skill DMG from Hsin.\n\nResonance Skill DMG dealt by Hsin ignores {2} of the target's DEF.\n\nWhile in <color=Highlight>Resonance Mode - Unison</color>:\nThe maximum stacks of the <color=Highlight><te href=131111>Unison Boon</te></color> effect on Resonators in the team are additionally increased by {1}. When a Resonator in the team triggers <color=Highlight><te href=131112>Unison Response</te></color>, all Resonators in the team additionally gain {1} stacks of <color=Highlight><te href=131111>Unison Boon</te></color> for {5}s. This effect does not stack.\n\nWhile in <color=Highlight>Resonance Mode - Electro Flare</color>:\nWhile in combat, <color=Highlight><te href=850013>Electro Flare</te></color> DMG taken by targets within a certain range around Hsin can be Critical, with Crit. Rate fixed at {3} and Crit. DMG fixed at {4}.",
+          "params": [
+            "40%",
+            "1",
+            "20%",
+            "80%",
+            "230%",
+            "30"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_XinM6_UI.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "lily",
+      "sourceId": 1512,
+      "sourceName": "Lily",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 373,
+          "name": "Look, White Flowers from the Ruins of Dreams",
+          "descriptionTemplate": "Lily is immune to interruption while casting <color=Highlight>Heavy Attack - Woven Fairytale</color>, <color=Highlight>Heavy Attack - Woven Phantasm</color>, <color=Highlight>Heavy Attack - Fairytale's Finale</color>, or <color=Highlight>Heavy Attack - Phantasm's End</color>.\nWhile <color=Highlight><te href=151203>Cradle Lullaby</te></color> is active, each <color=Highlight>Intro Skill</color> cast by a Resonator in the team other than Lily now grants 2 stacks of <color=Highlight><te href=151204>Dream Aroma</te></color>.",
+          "params": [],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM1_UI.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 374,
+          "name": "Listen, a Requiem from the Dream Cradle",
+          "descriptionTemplate": "While <color=Highlight><te href=151203>Cradle Lullaby</te></color> is active, when a Resonator in the team other than Lily casts an <color=Highlight>Intro Skill</color>, each stack of <color=Highlight><te href=151204>Dream Aroma</te></color> additionally increases Crit. Rate by 2% and Crit. DMG by 6%.",
+          "params": [
+            "2%",
+            "6%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM2_UI.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 375,
+          "name": "May Your Soul Wander No More",
+          "descriptionTemplate": "Lily additionally gains 170 points of <color=Highlight><te href=151201>Dream Perfume</te></color> upon entering combat, triggered once every 12s. After Lily casts <color=Highlight>Intro Skill - Eternal Bloom</color>, she additionally gains 170 points of <color=Highlight><te href=151201>Dream Perfume</te></color>.\nCasting <color=Highlight>Resonance Liberation - Into the Dream Cradle</color> additionally restores 10 points of Concerto Energy.\nDealing DMG with <color=Highlight>Heavy Attack - Fairytale's Finale</color> or <color=Highlight>Heavy Attack - Phantasm's End</color> additionally restores 10 points of Resonance Energy.\nDuring <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color>, Lily gains <color=Highlight>Dreambell Chime</color> faster.",
+          "params": [
+            "170",
+            "12",
+            "170",
+            "10",
+            "10"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM3_UI.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 376,
+          "name": "May Your Past Sink into Silence",
+          "descriptionTemplate": "<color=Highlight>Slumberland</color>'s healing is increased by 30%.",
+          "params": [
+            "30%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM4_UI.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 377,
+          "name": "May You Find Peace in Endless Light",
+          "descriptionTemplate": "While Lily is in <color=Highlight>Slumberland</color>, the pull-in effect range is increased by 50% when a Resonator in the team other than Lily casts <color=Highlight>Intro Skill</color>.",
+          "params": [
+            "50%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM5_UI.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 378,
+          "name": "May My Reverie Never End",
+          "descriptionTemplate": "The <color=Light>Spectro DMG</color> dealt by <color=Highlight>Heavy Attack - Fairytale's Finale</color> and <color=Highlight>Heavy Attack - Phantasm's End</color> is increased by 100%.\nThe <color=Light>Spectro DMG</color> dealt by <color=Highlight>Intro Skill - Eternal Bloom</color> is increased by 700%.",
+          "params": [
+            "100%",
+            "700%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM6_UI.webp"
+        }
+      ]
+    },
+    {
+      "characterId": "suoming",
+      "sourceId": 1312,
+      "sourceName": "Suoming",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 367,
+          "name": "Into the Blight Rain",
+          "descriptionTemplate": "<color=Highlight>Resonance Skill - Unfurled Canopy: Unforsaken Mind</color> is immune to interruption.\nThe DMG Multipliers of <color=Highlight>Intro Skill - Furled Canopy: Flash Rift</color>, <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color>, <color=Highlight>Intro Skill - Furled Canopy: Sealed Delusion (Unison)</color>, and <color=Highlight>Intro Skill - Unfurled Canopy: Whirling Thunder (Unison)</color> are increased by {0}.",
+          "params": [
+            "60%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM1_UI.webp"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 368,
+          "name": "Breaking Thunder, Slaying Evil",
+          "descriptionTemplate": "Crit. DMG is increased by {0}.\nCasting <color=Highlight>Outro Skill</color> increases the incoming Resonator's Crit. DMG by {1}, plus an additional {2} for each stack of <color=Highlight><te href=131111>Unison Boon</te></color> they have, up to {3}. This effect lasts for {4}s or until the Resonator is switched out.",
+          "params": [
+            "40%",
+            "10%",
+            "6%",
+            "24%",
+            "30"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM2_UI.webp"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 369,
+          "name": "Lone Canopy, Solitary Road",
+          "descriptionTemplate": "Casting <color=Highlight>Intro Skill - Furled Canopy: Flash Rift</color> or <color=Highlight>Intro Skill - Unfurled Canopy: Thunder Rending</color> grants {0} stacks of <color=Highlight><te href=131111>Unison Boon</te></color> for {1}s. This effect can be triggered once every {2}s.\n- If Suoming has already granted <color=Highlight><te href=131111>Unison Boon</te></color> and it is still in effect, gaining it again only resets its duration.\n\nCasting <color=Highlight>Resonance Liberation</color> grants Suoming {3} Basic Attack DMG Amplification for {4}s.",
+          "params": [
+            "1",
+            "30",
+            "25",
+            "30%",
+            "25"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM3_UI.webp"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 370,
+          "name": "Covenant Borne Upon the Heart",
+          "descriptionTemplate": "Suoming's ATK is increased by {0}.",
+          "params": [
+            "20%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM4_UI.webp"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 371,
+          "name": "Seal Deep, Never Forgotten",
+          "descriptionTemplate": "The DMG Multiplier of <color=Highlight>Resonance Liberation - Umbral Canopy: Miasma Lock</color> is increased by {0}.",
+          "params": [
+            "40%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM5_UI.webp"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 372,
+          "name": "Nine Shadows at Her Side",
+          "descriptionTemplate": "The effect of each stack of <color=Highlight><te href=131111>Unison Boon</te></color> on all Resonators in the team is increased by {0}, up to {1} stacks of <color=Highlight><te href=131111>Unison Boon</te></color>.\nThe DMG Multiplier of <color=Highlight>Basic Attack - Umbral Canopy: Engraved Heart</color> is increased by {2}.\nWhen Suoming has <color=Highlight><te href=131204>Seal Master</te></color>, her Crit. DMG is further increased by {3}.",
+          "params": [
+            "50%",
+            "4",
+            "50%",
+            "200%"
+          ],
+          "icon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_SuomingM6_UI.webp"
         }
       ]
     }

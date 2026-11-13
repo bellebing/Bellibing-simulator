@@ -70,6 +70,7 @@ export const CHARACTER_INTRINSIC_PROFILES: readonly CharacterIntrinsicProfile[] 
   verified('jingran', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'HP%', value: 0.12 }], ['Arikatsu 3.7.0 skilltree @9218d612: nodes 1005–1012'], ['CRIT Rate: 1.20% + 2.80% on each of two strands. HP: 1.80% + 4.20% on each of two strands. Original node IDs/parents/property IDs/params retained in character-release-3.7.json.'], '2026-10-11'),
   verified('jinhsi', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
   verified('jiyan', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
+  verified('lily', [{"stat":"Healing Bonus","value":0.12},{"stat":"HP%","value":0.12}], ['Arikatsu 3.8 pinned permanent Forte source nodes @49d65625340a32cec6851a12baedc03b5a630b25'], ['Original eight nodes; conditional mechanics excluded.'], '2026-11-13'),
   verified('lingyang', [{ stat: 'Glacio DMG', value: 0.12 }, { stat: 'ATK%', value: 0.12 }]),
   verified('lucilla', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
   verified('lucy', [{ stat: 'CRIT Rate', value: 0.08 }, { stat: 'ATK%', value: 0.12 }]),
@@ -117,6 +118,7 @@ export const CHARACTER_INTRINSIC_PROFILES: readonly CharacterIntrinsicProfile[] 
     ['Prydwen — current Minor Fortes', 'Wutheringlab — current Forte nodes'],
     ['Wutheringlab explicitly confirms Healing Bonus +12% and HP +12%; current Prydwen exposes the same totals while its parsed first label is incomplete.'],
   ),
+  verified('suoming', [{"stat":"CRIT Rate","value":0.08},{"stat":"ATK%","value":0.12}], ['Arikatsu 3.8 pinned permanent Forte source nodes @49d65625340a32cec6851a12baedc03b5a630b25'], ['Original eight nodes; conditional mechanics excluded.'], '2026-11-13'),
   verified(
     'taoqi',
     [{ stat: 'Havoc DMG', value: 0.12 }, { stat: 'DEF%', value: 0.152 }],

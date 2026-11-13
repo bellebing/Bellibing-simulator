@@ -548,6 +548,32 @@
       ]
     },
     {
+      "id": "hsin",
+      "name": "Hsin",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
       "id": "iuno",
       "name": "Iuno",
       "releaseStatus": "RELEASED",
@@ -647,6 +673,32 @@
         },
         {
           "stat": "ATK%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "lily",
+      "name": "Lily",
+      "releaseStatus": "RELEASED",
+      "element": "Spectro",
+      "level90": {
+        "hp": 16713,
+        "atk": 288,
+        "def": 1100
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "Healing Bonus",
+          "value": 0.12
+        },
+        {
+          "stat": "HP%",
           "value": 0.12
         }
       ]
@@ -1219,6 +1271,32 @@
         },
         {
           "stat": "HP%",
+          "value": 0.12
+        }
+      ]
+    },
+    {
+      "id": "suoming",
+      "name": "Suoming",
+      "releaseStatus": "RELEASED",
+      "element": "Electro",
+      "level90": {
+        "hp": 10300,
+        "atk": 463,
+        "def": 1112
+      },
+      "baseCombat": {
+        "critRate": 0.05,
+        "critDamage": 1.5,
+        "energyRegen": 1
+      },
+      "intrinsicStats": [
+        {
+          "stat": "CRIT Rate",
+          "value": 0.08
+        },
+        {
+          "stat": "ATK%",
           "value": 0.12
         }
       ]

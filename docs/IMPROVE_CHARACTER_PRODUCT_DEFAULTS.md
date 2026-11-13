@@ -20,7 +20,11 @@ Conditional whole-build Energy Regen is excluded: its target depends on actual
 build/rotation and cannot be forced on every Echo. Compound tied aliases are
 not arbitrarily promoted as individual priorities. ER Target remains separate.
 Manual / Customize preferences are account-owned and take precedence.
-Recommended explicitly restores the Character's product default.
+A visible **Restore Hard/Flex Recommended** control explicitly restores the
+Character's product default and clears only that Character's saved V3 override
+through AccountStore. A Character without an approved default instead sees
+**Restore source priorities (Hard/Flex default pending)**. Existing resource
+budgets, other Characters and pending legacy settings are preserved.
 
 ## Verified source eligibility / pending coverage
 
@@ -33,12 +37,21 @@ Recommended explicitly restores the Character's product default.
   deliberately returns Pending.
 - **Augusta**: retains the previously owner-approved, canonical
   Hard CRIT Rate/CRIT DMG, Flex ATK% / Heavy Attack DMG / Energy Regen /
-  Flat ATK, Flex count 1, minimum tiers unchanged.
-- **32 Pending**, including Baizhi, Verina, Shorekeeper and Mornye supports,
-  Cartethyia's HP emphasis, Jingran's HP conditional, Hiyuki's conditional
-  CRIT target, Suisui, Taoqi and other hybrid/support/mode-dependent cases.
-  Existing source priority display remains available when its content is valid,
-  but it does not silently become a computational goal.
+  Flat ATK, Flex count 1, minimum tiers unchanged. The existing ordinary
+  account Improve adapter treats **Energy Regen as a separate whole-build
+  target** and therefore shows three Flex rows (ATK%, Heavy Attack DMG, Flat ATK)
+  in the per-Echo UI; no ER math or policy semantics were changed.
+- **32 Pending** (complete source-ID list): `aalto`, `baizhi`, `brant`,
+  `buling`, `cantarella`, `cartethyia`, `ciaccona`, `denia`, `hiyuki`,
+  `iuno`, `jianxin`, `jingran`, `lumi`, `lupa`, `lynae`, `mornye`,
+  `mortefi`, `rover-aero`, `rover-electro`, `rover-spectro`, `sanhua`,
+  `sigrika`, `suisui`, `taoqi`, `the-shorekeeper`, `verina`,
+  `yangyang`, `yangyang-xuanling`, `yinlin`, `youhu`, `yuanwu`,
+  `zhezhi`. The reasons differ: support/healer or hybrid priorities, HP/DEF
+  mechanics, conditional CRIT/ER, no unambiguous reviewed DPS scope, or a
+  source configuration that does not justify automatic per-Echo Hard/Flex.
+  Existing source priority display is not a reviewed requirement policy.
+  **Pending is not a claim that these Characters can never benefit from CRIT.**
 
 Coverage refers to **Bellibing product defaults**: 27 of 59 including Augusta.
 It is **not** 27 source-certified per-Echo requirement policies.

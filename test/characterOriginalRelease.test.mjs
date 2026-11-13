@@ -4,11 +4,13 @@ import { CHARACTER_CATALOG } from '../src/data/characters.ts';
 import { CHARACTER_ORIGINAL_RELEASE, compareCharactersByOriginalRelease, sortCharactersByOriginalRelease } from '../src/characterOriginalRelease.mjs';
 
 const released=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED');
+const integrated=CHARACTER_CATALOG.some(c=>c.id==='lily');
+const expectedCount=integrated?61:59;
 const sorted=()=>sortCharactersByOriginalRelease(released);
 const chronology=c=>CHARACTER_ORIGINAL_RELEASE[c.id];
 
 test('all current released canonical identities have original release metadata, not catalog checkedAt',()=>{
- assert.equal(released.length,61);
+ assert.equal(released.length,expectedCount);
  assert.equal(new Set(released.map(c=>c.id)).size,released.length);
  for(const c of released){
   const row=chronology(c);
@@ -17,21 +19,21 @@ test('all current released canonical identities have original release metadata, 
   assert.match(row.date,/^\d{4}-\d\d-\d\d$/,c.id);
   assert.ok(!Object.hasOwn(row,'checkedAt'),c.id);
  }
- assert.equal(CHARACTER_CATALOG.find(c=>c.id==='suoming')?.releaseStatus,'RELEASED');
+ assert.equal(CHARACTER_CATALOG.find(c=>c.id==='suoming')?.releaseStatus,integrated?'RELEASED':'CONFIRMED_UPCOMING');
  assert.ok(CHARACTER_ORIGINAL_RELEASE.suoming,'actual debut metadata supports released selection');
  assert.ok(CHARACTER_ORIGINAL_RELEASE.lily,'actual release date drives new top-5-star sorting');
- assert.equal(CHARACTER_CATALOG.filter(c=>c.id==='lily').length,1,'Lily imported without duplicate identity');
+ assert.equal(CHARACTER_CATALOG.filter(c=>c.id==='lily').length,integrated?1:0,'Lily imported exactly once at completion');
 });
 
 test('5-star first, reverse original release patch then date, all 4-star after them',()=>{
  const original=[...released],output=sorted();
  assert.deepEqual(released,original,'catalog may not be mutated');
- assert.equal(output.length,61);
+ assert.equal(output.length,expectedCount);
  const firstFour=output.findIndex(c=>c.rarity===4);
  assert.ok(firstFour>0,'5-star group exists');
  assert.ok(output.slice(0,firstFour).every(c=>c.rarity===5));
  assert.ok(output.slice(firstFour).every(c=>c.rarity===4));
- assert.deepEqual(output.slice(0,5).map(c=>c.id),['lily','suoming','hsin','jingran','qingxiao']);
+ assert.deepEqual(output.slice(0,integrated?5:4).map(c=>c.id),integrated?['lily','suoming','hsin','jingran','qingxiao']:['hsin','jingran','qingxiao','suisui']);
  assert.deepEqual(output.slice(firstFour,firstFour+3).map(c=>c.id),['buling','lumi','youhu']);
  for(let i=1;i<output.length;i++){
   assert.ok(compareCharactersByOriginalRelease(output[i-1],output[i])<=0,output[i-1].id+' / '+output[i].id);

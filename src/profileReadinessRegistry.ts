@@ -177,11 +177,17 @@ export function auditProfileReadiness(
   validateCatalogIntegrity(issues);
 
   const mechanicsReview = auditCharacterMechanicsSourceReview();
-  if (!mechanicsReview.sourceReviewComplete || mechanicsReview.issues.length > 0) {
-    issues.push('Character Mechanics source review is not in a closed reviewed state');
+  // A newly RELEASED Character may be playable in Build/Inventory before its
+  // native DPS mechanics have been reviewed. Missing kit coverage is explicit
+  // *per-Character* Pending, never a global error that prevents exporting the
+  // canonical Character database. Structural source-review faults still fail.
+  if (mechanicsReview.issues.length > 0) {
     issues.push(...mechanicsReview.issues.map((issue) => `Character Mechanics: ${issue}`));
   }
-  const mechanicsBlockedIds = new Set(mechanicsReview.sourceBlockedCharacterIds);
+  const mechanicsBlockedIds = new Set([
+    ...mechanicsReview.sourceBlockedCharacterIds,
+    ...mechanicsReview.unreviewedCharacterIds,
+  ]);
 
   const rawBlockedIds = new Set(
     released.filter((row) => rawDpsBlockers(row).length > 0).map((row) => row.id),
@@ -255,7 +261,7 @@ export function auditProfileReadiness(
     profileSourcePendingIds: ids('PROFILE_SOURCE_PENDING'),
     profileCompletePendingFreezeIds: ids('PROFILE_COMPLETE_PENDING_FREEZE'),
     dpsReadyIds: ids('DPS_READY'),
-    preDpsFreezeReady: profileSourcePendingCount === 0 && profileCompletePendingFreezeCount === 0,
+    preDpsFreezeReady: mechanicsReview.sourceReviewComplete && profileSourcePendingCount === 0 && profileCompletePendingFreezeCount === 0,
     characters,
     issues,
   };

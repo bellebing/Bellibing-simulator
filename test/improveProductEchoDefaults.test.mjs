@@ -12,7 +12,7 @@ import {expectedTunerReason,createStatTargetCost} from '../docs/ui-lab/v1.1/modu
 import {clearOwnedImproveOverrides} from '../docs/ui-lab/v1.1/modules/account-settings.js';
 
 const presets=CHARACTER_GUIDE_RECOMMENDATIONS.map(row=>row.characterId).filter(id=>improveProductEchoDefault(id));
-const state=id=>({id,...initialSettings(id),accountProjection:{}});
+const state=id=>({id,gate:'+5',...initialSettings(id),accountProjection:{}});
 
 test('complete 59/59 Improve product standards: 26 unchanged Prydwen DPS, 13 DPR, 19 guide fallbacks, Augusta canonical',()=>{
  assert.equal(CHARACTER_GUIDE_RECOMMENDATIONS.length,59);

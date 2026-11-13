@@ -7,7 +7,7 @@ import {characterRecommendations} from './characterRecommendations.mjs';
 // even if its source happens to mention CRIT. Do not infer DPS role from CRIT text.
 export const CRIT_DPS_PRODUCT_SCOPE = Object.freeze([
  'aemeath','calcharo','camellya','carlotta','changli','chisa','chixia',
- 'danjin','encore','galbrena','hiyuki','hsin','jinhsi','jiyan','lingyang',
+ 'danjin','encore','galbrena','hsin','jinhsi','jiyan','lingyang',
  'lucilla','lucy','luuk-herssen','phoebe','phrolova','qingxiao',
  'qiuyuan','rebecca','roccia','rover-havoc','xiangli-yao','zani'
 ]);
@@ -20,6 +20,9 @@ export function improveProductEchoDefault(characterId){
  const source=characterRecommendations(characterId),guidance=source?.priorities;
  if(!source||guidance?.kind!=='SOURCE_PRIORITY_GUIDANCE_ONLY'||guidance.unresolved.length) return null;
  if(!hard.every(name=>guidance.orderedStats.includes(name)))return null;
+ // A conditional CRIT target (e.g. Hiyuki's until-75% guidance) is not
+ // evidence that a CRIT roll belongs on every Echo in every build.
+ if(guidance.entries.some(row=>row.condition&&row.stats.some(name=>hard.includes(name))))return null;
  // A CRIT main-stat source is corroboration of the narrow DPS presentation
  // scope. Non-CRIT main stat, hybrid/support/HP/DEF mechanics remain Pending.
  const main=source.mainStats?.find(row=>row.cost===4&&row.slotOrder===1)?.sourceText;

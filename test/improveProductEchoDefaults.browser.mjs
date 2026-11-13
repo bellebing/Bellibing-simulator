@@ -45,7 +45,7 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   const names=async section=>page.locator('#echoSettings [data-stat-section="'+section+'"] [data-stat-id]').evaluateAll(els=>els.map(e=>e.dataset.statId));
   await visit('augusta');
   assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
-  assert.deepEqual(await names('flex'),['ATK%','Heavy Attack DMG','Energy Regen','Flat ATK']);
+  assert.deepEqual(await names('flex'),['ATK%','Heavy Attack DMG','Flat ATK'],'account Improve keeps the canonical ER goal separate from Echo Hard/Flex');
   await visit('qingxiao');
   assert.deepEqual(await names('hard'),['CRIT Rate','CRIT DMG']);
   assert.deepEqual(await names('flex'),['ATK%','Flat ATK']);

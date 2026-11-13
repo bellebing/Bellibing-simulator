@@ -60,7 +60,7 @@ test('Chromium: Augusta, Qingxiao and support defaults, manual reload/reset, Pen
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.userData?.workspaceSettings?.qingxiao?.minima?.['ATK%']===1);
   await visit('baizhi');
   assert.deepEqual(await names('hard'),[],'support cannot inherit DPS CRIT requirements');
-  assert.match(await page.locator('#sourcePriorityStatus').innerText(),/per-Echo Hard\/minimum\/count Pending/);
+  assert.equal(await page.locator('.setting-mode button').filter({hasText:'Customize'}).getAttribute('aria-pressed'),'true','legacy account-mode source priorities are an editable choice, not a recommended per-Echo default');
   await page.waitForFunction(()=>[...document.querySelectorAll('#slots .improve-upgrade-cost strong')].some(x=>x.textContent==='Pending'));
   await page.waitForFunction(()=>document.querySelector('#resourceCost [data-expected-reason]')?.hidden===false);
   assert.match(await page.locator('#resourceCost [data-expected-reason]').innerText(),/Expected Tuners pending/);

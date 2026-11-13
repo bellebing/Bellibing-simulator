@@ -170,3 +170,17 @@
 .compact-review .slot .main-stat>span { font-size:12px; }
 .compact-review .slot .main-stat>strong { font-size:16px; }
 .compact-review .slot .substat { margin-block:3px; min-height:18px; }
+
+/* The V1.1 demonstration remains a visual comparison against the approved V1.
+   Type scale stays modern and separately asserted; original spacing and card
+   geometry are retained only here. Product/Sandbox keep their dense variants. */
+@media(min-width:1001px) {
+ .ui-lab:not(.product-workspace) .working-card .echo-values { padding:13px 15px 14px; }
+ .ui-lab:not(.product-workspace) .working-card .secondary-stat { padding-bottom:12px; }
+ .ui-lab:not(.product-workspace) .working-card .card-bottom { padding:9px 13px; line-height:normal; }
+ .ui-lab:not(.product-workspace) .working-card .echo-name { line-height:1.25; }
+ .ui-lab:not(.product-workspace) .slot .echo-values { padding:9px 10px 10px; }
+ .ui-lab:not(.product-workspace) .slot .secondary-stat { padding-bottom:8px; }
+ .ui-lab:not(.product-workspace) .slot .card-bottom { padding:7px 9px; line-height:normal; }
+ .ui-lab:not(.product-workspace) .slot .echo-name { line-height:1.25; }
+}

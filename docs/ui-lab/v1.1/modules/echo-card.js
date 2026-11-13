@@ -2,9 +2,13 @@ import { baseAsset, assetURL, escapeHtml } from './util.js';
 import {statPreference,rollPresentation,rollSignalMarkup} from './stat-guidance.js';
 
 function coloredStatValue([name,label]) {
-  const numeric = Number(String(label).replaceAll(',','').replace('%',''));
-  const value = String(label).includes('%') ? numeric / 100 : numeric;
-  return `<strong>${rollPresentation(name,value,escapeHtml(label))}</strong>`;
+  const text = String(label);
+  const numeric = Number(text.replaceAll(',','').replace('%',''));
+  const value = text.includes('%') ? numeric / 100 : numeric;
+  // Flat numeric substats need the same unit-spacing contract as main stats,
+  // even when rollPresentation wraps the value in a tier-tooltip span.
+  const unitless = /^[+-]?\d[\d,]*(?:\.\d+)?$/.test(text.trim());
+  return `<strong${unitless ? ' class="stat-unitless"' : ''}>${rollPresentation(name,value,escapeHtml(label))}</strong>`;
 }
 
 // Pure numeric stat values leave space for the percent unit without inserting a glyph.

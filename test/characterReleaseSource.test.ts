@@ -12,7 +12,9 @@ const source = JSON.parse(readFileSync('data/source/character-release-3.7.json',
 const byId = new Map<string, any>(source.characters.map((c: any) => [c.characterId, c]));
 
 test('59 released records join original role/property identities and use the dedicated EnergyMax field', () => {
-  const released = CHARACTER_CATALOG.filter(c => c.releaseStatus === 'RELEASED');
+  // This immutable payload is the original 3.7 source (59 identities), not
+  // the entire later 3.8 released catalog of 61.
+  const released = CHARACTER_CATALOG.filter(c => c.releaseStatus === 'RELEASED' && byId.has(c.id));
   assert.equal(released.length, 59);
   assert.equal(byId.size, 59);
   assert.equal(source.canonicalAuthority, false);
@@ -44,7 +46,7 @@ test('59 released records join original role/property identities and use the ded
 
 test('each permanent Minor Forte total re-derives all eight original property nodes', () => {
   const propertyNames: Record<number, string> = { 1:'HP%', 7:'ATK%', 8:'CRIT Rate', 9:'CRIT DMG', 10:'DEF%', 35:'Healing Bonus', 10002:'HP%', 10001:'HP%', 10007:'ATK%', 10010:'DEF%', 19:'CRIT Rate', 20:'CRIT DMG', 21:'Healing Bonus', 22:'Glacio DMG', 23:'Fusion DMG', 24:'Electro DMG', 25:'Aero DMG', 26:'Spectro DMG', 27:'Havoc DMG' };
-  for (const profile of CHARACTER_INTRINSIC_PROFILES) {
+  for (const profile of CHARACTER_INTRINSIC_PROFILES.filter(profile => byId.has(profile.characterId))) {
     const nodes = byId.get(profile.characterId).tree.filter((n: any) => n.NodeType === 4);
     assert.equal(nodes.length, 8, profile.characterId);
     const totals = new Map<string, number>();
@@ -64,7 +66,9 @@ test('all 1,903 legacy value rows match release 3.7 at every level 1–10 withou
   const legacy = JSON.parse(readFileSync('data/source/character-forte-ui.json','utf8'));
   const normalize = (value: string) => value.replace(/\d+(?:\.\d+)?/g, n => String(Number(n)));
   let rows = 0;
-  for (const character of legacy.characters) {
+  for (const character of legacy.characters.filter((row: { characterId: string }) => !['hsin', 'lily', 'suoming'].includes(row.characterId))) {
+    // The exact pre-import 3.6 UI source (57 identities) has 1,903 value rows.
+    // The three appended reviewed 3.8 kits have separate pinned source tests.
     const raw = byId.get(character.characterId);
     for (const move of character.moves) {
       const original = raw.skills.find((s: any) => s.source.Id === move.id);

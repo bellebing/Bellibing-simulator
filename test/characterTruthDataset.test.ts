@@ -10,7 +10,9 @@ const progression=read('data/factory/character-truth/prydwen-progression-truth.j
 const wgg=read('data/factory/character-truth/wuthering-gg-character-truth.json');
 const report=read('data/factory/character-truth/character-truth-reconciliation.json');
 
-const catalogIds=CHARACTER_CATALOG.map(character=>character.id).sort();
+// Snapshots are pinned to their 60-identity capture, not automatically
+// extended by the new source-backed Lily identity.
+const catalogIds=CHARACTER_CATALOG.filter(character=>character.id!=='lily').map(character=>character.id).sort();
 const countStatus=(rows:any[])=>rows.reduce((out:any,row:any)=>{out[row.captureStatus]=(out[row.captureStatus]??0)+1;return out},{});
 const forbidden=new Set(['recommendations','ratings','teams','rotations','builds','bestWeapons','echoRecommendations','weaponRecommendations','roleLeads']);
 
@@ -142,10 +144,12 @@ test('canonical comparison remains report-only and raw Character readiness is un
     NOT_COMPARABLE:782,
     PROVIDER_ONLY:33,
   });
-  assert.equal(CHARACTER_CATALOG.length,60);
+  assert.equal(CHARACTER_CATALOG.length,61);
   assert.ok(CHARACTER_CATALOG.every(character=>character.integrationStatus==='DATA_ONLY'));
+  assert.equal(CHARACTER_CATALOG.filter(character=>character.id==='lily').length,1);
+  assert.equal(CHARACTER_CATALOG.find(character=>character.id==='suoming')?.releaseStatus,'RELEASED');
   assert.deepEqual(
     CHARACTER_CATALOG.filter(character=>character.releaseStatus!=='RELEASED').map(character=>character.id),
-    ['suoming'],
+    [],
   );
 });

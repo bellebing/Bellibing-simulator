@@ -4,10 +4,10 @@ This report is deterministic output from the pinned legacy Skills/Forte source a
 
 ## Roster-wide status
 
-- **RELEASED Characters:** 59
-- **Source Outro Skill rows:** 59
+- **RELEASED Characters:** 61
+- **Source Outro Skill rows:** 61
 - **OUTRO_EFFECT VERIFIED Characters:** 59
-- **OUTRO_EFFECT PARTIAL Characters:** 0
+- **OUTRO_EFFECT PARTIAL Characters:** 2
 - **OUTRO_EFFECT BLOCKED Characters:** 0
 
 ### VERIFIED
@@ -16,7 +16,7 @@ aalto, aemeath, augusta, baizhi, brant, buling, calcharo, camellya, cantarella, 
 
 ### PARTIAL
 
-none
+lily, suoming
 
 ### BLOCKED
 

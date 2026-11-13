@@ -263,7 +263,7 @@ function renderFeedback() {
    $('#newCard').dataset.adviceTone=decision.tone;
    $('#newCard').dataset.adviceScope=decision.scope;
    $('#newCard').style.setProperty('--advice-strength',String(decision.chance === null ? .35 : .35 + .65 * decision.chance));
-   resourceCost.present({expected:echoAdvisor.expectedCost(),simulated:interactiveNetCost(),labels:{expected:'Expected',simulated:'Spent'}});
+   resourceCost.present({expected:echoAdvisor.expectedCost(),simulated:interactiveNetCost(),labels:{expected:'Expected',simulated:'Spent'},expectedReason:!state.improvePlan?.dpsEnabled?echoAdvisor.statTargetCost(state.selectedSlot)?.reason:null});
    const costTable=$('#resourceCost table');costTable.title=state.improvePlan?.dpsEnabled?'Estimated future gross cost to the next DPS step, including replacements under the sampled Gate policy. Spent shows net recorded workspace receipts after returns.':'Expected future gross Tuners until configured stat targets, including replacements. Spent shows recorded workspace receipts.';
 
    $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Enter the roll observed in game';
@@ -323,8 +323,8 @@ function renderSlots() {
    document.querySelectorAll('#slots [data-slot]').forEach(button=>{
     if(!state.improvePlan?.dpsEnabled){
      const er=state.statErRequirements?.[Number(button.dataset.slot)],cost=echoAdvisor?.statTargetCost(Number(button.dataset.slot)),footer=button.querySelector('.card-bottom');
-     if(footer){footer.classList.add('improve-upgrade-footer');footer.innerHTML='<div class="improve-slot-upgrade" title="Expected average gross Tuners to meet Hard/Flex stat targets, including optimal checkpoint restarts. Not a DPS upgrade cost."><span>Stat targets</span><span class="improve-upgrade-cost">Tuners <strong>'+ (Number.isFinite(cost?.tuners)?'\u2248 '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(cost.tuners):'\u2014')+'</strong></span></div>';}
-     if(footer&&er?.status==='REQUIRED_FOR_BUILD'){footer.querySelector('.improve-slot-upgrade').title+=' Includes ER needed to reach '+er.goal+'% across the build; four other Echoes unchanged.';}
+     if(footer){footer.classList.add('improve-upgrade-footer');footer.innerHTML='<div class="improve-slot-upgrade" title="Expected average gross Tuners to meet Hard/Flex stat targets, including optimal checkpoint restarts. Not a DPS upgrade cost."><span>Stat targets</span><span class="improve-upgrade-cost">Tuners <strong>'+ (Number.isFinite(cost?.tuners)?'\u2248 '+new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(cost.tuners):'Pending')+'</strong></span></div>';}
+     if(footer&&cost?.reason)footer.querySelector('.improve-slot-upgrade').title=cost.reason;if(footer&&er?.status==='REQUIRED_FOR_BUILD'){footer.querySelector('.improve-slot-upgrade').title+=' Includes ER needed to reach '+er.goal+'% across the build; four other Echoes unchanged.';}
      if(footer&&er?.status==='PROGRESS_TOWARD_BUILD'){footer.querySelector('.improve-slot-upgrade').title+=' Includes a positive ER step. Reaching '+er.goal+'% needs further build changes; this is not the cost to finish the whole ER goal.';}
      if(footer&&er?.status==='NEEDS_OTHER_SLOTS_OR_MAIN_STAT'){footer.querySelector('.improve-slot-upgrade').title+=' ER goal needs other slots or an ER main stat; this is only the stat-target cost.';}
      return;

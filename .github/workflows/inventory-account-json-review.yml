@@ -9,6 +9,9 @@ on:
       - 'src/productBuildDraft.mjs'
       - 'docs/product-ui/product-store.js'
       - 'docs/product-ui/build-candidate/workbench-b.js'
+      - 'src/characterOriginalRelease.mjs'
+      - 'test/characterOriginalRelease.test.mjs'
+      - 'test/characterOriginalRelease.browser.mjs'
       - 'docs/product-ui/build-candidate/workbench-b.html'
       - 'docs/product-ui/build-candidate/state.js'
       - 'docs/PROJECT_STATUS.md'
@@ -68,6 +71,8 @@ jobs:
         run: node --experimental-strip-types --test test/improveProductEchoDefaults.test.mjs test/sourcePriorityGuidance.test.mjs
       - name: Local Character scanner child and HTTP boundary regressions
         run: node --experimental-strip-types --test test/localCharacterScanner.test.mjs
+      - name: Source-bound original Character release order regression
+        run: node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
       - name: Build actual product Inventory
         run: npm run build
       - name: Use runner-installed Google Chrome
@@ -76,6 +81,7 @@ jobs:
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: |
+          timeout 120s node --experimental-strip-types --test test/characterOriginalRelease.browser.mjs
           timeout 120s node --experimental-strip-types --test test/inventoryAccountBackup.browser.mjs
           timeout 120s node --experimental-strip-types --test test/ownedBuildAccountSync.browser.mjs
           timeout 120s node --experimental-strip-types --test test/productImport.browser.mjs

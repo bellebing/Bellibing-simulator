@@ -10,6 +10,7 @@ on:
       - 'src/characterImportSourceCapture.mjs'
       - 'src/characterOriginalRelease.mjs'
       - 'scripts/import-character.mjs'
+      - 'scripts/update-reviewed-character-public-allowlist.mjs'
       - 'scripts/lib/integrate-reviewed-character.mjs'
       - 'scripts/audit-ui-builder-icons.mjs'
       - 'test/characterImport*.test.ts'
@@ -94,7 +95,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git add src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
+          git add scripts/public-web-assets.json src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
             data/source/character-forte-ui.json data/source/character-sequence-ui.json \
             data/source/character-sequence-build-stat-review.json data/generated/character-database.json \
             docs/ui-lab/v1.1/modules/catalog.js docs/ui-prototypes/assets

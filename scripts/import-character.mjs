@@ -11,11 +11,11 @@ import {characterRecommendations} from '../src/characterRecommendations.mjs';
 import {improveProductEchoDefault} from '../src/improveProductEchoDefaults.mjs';
 import {characterImportCoverage} from '../src/characterImportCoverage.mjs';
 
-const usage = 'Usage: npm run import:character -- <canonical-id> [--json] [--integrate] [--verify] [--output path]';
+const usage = 'Usage: npm run import:character -- <canonical-id> [--json] [--capture-source] [--promote-reviewed] [--integrate] [--verify] [--output path]';
 const args=process.argv.slice(2);
 if(!args.length || args.includes('--help')){console.log(usage);process.exit(args.includes('--help')?0:2);}
 const id=args[0];
-const knownFlags=new Set(['--json','--capture-source','--integrate','--verify','--output']);
+const knownFlags=new Set(['--json','--capture-source','--promote-reviewed','--integrate','--verify','--output']);
 for(let i=1;i<args.length;i++){
  if(!knownFlags.has(args[i]))throw Error('Unknown option '+args[i]+'\n'+usage);
  if(args[i]==='--output')i++;
@@ -64,6 +64,13 @@ function command(command,args){
  if(ran.status!==0)throw Error('Command failed ('+ran.status+'): '+command+' '+args.join(' '));
 }
 if(capture)command(process.execPath,['scripts/capture-character-import-source.mjs',id]);
+if(args.includes('--promote-reviewed')){
+  if(!integrate)throw Error('--promote-reviewed requires --integrate.');
+  command(process.execPath,['--experimental-strip-types','scripts/lib/integrate-reviewed-character.mjs',id]);
+  // Re-execute with fresh module imports after canonical source changes.
+  command(process.execPath,['--experimental-strip-types','scripts/import-character.mjs',id,...args.slice(1).filter(flag=>flag!=='--promote-reviewed')]);
+  process.exit(0);
+}
 let coverage=await report();
 if(integrate){
  // Only regenerate existing projections if original canonical facts and
@@ -103,4 +110,6 @@ if(verify){
  // public CLI does not fabricate successful browser/private execution.
  console.log('Node/foundation/build completed. Character-specific Chromium, account roundtrip and private DPS remain separately gated.');
 }
-if(coverage.characterUsable!=='CHARACTER_USABLE')process.exitCode=3;
+// Successful projection generation does not assert browser verification.
+// Source-only queries retain exit 3 while user-facing live evidence is Pending.
+if(!integrate && coverage.characterUsable!=='CHARACTER_USABLE')process.exitCode=3;

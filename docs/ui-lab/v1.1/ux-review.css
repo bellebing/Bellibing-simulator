@@ -185,6 +185,6 @@
  .ui-lab:not(.product-workspace) .slot .echo-name { line-height:1.25; }
  /* stat-guidance's auto-height roll rows must not collapse the approved V1
     demonstration card rhythm. Keep responsive product roll spacing unchanged. */
- .ui-lab:not(.product-workspace) .working-card .echo-card .substat { height:21px; min-height:0; margin-block:0; }
- .ui-lab:not(.product-workspace) .slot .echo-card .substat { height:20.5px; min-height:0; margin-block:0; }
+ .ui-lab:not(.product-workspace) .working-card .echo-card .substat { height:21.8px; min-height:0; margin-block:0; }
+ .ui-lab:not(.product-workspace) .slot .echo-card .substat { height:21.2px; min-height:0; margin-block:0; }
 }

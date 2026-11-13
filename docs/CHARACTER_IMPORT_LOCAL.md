@@ -25,7 +25,11 @@ docs/ui-lab/scanner-poc/.venv/Scripts/python.exe -m pip install -r docs/ui-lab/s
 ```
 
 The launcher automatically selects this local venv when present; use
-`SCANNER_PYTHON` to override it. `SCANNER_PORT` is optional; by default a free
+`SCANNER_PYTHON` to override it. On Windows, the launcher also detects the
+standard `Program Files\\Tesseract-OCR\\tesseract.exe` installation and makes
+that directory available to **only the Python scanner child**, even when the
+terminal's `PATH` has not refreshed. No manual Windows environment-variable
+edits are needed for that standard installation. `SCANNER_PORT` is optional; by default a free
 loopback port is selected, avoiding collisions with the 8767 web server.
 A prepared `docs/ui-lab/scanner-poc/tessdata/eng.traineddata` takes precedence;
 otherwise the system Tesseract language configuration is preserved.

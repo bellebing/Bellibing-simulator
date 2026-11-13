@@ -4,7 +4,7 @@ import {mkdtemp,mkdir,writeFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,dirname} from 'node:path';
 import {startPreview} from '../scripts/preview-simulator-v1.mjs';
-import {startLocalCharacterScanner} from '../scripts/local-character-scanner.mjs';
+import {startLocalCharacterScanner,scannerProcessEnvironment} from '../scripts/local-character-scanner.mjs';
 
 async function site(){
  const dir=await mkdtemp(join(tmpdir(),'bellibing-character-scanner-'));
@@ -33,6 +33,18 @@ async function stub(dir){
  `);
  return script;
 }
+test('Windows local scanner resolves installed Tesseract even when terminal PATH is stale',()=>{
+ const env={ProgramFiles:'C:\\Program Files',Path:'C:\\Windows\\System32',OTHER:'unchanged'};
+ const result=scannerProcessEnvironment(env,{platform:'win32',fileExists:file=>file==='C:\\Program Files\\Tesseract-OCR\\tesseract.exe'});
+ assert.equal(result.Path,'C:\\Program Files\\Tesseract-OCR;C:\\Windows\\System32');
+ assert.equal(result.OTHER,'unchanged');
+ assert.equal(env.Path,'C:\\Windows\\System32','never mutate the user environment');
+});
+test('Windows missing Tesseract and non-Windows scanner preserve existing environment',()=>{
+ const env={ProgramFiles:'C:\\Program Files',PATH:'user-owned-path'};
+ assert.deepEqual(scannerProcessEnvironment(env,{platform:'win32',fileExists:()=>false}),env);
+ assert.deepEqual(scannerProcessEnvironment(env,{platform:'linux',fileExists:()=>true}),env);
+});
 const sleep=ms=>new Promise(ok=>setTimeout(ok,ms));
 async function ready(scanner){
  for(let i=0;i<40;i++){if(scanner.status().ready)return;await sleep(200);}

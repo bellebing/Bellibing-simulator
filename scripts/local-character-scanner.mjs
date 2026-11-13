@@ -3,7 +3,7 @@
 import {spawn} from 'node:child_process';
 import {createServer} from 'node:net';
 import {existsSync} from 'node:fs';
-import {dirname, join} from 'node:path';
+import {dirname, join, win32} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
 const root=fileURLToPath(new URL('../',import.meta.url));
@@ -11,6 +11,25 @@ const scannerRoot=join(root,'docs','ui-lab','scanner-poc');
 const maxBytes=5*1024*1024;
 const unavailable='Character scanner is unavailable. Install its local Python/Tesseract prerequisites (docs/CHARACTER_IMPORT_LOCAL.md), then restart Bellibing Local. Your account is unchanged.';
 const send=(res,status,value)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(value));};
+
+// Tesseract's Windows installer does not always add its folder to PATH. Keep
+// this correction inside the local Python scanner child: no machine/user
+// environment edits, no private engine changes, and no public dist changes.
+// Injected platform/fileExists make the Windows behavior testable on CI Linux.
+export function scannerProcessEnvironment(env=process.env,{platform=process.platform,fileExists=existsSync}={}){
+ const childEnv={...env};
+ if(platform!=='win32')return childEnv;
+ const pathKey=Object.keys(childEnv).find(key=>key.toLowerCase()==='path')??'Path';
+ const bases=[env.ProgramFiles,'C:\\Program Files',env['ProgramFiles(x86)']].filter(Boolean);
+ for(const base of bases){
+  const exe=win32.join(base,'Tesseract-OCR','tesseract.exe');
+  if(fileExists(exe)){
+   childEnv[pathKey]=[win32.dirname(exe),childEnv[pathKey]].filter(Boolean).join(';');
+   break;
+  }
+ }
+ return childEnv;
+}
 
 async function freeLoopbackPort(){
  const server=createServer();
@@ -34,7 +53,7 @@ export async function startLocalCharacterScanner({env=process.env,python,script=
   if(!existsSync(script))throw Error('Scanner source missing.');
   child=spawnProcess(configured,[script,'--port',String(scannerPort)],{
    cwd:root,windowsHide:true,stdio:['ignore','ignore','inherit'],
-   env:{...env,...(existsSync(join(scannerRoot,'tessdata','eng.traineddata'))?{TESSDATA_PREFIX:join(scannerRoot,'tessdata')}:{})}
+   env:scannerProcessEnvironment({...env,...(existsSync(join(scannerRoot,'tessdata','eng.traineddata'))?{TESSDATA_PREFIX:join(scannerRoot,'tessdata')}:{})})
   });
   child.on('error',()=>{ready=false;failed=true;});
   child.on('exit',()=>{ready=false;failed=true;});

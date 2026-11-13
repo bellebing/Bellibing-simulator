@@ -18,7 +18,11 @@ test('Current/Candidate reads five owned Echoes and replaces exactly one without
  const {account,candidate}=uxAccountFixture(),before=JSON.stringify(account),storage={getItem:()=>JSON.stringify(account),setItem:()=>assert.fail('Read-only projection')};
  const current=accountProjection(person,storage),comparison=accountProjection(person,storage,{candidate,slot:0});
  assert.equal(comparison.currentValues.ELECTRO_DMG_BONUS,'70%','Reuse reviewed permanent Sonata effects');assert.equal(comparison.kind,'ACCOUNT_BUILD');assert.equal(comparison.status,'STATIC_COMPARISON');assert.deepEqual(comparison.current,current.current);assert.notEqual(comparison.candidate.critRate,comparison.current.critRate);assert.ok(comparison.current.echoCardCount===5&&comparison.candidate.echoCardCount===5);assert.equal(JSON.stringify(account),before);
- for(const mutate of [a=>a.characters=[],a=>a.drafts.Augusta.build.echoSets.sets.owned.slots[4]=null,a=>a.drafts.Augusta.build.forte=null]){const a=structuredClone(account);mutate(a);const p=accountProjection(person,{getItem:()=>JSON.stringify(a)},{candidate,slot:0});assert.equal(p.status,'PENDING');assert.equal(p.candidate,null);}
+ for(const mutate of [a=>a.characters=[],a=>a.drafts.Augusta.build.forte=null]){const a=structuredClone(account);mutate(a);const p=accountProjection(person,{getItem:()=>JSON.stringify(a)},{candidate,slot:0});assert.equal(p.status,'PENDING');assert.equal(p.candidate,null);}
+ const partial=structuredClone(account);partial.drafts.Augusta.build.echoSets.sets.owned.slots[4]=null;
+ const partialProjection=accountProjection(person,{getItem:()=>JSON.stringify(partial)},{candidate,slot:0});
+ assert.equal(partialProjection.status,'STATIC_COMPARISON','Four observed Echoes allow a bounded static projection, never a full-build DPS claim');
+ assert.equal(partialProjection.current.echoCardCount,4);assert.equal(partialProjection.candidate.echoCardCount,4);
  assert.equal(accountProjection(person,storage,{candidate:{...candidate,mainStat:{name:'CRIT Rate',value:999}},slot:0}).status,'PENDING');
 });
 test('per-portrait alternatives preserve the other two members and only choose an existing source context',()=>{

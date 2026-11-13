@@ -110,7 +110,9 @@ export async function reviewSettings(page,{width,checks}) {
   assert.deepEqual((await allIds()).sort(),ECHO_SETTING_STATS.map(stat=>stat.id).sort());
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 2');
   const geometry=await page.evaluate(()=>({panel:document.querySelector('#settings').clientWidth,workshop:document.querySelector('.workshop').clientWidth,overflow:document.documentElement.scrollWidth>innerWidth}));
-  assert.ok(geometry.panel>=320&&geometry.panel<=360);assert.ok(geometry.workshop>=1000);assert.equal(geometry.overflow,false);
+  assert.equal(geometry.panel,280,'Isolated visual study must preserve the approved V1 Settings width');
+  assert.ok(geometry.workshop>=1000,'Approved V1 Workbench must not be squeezed by the side panel');
+  assert.equal(geometry.overflow,false);
   const clipped=await rows('flex').evaluateAll(nodes=>nodes.flatMap(row=>{
     const name=row.querySelector('.stat-label').getBoundingClientRect(), slider=row.querySelector('input').getBoundingClientRect(),value=row.querySelector('output').getBoundingClientRect();
     return row.querySelector('.stat-label').scrollWidth>name.width+1||name.right>slider.left||slider.right>value.left||row.getBoundingClientRect().height>38?[row.textContent]:[];

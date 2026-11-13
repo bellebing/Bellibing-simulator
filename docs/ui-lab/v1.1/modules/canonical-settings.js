@@ -1,11 +1,12 @@
 import contexts from './production-settings.json' with {type:'json'};
 import {ECHO_SETTING_STATS} from './settings-catalog.js';
 import {restoreSourcePriorities} from './source-priorities.js';
+import {restoreProductEchoDefaults} from './product-echo-defaults.js';
 // Canonical projection only. This is not the production persisted Settings owner.
-export function initializeCanonicalSettings(state){
+export function initializeCanonicalSettings(state,{productDefaults=false}={}){
  const row=contexts.characters.find(row=>row.characterId===state.id);
  state.canonicalSettingsSource=row?{owner:contexts.owner,presetId:row.presetId,applicability:structuredClone(row.applicability),persisted:false}:null;
- return restoreCanonicalSettings(state)||restoreSourcePriorities(state);
+ return restoreCanonicalSettings(state)||(productDefaults&&restoreProductEchoDefaults(state))||restoreSourcePriorities(state);
 }
 export function restoreCanonicalSettings(state){
  if(!state.canonicalSettingsSource)return false;

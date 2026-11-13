@@ -24,7 +24,7 @@ export function verifyConfigurationSource(rows,read=readFileSync,review=ownerRev
     characterImportReview.changes.some(row=>!row.evidence))throw Error('Character Import source review file scope drift');
  const changes=new Map(),additions=new Map(),seen=new Set();
  for(const [entries,map]of [[review.changes,changes],[review.additions,additions],[characterImportReview.changes,changes]])for(const entry of entries){
-  if(!/^src\/data\/[A-Za-z0-9/]+\.ts$/.test(entry.path)||seen.has(entry.path)||!/^[a-f0-9]{40}$/.test(entry.after)||map===changes&&!/^[a-f0-9]{40}$/.test(entry.before))throw Error('Invalid reviewed configuration delta');
+  if(!(/^src\/data\/[A-Za-z0-9/]+\.ts$/.test(entry.path)||entry.path==='src/profileReadinessRegistry.ts')||seen.has(entry.path)||!/^[a-f0-9]{40}$/.test(entry.after)||map===changes&&!/^[a-f0-9]{40}$/.test(entry.before))throw Error('Invalid reviewed configuration delta');
   seen.add(entry.path);map.set(entry.path,entry);
  }
  const hash=path=>{const bytes=read(path);return createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex');};

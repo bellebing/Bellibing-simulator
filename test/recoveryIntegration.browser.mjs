@@ -45,9 +45,14 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   for(const resource of ['echoes','tuners','premium','advanced','medium','basic']){
    const input=page.locator(`[data-resource="${resource}"] input`);await input.fill(resource==='premium'?'10':['echoes','tuners'].includes(resource)?'100':'0');await input.press('Enter');
   }
-  await page.locator('#settingsToggle').click();await page.locator('#simulate').click();
-  const form=page.locator('[data-observation]');await form.locator('[name="stat"]').selectOption('CRIT Rate');await form.locator('[name="value"]').selectOption('0.063');
-  const beforeRoll=await snapshot();await form.getByRole('button',{name:'Record observed roll'}).click();
+  await page.locator('#settingsToggle').click();
+  // Account Improve no longer exposes the synthetic Simulate button. Enter a
+  // genuine +5 checkpoint through the same visible inline Echo roll editor the
+  // user operates; only a complete observed stat + value commits a record.
+  await page.locator('#newCard [data-wb-roll="0"]').click();
+  await page.locator('#newCard [data-bc-roll-name="0"][data-value="CRIT Rate"]').click();
+  const beforeRoll=await snapshot();
+  await page.locator('#newCard [data-bc-roll-value="0"][data-value="0.063"]').click();
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.userData.observations?.augusta?.slots?.some(s=>s.session.candidate.level===5));
   const afterRoll=await snapshot();assert.deepEqual(afterRoll.items,beforeRoll.items);assert.deepEqual(afterRoll.userData.storage,beforeRoll.userData.storage);
   await page.reload();await page.waitForFunction(()=>document.querySelector('#newCard')?.textContent.includes('6.3%'));

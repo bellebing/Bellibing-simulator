@@ -36,6 +36,17 @@ export function restoreOwnedSettings(state,storage){
   Object.assign(state,{statSections:sections,minima,gate:'+'+saved.gate,flexCount:group.minimumCount,settingsMode:saved.mode==='MANUAL'?'Customize':'Recommended',sourcePreferenceGuidance:null});
  }catch(error){state.accountSettingsPending=error.message;}
 }
+// Explicit user action only. Remove just this Character's saved V3 overrides;
+// all other Characters, resources and pending migrations stay byte-equivalent
+// within the account-owned envelope. The AccountStore commit owns recovery/CAS.
+export async function clearOwnedImproveOverrides(characterId,storage,store){
+ const saved=loadImprovePolicyStorage(storage);
+ if(saved.pendingV2Characters[characterId])throw Error('Legacy Improve settings require review before Recommended reset.');
+ if(!saved.characters[characterId])return false;
+ const characters={...saved.characters};delete characters[characterId];
+ await store.saveUserData(IMPROVE_POLICY_STORAGE_KEY,JSON.stringify({...saved,characters}));
+ return true;
+}
 export function readOwnedResourceBudget(storage){try{return loadImprovePolicyStorage(storage).resourceInventory;}catch{return undefined;}}
 
 // Persist user intent only, never source readiness, calculated advice or demo state.

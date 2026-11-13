@@ -99,3 +99,113 @@ if(id!=='hsin'){
  check(stats.every(s=>c.intrinsicStats.some(v=>v.stat===s.stat&&Math.abs(v.value-s.value)<1e-9)),'Hsin already verified permanent Forte nodes');
 }
 console.log('Original Character identity / Lv90 / eight permanent Forte nodes verified: '+id+' '+JSON.stringify({level90,stats}));
+
+// Source-backed Builder skill/Sequence assets, without re-importing existing 58 kits.
+const builderPath=prefix+'builder-icons/manifest.json',builder=json(builderPath);
+check(!builder.characters.some(c=>c.characterId===id),'Builder Character already mapped '+id);
+builder.sources.wuwabuild38={repository:artSource.repository,commit:artSource.commit,dataPaths:[pins.sources.wuwabuild.blobs.characters.path],assetRoot:'public/assets/'};
+const byTarget=new Map(builder.assets.map(a=>[a.targetPath,a]));
+async function installBuilder(relative,upstream,assetId,family){
+ const targetPath=prefix+'builder-icons/'+relative;
+ const prior=byTarget.get(targetPath);
+ if(prior)return {assetId:prior.assetId,targetPath};
+ const original=await asset(upstream);
+ check(!builder.assets.some(a=>a.assetId===assetId),'unique builder asset ID '+assetId);
+ const entry={assetId,family,sourceKey:'wuwabuild38',sourcePath:original.sourcePath,targetPath,sourceBytes:original.sourceBytes,sourceSha:original.sourceSha};
+ putBinary(targetPath,original.buffer);
+ builder.assets.push(entry);byTarget.set(targetPath,entry);
+ return {assetId,targetPath};
+}
+const skillAssets={};
+for(const skillRole of skillRoles){
+ const upstream=capture.sourceIcons?.[skillRole];
+ check(typeof upstream==='string','missing source Skill '+id+'/'+skillRole);
+ const name=basename(upstream);
+ skillAssets[skillRole]=await installBuilder('skills/'+name,upstream,'skill:'+name.slice(0,-extname(name).length),'skill');
+}
+const chains=[];
+for(const seq of capture.sequences){
+ const ref=await installBuilder('chains/'+id+'/s'+seq.sequence+'.webp',seq.sourceIcon,'chain:'+id+':s'+seq.sequence,'chain');
+ chains.push({sequence:seq.sequence,sourceChainId:seq.sourceChainId,name:seq.name,...ref});
+}
+builder.characters.push({characterId:id,characterName:capture.characterName,releaseStatus:'RELEASED',sourceId,sourceName:capture.characterName,skills:skillAssets,chains});
+builder.policy.excludedCharacters=builder.policy.excludedCharacters.filter(x=>x!==id);
+builder.policy.characterCoverage='Reviewed original 3.8 source IDs extend existing 3.6 kits; all selected released kits must be manifest-resolved.';
+const count=family=>builder.assets.filter(a=>a.family===family).length;
+Object.assign(builder.summary,{logicalCharacterKits:builder.characters.length,skillReferences:builder.characters.length*8,chainReferences:builder.characters.length*6,skills:count('skill'),chains:count('chain'),physicalAssets:builder.assets.length});
+save(builderPath,builder);
+// Original 3.8 Forte data appended to existing 3.6 source, without replacing or
+// altering historical Characters. Original translation text may be unavailable;
+// its labels remain null, never fabricated from other sources.
+const fortePath='data/source/character-forte-ui.json',forte=json(fortePath);
+check(!forte.characters.some(c=>c.characterId===id),'existing Forte character '+id);
+let textRows=null;
+try{
+ const textUrl=url(pins.sources.arikatsu.repository,pins.sources.arikatsu.commit,'Textmaps/en/multi_text/MultiText.json');
+ const result=JSON.parse((await bytes(textUrl)).toString('utf8'));
+ check(Array.isArray(result),'original textmap shape');
+ textRows=new Map(result.map(r=>[r.Id,r.Content]));
+}catch(err){console.warn('Original 3.8 localization Pending: '+err.message);}
+const originalText=Object.fromEntries(capture.forteTree.flatMap(n=>[n.PropertyNodeTitle,n.PropertyNodeDescribe]).filter(Boolean).map(k=>[k,textRows?.get(k)??null]));
+forte.characters.push({characterId:id,sourceId,sourceName:capture.characterName,tree:capture.forteTree,
+ statNodes:provider.skillTrees,skillIcons:provider.skillIcons,
+ moves:provider.moves.map(m=>({id:m.id,type:m.type,sort:m.sort,name:m.name?.en??null,description:m.description?.en??null,descriptionParams:m.descriptionParams,maxLevel:m.maxLevel,values:(m.values??[]).map(v=>({id:v.id,name:v.name?.en??null,values:v.values}))})),
+ text:originalText
+});
+forte.provenance.characterImport38={repository:pins.sources.arikatsu.repository,commit:pins.sources.arikatsu.commit,path:pins.sources.arikatsu.blobs.tree.path,gitBlobSha:pins.sources.arikatsu.blobs.tree.sha,provider:{repository:artSource.repository,commit:artSource.commit,gitBlobSha:pins.sources.wuwabuild.blobs.characters.sha}};
+save(fortePath,forte);
+// Six source-backed Sequence descriptions; missing static Build-stat adjudication
+// stays explicit PENDING, which does not block ordinary character ownership.
+const seqPath='data/source/character-sequence-ui.json',seq=json(seqPath);
+check(!seq.characters.some(c=>c.characterId===id),'existing Sequence '+id);
+seq.characters.push({characterId:id,sourceId,sourceName:capture.characterName,chains:capture.sequences.map(c=>({sequence:c.sequence,sourceChainId:c.sourceChainId,name:c.name,descriptionTemplate:c.descriptionTemplate,params:c.params,icon:c.sourceIcon}))});
+seq.provenance.characterImport38={repository:artSource.repository,commit:artSource.commit,path:pins.sources.wuwabuild.blobs.characters.path,gitBlobSha:pins.sources.wuwabuild.blobs.characters.sha};
+save(seqPath,seq);
+const revPath='data/source/character-sequence-build-stat-review.json',rev=json(revPath);
+check(!rev.characters.some(c=>c.characterId===id),'existing Sequence stat review '+id);
+rev.characters.push({characterId:id,chains:capture.sequences.map(c=>({sequence:c.sequence,sourceChainId:c.sourceChainId,classification:'PENDING'}))});
+save(revPath,rev);
+// Real source banner art: no placeholders, borrowed pictures or auto-cropping.
+const heroPath=prefix+'characters/hero-art/manifest.json',hero=json(heroPath);
+check(!hero.characters.some(c=>c.characterId===id),'already mapped Hero '+id);
+const originalHero=await asset(capture.sourceArt.hero),heroTarget=prefix+'characters/hero-art/'+id+'.webp';
+putBinary(heroTarget,originalHero.buffer);
+hero.characters.push({characterId:id,characterName:capture.characterName,releaseStatus:'RELEASED',
+ sourceCharacterId:sourceId,sourceName:capture.characterName,sourceBannerPath:capture.sourceArt.hero,
+ sourceAssetPath:originalHero.sourcePath,sourceBlobSha:originalHero.sourceSha,sourceBytes:originalHero.sourceBytes,targetPath:heroTarget,
+ presentation:{safeFraming:'CONTAIN',reviewStatus:'BUILD_FRAME_PENDING',scale:1,offsetX:0,offsetY:0,focalAnchor:{x:0.5,y:0.5},note:'Source-identical original art. Safe contain. Exact live framing can be reviewed independently.'}});
+hero.pending=hero.pending.filter(c=>c.characterId!==id);
+hero.summary.releasedCharacters=hero.characters.length+hero.pending.length;
+hero.summary.mapped=hero.characters.length;hero.summary.pending=hero.pending.length;
+hero.policy.unreleased='Suoming and Lily now use verified original source assets; existing nonimported candidates still fail closed.';
+hero.additionalSources??={};
+hero.additionalSources.wuwabuild38={repository:artSource.repository,commit:artSource.commit};
+save(heroPath,hero);
+// Hsin portrait exists; Suoming has an existing unselectable preview portrait;
+// Lily uses its exact released-game round avatar, with no synthetic PNG conversion.
+const portraitPath=prefix+'characters/portraits/manifest.json',portrait=json(portraitPath);
+if(id==='suoming'){
+ const entry=one(portrait.portraits,'characterId',id);
+ check(entry.sourcePath==='images/Suoming.png'&&!entry.uiEligible,'existing upcoming portrait changed');
+ entry.releaseStatus='RELEASED';entry.uiEligible=true;
+}
+if(id==='lily'){
+ check(!portrait.portraits.some(c=>c.characterId===id),'Lily portrait identity');
+ const face=await asset(capture.sourceArt.portrait),path=prefix+'characters/portraits/lily.webp';
+ putBinary(path,face.buffer);
+ portrait.portraits.push({characterId:id,characterName:'Lily',rarity:5,releaseStatus:'RELEASED',
+  sourceKey:'wuwabuild38',sourcePath:face.sourcePath,sourceSha:face.sourceSha,sourceBytes:face.sourceBytes,
+  targetPath:path,mappingStatus:'DIRECT_ORIGINAL_SOURCE_ROLE_ID',uiEligible:true});
+ portrait.additionalSources??={};portrait.additionalSources.wuwabuild38={repository:artSource.repository,commit:artSource.commit};
+}
+portrait.summary.catalogEntries=portrait.portraits.length+portrait.roverPortraits.length;
+portrait.summary.directPortraits=portrait.portraits.length;
+portrait.summary.directReleased=portrait.portraits.filter(c=>c.releaseStatus==='RELEASED').length;
+portrait.summary.directConfirmedUpcoming=portrait.portraits.filter(c=>c.releaseStatus==='CONFIRMED_UPCOMING').length;
+save(portraitPath,portrait);
+if(id==='hsin'){
+ const path='src/data/characterPresentationPending.ts';let t=readFileSync(path,'utf8');
+ check(t.includes("'hsin', "),'pending exclusion Hsin drift');
+ t=t.replace("'hsin', ",'');writeFileSync(path,t);
+}
+console.log('Built source-backed Skills, six Sequences, original images and existing-manifest projections for '+id);

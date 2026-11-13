@@ -82,18 +82,22 @@ try {
       await send('Page.navigate', { url: base + path });
       await wait("typeof releasedCharacters!=='undefined'&&releasedCharacters.length===61&&echoDataLoaded&&window.bellibingImproveSettings&&document.getElementById('improveSettings').dataset.sourceStatus!=='LOADING'");
       assert.deepEqual(await evaluate("releasedCharacters.filter(c=>['hsin','jingran','suoming'].includes(c.id)).map(c=>c.id).sort()"), ['hsin', 'jingran', 'suoming']);
-      assert.deepEqual(await evaluate("['hsin','jingran'].map(id=>({id,stats:buildStatsCharacterById.has(id),skills:skillsPreviewByCharacterId.has(id),sequence:sequenceAssetsByCharacter.has(id)}))"), ['hsin','jingran'].map(id=>({id,stats:false,skills:false,sequence:false})));
+      assert.deepEqual(await evaluate("['hsin','lily','suoming','jingran'].map(id=>({id,stats:buildStatsCharacterById.has(id),skills:skillsPreviewByCharacterId.has(id),sequence:sequenceAssetsByCharacter.has(id)}))"), [
+         ...['hsin','lily','suoming'].map(id=>({id,stats:true,skills:true,sequence:true})),
+         {id:'jingran',stats:false,skills:false,sequence:false}
+       ],'Promoted releases require reviewed runtime, while Jingran remains Pending');
       const data = await evaluate("import('./assets/improve-settings/character-targets.mjs').then(m=>m.CHARACTER_TARGET_PRESENTATIONS)");
       assert.deepEqual(data, expected, kind + ' browser data parity');
-      await evaluate("addOwned('Augusta');addOwned('Galbrena');addOwned('Chixia');addOwned('Aemeath');addOwned('Hsin');addOwned('Jingran');show('improve');improvePicker.select('Augusta')");
+      await evaluate("addOwned('Augusta');addOwned('Galbrena');addOwned('Chixia');addOwned('Aemeath');addOwned('Hsin');addOwned('Jingran');addOwned('Suoming');show('improve');improvePicker.select('Augusta')");
       await sleep(800);
       const snapshot = "JSON.stringify({builds:Object.fromEntries(Object.entries(state.drafts).map(([name,draft])=>{const build=structuredClone(draft.build);delete build.lastImprovedAt;return[name,build]})),candidate:improveUi.candidate})";
       const originalEquipment = await evaluate(snapshot);
       await click('#improve-setting-target');
       for (const [name, id] of [['Augusta', 'augusta'], ['Galbrena', 'galbrena'], ['Chixia', 'chixia'], ['Aemeath', 'aemeath'], ['Hsin', 'hsin'], ['Jingran', 'jingran'], ['Suoming', 'suoming']]) {
-        await evaluate(id === 'suoming' ? "window.bellibingImproveSettings.setCharacter('suoming')" : `improvePicker.select(${JSON.stringify(name)})`); await sleep(800);
-        if (id !== 'suoming') await click('#improveWheel .choice[data-character-id="' + id + '"]');
-        if (['hsin', 'jingran'].includes(id)) assert.equal(await evaluate(`projectImproveCurrentStats(${JSON.stringify(name)})`), null, name + ' unresolved Current Stats stay Pending');
+        await evaluate(`improvePicker.select(${JSON.stringify(name)})`); await sleep(800);
+        await click('#improveWheel .choice[data-character-id="' + id + '"]');
+        if (id === 'jingran') assert.equal(await evaluate(`projectImproveCurrentStats(${JSON.stringify(name)})`), null, 'Jingran unresolved Current Stats remain Pending');
+        if (['hsin','suoming'].includes(id)) assert.notEqual(await evaluate(`projectImproveCurrentStats(${JSON.stringify(name)})`), null, name + ' released Character needs actual source-backed Current Stats');
         if (await evaluate("document.querySelector('#improve-setting-target').getAttribute('aria-expanded')") !== 'true') await click('#improve-setting-target');
         const rows = await evaluate("[...document.querySelectorAll('.improve-recommended-stat')].map(n=>({metric:n.dataset.metric,status:n.dataset.status,label:n.querySelector('dt').textContent,value:n.querySelector('dd > span').textContent}))");
         const projected = expected.find(item => item.characterId === id);

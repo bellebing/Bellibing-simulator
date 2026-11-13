@@ -1,13 +1,5 @@
 name: Character Import Integration (Draft PR 365)
 on:
-  push:
-    branches:
-      - recovery/one-pr-build-team-improve-20261103
-    paths:
-      - scripts/lib/integrate-reviewed-character.mjs
-      - scripts/import-character.mjs
-      - .github/workflows/character-import-integration.yml
-      - test/characterImportPositive.browser.mjs
   workflow_dispatch:
 permissions:
   contents: write

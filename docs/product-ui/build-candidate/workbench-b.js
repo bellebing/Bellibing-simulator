@@ -8,6 +8,7 @@ import {productAsset} from '../assets.js';
 import '../product-navigation.js';
 import {createProductStore} from '../product-store.js';
 import {CHARACTER_PREVIEW_INFO} from './character-preview-info.js';
+import {sortCharactersByOriginalRelease} from '../../../src/characterOriginalRelease.mjs';
 import {installPreviewScroll, clearPreviewScroll, installFixedScroll} from './edge-scroll.js';
 import {statPreference, rollPresentation, rollSignalMarkup} from './stat-guidance.js';
 import {previewStage, weaponEffectsOverview, sonataOverview, echoSkillOverview} from './workbench-b-presentation.js';
@@ -180,6 +181,7 @@ function editor(kind,title,body,footer='',headerTools=''){
  if($('.bc-inspector'))$('.bc-inspector').scrollTop=oldScroll;if($('.bc-echo-browser .bc-catalog-grid'))$('.bc-echo-browser .bc-catalog-grid').scrollTop=listScroll;if(ui.focusEditor){ui.focusEditor=false;$('.bc-editor-header .bc-close').focus({preventScroll:true});}
 }
 function showPanel(kind){rememberWorkshopPreview();carousel.close();ui.panel=kind;ui.focusEditor=true;}
+const orderedCharacters=sortCharactersByOriginalRelease(CHARACTER_CATALOG);
 const characterElements=['Spectro','Havoc','Aero','Glacio','Fusion','Electro'];
 const characterWeaponIcons={Sword:'SP_IconNorKnife.webp',Broadblade:'SP_IconNorSword.webp',Pistols:'SP_IconNorGun.webp',Gauntlets:'SP_IconNorFist.webp',Rectifier:'SP_IconNorMagic.webp'};
 const characterWeaponIcon=(type,cls='')=>characterWeaponIcons[type]?image('/docs/ui-prototypes/assets/builder-icons/skills/'+characterWeaponIcons[type],type,cls):'';
@@ -196,12 +198,12 @@ function openCharacterBrowser(){
  characterRarityFilter=[4,5].includes(saved.rarity)?saved.rarity:null;
  characterWeapon=Object.hasOwn(characterWeaponIcons,saved.weapon)?saved.weapon:null;
  characterSkill=null;
- characterPreview=CHARACTER_CATALOG.some(c=>c.id===saved.preview&&!root.account.characters[c.id]?.owned)?saved.preview:CHARACTER_CATALOG.find(c=>!root.account.characters[c.id]?.owned)?.id??null;
+ characterPreview=CHARACTER_CATALOG.some(c=>c.id===saved.preview&&!root.account.characters[c.id]?.owned)?saved.preview:orderedCharacters.find(c=>!root.account.characters[c.id]?.owned)?.id??null;
  renderCharacterBrowser();
 }
 function renderCharacterBrowser(){
  const scroll=$('.wb-character-catalog')?.scrollTop??0;
- const rows=CHARACTER_CATALOG.filter(c=>!root.account.characters[c.id]?.owned&&(!characterRarityFilter||c.rarity===characterRarityFilter)&&(!characterElement||c.element===characterElement)&&(!characterWeapon||c.weaponType===characterWeapon)&&c.name.toLowerCase().includes(characterQuery.toLowerCase()));
+ const rows=orderedCharacters.filter(c=>!root.account.characters[c.id]?.owned&&(!characterRarityFilter||c.rarity===characterRarityFilter)&&(!characterElement||c.element===characterElement)&&(!characterWeapon||c.weaponType===characterWeapon)&&c.name.toLowerCase().includes(characterQuery.toLowerCase()));
  const selected=CHARACTER_CATALOG.find(c=>c.id===characterPreview);
  const filters=characterElements.map(e=>'<button data-wb-character-element="'+e+'" aria-label="'+e+'" title="'+e+'" aria-pressed="'+(characterElement===e)+'">'+image('/docs/ui-prototypes/assets/builder-icons/elements/'+e.toLowerCase()+'.webp')+'</button>').join('');
  const rarityFilters=[5,4].map(rarity=>'<button data-wb-character-rarity="'+rarity+'" aria-label="'+rarity+'-star Characters" aria-pressed="'+(characterRarityFilter===rarity)+'">'+rarity+'&#9733;</button>').join('');

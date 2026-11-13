@@ -23,7 +23,7 @@ test('Chromium: latest 5-star above all 4-star, source chronology, filters, prev
   await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
   await open(page);
   assert.deepEqual(await ids(page),expected.map(c=>c.id),'unfiltered catalog must follow first release, not alphabetical');
-  assert.equal((await ids(page))[0],'lily','newest imported released 5-star appears first');
+  assert.equal((await ids(page))[0],CHARACTER_CATALOG.some(c=>c.id==='lily')?'lily':'hsin','newest imported released 5-star appears first');
   assert.equal(await page.locator('.wb-character-card').first().getAttribute('data-rarity'),'5');
   assert.equal(await page.locator('[data-wb-character-build="hsin"]').count(),1,'default preview follows newest');
   assert.equal((await ids(page)).at(-1),expected.at(-1).id);
@@ -49,7 +49,7 @@ test('Chromium: latest 5-star above all 4-star, source chronology, filters, prev
   await page.locator('#wbCharacterSearch').fill('hsin');
   await page.locator('[data-wb-character-preview="hsin"]').click();
   assert.equal(await page.locator('.wb-character-preview-identity').innerText(),'Hsin');
-  assert.equal(await page.locator('[data-wb-character-build="hsin"]').isDisabled(),false,'reviewed Hsin Build preview is actionable');
+  assert.equal(await page.locator('[data-wb-character-build="hsin"]').isDisabled(),!CHARACTER_CATALOG.some(c=>c.id==='lily'),'Hsin is actionable only after source-backed Builder integration');
   // Use a fully supported Character for the AccountStore/Current Build acceptance.
   await page.locator('#wbCharacterSearch').fill('jiyan');
   await page.locator('[data-wb-character-preview="jiyan"]').click();

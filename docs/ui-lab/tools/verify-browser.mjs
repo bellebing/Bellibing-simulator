@@ -506,6 +506,19 @@ try {
     await baseline.goto(`${origin}/docs/ui-lab/v1/?settings=expanded`, { waitUntil: 'networkidle' });
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
+    if (Math.abs(withoutCost['.workshop'].height - approved['.workshop'].height) >= 2) {
+      // Preserve the strict approved-V1 gate; print enough geometry to repair
+      // the production/demo CSS rather than adjusting the expected thresholds.
+      const childGeometry = async target => target.evaluate(() => Object.fromEntries(
+        ['.workshop-header','.working-area','.working-card','.interaction','.loadout-heading','.slots','.workshop-footer']
+          .map(selector => {
+            const node = document.querySelector(selector), rect = node.getBoundingClientRect();
+            return [selector, { top: rect.top, height: rect.height, width: rect.width }];
+          })
+      ));
+      console.error('V1 source layout drift', JSON.stringify({width, approved, withoutCost,
+        approvedChildren: await childGeometry(baseline), sourceChildrenWithCost: await childGeometry(page)}));
+    }
     for (const selector of ['.workshop', '.working-area', '.slots']) {
       for (const key of ['y','height']) assert.ok(Math.abs(withoutCost[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed without Resource Cost (${withoutCost[selector][key]} vs ${approved[selector][key]})`);
     }

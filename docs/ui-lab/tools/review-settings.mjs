@@ -1,6 +1,7 @@
 import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { ECHO_SETTING_STATS } from '../v1.1/modules/settings-catalog.js';
+import { characterErGuidance } from '../v1.1/modules/character-er-guidance.js';
 import { selectCardCharacter } from './review-character-card.mjs';
 export async function reviewSettings(page,{width,checks}) {
   const ensureSettings=async()=>{if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();};
@@ -88,7 +89,9 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#editERTarget').count(),0,'ER target must not have a dropdown');
   assert.equal(await page.locator('#erTotalStatus').count(),0,'No ER explanation row');
   assert.equal(await page.locator('#erTarget > .er-target-heading').count(),1,'ER target remains on one row');
-  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
+  const augustaER = characterErGuidance('augusta');
+  assert.deepEqual([augustaER.minimum,augustaER.maximum,augustaER.basis],[115,125,'OWNER_RANGE'],'Preserve verified Augusta ER guidance range');
+  assert.equal(await page.locator('#erTargetValue').textContent(), `${augustaER.label} suggested`);
   assert.equal(await page.locator('#erTargetValue').isVisible(),true);
   assert.equal(await page.locator('#erTargetInput').isVisible(),false);
   assert.equal(await page.locator('#erEnabled').isChecked(),false,'Suggested target is not enabled implicitly');
@@ -187,7 +190,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 2');
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
   assert.equal(await page.locator('#erTargetEditor').isVisible(),false);
-  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
+  assert.equal(await page.locator('#erTargetValue').textContent(), `${augustaER.label} suggested`);
   assert.equal(await page.locator('#gateLabel').textContent(),'+15');
   await page.locator('#reset').click();assert.equal(await page.locator('#gateLabel').textContent(),'+5');
   assert.deepEqual((await allIds()).sort(),ECHO_SETTING_STATS.map(stat=>stat.id).sort());

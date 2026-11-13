@@ -33,11 +33,10 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   // Legacy saved Build can open without a v34 picker selection. Use the
   // actual visible Character card first: do not force hidden Sequence controls
   // or mutate the account to satisfy this test.
-  if(!await frame.locator('.picker-shell.has-selection').count()){
-    const augusta=frame.locator('#build .choice[data-character-id="augusta"]');
-    await augusta.waitFor();
-    await augusta.click();
-  }
+  // Legacy v34 auto-selects Augusta after loading its Character source. Wait
+  // for the settled iframe, not a carousel node hidden during navigation.
+  await frame.locator('#buildShell.has-selection').waitFor({state:'visible'});
+  assert.equal((await frame.locator('#buildName').textContent()).trim(),'Augusta');
   await frame.locator('.build-sequence-trigger').click();await frame.locator('[data-sequence="1"]').click();await frame.locator('#sequenceAction').click();
   await frame.getByRole('button',{name:'Close Sequences',exact:true}).click();await frame.locator('#saveOwnedBuild').click();
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.characters.augusta.record.build.sequenceLevel===1);

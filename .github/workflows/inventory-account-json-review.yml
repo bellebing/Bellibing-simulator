@@ -16,6 +16,16 @@ on:
       - 'test/ownedBuildAccountSync.browser.mjs'
       - 'test/productImport.browser.mjs'
       - 'docs/ui-lab/inventory/integration.js'
+      - 'src/improveProductEchoDefaults.mjs'
+      - 'docs/ui-lab/v1.1/modules/app.js'
+      - 'docs/ui-lab/v1.1/modules/canonical-settings.js'
+      - 'docs/ui-lab/v1.1/modules/product-echo-defaults.js'
+      - 'docs/ui-lab/v1.1/modules/settings-state.js'
+      - 'docs/ui-lab/v1.1/modules/improve-settings.js'
+      - 'docs/ui-lab/v1.1/modules/stat-target-cost.js'
+      - 'docs/ui-lab/v1.1/modules/resource-cost.js'
+      - 'test/improveProductEchoDefaults.test.mjs'
+      - 'test/improveProductEchoDefaults.browser.mjs'
       - 'scripts/local-character-scanner.mjs'
       - 'scripts/start-bellibing-local.mjs'
       - 'test/localCharacterScanner.test.mjs'
@@ -54,6 +64,8 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Canonical account backup and store regressions
         run: node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/ownedTeams.test.mjs test/ownedBuildAccountSync.test.mjs test/productBuildDraft.test.mjs
+      - name: Character-specific Improve Hard/Flex and Pending Expected regressions
+        run: node --experimental-strip-types --test test/improveProductEchoDefaults.test.mjs test/sourcePriorityGuidance.test.mjs
       - name: Local Character scanner child and HTTP boundary regressions
         run: node --experimental-strip-types --test test/localCharacterScanner.test.mjs
       - name: Build actual product Inventory
@@ -68,3 +80,4 @@ jobs:
           timeout 120s node --experimental-strip-types --test test/ownedBuildAccountSync.browser.mjs
           timeout 120s node --experimental-strip-types --test test/productImport.browser.mjs
           timeout 120s node --experimental-strip-types --test test/localCharacterScanner.browser.mjs
+          timeout 120s node --experimental-strip-types --test test/improveProductEchoDefaults.browser.mjs

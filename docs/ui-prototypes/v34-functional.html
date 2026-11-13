@@ -2280,7 +2280,7 @@ async function loadReleasedCharacters(){
   const direct=manifest.portraits.filter(item=>item.releaseStatus==='RELEASED'&&item.uiEligible===true).map(item=>({id:item.characterId,name:item.characterName,src:toAssetPath(item.targetPath)}));
   const rovers=manifest.roverPortraits.map(item=>({id:item.characterId,name:roverName(item.characterId),src:toAssetPath(item.targetPath)}));
   const characters=[...direct,...rovers].sort((a,b)=>a.name.localeCompare(b.name,'en'));
-  if(characters.length!==59)throw new Error('expected 59 released Character cards, got '+characters.length);
+  if(characters.length!==61)throw new Error('expected 61 released Character cards, got '+characters.length);
   releasedCharacters=characters;characterByName.clear();characters.forEach(item=>characterByName.set(item.name,item));
   characterManifestStatus='READY';
   }catch(error){
@@ -2300,7 +2300,7 @@ async function loadCharacterHeroArtRuntimeData(){
   if(!response.ok)throw new Error('Character Hero Art runtime data '+response.status);
   const payload=await response.json();
   if(payload.schemaVersion!==1||payload.role!=='character.hero-art.runtime'||!Array.isArray(payload.characters))throw new Error('Unsupported Character Hero Art runtime schema');
-  if(payload.summary?.releasedCharacters!==59||payload.summary?.ready!==53||payload.summary?.pending!==6)throw new Error('Unexpected Character Hero Art runtime coverage');
+  if(payload.summary?.releasedCharacters!==61||payload.summary?.ready!==56||payload.summary?.pending!==5)throw new Error('Unexpected Character Hero Art runtime coverage');
   const map=new Map();
   for(const row of payload.characters){
     if(!row.characterId||!row.characterName||!['READY','PENDING'].includes(row.status)||map.has(row.characterId))throw new Error('Malformed Character Hero Art runtime row');

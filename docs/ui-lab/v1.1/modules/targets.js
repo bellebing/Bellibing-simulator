@@ -619,6 +619,11 @@ export const CHARACTER_TARGETS = [
     "rows": []
   },
   {
+    "characterId": "lily",
+    "status": "PENDING",
+    "rows": []
+  },
+  {
     "characterId": "lingyang",
     "status": "PENDING",
     "rows": []

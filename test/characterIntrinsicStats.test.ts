@@ -8,10 +8,10 @@ import {
 } from '../src/data/characterIntrinsicStats.ts';
 import { getCharacterGameData } from '../src/data/characters.ts';
 
-test('59 released identities have reviewed permanent intrinsic profiles', () => {
+test('61 released identities have reviewed permanent intrinsic profiles', () => {
   const audit = auditReleasedCharacterIntrinsics();
-  assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.profileCount, 59);
+  assert.equal(audit.releasedCount, 61);
+  assert.equal(audit.profileCount, 61);
   assert.deepEqual(audit.issues, []);
 });
 

@@ -70,8 +70,15 @@ export async function reviewCharacterCard(page, { width, checks }) {
   await selectCardCharacter(page, 'hsin');
   assert.equal(await card.locator('.character-element img').getAttribute('alt'), 'Electro', 'Card must use canonical identity even when legacy build-stat metadata is unavailable');
   await card.locator('#characterSkills summary').click();
-  assert.match(await card.locator('.card-skills-body').innerText(), /Skills unavailable/);
-  assert.equal(await card.locator('.card-forte-node').count(), 0);
+  // Hsin now has reviewed, source-backed 3.7 Forte topology; the former
+  // "Skills unavailable" assertion was a pre-import assumption. Investment
+  // remains unavailable and must never be defaulted to MAX or unlocked.
+  const hsin = CHARACTER_CATALOG.find(person => person.id === 'hsin');
+  assert.ok(hsin.forte?.nodes.length > 0, 'Imported Hsin Forte topology must remain source-backed');
+  assert.equal(await card.locator('.card-forte-node').count(), hsin.forte.nodes.length);
+  assert.deepEqual(await card.locator('[data-skill-level]').allTextContents(), ['—','—','—','—','—']);
+  assert.equal(await card.locator('.card-forte-node.is-active').count(), 0, 'Missing investment must not become unlocked');
+  assert.match(await card.locator('.card-skills-body').innerText(), /Levels unavailable/);
   await selectCardCharacter(page, 'iuno');
   assert.match(await card.locator('#characterStats').innerText(), /1,940/);
   assert.equal(await card.locator('.character-element img').getAttribute('alt'), 'Aero');

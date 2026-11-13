@@ -10247,7 +10247,7 @@
             "16": true
           }
         },
-        "fortePresentationStatus": "PENDING_ART_AND_TREE_PRESENTATION",
+        "fortePresentationStatus": "AVAILABLE",
         "selectedContext": {
           "kind": "EXPLICIT_SANDBOX_SOURCE_CONTEXT",
           "sourceOrder": 1,
@@ -10778,8 +10778,7 @@
         "PRIVATE_EXECUTION_NOT_CONNECTED",
         "DPR_MATCHED_CONTEXT_NOT_VERIFIED",
         "DPS_TEAM_RUN_NOT_VERIFIED",
-        "REVIEWED_ECHO_SETTINGS_REQUIREMENTS_PENDING",
-        "FORTE_ART_AND_TREE_PRESENTATION_PENDING"
+        "REVIEWED_ECHO_SETTINGS_REQUIREMENTS_PENDING"
       ],
       "rejectedSourceShells": [],
       "unresolved": [],

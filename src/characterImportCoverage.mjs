@@ -6,10 +6,13 @@ const rowsFor = (input, key = 'characters') => Array.isArray(input) ? input : (A
 const byId = (rows, id) => rows.filter(row => (row.characterId ?? row.id) === id);
 const finite = value => typeof value === 'number' && Number.isFinite(value);
 const status = (ok, missing) => ({status: ok ? 'PASS' : 'PENDING', details: ok ? 'Source-backed artifact found.' : missing});
+// Equipping a real Character must not be blocked by an as-yet-unpublished
+// guide or a source-unsupported Improve optimizer. Those remain explicit
+// independent Pending checks rather than fake recommendations.
 const required = Object.freeze([
   'canonicalIdentity','originalRelease','releasedAndVerified','level90','sourceAssets',
   'forteSource','sequenceSource','buildStats','skillsRuntime','sequenceRuntime',
-  'portrait','heroArt','buildSelector','weaponEchoGuidance','improveConfiguration'
+  'portrait','heroArt','buildSelector'
 ]);
 
 export function characterImportCoverage(id, sources, {asOf = '9999-12-31', browserVerified = false} = {}) {
@@ -70,13 +73,14 @@ export function characterImportCoverage(id, sources, {asOf = '9999-12-31', brows
   const releaseNeedsReview = Boolean(original && original.date <= asOf && row?.releaseStatus === 'CONFIRMED_UPCOMING');
   const gaps = required.filter(key => checks[key].status !== 'PASS');
   const prerequisitesReady = !gaps.length;
+  const optionalPending = ['weaponEchoGuidance','improveConfiguration'].filter(key => checks[key].status !== 'PASS');
   return {
     schemaVersion: 1, characterId: id, canonicalName: row?.name ?? published?.name ?? null,
     catalogPresence: records.length === 1 ? 'EXISTS' : records.length ? 'DUPLICATE' : 'MISSING',
     release: {canonicalStatus:row?.releaseStatus ?? 'NOT_IMPORTED',originalPatch:original?.patch ?? null,
       originalDate:original?.date ?? null,releaseNeedsReview,
       note: releaseNeedsReview ? 'Date has passed but RELEASED must be explicitly source-reviewed; never auto-promote from calendar.' : null},
-    publishedEvidence: published ?? null, duplicateIds, checks, gaps,
+    publishedEvidence: published ?? null, duplicateIds, checks, gaps, optionalPending,
     characterUsable: prerequisitesReady && browserVerified ? 'CHARACTER_USABLE' : 'PENDING',
     characterUsableReason: !prerequisitesReady ? 'SOURCE_OR_PROJECTION_GAPS' : browserVerified ? null : 'LIVE_CHROMIUM_AND_ACCOUNT_VERIFICATION_PENDING',
     dpsReady: 'PENDING',

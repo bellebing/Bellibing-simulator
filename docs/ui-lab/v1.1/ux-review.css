@@ -183,4 +183,8 @@
  .ui-lab:not(.product-workspace) .slot .secondary-stat { padding-bottom:8px; }
  .ui-lab:not(.product-workspace) .slot .card-bottom { padding:7px 9px; line-height:normal; }
  .ui-lab:not(.product-workspace) .slot .echo-name { line-height:1.25; }
+ /* stat-guidance's auto-height roll rows must not collapse the approved V1
+    demonstration card rhythm. Keep responsive product roll spacing unchanged. */
+ .ui-lab:not(.product-workspace) .working-card .echo-card .substat { height:21px; min-height:0; margin-block:0; }
+ .ui-lab:not(.product-workspace) .slot .echo-card .substat { height:20.5px; min-height:0; margin-block:0; }
 }

@@ -263,7 +263,7 @@ function renderFeedback() {
    $('#newCard').dataset.adviceTone=decision.tone;
    $('#newCard').dataset.adviceScope=decision.scope;
    $('#newCard').style.setProperty('--advice-strength',String(decision.chance === null ? .35 : .35 + .65 * decision.chance));
-   resourceCost.present({expected:echoAdvisor.expectedCost(),simulated:interactiveNetCost(),labels:{expected:'Expected',simulated:'Spent'},expectedReason:!state.improvePlan?.dpsEnabled?echoAdvisor.statTargetCost(state.selectedSlot)?.reason:null});
+   resourceCost.present({expected:echoAdvisor.expectedCost(),simulated:interactiveNetCost(),labels:{expected:'Expected',simulated:'Spent'},expectedReason:!state.improvePlan?.dpsEnabled?(echoAdvisor.statTargetCost(state.selectedSlot)?.reason??(!echoAdvisor.expectedCost()?'No verified remaining cost for this observed checkpoint; see the fresh-start estimate on its Echo slot.':null)):null});
    const costTable=$('#resourceCost table');costTable.title=state.improvePlan?.dpsEnabled?'Estimated future gross cost to the next DPS step, including replacements under the sampled Gate policy. Spent shows net recorded workspace receipts after returns.':'Expected future gross Tuners until configured stat targets, including replacements. Spent shows recorded workspace receipts.';
 
    $('#sandboxRunStatus').textContent=run?(run.aborted?'ABORTED':'+'+level):'Enter the roll observed in game';

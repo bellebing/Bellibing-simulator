@@ -87,6 +87,11 @@ if(integrate){
    'scripts/export-ui-character-hero-art-runtime.ts',
  ])command(node,[...flags,script]);
  command(node,['docs/ui-lab/tools/export-catalog.mjs']);
+ // Added/updated RELEASED identities also change the existing filtered Weapon,
+ // Echo and Improve browser projections, even though no item was duplicated.
+ command(node,[...flags,'scripts/export-ui-weapon-browser-data.ts']);
+ command(node,[...flags,'scripts/export-ui-echo-browser-data.ts']);
+ command(node,[...flags,'scripts/export-ui-improve-settings.ts']);
  command(node,[...flags,'scripts/export-character-database.ts']);
  coverage=await report();
 }

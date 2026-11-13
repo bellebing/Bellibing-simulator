@@ -86,6 +86,8 @@ jobs:
           node --experimental-strip-types --test test/characterImportCoverage.test.ts test/characterImportSourceCapture.test.ts test/characterImportSnapshots.test.ts
           node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
           npm run test:foundation
+      - name: Full npm test (hard gate; preserve both current 61 and pinned 3.7 reviews)
+        run: npm test
       - name: Strict web build
         run: npm run build
       - name: Verify real system Google Chrome (Ubuntu 26 Playwright install unsupported)
@@ -117,10 +119,3 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "feat(character-import): integrate source-verified Hsin Lily Suoming as owned Characters"
           git push origin HEAD:recovery/one-pr-build-team-improve-20261103
-      - name: Report frozen 3.7 roster regressions separately (historical 59/60 invariants)
-        continue-on-error: true
-        run: |
-          # This older suite still assumes the frozen 3.7 roster is the entire
-          # RELEASED roster. Run it and preserve failures as real evidence;
-          # it must not prevent a browser-verified 3.8 Character import.
-          npm test

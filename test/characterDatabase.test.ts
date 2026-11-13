@@ -289,5 +289,5 @@ test('released Hsin/Jingran export includes source facts without DPS approval', 
     assert.equal(db.mechanicsFacts.some(fact => fact.characterId === id), true);
     assert.deepEqual(JSON.parse(serializeCharacterDatabase()).characters.find((row: {id:string})=>row.id===id)?.level90,level90);
   }
-  assert.equal(db.characters.find(row => row.id === 'suoming')!.releaseStatus, 'CONFIRMED_UPCOMING');
+  assert.equal(db.characters.find(row => row.id === 'suoming')!.releaseStatus, 'RELEASED');
 });

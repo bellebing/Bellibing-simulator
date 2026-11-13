@@ -164,10 +164,10 @@ export async function reviewCarousel(page, { width, checks, touch = false }) {
   await page.locator('#galleryArt').focus(); await page.keyboard.press('End'); await assertCentered();
   assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), await page.locator('.portrait').count() - 1);
   await activate(page.locator('[data-filter="all"]')); await assertCentered();
-  assert.equal(await page.locator('.portrait').count(), 59);
+  assert.equal(await page.locator('.portrait').count(), 61);
   await page.locator('#galleryArt').focus(); await page.keyboard.press('End'); await assertCentered();
   assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), await page.locator('.portrait').count() - 1);
-  assert.match(await page.locator('#carouselAnnouncement').textContent(), /59 of 59/);
+  assert.match(await page.locator('#carouselAnnouncement').textContent(), /61 of 61/);
   await page.keyboard.press('Home'); await assertCentered();
   assert.equal(Number(await page.locator('#characterCarousel').getAttribute('data-position')), 0);
   for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');

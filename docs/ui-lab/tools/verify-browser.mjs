@@ -539,10 +539,10 @@ try {
       await carouselSettled(page);
       while (true) {
         seen.add(await page.locator('#characterCarousel').getAttribute('data-focused-character'));
-        if (Number(await page.locator('#characterCarousel').getAttribute('data-position')) === 58) break;
+        if (Number(await page.locator('#characterCarousel').getAttribute('data-position')) === 60) break;
         await page.keyboard.press('ArrowRight'); await carouselSettled(page);
       }
-      assert.equal(seen.size, 59, 'All 59 Characters must be reachable without page boundaries');
+      assert.equal(seen.size, 61, 'All 61 RELEASED Characters, including Lily and Suoming, must be reachable without page boundaries');
       checks.push({ label: 'Full continuous catalog reachable one position at a time', count: seen.size });
     }
     await context.close();

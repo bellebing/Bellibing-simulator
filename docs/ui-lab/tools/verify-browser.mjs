@@ -55,7 +55,22 @@ const browser = await chromium.launch({ executablePath, headless: true, args: ['
 result.chromium = browser.version();
 const selector = '/docs/ui-lab/v1.1/';
 const wait = async page => {
-  await page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+  try {
+    await page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+  } catch (error) {
+    // A loading timeout hides its root cause unless module/runtime exceptions
+    // and the actual document bootstrap state are captured from real Chromium.
+    const state = await page.evaluate(() => ({
+      ready: document.documentElement.dataset.uiLabReady ?? null,
+      bodyKind: document.body?.dataset.buildKind ?? null,
+      htmlTitle: document.title,
+      catalogCount: document.querySelectorAll('#portraits .portrait').length,
+      scripts: [...document.scripts].map(node => node.src).filter(Boolean),
+      missingResources: performance.getEntriesByType('resource').filter(row => row.responseStatus >= 400).slice(-20).map(row => ({name:row.name,status:row.responseStatus}))
+    })).catch(readError => ({diagnosticError:String(readError)}));
+    console.error('UI Lab Chromium bootstrap failed',JSON.stringify({pageErrors:errors,state}));
+    throw error;
+  }
   // The carousel assigns art after module readiness. Keep the missing-art gate,
   // but wait for the actual image responses before taking layout evidence.
   await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0), null, {timeout:15000});

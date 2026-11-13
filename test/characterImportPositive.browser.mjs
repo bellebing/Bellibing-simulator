@@ -22,6 +22,15 @@ test('Hsin, Lily and Suoming: Add Character → genuine Echo → reload → Inve
  const open=async()=>{await page.locator('[data-bc-open="character"]').first().click();await page.locator('.wb-character-catalog').waitFor();};
  const equip=async()=>{
   await page.locator('[data-bc-echo="0"]').click();
+  // A source-backed Character may have a completely different slot Cost and
+  // Sonata preset from Augusta. Explicit manual All + Cost 4 is a user choice,
+  // not an invented character recommendation or a gameplay change.
+  await page.locator('[data-bc-cost="4"]').click();
+  const sonata=page.locator('.wb-sonata-filter');
+  if(!(await sonata.evaluate(el=>el.open)))await sonata.locator('summary').click();
+  await page.locator('[data-bc-set-filter="all"]').click();
+  if(await sonata.evaluate(el=>el.open))await sonata.locator('summary').click();
+  await page.locator('#bcEchoSearch').fill('');
   await page.locator('[data-bc-species="'+species.id+'"]').first().click();
   await page.locator('.wc-echo-preview .wb-feature-stat summary').click();
   await page.locator('[data-bc-main="HP%"]').first().click();

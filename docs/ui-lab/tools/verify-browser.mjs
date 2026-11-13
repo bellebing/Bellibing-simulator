@@ -510,10 +510,18 @@ try {
       // Preserve the strict approved-V1 gate; print enough geometry to repair
       // the production/demo CSS rather than adjusting the expected thresholds.
       const childGeometry = async target => target.evaluate(() => Object.fromEntries(
-        ['.workshop-header','.working-area','.working-card','.interaction','.loadout-heading','.slots','.workshop-footer']
+        ['.workshop-header','.working-area','.working-card','.interaction',
+          '#currentCard .echo-card','#currentCard .echo-art','#currentCard .echo-identity','#currentCard .echo-values',
+          '#currentCard .main-stat','#currentCard .secondary-stat','#currentCard .substats','#currentCard .card-bottom',
+          '#newCard .echo-card','#newCard .echo-art','#newCard .echo-values',
+          '.loadout-heading','.slots','#slots .slot:first-child','#slots .slot:first-child .echo-card',
+          '#slots .slot:first-child .echo-values','#slots .slot:first-child .substats','#slots .slot:first-child .card-bottom',
+          '.workshop-footer']
           .map(selector => {
-            const node = document.querySelector(selector), rect = node.getBoundingClientRect();
-            return [selector, { top: rect.top, height: rect.height, width: rect.width }];
+            const node = document.querySelector(selector), rect = node?.getBoundingClientRect();
+            return [selector, rect ? { top: rect.top, height: rect.height, width: rect.width,
+              padding: getComputedStyle(node).padding, margin: getComputedStyle(node).margin,
+              lineHeight: getComputedStyle(node).lineHeight } : null];
           })
       ));
       console.error('V1 source layout drift', JSON.stringify({width, approved, withoutCost,

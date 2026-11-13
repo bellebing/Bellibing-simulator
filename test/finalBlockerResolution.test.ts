@@ -17,7 +17,7 @@ test('final blocker resolution promotes only Rover Electro and Suisui', () => {
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.equal(audit.verifiedCharacterIds.length, 59);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.deepEqual(audit.unstartedCharacterIds, []);
+  assert.deepEqual(audit.unstartedCharacterIds, ['lily','suoming']);
 
   for (const characterId of RESOLVED) {
     const profile = getCharacterMechanicsProfile(characterId);

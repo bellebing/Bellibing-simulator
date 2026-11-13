@@ -98,7 +98,7 @@ export async function reviewSettings(page,{width,checks}) {
   await page.locator('.setting-mode button',{hasText:'Customize'}).click();
   assert.equal(await page.locator('#erTargetValue').isVisible(),false);
   assert.equal(await page.locator('#erTargetInput').isVisible(),true);
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'120','Customize offers the source-backed suggested value');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),String(augustaER.minimum),'Customize offers the lower bound of the verified owner range');
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
   assert.ok(await page.locator('#erTarget').evaluate(node=>{
     const r=node.getBoundingClientRect(), label=node.querySelector('label').getBoundingClientRect(), field=node.querySelector('#erTargetInput').getBoundingClientRect();
@@ -151,7 +151,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 1');
   await moveKey('ATK%','Alt+ArrowLeft');
   await page.locator('#erEnabled').check();
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'120');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),String(augustaER.minimum));
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   const er=page.locator('#erTargetInput');
   await er.fill('130');await er.press('Tab');
@@ -171,7 +171,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await er.getAttribute('aria-invalid'),'true');
   await page.locator('#erEnabled').uncheck();assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'DISABLED');
   await sample('none');await page.locator('#erEnabled').check();
-  assert.equal(await er.inputValue(),'120','Explicitly re-enabling can adopt the verified source suggestion');
+  assert.equal(await er.inputValue(),String(augustaER.minimum),'Explicit re-enable adopts the verified owner minimum');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   assert.ok((await page.locator('.result-row.is-affected').count()) > 0,'Enabled ER Target must recalculate Expected');
   await chooseIllustrativeResult(page);
@@ -180,7 +180,8 @@ export async function reviewSettings(page,{width,checks}) {
   assert.deepEqual(await ids('hard'),[]);assert.deepEqual(await ids('flex'),[]);
   assert.equal(await page.locator('.setting-mode button').first().isDisabled(),true);
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'','No suggestion may be invented for Iuno');
+  const iunoER = characterErGuidance('iuno');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),iunoER ? String(iunoER.minimum) : '', 'Iuno ER must follow reviewed guide availability, never an invented default');
   await selectCardCharacter(page,'augusta');await ensureSettings();
   assert.equal(await row('CRIT Rate').locator('output').textContent(),minimum);
   assert.equal(await page.locator('#erEnabled').isChecked(),true);

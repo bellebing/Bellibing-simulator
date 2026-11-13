@@ -5,12 +5,12 @@ import {CHARACTER_CATALOG} from '../src/data/characters.ts';
 import {CHARACTER_ORIGINAL_RELEASE} from '../src/characterOriginalRelease.mjs';
 const read=path=>JSON.parse(readFileSync(path,'utf8'));
 const pins=read('data/research/character-import/source-pins/3.8.json');
-test('original 59 RELEASED Character rows remain unique and no false new Character promotion',()=>{
+test('61 canonical RELEASED Characters are unique, with source-backed new identities',()=>{
  const released=CHARACTER_CATALOG.filter(row=>row.releaseStatus==='RELEASED');
- assert.equal(released.length,59);
+ assert.equal(released.length,61);
  assert.equal(new Set(CHARACTER_CATALOG.map(row=>row.id)).size,CHARACTER_CATALOG.length);
- assert.equal(CHARACTER_CATALOG.some(row=>row.id==='lily'),false);
- assert.equal(CHARACTER_CATALOG.find(row=>row.id==='suoming')?.releaseStatus,'CONFIRMED_UPCOMING');
+ assert.equal(CHARACTER_CATALOG.filter(row=>row.id==='lily').length,1);
+ assert.equal(CHARACTER_CATALOG.find(row=>row.id==='suoming')?.releaseStatus,'RELEASED');
  assert.equal(CHARACTER_CATALOG.find(row=>row.id==='hsin')?.verificationStatus,'VERIFIED');
 });
 for(const [id,roleId,patch,date] of [['lily',1512,'3.8','2026-11-12'],['suoming',1312,'3.7','2026-10-22']]){

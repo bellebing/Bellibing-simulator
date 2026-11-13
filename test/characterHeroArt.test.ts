@@ -78,10 +78,9 @@ test('hero art resolver covers every released Character as READY or explicit PEN
 
   assert.equal(CHARACTER_HERO_ART_MANIFEST_PATH, 'assets/characters/hero-art/manifest.json');
   assert.deepEqual(resolver.listReleasedCharacterIds(), expected);
-  assert.equal(resolver.listReleasedCharacterIds().length, 59);
-  assert.equal(resolver.listReadyCharacterIds().length, 53);
+  assert.equal(resolver.listReleasedCharacterIds().length, 61);
+  assert.equal(resolver.listReadyCharacterIds().length, 56);
   assert.deepEqual(resolver.listPendingCharacterIds(), [
-    'hsin',
     'jingran',
     'rover-aero',
     'rover-electro',
@@ -89,8 +88,8 @@ test('hero art resolver covers every released Character as READY or explicit PEN
     'rover-spectro',
   ]);
 
-  assert.equal(resolver.status('hsin'), 'PENDING');
-  assert.equal(resolver.status('suoming'), 'UNAVAILABLE');
+  assert.equal(resolver.status('hsin'), 'READY');
+  assert.equal(resolver.status('suoming'), 'READY');
   assert.equal(resolver.status('jingran'), 'PENDING');
   assert.equal(resolver.status('does-not-exist'), 'UNAVAILABLE');
 });
@@ -174,7 +173,7 @@ test('manifest excludes upcoming/WIP Characters instead of guessing hero art', (
 
   assert.equal(coveredIds.has('jingran'), true);
   assert.equal(coveredIds.has('hsin'), true);
-  assert.equal(coveredIds.has('suoming'), false);
+  assert.equal(coveredIds.has('suoming'), true);
 });
 
 test('resolver rejects duplicate Character IDs across ready and pending coverage', () => {
@@ -200,11 +199,11 @@ test('resolver rejects missing released coverage and unreleased pending leakage'
   );
 
   const leaked = loadManifest();
-  leaked.pending[0].characterId = 'suoming';
-  leaked.pending[0].characterName = 'Suoming';
+  leaked.pending[0].characterId = 'unreleased-fixture';
+  leaked.pending[0].characterName = 'Unreleased fixture';
   assert.throws(
     () => createCharacterHeroArtResolver(leaked),
-    /non-released Character leaked into pending hero art: suoming/,
+    /non-released Character leaked into pending hero art: unreleased-fixture/,
   );
 });
 

@@ -30,6 +30,14 @@ test('recovery routes preserve physical ownership, observations, saved teams and
   const team=(await snapshot()).userData.teams[0];await page.reload();await page.locator('[data-edit-team]').waitFor();
   assert.equal((await snapshot()).userData.teams[0].id,team.id);assert.equal(await page.locator('.team-members .team-member').count(),3);
   const beforeBuild=await snapshot();await goto('build');const frame=page.frameLocator('iframe');
+  // Legacy saved Build can open without a v34 picker selection. Use the
+  // actual visible Character card first: do not force hidden Sequence controls
+  // or mutate the account to satisfy this test.
+  if(!await frame.locator('.picker-shell.has-selection').count()){
+    const augusta=frame.locator('#build .choice[data-character-id="augusta"]');
+    await augusta.waitFor();
+    await augusta.click();
+  }
   await frame.locator('.build-sequence-trigger').click();await frame.locator('[data-sequence="1"]').click();await frame.locator('#sequenceAction').click();
   await frame.getByRole('button',{name:'Close Sequences',exact:true}).click();await frame.locator('#saveOwnedBuild').click();
   await page.waitForFunction(()=>bellibingAccountSession.store.snapshot()?.characters.augusta.record.build.sequenceLevel===1);

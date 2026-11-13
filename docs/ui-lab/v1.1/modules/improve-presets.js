@@ -4,7 +4,7 @@ const presets = {
   INSANE: {label:'Insane', minimum:115}
 };
 
-export function mountImprovePresets({getState, onSave, onManual}) {
+export function mountImprovePresets({getState, onSave, onManual, onRecommended=()=>{}}) {
   document.querySelector('.setting-mode').hidden = true;
   const host = document.createElement('section');
   host.className = 'improve-presets';
@@ -15,7 +15,8 @@ export function mountImprovePresets({getState, onSave, onManual}) {
       <p class="improve-preset-description"></p>
       <p class="improve-preset-note">Whole-build Team DPS. Higher results accepted. Cost estimates compare sampled stopping policies from the selected Gate.</p>
     </details>
-    <button type="button" class="improve-manual-targets">Edit stat targets</button>`;
+    <button type="button" class="improve-manual-targets">Edit stat targets</button>
+    <button type="button" class="improve-reset-targets">Restore Hard/Flex Recommended</button>`;
   document.querySelector('#echoSettings').before(host);
   const advanced = host.querySelector('details');
   const enabled = host.querySelector('.improve-dps-enable input');
@@ -57,5 +58,6 @@ export function mountImprovePresets({getState, onSave, onManual}) {
     plan().advancedOpen = advanced.open;onSave();
   });
   host.querySelector('.improve-manual-targets').onclick = onManual;
+  host.querySelector('.improve-reset-targets').onclick = () => {onRecommended();render();};
   render();return {render};
 }

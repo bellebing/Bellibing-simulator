@@ -55,7 +55,9 @@ import { mountCarousel } from './carousel.js';
 import { $, assetURL, escapeHtml, notify } from './util.js';
 
 let accountOwner=null;
-if(globalThis.BELLIBING_WORKSPACE_ROUTES&&['false','true'].includes(new URLSearchParams(location.search).get('sandbox'))){const {accountSession}=await import('../../inventory/account-session.js');accountOwner=await accountSession();}
+// Only the real Improve workspace can open AccountStore. Sandbox stays fully detached,
+// including the lazy account-session module and its IndexedDB side effects.
+if(globalThis.BELLIBING_WORKSPACE_ROUTES&&new URLSearchParams(location.search).get('sandbox')==='false'){const {accountSession}=await import('../../inventory/account-session.js');accountOwner=await accountSession();}
 const localStorage=accountOwner?.storage??globalThis.localStorage;
 
 function echoCard(echo,options={}){return renderEchoCard(echo,{characterId:selectedId,...options,footer:compactReview&&accountMode&&!options.candidate?'EQUIPPED':options.footer,compactFooter:compactReview,rankPending:false});}

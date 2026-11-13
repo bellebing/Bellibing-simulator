@@ -183,3 +183,20 @@ stat remains pending and rejects account save; never guess an Echo identity,
 Sonata, Main Stat or substat tier. Regression tests cover all five Echo positions
 and mixed 4/3/3/1/1 costs. This does not claim actual owner Windows success
 until OCR, Add Character, reload and Inventory are tested.
+
+## Fixed-layout Main Stat OCR for all five Echoes
+
+A real Mornye Build screenshot showed a Cost-1 Echo's `DEF 818%` with an
+unrecoverable Main Stat validation error on Echo 5 (the canonical value is
+`DEF 18%`). This is consistent with an Echo stat icon being read as an extra
+digit; the screenshot is **not** the original card and cannot prove exactly
+which pixels were misread. The scanner now retries invalid Main Stats using
+independent top-label OCR and a separately cropped bottom-right numeric OCR,
+**for every position and all costs 1/3/4**. Only an independently OCR-read
+name/value pair that **exactly matches** the canonical cost/+25 table is
+accepted. The original OCR text is retained; any recovered pair is marked
+`requiresReview` and must be checked against the source card. No stripping
+prefixes from 818%, snapping nearby tiers, inventing a Main Stat from cost
+alone, or weak fuzzy guessing is allowed. Negative tests cover conflicting
+numeric/label reads. This is not a claim that owner's full card-to-Account
+roundtrip has passed on Windows yet.

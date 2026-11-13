@@ -122,30 +122,54 @@ class ValidationTests(unittest.TestCase):
         with patch.object(scanner.card,'_main_strip_lines',return_value=[]):
             self.assertEqual(scanner.read_main(np.zeros((413,368,3),np.uint8),3)['stat'],{'name':None,'value':None})
 
-    def test_cost1_atk_18_original_card_name_ocr_excludes_stat_icon(self):
-        # Original card withheld from Git: full-strip OCR 'Ni / xX 18%',
-        # cropped right-side label OCR 'ATK'. No value is snapped or invented.
+    def test_independent_main_ocr_recovers_icon_818_without_snap(self):
         from unittest.mock import patch
-        for lines in [['Ni','xX 18%'],['ATK','xX 18%']]:
-            with (self.subTest(lines=lines),
-                  patch.object(scanner.card,'_main_strip_lines',return_value=lines),
-                  patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK') as ocr):
-                result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
-                self.assertEqual(result['stat'],{'name':'ATK%','value':.18})
-                self.assertEqual(result['raw'],' '.join(lines))
-                self.assertIn('Tight label OCR',result['method'])
-                ocr.assert_called_once()
+        for cost,name,rawvalue,correct in [
+            (1,'DEF','818%',18),
+            (1,'ATK','818%',18),
+            (3,'Energy Regen','332%',32),
+            (4,'Crit DMG','444%',44),
+        ]:
+            with (self.subTest(cost=cost,name=name),
+                  patch.object(scanner.card,'_main_strip_lines',return_value=[name,'xX '+rawvalue]),
+                  patch.object(scanner.card.pytesseract,'image_to_string',side_effect=[name,str(correct)+'%']) as ocr):
+                result=scanner.read_main(np.zeros((413,368,3),np.uint8),cost)
+                expected=scanner.canonical_stat(name+('%' if name in ('DEF','ATK') else ''),correct)
+                self.assertEqual(result['stat'],expected)
+                self.assertEqual(result['recovery']['valueRead'],str(correct)+'%')
+                self.assertTrue(result['recovery']['requiresReview'])
+                self.assertEqual(ocr.call_count,2)
 
-    def test_cost1_18_does_not_guess_between_atk_and_def(self):
+    def test_real_hiyuki_noisy_atk_name_recovered_from_separate_read(self):
         from unittest.mock import patch
         with (patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 18%']),
-              patch.object(scanner.card.pytesseract,'image_to_string',return_value='Unreadable')):
+              patch.object(scanner.card.pytesseract,'image_to_string',side_effect=['ATK','18%'])):
             result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
-            self.assertEqual(result['stat'],{'name':None,'value':None})
-        with (patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 19%']),
-              patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK')):
+            self.assertEqual(result['stat'],{'name':'ATK%','value':.18})
+            self.assertEqual(result['raw'],'Ni xX 18%')
+            self.assertEqual(result['recovery']['labelRead'],'ATK')
+
+    def test_main_retry_never_guesses_from_value_or_illegal_main(self):
+        from unittest.mock import patch
+        for label,value in [('Unreadable','18%'),('DEF','19%'),('DEF','818%'),
+                            ('ATK','18'),('ATK','xX 18%')]:
+            with (self.subTest(label=label,value=value),
+                  patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 818%']),
+                  patch.object(scanner.card.pytesseract,'image_to_string',side_effect=[label,value])):
+                result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
+                self.assertFalse(any(result['stat']['name']==s['name'] and
+                    result['stat']['value'] is not None and abs(result['stat']['value']-s['value'])<1e-12
+                    for s in scanner.data.CATALOG['statEditor']['mainStatsByCostAndLevel']['1']['25']))
+                self.assertIsNone(result['recovery'])
+
+    def test_main_exact_ocr_skips_retry_and_keeps_source(self):
+        from unittest.mock import patch
+        with (patch.object(scanner.card,'_main_strip_lines',return_value=['DEF','18%']),
+              patch.object(scanner.card.pytesseract,'image_to_string') as retry):
             result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
-            self.assertNotEqual(result['stat'],{'name':'ATK%','value':.18})
+            self.assertEqual(result['stat'],{'name':'DEF%','value':.18})
+            self.assertIsNone(result['recovery'])
+            retry.assert_not_called()
 
     def test_secondary_full_and_split_ocr_for_all_costs(self):
         from unittest.mock import patch

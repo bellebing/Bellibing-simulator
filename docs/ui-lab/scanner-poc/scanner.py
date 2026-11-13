@@ -63,44 +63,74 @@ def review_substat(row, raw_name, raw_value):
         })
     return result
 
+def _main_label_from_ocr(label, cost):
+    """Require a recognizable label; the value alone never identifies a main."""
+    legal=data.MAIN_STATS.get(f'{cost}cost',{})
+    cleaned=re.sub(r'[^A-Za-z ]',' ',label or '').strip()
+    if not cleaned: return None
+    if cleaned.upper() in {'HP','ATK','DEF'}: cleaned=cleaned.upper()+'%'
+    choice=process.extractOne(cleaned,list(legal),scorer=fuzz.WRatio,score_cutoff=85)
+    return choice[0] if choice else None
+
+def _main_value_from_ocr(text):
+    # Only one complete percent token is evidence. A cropped noisy value must
+    # not be silently changed from 818 to 18 without an independent read.
+    match=re.fullmatch(r'\s*(\d+(?:\.\d+)?)\s*%\s*',text or '')
+    return float(match.group(1)) if match else None
+
+def _read_main_separate_fields(main_panel, cost):
+    """Isolated top label and bottom number, excluding the decorative stat icon.
+
+    The fixed bot-card geometry has a top label row and a right-aligned value
+    row. This retries both independently on ANY invalid cost-1/3/4 main, and
+    never snaps a raw value to a nearby tier.
+    """
+    name_crop=main_panel[0:41,0:171]
+    value_crop=main_panel[40:82,90:171]
+    if not name_crop.size or not value_crop.size: return None
+    def upscale(image):
+        return cv2.resize(cv2.cvtColor(image,cv2.COLOR_BGR2GRAY),
+                          None,fx=3,fy=3,interpolation=cv2.INTER_CUBIC)
+    try:
+        name_text=card.pytesseract.image_to_string(upscale(name_crop),config='--psm 7').strip()
+        value_text=card.pytesseract.image_to_string(upscale(value_crop),
+                       config='--psm 7 -c tessedit_char_whitelist=0123456789.%').strip()
+    except (RuntimeError,ValueError,OSError,card.pytesseract.TesseractError):
+        return None
+    name=_main_label_from_ocr(name_text,cost)
+    value=_main_value_from_ocr(value_text)
+    if name is None or value is None: return None
+    return {'stat':canonical_stat(name,value),'nameRaw':name_text,'valueRaw':value_text}
+
 def read_main(panel, cost):
     main_panel=card._crop_region(panel,card.ECHO_REGIONS['main'])
     lines=card._main_strip_lines(main_panel)
     raw=' '.join(lines[:2]); match=re.search(r'(\d+(?:\.\d+)?)\s*%',raw)
     value=float(match.group(1)) if match else None
-    raw_name=re.sub(r'[^A-Za-z ]',' ', raw[:match.start()] if match else raw)
+    raw_name=re.sub(r'[^A-Za-z ]',' ',raw[:match.start()] if match else raw)
     choices=list(data.MAIN_STATS.get(f'{cost}cost',{}))
     result=process.extractOne(raw_name.strip(),choices,scorer=fuzz.WRatio,score_cutoff=75)
     name=result[0] if result else ''
-    # The card draws ATK/HP/DEF without '%' in its main-stat name.
     if not name and raw_name.strip().upper() in ['ATK','HP','DEF']:
         name=raw_name.strip().upper()+'%'
     stat=canonical_stat(name,value) if name and value is not None else {'name':None,'value':None}
     allowed=data.CATALOG['statEditor']['mainStatsByCostAndLevel'].get(str(cost),{}).get('25',[])
     exact=lambda s:any(s['name']==row['name'] and s['value'] is not None and
                        abs(s['value']-row['value'])<1e-12 for row in allowed)
-
-    # Original 1920x1080 card: the icon preceding 18% is frequently read as
-    # 'xX', and the low-contrast ATK label on a 1-cost card as 'Ni'.
-    # Recover ONLY the separately readable label, never from 18% alone:
-    # ATK% and DEF% both have the same legal cost-1 +25 value.
-    # The tight name box excludes the element badge and the stat-value icon.
-    method='OCR; no default main or value snapping'
-    if cost==1 and value is not None and (
-        not exact(stat) or not re.fullmatch(r'(?i)(HP|ATK|DEF)%?',raw_name.strip())
-    ):
-        name_crop=main_panel[6:40,85:171]
-        if name_crop.size:
-            gray=cv2.cvtColor(name_crop,cv2.COLOR_BGR2GRAY)
-            up=cv2.resize(gray,None,fx=4,fy=4,interpolation=cv2.INTER_CUBIC)
-            tight=card.pytesseract.image_to_string(up,config='--psm 7').strip().upper()
-            if tight in {'HP','ATK','DEF'}:
-                candidate=canonical_stat(tight+'%',value)
-                if exact(candidate):
-                    stat=candidate
-                    method='Tight label OCR + exact canonical value (original strip retained)'
-    return {'stat':stat,'raw':raw,'method':method}
-
+    method='Full-strip OCR; exact main required'
+    recovery=None
+    if not exact(stat):
+        # E.g. a Cost-1 stat icon can become an additional OCR digit:
+        # raw 'DEF 818%' while the independently cropped number reads '18%'.
+        # Work for all legal costs/names, not a character or Echo-position patch.
+        independent=_read_main_separate_fields(main_panel,cost)
+        if independent and exact(independent['stat']):
+            stat=independent['stat']
+            method='Independent main label/value OCR; exact canonical pair'
+            recovery={'status':'EXACT_SEPARATE_MAIN_OCR','requiresReview':True,
+                      'originalRaw':raw,'labelRead':independent['nameRaw'],
+                      'valueRead':independent['valueRaw']}
+    return {'stat':stat,'raw':raw,'method':method,'recovery':recovery}
 
 def _exact_secondary(stat, cost):
     expected=data.CATALOG['statEditor']['secondaryMainStatsByCostAndLevel'].get(str(cost),{}).get('25')
@@ -154,6 +184,7 @@ def read_echo(panel):
     for row,raw_name,raw_value in zip(rows,names,values):
         subs.append(review_substat(row,raw_name,raw_value))
     evidence={**identity_evidence,'main':main['raw'],'mainMethod':main['method'],
+              'mainRecovery':main.get('recovery'),
               'secondary':secondary['raw'],'secondaryRetry':secondary.get('retry'),
               'secondaryMethod':secondary['method'],
               'note':'Rank and level are not printed; left unknown. Stats checked against Rank-5 +25 compatibility.'}

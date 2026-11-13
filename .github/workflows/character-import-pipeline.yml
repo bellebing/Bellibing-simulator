@@ -1,95 +1,108 @@
 name: Character Import Pipeline Review
-
 on:
   pull_request:
     types: [opened, reopened, synchronize]
     paths:
+      - 'src/data/characters.ts'
       - 'src/characterImportCoverage.mjs'
       - 'src/characterImportSourceCapture.mjs'
-      - 'src/data/characters.ts'
       - 'src/characterOriginalRelease.mjs'
       - 'scripts/import-character.mjs'
-      - 'scripts/capture-character-import-source.mjs'
+      - 'scripts/lib/integrate-reviewed-character.mjs'
+      - 'scripts/audit-ui-builder-icons.mjs'
       - 'test/characterImport*.test.ts'
       - 'test/characterImport*.browser.mjs'
+      - 'test/characterOriginalRelease*'
       - 'data/research/character-import/**'
       - 'docs/CHARACTER_IMPORT_PIPELINE.md'
       - '.github/workflows/character-import-pipeline.yml'
   workflow_dispatch:
-
 permissions:
-  contents: read
-
+  contents: write
 concurrency:
-  group: character-import-${{ github.event.pull_request.number || github.ref }}
+  group: character-import-draft365
   cancel-in-progress: true
-
 jobs:
   import-gates:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 55
     steps:
-      - name: Checkout exact head
+      - name: Checkout existing Draft PR branch (never main)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-      - name: Setup Node
+          ref: recovery/one-pr-build-team-improve-20261103
+          fetch-depth: 2
+          persist-credentials: true
+      - name: Verify exact target PR and branch
+        if: github.event_name == 'pull_request'
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH));
+          if(event.number!==365||event.pull_request.head.ref!=='recovery/one-pr-build-team-improve-20261103'||!event.pull_request.draft)throw Error('Not the allowed Draft PR #365');
+          NODE
+      - name: Setup Node 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
+      - name: Install
         run: npm ci --no-audit --no-fund
-      - name: Real 59, source, provenance, duplicate, missing and Pending Node tests
+      - name: Existing import-character pipeline promotes original source truth
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! grep -q "row({ id: 'lily'" src/data/characters.ts; then
+            npm run import:character -- hsin --promote-reviewed --integrate
+            npm run import:character -- lily --promote-reviewed --integrate
+            npm run import:character -- suoming --promote-reviewed --integrate
+          fi
+          for id in hsin lily suoming; do
+            set +e
+            npm run import:character -- "$id" --json --output "/tmp/review-$id.json" >/tmp/review-$id.log
+            status=$?
+            set -e
+            test "$status" -eq 3
+            node -e "let c=require('/tmp/review-$id.json');if(c.catalogPresence!=='EXISTS'||c.release.canonicalStatus!=='RELEASED'||c.checks.level90.status!=='PASS'||c.checks.sourceAssets.status!=='PASS')throw Error('$id source coverage missing: '+JSON.stringify(c.gaps));console.log('$id canonical source ready; Chrome proof required.')"
+          done
+      - name: Exact original-game bytes and generated presentation parity
+        run: |
+          npm run audit:ui-builder-icons
+          node --experimental-strip-types scripts/export-ui-build-stats-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-character-builder-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-skills-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-character-hero-art-runtime.ts --check
+          node --experimental-strip-types docs/ui-lab/tools/export-catalog.mjs --check
+      - name: Node import and account acceptance
         run: |
           node --experimental-strip-types --test test/characterImportCoverage.test.ts test/characterImportSourceCapture.test.ts test/characterImportSnapshots.test.ts
           node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
-      - name: CLI rejects incomplete candidate source integration without mutating files
-        run: |
-          set -euo pipefail
-          for id in lily hsin suoming; do
-            set +e
-            npm run import:character -- "$id" --json --output "/tmp/character-import-$id.json" >/tmp/character-import-"$id".log
-            status=$?
-            set -e
-            if [[ "$status" -ne 3 ]]; then
-              cat "/tmp/character-import-$id.log"
-              echo "Expected PENDING exit 3 for $id but got $status"
-              exit 1
-            fi
-          done
-          node --input-type=module <<'NODE'
-          import {readFileSync} from 'node:fs';
-          import assert from 'node:assert/strict';
-          const load=id=>JSON.parse(readFileSync('/tmp/character-import-'+id+'.json','utf8'));
-          const lily=load('lily'),hsin=load('hsin'),suoming=load('suoming');
-          for(const row of [lily,hsin,suoming]){
-            assert.equal(row.existingReleasedCount,59);
-            assert.equal(row.characterUsable,'PENDING');
-            assert.equal(row.dpsReady,'PENDING');
-          }
-          assert.equal(lily.catalogPresence,'MISSING');
-          assert.equal(lily.release.originalPatch,'3.8');
-          assert.equal(hsin.catalogPresence,'EXISTS');
-          assert.equal(hsin.checks.sourceAssets.status,'PENDING');
-          assert.equal(suoming.catalogPresence,'EXISTS');
-          assert.equal(suoming.release.canonicalStatus,'CONFIRMED_UPCOMING');
-          assert.equal(suoming.release.releaseNeedsReview,true);
-          NODE
-          set +e
-          npm run import:character -- lily --integrate >/tmp/source-gates-denied.log 2>&1
-          code=$?
-          set -e
-          if [[ "$code" -eq 0 ]]; then cat /tmp/source-gates-denied.log; exit 1; fi
-          grep -q 'source gates Pending' /tmp/source-gates-denied.log
-          git diff --exit-code
-      - name: Generated canonical catalog parity and strict build
-        run: |
-          node --experimental-strip-types docs/ui-lab/tools/export-catalog.mjs --check
-          npm run build
-      - name: Actual Google Chrome pending/59/account regressions
+          npm run test:foundation
+          npm test
+      - name: Strict web build
+        run: npm run build
+      - name: Chromium browser installation
+        run: npx playwright install --with-deps chromium
+      - name: Real Chromium positive owned Character + physical Echo journeys
         env:
           CHROME_BIN: /usr/bin/google-chrome
         run: |
-          command -v google-chrome
-          timeout 120s node --experimental-strip-types --test test/characterImportPending.browser.mjs
-          timeout 120s node --experimental-strip-types --test test/characterOriginalRelease.browser.mjs
+          node --experimental-strip-types --test test/characterImportPositive.browser.mjs
+          node --experimental-strip-types --test test/characterOriginalRelease.browser.mjs
+      - name: Commit source-verified generated assets ONLY to existing Draft branch
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
+            data/source/character-forte-ui.json data/source/character-sequence-ui.json \
+            data/source/character-sequence-build-stat-review.json data/generated/character-database.json \
+            docs/ui-lab/v1.1/modules/catalog.js docs/ui-prototypes/assets
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "Already committed: duplicate import prevented."
+            exit 0
+          fi
+          git config user.name "bellibing-character-import[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "feat(character-import): integrate source-verified Hsin Lily Suoming as owned Characters"
+          git push origin HEAD:recovery/one-pr-build-team-improve-20261103

@@ -82,8 +82,10 @@ jobs:
           npm run test:foundation
       - name: Strict web build
         run: npm run build
-      - name: Chromium browser installation
-        run: npx playwright install --with-deps chromium
+      - name: Verify real system Google Chrome (Ubuntu 26 Playwright install unsupported)
+        run: |
+          test -x /usr/bin/google-chrome
+          /usr/bin/google-chrome --version
       - name: Real Chromium positive owned Character + physical Echo journeys
         env:
           CHROME_BIN: /usr/bin/google-chrome

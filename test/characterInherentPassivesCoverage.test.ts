@@ -13,7 +13,7 @@ import {
   renderCharacterInherentPassivesCoverageReport,
 } from '../scripts/lib/character-inherent-passives-audit.ts';
 
-test('released roster INHERENT_PASSIVES coverage matches all 118 pinned source rows', () => {
+test('released roster INHERENT_PASSIVES coverage matches all 122 pinned source rows and two source-only pending kits', () => {
   const audit = auditCharacterInherentPassivesCoverage();
   assert.equal(audit.releasedCount, 61);
   assert.equal(audit.sourceInherentSkillCount, 122);

@@ -17,12 +17,14 @@ import { execFileSync } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
+const { transpileModule, ModuleKind, ScriptTarget } = require('typescript');
 const root = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const output = resolve(process.env.UI_LAB_ARTIFACTS ?? resolve(root, 'artifacts/ui-lab-review'));
 mkdirSync(output, { recursive: true });
 const executablePath = process.env.UI_LAB_CHROME_PATH ?? ['/usr/bin/google-chrome', '/usr/bin/chromium'].find(existsSync);
 if (!executablePath) throw new Error('Set UI_LAB_CHROME_PATH to an installed Chromium/Chrome executable');
 const errors = [];
+const bootstrapConsoleErrors = [];
 const checks = [];
 const result = {
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
@@ -31,7 +33,7 @@ const result = {
 };
 const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
 const approvedFiles = new Map();
-const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
+const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.ts': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
   try {
     let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -44,6 +46,15 @@ const server = createServer((request, response) => {
       const file = path.slice(root.length + 1);
       if (!approvedFiles.has(file)) approvedFiles.set(file, execFileSync('git', ['show', `${approvedRevision}:${file}`], { cwd: root, maxBuffer: 8 * 1024 * 1024 }));
       body = approvedFiles.get(file);
+    } else if (extname(path) === '.ts') {
+      // Chromium cannot import raw TypeScript (or application/octet-stream).
+      // Transpile source-only review modules on request; the product build still
+      // uses its separate strict TypeScript/esbuild/public-boundary pipeline.
+      if (!path.startsWith(resolve(root, 'src') + '/')) { response.writeHead(403).end(); return; }
+      body = Buffer.from(transpileModule(readFileSync(path, 'utf8'), {
+        fileName: path,
+        compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 },
+      }).outputText);
     } else body = readFileSync(path);
     response.writeHead(200, { 'Content-Type': contentTypes[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
     response.end(body);
@@ -68,7 +79,7 @@ const wait = async page => {
       scripts: [...document.scripts].map(node => node.src).filter(Boolean),
       missingResources: performance.getEntriesByType('resource').filter(row => row.responseStatus >= 400).slice(-20).map(row => ({name:row.name,status:row.responseStatus}))
     })).catch(readError => ({diagnosticError:String(readError)}));
-    console.error('UI Lab Chromium bootstrap failed',JSON.stringify({pageErrors:errors,state}));
+    console.error('UI Lab Chromium bootstrap failed',JSON.stringify({pageErrors:errors,consoleErrors:bootstrapConsoleErrors.slice(-30),state}));
     throw error;
   }
   // The carousel assigns art after module readiness. Keep the missing-art gate,
@@ -477,6 +488,8 @@ try {
     console.log(`Reviewing source at ${width}px`);
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') bootstrapConsoleErrors.push(message.text()); });
+    page.on('requestfailed', request => bootstrapConsoleErrors.push(`${request.method()} ${request.url()}: ${request.failure()?.errorText}`));
     await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
     await wait(page);
     await page.evaluate(() => document.fonts.ready);

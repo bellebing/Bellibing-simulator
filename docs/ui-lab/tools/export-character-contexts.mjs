@@ -1,3 +1,4 @@
+import {reviewedSourceCohort} from './reviewed-source-cohort.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {CHARACTER_CATALOG} from '../../../src/data/characters.ts';
@@ -12,7 +13,7 @@ import {CHARACTER_TARGETS} from '../v1.1/modules/targets.js';
 // timing invention or DPS capability is added by this browser export.
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 if(hash(readFileSync(CHARACTER_DEFAULT_TEAM_REVIEW.guideArtifact))!==CHARACTER_DEFAULT_TEAM_REVIEW.guideSha256)throw Error('Default-team guide evidence drift');
-const releasedIds=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(c=>c.id);
+const releasedIds=reviewedSourceCohort().map(c=>c.id);
 if(CHARACTER_DEFAULT_TEAM_REVIEW.records.length!==releasedIds.length||new Set(CHARACTER_DEFAULT_TEAM_REVIEW.records.map(r=>r.characterId)).size!==releasedIds.length)throw Error('Default-team binding coverage drift');
 for(const binding of CHARACTER_DEFAULT_TEAM_REVIEW.records){
  const guide=CHARACTER_GUIDE_RECOMMENDATIONS.find(g=>g.characterId===binding.sourceOwnerId);
@@ -34,7 +35,7 @@ const teams=sourceTeams.map(c=>{
 });
 const defaults=JSON.parse(readFileSync(new URL('../v1.1/modules/sandbox-defaults.json',import.meta.url),'utf8'));
 const settings=JSON.parse(readFileSync(new URL('../v1.1/modules/production-settings.json',import.meta.url),'utf8'));
-const characters=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(c=>{
+const characters=reviewedSourceCohort().map(c=>{
  const guide=CHARACTER_GUIDE_RECOMMENDATIONS.find(g=>g.characterId===c.id);
  const anchored=teams.filter(t=>t.anchorCharacterId===c.id);
  const candidates=[...anchored,...teams.filter(t=>t.anchorCharacterId!==c.id&&t.characterIds.includes(c.id))];

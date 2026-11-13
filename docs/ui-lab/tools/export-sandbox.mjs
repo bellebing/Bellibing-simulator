@@ -1,3 +1,4 @@
+import {reviewedSourceCohort} from './reviewed-source-cohort.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {CHARACTER_CATALOG} from '../../../src/data/characters.ts';
@@ -74,7 +75,7 @@ function allocate(character,guide,primary,profile){
  }
  throw Error('COMPATIBLE_DISTINCT_SPECIES_SHELL_UNAVAILABLE');
 }
-const rows=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(character=>{
+const rows=reviewedSourceCohort().map(character=>{
  const guide=CHARACTER_GUIDE_RECOMMENDATIONS.find(g=>g.characterId===character.id),signature=CHARACTER_SIGNATURE_ASSOCIATIONS.find(s=>s.characterId===character.id);
  if(!guide||!signature)throw Error('Reviewed source coverage missing: '+character.id);
  const weaponSource=signature.status==='VERIFIED_SIGNATURE'?null:guide.weapons.find(w=>WEAPON_CATALOG.some(c=>c.id===w.weaponId&&c.releaseStatus==='RELEASED'&&c.weaponType===character.weaponType));
@@ -109,7 +110,7 @@ const output={schemaVersion:1,kind:'SANDBOX_STANDARD_COVERAGE',policy,sonataRevi
  weapons:WEAPON_CATALOG.filter(w=>w.releaseStatus==='RELEASED').map(w=>({id:w.id,name:w.name,weaponType:w.weaponType,level90BaseAtk:w.level90BaseAtk})),
  sourceBindings:Object.fromEntries(['../../../src/data/characters.ts','../../../src/data/weapons.ts','../../../src/data/characterEquipmentAssociations.ts','../../../src/data/echoLoadoutProfiles.ts','../../../data/source/character-release-3.7.json','../../ui-prototypes/assets/echoes/browser-data.json'].map(p=>[p,hash(read(p))])),
  summary:{released:rows.length,valid:rows.filter(r=>r.configurationValidity==='VALID').length,echoComplete:rows.filter(r=>r.validEchoConfiguration).length,weaponComplete:rows.filter(r=>r.validWeaponConfiguration).length,pending:rows.filter(r=>r.unresolved.length).length},characters:rows};
-if(rows.length!==59)throw Error('Released catalog drift: review Sandbox coverage gate');
+if(rows.length!==59)throw Error('Historical reviewed Sandbox coverage drift');
 const md='# Sandbox standard-build coverage\n\nGenerated from canonical sources by `node docs/ui-lab/tools/export-sandbox.mjs`. See [full machine-readable matrix](v1.1/modules/sandbox-defaults.json) for exact five templates, original alternatives, source hashes/URLs, context conditions, baseline, signature/alternative evidence and independent readiness.\n\n'+
  `**${output.summary.valid}/59 valid standard builds; ${output.summary.echoComplete}/59 complete Echo shells; ${output.summary.weaponComplete}/59 canonical Weapons.** This is configuration coverage, not private simulation, DPR or DPS readiness. These generated source-only rows do not qualify a runtime provider; their Pending fields are separate from the connected host's versioned capabilities. See the [current roadmap](../SANDBOX_SIMULATOR_ROADMAP.md). Missing reviewed non-Augusta Echo requirements remain Pending separately from template validity (BUG-042).\n\n`+
  Object.entries(policy).map(([k,v])=>`- **${k}:** ${v}`).join('\n')+'\n\nSet counts mean distinct species eligible for canonical piece thresholds, not verified trigger/uptime or combat execution. No duplicate species fillers are used. No substats/rolls or team results are invented.\n\n| Character / selected context | Weapon / basis | Five Echo templates (Cost · Main · Sonata) | Set pieces (distinct) | Valid / unresolved | Simulation / DPR / DPS |\n| --- | --- | --- | --- | --- | --- |\n'+rows.map(r=>`| ${r.character} / ${r.presetId} | ${r.weapon?.weaponId??'Pending'} / ${r.weapon?.basis??'PENDING'} | ${r.slots.map(s=>`${s.configuration.echoId}: ${s.configuration.cost} · ${s.configuration.mainStatName} · ${s.configuration.selectedSonataSetId}`).join('<br>')} | ${r.composition.map(s=>`${s.setId}: ${s.distinctCount} (${s.eligiblePieceBonuses.join('/')})`).join('; ')} | ${r.configurationValidity}: ${r.unresolved.join('; ')||'—'} | Pending / Pending / Pending |`).join('\n')+'\n';

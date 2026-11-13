@@ -11,6 +11,16 @@ Exit 3 means Character Usable remains Pending, even if the report was generated 
 
 **This is a structured-source capture + integration/audit runner, not an HTML scraper or automatic authority for canonical promotion.** New structured upstream data must first go through existing factory evidence, reconciliation, source-validity review and reviewed canonical raw/asset/kit ingestion. Identity/release evidence can be recorded in `data/research/character-import/<id>.json` but is explicitly *noncanonical*. The CLI reads it; it does not rewrite gameplay records from a guide.
 
+## Captured original 3.8 evidence
+
+The release-source data was **actually staged for review**, not promoted into the 59 canonical released roster:
+
+- `data/research/character-import/lily-captured.json`: role 1512; verified Lv1 stats, original Lv90 growth and Max Energy field, 17 Forte nodes (8 intrinsic), 9 source Skills/level curves, 6 Sequences, reviewed original image paths.
+- `data/research/character-import/suoming-captured.json`: role 1312; corresponding original raw data, full source Skills/Sequences and art paths; source presence does not make `CONFIRMED_UPCOMING` become `RELEASED`.
+- `data/research/character-import/source-pins/3.8.json`: immutable Arikatsu 3.8 and DommyMM Wuwabuild commit/blob mapping. This is original structured source, **not** manually copied guide prose. Git blob hashes must match.
+- A pinned original art path **does not constitute imported asset bytes** or reviewed presentation. Neither Character is playable through this staging.
+- Dedicated nondeploy `Character Import Pipeline Review` GitHub Actions covers source provenance, no duplicates/regressed 59, CLI Pending contracts, strict build, and actual Chrome negative/legacy Character verification. **It does not substitute positive Lily/Hsin/Suoming account acceptance.**
+
 ## Source-of-truth and consumers
 
 | Source or derived artifact | Ownership and gate |

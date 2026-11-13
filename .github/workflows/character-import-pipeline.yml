@@ -1,0 +1,95 @@
+name: Character Import Pipeline Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'src/characterImportCoverage.mjs'
+      - 'src/characterImportSourceCapture.mjs'
+      - 'src/data/characters.ts'
+      - 'src/characterOriginalRelease.mjs'
+      - 'scripts/import-character.mjs'
+      - 'scripts/capture-character-import-source.mjs'
+      - 'test/characterImport*.test.ts'
+      - 'test/characterImport*.browser.mjs'
+      - 'data/research/character-import/**'
+      - 'docs/CHARACTER_IMPORT_PIPELINE.md'
+      - '.github/workflows/character-import-pipeline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: character-import-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  import-gates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Real 59, source, provenance, duplicate, missing and Pending Node tests
+        run: |
+          node --experimental-strip-types --test test/characterImportCoverage.test.ts test/characterImportSourceCapture.test.ts test/characterImportSnapshots.test.ts
+          node --experimental-strip-types --test test/characterOriginalRelease.test.mjs
+      - name: CLI rejects incomplete candidate source integration without mutating files
+        run: |
+          set -euo pipefail
+          for id in lily hsin suoming; do
+            set +e
+            npm run import:character -- "$id" --json --output "/tmp/character-import-$id.json" >/tmp/character-import-"$id".log
+            status=$?
+            set -e
+            if [[ "$status" -ne 3 ]]; then
+              cat "/tmp/character-import-$id.log"
+              echo "Expected PENDING exit 3 for $id but got $status"
+              exit 1
+            fi
+          done
+          node --input-type=module <<'NODE'
+          import {readFileSync} from 'node:fs';
+          import assert from 'node:assert/strict';
+          const load=id=>JSON.parse(readFileSync('/tmp/character-import-'+id+'.json','utf8'));
+          const lily=load('lily'),hsin=load('hsin'),suoming=load('suoming');
+          for(const row of [lily,hsin,suoming]){
+            assert.equal(row.existingReleasedCount,59);
+            assert.equal(row.characterUsable,'PENDING');
+            assert.equal(row.dpsReady,'PENDING');
+          }
+          assert.equal(lily.catalogPresence,'MISSING');
+          assert.equal(lily.release.originalPatch,'3.8');
+          assert.equal(hsin.catalogPresence,'EXISTS');
+          assert.equal(hsin.checks.sourceAssets.status,'PENDING');
+          assert.equal(suoming.catalogPresence,'EXISTS');
+          assert.equal(suoming.release.canonicalStatus,'CONFIRMED_UPCOMING');
+          assert.equal(suoming.release.releaseNeedsReview,true);
+          NODE
+          set +e
+          npm run import:character -- lily --integrate >/tmp/source-gates-denied.log 2>&1
+          code=$?
+          set -e
+          if [[ "$code" -eq 0 ]]; then cat /tmp/source-gates-denied.log; exit 1; fi
+          grep -q 'source gates Pending' /tmp/source-gates-denied.log
+          git diff --exit-code
+      - name: Generated canonical catalog parity and strict build
+        run: |
+          node --experimental-strip-types docs/ui-lab/tools/export-catalog.mjs --check
+          npm run build
+      - name: Actual Google Chrome pending/59/account regressions
+        env:
+          CHROME_BIN: /usr/bin/google-chrome
+        run: |
+          command -v google-chrome
+          timeout 120s node --experimental-strip-types --test test/characterImportPending.browser.mjs
+          timeout 120s node --experimental-strip-types --test test/characterOriginalRelease.browser.mjs

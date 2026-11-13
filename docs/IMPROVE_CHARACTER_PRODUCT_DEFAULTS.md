@@ -214,4 +214,3 @@ fresh-start-vs-observed checkpoint distinction. No fabricated estimate.
 - Existing account/inventory/Build/test/build gates are retained. Broader FULL
   and live owner Windows/public-private Expected-Tuner replay remain
   separate pending work. No merge or deployment.
-

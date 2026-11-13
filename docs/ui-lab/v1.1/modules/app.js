@@ -33,6 +33,7 @@ import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.m
 import {createSandboxWorkspace,setSandboxWeapon,sandboxStandard,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
 import {restoreProductEchoDefaults} from './product-echo-defaults.js';
+import {clearOwnedImproveOverrides} from './account-settings.js';
 import {configuredCard} from './configured-card.js';
 import {createConfigurationSession,configurationSnapshot,configurationLiveContext,settingsSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
 import {createWorkshopEditor} from './workshop-editor.js';
@@ -748,7 +749,25 @@ if(!demonstration&&!configurationReview){
  const href=mode=>{if(routes)return routes[mode];const url=new URL(location.href);url.searchParams.set('sandbox',String(mode==='sandbox'));url.searchParams.delete('demonstration');return url.pathname+url.search;};
  mountWorkspaceHeader($('.site-header'),{build:routes?.build??assetURL('../../ui-prototypes/v34-functional.html')+'?workspace=build',improve:href('improve'),sandbox:href('sandbox')},sandbox?'sandbox':'improve');
  if(accountMode){
-  improvePresets=mountImprovePresets({getState:()=>state,onSave:()=>{saveAccountSettings();renderFeedback();},onManual:()=>{state.settingsMode='Customize';state.sourcePreferenceGuidance=null;state.accountSettingsPending=null;settingsConfigurationChanged(state);renderSettings();saveAccountSettings();}});
+  improvePresets=mountImprovePresets({getState:()=>state,onSave:()=>{saveAccountSettings();renderFeedback();},onManual:()=>{state.settingsMode='Customize';state.sourcePreferenceGuidance=null;state.accountSettingsPending=null;settingsConfigurationChanged(state);renderSettings();saveAccountSettings();},
+   onRecommended:async()=>{
+    const selected=selectedId,workingState=state,earlier={
+     settingsMode:state.settingsMode,minima:structuredClone(state.minima),
+     statSections:structuredClone(state.statSections),flexCount:state.flexCount,
+     sourcePreferenceGuidance:structuredClone(state.sourcePreferenceGuidance??null),
+     productEchoDefault:structuredClone(state.productEchoDefault??null)};
+    if(!restoreRecommendedSettings(state,{productDefaults:true}))return;
+    try{
+     await accountSaveQueue;
+     await clearOwnedImproveOverrides(selected,localStorage,accountOwner.store);
+     await accountOwner.store.saveWorkspaceSettings(selected,captureWorkspaceSettings(workingState));
+     workingState.accountHasSavedSettings=false;workingState.accountPolicyBinding=null;workingState.accountSettingsPending=null;
+     settingsConfigurationChanged(workingState);
+    }catch(error){
+     Object.assign(workingState,earlier);notify('Recommended settings were not saved: '+error.message);
+    }
+    if(state===workingState&&selectedId===selected){renderSettings();renderWorkspace();}
+   }});
   const placeCarousel=()=>{const header=document.querySelector('.workspace-header');const carouselHeading=document.querySelector('.heading-carousel');if(header&&carouselHeading)header.append(carouselHeading);};
   placeCarousel();document.addEventListener('bellibing-header-ready',placeCarousel);
   const costs=document.createElement('div');costs.className='improve-cost-footer';costs.append($('#resourceCost'));

@@ -190,7 +190,7 @@ test('resolver rejects duplicate Character IDs across ready and pending coverage
   );
 });
 
-test('resolver rejects missing released coverage and unreleased pending leakage', () => {
+test('resolver rejects missing released coverage and noncanonical pending leakage', () => {
   const missing = loadManifest();
   missing.characters = missing.characters.filter((row: any) => row.characterId !== 'augusta');
   assert.throws(
@@ -203,7 +203,7 @@ test('resolver rejects missing released coverage and unreleased pending leakage'
   leaked.pending[0].characterName = 'Unreleased fixture';
   assert.throws(
     () => createCharacterHeroArtResolver(leaked),
-    /non-released Character leaked into pending hero art: unreleased-fixture/,
+    /unknown canonical characterId unreleased-fixture/,
   );
 });
 

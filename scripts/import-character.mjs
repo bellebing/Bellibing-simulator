@@ -92,6 +92,7 @@ if(integrate){
  command(node,[...flags,'scripts/export-ui-weapon-browser-data.ts']);
  command(node,[...flags,'scripts/export-ui-echo-browser-data.ts']);
  command(node,[...flags,'scripts/export-ui-improve-settings.ts']);
+ command(node,['scripts/update-reviewed-character-public-allowlist.mjs']);
  command(node,[...flags,'scripts/export-character-database.ts']);
  coverage=await report();
 }

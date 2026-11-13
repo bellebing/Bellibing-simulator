@@ -48,6 +48,16 @@ They do **not** independently verify OCR of a real original card, a physical
 Windows machine, or the private engine startup; those require owner/local
 acceptance before calling this fully resolved.
 
+A real owner Hiyuki card (kept outside the repository) exposed an additional
+1-cost Echo OCR issue: the main-stat icon can read as `xX` and the faint ATK
+label as `Ni`, despite the printed `ATK 18%` being a legal Rank-5 +25
+value. The scanner now retries a *separate, tightly cropped label* only for
+noisy cost-1 reads, and accepts the result only if both the OCR label and
+value exactly match the canonical stat catalog. It never guesses ATK from
+18% alone (DEF% is also legal at 18%). Regression tests preserve the raw OCR
+observation. This source-only fix is **not** yet verified with the owner's
+Windows one-click install/real import and does not prove account save.
+
 ## Standalone scanner review launcher
 
 Foundation continuation adds local browser-WASM recognition and emulator-only

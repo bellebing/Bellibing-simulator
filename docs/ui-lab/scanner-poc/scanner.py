@@ -64,7 +64,8 @@ def review_substat(row, raw_name, raw_value):
     return result
 
 def read_main(panel, cost):
-    lines=card._main_strip_lines(card._crop_region(panel,card.ECHO_REGIONS['main']))
+    main_panel=card._crop_region(panel,card.ECHO_REGIONS['main'])
+    lines=card._main_strip_lines(main_panel)
     raw=' '.join(lines[:2]); match=re.search(r'(\d+(?:\.\d+)?)\s*%',raw)
     value=float(match.group(1)) if match else None
     raw_name=re.sub(r'[^A-Za-z ]',' ', raw[:match.start()] if match else raw)
@@ -74,8 +75,31 @@ def read_main(panel, cost):
     # The card draws ATK/HP/DEF without '%' in its main-stat name.
     if not name and raw_name.strip().upper() in ['ATK','HP','DEF']:
         name=raw_name.strip().upper()+'%'
-    return {'stat':canonical_stat(name,value) if name and value is not None else {'name':None,'value':None},
-            'raw':raw, 'method':'OCR; no default main or value snapping'}
+    stat=canonical_stat(name,value) if name and value is not None else {'name':None,'value':None}
+    allowed=data.CATALOG['statEditor']['mainStatsByCostAndLevel'].get(str(cost),{}).get('25',[])
+    exact=lambda s:any(s['name']==row['name'] and s['value'] is not None and
+                       abs(s['value']-row['value'])<1e-12 for row in allowed)
+
+    # Original 1920x1080 card: the icon preceding 18% is frequently read as
+    # 'xX', and the low-contrast ATK label on a 1-cost card as 'Ni'.
+    # Recover ONLY the separately readable label, never from 18% alone:
+    # ATK% and DEF% both have the same legal cost-1 +25 value.
+    # The tight name box excludes the element badge and the stat-value icon.
+    method='OCR; no default main or value snapping'
+    if cost==1 and value is not None and (
+        not exact(stat) or not re.fullmatch(r'(?i)(HP|ATK|DEF)%?',raw_name.strip())
+    ):
+        name_crop=main_panel[6:40,85:171]
+        if name_crop.size:
+            gray=cv2.cvtColor(name_crop,cv2.COLOR_BGR2GRAY)
+            up=cv2.resize(gray,None,fx=4,fy=4,interpolation=cv2.INTER_CUBIC)
+            tight=card.pytesseract.image_to_string(up,config='--psm 7').strip().upper()
+            if tight in {'HP','ATK','DEF'}:
+                candidate=canonical_stat(tight+'%',value)
+                if exact(candidate):
+                    stat=candidate
+                    method='Tight label OCR + exact canonical value (original strip retained)'
+    return {'stat':stat,'raw':raw,'method':method}
 
 def read_secondary(panel):
     raw=panel[183:225,15:360]

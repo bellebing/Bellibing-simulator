@@ -32,6 +32,7 @@ import {observedSlots,expectedResourceRecord,sandboxCostDetails} from './sandbox
 import {readProductionBuildRecord} from '../../../../src/productionBuildRecord.mjs';
 import {createSandboxWorkspace,setSandboxWeapon,sandboxStandard,SANDBOX_WEAPONS} from './sandbox-state.js';
 import {initializeCanonicalSettings} from './canonical-settings.js';
+import {restoreProductEchoDefaults} from './product-echo-defaults.js';
 import {configuredCard} from './configured-card.js';
 import {createConfigurationSession,configurationSnapshot,configurationLiveContext,settingsSnapshot,resetSimulationResults,configuredSlotTitle,selectConfigurationSlot,settingsConfigurationChanged} from './simulation-configuration.js';
 import {createWorkshopEditor} from './workshop-editor.js';
@@ -118,7 +119,7 @@ function characterState(id) {
   const value=getDemoState(id);
   if(configurationReview){if(!value.configurationSession){value.configurationSession=createConfigurationSession(id);initializeCanonicalSettings(value);if(id!=='augusta')value.sonataPool=[];}return value;}
   if(!demonstration&&!value.configurationSession){
-    value.configurationSession=createConfigurationSession(id,{initializeDefaults:false});value.configurationSession.mode='current';initializeCanonicalSettings(value);value.echoes=Array(5).fill(null);value.candidates=Array(5).fill(null);value.histories=Array.from({length:5},()=>[]);value.stats=value.stats.map(()=>['—','—']);value.accountCandidates=Array(5).fill(null);value.echoActive=Array(5).fill(true);value.configurationSession.active=Array(5).fill(true);
+    value.configurationSession=createConfigurationSession(id,{initializeDefaults:false});value.configurationSession.mode='current';initializeCanonicalSettings(value,{productDefaults:accountMode});value.echoes=Array(5).fill(null);value.candidates=Array(5).fill(null);value.histories=Array.from({length:5},()=>[]);value.stats=value.stats.map(()=>['—','—']);value.accountCandidates=Array(5).fill(null);value.echoActive=Array(5).fill(true);value.configurationSession.active=Array(5).fill(true);
     // The old two-row Sonata fixture is not a recommendation for other Characters.
     if(id!=='augusta')value.sonataPool=[];
   }
@@ -485,7 +486,7 @@ function renderSettings() {
   const buttons = [...document.querySelectorAll('.setting-mode button')];
   buttons.forEach(button => { button.classList.toggle('selected', button.textContent === state.settingsMode); button.setAttribute('aria-pressed', button.textContent === state.settingsMode); });
   buttons[0].disabled = !sandbox&&!accountMode&&selectedId !== 'augusta';
-  buttons[0].title = sandbox ? 'Restore source priorities or approved Echo settings; missing thresholds remain Pending' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
+  buttons[0].title = accountMode ? 'Restore this Character\'s approved product default or source-only priorities; manual overrides are cleared' : sandbox ? 'Restore source priorities or approved Echo settings; missing thresholds remain Pending' : selectedId === 'augusta' ? 'Restore the approved Augusta demonstration defaults' : 'No recommended settings supplied for this demonstration Character';
   const target = $('.target');
   const reference=CHARACTER_TARGETS.find(r=>r.characterId===selectedId&&(sandbox||selectedId==='augusta'));
   target.querySelector('p').textContent = reference?.status==='READY'?`${people.get(selectedId).name} · DEFAULT Calc reference`:sandbox?'Character Target Pending':'Character Target Pending in this visual study';
@@ -516,8 +517,12 @@ async function probeSandboxHost(binding){
 function syncAccountState(){
  state.accountPreferredTeamContextId=ownedTeamContext(selectedId,accountOwner?.store.snapshot()?.userData?.teams??[]);
  restoreOwnedSettings(state,localStorage);
- if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state);state.accountSourcesInitialized=true;}
- try{restoreWorkspaceSettings(state,accountOwner?.store.snapshot()?.userData?.workspaceSettings?.[state.id]);}catch(error){state.accountSettingsPending=error.message;}
+ if(!state.accountSourcesInitialized){if(!state.accountHasSavedSettings)initializeCanonicalSettings(state,{productDefaults:true});state.accountSourcesInitialized=true;}
+ try{restoreWorkspaceSettings(state,accountOwner?.store.snapshot()?.userData?.workspaceSettings?.[state.id]);
+    // A historical Recommended preference is not a user-authored Echo rule.
+    // Refresh the product default without modifying saved Customize or V3 intent.
+    if(!state.accountHasSavedSettings&&!state.accountSettingsPending&&state.settingsMode==='Recommended')restoreProductEchoDefaults(state);
+  }catch(error){state.accountSettingsPending=error.message;}
  // Retire presentation before projecting, including manually observed Candidates.
  if(syncImproveCandidateContext(state,readImproveOwner())){
   workshopEditor.close();
@@ -698,7 +703,7 @@ $('.gate-options').addEventListener('click', event => {
 $('.setting-mode').addEventListener('click', event => {
   if (event.target.tagName !== 'BUTTON') return;
   if(event.target.textContent==='Recommended'){
-    const restored=restoreRecommendedSettings(state);
+    const restored=restoreRecommendedSettings(state,{productDefaults:accountMode});
     renderSettings();
     // Explicit Recommended restores source guidance. Unavailable guidance
     // cannot imply a reviewed executable policy or erase Custom state.

@@ -21,7 +21,9 @@ jobs:
     # A skipped draft job is not FULL evidence. Required-check enforcement is
     # outside this split; main FULL remains the transition backstop.
     if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && (github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification'))))
-    runs-on: ubuntu-latest
+    # Playwright 1.58 does not install Chromium/Firefox on ubuntu-26.04;
+    # use a supported runner for the existing FULL browser matrix.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -228,7 +230,7 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
 
           test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
-          test "$(find dist/ui-preview/assets/characters/hero-art -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 53
+          test "$(find dist/ui-preview/assets/characters/hero-art -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 56
           test -s dist/ui-preview/assets/characters/hero-art/manifest.json
           test -s dist/ui-preview/assets/characters/hero-art/runtime-data.json
           curl --fail --silent --output /dev/null \
@@ -259,11 +261,11 @@ jobs:
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/5-star-square.png"
 
-          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 822
+          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 861
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6
           test "$(find dist/ui-preview/assets/builder-icons/sonata -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 37
-          test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 411
-          test "$(find dist/ui-preview/assets/builder-icons/chains -type f -name '*.webp' | wc -l)" -eq 348
+          test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 432
+          test "$(find dist/ui-preview/assets/builder-icons/chains -type f -name '*.webp' | wc -l)" -eq 366
           test "$(find dist/ui-preview/assets/builder-icons/stats -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 17
           test "$(find dist/ui-preview/assets/builder-icons/echo-cost -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 3
           test -s dist/ui-preview/assets/builder-icons/manifest.json

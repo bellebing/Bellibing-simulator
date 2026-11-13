@@ -69,10 +69,15 @@ const sandbox=query.get('sandbox')==='true';
 // Disclosure preferences are presentation-only; the Sandbox never adopts an AccountStore.
 const panelPrefs=createUiPreferenceStore(globalThis.localStorage,accountOwner?.profile??'standalone-sandbox',sandbox?'detached-sandbox-ui':accountOwner?.stage().id??'detached-improve-ui');
 const panelScope=id=>(sandbox?'sandbox:':'improve:')+id+':panels';
+const ephemeralLabReview = query.get('demonstration') === 'true' || query.get('review') === 'configuration';
 function savePanelPrefs(){
+ // The isolated visual/configuration studies must never write localStorage.
+ // Product Improve and the standalone Sandbox retain their own scoped prefs.
+ if(ephemeralLabReview)return;
  panelPrefs.write(panelScope(selectedId),{settings:$('#settings').classList.contains('expanded'),character:$('#character').classList.contains('expanded')});
 }
 function restorePanelPrefs(){
+ if(ephemeralLabReview)return;
  const saved=panelPrefs.read(panelScope(selectedId));
  if(typeof saved.settings==='boolean')$('#settings').classList.toggle('expanded',saved.settings);
  if(typeof saved.character==='boolean')$('#character').classList.toggle('expanded',saved.character);

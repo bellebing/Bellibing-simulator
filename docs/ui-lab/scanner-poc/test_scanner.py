@@ -127,9 +127,9 @@ class ValidationTests(unittest.TestCase):
         # cropped right-side label OCR 'ATK'. No value is snapped or invented.
         from unittest.mock import patch
         for lines in [['Ni','xX 18%'],['ATK','xX 18%']]:
-            with self.subTest(lines=lines), \\
-                 patch.object(scanner.card,'_main_strip_lines',return_value=lines), \\
-                 patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK\\n') as ocr:
+            with (self.subTest(lines=lines),
+                  patch.object(scanner.card,'_main_strip_lines',return_value=lines),
+                  patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK') as ocr):
                 result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
                 self.assertEqual(result['stat'],{'name':'ATK%','value':.18})
                 self.assertEqual(result['raw'],' '.join(lines))
@@ -138,14 +138,15 @@ class ValidationTests(unittest.TestCase):
 
     def test_cost1_18_does_not_guess_between_atk_and_def(self):
         from unittest.mock import patch
-        with patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 18%']), \\
-             patch.object(scanner.card.pytesseract,'image_to_string',return_value='Unreadable'):
+        with (patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 18%']),
+              patch.object(scanner.card.pytesseract,'image_to_string',return_value='Unreadable')):
             result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
             self.assertEqual(result['stat'],{'name':None,'value':None})
-        with patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 19%']), \\
-             patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK'):
+        with (patch.object(scanner.card,'_main_strip_lines',return_value=['Ni','xX 19%']),
+              patch.object(scanner.card.pytesseract,'image_to_string',return_value='ATK')):
             result=scanner.read_main(np.zeros((413,368,3),np.uint8),1)
             self.assertNotEqual(result['stat'],{'name':'ATK%','value':.18})
+
     def test_weak_identity_is_not_promoted_and_rows_do_not_shift(self):
         from unittest.mock import patch
         echo=next(e for e in scanner.data.CATALOG['echoes'] if e['cost']==3)

@@ -323,7 +323,7 @@ export const CHARACTER_ORIGINAL_RELEASE = Object.freeze(Object.fromEntries(
   ORIGINAL_RELEASE_ROWS.map(([id,patch,date])=>[id,Object.freeze({patch,date})])
 ));
 
-const versionNumber = patch => /^\\d+\\.\\d+$/.test(patch) ? patch.split('.').reduce((a,n)=>a*100+Number(n),0) : null;
+const versionNumber = patch => /^\d+\.\d+$/.test(patch) ? patch.split('.').reduce((a,n)=>a*100+Number(n),0) : null;
 
 /** Pure, non-mutating 5★ → 4★; newest FIRST debut within each rarity.
  * Missing release metadata is not a guessed date: it sorts below sourced entries

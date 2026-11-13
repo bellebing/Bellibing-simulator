@@ -43,7 +43,9 @@ test('signatures are distinct from reviewed alternatives, all weapon types and m
   assert.equal(c.baseline.forte.schemaVersion,1);assert.deepEqual(Object.keys(c.baseline.forte.levels).sort(),['circuit','intro','liberation','normal-attack','skill']);assert.ok(Object.values(c.baseline.forte.levels).every(v=>v===10));assert.equal(Object.keys(c.baseline.forte.enabled).length,10);
  }
  assert.ok(alternatives>0,'Never claim all Characters have signatures');
- assert.match(coverage.characters.find(c=>c.characterId==='hsin').baseline.fortePresentationStatus,/PENDING/);
+ const hsin=coverage.characters.find(c=>c.characterId==='hsin');
+  assert.equal(hsin.baseline.fortePresentationStatus,'AVAILABLE','Hsin now has source-backed canonical Forte presentation');
+  assert.ok(!hsin.pendingDimensions.includes('FORTE_ART_AND_TREE_PRESENTATION_PENDING'),'A verified Hsin tree must not retain an obsolete art pending reason');
 });
 test('set eligibility counts distinct species, not cards; never claims dynamic combat effects',()=>{
  const a=coverage.characters.find(c=>c.characterId==='augusta');assert.deepEqual(a.composition.map(s=>[s.setId,s.distinctCount,s.eligiblePieceBonuses]),[['sonata-20',3,[3]],['sonata-3',2,[2]]]);

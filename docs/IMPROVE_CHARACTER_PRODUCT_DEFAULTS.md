@@ -1,0 +1,102 @@
+# Improve Character Hard/Flex product defaults and Expected Tuners (Draft #365)
+
+## Scope and source boundary
+
+This is **presentation/account Improve only**, not a gameplay claim or a rewrite of the
+canonical Improve policy, Echo RNG, private gross-Tuner Bellman mathematics,
+AccountStore, Build, Inventory or DPS Lab. The source of relative substat relevance is
+`src/data/characterEquipmentAssociations.ts` projected via
+`src/characterRecommendations.mjs` and `src/characterPriorityGuidance.mjs`.
+Those guide records provide rankings and conditions; **none supplies a universal
+per-Echo minimum, required Hard pair, or required Flex count**.
+
+Bellibing explicitly chooses a product convention for a conservative, reviewed
+set of ordinary CRIT DPS characters: Hard **CRIT Rate + CRIT DMG**, Flex
+the first (up to 3) individually mapped, unconditioned applicable non-CRIT
+substats in actual guide priority order, **all Hard AND at least 1 Flex**.
+All minima are the **lowest existing canonical Rank-5 substat roll tier**,
+not source-verbatim target thresholds or estimated optimum values.
+Conditional whole-build Energy Regen is excluded: its target depends on actual
+build/rotation and cannot be forced on every Echo. Compound tied aliases are
+not arbitrarily promoted as individual priorities. ER Target remains separate.
+Manual / Customize preferences are account-owned and take precedence.
+Recommended explicitly restores the Character's product default.
+
+## Verified source eligibility / pending coverage
+
+- **26 scoped ordinary CRIT DPS**: Aemeath, Calcharo, Camellya, Carlotta,
+  Changli, Chisa, Chixia, Danjin, Encore, Galbrena, Hsin, Jinhsi, Jiyan,
+  Lingyang, Lucilla, Lucy, Luuk Herssen, Phoebe, Phrolova, Qingxiao,
+  Qiuyuan, Rebecca, Roccia, Rover (Havoc), Xiangli Yao, Zani.
+  These must all have an unambiguous CRIT Rate/CRIT DMG source main-stat
+  first cost-4 slot and valid mapped priority content, or the adapter
+  deliberately returns Pending.
+- **Augusta**: retains the previously owner-approved, canonical
+  Hard CRIT Rate/CRIT DMG, Flex ATK% / Heavy Attack DMG / Energy Regen /
+  Flat ATK, Flex count 1, minimum tiers unchanged.
+- **32 Pending**, including Baizhi, Verina, Shorekeeper and Mornye supports,
+  Cartethyia's HP emphasis, Jingran's HP conditional, Hiyuki's conditional
+  CRIT target, Suisui, Taoqi and other hybrid/support/mode-dependent cases.
+  Existing source priority display remains available when its content is valid,
+  but it does not silently become a computational goal.
+
+Coverage refers to **Bellibing product defaults**: 27 of 59 including Augusta.
+It is **not** 27 source-certified per-Echo requirement policies.
+
+### Qingxiao example
+
+Source substats: conditional Energy Regen, CRIT Rate = CRIT DMG, ATK%,
+Flat ATK, and the joint Heavy/Liberation/Basic DMG% tier.
+Product default: Hard **CRIT Rate, CRIT DMG**; Flex **ATK%, Flat ATK**,
+minimum one of two. The compound damage priority is preserved as source
+guidance and not misrepresented as three independent prioritized requirements.
+Minimums: CRIT Rate **6.3%**, CRIT DMG **12.6%**, ATK% **6.4%**,
+Flat ATK **30** (existing exact roll tiers). Those are product-selected
+minimums, not Prydwen acceptance thresholds.
+
+## Missing Expected Tuners — factual diagnostic
+
+The report says **probably** Qingxiao. No session trace establishing the
+actual user-selected Character, preset, Gate, observed roll or account
+settings has been provided, so the exact original session remains unconfirmed.
+
+The old source-only Recommended adapter for Qingxiao had zero Hard, source
+priorities under Flex but `flexCount:null`. Its default policy projection also
+has `presetId:null` / `No verified default preset`. The ordinary Improve
+client passes `{target:{hard,flex,flexCount},gate,rolls}` to
+`/local-review/echo-advisor`; null Flex count violates the **existing private
+`createEchoMath` target input contract**, which returns a Pending error.
+`stat-target-cost.js` then swallowed both Pending and transport failures as
+`cost:null`, and the resource table rendered only an em dash.
+
+The private standalone gross-Tuner stat-target calculator has **no Character
+ID or preset requirement**; it consumes canonical stat names/tiers,
+a feasible Hard/Flex target and explicit Gate. Its status is distinct from
+DPS, actual team readiness and canonical per-Character Recommended
+policies. The new Qingxiao product target is structurally eligible.
+Actual private numeric output for this exact preset must still be tested
+against the paired private branch/launcher before claiming a verified
+numeric result.
+
+Unavailable costs now preserve a reason:
+`UNSUPPORTED_ECHO_TARGET_OR_ROLLS`, `SEARCH_LIMIT`,
+`TARGET_HAS_NO_FINITE_EXPECTATION`, missing local service and
+unresolved current-checkpoint cost remain Pending. A supported verified
+certificate still displays its computed value unchanged, with the exact
+fresh-start-vs-observed checkpoint distinction. No fabricated estimate.
+
+## Test and release boundaries
+
+- Focused Node: roster exact count, source gate, Qingxiao/Support/Augusta
+  boundaries, canonical minima, explicit Recommended/reset and
+  verified/Pending status-DTO adapter.
+- Chromium: actual compiled Improve account UI for Augusta, Qingxiao,
+  Baizhi with isolated synthetic owned records; manual edit -> Character
+  switch/reload -> Recommended; HTTP mock covers verified and
+  unavailable response display; unchanged Inventory item bytes.
+- Existing CI account/Build/Inventory/Improve and filter regressions run in
+  the same Draft gate. Mock HTTP is not private-engine numeric verification.
+- Remaining: real owner Windows account/character/preset reproduction,
+  actual paired private echo-advisor response for Qingxiao/default and
+  other representative presets, broader FULL/UI Lab, production acceptance.
+  No merge or deployment.

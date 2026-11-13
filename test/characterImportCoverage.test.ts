@@ -14,8 +14,9 @@ function fixture(id='lily'){
   sequenceRuntime:{characters:[]},portraitManifest:{portraits:[]},heroRuntime:{characters:[]},
   uiCatalog:[],recommendations:null,improveConfiguration:null};
 }
-test('Lily source projection never impersonates a canonical Character or fills missing gameplay facts',()=>{
- const row=characterImportCoverage('lily',fixture(),{asOf:'2026-11-13'});
+test('Research-only Lily capture without a canonical row never impersonates a Character',()=>{
+ const sourceOnly=fixture();sourceOnly.rawCatalog=CHARACTER_CATALOG.filter(c=>c.id!=='lily');
+ const row=characterImportCoverage('lily',sourceOnly,{asOf:'2026-11-13'});
  assert.equal(row.catalogPresence,'MISSING');
  assert.equal(row.characterUsable,'PENDING');
  assert.equal(row.dpsReady,'PENDING');
@@ -34,12 +35,14 @@ test('Hsin has canonical source raw and date, but missing Build source assets is
  assert.equal(row.characterUsable,'PENDING');
  assert.equal(row.dpsReady,'PENDING');
 });
-test('Suoming is not silently promoted just because the pinned original release day passed',()=>{
+test('Suoming is explicitly released from source rather than silently from calendar date',()=>{
  const row=characterImportCoverage('suoming',fixture('suoming'),{asOf:'2026-11-13'});
  assert.equal(row.catalogPresence,'EXISTS');
- assert.equal(row.release.releaseNeedsReview,true);
- assert.equal(row.checks.releasedAndVerified.status,'PENDING');
- assert.equal(row.checks.level90.status,'PENDING');
+ assert.equal(row.release.releaseNeedsReview,false);
+ assert.equal(row.release.canonicalStatus,'RELEASED');
+ assert.equal(row.checks.releasedAndVerified.status,'PASS');
+ assert.equal(row.checks.level90.status,'PASS');
+ assert.equal(row.checks.sourceAssets.status,'PENDING');
  assert.equal(row.characterUsable,'PENDING');
 });
 test('duplicate IDs fail closed even if otherwise source-supported',()=>{

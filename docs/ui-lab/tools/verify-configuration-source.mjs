@@ -4,11 +4,26 @@ import {createHash} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {CANONICAL_CONFIGURATION_SOURCE} from '../../../src/simulationConfigurationBridge.mjs';
 import ownerReview from '../../../data/research/configuration-source-reviews/danjin-owner-interpretation.json' with {type:'json'};
+import characterImportReview from '../../../data/research/configuration-source-reviews/character-import-draft-pr-365.json' with {type:'json'};
 const git=args=>execFileSync('git',args,{encoding:'utf8',maxBuffer:4*1024*1024}).trim();
 export function verifyConfigurationSource(rows,read=readFileSync,review=ownerReview){
  if(review.schemaVersion!==1||review.baseSource!==CANONICAL_CONFIGURATION_SOURCE||review.authority!=='EXPLICIT_OWNER_DECISION'||review.issue!==348||review.scope!=='DANJIN_FULL_METER_TRANSLATION_ONLY_NO_TRANSPORT_OR_ENGINE_CHANGE')throw Error('Configuration source review drift');
+ // Retain the immutable Danjin owner decision and pin. Imported 3.8
+ // Character changes are separate draft source reviews, not owner approval.
+ // Each changed 3.7 blob must have an exact former and current Git blob hash.
+ if(characterImportReview.schemaVersion!==1||characterImportReview.baseSource!==CANONICAL_CONFIGURATION_SOURCE||
+    characterImportReview.authority!=='SOURCE_PINNED_DRAFT_PR_REVIEW_NOT_OWNER_APPROVAL'||
+    characterImportReview.scope!=='61_RELEASED_CHARACTER_IMPORT_AND_PRE_DPS_PENDING_ONLY')throw Error('Character Import source review metadata drift');
+ const importedPaths=[
+  'src/data/characterIntrinsicStats.ts',
+  'src/data/characterPresentationPending.ts',
+  'src/data/characters.ts',
+  'src/profileReadinessRegistry.ts'
+ ];
+ if(JSON.stringify(characterImportReview.changes.map(row=>row.path))!==JSON.stringify(importedPaths)||
+    characterImportReview.changes.some(row=>!row.evidence))throw Error('Character Import source review file scope drift');
  const changes=new Map(),additions=new Map(),seen=new Set();
- for(const [entries,map]of [[review.changes,changes],[review.additions,additions]])for(const entry of entries){
+ for(const [entries,map]of [[review.changes,changes],[review.additions,additions],[characterImportReview.changes,changes]])for(const entry of entries){
   if(!/^src\/data\/[A-Za-z0-9/]+\.ts$/.test(entry.path)||seen.has(entry.path)||!/^[a-f0-9]{40}$/.test(entry.after)||map===changes&&!/^[a-f0-9]{40}$/.test(entry.before))throw Error('Invalid reviewed configuration delta');
   seen.add(entry.path);map.set(entry.path,entry);
  }
@@ -28,5 +43,5 @@ export function verifyConfigurationSource(rows,read=readFileSync,review=ownerRev
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  const result=verifyConfigurationSource(git(['ls-tree','-r',CANONICAL_CONFIGURATION_SOURCE,'--','src']).split('\n'));
- console.log(`Configuration source parity: ${result.originalFiles} original files checked against unchanged ${CANONICAL_CONFIGURATION_SOURCE}; ${result.reviewedChanges} exact owner-reviewed Danjin blobs and ${result.reviewedAdditions} resolution record. No transport/private-engine pin upgrade.`);
+ console.log(`Configuration source parity: ${result.originalFiles} original blobs pinned at ${CANONICAL_CONFIGURATION_SOURCE}; ${ownerReview.changes.length} exact owner-reviewed Danjin deltas, ${characterImportReview.changes.length} independent draft Character Import source deltas, and ${result.reviewedAdditions} owner-reviewed additions. No transport/private-engine pin upgrade or Character DPS promotion.`);
 }

@@ -49,21 +49,26 @@ test('Chromium: latest 5-star above all 4-star, source chronology, filters, prev
   await page.locator('#wbCharacterSearch').fill('hsin');
   await page.locator('[data-wb-character-preview="hsin"]').click();
   assert.equal(await page.locator('.wb-character-preview-identity').innerText(),'Hsin');
-  await page.locator('[data-wb-character-build="hsin"]').click();
+  assert.equal(await page.locator('[data-wb-character-build="hsin"]').isDisabled(),true,'pending Build details must not be bypassed by sorting');
+  // Use a fully supported Character for the AccountStore/Current Build acceptance.
+  await page.locator('#wbCharacterSearch').fill('jiyan');
+  await page.locator('[data-wb-character-preview="jiyan"]').click();
+  assert.equal(await page.locator('.wb-character-preview-identity').innerText(),'Jiyan');
+  await page.locator('[data-wb-character-build="jiyan"]').click();
   await page.locator('#bcName').waitFor();
-  assert.equal(await page.locator('#bcName').innerText(),'Hsin','Character preview opens Build');
-  assert.equal(await page.evaluate(()=>!!buildCandidateReview.snapshot().account.characters.hsin?.owned),false,'preview does not implicitly own');
+  assert.equal(await page.locator('#bcName').innerText(),'Jiyan','Character preview opens Build');
+  assert.equal(await page.evaluate(()=>!!buildCandidateReview.snapshot().account.characters.jiyan?.owned),false,'preview does not implicitly own');
   await page.locator('#bcAccount').click();
-  await page.waitForFunction(()=>!!buildCandidateReview.snapshot().account.characters.hsin?.owned);
+  await page.waitForFunction(()=>!!buildCandidateReview.snapshot().account.characters.jiyan?.owned);
   await open(page);
-  assert.deepEqual(await ids(page),[],'persisted search does not show owned Hsin');
-  assert.equal(await page.locator('#wbCharacterSearch').inputValue(),'hsin','search persists after Add Character');
+  assert.deepEqual(await ids(page),[],'persisted search does not show owned Jiyan');
+  assert.equal(await page.locator('#wbCharacterSearch').inputValue(),'jiyan','search persists after Add Character');
   await page.locator('#wbCharacterSearch').fill('');
-  assert.deepEqual(await ids(page),expected.filter(c=>c.id!=='hsin').map(c=>c.id));
+  assert.deepEqual(await ids(page),expected.filter(c=>c.id!=='jiyan').map(c=>c.id));
   await page.reload();await page.waitForFunction(()=>!!globalThis.buildCandidateReview);
   await open(page);
-  assert.deepEqual(await ids(page),expected.filter(c=>c.id!=='hsin').map(c=>c.id),'owned excluded and order survives reload');
-  assert.equal(await page.evaluate(()=>!!buildCandidateReview.snapshot().account.characters.hsin?.owned),true);
+  assert.deepEqual(await ids(page),expected.filter(c=>c.id!=='jiyan').map(c=>c.id),'owned excluded and order survives reload');
+  assert.equal(await page.evaluate(()=>!!buildCandidateReview.snapshot().account.characters.jiyan?.owned),true);
   assert.deepEqual(errors,[],'no browser console errors');
  } finally {
   await browser.close();

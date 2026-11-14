@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "baseSource": "259f4881271b5cc84cec5bf2e7f085e6a106a8e3",
+  "authority": "SOURCE_PINNED_DRAFT_PR_REVIEW_NOT_OWNER_APPROVAL",
+  "scope": "61_RELEASED_CHARACTER_IMPORT_AND_PRE_DPS_PENDING_ONLY",
+  "recordedAt": "2026-11-13",
+  "evidence": "Draft PR #365 source-pinned Hsin/Lily/Suoming release integration, 3.8 originals recorded in source-pins/3.8.json, and strict Character Import Pipeline tests. Explicit SHA-1 Git blob deltas preserve the immutable owner-approved Danjin base and its separate owner decisions. This manifest does not authorize native DPS or merge.",
+  "changes": [
+    {
+      "path": "src/data/characterIntrinsicStats.ts",
+      "before": "67ddc5235651e45cc938fdfbd3b19b1456f0bd22",
+      "after": "30c7d2933e6699704f536053a79c38695d240396",
+      "evidence": "Pinned 3.8 permanent Forte intrinsic nodes for Lily and Suoming; no inferred dynamic mechanics."
+    },
+    {
+      "path": "src/data/characterPresentationPending.ts",
+      "before": "b5704d6bc051248e5f636fdf1045679458be537f",
+      "after": "8f534f995dd22c515e78061812db0da41593e2ac",
+      "evidence": "Hsin verified presentation is available; Jingran remains Pending."
+    },
+    {
+      "path": "src/data/characters.ts",
+      "before": "06a26e2223623c66e0d45024156869e749dd95f3",
+      "after": "cb7f7b5a46c013846f8f3c398e10a970f821f475",
+      "evidence": "Source-pinned Lily RELEASED row and Suoming status/growth from released 3.8 originals; 61 canonical RELEASED."
+    },
+    {
+      "path": "src/profileReadinessRegistry.ts",
+      "before": "13e655e540eee2e3b2ab05b5ff56fc7bcca53d8b",
+      "after": "7f6167ada8062cafdd1a507f71a905550c3b8a34",
+      "evidence": "New released Characters remain playable with native DPS mechanics explicitly Pending; actual structural source-review faults still block."
+    }
+  ]
+}

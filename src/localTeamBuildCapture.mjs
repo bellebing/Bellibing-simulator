@@ -15,29 +15,36 @@ export async function captureLocalTeamBuilds(input){
   if(build?.kind!=='SANDBOX_BUILD'||build.characterId!==selectedCharacterId||!team.characterIds.includes(selectedCharacterId))return fail('SANDBOX_REFERENCE_INPUT_PENDING');
   // No account records or account-owned equipment enter the Sandbox payload.
   const ownership={kind:'SANDBOX_BUILD',id:build.id,revision:await hash({team,scope,candidates:input.candidates})};
-  const configurations=scope.slots?.map(s=>s.configuration&&({speciesId:s.configuration.echoId,cost:s.configuration.cost,selectedSonataSetId:s.configuration.selectedSonataSetId}));
+  const configurations=scope.slots?.map(s=>s.configuration&&({speciesId:s.configuration.echoId,cost:s.configuration.cost,selectedSonataSetId:s.configuration.selectedSonataSetId,mainStatName:s.configuration.mainStatName}));
   const observed=(input.candidates??[]).some(Boolean);
   const cards=observed?Array.from({length:5},(_,i)=>card(input.candidates?.[i],`sandbox:${build.id}:${i}`)??null):null;
-  return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards}}};
+  const settings=scope.context?.settings;
+  const expectation=settings&&scope.slots?.length===5&&scope.slots.every(s=>s.active)?{version:'EXPECTED_STATIC_LOADOUT_V1',gate:Number(settings.gate),erTarget:clone(settings.erTarget),target:{hard:settings.hard.map(r=>({name:r.stat,minimum:r.minimum})),flex:settings.flex.map(r=>({name:r.stat,minimum:r.minimum})),flexCount:settings.flexCount??0}}:null;
+  return {status:'CAPTURED',payload:{sandbox:{version:'SOURCE_SANDBOX_REFERENCE_V1',teamContextId:team.id,selectedCharacterId,ownership,baseline:clone(build.baseline),weaponId:build.weaponId,configurations,cards,...(expectation?{expectation}:{})}}};
  }
  if(mode!=='IMPROVE')return fail('BUILD_OWNERSHIP_PENDING');
- if(!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
+ const actual=input.actualInvestments;
  const records=input.records;
- if(!Array.isArray(records)||team.characterIds.some(id=>records.find(r=>r.characterId===id)?.status!=='OBSERVED_PRODUCTION_BUILD_RECORD'))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ if(!Array.isArray(records))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ const active=team.characterIds.filter(id=>records.find(r=>r.characterId===id)?.status==='OBSERVED_PRODUCTION_BUILD_RECORD');
+ if(!active.includes(selectedCharacterId))return fail('COMPLETE_ACCOUNT_TEAM_REQUIRED');
+ if(!actual&&!input.acceptReferenceInvestment)return fail('CONFIRM_REFERENCE_INVESTMENT');
+ if(actual&&active.some(id=>{const i=actual[id];return !i||![i.characterLevel,i.weaponLevel,i.weaponRefinement].every(Number.isInteger)||i.characterLevel<1||i.characterLevel>90||i.weaponLevel<1||i.weaponLevel>90||i.weaponRefinement<1||i.weaponRefinement>5;}))return fail('ENTER_ACTUAL_TEAM_INVESTMENTS');
+ if(records.some(r=>team.characterIds.includes(r.characterId)&&r.buildState?.minorForteUnknown===true))return fail('ACTUAL_FORTE_OBSERVATIONS_REQUIRED');
  const kind='ACCOUNT_BUILD';
- const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:'EXPLICIT_LV90_R1_REFERENCE'})};
- const builds=team.characterIds.map(characterId=>{
+ const ownership={kind,id:'local-account-observation:'+mode,revision:await hash({team,records,scope,investment:actual??'EXPLICIT_LV90_R1_REFERENCE'})};
+ const builds=active.map(characterId=>{
   const b=records.find(r=>r.characterId===characterId).buildState,slots=b.echoSets?.sets?.[b.echoSets.activeSetId]?.slots;
   return {characterId,kind,ownerId:ownership.id,ownerRevision:ownership.revision,modeId:team.modeRequirements?.[characterId]??'default',
    // v34 stores the weapon ID, actual Sequences/Forte and Echoes. It does not
    // store Character/Weapon levels/refinement: these are explicit review
    // scenario choices, never inferred as real account investment.
-   baseline:{characterLevel:90,weaponLevel:90,weaponRefinement:1,sequenceLevel:b.sequenceLevel,forte:clone(b.forte)},
-   weapon:{id:b.weaponId,rank:1,level:90},echoes:slots?.map((c,i)=>card(c,`observation:${characterId}:${i}`))};
+   baseline:{characterLevel:actual?.[characterId].characterLevel??90,weaponLevel:actual?.[characterId].weaponLevel??90,weaponRefinement:actual?.[characterId].weaponRefinement??1,sequenceLevel:b.sequenceLevel,forte:clone(b.forte)},
+   weapon:{id:b.weaponId,rank:actual?.[characterId].weaponRefinement??1,level:actual?.[characterId].weaponLevel??90},echoes:slots?.map((c,i)=>card(c,`observation:${characterId}:${i}`))};
  });
- const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:localTeamReference(team.id).enemy,acceptReferenceStateSchedule:true};
+ const common={mode,selectedCharacterId,teamContextId:team.id,ownership,cycleNumber:2,enemy:localTeamReference(team.id).enemy,acceptReferenceStateSchedule:true,...(active.length<3?{participatingCharacterIds:active}:{})};
  const current=createFixedTeamScenarioRequest({...common,builds});if(current.status!=='CAPTURED')return fail(current.reason);
- if(builds.some(b=>b.echoes?.length!==5||b.echoes.some(c=>!c)))return fail('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
+ if(builds.some(b=>b.echoes?.length!==5))return fail('FIVE_COMPLETE_ACCOUNT_ECHOES_REQUIRED');
  const next=clone(builds),selected=next.find(b=>b.characterId===selectedCharacterId),slots=[];
  for(const [i,c]of (input.candidates??[]).entries())if(c){slots.push(i);selected.echoes[i]=card(c,`candidate:${selectedCharacterId}:${i}`);}
  if(input.candidateBaseline)selected.baseline=clone(input.candidateBaseline);

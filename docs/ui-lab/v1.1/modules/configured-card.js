@@ -11,6 +11,6 @@ export function configuredCard(template) {
   const icon=manifest.icons.find(row=>row.echoId===choice.echoId);
   if(!icon)throw Error('Canonical Echo artwork missing.');
   const path=value=>'../../'+value.replace(/^docs\//,'');
-  return {configured:true,name:echo.name,cost:echo.cost,artURL:path(icon.targetPath),setName:sonata.name,setIconURL:path(sonata.artPath),
+  return {configured:true,speciesId:echo.id,name:echo.name,cost:echo.cost,artURL:path(icon.targetPath),setName:sonata.name,setIconURL:path(sonata.artPath),
     main:choice.mainStatName,value:'—',secondary:'Secondary Stat',secondaryValue:'—',stats:[]};
 }

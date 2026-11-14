@@ -1,9 +1,10 @@
+import {reviewedSourceCohort} from './reviewed-source-cohort.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {CHARACTER_CATALOG} from '../../../src/data/characters.ts';
 import {projectRecommendedImprovePolicy} from '../../../src/improvePolicySources.ts';
 import {createImprovePolicyState,resolveImprovePolicyState} from '../../../src/improvePolicyState.ts';
 const characters=[];
-for(const character of CHARACTER_CATALOG.filter(row=>row.releaseStatus==='RELEASED')){
+for(const character of reviewedSourceCohort()){
  const source=await projectRecommendedImprovePolicy({characterId:character.id});
  const saved=createImprovePolicyState(character.id,source),resolved=resolveImprovePolicyState(saved,source);
  characters.push({characterId:character.id,presetId:source.presetId,applicability:source.applicability,

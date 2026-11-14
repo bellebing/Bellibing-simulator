@@ -17,8 +17,16 @@ if (createHash('sha256').update(reviewBytes).digest('hex') !== packet.reviewSha2
 const review = JSON.parse(reviewBytes);
 const released = new Set(CHARACTER_CATALOG.filter(c => c.releaseStatus === 'RELEASED').map(c => c.id));
 const coverageIds = new Set(packet.coverage.map(row => row.characterId));
-if (coverageIds.size !== released.size || packet.coverage.length !== released.size || [...coverageIds].some(id => !released.has(id))) {
-  throw new Error('Released Character rotation reference coverage drift.');
+// The October Prydwen source packet covers 59 identities. Newly released
+// Characters without reviewed guide sections are explicitly absent, not
+// inferred rotations. The immutable review's source section hashes determine
+// the exact approved cohort; still require every approved identity to be
+// currently RELEASED and present exactly once.
+const approvedIds = new Set(Object.keys(review.sectionHashes));
+if (coverageIds.size !== approvedIds.size || packet.coverage.length !== approvedIds.size
+  || [...coverageIds].some(id => !released.has(id) || !approvedIds.has(id))
+  || [...approvedIds].some(id => !coverageIds.has(id))) {
+  throw new Error('Reviewed source Character rotation reference coverage drift.');
 }
 const ids = new Set();
 for (const reference of packet.references) {
@@ -45,4 +53,4 @@ const target = 'src/data/teamAwareRotationReferences.ts';
 if (process.argv.includes('--check')) {
   if (readFileSync(target, 'utf8') !== output) throw new Error('Team-aware rotation projection drift');
 } else writeFileSync(target, output);
-console.log(`Reviewed reference projection: ${packet.references.length} references / ${released.size} released Characters; no executable defaults.`);
+console.log(`Reviewed reference projection: ${packet.references.length} references / ${coverageIds.size} reviewed Character sources (${released.size} currently released); no executable defaults.`);

@@ -1,0 +1,79 @@
+name: "Bellibing Beta — Bug report"
+description: "Reproducerbart fel i lokal beta (Build, Inventory, Improve, Sandbox, Teams, OCR)."
+title: "[Beta Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Skriv kort. Publicera aldrig account JSON, UID, originala privata skärmbilder,
+        access tokens eller privata motorloggar här. Hänvisa till privat evidens i Handoff vid behov.
+        En kodändring är inte samma sak som en verifierad fix.
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Område"
+      options:
+        - "Build / Character"
+        - "OCR / Image import"
+        - "Inventory / Account / JSON"
+        - "Improve"
+        - "Sandbox"
+        - "Teams / DPS"
+        - "Windows launcher"
+        - "Other"
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Bedömd prioritet"
+      description: "P0 = dataintegritet/säkerhet, P1 = kärnflöde blockerat, P2 = UX/polish."
+      options:
+        - "P1 — High (core flow)"
+        - "P0 — Blocker (data loss/security/false facts)"
+        - "P2 — Low (workaround exists)"
+        - "Needs triage"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Vad händer? (Actual)"
+      description: "Symptom och exakt feltext, utan privat användardata."
+      placeholder: "Till exempel: Main Stat på Echo 5 visas som 818 %."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Vad skulle hända? (Expected)"
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: "Så reproducerar man"
+      placeholder: |
+        1. Öppna /build/ i lokalt Bellibing
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: "Miljö och version"
+      description: "Till exempel Windows 11 / Chrome / lokal launcher / PR commit SHA / datum."
+      placeholder: "Windows 11, Chrome, PR #365, commit ..., 2026-11-14"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "Sanerad evidens, workaround och BUG-ID (om känt)"
+      description: "Beskriv privat evidens utan att ladda upp originalkort eller kontobackuper."
+  - type: textarea
+    id: verification
+    attributes:
+      label: "Fix och verifiering (fylls i vid lösning)"
+      description: "Vilket test/browservy/Windowsflöde bevisar fixen? Skriv Pending tills dess."

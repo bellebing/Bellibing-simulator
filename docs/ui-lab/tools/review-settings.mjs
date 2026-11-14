@@ -1,6 +1,7 @@
 import {chooseIllustrativeResult} from './review-fixtures.mjs';
 import assert from 'node:assert/strict';
 import { ECHO_SETTING_STATS } from '../v1.1/modules/settings-catalog.js';
+import { characterErGuidance } from '../v1.1/modules/character-er-guidance.js';
 import { selectCardCharacter } from './review-character-card.mjs';
 export async function reviewSettings(page,{width,checks}) {
   const ensureSettings=async()=>{if(await page.locator('#settingsToggle').getAttribute('aria-expanded')!=='true')await page.locator('#settingsToggle').click();};
@@ -88,14 +89,16 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#editERTarget').count(),0,'ER target must not have a dropdown');
   assert.equal(await page.locator('#erTotalStatus').count(),0,'No ER explanation row');
   assert.equal(await page.locator('#erTarget > .er-target-heading').count(),1,'ER target remains on one row');
-  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
+  const augustaER = characterErGuidance('augusta');
+  assert.deepEqual([augustaER.minimum,augustaER.maximum,augustaER.basis],[115,125,'OWNER_RANGE'],'Preserve verified Augusta ER guidance range');
+  assert.equal(await page.locator('#erTargetValue').textContent(), `${augustaER.label} suggested`);
   assert.equal(await page.locator('#erTargetValue').isVisible(),true);
   assert.equal(await page.locator('#erTargetInput').isVisible(),false);
   assert.equal(await page.locator('#erEnabled').isChecked(),false,'Suggested target is not enabled implicitly');
   await page.locator('.setting-mode button',{hasText:'Customize'}).click();
   assert.equal(await page.locator('#erTargetValue').isVisible(),false);
   assert.equal(await page.locator('#erTargetInput').isVisible(),true);
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'120','Customize offers the source-backed suggested value');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),String(augustaER.minimum),'Customize offers the lower bound of the verified owner range');
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
   assert.ok(await page.locator('#erTarget').evaluate(node=>{
     const r=node.getBoundingClientRect(), label=node.querySelector('label').getBoundingClientRect(), field=node.querySelector('#erTargetInput').getBoundingClientRect();
@@ -107,7 +110,9 @@ export async function reviewSettings(page,{width,checks}) {
   assert.deepEqual((await allIds()).sort(),ECHO_SETTING_STATS.map(stat=>stat.id).sort());
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 2');
   const geometry=await page.evaluate(()=>({panel:document.querySelector('#settings').clientWidth,workshop:document.querySelector('.workshop').clientWidth,overflow:document.documentElement.scrollWidth>innerWidth}));
-  assert.ok(geometry.panel>=320&&geometry.panel<=360);assert.ok(geometry.workshop>=1000);assert.equal(geometry.overflow,false);
+  assert.equal(geometry.panel,280,'Isolated visual study must preserve the approved V1 Settings width');
+  assert.ok(geometry.workshop>=1000,'Approved V1 Workbench must not be squeezed by the side panel');
+  assert.equal(geometry.overflow,false);
   const clipped=await rows('flex').evaluateAll(nodes=>nodes.flatMap(row=>{
     const name=row.querySelector('.stat-label').getBoundingClientRect(), slider=row.querySelector('input').getBoundingClientRect(),value=row.querySelector('output').getBoundingClientRect();
     return row.querySelector('.stat-label').scrollWidth>name.width+1||name.right>slider.left||slider.right>value.left||row.getBoundingClientRect().height>38?[row.textContent]:[];
@@ -148,7 +153,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 1');
   await moveKey('ATK%','Alt+ArrowLeft');
   await page.locator('#erEnabled').check();
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'120');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),String(augustaER.minimum));
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   const er=page.locator('#erTargetInput');
   await er.fill('130');await er.press('Tab');
@@ -168,7 +173,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await er.getAttribute('aria-invalid'),'true');
   await page.locator('#erEnabled').uncheck();assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'DISABLED');
   await sample('none');await page.locator('#erEnabled').check();
-  assert.equal(await er.inputValue(),'120','Explicitly re-enabling can adopt the verified source suggestion');
+  assert.equal(await er.inputValue(),String(augustaER.minimum),'Explicit re-enable adopts the verified owner minimum');
   assert.equal(await page.locator('#erTarget').getAttribute('data-status'),'UNAVAILABLE');
   assert.ok((await page.locator('.result-row.is-affected').count()) > 0,'Enabled ER Target must recalculate Expected');
   await chooseIllustrativeResult(page);
@@ -177,7 +182,8 @@ export async function reviewSettings(page,{width,checks}) {
   assert.deepEqual(await ids('hard'),[]);assert.deepEqual(await ids('flex'),[]);
   assert.equal(await page.locator('.setting-mode button').first().isDisabled(),true);
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
-  assert.equal(await page.locator('#erTargetInput').inputValue(),'','No suggestion may be invented for Iuno');
+  const iunoER = characterErGuidance('iuno');
+  assert.equal(await page.locator('#erTargetInput').inputValue(),iunoER ? String(iunoER.minimum) : '', 'Iuno ER must follow reviewed guide availability, never an invented default');
   await selectCardCharacter(page,'augusta');await ensureSettings();
   assert.equal(await row('CRIT Rate').locator('output').textContent(),minimum);
   assert.equal(await page.locator('#erEnabled').isChecked(),true);
@@ -187,7 +193,7 @@ export async function reviewSettings(page,{width,checks}) {
   assert.equal(await page.locator('#flexCountLabel').textContent(),'At least 1 of 2');
   assert.equal(await page.locator('#erEnabled').isChecked(),false);
   assert.equal(await page.locator('#erTargetEditor').isVisible(),false);
-  assert.equal(await page.locator('#erTargetValue').textContent(),'120% suggested');
+  assert.equal(await page.locator('#erTargetValue').textContent(), `${augustaER.label} suggested`);
   assert.equal(await page.locator('#gateLabel').textContent(),'+15');
   await page.locator('#reset').click();assert.equal(await page.locator('#gateLabel').textContent(),'+5');
   assert.deepEqual((await allIds()).sort(),ECHO_SETTING_STATS.map(stat=>stat.id).sort());

@@ -17,12 +17,14 @@ import { execFileSync } from 'node:child_process';
 
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
+const { transpileModule, ModuleKind, ScriptTarget } = require('typescript');
 const root = resolve(fileURLToPath(new URL('../../../', import.meta.url)));
 const output = resolve(process.env.UI_LAB_ARTIFACTS ?? resolve(root, 'artifacts/ui-lab-review'));
 mkdirSync(output, { recursive: true });
 const executablePath = process.env.UI_LAB_CHROME_PATH ?? ['/usr/bin/google-chrome', '/usr/bin/chromium'].find(existsSync);
 if (!executablePath) throw new Error('Set UI_LAB_CHROME_PATH to an installed Chromium/Chrome executable');
 const errors = [];
+const bootstrapConsoleErrors = [];
 const checks = [];
 const result = {
   revision: execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim(),
@@ -31,7 +33,7 @@ const result = {
 };
 const approvedRevision = '66d72f339e3c1aa363a1794ff243128d63bc3f28';
 const approvedFiles = new Map();
-const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
+const contentTypes = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.ts': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp' };
 const server = createServer((request, response) => {
   try {
     let pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -44,6 +46,15 @@ const server = createServer((request, response) => {
       const file = path.slice(root.length + 1);
       if (!approvedFiles.has(file)) approvedFiles.set(file, execFileSync('git', ['show', `${approvedRevision}:${file}`], { cwd: root, maxBuffer: 8 * 1024 * 1024 }));
       body = approvedFiles.get(file);
+    } else if (extname(path) === '.ts') {
+      // Chromium cannot import raw TypeScript (or application/octet-stream).
+      // Transpile source-only review modules on request; the product build still
+      // uses its separate strict TypeScript/esbuild/public-boundary pipeline.
+      if (!path.startsWith(resolve(root, 'src') + '/')) { response.writeHead(403).end(); return; }
+      body = Buffer.from(transpileModule(readFileSync(path, 'utf8'), {
+        fileName: path,
+        compilerOptions: { module: ModuleKind.ESNext, target: ScriptTarget.ES2022 },
+      }).outputText);
     } else body = readFileSync(path);
     response.writeHead(200, { 'Content-Type': contentTypes[extname(path)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
     response.end(body);
@@ -55,7 +66,22 @@ const browser = await chromium.launch({ executablePath, headless: true, args: ['
 result.chromium = browser.version();
 const selector = '/docs/ui-lab/v1.1/';
 const wait = async page => {
-  await page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+  try {
+    await page.waitForFunction(() => document.documentElement.dataset.uiLabReady === 'true');
+  } catch (error) {
+    // A loading timeout hides its root cause unless module/runtime exceptions
+    // and the actual document bootstrap state are captured from real Chromium.
+    const state = await page.evaluate(() => ({
+      ready: document.documentElement.dataset.uiLabReady ?? null,
+      bodyKind: document.body?.dataset.buildKind ?? null,
+      htmlTitle: document.title,
+      catalogCount: document.querySelectorAll('#portraits .portrait').length,
+      scripts: [...document.scripts].map(node => node.src).filter(Boolean),
+      missingResources: performance.getEntriesByType('resource').filter(row => row.responseStatus >= 400).slice(-20).map(row => ({name:row.name,status:row.responseStatus}))
+    })).catch(readError => ({diagnosticError:String(readError)}));
+    console.error('UI Lab Chromium bootstrap failed',JSON.stringify({pageErrors:errors,consoleErrors:bootstrapConsoleErrors.slice(-30),state}));
+    throw error;
+  }
   // The carousel assigns art after module readiness. Keep the missing-art gate,
   // but wait for the actual image responses before taking layout evidence.
   await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth > 0), null, {timeout:15000});
@@ -462,6 +488,8 @@ try {
     console.log(`Reviewing source at ${width}px`);
     const page = await context.newPage();
     page.on('pageerror', error => errors.push(error.message));
+    page.on('console', message => { if (message.type() === 'error') bootstrapConsoleErrors.push(message.text()); });
+    page.on('requestfailed', request => bootstrapConsoleErrors.push(`${request.method()} ${request.url()}: ${request.failure()?.errorText}`));
     await page.goto(`${origin}${selector}?demonstration=true&settings=expanded`, { waitUntil: 'networkidle' });
     await wait(page);
     await page.evaluate(() => document.fonts.ready);
@@ -478,6 +506,27 @@ try {
     await baseline.goto(`${origin}/docs/ui-lab/v1/?settings=expanded`, { waitUntil: 'networkidle' });
     await baseline.evaluate(() => document.fonts.ready);
     const approved = await geometry(baseline);
+    if (Math.abs(withoutCost['.workshop'].height - approved['.workshop'].height) >= 2) {
+      // Preserve the strict approved-V1 gate; print enough geometry to repair
+      // the production/demo CSS rather than adjusting the expected thresholds.
+      const childGeometry = async target => target.evaluate(() => Object.fromEntries(
+        ['.workshop-header','.working-area','.working-card','.interaction',
+          '#currentCard .echo-card','#currentCard .echo-art','#currentCard .echo-identity','#currentCard .echo-values',
+          '#currentCard .main-stat','#currentCard .secondary-stat','#currentCard .substats','#currentCard .card-bottom',
+          '#newCard .echo-card','#newCard .echo-art','#newCard .echo-values',
+          '.loadout-heading','.slots','#slots .slot:first-child','#slots .slot:first-child .echo-card',
+          '#slots .slot:first-child .echo-values','#slots .slot:first-child .substats','#slots .slot:first-child .card-bottom',
+          '.workshop-footer']
+          .map(selector => {
+            const node = document.querySelector(selector), rect = node?.getBoundingClientRect();
+            return [selector, rect ? { top: rect.top, height: rect.height, width: rect.width,
+              padding: getComputedStyle(node).padding, margin: getComputedStyle(node).margin,
+              lineHeight: getComputedStyle(node).lineHeight } : null];
+          })
+      ));
+      console.error('V1 source layout drift', JSON.stringify({width, approved, withoutCost,
+        approvedChildren: await childGeometry(baseline), sourceChildrenWithCost: await childGeometry(page)}));
+    }
     for (const selector of ['.workshop', '.working-area', '.slots']) {
       for (const key of ['y','height']) assert.ok(Math.abs(withoutCost[selector][key] - approved[selector][key]) < 2, `${width}: approved ${selector} ${key} changed without Resource Cost (${withoutCost[selector][key]} vs ${approved[selector][key]})`);
     }
@@ -539,10 +588,10 @@ try {
       await carouselSettled(page);
       while (true) {
         seen.add(await page.locator('#characterCarousel').getAttribute('data-focused-character'));
-        if (Number(await page.locator('#characterCarousel').getAttribute('data-position')) === 58) break;
+        if (Number(await page.locator('#characterCarousel').getAttribute('data-position')) === 60) break;
         await page.keyboard.press('ArrowRight'); await carouselSettled(page);
       }
-      assert.equal(seen.size, 59, 'All 59 Characters must be reachable without page boundaries');
+      assert.equal(seen.size, 61, 'All 61 RELEASED Characters, including Lily and Suoming, must be reachable without page boundaries');
       checks.push({ label: 'Full continuous catalog reachable one position at a time', count: seen.size });
     }
     await context.close();

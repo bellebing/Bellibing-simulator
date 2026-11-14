@@ -16,13 +16,18 @@ const projected=[...resolver.listCharacterIds()].map(characterId=>{
   return projectSequenceBuildStatReview(projectSequenceCharacter(src,assets),src,reviewById.get(characterId));
 });
 
-test('review classifies all 57 released Characters / 342 Sequences without runtime prose inference',()=>{
-  assert.equal(projected.length,57);
+test('review classifies 60 source-backed kits / 360 Sequences, with new source mechanics Pending without runtime prose inference',()=>{
+  assert.equal(projected.length,60);
   const chains=projected.flatMap(c=>c.chains);
-  assert.equal(chains.length,342);
+  assert.equal(chains.length,360);
   assert.equal(chains.filter(c=>c.buildStatClassification==='STATIC_BUILD_STAT').length,20);
   assert.equal(chains.filter(c=>c.buildStatClassification==='NON_STATIC_MECHANIC').length,322);
-  assert.equal(chains.filter(c=>c.buildStatClassification==='PENDING').length,0);
+  assert.equal(chains.filter(c=>c.buildStatClassification==='PENDING').length,18);
+  for(const id of ['hsin', 'lily', 'suoming']) {
+    const reviewed = projected.find(c => c.characterId === id);
+    assert.ok(reviewed, id);
+    assert.ok(reviewed.chains.every(c => c.buildStatClassification === 'PENDING'), id);
+  }
   for(const chain of chains){
     if(chain.buildStatClassification==='STATIC_BUILD_STAT'){
       assert.ok(chain.staticBuildStats.length>0);

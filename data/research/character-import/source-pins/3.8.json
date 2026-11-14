@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "patch": "3.8",
+  "sources": {
+    "arikatsu": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "gameVersion": "3.8.0",
+      "resourceVersion": "3.8.6",
+      "blobs": {
+        "roles": {
+          "path": "BinData/role/roleinfo.json",
+          "sha": "f3c75716f894deb5b592f26f2379909e4705aca3"
+        },
+        "base": {
+          "path": "BinData/property/baseproperty.json",
+          "sha": "6886682cd26c4f0a53eca43788e6155875f9d0f9"
+        },
+        "growth": {
+          "path": "BinData/property/rolepropertygrowth.json",
+          "sha": "7608dd1aabe579a24a10ef8c94b1892aa1e1b21f"
+        },
+        "tree": {
+          "path": "BinData/skillTree/skilltree.json",
+          "sha": "58b69308fe5496a41186c880a9a8f48cef8864ef"
+        },
+        "chains": {
+          "path": "BinData/resonate_chain/resonantchain.json",
+          "sha": "77de372786db3455a7a4a18670c7ec40b267eb3b"
+        }
+      }
+    },
+    "wuwabuild": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "blobs": {
+        "characters": {
+          "path": "public/Data/Characters.json",
+          "sha": "3614fc5a8ab982ca8d32a0b0fa54217d46418420"
+        }
+      }
+    }
+  },
+  "policy": "Immutable Git blob verification plus cross-provider role ID, rarity/element/weapon, level-one core stats, 8 intrinsic source nodes and six chain IDs. Captured output is research only; never auto-promote display-rounding conventions or combat modeling."
+}

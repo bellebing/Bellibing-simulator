@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "kind": "EXTERNAL_RELEASE_IDENTITY_EVIDENCE_ONLY",
+  "characterId": "suoming",
+  "name": "Suoming",
+  "checkedAt": "2026-11-13",
+  "originalPatch": "3.7",
+  "originalDate": "2026-10-22",
+  "identity": {
+    "rarity": 5,
+    "element": "Electro",
+    "weaponType": "Sword"
+  },
+  "sourceUrls": [
+    "https://wutheringwaves.kurogames.com/en/main/news/detail/5571",
+    "https://allthings.how/wuwa-3-7-suoming-release-date/"
+  ],
+  "authority": "Official Kuro 3.7 version release plus externally corroborated October 22 phase-II banner; canonical remains stale CONFIRMED_UPCOMING until raw/asset review.",
+  "sourceCapture": {
+    "patch": "3.8",
+    "sourceRoleId": 1312,
+    "sourceSnapshot": "data/research/character-import/source-pins/3.8.json",
+    "originalRoleNameKey": "RoleInfo_1312_Name",
+    "sourceBannerPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_SuoMing_UI.webp"
+  },
+  "level90": {
+    "hp": null,
+    "atk": null,
+    "def": null,
+    "maxEnergy": null
+  },
+  "mechanics": "PENDING_SOURCE_REVIEW",
+  "skills": "PENDING_UI_SOURCE_REVIEW",
+  "sequences": "PENDING_UI_SOURCE_REVIEW",
+  "note": "Research/provenance only. Official release has passed but must not mutate canonical releaseStatus or invent integer rounding from source decimal data."
+}

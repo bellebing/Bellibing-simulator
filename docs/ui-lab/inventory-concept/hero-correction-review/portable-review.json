@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Portable document embeds reviewed Hero/portrait images, both styles and modules; Character/variant switching works offline",
+    "Shared Inventory/equip/return-to-Hero flow works in the portable document",
+    "My Teams, Matrix example allocation and Tower pending state work offline without a calculator",
+    "Only the initial HTML document is requested; zero HTTP subresources, external requests or page errors"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4176/portable-review"
+  ],
+  "fileLaunch": "Not tested: managed browser blocks native file://; same HTML rendered via permitted HTTP and then offline."
+}

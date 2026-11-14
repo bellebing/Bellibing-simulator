@@ -2382,6 +2382,111 @@
           "classification": "NON_STATIC_MECHANIC"
         }
       ]
+    },
+    {
+      "characterId": "hsin",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 355,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 356,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 357,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 358,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 359,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 360,
+          "classification": "PENDING"
+        }
+      ]
+    },
+    {
+      "characterId": "lily",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 373,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 374,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 375,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 376,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 377,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 378,
+          "classification": "PENDING"
+        }
+      ]
+    },
+    {
+      "characterId": "suoming",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 367,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 368,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 369,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 370,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 371,
+          "classification": "PENDING"
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 372,
+          "classification": "PENDING"
+        }
+      ]
     }
   ]
 }

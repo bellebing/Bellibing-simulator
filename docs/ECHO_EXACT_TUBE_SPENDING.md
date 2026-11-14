@@ -115,6 +115,17 @@ This conservation proof is an internal pruning proof, not a denomination valuati
 
 ## Evidence and remaining scope
 
+The owner has now explicitly confirmed that Data Recovery also distributes
+recovered invested EXP largest-first (Premium, Advanced, Medium, Basic), losing
+the final unrepresentable remainder. Reuse `decomposeMaxOverflow` for that
+decomposition; the recovery fraction itself comes from `echoCoreRules.ts` and
+is applied once to actual invested EXP including carry. Existing spending/cap
+behavior is unchanged. See [the source disposition](../data/source/echo-recovery-owner-confirmation.json).
+For fractional direct-feed EXP, the owner authorizes nearest-integer rounding
+(half up) as a model choice. This choice is explicitly not gameplay verification.
+The private operation adapters integrate these recovery rules separately; they
+reuse rather than change the verified spending engine.
+
 The regression suite uses an independent exhaustive finite-stock oracle over
 567 initial inventory/EXP combinations, cap transformation counterexamples,
 bounded-domain comparisons, larger symbolic-stock comparisons with cost-aware
@@ -126,6 +137,7 @@ machine-dependent timing assertion is used. Run exploratory timing cases with
 `node --experimental-strip-types scripts/benchmark-exact-tubes.ts`. Exact engine
 verification and benchmark results belong on its GitHub PR.
 
-Direct feed, Data Recovery/rounding, full rejection recovery, Tuner recovery,
-evaluator, continue/reject/accept, completion, Build Need, Improvement Cost,
-whole-build orchestration, Monte Carlo and production private ingress remain Pending.
+This standalone character-free module does not own recovery transactions,
+evaluation or whole-build policy. Those private adapters and their explicit
+rounding assumption are documented in the paired engine completion contract;
+the spending engine itself remains unchanged. Hosted activation is separate.

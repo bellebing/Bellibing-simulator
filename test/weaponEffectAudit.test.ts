@@ -63,7 +63,9 @@ test('removing audited data from the completed roster reopens the missing-covera
 
 function releasedCharacterIds(weaponType: string): string[] {
   return CHARACTER_CATALOG
-    .filter((character) => character.releaseStatus === 'RELEASED' && character.weaponType === weaponType)
+    // These backward-impact reviews froze before Lily and Suoming released.
+    // Preserve the original 59-id review cohort without inventing a new approval.
+    .filter((character) => character.releaseStatus === 'RELEASED' && character.weaponType === weaponType && !['lily','suoming'].includes(character.id))
     .map((character) => character.id)
     .sort();
 }

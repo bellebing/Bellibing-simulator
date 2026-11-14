@@ -1,4 +1,5 @@
 import {projectStaticBuildStats} from './buildStatProjection.mjs';
+import {projectExpectedStaticBuildStats} from './expectedBuildStatProjection.mjs';
 import {inspectSandboxSonata} from './sandboxSonata.mjs';
 
 export const SANDBOX_STATIC_STATS_VERSION='BELLIBING_SANDBOX_STATIC_STATS_V1';
@@ -16,7 +17,7 @@ const canonicalStat=name=>aliases[name]??name.replace(/ DMG Bonus$/,' DMG');
 
 // Shared source-bound permanent self effects; equipment ownership stays with callers.
 export function staticSonataRows(cards,{echoes,sonataSets,sonataEffects=[]}){
- const eligible=inspectSandboxSonata(cards.map(c=>({echoId:c.speciesId??c.echoId,selectedSonataSetId:c.selectedSonataSetId})),{echoes,sonataSets});
+ const eligible=inspectSandboxSonata(cards.filter(Boolean).map(c=>({echoId:c.speciesId??c.echoId,selectedSonataSetId:c.selectedSonataSetId})),{echoes,sonataSets});
  const active=sonataEffects.filter(e=>eligible.some(s=>s.setId===e.sonataSetId&&s.eligiblePieceBonuses.includes(e.pieces)));
  const permanent=active.filter(e=>e.effectType==='PERMANENT'&&e.valueMode==='FLAT'&&e.appliesTo==='SELF'&&e.mechanicsStatus==='VERIFIED_MODELED'&&supported.has(canonicalStat(e.statOrEffect)));
  return {active,permanent,rows:permanent.map(e=>({stat:canonicalStat(e.statOrEffect),value:e.value}))};
@@ -49,10 +50,27 @@ export function projectSandboxStaticStats({character,weapon,baseline,echoSlots=n
 }
 
 export function formatStaticStats(projection){
- if(projection?.status!=='SOURCE_BACKED_STATIC_COMPONENT')return {};
+ if(!['SOURCE_BACKED_STATIC_COMPONENT','EXPECTED_STATIC_COMPONENT'].includes(projection?.status))return {};
  return Object.fromEntries(STATIC_STAT_FIELDS.map(([metric,,whole])=>{
   const key=metric==='ELEMENT_DMG_BONUS'?Object.keys(projection.values).find(k=>/^(AERO|FUSION|GLACIO|ELECTRO|SPECTRO|HAVOC)_DMG_BONUS$/.test(k)):metric;
   const value=projection.values[key];
   return [key,Number.isFinite(value)?whole?Math.round(value).toLocaleString('en-US'):`${Number((value*100).toFixed(1))}%`:null];
  }));
+}
+
+export function projectSandboxExpectedStats(input,configurations,expected){
+ try{
+  const baseline=projectSandboxStaticStats(input);if(baseline.status!=='SOURCE_BACKED_STATIC_COMPONENT')return baseline;
+  if(expected?.status!=='VERIFIED_EXACT_POLICY_MOMENTS'||expected.scope!=='FIRST_QUALIFIED_25'||!Array.isArray(configurations)||configurations.length!==5)return pending('MATCHING_EXPECTED_BUILD_REQUIRED');
+  const contract=input.echoStatContract,means=expected.substats;
+  if(!Array.isArray(means)||means.length!==contract.substats.length||new Set(means.map(s=>s.name)).size!==means.length)return pending('INCOMPLETE_EXPECTED_SUBSTATS');
+  const rolls=means.map(s=>{const valid=contract.substats.find(r=>r.name===s.name),v=s.value?.approximate;if(!valid||!Number.isFinite(v)||v<0||v>Math.max(...valid.values)+1e-12)throw Error('Invalid expected substat');return {stat:s.name,value:v};});
+  const cards=configurations.map(t=>{const echo=input.echoes.find(e=>e.id===t?.echoId);if(!echo||echo.cost!==t.cost||t.rank!==5||!echo.sonataSetIds.includes(t.selectedSonataSetId))throw Error('Invalid expected equipment');return {...t,speciesId:t.echoId};});
+  if(cards.reduce((n,c)=>n+c.cost,0)>12)throw Error('Expected build exceeds Cost');
+  const contributions=cards.flatMap(t=>{const main=contract.mainStatsByCostAndLevel[t.cost][25].find(r=>r.name===t.mainStatName),secondary=contract.secondaryMainStatsByCostAndLevel[t.cost][25];if(!main)throw Error('Invalid expected Main Stat');return [main,secondary].map(r=>({stat:r.name,value:r.value})).concat(rolls);});
+  const sonata=staticSonataRows(cards,input);
+  const numeric=projectExpectedStaticBuildStats({character:input.character,weapon:input.weapon,activeForteStats:input.character.intrinsicStats,activeSequenceStats:[],activeWeaponStats:[...(input.weapon.staticBuildStats??[]),...sonata.rows]},contributions);
+  const values=Object.fromEntries(STATIC_STAT_FIELDS.map(([id,key])=>[id==='ELEMENT_DMG_BONUS'?input.character.element.toUpperCase()+'_DMG_BONUS':id,numeric[key]]));
+  return {...baseline,status:'EXPECTED_STATIC_COMPONENT',scope:'FIRST_QUALIFIED_FIVE_ECHO_STATIC_MEAN',values,authorizesDps:false};
+ }catch{return pending('INVALID_EXPECTED_BUILD_INPUT');}
 }

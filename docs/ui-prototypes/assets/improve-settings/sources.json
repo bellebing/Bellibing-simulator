@@ -1080,6 +1080,17 @@
       ]
     },
     {
+      "characterId": "lily",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
+      "stats": []
+    },
+    {
       "characterId": "lingyang",
       "status": "READY",
       "presetId": "lingyang-standard",
@@ -2160,6 +2171,17 @@
     },
     {
       "characterId": "suisui",
+      "status": "PENDING",
+      "presetId": null,
+      "profileId": null,
+      "profileName": null,
+      "provenance": null,
+      "recommendedOrderStatus": "PENDING",
+      "recommendedActiveStats": [],
+      "stats": []
+    },
+    {
+      "characterId": "suoming",
       "status": "PENDING",
       "presetId": null,
       "profileId": null,

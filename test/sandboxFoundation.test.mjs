@@ -17,8 +17,12 @@ import {CANONICAL_CONFIGURATION_SOURCE,SIMULATION_TRANSPORT_PROTOCOL} from '../s
 import {dpsConceptMarkup} from '../docs/ui-lab/v1.1/modules/dps-concept.js';
 const catalog={echoes:ECHO_CATALOG,sonataSets:SONATA_CATALOG};
 const contract={protocol:SIMULATION_TRANSPORT_PROTOCOL,publicSourceRevision:CANONICAL_CONFIGURATION_SOURCE,engineVersion:'UNIT_TEST_CONTRACT_ONLY'};
-test('coverage gate: all 59 released identities have independent source-bound canonical standard configurations',()=>{
- const released=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED');assert.equal(released.length,59);assert.deepEqual(coverage.characters.map(c=>c.characterId),released.map(c=>c.id));
+test('coverage gate: 61 released, 59 independently reviewed Sandbox standards and two explicitly pending',()=>{
+ const released=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED');assert.equal(released.length,61);
+ const reviewedIds=coverage.characters.map(c=>c.characterId),reviewed=new Set(reviewedIds);
+ assert.equal(reviewed.size,59,'Reviewed standard IDs must be unique');
+ assert.ok(reviewedIds.every(id=>released.some(c=>c.id===id)),'Reviewed standards must belong to released Characters');
+ assert.deepEqual(released.map(c=>c.id).filter(id=>!reviewed.has(id)).sort(),['lily','suoming'],'New releases stay pending until separate source-reviewed Sandbox standards exist');
  assert.deepEqual(coverage.summary,{released:59,valid:59,echoComplete:59,weaponComplete:59,pending:0});
  for(const c of coverage.characters){
   assert.equal(c.configurationValidity,'VALID',c.characterId);assert.equal(c.slots.length,5);assert.deepEqual(c.unresolved,[]);
@@ -39,7 +43,9 @@ test('signatures are distinct from reviewed alternatives, all weapon types and m
   assert.equal(c.baseline.forte.schemaVersion,1);assert.deepEqual(Object.keys(c.baseline.forte.levels).sort(),['circuit','intro','liberation','normal-attack','skill']);assert.ok(Object.values(c.baseline.forte.levels).every(v=>v===10));assert.equal(Object.keys(c.baseline.forte.enabled).length,10);
  }
  assert.ok(alternatives>0,'Never claim all Characters have signatures');
- assert.match(coverage.characters.find(c=>c.characterId==='hsin').baseline.fortePresentationStatus,/PENDING/);
+ const hsin=coverage.characters.find(c=>c.characterId==='hsin');
+  assert.equal(hsin.baseline.fortePresentationStatus,'AVAILABLE','Hsin now has source-backed canonical Forte presentation');
+  assert.ok(!hsin.pendingDimensions.includes('FORTE_ART_AND_TREE_PRESENTATION_PENDING'),'A verified Hsin tree must not retain an obsolete art pending reason');
 });
 test('set eligibility counts distinct species, not cards; never claims dynamic combat effects',()=>{
  const a=coverage.characters.find(c=>c.characterId==='augusta');assert.deepEqual(a.composition.map(s=>[s.setId,s.distinctCount,s.eligiblePieceBonuses]),[['sonata-20',3,[3]],['sonata-3',2,[2]]]);

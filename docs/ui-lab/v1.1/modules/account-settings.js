@@ -36,4 +36,58 @@ export function restoreOwnedSettings(state,storage){
   Object.assign(state,{statSections:sections,minima,gate:'+'+saved.gate,flexCount:group.minimumCount,settingsMode:saved.mode==='MANUAL'?'Customize':'Recommended',sourcePreferenceGuidance:null});
  }catch(error){state.accountSettingsPending=error.message;}
 }
+// Explicit user action only. Remove just this Character's saved V3 overrides;
+// all other Characters, resources and pending migrations keep their values
+// inside the existing account-owned envelope. The AccountStore commit owns recovery/CAS.
+export async function clearOwnedImproveOverrides(characterId,storage,store){
+ const current=store.snapshot?.()?.userData?.storage?.[IMPROVE_POLICY_STORAGE_KEY];
+ const original=typeof current==='string'?current:storage.getItem(IMPROVE_POLICY_STORAGE_KEY);
+ // AccountStore is authoritative when an owned V3 envelope exists; avoid
+ // restoring older localStorage bytes over newer resource/Character settings.
+ const source={getItem:key=>key===IMPROVE_POLICY_STORAGE_KEY?original:storage.getItem(key)};
+ const saved=loadImprovePolicyStorage(source);
+ if(saved.pendingV2Characters[characterId])throw Error('Legacy Improve settings require review before Recommended reset.');
+ if(!saved.characters[characterId])return false;
+ // Retain every other field exactly as owned by the currently saved V3 JSON.
+ // The typed loader above is a validator, not the serialization source.
+ if(original===null)throw Error('Legacy Improve settings require migration review.');
+ const envelope=JSON.parse(original),characters={...envelope.characters};
+ delete characters[characterId];
+ await store.saveUserData(IMPROVE_POLICY_STORAGE_KEY,JSON.stringify({...envelope,characters}));
+ return true;
+}
 export function readOwnedResourceBudget(storage){try{return loadImprovePolicyStorage(storage).resourceInventory;}catch{return undefined;}}
+
+// Persist user intent only, never source readiness, calculated advice or demo state.
+const WORKSPACE_FIELDS=['settingsMode','minima','statSections','flexCount','gate','erTarget','sonataPool'];
+export function captureWorkspaceSettings(state){
+ const value=Object.fromEntries(WORKSPACE_FIELDS.map(key=>[key,structuredClone(state[key])]));
+ if(state.improvePlan)value.improvePlan=structuredClone(state.improvePlan);
+ validateWorkspaceSettings(value);return {version:1,...value};
+}
+export function validateWorkspaceSettings(value){
+ const fail=()=>{throw Error('Saved Improve settings need review.');};
+ if(!value||!['Recommended','Customize'].includes(value.settingsMode)||!['+5','+10','+15','+20','+25'].includes(value.gate))fail();
+ const ids=ECHO_SETTING_STATS.map(s=>s.id),sections=['hard','flex','other'];
+ if(!value.statSections||sections.some(s=>!Array.isArray(value.statSections[s])))fail();
+ const placed=sections.flatMap(s=>value.statSections[s]);
+ if(placed.length!==ids.length||new Set(placed).size!==ids.length||placed.some(id=>!ids.includes(id)))fail();
+ if(!value.minima||ECHO_SETTING_STATS.some(s=>!Number.isInteger(value.minima[s.id])||value.minima[s.id]<0||value.minima[s.id]>=s.tiers.length))fail();
+ if(value.flexCount!==null&&(!Number.isInteger(value.flexCount)||value.flexCount<1||value.flexCount>ids.length))fail();
+ if(!value.erTarget||typeof value.erTarget.enabled!=='boolean'||value.erTarget.valuePercent!==null&&(!Number.isFinite(value.erTarget.valuePercent)||value.erTarget.valuePercent<0))fail();
+ if(!Array.isArray(value.sonataPool)||value.sonataPool.some(id=>typeof id!=='string'))fail();
+ if(value.improvePlan&&( !['BUDGET','RECOMMENDED','INSANE'].includes(value.improvePlan.preset)||typeof value.improvePlan.advancedOpen!=='boolean'))fail();
+ if(value.improvePlan?.dpsEnabled!==undefined&&typeof value.improvePlan.dpsEnabled!=='boolean')fail();
+ if(value.improvePlan?.minimumDpsPercent!==undefined&&(!Number.isFinite(value.improvePlan.minimumDpsPercent)||value.improvePlan.minimumDpsPercent<1))fail();
+ return value;
+}
+export function restoreWorkspaceSettings(state,value){
+ const binding=JSON.stringify(value??null);if(state.accountWorkspaceBinding===binding)return;
+ if(value){if(value.version!==1)throw Error('Unsupported Improve settings version.');validateWorkspaceSettings(value);Object.assign(state,structuredClone(Object.fromEntries(WORKSPACE_FIELDS.map(key=>[key,value[key]]))));
+  // Custom intent supersedes recommendation guidance; readiness is still compiled
+  // by the existing canonical adapter, not inherited from this stored envelope.
+  state.improvePlan=value.improvePlan?structuredClone(value.improvePlan):undefined;
+  if(value.settingsMode==='Customize'){state.sourcePreferenceGuidance=null;state.accountSettingsPending=null;}
+ }
+ state.accountWorkspaceBinding=binding;
+}

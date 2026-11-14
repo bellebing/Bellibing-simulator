@@ -4,10 +4,10 @@ This report is deterministic output from the pinned legacy Skills/Forte source a
 
 ## Roster-wide status
 
-- **RELEASED Characters:** 59
-- **Source Inherent Skill rows:** 118
+- **RELEASED Characters:** 61
+- **Source Inherent Skill rows:** 122
 - **INHERENT_PASSIVES VERIFIED Characters:** 59
-- **INHERENT_PASSIVES PARTIAL Characters:** 0
+- **INHERENT_PASSIVES PARTIAL Characters:** 2
 - **INHERENT_PASSIVES BLOCKED Characters:** 0
 
 ### VERIFIED
@@ -16,7 +16,7 @@ aalto, aemeath, augusta, baizhi, brant, buling, calcharo, camellya, cantarella, 
 
 ### PARTIAL
 
-none
+lily, suoming
 
 ### BLOCKED
 

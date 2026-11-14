@@ -8,11 +8,14 @@ import { verifyPublicArtifact } from '../scripts/verify-public-artifact.mjs';
 import { projectReleasedImprovePolicies } from '../src/improvePolicySources.ts';
 import { PUBLIC_DECISION_AVAILABILITY } from '../src/publicDecisionContract.ts';
 
+// Exact developer-only entrypoints approved by verifyPublicArtifact; these are
+// not listed in the UI asset manifest. Keep all three in the test fixture.
+const developerEntrypoints = ['dps-lab/index.html', 'dps-lab/style.css', 'dps-lab/lab.js'];
 const approved = JSON.parse(readFileSync('scripts/public-web-assets.json', 'utf8'));
 function artifact(check: (directory: string) => void) {
   const directory = mkdtempSync(join(tmpdir(), 'bellibing-public-boundary-'));
   try {
-    for (const path of approved) {
+    for (const path of [...approved, ...developerEntrypoints]) {
       const target = join(directory, path); mkdirSync(dirname(target), { recursive: true });
       writeFileSync(target, path.endsWith('.json') ? '{}' : '');
     }
@@ -29,7 +32,7 @@ test('public build has explicit entrypoints, typechecks without whole-src emissi
   assert.equal(config.compilerOptions.sourceMap, false);
   assert.deepEqual(config.files, ['src/web/alpha-entry.ts', 'src/web/main.ts', 'src/web/roll-assistant.ts',
     'src/echoRequirements.ts', 'src/improvePolicyState.ts', 'src/improvePolicyPresentation.ts', 'src/publicSettingsView.ts', 'src/echoSimulatorSession.ts']);
-  artifact(directory => assert.equal(verifyPublicArtifact(directory).length, approved.length + PUBLIC_BROWSER_MODULES.length));
+  artifact(directory => assert.equal(verifyPublicArtifact(directory).length, approved.length + developerEntrypoints.length + PUBLIC_BROWSER_MODULES.length));
 });
 
 test('artifact verifier rejects accidental whole-src compilation and generated source/maps', () => {
@@ -85,7 +88,7 @@ test('retired decision implementation and golden fixture are absent from the cur
 
 test('public recommended guidance contains no executable Echo policy while source-backed targets stay available', async () => {
   const rows = await projectReleasedImprovePolicies();
-  assert.equal(rows.length, 59);
+  assert.equal(rows.length, 61);
   assert.equal(rows.filter(row => row.characterTarget.numericTargets.status === 'VERIFIED').length, 24);
   assert.equal(rows.filter(row => row.characterTarget.priorities.status === 'VERIFIED').length, 44);
   for (const row of rows) {

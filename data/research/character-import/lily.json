@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "kind": "EXTERNAL_RELEASE_IDENTITY_EVIDENCE_ONLY",
+  "characterId": "lily",
+  "name": "Lily",
+  "checkedAt": "2026-11-13",
+  "originalPatch": "3.8",
+  "originalDate": "2026-11-12",
+  "identity": {
+    "rarity": 5,
+    "element": "Spectro",
+    "weaponType": "Pistols"
+  },
+  "sourceUrls": [
+    "https://wutheringwaves.kurogames.com/m/en/main/news/detail/5705",
+    "https://wutheringwaves.gg/patch-notes-for-version-3-8-lilies-in-a-dying-dream/"
+  ],
+  "authority": "Official Kuro 3.8 version-preview/patch notes; identity/release only",
+  "level90": {
+    "hp": null,
+    "atk": null,
+    "def": null,
+    "maxEnergy": null
+  },
+  "mechanics": "PENDING_SOURCE_REVIEW",
+  "skills": "PENDING_SOURCE_REVIEW",
+  "sequences": "PENDING_SOURCE_REVIEW",
+  "characterArt": "PENDING_CANONICAL_SOURCE_MAPPING",
+  "signatureWeapon": "Lullaby (official name/5-star Pistols only; effects pending)",
+  "note": "Release identity and new 3.8 pinned original structured source mapping are independently cross-checked; numerical Lv90 and entire mechanics still require reviewed canonical ingestion. This is not a Character database row.",
+  "sourceCapture": {
+    "patch": "3.8",
+    "sourceRoleId": 1512,
+    "sourceSnapshot": "data/research/character-import/source-pins/3.8.json",
+    "originalRoleNameKey": "RoleInfo_1512_Name",
+    "sourceBannerPath": "public/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.webp"
+  }
+}

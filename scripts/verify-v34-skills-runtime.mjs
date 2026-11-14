@@ -12,8 +12,8 @@ const runtime=JSON.parse(readFileSync('docs/ui-prototypes/assets/sequence-runtim
 const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+(detail===undefined?'':': '+JSON.stringify(detail)))};
 
-assert(runtime.schemaVersion===3&&runtime.role==='character-builder.runtime-sequences'&&runtime.summary?.releasedCharacters===57&&runtime.summary?.staticBuildStatSequences===20&&runtime.summary?.nonStaticMechanicSequences===322&&runtime.summary?.pendingBuildStatReviewSequences===0,'Unexpected builder runtime schema');
-assert(runtime.characters.length===57,'Skills runtime must cover all 57 released Characters',runtime.characters.length);
+assert(runtime.schemaVersion===3&&runtime.role==='character-builder.runtime-sequences'&&runtime.summary?.releasedCharacters===60&&runtime.summary?.staticBuildStatSequences===20&&runtime.summary?.nonStaticMechanicSequences===322&&runtime.summary?.pendingBuildStatReviewSequences===18,'Unexpected builder runtime schema');
+assert(runtime.characters.length===60,'Skills/Sequence runtime must cover all 60 source-backed kits (61 RELEASED, one pending)',runtime.characters.length);
 const byId=new Map(runtime.characters.map(row=>[row.characterId,row]));
 for(const row of runtime.characters){
   assert(row.skills&&ALL.every(role=>row.skills[role]?.role===role&&row.skills[role]?.assetPath?.startsWith('assets/builder-icons/skills/')),'Incomplete source-backed Skills mapping',row.characterId);
@@ -113,7 +113,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===59&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Character/Builder/Skills runtime did not become ready',20000);
+  await waitFor(send,"releasedCharacters.length===61&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Character/Builder/Skills runtime did not become ready',20000);
   await evaluate(send,"show('build');buildPicker.select('Augusta')");
   await waitFor(send,"skillsUi.characterId==='augusta'&&document.getElementById('skillsBlock').dataset.ready==='true'",'Augusta Skills did not bind');
   await waitFor(send,"!document.getElementById('build').classList.contains('major-enter')&&!document.getElementById('build').classList.contains('go')",'Build entrance did not settle',1800);
@@ -212,7 +212,7 @@ try{
   assert(expanded.skills.top>collapsed.skills.top+45&&expanded.weapon.top>collapsed.weapon.top+45&&expanded.stats.bottom<=expanded.skills.top+1&&expanded.skills.bottom<=expanded.weapon.top+1,'Stats expansion no longer flows',expanded);
   assert(expanded.side.top>=0&&expanded.side.bottom<=expanded.ih-8,'Expanded Build column overflows',expanded);
   await evaluate(send,'sequenceUi.commit(4)');assert(await evaluate(send,'sequenceUi.currentLevel')===4,'Sequence regression');await evaluate(send,'sequenceUi.commit(0)');
-  console.log('Forte Chrome checks passed: 57 Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow and 1440/1920/2560 desktop geometry.');
+  console.log('Forte Chrome checks passed: 60 source-backed Character icon mappings, five stepped columns, 8 stat + 2 inherent nodes, source text and Lv1/9/10 values, Lv0, dependency lowering/activation, five independent persisted levels, reload/switch isolation, grey/gold paths, source Pending, Stats flow and 1440/1920/2560 desktop geometry.');
 
   socket.close();
 }finally{

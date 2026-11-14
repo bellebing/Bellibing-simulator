@@ -1,12 +1,16 @@
+import {buildProductUI} from './build-product-ui.mjs';
+import {buildInventory} from './build-inventory.mjs';
 import {buildSandbox} from './build-sandbox.mjs';
 import { compilePublicBrowserModules } from './public-web-boundary.mjs';
 import { verifyPublicArtifact } from './verify-public-artifact.mjs';
-import { cpSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, rmSync, writeFileSync, readFileSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 
 rmSync('dist', { recursive: true, force: true });
 mkdirSync('dist', { recursive: true });
 mkdirSync('dist/ui-preview', { recursive: true });
+// Explicit, isolated developer route. Static client contains no engine code.
+cpSync('web/dps-lab', 'dist/dps-lab', { recursive: true });
 
 const weaponBrowserDataCheck = spawnSync(process.execPath, [
   '--experimental-strip-types', 'scripts/export-ui-weapon-browser-data.ts', '--check',
@@ -73,7 +77,7 @@ const changes = spawnSync('git', ['status', '--porcelain', '--untracked-files=no
 if (changes.status !== 0) throw new Error('Cannot identify review build working tree');
 writeFileSync('dist/review-build.json', JSON.stringify({ headSha: revision.stdout.trim(), workingTreeDirty: !!changes.stdout.trim(), entrypoint: '/ui-preview/' }, null, 2)+'\n');
 writeFileSync('dist/REVIEW_UI_PREVIEW.txt', 'Extract the whole artifact, then run START_UI_PREVIEW.bat.\nThe server opens /ui-preview/ with all built runtime modules and assets.\nReview Home > Improve (empty) > Home > Build > Augusta > Add to Account > Home > Improve > Augusta.\nUse a fresh Chrome profile for an empty account. review-build.json identifies the source head.\nFor macOS/Linux: python3 -m http.server 8765 --bind 127.0.0.1, then open http://127.0.0.1:8765/ui-preview/.\nThe optional ?improve-layout-preview=1 is supplemental layout evidence only.\n');
-cpSync('docs/ui-prototypes/v34-functional.html', 'dist/ui-preview/index.html');
+writeFileSync('dist/ui-preview/index.html',readFileSync('docs/ui-prototypes/v34-functional.html','utf8').replaceAll('../ui-lab/inventory/','../inventory/'));
 cpSync('docs/ui-prototypes/assets/v34', 'dist/ui-preview/assets/v34', { recursive: true });
 cpSync('docs/ui-prototypes/assets/characters', 'dist/ui-preview/assets/characters', { recursive: true });
 cpSync('docs/ui-prototypes/assets/echoes', 'dist/ui-preview/assets/echoes', { recursive: true });
@@ -84,9 +88,12 @@ cpSync('docs/ui-prototypes/assets/sequence-runtime.json', 'dist/ui-preview/asset
 cpSync('docs/ui-prototypes/assets/build-stats', 'dist/ui-preview/assets/build-stats', { recursive: true });
 cpSync('docs/ui-prototypes/assets/skills-runtime.json', 'dist/ui-preview/assets/skills-runtime.json');
 
+cpSync('docs/ui-prototypes/assets/owned-build.css','dist/ui-preview/assets/owned-build.css');
 cpSync('docs/ui-prototypes/assets/forte-ui.mjs', 'dist/ui-preview/assets/forte-ui.mjs');
 for (const asset of ['character-build-card.js', 'character-build-card.css', 'echo-simulator.js', 'echo-simulator.css']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset);
 for (const asset of ['echo-template-configuration.mjs', 'improve-settings.js', 'improve-settings.css', 'character-target-presentation.js', 'echo-policy-presentation.mjs', 'improve-settings']) cpSync('docs/ui-prototypes/assets/' + asset, 'dist/ui-preview/assets/' + asset, { recursive: true });
 
 await buildSandbox();
+buildInventory();
+await buildProductUI();
 verifyPublicArtifact();

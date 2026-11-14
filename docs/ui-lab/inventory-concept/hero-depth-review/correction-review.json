@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Actual portable HTML: both exact styles embedded; opaque dark html/body/app and light text even with OS light preference; zero stylesheet dependencies",
+    "One borderless full-workspace environment extends behind three independent left cards and all five right cards; functional cards sit above scene layers",
+    "Augusta/Jiyan Skill names, icon identities, five source-defined levels and prerequisite branch nodes match existing canonical projection; source details are interactive, no invented mechanics",
+    "Actual packaged Still/Parallax variants work offline; physical pointer and reduced-motion retain the same static room/perspective",
+    "Packaged desktop composition captured at 1440×900, 1920×1080 and 2560×1440 with full-width environment and no horizontal overflow",
+    "Full-body asset blocker remains explicitly visible; upper-body source is not mislabelled as a completed standing/full-body Hero",
+    "Opaque inline critical backgrounds prevent a white canvas even if embedded stylesheets are unavailable; full appearance still requires browser CSS/script support"
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:4177/packaged-correction"
+  ],
+  "scope": "Packaged visual/behavior evidence only. Full-body artwork source-blocked; no owner visual acceptance or native file:// claim."
+}

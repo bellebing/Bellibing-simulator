@@ -8,18 +8,18 @@ import {
 } from '../src/data/characterMechanicsSourceReview.ts';
 import { auditCharacterMechanicsCoverage } from '../src/data/characterMechanicsAudit.ts';
 
-test('roster-wide Character Mechanics source review distinguishes verified, source-blocked and unreviewed characters', () => {
+test('roster-wide source review preserves 59 verified and explicitly marks Lily and Suoming unreviewed', () => {
   const coverage = auditCharacterMechanicsCoverage();
   const review = auditCharacterMechanicsSourceReview();
 
-  assert.equal(coverage.releasedCount, 59);
+  assert.equal(coverage.releasedCount, 61);
   assert.equal(coverage.verifiedCharacterIds.length, 59);
   assert.deepEqual(coverage.partialCharacterIds, []);
-  assert.deepEqual(coverage.unstartedCharacterIds, []);
+  assert.deepEqual(coverage.unstartedCharacterIds, ['lily', 'suoming']);
   assert.equal(review.verifiedCharacterIds.length, 59);
   assert.deepEqual(review.sourceBlockedCharacterIds, []);
-  assert.deepEqual(review.unreviewedCharacterIds, []);
-  assert.equal(review.sourceReviewComplete, true);
+  assert.deepEqual(review.unreviewedCharacterIds, ['lily', 'suoming']);
+  assert.equal(review.sourceReviewComplete, false);
   assert.deepEqual(review.issues, []);
 });
 

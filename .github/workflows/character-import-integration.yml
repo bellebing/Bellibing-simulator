@@ -1,0 +1,68 @@
+name: Character Import Integration (Draft PR 365)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: reviewed-character-import-365
+  cancel-in-progress: false
+jobs:
+  integrate-three:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact Draft branch
+        uses: actions/checkout@v4
+        with:
+          ref: recovery/one-pr-build-team-improve-20261103
+          fetch-depth: 2
+          persist-credentials: true
+      - name: Setup Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Hsin (existing 3.7 original, released)
+        run: npm run import:character -- hsin --promote-reviewed --integrate
+      - name: Lily (3.8 source-captured first new identity)
+        run: npm run import:character -- lily --promote-reviewed --integrate
+      - name: Suoming (existing identity, correct stale release)
+        run: npm run import:character -- suoming --promote-reviewed --integrate
+      - name: Asset and source integrity
+        run: |
+          npm run audit:ui-builder-icons
+          node --experimental-strip-types scripts/export-ui-build-stats-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-character-builder-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-skills-runtime.ts --check
+          node --experimental-strip-types scripts/export-ui-character-hero-art-runtime.ts --check
+          node --experimental-strip-types docs/ui-lab/tools/export-catalog.mjs --check
+      - name: Build and core account tests
+        run: |
+          npm run test:foundation
+          npm run build
+      - name: Verify real system Google Chrome
+        run: |
+          test -x /usr/bin/google-chrome
+          /usr/bin/google-chrome --version
+      - name: Positive real Chromium import journeys
+        env:
+          BELLIBING_CHROMIUM_PATH: /usr/bin/google-chrome
+        run: node --experimental-strip-types --test test/characterImportPositive.browser.mjs
+      - name: Commit generated canonical sources, artifacts and real original assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add src/data/characters.ts src/data/characterIntrinsicStats.ts src/data/characterPresentationPending.ts \
+            data/source/character-forte-ui.json data/source/character-sequence-ui.json \
+            data/source/character-sequence-build-stat-review.json \
+            docs/ui-lab/v1.1/modules/catalog.js docs/ui-prototypes/assets
+          git diff --cached --check
+          if git diff --cached --quiet; then
+            echo "No changes, source already integrated."
+            exit 0
+          fi
+          git config user.name "bellibing-character-import[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "feat(character-import): integrate Hsin Lily Suoming into existing canonical Build and Inventory"
+          git push origin HEAD:recovery/one-pr-build-team-improve-20261103

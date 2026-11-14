@@ -43,3 +43,16 @@ test('static projection rejects unsupported investment rather than borrowing a d
  assert.equal(projectSandboxStaticStats({...input,baseline:{...input.baseline,sequenceLevel:1}}).status,'PENDING');
  assert.equal(projectSandboxStaticStats({...input,baseline:{...input.baseline,forte:{levels:{},enabled:{}}}}).status,'PENDING');
 });
+
+test('expected fractional contributions project the mean without becoming legal observed equipment',()=>{
+ const s=createSandboxWorkspace().select('augusta'),a=fixture(s),b=fixture(s);
+ for(const slot of b.view.slots)for(const roll of slot.current.substats)roll.value=echoData.statEditor.substats.find(r=>r.name===roll.name).values.at(-1);
+ const means=echoData.statEditor.substats.map(row=>({name:row.name,value:{approximate:a.view.slots[0].current.substats.some(r=>r.name===row.name)?(row.values[0]+row.values.at(-1))/2:0}}));
+ const expected={acceptedEcho:{status:'VERIFIED_EXACT_POLICY_MOMENTS',scope:'FIRST_QUALIFIED_25',substats:means}};
+ const pa=sandboxStats(s,a).observed,pb=sandboxStats(s,b).observed,result=sandboxStats(s,null,expected);
+ assert.equal(result.expected.status,'EXPECTED_STATIC_COMPONENT');assert.equal(result.observed,null);
+ for(const [key,value]of Object.entries(pa.values))assert.ok(Math.abs(result.expected.values[key]-(value+pb.values[key])/2)<1e-9,key);
+ assert.equal(result.expected.authorizesDps,false);
+ s.erTarget={enabled:true,valuePercent:120};assert.deepEqual(sandboxStats(s,null,expected).expectedValues,result.expectedValues,'the Hard/Flex expectation remains available independently of the separate ER goal');
+ const incomplete=structuredClone(expected);incomplete.acceptedEcho.substats.pop();assert.deepEqual(sandboxStats(s,null,incomplete).expectedValues,{});
+});

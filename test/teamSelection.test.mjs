@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import catalog from '../docs/ui-lab/v1.1/modules/character-contexts.json' with {type:'json'};
+import coverage from '../data/research/dps-first-team-coverage-review.json' with {type:'json'};
 import {characterContext} from '../docs/ui-lab/v1.1/modules/character-context.js';
 import {createSandboxWorkspace} from '../docs/ui-lab/v1.1/modules/sandbox-state.js';
 import {sourceTeamRoles,sourceTeamView,sourceTeamChoices,sourceTeamModeChoices,chooseSourceTeam,chooseSourceTeamRole,sourceTeamVariantChoices,chooseSourceTeamVariant} from '../docs/ui-lab/v1.1/modules/team-selection.js';
@@ -20,8 +21,10 @@ test('all 59 RELEASED Characters own one default and can reach every one of the 
  const reached=new Map();
  for(const c of catalog.characters){
   const state=selected(c.characterId),view=sourceTeamView(state);
-  assert.equal(view.team?.id,c.defaultContextId,c.characterId);
-  assert.equal(view.activeContextId,c.defaultContextId,c.characterId);
+  const reviewed=coverage.rows.find(r=>r.characterId===c.characterId&&r.modelExecutable)?.firstTeamContextId??c.defaultContextId;
+  assert.equal(view.team?.id,reviewed,c.characterId);
+  assert.equal(view.activeContextId,reviewed,c.characterId);
+  assert.equal(sourceTeamView({...state,sandboxTeamContextId:c.defaultContextId}).team.id,c.defaultContextId,'explicit source default must override automatic executable reference');
   assert.ok(view.team.sourceRefs?.length,c.characterId);
   assert.deepEqual([...view.memberIds].sort(),[...view.team.characterIds].sort(),c.characterId);
   assert.ok(view.memberIds.every(Boolean),c.characterId);
@@ -59,7 +62,7 @@ test('Augusta/Iuno/Shorekeeper -> Mortefi retains Shorekeeper only via reviewed 
 });
 
 test('Changli can promote from reviewed third-member default to its executable source core',()=>{
- const state={id:'changli',sandboxBuild:{revision:7},sandboxEvaluationContext:{kind:'OLD_RESULT'}};
+ const state={id:'changli',sandboxTeamContextId:'model-aemeath-231',sandboxBuild:{revision:7},sandboxEvaluationContext:{kind:'OLD_RESULT'}};
  const original=sourceTeamView(state);
  assert.equal(original.team.id,'model-aemeath-231');
  assert.deepEqual(original.memberIds,['aemeath','lupa','changli']);

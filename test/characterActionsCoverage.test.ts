@@ -20,9 +20,9 @@ import {
 test('released-roster ACTIONS coverage is fail-closed with only exact current-source blockers', () => {
   const audit = auditCharacterActionsCoverage();
 
-  assert.equal(audit.releasedCount, 59);
+  assert.equal(audit.releasedCount, 61);
   assert.equal(audit.verifiedCharacterIds.length, 59);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(audit.blockers.map((blocker) => blocker.blockerId), []);
   assert.deepEqual(audit.issues, []);

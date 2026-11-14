@@ -112,11 +112,11 @@ test('Augusta verified non-action raw facts cover resources, passives and all si
 
 test('mechanics source coverage includes the owner-resolved Danjin translation without granting DPS readiness', () => {
   const audit = auditCharacterMechanicsCoverage();
-  assert.equal(audit.releasedCount, 59);
+  assert.equal(audit.releasedCount, 61);
   assert.equal(audit.profileCount, 59);
   assert.equal(audit.verifiedCharacterIds.length, 59);
   assert.deepEqual(audit.partialCharacterIds, []);
-  assert.deepEqual(audit.unstartedCharacterIds, []);
+  assert.deepEqual(audit.unstartedCharacterIds, ['lily','suoming']);
   assert.equal(CHARACTER_MECHANIC_FACT_BY_ID.size, 2073);
   assert.deepEqual(audit.structuralIssues, []);
 });

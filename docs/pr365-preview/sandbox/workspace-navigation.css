@@ -1,0 +1,28 @@
+/* Shared route-synced header. Primary group is centered independently of Sandbox. */
+.product-workspace .site-header.workspace-header{position:relative;display:block;box-sizing:border-box;height:76px;min-height:76px;padding:0 27px;background:#0b1015;border-bottom:1px solid #ffffff10;font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#c5c7c7;z-index:50}
+.product-workspace .workspace-header .brand{position:absolute;left:27px;top:0;height:76px;display:flex;align-items:center;gap:12px;font-size:18px;font-weight:700;letter-spacing:2px;color:#e1e2df;text-decoration:none;white-space:nowrap}
+.product-workspace .workspace-header .brand-mark{color:#b8a274;font-size:25px;font-weight:400}
+.product-workspace .workspace-header .brand-divider{height:16px;width:1px;background:#ffffff16;margin:0 4px}
+.product-workspace .workspace-header .brand-sub{font-size:10px;letter-spacing:2px;color:#7e858d}
+.product-workspace .workspace-header nav{position:absolute;left:50%;top:0;transform:translateX(-50%);display:block;width:max-content;max-width:none;height:76px;gap:0;white-space:normal}
+.product-workspace .workspace-header .workspace-primary{display:flex;align-items:center;gap:8px;height:76px}
+.product-workspace .workspace-header nav a,.product-workspace .workspace-header nav button{display:flex;box-sizing:border-box;align-items:center;justify-content:center;gap:5px;min-height:44px;padding:8px 12px;border:0;border-bottom:2px solid transparent;background:transparent;color:#89939c;font:400 12px/1.25 Inter,ui-sans-serif,system-ui,sans-serif;text-align:center;text-decoration:none;letter-spacing:0}
+.product-workspace .workspace-header nav a[aria-current]{color:#ccb47c;border-bottom-color:#ccb47c}
+.product-workspace .workspace-header nav button:disabled{opacity:.55;cursor:default}
+.product-workspace .workspace-header nav small{font-size:8px;border:1px solid #ffffff18;padding:1px 3px}
+.product-workspace .workspace-header nav a[data-workspace="sandbox"]{position:absolute;left:100%;top:16px;margin-left:10px;border-left:1px solid #ffffff18;white-space:nowrap}
+.product-workspace .workspace-header .study-label{display:none!important}
+.product-workspace .workspace-header a:focus-visible{outline:2px solid #ccb47c;outline-offset:2px}
+@media(max-width:1100px){
+ .product-workspace .workspace-header .brand-sub,.product-workspace .workspace-header .brand-divider{display:none}
+ .product-workspace .workspace-header .brand{font-size:14px;gap:6px;left:16px;letter-spacing:1px}
+}
+@media(max-width:800px){
+ .product-workspace .site-header.workspace-header{height:104px;min-height:104px;padding:0 12px}
+ .product-workspace .workspace-header .brand{height:36px;left:12px}
+ .product-workspace .workspace-header nav{top:36px;height:60px}
+ .product-workspace .workspace-header .workspace-primary{width:min(216px,calc(100vw - 164px));height:60px;gap:0}
+ .product-workspace .workspace-header nav a,.product-workspace .workspace-header nav button{flex:1;min-width:0;min-height:48px;padding:4px 3px;font-size:10px;flex-wrap:wrap}
+ .product-workspace .workspace-header nav a[data-workspace="sandbox"]{top:6px;width:64px;margin-left:6px;white-space:normal}
+ .product-workspace .workspace-header nav small{font-size:7px;padding:0 2px}
+}

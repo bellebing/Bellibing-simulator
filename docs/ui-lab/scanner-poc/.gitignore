@@ -1,0 +1,6 @@
+__pycache__/
+vendor/__pycache__/
+.venv/
+tessdata/
+private-fixtures/
+review-artifacts/

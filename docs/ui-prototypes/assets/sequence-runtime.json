@@ -17,15 +17,21 @@
       "gitBlobSha": "56c16cbd579651d3b08cf9197f71fc705609f9a8",
       "sourceBytes": 9659340,
       "url": "https://raw.githubusercontent.com/DommyMM/wuwabuild/2b57a127b26b062ab58d272cd6735338507de1cd/public/Data/Characters.json"
+    },
+    "characterImport38": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "path": "public/Data/Characters.json",
+      "gitBlobSha": "3614fc5a8ab982ca8d32a0b0fa54217d46418420"
     }
   },
   "summary": {
-    "releasedCharacters": 57,
-    "sourceBackedChains": 342,
+    "releasedCharacters": 60,
+    "sourceBackedChains": 360,
     "pendingChains": 0,
     "staticBuildStatSequences": 20,
     "nonStaticMechanicSequences": 322,
-    "pendingBuildStatReviewSequences": 0
+    "pendingBuildStatReviewSequences": 18
   },
   "characters": [
     {
@@ -2431,6 +2437,121 @@
       }
     },
     {
+      "characterId": "hsin",
+      "characterName": "Hsin",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 355,
+          "assetId": "chain:hsin:s1",
+          "assetPath": "assets/builder-icons/chains/hsin/s1.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "A Boat to Cross the Rising Tide",
+          "description": "Casting Resonance Liberation - Formshift grants Hsin 2 stacks of Radiance Ward, stacking up to 2 times. Switching to Answering Form clears all stacks. When Hsin takes DMG from an enemy target's attack, 1 stack of Radiance Ward can be consumed to make Her immune to interruption and reduce DMG taken by 60% for 1s. This effect can be triggered once every 1s.\n\nWhile in Resonance Mode - Unison:\nThe DMG Multipliers of Intro Skill - Answering Form: Manifold Unison and Intro Skill - Illumining Form: Manifold Unison are increased by 15%, and each stack of Unison Boon additionally increases the DMG Multipliers of Intro Skill - Answering Form: Manifold Unison and Intro Skill - Illumining Form: Manifold Unison by 10%, up to a total of 4 stacks.\n\nWhile in Resonance Mode - Electro Flare:\nWhen Hsin enters combat, if Heart of Thunder is below 50 stacks, it is increased to 50 stacks, triggered once every 12s.\nThe DMG Multiplier of the Electro Flare DMG triggered by Resonance Skill - Heartward by Moon is increased to 42% x (the number of Heart of Thunder stacks on Hsin) x (the Electro Flare DMG Multiplier corresponding to the target's current Electro Flare stacks).",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 356,
+          "assetId": "chain:hsin:s2",
+          "assetPath": "assets/builder-icons/chains/hsin/s2.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "To Wake Is to Wonder What I Am",
+          "description": "The DMG Multipliers of Heavy Attack - Answering Form: Realm Wanderer and Heavy Attack - Answering Form: Realm Protector are increased by 60%.\nThe DMG Multipliers of Heavy Attack - Illumining Form: Beholding All Horizons and Heavy Attack - Illumining Form: Stilling All Horizons are increased by 60%.\n\nWhen Hsin enters combat, reset the Cooldowns for Hsin to gain Resolution of Wishes and Law of Heaven, and restore 100 additional points of Answering Heart. This effect can be triggered once every 12s.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 357,
+          "assetId": "chain:hsin:s3",
+          "assetPath": "assets/builder-icons/chains/hsin/s3.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "A Dream of Return Among the Hills",
+          "description": "The DMG Multiplier of Resonance Liberation - Pillars Across Heaven is increased by 70%.\n\nWhile in Resonance Mode - Unison:\nThe Crit. DMG of Resonance Liberation - Pillars Across Heaven is increased by 20%, and each stack of Unison Boon additionally increases its Crit. DMG by 15%, up to a total of 4 stacks.\n\nWhile in Resonance Mode - Electro Flare:\nWhen the last stage of Resonance Liberation - Pillars Across Heaven hits a target inflicted with Electro Flare, it triggers 1 instance of Electro Flare DMG, with its DMG Multiplier equal to 1500% times the Electro Flare DMG Multiplier corresponding to the current Electro Flare stacks on the target.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 358,
+          "assetId": "chain:hsin:s4",
+          "assetPath": "assets/builder-icons/chains/hsin/s4.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "A River of Lanterns, a River of Wishes",
+          "description": "All Resonators in the team gain 20% All-Attribute DMG Bonus for 30s when a Resonator in the team triggers any of the following actions:\n- Inflict Electro Flare or Electro Rage on a target.\n- Gain Unison while not having the effect.\n- Trigger Unison Response.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 359,
+          "assetId": "chain:hsin:s5",
+          "assetPath": "assets/builder-icons/chains/hsin/s5.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Forms Turn as the Heart Wills",
+          "description": "While in Illumining Form, DMG taken by Hsin is reduced by 20%.\nWhen Hsin takes a fatal blow, She will not be knocked out, but instead restores 100% of Max HP and becomes immune to DMG and interruption for 1s. This effect can be triggered once every 10 minutes.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 360,
+          "assetId": "chain:hsin:s6",
+          "assetPath": "assets/builder-icons/chains/hsin/s6.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "The Moon Owes Its Light to the Living",
+          "description": "Targets take 40% more Resonance Skill DMG from Hsin.\n\nResonance Skill DMG dealt by Hsin ignores 20% of the target's DEF.\n\nWhile in Resonance Mode - Unison:\nThe maximum stacks of the Unison Boon effect on Resonators in the team are additionally increased by 1. When a Resonator in the team triggers Unison Response, all Resonators in the team additionally gain 1 stacks of Unison Boon for 30s. This effect does not stack.\n\nWhile in Resonance Mode - Electro Flare:\nWhile in combat, Electro Flare DMG taken by targets within a certain range around Hsin can be Critical, with Crit. Rate fixed at 80% and Crit. DMG fixed at 230%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        }
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorMagic",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorMagic.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconXinB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconXinC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconXinQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconXinY",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconXinT",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconXinD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconXinD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconXinD2.webp"
+        }
+      }
+    },
+    {
       "characterId": "iuno",
       "characterName": "Iuno",
       "releaseStatus": "RELEASED",
@@ -2904,6 +3025,121 @@
           "role": "inherent-2",
           "assetId": "skill:SP_IconJiyanD2",
           "assetPath": "assets/builder-icons/skills/SP_IconJiyanD2.webp"
+        }
+      }
+    },
+    {
+      "characterId": "lily",
+      "characterName": "Lily",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 373,
+          "assetId": "chain:lily:s1",
+          "assetPath": "assets/builder-icons/chains/lily/s1.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Look, White Flowers from the Ruins of Dreams",
+          "description": "Lily is immune to interruption while casting Heavy Attack - Woven Fairytale, Heavy Attack - Woven Phantasm, Heavy Attack - Fairytale's Finale, or Heavy Attack - Phantasm's End.\nWhile Cradle Lullaby is active, each Intro Skill cast by a Resonator in the team other than Lily now grants 2 stacks of Dream Aroma.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 374,
+          "assetId": "chain:lily:s2",
+          "assetPath": "assets/builder-icons/chains/lily/s2.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Listen, a Requiem from the Dream Cradle",
+          "description": "While Cradle Lullaby is active, when a Resonator in the team other than Lily casts an Intro Skill, each stack of Dream Aroma additionally increases Crit. Rate by 2% and Crit. DMG by 6%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 375,
+          "assetId": "chain:lily:s3",
+          "assetPath": "assets/builder-icons/chains/lily/s3.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "May Your Soul Wander No More",
+          "description": "Lily additionally gains 170 points of Dream Perfume upon entering combat, triggered once every 12s. After Lily casts Intro Skill - Eternal Bloom, she additionally gains 170 points of Dream Perfume.\nCasting Resonance Liberation - Into the Dream Cradle additionally restores 10 points of Concerto Energy.\nDealing DMG with Heavy Attack - Fairytale's Finale or Heavy Attack - Phantasm's End additionally restores 10 points of Resonance Energy.\nDuring Heavy Attack - Woven Fairytale or Heavy Attack - Woven Phantasm, Lily gains Dreambell Chime faster.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 376,
+          "assetId": "chain:lily:s4",
+          "assetPath": "assets/builder-icons/chains/lily/s4.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "May Your Past Sink into Silence",
+          "description": "Slumberland's healing is increased by 30%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 377,
+          "assetId": "chain:lily:s5",
+          "assetPath": "assets/builder-icons/chains/lily/s5.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "May You Find Peace in Endless Light",
+          "description": "While Lily is in Slumberland, the pull-in effect range is increased by 50% when a Resonator in the team other than Lily casts Intro Skill.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 378,
+          "assetId": "chain:lily:s6",
+          "assetPath": "assets/builder-icons/chains/lily/s6.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "May My Reverie Never End",
+          "description": "The Spectro DMG dealt by Heavy Attack - Fairytale's Finale and Heavy Attack - Phantasm's End is increased by 100%.\nThe Spectro DMG dealt by Intro Skill - Eternal Bloom is increased by 700%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        }
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorGun",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorGun.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconLiliB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconLiliC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconLiliQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconLiliY",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconLiliT",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconLiliD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconLiliD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconLiliD2.webp"
         }
       }
     },
@@ -5604,6 +5840,121 @@
           "role": "inherent-2",
           "assetId": "skill:SP_IconSuisuiD2",
           "assetPath": "assets/builder-icons/skills/SP_IconSuisuiD2.webp"
+        }
+      }
+    },
+    {
+      "characterId": "suoming",
+      "characterName": "Suoming",
+      "releaseStatus": "RELEASED",
+      "chains": [
+        {
+          "sequence": 1,
+          "sourceChainId": 367,
+          "assetId": "chain:suoming:s1",
+          "assetPath": "assets/builder-icons/chains/suoming/s1.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Into the Blight Rain",
+          "description": "Resonance Skill - Unfurled Canopy: Unforsaken Mind is immune to interruption.\nThe DMG Multipliers of Intro Skill - Furled Canopy: Flash Rift, Intro Skill - Unfurled Canopy: Thunder Rending, Intro Skill - Furled Canopy: Sealed Delusion (Unison), and Intro Skill - Unfurled Canopy: Whirling Thunder (Unison) are increased by 60%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 2,
+          "sourceChainId": 368,
+          "assetId": "chain:suoming:s2",
+          "assetPath": "assets/builder-icons/chains/suoming/s2.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Breaking Thunder, Slaying Evil",
+          "description": "Crit. DMG is increased by 40%.\nCasting Outro Skill increases the incoming Resonator's Crit. DMG by 10%, plus an additional 6% for each stack of Unison Boon they have, up to 24%. This effect lasts for 30s or until the Resonator is switched out.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 3,
+          "sourceChainId": 369,
+          "assetId": "chain:suoming:s3",
+          "assetPath": "assets/builder-icons/chains/suoming/s3.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Lone Canopy, Solitary Road",
+          "description": "Casting Intro Skill - Furled Canopy: Flash Rift or Intro Skill - Unfurled Canopy: Thunder Rending grants 1 stacks of Unison Boon for 30s. This effect can be triggered once every 25s.\n- If Suoming has already granted Unison Boon and it is still in effect, gaining it again only resets its duration.\n\nCasting Resonance Liberation grants Suoming 30% Basic Attack DMG Amplification for 25s.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 4,
+          "sourceChainId": 370,
+          "assetId": "chain:suoming:s4",
+          "assetPath": "assets/builder-icons/chains/suoming/s4.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Covenant Borne Upon the Heart",
+          "description": "Suoming's ATK is increased by 20%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 5,
+          "sourceChainId": 371,
+          "assetId": "chain:suoming:s5",
+          "assetPath": "assets/builder-icons/chains/suoming/s5.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Seal Deep, Never Forgotten",
+          "description": "The DMG Multiplier of Resonance Liberation - Umbral Canopy: Miasma Lock is increased by 40%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        },
+        {
+          "sequence": 6,
+          "sourceChainId": 372,
+          "assetId": "chain:suoming:s6",
+          "assetPath": "assets/builder-icons/chains/suoming/s6.webp",
+          "contentStatus": "SOURCE_BACKED",
+          "name": "Nine Shadows at Her Side",
+          "description": "The effect of each stack of Unison Boon on all Resonators in the team is increased by 50%, up to 4 stacks of Unison Boon.\nThe DMG Multiplier of Basic Attack - Umbral Canopy: Engraved Heart is increased by 50%.\nWhen Suoming has Seal Master, her Crit. DMG is further increased by 200%.",
+          "buildStatClassification": "PENDING",
+          "staticBuildStats": []
+        }
+      ],
+      "skills": {
+        "normal-attack": {
+          "role": "normal-attack",
+          "assetId": "skill:SP_IconNorKnife",
+          "assetPath": "assets/builder-icons/skills/SP_IconNorKnife.webp"
+        },
+        "skill": {
+          "role": "skill",
+          "assetId": "skill:SP_IconSuomingB1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingB1.webp"
+        },
+        "liberation": {
+          "role": "liberation",
+          "assetId": "skill:SP_IconSuomingC1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingC1.webp"
+        },
+        "intro": {
+          "role": "intro",
+          "assetId": "skill:SP_IconSuomingQTE",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingQTE.webp"
+        },
+        "circuit": {
+          "role": "circuit",
+          "assetId": "skill:SP_IconSuomingY",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingY.webp"
+        },
+        "outro": {
+          "role": "outro",
+          "assetId": "skill:SP_IconSuomingT",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingT.webp"
+        },
+        "inherent-1": {
+          "role": "inherent-1",
+          "assetId": "skill:SP_IconSuomingD1",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingD1.webp"
+        },
+        "inherent-2": {
+          "role": "inherent-2",
+          "assetId": "skill:SP_IconSuomingD2",
+          "assetPath": "assets/builder-icons/skills/SP_IconSuomingD2.webp"
         }
       }
     },

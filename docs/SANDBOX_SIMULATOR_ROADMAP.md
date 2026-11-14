@@ -1,5 +1,7 @@
 # Standalone Sandbox Simulator roadmap
 
+> **2026-11-14 superseded roadmap note:** The standalone-first sequencing is historical. Current beta ordering follows the owner's 2026-11-14 local-user workflow. For active priority and beta readiness use [BETA_STATUS.md](BETA_STATUS.md) and GitHub issue #368; preserve this dated record only as historical technical context.
+
 ## Product decision and ownership
 
 Develop the standalone Character Sandbox before account integration. A released Character can be explored without owning a Character, saved build, Echo or resource inventory. `SANDBOX_BUILD` is an explicit detached, versioned context; `ACCOUNT_BUILD` retains its existing production contract. Neither is a fallback for the other. Canonical catalogs, validators and build projections remain shared. No second evaluator or public private-policy implementation is permitted.

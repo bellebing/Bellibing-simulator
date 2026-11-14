@@ -12,7 +12,8 @@ export function rarityClass(rarity) {
 }
 export function characterCardModel(person, saved) {
   const weapon = weapons.get(saved.weapon) ?? null;
-  const context = saved.sandboxBuild?{id:saved.sandboxBuild.weaponId,level:saved.sandboxBuild.baseline.weaponLevel,rank:saved.sandboxBuild.baseline.weaponRefinement}:equipmentContext[saved.id];
+  const actual=saved.accountProjection?.record?.buildState;
+  const context = saved.accountProjection?(actual&&Number.isInteger(actual.weaponLevel)&&Number.isInteger(actual.weaponRefinement)?{id:actual.weaponId,level:actual.weaponLevel,rank:actual.weaponRefinement}:null):saved.sandboxBuild?{id:saved.sandboxBuild.weaponId,level:saved.sandboxBuild.baseline.weaponLevel,rank:saved.sandboxBuild.baseline.weaponRefinement}:equipmentContext[saved.id];
   const sandboxValues=saved.accountProjection?.currentValues??(saved.sandboxStatProjection?.observed?.status==='SOURCE_BACKED_STATIC_COMPONENT'?saved.sandboxStatProjection.observedValues:saved.sandboxStatProjection?.baselineValues);
   const metricIds=['TOTAL_HP','TOTAL_ATK','TOTAL_DEF','TOTAL_ENERGY_REGEN','TOTAL_CRIT_RATE','TOTAL_CRIT_DAMAGE',`${person.identityElement?.toUpperCase()}_DMG_BONUS`,'BASIC_ATTACK_DMG_BONUS','HEAVY_ATTACK_DMG_BONUS','RESONANCE_SKILL_DMG_BONUS','RESONANCE_LIBERATION_DMG_BONUS','HEALING_BONUS'];
   return {

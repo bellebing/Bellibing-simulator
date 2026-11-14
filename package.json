@@ -43,10 +43,28 @@
     "capture:character-truth": "python scripts/export-prydwen-character-truth.py",
     "test:character-truth": "node --experimental-strip-types --test test/factoryCharacterTruthCapture.test.ts test/characterTruthDataset.test.ts",
     "report:character-truth": "node --experimental-strip-types scripts/generate-character-truth-reconciliation.ts && node --experimental-strip-types scripts/summarize-character-truth.ts",
-    "preview:v1": "node scripts/preview-simulator-v1.mjs"
+    "preview:v1": "node scripts/preview-simulator-v1.mjs",
+    "test:foundation": "node --experimental-strip-types --test test/inventoryAccount.test.mjs test/inventoryAccountStore.test.mjs test/inventoryBackupMigration.test.mjs test/inventoryPortableAccount.test.mjs test/accountSync.test.mjs test/accountWorkspacePersistence.test.mjs test/observedImproveSession.test.mjs test/ownedTeams.test.mjs test/recoveryImprovePresentation.test.mjs test/productBuildDraft.test.mjs test/ownedBuildAccountSync.test.mjs",
+    "test:foundation:browser": "node --experimental-strip-types --test test/inventoryPersistence.browser.mjs test/inventoryJourney.browser.mjs test/inventoryAccountBackup.browser.mjs test/recoveryIntegration.browser.mjs test/productIntegration.browser.mjs test/filterPresets.browser.mjs test/productImport.browser.mjs test/ownedBuildAccountSync.browser.mjs",
+    "test:foundation:firebase": "firebase emulators:exec --project demo-bellibing-foundation --only firestore,auth \"node --experimental-strip-types --test --test-concurrency=1 test/firebaseAccount.emulator.mjs test/firebaseGoogleAuth.emulator.mjs\"",
+    "scanner:browser:prepare": "python3 scripts/prepare-browser-scanner.py",
+    "test:scanner:browser": "node --experimental-strip-types --test test/browserScanner.browser.mjs",
+    "preview:product": "node scripts/start-product-review.mjs",
+    "import:character": "node --experimental-strip-types scripts/import-character.mjs",
+    "capture:character-source": "node scripts/capture-character-import-source.mjs"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.0",
+    "@playwright/test": "^1.58.2",
     "esbuild": "^0.27.3",
+    "fake-indexeddb": "^6.2.5",
+    "firebase-tools": "15.6.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
+    "firebase": "12.9.0",
+    "pyodide": "0.29.3",
+    "tesseract.js": "6.0.1"
   }
 }

@@ -13,10 +13,10 @@
     "rover": "FIRST_SOURCE_MATCH: first lexicographically sorted matching sourcePath for each element; intentionally simple initial policy."
   },
   "summary": {
-    "catalogEntries": 60,
-    "directPortraits": 56,
-    "directReleased": 53,
-    "directConfirmedUpcoming": 1,
+    "catalogEntries": 61,
+    "directPortraits": 57,
+    "directReleased": 57,
+    "directConfirmedUpcoming": 0,
     "directUnreleasedWip": 2,
     "roverCatalogEntries": 4,
     "roverSourceCandidates": 10,
@@ -555,13 +555,13 @@
       "characterId": "suoming",
       "characterName": "Suoming",
       "rarity": 5,
-      "releaseStatus": "CONFIRMED_UPCOMING",
+      "releaseStatus": "RELEASED",
       "sourcePath": "images/Suoming.png",
       "sourceSha": "9975c0c29394bc8ccd9b43f5bfce3647fa473900",
       "sourceBytes": 33433,
       "targetPath": "docs/ui-prototypes/assets/characters/portraits/suoming.png",
       "mappingStatus": "DIRECT_NAME_MATCH",
-      "uiEligible": false
+      "uiEligible": true
     },
     {
       "characterId": "taoqi",
@@ -694,6 +694,19 @@
       "targetPath": "docs/ui-prototypes/assets/characters/portraits/zhezhi.png",
       "mappingStatus": "DIRECT_NAME_MATCH",
       "uiEligible": true
+    },
+    {
+      "characterId": "lily",
+      "characterName": "Lily",
+      "rarity": 5,
+      "releaseStatus": "RELEASED",
+      "sourceKey": "wuwabuild38",
+      "sourcePath": "public/assets/UIResources/Common/Image/IconRoleHeadCircle256/T_IconRoleHeadCircle256_77_UI.webp",
+      "sourceSha": "887ff9d55e0ced449b5bafc57fce04d34619f272",
+      "sourceBytes": 29052,
+      "targetPath": "docs/ui-prototypes/assets/characters/portraits/lily.webp",
+      "mappingStatus": "DIRECT_ORIGINAL_SOURCE_ROLE_ID",
+      "uiEligible": true
     }
   ],
   "roverCandidates": [
@@ -801,5 +814,11 @@
       "bytes": 30582,
       "sha256": "2506ff6384c7a583875b509e8c735b60df0cc179d1e8206206eb68c0d164edde"
     }
-  ]
+  ],
+  "additionalSources": {
+    "wuwabuild38": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076"
+    }
+  }
 }

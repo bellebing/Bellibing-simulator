@@ -1,0 +1,3068 @@
+[
+  {
+    "source": "main",
+    "path": "docs/ui-lab/v1.1/modules/dps-concept.js",
+    "destination": "docs/ui-lab/v1.1/modules/dps-concept.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "a9d87bb3d567468b97b7b73809e217162a6b82ad1a0cb2573d567cb7a399a37e"
+  },
+  {
+    "source": "main",
+    "path": "docs/ui-lab/v1.1/modules/app.js",
+    "destination": "docs/ui-lab/v1.1/modules/app.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "b6a7510fbcf200f2cb260adc60b0a834b83103b980e8ccaf57369470a1772380"
+  },
+  {
+    "source": "main",
+    "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
+  },
+  {
+    "source": "main",
+    "path": "docs/ui-lab/v1.1/sandbox.css",
+    "destination": "docs/ui-lab/v1.1/sandbox.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "0cfe522a4285ac6d4be0a5e6d3a8a54b952d9f087ba98249c8f2cd95a1d65322"
+  },
+  {
+    "source": "main",
+    "path": "docs/ui-prototypes/v34-functional.html",
+    "destination": "docs/ui-prototypes/v34-functional.html",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "27f7ea8622683affeeda962a14c137a2cac12b2700a7efaca442349efc2bbbf8"
+  },
+  {
+    "source": "347",
+    "path": "AGENTS.md",
+    "destination": "AGENTS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "154fa77d9851d4ebae549c80315f00d78ba5a36439c188ccedd3a3d35f94d014"
+  },
+  {
+    "source": "347",
+    "path": "docs/ECHO_SIMULATOR_DIRECTION.md",
+    "destination": "docs/ECHO_SIMULATOR_DIRECTION.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "a91825e8937e57cfc7d8d8c293b9a4562f0847676a06e728ae8ccafa98c61a73"
+  },
+  {
+    "source": "347",
+    "path": "docs/PRODUCT_CONTRACT.md",
+    "destination": "docs/PRODUCT_CONTRACT.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "21f98da3d3b4d7e0baea2618d4a83e786920a52bddbfcd8e4dc389cc7b435232"
+  },
+  {
+    "source": "347",
+    "path": "docs/PRODUCT_JOURNEY_ROADMAP.md",
+    "destination": "docs/PRODUCT_JOURNEY_ROADMAP.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "c74b872ebfb777e75650d84ff50f8282f1843255cd2513c1d96ac396538b964a"
+  },
+  {
+    "source": "347",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "347",
+    "path": "docs/ROADMAP_DOCUMENT_AUDIT.md",
+    "destination": "docs/ROADMAP_DOCUMENT_AUDIT.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "303f65b12b1e8ac9091e6b51e6aaaf095aeb3d8a1db2f1182a78aecc4c386ae9"
+  },
+  {
+    "source": "347",
+    "path": "docs/SANDBOX_SIMULATOR_ROADMAP.md",
+    "destination": "docs/SANDBOX_SIMULATOR_ROADMAP.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2e83772063ed3fe22f1f08d31e1f4bebbb5b8edeced33e1047c6de2accebf421"
+  },
+  {
+    "source": "350",
+    "path": "docs/DPS_M0_CN_SOURCE_AND_RESONANCE_MODE_REVIEW.md",
+    "destination": "docs/DPS_M0_CN_SOURCE_AND_RESONANCE_MODE_REVIEW.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "96ec593bbf00297231529986c8dcb9a0de321a7c372254e7e595599818173555"
+  },
+  {
+    "source": "355",
+    "path": "docs/UI_INSPIRATION_BANK.md",
+    "destination": "docs/UI_INSPIRATION_BANK.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "8da054f84c9ee6398a979cd217f4c2444d84e09bcc46f33cf508ad64db939407"
+  },
+  {
+    "source": "356",
+    "path": "docs/DEVELOPMENT_PROCESS.md",
+    "destination": "docs/DEVELOPMENT_PROCESS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "ea4382e159cb996a55cae30fa2030514fb3d5e7f83a6095f572f16ecaae454d6"
+  },
+  {
+    "source": "356",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "359",
+    "path": ".github/workflows/verify.yml",
+    "destination": ".github/workflows/verify.yml",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "1705ba2064b21e8f95630fa48b2751e7a8e05cfc39c87105cc54ec5ab5e66bd5"
+  },
+  {
+    "source": "359",
+    "path": "data/source/echo-recovery-owner-confirmation.json",
+    "destination": "data/source/echo-recovery-owner-confirmation.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "63919e096dfaec6cb47805f6a0ba80ed78ec53d3088acaa50779d00fb829af2d"
+  },
+  {
+    "source": "359",
+    "path": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "destination": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "b9dcfcb39884cfaefe5aa21f038b7cd68a2f8f5f6afd71b40231e2a46ce2c685"
+  },
+  {
+    "source": "359",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "destination": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "60e0ce691794768b27be178377e2f0a5f1f57b3b4e1e1935e6ad72c2d8333ca3"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "destination": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "5c764129c1c1ecef3b4582c19ff6d6cb356ce58515ebbc4e20f05e35ef56b6de"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/app.js",
+    "destination": "docs/ui-lab/v1.1/modules/app.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "b6a7510fbcf200f2cb260adc60b0a834b83103b980e8ccaf57369470a1772380"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "destination": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "1f59790537bbced8d88d5c5e99d23ce8c0804277669a643c55a4c38490cf46d9"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "destination": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "f1ee026250bab73130603eeb76a2bc5e7cde59cc982e1f0e9e0ed2bf0e3aa164"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "destination": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "7e2affc0599d4e87d8d6554e73c3308a7ca418a2684adcecda3704e0de796968"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "destination": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "6025697e9dbb34bb64f5d32cf657bfd03c75d75f030d3471ce74347f4b698221"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/resource-cost.css",
+    "destination": "docs/ui-lab/v1.1/resource-cost.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "bb750f34be2eea28486bef0772ecb798081a7e0ba81f5f5ead801fc58abdd661"
+  },
+  {
+    "source": "359",
+    "path": "docs/ui-lab/v1.1/sandbox.css",
+    "destination": "docs/ui-lab/v1.1/sandbox.css",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "0cfe522a4285ac6d4be0a5e6d3a8a54b952d9f087ba98249c8f2cd95a1d65322"
+  },
+  {
+    "source": "359",
+    "path": "scripts/local-team-dps.mjs",
+    "destination": "scripts/local-team-dps.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "dfd6c7827c696d4413bc8827009a48fc716ba3eafa052df304f8787dbf3f8100"
+  },
+  {
+    "source": "359",
+    "path": "scripts/start-bellibing-local.mjs",
+    "destination": "scripts/start-bellibing-local.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "6f2f84eb041c9e9a105ba4f3ee9ba2e879060bd8ddcdc6a70f135a06f387247f"
+  },
+  {
+    "source": "359",
+    "path": "src/interactiveEchoSession.mjs",
+    "destination": "src/interactiveEchoSession.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "272f6e1064b790573350d4ff6f99e25f9d05d2eb07332d8daaa735586a17c129"
+  },
+  {
+    "source": "359",
+    "path": "src/localTeamBuildCapture.mjs",
+    "destination": "src/localTeamBuildCapture.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "f14467cd203a9fdebe35875ef36c78fc516e7bb939df2a75aeefa00d6f4a66d5"
+  },
+  {
+    "source": "359",
+    "path": "test/interactiveEchoSession.test.mjs",
+    "destination": "test/interactiveEchoSession.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7aec11f4bf820b5a977f0e6339b11433ee51cee508019379edf2ba3735d48109"
+  },
+  {
+    "source": "359",
+    "path": "test/localTeamBuildCapture.test.mjs",
+    "destination": "test/localTeamBuildCapture.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "89ba059f2b57244bc09315b051365c5cbbb8748c9f879f8175fa09f68ca7756c"
+  },
+  {
+    "source": "359",
+    "path": "test/localTeamReviewBridge.test.mjs",
+    "destination": "test/localTeamReviewBridge.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2279aab9a40d4a4f5056f8206dd1aab91f4c443aeaa578fbe441784b8ce6b066"
+  },
+  {
+    "source": "359",
+    "path": "test/observedImproveSession.test.mjs",
+    "destination": "test/observedImproveSession.test.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "5ca532f49c9661b75f97e07ef64a60623990b2d365502bb8ca1dfd367da2bc18"
+  },
+  {
+    "source": "359",
+    "path": "test/resourceReadiness.test.mjs",
+    "destination": "test/resourceReadiness.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "5247de635d47ae9825bc5d0c27efd527cb003caa62d6cbbeba265129c271d6d1"
+  },
+  {
+    "source": "360",
+    "path": ".github/workflows/verify.yml",
+    "destination": ".github/workflows/verify.yml",
+    "status": "present-byte-identical",
+    "destinationSha256": "1705ba2064b21e8f95630fa48b2751e7a8e05cfc39c87105cc54ec5ab5e66bd5"
+  },
+  {
+    "source": "360",
+    "path": ".gitignore",
+    "destination": ".gitignore",
+    "status": "present-byte-identical",
+    "destinationSha256": "c5e1cc04b53b3dfe309be5654e01568424c0e977d5ef6c76c5730bc780fe9780"
+  },
+  {
+    "source": "360",
+    "path": "data/source/echo-recovery-owner-confirmation.json",
+    "destination": "data/source/echo-recovery-owner-confirmation.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "63919e096dfaec6cb47805f6a0ba80ed78ec53d3088acaa50779d00fb829af2d"
+  },
+  {
+    "source": "360",
+    "path": "docs/CHARACTER_IMPORT_HANDOFF.md",
+    "destination": "source PR #360",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "360",
+    "path": "docs/CHARACTER_IMPORT_LOCAL.md",
+    "destination": "docs/CHARACTER_IMPORT_LOCAL.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "a4bf3c7683d0593750701a495b9eaa907ae7608413d41dc471fe45359c573495"
+  },
+  {
+    "source": "360",
+    "path": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "destination": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "b9dcfcb39884cfaefe5aa21f038b7cd68a2f8f5f6afd71b40231e2a46ce2c685"
+  },
+  {
+    "source": "360",
+    "path": "docs/FOUNDATION_V1.md",
+    "destination": "source PR #360",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "360",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "destination": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "60e0ce691794768b27be178377e2f0a5f1f57b3b4e1e1935e6ad72c2d8333ca3"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "destination": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "5c764129c1c1ecef3b4582c19ff6d6cb356ce58515ebbc4e20f05e35ef56b6de"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/account-review.js",
+    "destination": "docs/ui-lab/inventory/account-review.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "6b310c279c513b010a92b6dbd538088c6776544c1c8c37e371a36d46f36a0c30"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/account-session.js",
+    "destination": "docs/ui-lab/inventory/account-session.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "d1aaa2b35a38211a190f7045b65bce02b23291b344a172d7d2b97933706c8869"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/README.md",
+    "destination": "docs/ui-lab/inventory/art/README.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "fed9be2a59353bc979053a1b70e857b9fae2b0a01bec429b2b15107134f587b7"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/UPSTREAM_MANIFEST.json",
+    "destination": "docs/ui-lab/inventory/art/UPSTREAM_MANIFEST.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "0a6dca391ee3ab6480d69ad3c4b9bf65566089edebd1d14a35f1f1bf236a276f"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/aero.webp",
+    "destination": "docs/ui-lab/inventory/art/aero.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "9cfcf9672d08b5d0cfdaeb573ff0fa212fea71a641b1fd7491661ed422ebf424"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/electro.webp",
+    "destination": "docs/ui-lab/inventory/art/electro.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "47d9bad89975de6a9ae8aef4f0603757781394091ca397b84c483541d0495143"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/fusion.webp",
+    "destination": "docs/ui-lab/inventory/art/fusion.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "0f3196ceb7e872a89df0dc78279dec8dc81c4aba4faf7081e56b260ec6caa210"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/glacio.webp",
+    "destination": "docs/ui-lab/inventory/art/glacio.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "6d004ed275d21f0d08783e46eeea4f1d4c4f4acd123db7ed6a90f69dbba49ac2"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/havoc.webp",
+    "destination": "docs/ui-lab/inventory/art/havoc.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "7ee084b89dd1804ccc9071e526e31628b12601596596ea7f2e276c78a0961f85"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/art/spectro.webp",
+    "destination": "docs/ui-lab/inventory/art/spectro.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "7c1f032ae200378963116b297200c059b83f047b8ea6b79bf40e3ace227776ca"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/integration.css",
+    "destination": "docs/ui-lab/inventory/integration.css",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "8e26f53a0e0069c71a26bd62216eeeb5c9dd0a2ced3cf7d928d19e8b23c334a3"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/inventory/integration.js",
+    "destination": "docs/ui-lab/inventory/integration.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "52b09ee7930ae44dbfb31bc536cecc05ecf09d133b1460f5b8688ca28bddc017"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/.gitignore",
+    "destination": "docs/ui-lab/scanner-poc/.gitignore",
+    "status": "present-byte-identical",
+    "destinationSha256": "09ab4919f60faa840479d712c869de543f8d47e9ce57ed38e72a469d75d3c5ab"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/ACCURACY.json",
+    "destination": "docs/ui-lab/scanner-poc/ACCURACY.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "06a0b5ae3a9d0fc2003613262846ef7fc5a35f2d6cc6341fe9ff5619cdd38983"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/DEF_PERCENT_IMPORT.md",
+    "destination": "docs/ui-lab/scanner-poc/DEF_PERCENT_IMPORT.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "009ef491009f3a2823d4bee932d28ba8fffe26281b9c0e83437bb8f0724ca95f"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/LICENSE",
+    "destination": "docs/ui-lab/scanner-poc/LICENSE",
+    "status": "present-byte-identical",
+    "destinationSha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/README.md",
+    "destination": "docs/ui-lab/scanner-poc/README.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "68590b3085cd1ad32afad88e7922fcadb00872c57a8413273b2a33fe2afcbc4e"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/UPSTREAM.md",
+    "destination": "docs/ui-lab/scanner-poc/UPSTREAM.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "3b3b4eebefd5f7d8b518ce90fd59833fe7a24cde93cdf79ee55c7e9310e3c124"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/app.js",
+    "destination": "docs/ui-lab/scanner-poc/app.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "426ace944e7052f8e30f03c1de9fdc85664b5aa36cf333c31ee41317d0d07147"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/benchmark.py",
+    "destination": "docs/ui-lab/scanner-poc/benchmark.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "d0e3713bc5045ea368e665ed372ceef3bbdca379db9052fd50930afde861a062"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/browser/async_sources.py",
+    "destination": "docs/ui-lab/scanner-poc/browser/async_sources.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "712b84e60290e52caf8435a99f0c5c808bde0305007f036c6de2b927914158f6"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/browser/client.mjs",
+    "destination": "docs/ui-lab/scanner-poc/browser/client.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7c4f0bf8aa31d89aa754da746dd616a967bffd4d5d5b049d02eb5baa826ddecd"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/browser/dependencies.json",
+    "destination": "docs/ui-lab/scanner-poc/browser/dependencies.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "315c0a2c046bc406c2e84b87ad6d16fa7e88f8f6dfb6ba0e5909264376d9329f"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/browser/worker.js",
+    "destination": "docs/ui-lab/scanner-poc/browser/worker.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "2f780af8efec3fff9e8e110ea65d91f74da18851944fd898e9e0250330959b66"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/canonical.mjs",
+    "destination": "docs/ui-lab/scanner-poc/canonical.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "cf456b6e712ebb4807c302beb7f6cf05a4f7523cfd05a4e173b29c1735edaba0"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/icon_recognition.py",
+    "destination": "docs/ui-lab/scanner-poc/icon_recognition.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "926fae4023b26517eb113955def744ec1a2044699f5e68912cc08065ed55af53"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/index.html",
+    "destination": "docs/ui-lab/scanner-poc/index.html",
+    "status": "present-byte-identical",
+    "destinationSha256": "d5e5e7247ac5ab937e19c933e0f3d1f06798d3f0070a2eea0f1dde1eedfd1dd0"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/requirements.txt",
+    "destination": "docs/ui-lab/scanner-poc/requirements.txt",
+    "status": "present-byte-identical",
+    "destinationSha256": "6453a0caed3e932783291a2de9e4500b4f4b4378e14e69e132a754423ecc8b5c"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/review_browser.py",
+    "destination": "docs/ui-lab/scanner-poc/review_browser.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "b7299a5b2d43eb133d01508af9b2c280e9458e0540e7667fac90887886387469"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/scanner.py",
+    "destination": "docs/ui-lab/scanner-poc/scanner.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "3350df16c0dd4ddd6fd3935e772f2400081745d84da9d2e4a492380cbff3dee0"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/serve.py",
+    "destination": "docs/ui-lab/scanner-poc/serve.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "d336c3b44ef318f79b221fa3bc6ad664816b8ecce56edbd43e53a9e4da959b21"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/setup.sh",
+    "destination": "docs/ui-lab/scanner-poc/setup.sh",
+    "status": "present-byte-identical",
+    "destinationSha256": "1058ed7581034444404baa99278539d8c6b7109c247bde87f84c11edbbbada58"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/style.css",
+    "destination": "docs/ui-lab/scanner-poc/style.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "81cea19e53f5fa65c2270616c1f114b6e9c2d8c26900ff1c68d013c204c27429"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/test_scanner.py",
+    "destination": "docs/ui-lab/scanner-poc/test_scanner.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "4a532c91c971d8a3baafd690efd86098ab6508aff77669cc41cc90ee6cf97697"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost1.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost1.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "df2cc7a058fe33ed3904f596336589879637faab32615b87b4524fda54813f7f"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost3.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost3.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "06cda74e8975bff97c3cabd9c35743cf671746b5bf2ab528912ddeffe252bc21"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost4.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost4.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "1fb3061ab3bec0654645584ff77e2a0a5b94b582bac14ca1cb21bd00e2621025"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_mask.npy",
+    "destination": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_mask.npy",
+    "status": "present-byte-identical",
+    "destinationSha256": "7dfb349ef4b8f9039f1c5648d815f004fd0e38b6e476ef367ca380358755e065"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_median.npy",
+    "destination": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_median.npy",
+    "status": "present-byte-identical",
+    "destinationSha256": "16af85976971b1ddbd6ee7c1ed97bd63075db34e0394873c58841efcffbe278b"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/card.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/card.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "31a5082694a3e094bc70fdc4f685f903ba6bd14e6975a05b3081c9a7d1db026b"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/data.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/data.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "76e5c8fc76000c0069e5e56481fc181d2de97e496b93b001d47afafbb0467e34"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/scanner-poc/vendor/image_integrity.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/image_integrity.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "fd623c1358b110deaf844ad207baa558ebec88dc1aaf9b4e43b81ab843544632"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/tools/verify-ux-review-browser.mjs",
+    "destination": "docs/ui-lab/tools/verify-ux-review-browser.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "162aea6ee34bdc15bb54423ac3ed77a29009585049a0e64d2bb3076ac14824d4"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/account-settings.js",
+    "destination": "docs/ui-lab/v1.1/modules/account-settings.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "7496150ded50fff260d4f90cdfdf47772cecdee075fc7c10829ebf7d2d95d0b4"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/app.js",
+    "destination": "docs/ui-lab/v1.1/modules/app.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "b6a7510fbcf200f2cb260adc60b0a834b83103b980e8ccaf57369470a1772380"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "destination": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "1f59790537bbced8d88d5c5e99d23ce8c0804277669a643c55a4c38490cf46d9"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/improve-decision-view.js",
+    "destination": "docs/ui-lab/v1.1/modules/improve-decision-view.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "d2182ecb22890b7348e19fd1a8be6bde740747d66c54568c35fddbda54ac04c3"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "destination": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "f1ee026250bab73130603eeb76a2bc5e7cde59cc982e1f0e9e0ed2bf0e3aa164"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "destination": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "7e2affc0599d4e87d8d6554e73c3308a7ca418a2684adcecda3704e0de796968"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/resource-inventory.js",
+    "destination": "docs/ui-lab/v1.1/modules/resource-inventory.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "a4e155466c30e5dc8a0b3b01ddd9aba66fceb4cb04b0fc87db2418f9243ff111"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/resource-state.js",
+    "destination": "docs/ui-lab/v1.1/modules/resource-state.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "08ae7803fde0f728826c9d22bea65ef912a2f361428b8cd7246040275a0b3860"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "destination": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "6025697e9dbb34bb64f5d32cf657bfd03c75d75f030d3471ce74347f4b698221"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/modules/server-transport.js",
+    "destination": "docs/ui-lab/v1.1/modules/server-transport.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "2309b5d2ad47bf42dbfb74397a6f1eaebb4c15523d82a40652642f649219d407"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/resource-cost.css",
+    "destination": "docs/ui-lab/v1.1/resource-cost.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "bb750f34be2eea28486bef0772ecb798081a7e0ba81f5f5ead801fc58abdd661"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-lab/v1.1/sandbox.css",
+    "destination": "docs/ui-lab/v1.1/sandbox.css",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "0cfe522a4285ac6d4be0a5e6d3a8a54b952d9f087ba98249c8f2cd95a1d65322"
+  },
+  {
+    "source": "360",
+    "path": "docs/ui-prototypes/v34-functional.html",
+    "destination": "docs/ui-prototypes/v34-functional.html",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "27f7ea8622683affeeda962a14c137a2cac12b2700a7efaca442349efc2bbbf8"
+  },
+  {
+    "source": "360",
+    "path": "firebase.json",
+    "destination": "firebase.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "0ff85aef06314644a950266400105a75d0be53a95433059d12627f19e889e652"
+  },
+  {
+    "source": "360",
+    "path": "firestore.rules",
+    "destination": "firestore.rules",
+    "status": "present-byte-identical",
+    "destinationSha256": "cde0c36fa14d508cf15b5178583ec3f2afcc906d32b7355a2e5e860e1c536309"
+  },
+  {
+    "source": "360",
+    "path": "package-lock.json",
+    "destination": "package-lock.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "76a0f31af55b35fee09bffc9646e3a56f70a7e3346962e5889a053e84482a18f"
+  },
+  {
+    "source": "360",
+    "path": "package.json",
+    "destination": "package.json",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "488a4a4afa3a534277ba37135a6026c6defedd20528e8228f1ee8f388754bd54"
+  },
+  {
+    "source": "360",
+    "path": "scripts/build-account-review.mjs",
+    "destination": "scripts/build-account-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "d26f8f55efd775ce059eef06729336fd39ffac552ec297d80c380d1d42e27a7e"
+  },
+  {
+    "source": "360",
+    "path": "scripts/build-inventory.mjs",
+    "destination": "scripts/build-inventory.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "d389659c614108f36f6081eba11a70c98d1ed23a3a87889e25f9aad1052f03ff"
+  },
+  {
+    "source": "360",
+    "path": "scripts/build-web.mjs",
+    "destination": "scripts/build-web.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "5d9889139fe8b80610d1109a92e623cc9f0c70d6174affb821ed7afcaa8edfa6"
+  },
+  {
+    "source": "360",
+    "path": "scripts/cache-browser-scanner.mjs",
+    "destination": "scripts/cache-browser-scanner.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2b6ba518873ac31fa9adcd7166e2850fc94824eda19bd5390d6efeb402fe969d"
+  },
+  {
+    "source": "360",
+    "path": "scripts/create-scanner-smoke.py",
+    "destination": "scripts/create-scanner-smoke.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "350ed829e4bba0225f4e38863c7e3983a0665b5d2efec4572be1ffe5b2c401cf"
+  },
+  {
+    "source": "360",
+    "path": "scripts/local-team-dps.mjs",
+    "destination": "scripts/local-team-dps.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "dfd6c7827c696d4413bc8827009a48fc716ba3eafa052df304f8787dbf3f8100"
+  },
+  {
+    "source": "360",
+    "path": "scripts/prepare-browser-scanner.py",
+    "destination": "scripts/prepare-browser-scanner.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "52ba37a9b830e210e61150291922588f7a47efad95dfda17412e0aba097b7d2a"
+  },
+  {
+    "source": "360",
+    "path": "scripts/public-web-assets.json",
+    "destination": "scripts/public-web-assets.json",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "1e1aca8a762c58c976ee53e6dbdde215f6b8629d1cff53ac93156c35e25cd6e4"
+  },
+  {
+    "source": "360",
+    "path": "scripts/start-bellibing-local.mjs",
+    "destination": "scripts/start-bellibing-local.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "6f2f84eb041c9e9a105ba4f3ee9ba2e879060bd8ddcdc6a70f135a06f387247f"
+  },
+  {
+    "source": "360",
+    "path": "scripts/start-character-import.mjs",
+    "destination": "scripts/start-character-import.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "d279c43fcb447636c20c154f7923522a1caa99a7f3f95637949d1cbb1d11829b"
+  },
+  {
+    "source": "360",
+    "path": "src/accountSync.mjs",
+    "destination": "src/accountSync.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "864dbbd731c26f4d0d4d210d4a7cd0bd84a086c47563e71b201b61db9a840c2f"
+  },
+  {
+    "source": "360",
+    "path": "src/firebaseAccountClient.mjs",
+    "destination": "src/firebaseAccountClient.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "62bebdc00811427861ce7c284dd5391e40524c713d6dd83a759720377f023a04"
+  },
+  {
+    "source": "360",
+    "path": "src/firebaseAccountRemote.mjs",
+    "destination": "src/firebaseAccountRemote.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "5785d6319ad0f3933f8445ca90592115d0cde634755a81bdcdf86add3023c51d"
+  },
+  {
+    "source": "360",
+    "path": "src/interactiveEchoSession.mjs",
+    "destination": "src/interactiveEchoSession.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "272f6e1064b790573350d4ff6f99e25f9d05d2eb07332d8daaa735586a17c129"
+  },
+  {
+    "source": "360",
+    "path": "src/inventoryAccount.mjs",
+    "destination": "src/inventoryAccount.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "ffa84434efa49bd48854d6a90d5a29871765728e7e9cee5a2b12fe4ea9288884"
+  },
+  {
+    "source": "360",
+    "path": "src/inventoryAccountStore.mjs",
+    "destination": "src/inventoryAccountStore.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "312a3755dd5a45c77564addd224093b821190a2a6437abc43d66386f4e6c0ae9"
+  },
+  {
+    "source": "360",
+    "path": "src/localTeamBuildCapture.mjs",
+    "destination": "src/localTeamBuildCapture.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "f14467cd203a9fdebe35875ef36c78fc516e7bb939df2a75aeefa00d6f4a66d5"
+  },
+  {
+    "source": "360",
+    "path": "src/observedImproveCapture.mjs",
+    "destination": "src/observedImproveCapture.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "fe0474d150c2b6e4ef600b26472f18ae85e9cafb52ef7fc5115d9da50b4ffa97"
+  },
+  {
+    "source": "360",
+    "path": "src/productionBuildRecord.mjs",
+    "destination": "src/productionBuildRecord.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "76a49ea6fcfa97b986ccf5e7c2e2b18d1e8e75969075cf00045db58dfc69885a"
+  },
+  {
+    "source": "360",
+    "path": "test/accountSync.test.mjs",
+    "destination": "test/accountSync.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "9111f5ec971ebf34a29e8ea179b6aa16e1c2d89295cef3a194b2176239e7cb62"
+  },
+  {
+    "source": "360",
+    "path": "test/accountWorkspacePersistence.test.mjs",
+    "destination": "test/accountWorkspacePersistence.test.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "4371df91dd6a73854250f1d0f2c62cf184cb63cc449519707d4428db99a1e936"
+  },
+  {
+    "source": "360",
+    "path": "test/browserScanner.browser.mjs",
+    "destination": "test/browserScanner.browser.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "97f50a099da46e5ccf09c9059153b2a23fb379677b4fe3a6b17fb2669ba4b9f5"
+  },
+  {
+    "source": "360",
+    "path": "test/checkpointCompactPresentation.test.mjs",
+    "destination": "test/checkpointCompactPresentation.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "ae9a1ce6b0791e176bd544f7120cf77ffba8afd9a77bfcf62151b774979b83a0"
+  },
+  {
+    "source": "360",
+    "path": "test/ci-fast.test.mjs",
+    "destination": "test/ci-fast.test.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "8972c03eb925808d214c7cec11364af3d9fbce6f78d718c76a9eceb78398c903"
+  },
+  {
+    "source": "360",
+    "path": "test/firebaseAccount.emulator.mjs",
+    "destination": "test/firebaseAccount.emulator.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "90a87d970537489eaf1a5c65a0955b417fd7e0f8ad94c09c74fd90e1eba608de"
+  },
+  {
+    "source": "360",
+    "path": "test/firebaseGoogleAuth.emulator.mjs",
+    "destination": "test/firebaseGoogleAuth.emulator.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "feb7fab7e58f013d30107a040ae64ce275324bd07f12c24f78a610569e6b1a30"
+  },
+  {
+    "source": "360",
+    "path": "test/fixtures/foundation-v0/inventoryAccount.mjs",
+    "destination": "test/fixtures/foundation-v0/inventoryAccount.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "8cd515ca139ab73c5f06675c1bce55942fa0151a9127450d2ed034dd3d589f6e"
+  },
+  {
+    "source": "360",
+    "path": "test/fixtures/foundation-v0/inventoryAccountStore.mjs",
+    "destination": "test/fixtures/foundation-v0/inventoryAccountStore.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "f5ad6a268413572dd15530089fb8ff1f65da826fa75c9bc8401d1713c5fa5448"
+  },
+  {
+    "source": "360",
+    "path": "test/fixtures/foundation-v0/manifest.json",
+    "destination": "test/fixtures/foundation-v0/manifest.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "5eb5201f7e0d4e8337e6739eeedf77d8d726600226d3c5b14f69c47c7d637331"
+  },
+  {
+    "source": "360",
+    "path": "test/fixtures/inventory.mjs",
+    "destination": "test/fixtures/inventory.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2d14a0982223013994206d5bcb4b5335e9268fe72d5de0700166cc02837b4801"
+  },
+  {
+    "source": "360",
+    "path": "test/improveDecisionPresentation.test.mjs",
+    "destination": "test/improveDecisionPresentation.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "a7ed10b505a1fbc80372f8be3603e82bc4ef8528c28f84bf5c4fa9a180599d71"
+  },
+  {
+    "source": "360",
+    "path": "test/interactiveEchoSession.test.mjs",
+    "destination": "test/interactiveEchoSession.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7aec11f4bf820b5a977f0e6339b11433ee51cee508019379edf2ba3735d48109"
+  },
+  {
+    "source": "360",
+    "path": "test/inventoryAccount.test.mjs",
+    "destination": "test/inventoryAccount.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "723de092c994254fed9fbf0298e0250e6373c526b2039b6244484bff35a2d474"
+  },
+  {
+    "source": "360",
+    "path": "test/inventoryAccountStore.test.mjs",
+    "destination": "test/inventoryAccountStore.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "b02deb5e42e82398966768c3f35649ade95a7a5d9c21e19219afebf741e6f3be"
+  },
+  {
+    "source": "360",
+    "path": "test/inventoryBackupMigration.test.mjs",
+    "destination": "test/inventoryBackupMigration.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "850f8d21d13f8c1b25d7dc27083f5d526f85fc0fca1354fd4fed1c4a513a6530"
+  },
+  {
+    "source": "360",
+    "path": "test/inventoryJourney.browser.mjs",
+    "destination": "test/inventoryJourney.browser.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "db8eb75b468dc81e292be4fda3bb8cdee1ea2cf46015c706dcb8cdfbb83d5172"
+  },
+  {
+    "source": "360",
+    "path": "test/inventoryPersistence.browser.mjs",
+    "destination": "test/inventoryPersistence.browser.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "0d29ea26ff2b3aa52367430bb35e0d372029a49c68e9d9710e75059989cb73cb"
+  },
+  {
+    "source": "360",
+    "path": "test/localTeamBuildCapture.test.mjs",
+    "destination": "test/localTeamBuildCapture.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "89ba059f2b57244bc09315b051365c5cbbb8748c9f879f8175fa09f68ca7756c"
+  },
+  {
+    "source": "360",
+    "path": "test/localTeamReviewBridge.test.mjs",
+    "destination": "test/localTeamReviewBridge.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2279aab9a40d4a4f5056f8206dd1aab91f4c443aeaa578fbe441784b8ce6b066"
+  },
+  {
+    "source": "360",
+    "path": "test/observedImproveCapture.test.mjs",
+    "destination": "test/observedImproveCapture.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "6e7434472851b72e2f3fde9337df84fa3ff22a3cd6e974c7e533d1b571244973"
+  },
+  {
+    "source": "360",
+    "path": "test/observedImproveSession.test.mjs",
+    "destination": "test/observedImproveSession.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "5ca532f49c9661b75f97e07ef64a60623990b2d365502bb8ca1dfd367da2bc18"
+  },
+  {
+    "source": "360",
+    "path": "test/resourceReadiness.test.mjs",
+    "destination": "test/resourceReadiness.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "5247de635d47ae9825bc5d0c27efd527cb003caa62d6cbbeba265129c271d6d1"
+  },
+  {
+    "source": "360",
+    "path": "test/serverRuntimeTransport.test.mjs",
+    "destination": "test/serverRuntimeTransport.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7934b8d4ef94653069b1b9f20a62f556a18fca5cfd223acac9d68be2c934d5fe"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/CINEMATIC_HERO_VISTA.md",
+    "destination": "docs/ui-lab/inventory-concept/CINEMATIC_HERO_VISTA.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "c525c338417c01e66a615684509443fd40a2e4c4363513ad786013c0275b56f2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/ELEMENTAL_ENVIRONMENTS.md",
+    "destination": "docs/ui-lab/inventory-concept/ELEMENTAL_ENVIRONMENTS.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "43aba46782e1334d1b12fa5d1df64264537ffadc0aaec56117e5ff0eed3ef871"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/HERO_CORRECTION_REVIEW.md",
+    "destination": "docs/ui-lab/inventory-concept/HERO_CORRECTION_REVIEW.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "574ba2770e1495db54984080667917c89bb0921e1eb8c3ca73a401b05af80fa2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/HERO_DEPTH_STUDY.md",
+    "destination": "docs/ui-lab/inventory-concept/HERO_DEPTH_STUDY.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "2ed4e35ac8accb664b82157ad620d36c6c05c8d6805dff60c1d05f87ef6ef56d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/HERO_TEAM_DESIGN.md",
+    "destination": "docs/ui-lab/inventory-concept/HERO_TEAM_DESIGN.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "173c75f917c4e689b9797a8f48ace2c83d090a46930caaf3bba4c10ac1d36826"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/LOGIN_SCREEN_RESEARCH.md",
+    "destination": "docs/ui-lab/inventory-concept/LOGIN_SCREEN_RESEARCH.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "3644924f4846d082031ccecbcd7b8fffe3948f4375ac8f7485ab08498787ab15"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/README.md",
+    "destination": "docs/ui-lab/inventory-concept/README.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "7f36cd2c72942a9881cfa8e9dab8416befce60e7c7255f3db42284060defa8c5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/SELECTED_STILL_BACKGROUNDS.md",
+    "destination": "docs/ui-lab/inventory-concept/SELECTED_STILL_BACKGROUNDS.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "b2009d0e3484927d0993646c5e91dfaffefc7c2592a2cd330df43fb8604c8d16"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/concept.css",
+    "destination": "docs/ui-lab/inventory-concept/concept.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "7e245a228ddc94454fad27dbb26a9a549570d5bf1738cfcde25b7de84d094169"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/concept.js",
+    "destination": "docs/ui-lab/inventory-concept/concept.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "3296a65c39fba44bd468d67479edd3bd33617da2c61bc879c64125202f8b83d6"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/depth-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/depth-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "53723a486bd72b73d668faf686d1a5b9c9d4f7f0e7d55915bf1e53579dd5b15b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/aero-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/aero-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "134a0944718ff00c14c483ce8e9d880e6ecf640c69e3cb414b65de9658a926c2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/aero.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/aero.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "15f4cf4a1f81441f887e03d7cd7b180719ad1a8e55c6472aeb4e83e12e9a567b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/electro-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/electro-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "2aac890dc1ed1520adf89380dbbd012edd4f30bff99e50d55c8599742957a6a8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/electro.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/electro.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "6563c0409334e237d976d21fdc31ff1fe7b858251c70d451c3dfd322ae0c52f7"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/fusion-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/fusion-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "f7c9315877c0b61d1611c45344836680ee08c823a240ced32a3b15690c9e0302"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/fusion.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/fusion.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "da41ba671fd4fecb8f9873c00151ee878d75698d0f7e894a0b81891c519d4434"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/glacio-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/glacio-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "65a357811de58c53f3427e2dc2fc89fc6ab5776ef5e92a0c407ee5674d1ecd54"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/glacio.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/glacio.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "fa779fc9bd9b6bb6de81717f0dea3292d8fd238558d7a8174c94f257e682a72a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/havoc-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/havoc-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "a82ff33a0d5e3081fa7a9462b6f7dc672f266add4d0b29aa7ce117fcae895083"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/havoc.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/havoc.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "eaa6d4955f52166e024ba4bd5f45c8691c5bbcc5ac28978b9fffd1288713f8e3"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/manifest.json",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/manifest.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "2b4b10d94ebad9decc8065656b86559b72bb71a792b0fed3b1ef3a9c397aec95"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/aero-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/aero-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "bfbb53118b23e3aedd5d7e1313bfaab118fa93b30b6cf032afb520b6f744a8bd"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/aero.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/aero.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "2c210c042b9686eb024d3d35bd24ae6539828ab922f65fb97a8b562bd5f8f5cf"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/electro-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/electro-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "231b729a0f55551c70c6818caeb98d269b912ea2a799e8d32dddc5967f70b93e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/electro.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/electro.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "edfb8e283321249e0680ea9e681ef4264e666195798cd78cc67dd51ccb3d49a0"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "fa994567a88d2264e10c7acac9e456964f6afe16ad8cc46138b7cab69705ce85"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/fusion.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "53df6aab90fbde48cdda1136a3e9db5451133cde9094c93f14c197d64be0ae8e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "cf5a2590376a92981aafc5de3e6deb223f8fc45873e680dd72aa6e1abec5406c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/glacio.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "d9ffbf73350e62b1ed3204bedca589cd9ddd3d7638910284fd9e6755f1610f6d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "f24f514dfc0ca60ffaf52943da5c5c6b6d210d195e0b468336d16ed4e025f5b9"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/havoc.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "5fc897adc0898a1aa277e1e70884dd520615c5e150a4e2ceb615ba3746694564"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "d146be0bd36f95bdef4cca781fd9e4edbd85b9c96304c27fbb7bbfa290852c26"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro.png",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/masters/spectro.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "f328b3fda79df2345537472d9da65665bbb6ce4c87efc7a826a8e90f3c01fc6f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/spectro-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/spectro-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "a6806ff66c1f6d0c3f06b94f34f4147a324187dcd428c19804503f9fb0b11cc5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-art/spectro.webp",
+    "destination": "docs/ui-lab/inventory-concept/elemental-art/spectro.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "3e837bdc3517db8d96e3163297af6b5f6bc120a5220614c02b09736af6ee8b02"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-designs.mjs",
+    "destination": "docs/ui-lab/inventory-concept/elemental-designs.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "3e6ca30567ef6e963f60bfdc1e4bceb7dafe736c0470e0aa75919402355ea8c9"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "ffcb6a11ce17159c72924925ba0a158469e9107f2c1ce09d6be709a81ac9bf60"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/aero-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/aero-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "6bc342cfa5a6187e7c65901fc768e6e5f92beb8df8245b0270f0fa427996b082"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/aero-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/aero-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "4f2ba912ddd08b4ae17327683a791a2dddccbcf2dafd62aab31f7b47f4e77436"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/compact-echo-source-association-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/compact-echo-source-association-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "6360c8371af769dd56aa74b00b8751139ab633a85856b5205feccb46f011f979"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "165f9010e8a54939b4de5bb4bda3f798f8964d9a843cdca01b75f8983d1315c6"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-before-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-before-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "81b36acffa7eb305b2d66a072b0912bbd69c9965ad547b5d453a33139b59deb5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-before-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-before-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "221dba17f2d23d72ce6a85b43cccb13753a83b49784c4d881027f01cefb61b77"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "50abe71590610379e4f0506e6892b2a353da5d51eb5ccc865b47971707e53eec"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-1920.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-1920.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "17eaef0d01429e3fca124847e509889ba15c36676efb4a4effa6d8d087129230"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-2560.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-2560.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "17081ee084bdbc7b2ab6302d89cb61cd800be33370b42261800adfedee50e325"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-depth-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-cards-depth-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "daabb5674afeba54d98a64320148b211e58a2c0bef31d3b2ff1f68737e9b8fda"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-character-depth-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-character-depth-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "39bde1fc7b18b5f5303c1e6f024a86e8dd2d3cad1518a142a585c8df3c0e6749"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/electro-character-still-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/electro-character-still-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "5a76c908eb58b53baf739f923fcd72207e5d901eaff55a757f1b06e81e9e85fa"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/fusion-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/fusion-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "9eb5610dbe80bb4216b690eafebd7f4f812b4f6c3fe9d34c7c410462f4a80309"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/fusion-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/fusion-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "f7e7c064309e22708108f8769a2a3aa8b0d5fcce34efc93c2ee37b7455e65761"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/glacio-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/glacio-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "edd17113482af6e6609c492d0f5a9b361a77eb4e74660e968493a6c85baadc15"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/glacio-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/glacio-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "2191ae4fe26ab96d1b97b083e81c6a585cf1d6cdc9e603c9847efb86b0dbe68e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/graphics-context-fallback-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/graphics-context-fallback-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "7067d761ab8362af8ecc3a668d8f42a06045e1b7d872b3f58b7bcbb2472df164"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/havoc-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/havoc-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "7a32751eb2b400c2a51a9c500874261e8b05610f927035c663c89d6eed1c78ee"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/havoc-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/havoc-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "81788c777dd3245f41611b6d792d30b7a3e3c489344c3697ac74d1f37aa3a287"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "3150bd838ce2206fe8483eac64be4908dde956e1d4055960e8c00fd84e330a78"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/reduced-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/reduced-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "4577f8d97d38949f4dfcf9e4759a679b999225972b86d63bdee9136da1a4ea7d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "423ae983249cefde4fb9174d59c4dcd27336930a025b7e7ad6e267102590eae8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/spectro-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/spectro-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "14fbd21d9d46be822b4d6f52574e1b982dfbb1fd3e4f27dccd564c03855bf4b0"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-review/spectro-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/elemental-review/spectro-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "3c4199b3ec216e4c76ede0f9d6f8ccd9e1f21021cbb21afa37c23851613340df"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-scene.mjs",
+    "destination": "docs/ui-lab/inventory-concept/elemental-scene.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "f0612c658d00c999c15846eabbfbbb84b909796f738df5e687b98a52cdae0298"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-sources.mjs",
+    "destination": "docs/ui-lab/inventory-concept/elemental-sources.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "370d3d45cce640ec8eb0fed8ef036f254d4ce740b78c4ac96d752c159fd01cc5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/elemental-sources.test.mjs",
+    "destination": "docs/ui-lab/inventory-concept/elemental-sources.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "edcb5e7e1c7ec3d1712e7eb300801d8de51005e200b4ae606ee3bae5c41c67d7"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/foreground.png",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/foreground.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "c5766c31d1b4c820192f0e4ab356cac974432817fe5c7d02523a3e37c1299604"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/manifest.json",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/manifest.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "c20323db7b1eb9f360334a9d12a99ee1126e9a213acaa9814ae0ca2db0d4db0a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/render-environment.py",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/render-environment.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "60e814b8fa19ff006acd016b74c319fb709aa166f39dcb5d5d1854eb0ccad566"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/render-info.json",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/render-info.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "0aa7ee233b92a3654f4806e7f8f98b62ed9dc1a0ef109b9138b2b92b2e9b518c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/room.png",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/room.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "bbafbb7c6686e219a51398016ca874e47b81aa55788cdf5a84570be684688f85"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/environment-study/study-figure.png",
+    "destination": "docs/ui-lab/inventory-concept/environment-study/study-figure.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "ba9e7891a45cf5030695a56dc78254ba1778e1bdbfea85729d08d9b93b2f8c1b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/export-elemental-art.mjs",
+    "destination": "docs/ui-lab/inventory-concept/export-elemental-art.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "d009d562bd6de9d65bd39a2ef6cc237acf3931aed4ffd45c4a59a7be348283fa"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/export-vista-art.mjs",
+    "destination": "docs/ui-lab/inventory-concept/export-vista-art.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "30adef295582bb149b9103ae0ea2e0458c71763f1b37b4f15d95ca0d9c068d5d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "bb2af946a16858efa972d0e46ef8927a591e6da48f0726e6c63fcecbc590cffa"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-build-forte.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-build-forte.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "ec500deae5346b5888c7538d9fb51693c73282828eb9302696304968ec0ecf99"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-build-selected.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-build-selected.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "72235f192c70c47c4a9966c313934af8ca527db17ea5391d02205b5459febd12"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-improve.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-improve.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "0ede588b905e598dc413a0634e64f281e00cbffffeabcb13ef507daf7bf33b6e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-sandbox.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/accepted-sandbox.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "7da1557be92495d8e6cfb9c101934d6e503205a3a580272d6e525ac2364dddb8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/correction-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/correction-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "92a1c6135e56605c9fe11b63605341211bff502db3fbcb23535cd04119242c47"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-parallax-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-parallax-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "d347614f247bc46618608776fe463ae7502a7e4ba5bedbd3da8abee050a814d1"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-reduced-motion-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-reduced-motion-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "097b3a243df31017dbebba55226a6cdd3b19e216d99d3a124038fd2192f4be1f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-source-skills-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-source-skills-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "2abb3921ebacf6790645195d787a3e7a3f96303128d40efbe6c3f03c108272ad"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "655d5f7aad0738dd5b0ea0b3c13781dcd625e8160d7c6c0d26ed0fcbb9cd467f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-1920.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-1920.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "879b6d1f00ee1eda247662b4dd3985abe0589b71a1d698d568eb4cdac4748e00"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-2560.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/delivery-still-2560.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "f11b1efa11cd5da4d8f4e9c95441b190ad4b349c3658479176841ac11d2dbefe"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/hero-team-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/hero-team-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "f17d9e034072609bf48e3442ae48c12a2dbe0e723153ddbd32273a530e1e206b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "5a205281fecb740725313503e8eebae016e598c202c353f52c052f101408eb9d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/portable-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/portable-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a220418cd0dedfda71eee50f6bb9243647870e797483728014f1771637498521"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/previous-delivery.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/previous-delivery.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "bae5d0ec916102da8a09b9635d4e1e9a91e4c4ea87cb7fc1cee724cafbc61b17"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-correction-review/reference.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-correction-review/reference.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "9a3d877bb6f513ac2fab977e387303b8f52714dcf0101ec0badb09bc7bca80b4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/correction-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/correction-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "385196913782f3be4f472976eb86ea71a82087efb4f1c740f4b8bedab513ba90"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/depth-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/depth-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "bdf097945f51cafb7b983168b3060ad71f3f536b6c9b3d4b47ab915cfbc8aea1"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/hero-team-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/hero-team-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "19a94fe38d52059e93f4a6a941dc0880b27fd1ef74c5ddf6d3c123bfa47476b4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "bf5e785643715b83990988d500f6c2ef695b2c5e586696bf0ddd81fe931afe46"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/portable-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/portable-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "031062b9fa3e851f82bde6e8cff8808b4564aa3441c91d4d1c4db7034df06685"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-augusta-source-limit-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-augusta-source-limit-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "5681a1723b831a5cc7ac897ce4aaa67c631cde790003351879e42ffba939443f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-1920.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-1920.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "c1b3ba0dd359bf1ca695a71f21a7011a2ec2cf56eafdcdd1fe5108fb55fc033a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-2560.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-2560.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "e13d44365e2cb500777241d5e04184020443b1040673d0d8afed7c82aba3edf7"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-parallax-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-parallax-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "5b9609f6ea1d1c3300be765e60b30c561b2743f6a87dd9325d3918cc16efb2f8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-still-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-cards-still-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "3d57400d8a6d24c265d30ffdbfdecf86495ef41f1d7e6fd0414911ee6c65a102"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-reduced-motion-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-reduced-motion-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "eab25d5cb93132073c7050a1e7c6cba4964b50398e521a2d883847c92f9e9e0f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-scene-parallax-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-scene-parallax-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "a4ee5b5a47db0d684066ddbae0ec80c304e24479355b6c7d78fb63a012725b97"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-scene-still-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-depth-review/rendered-scene-still-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "286af79651d37b1521f24161fdc61e17bd617e36e4487493e57f8855403dc0e7"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-presentation.mjs",
+    "destination": "docs/ui-lab/inventory-concept/hero-presentation.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2729579d65d1e46b8ab46787f5a38ae4b7fca3e35bfebfcaa5c2315d5b4feb1c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "efbc515a78bbfe4c45ac1879a4c483cb36e485025fea5fd46ee576426abf98a4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/endgame-example-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/endgame-example-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "02be9ef7fc98376ba3a3a6bd6c65d4f01c03003c8e039b5cb9196eea27958b30"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/hero-cinematic-still-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/hero-cinematic-still-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "bae5d0ec916102da8a09b9635d4e1e9a91e4c4ea87cb7fc1cee724cafbc61b17"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/hero-reduced-motion-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/hero-reduced-motion-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "abf9fde304ae0e8d2546f133f094df0e75b82b81b762184dec38fae24bd55324"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/hero-subtle-parallax-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/hero-subtle-parallax-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "cb7bab65085068a0da7fb6190babca981c9e706a962d91ae0aea02d6e9c7760f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "430e5162ecfe11979f1b432c80aaad07e1ef11fd661fa639478837e1f7dfc402"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/my-teams-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/my-teams-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "c3a374fe088228a9bf1afa00fce63c1ea0ae60509e9ca6890ff5f5c4b8fa7717"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/portable-review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/portable-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "8615d5a3132f892915d709f746847b9016f6bb6831b52507527491151eb73ba8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "8be94f647f6bf87369a43799f5d6f348f6e8401c56383a6f62352dc0a7e93db8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/team-equipment-inline-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/team-equipment-inline-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "80e071597a84a0f04c51a5e3a8bcde38f345fc44e5e3e826748c0e6670750f04"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team-review/tower-source-pending-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/hero-team-review/tower-source-pending-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "e5cfa59d27705ab9e046a1fb90e21db0546a1a83514cd302f5dd985a89e1cbe3"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team.css",
+    "destination": "docs/ui-lab/inventory-concept/hero-team.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "684c88337e1ae04b3a0c3fca247729a28af927f8f732d05e1f679ff8540d63ba"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-team.js",
+    "destination": "docs/ui-lab/inventory-concept/hero-team.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "7de92f57f5c3ab5d41e0822929080ae94542da67fbde9fc3658ff8260a10ef5b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/hero-vistas.mjs",
+    "destination": "docs/ui-lab/inventory-concept/hero-vistas.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2bd094c24e6b7f6e4860eb39f69f49b814062174802eed86552dcad7b91c55eb"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/index.html",
+    "destination": "docs/ui-lab/inventory-concept/index.html",
+    "status": "present-byte-identical",
+    "destinationSha256": "656fcd3774b8007ab44f03d3dbcca40e55080db9151d0a493fee7382505d1fd5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/login-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "e3f3ecd51c90200b44a0ba918f3bc016ce06d258c8845a5007aac4da8dea039a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "4fdcd1cf5fbe69d11a35d0bb0d20e0c22bf8439a3a976a6b161c2aecf3dae34f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "0d0248358db03a3846be9c0475aa32232a07e1cafa460e9af2b78a3a808bf318"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/cards-1920.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/cards-1920.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "547f5b8ae23b4f05fd411fd288884ed69603d80ddf7a2e470e495559d368545f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/cards-2560.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/cards-2560.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "22639a6a8aed8d265ad9958514e534ad8cbaa7ff326dc78b0ed012ad7d4e1a07"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/composition.svg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/composition.svg",
+    "status": "present-byte-identical",
+    "destinationSha256": "e02769a56fc91f8fee61474ff54187f8030f114f218a654738e6cc2386e191d4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/depth-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/depth-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "db81c3e430fdfdb3402a7221ecedcc73e305ebb751c49511ae607df2a717f45f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/hero-area-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/hero-area-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "1113f730c40f7573df41cfaabeaaf814734684be8e65d29e2e6c4ed595bfae7d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/login-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "4a4046eadf1c8e6bb4876ff87dc8ec22eacf434844c7b60226a8006a134a0247"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/login-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/legacy-review.json",
+    "destination": "docs/ui-lab/inventory-concept/login-review/legacy-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "423ae983249cefde4fb9174d59c4dcd27336930a025b7e7ad6e267102590eae8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/login-review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "9219161449deebbb22a1b964edfb82ecee611a02c8c679a6ebd6a76369bfc30c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/login-review/static-fallback-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/login-review/static-fallback-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "074eab0af59a3697125f791c6b71708f7d2ede0c917312d5a818587859aa4149"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/package-preview.mjs",
+    "destination": "docs/ui-lab/inventory-concept/package-preview.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "906afb4a27101226b34ed27b3e3075501d085335161affde39228c264c15b5c5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/portable-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/portable-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "9787e826c41781eec5fdf00c60bde486d1d05ab06dbda60ea6c11306b8aab310"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/preview.html",
+    "destination": "docs/ui-lab/inventory-concept/preview.html",
+    "status": "present-byte-identical",
+    "destinationSha256": "a14a9af71df2a09a42adf48461ade5e31edf0bc240e545c92fbf11ad4c441c80"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7083b1395845b058795864c1aaee9666f458ab962ac1f536eae258a870c9b841"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/empty-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/review/empty-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "a238edd15cc3c4058aebeb79c599c0cc3d5d3b891887e5713b5553ffd79ed4ab"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/equip-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/review/equip-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "2077f77e4cbce8fca1ec79dc0a73263f74785a7454410b3b09539a19e29a28b9"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "77b93225eb3cc701e5910a15ec7bb4e5f5d4da258cb7e157ab535fcb739bca25"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/inventory-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/review/inventory-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "fa96f6a31940501d13fdb67af1321b9ce069d97185ef10b912070a7567611684"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/portable-review.json",
+    "destination": "docs/ui-lab/inventory-concept/review/portable-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "355756d8a28191b404feea25c8e926e8970d3161ddc1c1eed9de406f0550ce8e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "6abcab8b47020c87c8086cac1afbb4ece0f491c369043ea66a913bd72d037049"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/review/weapons-1440.png",
+    "destination": "docs/ui-lab/inventory-concept/review/weapons-1440.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "7c2e051eb5fc5af54f66e73c692f8a7cdb54c75a4b183cb6f6b1eeb194cc05d9"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "699b26e83c01a72bcacb471022d51cf52d5e37d48b01c98e5a4269f93b948510"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/aero-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/aero-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "cab939da7ff43df47b8a6e5b138c823045292ba3f50a8da437da1d0f197c0817"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/earlier-elements-review.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/earlier-elements-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "423ae983249cefde4fb9174d59c4dcd27336930a025b7e7ad6e267102590eae8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/electro-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/electro-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "d135f61c2fde06a1934e1c868e712005e69b44df3acc637e65d26e6ebd2005a2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "ee8772cbdf8b8662b6308e20f4c9be1d2169d9c30e3d34dacdd5c5abee2705f0"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-1920.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-1920.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "029685357f26f01566b1ad856e04125da8cb4840bad7493df50f9b12572201d6"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-2560.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/electro-cards-2560.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "942bd3f689bf95e1223d85941c53d5394c8353fa7da4cc25d4b717c10fc867c8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/fusion-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/fusion-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "95a866a400ce94843c72c5049d5d012d629447aa2a0484a19b45215b2f62965e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/glacio-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/glacio-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "a47de60f2fc30b2428224674fabfbafdbb53e69cc460a4ed0294e3f77fd8eb1d"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/havoc-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/havoc-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "efd5656b84a45ae1a901009b8eb3d404542466398de1166a1dd9d07bb1dc9480"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "d7f076673bf81987d9fdb351ca3a166a590c47aebeb810d4faca83f38fd034f8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/login-review.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/login-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "9219161449deebbb22a1b964edfb82ecee611a02c8c679a6ebd6a76369bfc30c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "29cfa608b35648941312f82d38e52f62facb0e9bbfcae58f1a432c978ef94ac5"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills-review/spectro-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills-review/spectro-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "4c8228e9a76da552c955e6e7239a98ce1461d24ce92dcb67a86e22db3d33c4b4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills.mjs",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "d465cb4ec6876036a0fd8849952e28c091b8d208fa5549795295f1b3638962a3"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-aero-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-aero-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "9cfcf9672d08b5d0cfdaeb573ff0fa212fea71a641b1fd7491661ed422ebf424"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-electro-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-electro-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "47d9bad89975de6a9ae8aef4f0603757781394091ca397b84c483541d0495143"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-fusion-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-fusion-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "0f3196ceb7e872a89df0dc78279dec8dc81c4aba4faf7081e56b260ec6caa210"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-glacio-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-glacio-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "6d004ed275d21f0d08783e46eeea4f1d4c4f4acd123db7ed6a90f69dbba49ac2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-havoc-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-havoc-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "7ee084b89dd1804ccc9071e526e31628b12601596596ea7f2e276c78a0961f85"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-spectro-v01.webp",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/bellibing-bg-spectro-v01.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "7c1f032ae200378963116b297200c059b83f047b8ea6b79bf40e3ace227776ca"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/manifest.json",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/manifest.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "0a6dca391ee3ab6480d69ad3c4b9bf65566089edebd1d14a35f1f1bf236a276f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-aero-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-aero-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "5c91bf75fec3c2d25f1b27a50b9d593f07991eff97bcdbddc0235e6463ac2f57"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-electro-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-electro-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "420cc2c38c453b470fb4cf852b65467982dd4bfd6217e18b67b308f11c44e0e0"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-fusion-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-fusion-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "075088246a7a68e8fac621adc3f65c22c3859e3f99cdd55be2a3b2ec1f89919f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-glacio-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-glacio-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "00540e871d04a3695b0e09aa2027ef3cbe74971976f7274b2da33a78efdba035"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-havoc-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-havoc-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "280a411cb0de7103e841f964608148be89dd99f2fc687e8937add40214c4eefd"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-spectro-v01.png",
+    "destination": "docs/ui-lab/inventory-concept/selected-stills/source/bellibing-bg-spectro-v01.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "5cb99465d4761bc9a22fa4beba786e1a33b11c6ec813fe04efc517fb852d1e1c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/serve.mjs",
+    "destination": "docs/ui-lab/inventory-concept/serve.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "ba4a662e7ec41a37ac1500045a38ef5c313031f4c53c2c5bd7a463a2e5edfbeb"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-coast-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-coast-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "d8e2b9fc2318b254680968244708025f2f31ae2b9838d488accba428bdd8730b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-coast.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-coast.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "14d4532f79d5add635f8e2763cce53a7b7764ea8f5121ee3c8b5373ccb4c1d39"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-login-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-login-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "1c03cbd5eb137db2eb448965673efee36ad60b53c91ea590e96632de79fdd3fc"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-login.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-login.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "e8b2d54ce8bd978fcb17af4d20375e56c8e5196eb082e845236b4f9f8a6c8a1a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-terrace-depth.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-terrace-depth.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "f90568135bfb3082767a7ec601d7d1bb597e2a1c212f858b0b0209c0a863bf10"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/electro-terrace.webp",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/electro-terrace.webp",
+    "status": "present-byte-identical",
+    "destinationSha256": "ca0fe7ada9bbdb3088126e38b13df386bc38f1de7970f163f8d9fb372410f37c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/manifest.json",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/manifest.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "adc6b1da4c806fe21a1035cac74a5ad607b460905f338fdd8e28542fb6269a61"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "7f7b9d40984e665770de7e26ef0db4a9be27455f0edfa86b6b95a7d05358629e"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-coast.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "309312a04f1a68d1307f27ae4a1311ac5a79a620cbe41fb51412f19fc8523245"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "a5ad0a18b65e6271a898e3fe41f3562e6d202644e9ac910d59bb8fdf7c61ea98"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-login.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "7aeea1d997e767eaa366be0874a5c7bc2f8543b95c120f5bbcecdf8304c2768b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace-depth.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace-depth.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "d0229faf7d04324d03821ff2c0f3989d69cdb0e9c0cf39d72a05dcad8d09b319"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace.png",
+    "destination": "docs/ui-lab/inventory-concept/vista-art/masters/electro-terrace.png",
+    "status": "present-byte-identical",
+    "destinationSha256": "a27633253301c55c307ebdb574b9b0055afd689999c53fb882a3db97d9c828b2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review.mjs",
+    "destination": "docs/ui-lab/inventory-concept/vista-review.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "18664ad63b86a22c50e9239c9d3de17ceba25c46ea12552b117bc2b78a658898"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-anchor-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-anchor-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "72ef2c897c2dae234ad6ba890bfb75312fa4cd18ff8e3fdc8da8ce35c89b965b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "155e1fb13add6313769bedbedc3ae7d6b0b2585920c2edd2a99340929d5bf8dc"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "be5edf061afafa0c933247d8d9f336dc420252cf96bf0eaa56b426a3f7986e24"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-cards-1920.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-cards-1920.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "10db8a275d41e59d258a7b77829e03e9efec77a71ec9329af3cb68f5cc9df2b4"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-cards-2560.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-cards-2560.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "2e82fd37e3524566988fa05a8a0fbed916fff5fc519a2e62845670f2fea4665c"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/coast-cards-depth-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/coast-cards-depth-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "9b052ad11687f32a40dd4eca1030434c32b113b50138fa9599edf09cedd944a8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/compact-shared-vista-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/compact-shared-vista-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "ef882b8870c1703d4a3f09ea8ce208ff63a05b2e4f55d54d4092875f1e49a736"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/context-loss-fallback-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/context-loss-fallback-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "8dacf4d0a73de208aa0d6d2f0ab844541de7d9c338da77c4ee0c7f75a069732a"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/identity.json",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/identity.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "6a462eaf1fae8b64a5c8bdc9b63fff6498efc6f3876f6ff4916e6c8128309dad"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/inventory-review.json",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/inventory-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "a863c2cdb549919fb33510a0aa591d6b6554d88bd95337aabafdf42ba6676d23"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/legacy-review.json",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/legacy-review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "423ae983249cefde4fb9174d59c4dcd27336930a025b7e7ad6e267102590eae8"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/reduced-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/reduced-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "fe92f16dd030bdaa27e6d41ce881a28bb6ca2a98188e2681535cdd9cc5c0ad86"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/review.json",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/review.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "3ce72acff9eeec3c01853da46f8781a2d62e5bca33380eaa74e023d5b8eda501"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-anchor-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-anchor-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "2daaf6068e48ad91f5bd11888a5b0e19a13dc2820a7037d38991166ca82f873b"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-background-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-background-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "9f7d77d3e445ec477e5abf6603ea53b335e3c2370de303e73329281a2c5ecbd2"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "e7a1890ba7302d2b5239aa2558b08b9399f3acbf73719be49c3980d5311d5ecf"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-1920.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-1920.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "c1a441f9cc14b4624d84f5b8776397ace30f94d0018c0b1b4076c5bd3515da0f"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-2560.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-2560.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "e8db2aa484a1ea233aab7d15dd4a485da9e3973309d216a04c5ab17701785fbc"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-depth-motion-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-cards-depth-motion-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "80727cc7feef47b5b25c75e9e1809ee3e197f033808b5297296b843314627dff"
+  },
+  {
+    "source": "361",
+    "path": "docs/ui-lab/inventory-concept/vista-review/terrace-water-light-1440.jpg",
+    "destination": "docs/ui-lab/inventory-concept/vista-review/terrace-water-light-1440.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "13f2b32f6391640a68715b384d1c2873323b93981989462a3aa8ac72136ad28f"
+  },
+  {
+    "source": "362",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/.gitignore",
+    "destination": "docs/ui-lab/scanner-poc/.gitignore",
+    "status": "present-byte-identical",
+    "destinationSha256": "09ab4919f60faa840479d712c869de543f8d47e9ce57ed38e72a469d75d3c5ab"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/ACCURACY.json",
+    "destination": "docs/ui-lab/scanner-poc/ACCURACY.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "06a0b5ae3a9d0fc2003613262846ef7fc5a35f2d6cc6341fe9ff5619cdd38983"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/LICENSE",
+    "destination": "docs/ui-lab/scanner-poc/LICENSE",
+    "status": "present-byte-identical",
+    "destinationSha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/README.md",
+    "destination": "docs/ui-lab/scanner-poc/README.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "68590b3085cd1ad32afad88e7922fcadb00872c57a8413273b2a33fe2afcbc4e"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/UPSTREAM.md",
+    "destination": "docs/ui-lab/scanner-poc/UPSTREAM.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "3b3b4eebefd5f7d8b518ce90fd59833fe7a24cde93cdf79ee55c7e9310e3c124"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/app.js",
+    "destination": "docs/ui-lab/scanner-poc/app.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "426ace944e7052f8e30f03c1de9fdc85664b5aa36cf333c31ee41317d0d07147"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/benchmark.py",
+    "destination": "docs/ui-lab/scanner-poc/benchmark.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "d0e3713bc5045ea368e665ed372ceef3bbdca379db9052fd50930afde861a062"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/canonical.mjs",
+    "destination": "docs/ui-lab/scanner-poc/canonical.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "cf456b6e712ebb4807c302beb7f6cf05a4f7523cfd05a4e173b29c1735edaba0"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/index.html",
+    "destination": "docs/ui-lab/scanner-poc/index.html",
+    "status": "present-byte-identical",
+    "destinationSha256": "d5e5e7247ac5ab937e19c933e0f3d1f06798d3f0070a2eea0f1dde1eedfd1dd0"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/requirements.txt",
+    "destination": "docs/ui-lab/scanner-poc/requirements.txt",
+    "status": "present-byte-identical",
+    "destinationSha256": "6453a0caed3e932783291a2de9e4500b4f4b4378e14e69e132a754423ecc8b5c"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/review_browser.py",
+    "destination": "docs/ui-lab/scanner-poc/review_browser.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "b7299a5b2d43eb133d01508af9b2c280e9458e0540e7667fac90887886387469"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/scanner.py",
+    "destination": "docs/ui-lab/scanner-poc/scanner.py",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "3350df16c0dd4ddd6fd3935e772f2400081745d84da9d2e4a492380cbff3dee0"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/serve.py",
+    "destination": "docs/ui-lab/scanner-poc/serve.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "d336c3b44ef318f79b221fa3bc6ad664816b8ecce56edbd43e53a9e4da959b21"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/setup.sh",
+    "destination": "docs/ui-lab/scanner-poc/setup.sh",
+    "status": "present-byte-identical",
+    "destinationSha256": "1058ed7581034444404baa99278539d8c6b7109c247bde87f84c11edbbbada58"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/style.css",
+    "destination": "docs/ui-lab/scanner-poc/style.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "81cea19e53f5fa65c2270616c1f114b6e9c2d8c26900ff1c68d013c204c27429"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/test_scanner.py",
+    "destination": "docs/ui-lab/scanner-poc/test_scanner.py",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "4a532c91c971d8a3baafd690efd86098ab6508aff77669cc41cc90ee6cf97697"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost1.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost1.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "df2cc7a058fe33ed3904f596336589879637faab32615b87b4524fda54813f7f"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost3.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost3.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "06cda74e8975bff97c3cabd9c35743cf671746b5bf2ab528912ddeffe252bc21"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/Costs/cost4.jpg",
+    "destination": "docs/ui-lab/scanner-poc/vendor/Costs/cost4.jpg",
+    "status": "present-byte-identical",
+    "destinationSha256": "1fb3061ab3bec0654645584ff77e2a0a5b94b582bac14ca1cb21bd00e2621025"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_mask.npy",
+    "destination": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_mask.npy",
+    "status": "present-byte-identical",
+    "destinationSha256": "7dfb349ef4b8f9039f1c5648d815f004fd0e38b6e476ef367ca380358755e065"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_median.npy",
+    "destination": "docs/ui-lab/scanner-poc/vendor/assets/chrome_ref_median.npy",
+    "status": "present-byte-identical",
+    "destinationSha256": "16af85976971b1ddbd6ee7c1ed97bd63075db34e0394873c58841efcffbe278b"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/card.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/card.py",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "31a5082694a3e094bc70fdc4f685f903ba6bd14e6975a05b3081c9a7d1db026b"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/data.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/data.py",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "76e5c8fc76000c0069e5e56481fc181d2de97e496b93b001d47afafbb0467e34"
+  },
+  {
+    "source": "362",
+    "path": "docs/ui-lab/scanner-poc/vendor/image_integrity.py",
+    "destination": "docs/ui-lab/scanner-poc/vendor/image_integrity.py",
+    "status": "present-byte-identical",
+    "destinationSha256": "fd623c1358b110deaf844ad207baa558ebec88dc1aaf9b4e43b81ab843544632"
+  },
+  {
+    "source": "363",
+    "path": ".github/workflows/verify.yml",
+    "destination": ".github/workflows/verify.yml",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "1705ba2064b21e8f95630fa48b2751e7a8e05cfc39c87105cc54ec5ab5e66bd5"
+  },
+  {
+    "source": "363",
+    "path": "data/source/echo-recovery-owner-confirmation.json",
+    "destination": "data/source/echo-recovery-owner-confirmation.json",
+    "status": "present-byte-identical",
+    "destinationSha256": "63919e096dfaec6cb47805f6a0ba80ed78ec53d3088acaa50779d00fb829af2d"
+  },
+  {
+    "source": "363",
+    "path": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "destination": "docs/ECHO_EXACT_TUBE_SPENDING.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "b9dcfcb39884cfaefe5aa21f038b7cd68a2f8f5f6afd71b40231e2a46ce2c685"
+  },
+  {
+    "source": "363",
+    "path": "docs/PROJECT_STATUS.md",
+    "destination": "docs/PROJECT_STATUS.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "2416ed219c3dd631765a83ac95f71aef00b6d6cdfecfc69066df763b0b8d26ca"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "destination": "docs/ui-lab/INTERACTIVE_ECHO_ADVICE.md",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "60e0ce691794768b27be178377e2f0a5f1f57b3b4e1e1935e6ad72c2d8333ca3"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "destination": "docs/ui-lab/SANDBOX_RESOURCE_COST.md",
+    "status": "present-byte-identical",
+    "destinationSha256": "5c764129c1c1ecef3b4582c19ff6d6cb356ce58515ebbc4e20f05e35ef56b6de"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/tools/verify-ux-review-browser.mjs",
+    "destination": "docs/ui-lab/tools/verify-ux-review-browser.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "162aea6ee34bdc15bb54423ac3ed77a29009585049a0e64d2bb3076ac14824d4"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/app.js",
+    "destination": "docs/ui-lab/v1.1/modules/app.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "b6a7510fbcf200f2cb260adc60b0a834b83103b980e8ccaf57369470a1772380"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "destination": "docs/ui-lab/v1.1/modules/echo-advisor.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "51ab1126f6f4fd30b40443b1b36a4fdaf7b2552de20fdf024dacdfc67c560be7"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "destination": "docs/ui-lab/v1.1/modules/improve-candidate.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "1f59790537bbced8d88d5c5e99d23ce8c0804277669a643c55a4c38490cf46d9"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/improve-decision-view.js",
+    "destination": "docs/ui-lab/v1.1/modules/improve-decision-view.js",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "d2182ecb22890b7348e19fd1a8be6bde740747d66c54568c35fddbda54ac04c3"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "destination": "docs/ui-lab/v1.1/modules/local-team-review.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "f1ee026250bab73130603eeb76a2bc5e7cde59cc982e1f0e9e0ed2bf0e3aa164"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "destination": "docs/ui-lab/v1.1/modules/resource-cost.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "7e2affc0599d4e87d8d6554e73c3308a7ca418a2684adcecda3704e0de796968"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "destination": "docs/ui-lab/v1.1/modules/sandbox-presentation.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "6025697e9dbb34bb64f5d32cf657bfd03c75d75f030d3471ce74347f4b698221"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/modules/server-transport.js",
+    "destination": "docs/ui-lab/v1.1/modules/server-transport.js",
+    "status": "present-byte-identical",
+    "destinationSha256": "2309b5d2ad47bf42dbfb74397a6f1eaebb4c15523d82a40652642f649219d407"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/resource-cost.css",
+    "destination": "docs/ui-lab/v1.1/resource-cost.css",
+    "status": "present-byte-identical",
+    "destinationSha256": "bb750f34be2eea28486bef0772ecb798081a7e0ba81f5f5ead801fc58abdd661"
+  },
+  {
+    "source": "363",
+    "path": "docs/ui-lab/v1.1/sandbox.css",
+    "destination": "docs/ui-lab/v1.1/sandbox.css",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "0cfe522a4285ac6d4be0a5e6d3a8a54b952d9f087ba98249c8f2cd95a1d65322"
+  },
+  {
+    "source": "363",
+    "path": "scripts/local-team-dps.mjs",
+    "destination": "scripts/local-team-dps.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "dfd6c7827c696d4413bc8827009a48fc716ba3eafa052df304f8787dbf3f8100"
+  },
+  {
+    "source": "363",
+    "path": "scripts/start-bellibing-local.mjs",
+    "destination": "scripts/start-bellibing-local.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "6f2f84eb041c9e9a105ba4f3ee9ba2e879060bd8ddcdc6a70f135a06f387247f"
+  },
+  {
+    "source": "363",
+    "path": "src/interactiveEchoSession.mjs",
+    "destination": "src/interactiveEchoSession.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "272f6e1064b790573350d4ff6f99e25f9d05d2eb07332d8daaa735586a17c129"
+  },
+  {
+    "source": "363",
+    "path": "src/localTeamBuildCapture.mjs",
+    "destination": "src/localTeamBuildCapture.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "f14467cd203a9fdebe35875ef36c78fc516e7bb939df2a75aeefa00d6f4a66d5"
+  },
+  {
+    "source": "363",
+    "path": "src/observedImproveCapture.mjs",
+    "destination": "src/observedImproveCapture.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "fe0474d150c2b6e4ef600b26472f18ae85e9cafb52ef7fc5115d9da50b4ffa97"
+  },
+  {
+    "source": "363",
+    "path": "test/checkpointCompactPresentation.test.mjs",
+    "destination": "test/checkpointCompactPresentation.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "ae9a1ce6b0791e176bd544f7120cf77ffba8afd9a77bfcf62151b774979b83a0"
+  },
+  {
+    "source": "363",
+    "path": "test/ci-fast.test.mjs",
+    "destination": "test/ci-fast.test.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "8972c03eb925808d214c7cec11364af3d9fbce6f78d718c76a9eceb78398c903"
+  },
+  {
+    "source": "363",
+    "path": "test/improveDecisionPresentation.test.mjs",
+    "destination": "test/improveDecisionPresentation.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "a7ed10b505a1fbc80372f8be3603e82bc4ef8528c28f84bf5c4fa9a180599d71"
+  },
+  {
+    "source": "363",
+    "path": "test/interactiveEchoSession.test.mjs",
+    "destination": "test/interactiveEchoSession.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7aec11f4bf820b5a977f0e6339b11433ee51cee508019379edf2ba3735d48109"
+  },
+  {
+    "source": "363",
+    "path": "test/localTeamBuildCapture.test.mjs",
+    "destination": "test/localTeamBuildCapture.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "89ba059f2b57244bc09315b051365c5cbbb8748c9f879f8175fa09f68ca7756c"
+  },
+  {
+    "source": "363",
+    "path": "test/localTeamReviewBridge.test.mjs",
+    "destination": "test/localTeamReviewBridge.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "2279aab9a40d4a4f5056f8206dd1aab91f4c443aeaa578fbe441784b8ce6b066"
+  },
+  {
+    "source": "363",
+    "path": "test/observedImproveCapture.test.mjs",
+    "destination": "test/observedImproveCapture.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "6e7434472851b72e2f3fde9337df84fa3ff22a3cd6e974c7e533d1b571244973"
+  },
+  {
+    "source": "363",
+    "path": "test/observedImproveSession.test.mjs",
+    "destination": "test/observedImproveSession.test.mjs",
+    "status": "adapted-or-newer-main; original-retained-at-source",
+    "destinationSha256": "5ca532f49c9661b75f97e07ef64a60623990b2d365502bb8ca1dfd367da2bc18"
+  },
+  {
+    "source": "363",
+    "path": "test/resourceReadiness.test.mjs",
+    "destination": "test/resourceReadiness.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "5247de635d47ae9825bc5d0c27efd527cb003caa62d6cbbeba265129c271d6d1"
+  },
+  {
+    "source": "363",
+    "path": "test/serverRuntimeTransport.test.mjs",
+    "destination": "test/serverRuntimeTransport.test.mjs",
+    "status": "present-byte-identical",
+    "destinationSha256": "7934b8d4ef94653069b1b9f20a62f556a18fca5cfd223acac9d68be2c934d5fe"
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/README.md",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/gallery-review.json",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/approved-cliff-foundation.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/coastal-source-rejected.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/early-electro-grayscale-intermediate.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/early-electro-source.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/electro-environment-variation-stopped.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/electro-material-refinement.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/electro-spires-internal-draft.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/login-electro-reference-edit.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/login-electro-smaller-cliff.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/meadow-source-rejected.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/spectro-environment-variation-stopped.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/images/spectro-subtle-edit.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/index.html",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/manifest.json",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  },
+  {
+    "source": "364",
+    "path": "docs/ui-lab/elemental-image-experiments/spectro-comparison.png",
+    "destination": "source PR #364",
+    "status": "deferred; retained-at-original-source-PR",
+    "destinationSha256": null
+  }
+]

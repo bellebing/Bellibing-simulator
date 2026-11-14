@@ -1,0 +1,49 @@
+name: Build Filter Preferences Chromium Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review, labeled]
+    paths:
+      - 'src/uiFilterPreferences.mjs'
+      - 'src/characterRecommendations.mjs'
+      - 'docs/product-ui/build-candidate/**'
+      - 'docs/product-ui/inventory-candidate/**'
+      - 'docs/product-ui/team-candidate/**'
+      - 'docs/ui-lab/v1.1/modules/app.js'
+      - 'docs/ui-lab/v1.1/modules/improve-echo-picker.js'
+      - 'test/uiFilterPreferences.test.ts'
+      - 'test/filterPresets.browser.mjs'
+      - '.github/workflows/filter-preferences-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: filter-preferences-review-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromium:
+    # Draft #365 uses Verify FAST; keep these broad checks for explicit/final review.
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.number != 365 || github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --no-audit --no-fund
+      - name: Source and account-preference regressions
+        run: node --experimental-strip-types --test test/uiFilterPreferences.test.ts test/characterRecommendations.test.ts test/productBuildDraft.test.mjs
+      - name: Strict public build
+        run: npm run build
+      - name: Augusta / Cartethyia owned-account Chrome acceptance
+        env:
+          BELLIBING_CHROMIUM_PATH: /usr/bin/google-chrome
+        run: node --experimental-strip-types --test test/filterPresets.browser.mjs
+      - name: Diff integrity
+        run: git diff --check HEAD^

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "series": "Owner-selected low-platform stills v01",
+  "role": "Art direction and static preview; no depth maps or animation",
+  "provenance": "Owner-directed image-generation edits based on the owner-supplied Wuthering Waves login screenshot. Game imagery remains attributable to Kuro Games; not an original independent landscape or a blanket asset license. Raw owner screenshots and Drive files are not bundled.",
+  "elements": [
+    {
+      "id": "fusion",
+      "name": "Fusion",
+      "source": "source/bellibing-bg-fusion-v01.png",
+      "preview": "bellibing-bg-fusion-v01.webp",
+      "width": 1670,
+      "height": 942,
+      "sourceSha256": "075088246a7a68e8fac621adc3f65c22c3859e3f99cdd55be2a3b2ec1f89919f",
+      "previewSha256": "0f3196ceb7e872a89df0dc78279dec8dc81c4aba4faf7081e56b260ec6caa210",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    },
+    {
+      "id": "glacio",
+      "name": "Glacio",
+      "source": "source/bellibing-bg-glacio-v01.png",
+      "preview": "bellibing-bg-glacio-v01.webp",
+      "width": 1671,
+      "height": 941,
+      "sourceSha256": "00540e871d04a3695b0e09aa2027ef3cbe74971976f7274b2da33a78efdba035",
+      "previewSha256": "6d004ed275d21f0d08783e46eeea4f1d4c4f4acd123db7ed6a90f69dbba49ac2",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    },
+    {
+      "id": "electro",
+      "name": "Electro",
+      "source": "source/bellibing-bg-electro-v01.png",
+      "preview": "bellibing-bg-electro-v01.webp",
+      "width": 1671,
+      "height": 941,
+      "sourceSha256": "420cc2c38c453b470fb4cf852b65467982dd4bfd6217e18b67b308f11c44e0e0",
+      "previewSha256": "47d9bad89975de6a9ae8aef4f0603757781394091ca397b84c483541d0495143",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    },
+    {
+      "id": "aero",
+      "name": "Aero",
+      "source": "source/bellibing-bg-aero-v01.png",
+      "preview": "bellibing-bg-aero-v01.webp",
+      "width": 1670,
+      "height": 941,
+      "sourceSha256": "5c91bf75fec3c2d25f1b27a50b9d593f07991eff97bcdbddc0235e6463ac2f57",
+      "previewSha256": "9cfcf9672d08b5d0cfdaeb573ff0fa212fea71a641b1fd7491661ed422ebf424",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    },
+    {
+      "id": "spectro",
+      "name": "Spectro",
+      "source": "source/bellibing-bg-spectro-v01.png",
+      "preview": "bellibing-bg-spectro-v01.webp",
+      "width": 1670,
+      "height": 942,
+      "sourceSha256": "5cb99465d4761bc9a22fa4beba786e1a33b11c6ec813fe04efc517fb852d1e1c",
+      "previewSha256": "7c1f032ae200378963116b297200c059b83f047b8ea6b79bf40e3ace227776ca",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    },
+    {
+      "id": "havoc",
+      "name": "Havoc",
+      "source": "source/bellibing-bg-havoc-v01.png",
+      "preview": "bellibing-bg-havoc-v01.webp",
+      "width": 1671,
+      "height": 941,
+      "sourceSha256": "280a411cb0de7103e841f964608148be89dd99f2fc687e8937add40214c4eefd",
+      "previewSha256": "7ee084b89dd1804ccc9071e526e31628b12601596596ea7f2e276c78a0961f85",
+      "previewEncoding": "lossless WebP; decoded RGB matches PNG"
+    }
+  ]
+}

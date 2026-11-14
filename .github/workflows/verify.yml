@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read # Read-only diff metadata for large draft PR FAST checks.
 
 # Cancel obsolete PR runs; main pushes retain independent FULL runs.
 concurrency:
@@ -21,7 +22,9 @@ jobs:
     # A skipped draft job is not FULL evidence. Required-check enforcement is
     # outside this split; main FULL remains the transition backstop.
     if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'workflow_dispatch' || github.event_name == 'push' || (github.event_name == 'pull_request' && (github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'full-verification'))))
-    runs-on: ubuntu-latest
+    # Playwright 1.58 does not install Chromium/Firefox on ubuntu-26.04;
+    # use a supported runner for the existing FULL browser matrix.
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -96,11 +99,39 @@ jobs:
       - name: Improve policy focused regression
         run: node --experimental-strip-types --test test/echoRequirements.test.ts test/echoSimulatorSession.test.ts test/improveSimpleSettings.test.ts test/improvePolicySources.test.ts test/improvePolicyState.test.ts test/improvePolicyPresentation.test.ts test/improveRollMinimum.test.ts test/improveEchoLayout.test.ts test/publicArtifactBoundary.test.ts
 
+      - name: Foundation account, migration and recovery regression
+        run: npm run test:foundation
+
+      - name: Setup Java for local Firebase emulators
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Firebase account isolation and Google-provider emulator regression
+        run: npm run test:foundation:firebase
+        env:
+          CI: '1'
+      - name: Install Foundation verification browsers
+        run: npx playwright install --with-deps chromium firefox
+      - name: Foundation previous-version restart and built-product persistence
+        run: npm run build && npm run test:foundation:browser
+
+      - name: Browser-local scanner verification dependencies
+        run: python3 -m pip install numpy==2.2.6 Pillow==11.3.0
+      - name: Prepare source-bound browser scanner proof
+        run: |
+          npm run scanner:browser:prepare
+          node scripts/cache-browser-scanner.mjs
+          npm run scanner:browser:prepare
+          python3 scripts/create-scanner-smoke.py
+      - name: Chromium and Firefox local scanner regression
+        run: npm run test:scanner:browser
+
       - name: Tests
         run: npm test
 
       - name: Detached Sandbox configuration and HTTP client regression
-        run: node --experimental-strip-types --test test/sandboxFoundation.test.mjs test/sandboxHttpClient.test.mjs test/browserSandboxRelease.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs test/fixedTeamScenario.test.mjs test/localTeamBuildCapture.test.mjs test/localTeamReviewBridge.test.mjs test/localTeamReviewClient.test.mjs test/interactiveEchoSession.test.mjs
+        run: node --experimental-strip-types --test test/sandboxFoundation.test.mjs test/sandboxHttpClient.test.mjs test/browserSandboxRelease.test.mjs test/uxReview.test.mjs test/improveCandidate.test.mjs test/fixedTeamScenario.test.mjs test/localTeamBuildCapture.test.mjs test/localTeamReviewBridge.test.mjs test/localTeamReviewClient.test.mjs test/interactiveEchoSession.test.mjs test/observedImproveSession.test.mjs
 
       - name: Strict web build
         run: npm run build
@@ -200,7 +231,7 @@ jobs:
             "http://127.0.0.1:4173/ui-preview/assets/characters/portraits/manifest.json"
 
           test "$(find dist/ui-preview/assets/characters/portraits -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 60
-          test "$(find dist/ui-preview/assets/characters/hero-art -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 53
+          test "$(find dist/ui-preview/assets/characters/hero-art -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 56
           test -s dist/ui-preview/assets/characters/hero-art/manifest.json
           test -s dist/ui-preview/assets/characters/hero-art/runtime-data.json
           curl --fail --silent --output /dev/null \
@@ -231,11 +262,11 @@ jobs:
           curl --fail --silent --output /dev/null \
             "http://127.0.0.1:4173/ui-preview/assets/weapons/frames/5-star-square.png"
 
-          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 822
+          test "$(find dist/ui-preview/assets/builder-icons -type f \( -name '*.png' -o -name '*.webp' \) | wc -l)" -eq 861
           test "$(find dist/ui-preview/assets/builder-icons/elements -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 6
           test "$(find dist/ui-preview/assets/builder-icons/sonata -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 37
-          test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 411
-          test "$(find dist/ui-preview/assets/builder-icons/chains -type f -name '*.webp' | wc -l)" -eq 348
+          test "$(find dist/ui-preview/assets/builder-icons/skills -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 432
+          test "$(find dist/ui-preview/assets/builder-icons/chains -type f -name '*.webp' | wc -l)" -eq 366
           test "$(find dist/ui-preview/assets/builder-icons/stats -maxdepth 1 -type f -name '*.webp' | wc -l)" -eq 17
           test "$(find dist/ui-preview/assets/builder-icons/echo-cost -maxdepth 1 -type f -name '*.png' | wc -l)" -eq 3
           test -s dist/ui-preview/assets/builder-icons/manifest.json
@@ -325,7 +356,8 @@ jobs:
           retention-days: 7
 
   fast:
-    if: (github.event.action != 'labeled' && github.event.action != 'unlabeled' || github.event.label.name == 'full-verification') && (github.event_name == 'pull_request' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'full-verification'))
+    # Label-only events do not change code; never spend a FAST run on them.
+    if: github.event_name == 'pull_request' && github.event.action != 'labeled' && github.event.action != 'unlabeled' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'full-verification')
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:

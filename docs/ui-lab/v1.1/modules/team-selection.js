@@ -31,7 +31,7 @@ const compatibleSharedMode=(a,b)=>a.characterIds.filter(id=>b.characterIds.inclu
 const sameTrio=(a,b)=>a&&b&&a.characterIds.length===3&&b.characterIds.length===3&&a.characterIds.every(id=>b.characterIds.includes(id));
 
 export function sourceTeamView(state){
- const source=characterContext(state.id,state.sandboxTeamContextId??null);
+ const source=characterContext(state.id,state.sandboxTeamContextId??state.accountPreferredTeamContextId??null);
  if(!source)return null;
  const draft=state.sandboxTeamPendingCore??null,choice=state.sandboxTeamPendingChoice??null;
  const roles=sourceTeamRoles(source.team);

@@ -35,12 +35,12 @@ function renderSourceText(template: string, params: readonly string[]): string {
     .replace(/<[^>]*>/g, '');
 }
 
-test('OUTRO_EFFECT verifies all 59 released source rows', () => {
+test('OUTRO_EFFECT distinguishes 59 verified mechanics from two new released Pending kits', () => {
   const audit = auditCharacterOutroEffectsCoverage();
-  assert.equal(audit.releasedCount, 59);
-  assert.equal(audit.sourceOutroSkillCount, 59);
+  assert.equal(audit.releasedCount, 61);
+  assert.equal(audit.sourceOutroSkillCount, 61);
   assert.equal(audit.verifiedCharacterIds.length, 59);
-  assert.deepEqual(audit.partialCharacterIds, []);
+  assert.deepEqual(audit.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(audit.blockedCharacterIds, []);
   assert.deepEqual(audit.blockers, []);
   assert.deepEqual(audit.issues, []);
@@ -150,23 +150,23 @@ test('VERIFIED OUTRO_EFFECT coverage is backed by linked VERIFIED Outro facts wi
 
 test('released-source completion retains exact coverage in the other source areas', () => {
   const actions = auditCharacterActionsCoverage();
-  assert.equal(actions.releasedCount, 59);
+  assert.equal(actions.releasedCount, 61);
   assert.equal(actions.verifiedCharacterIds.length, 59);
-  assert.deepEqual(actions.partialCharacterIds, []);
+  assert.deepEqual(actions.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(actions.blockedCharacterIds, []);
   assert.deepEqual(actions.blockers.map((blocker) => blocker.blockerId), []);
 
   const forte = auditCharacterForteRulesCoverage();
-  assert.equal(forte.releasedCount, 59);
+  assert.equal(forte.releasedCount, 61);
   assert.equal(forte.verifiedCharacterIds.length, 59);
-  assert.deepEqual(forte.partialCharacterIds, []);
+  assert.deepEqual(forte.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(forte.blockedCharacterIds, []);
   assert.deepEqual(forte.blockers.map((blocker) => blocker.blockerId), [
   ]);
 
   const inherent = auditCharacterInherentPassivesCoverage();
   assert.equal(inherent.verifiedCharacterIds.length, 59);
-  assert.deepEqual(inherent.partialCharacterIds, []);
+  assert.deepEqual(inherent.partialCharacterIds, ['lily', 'suoming']);
   assert.deepEqual(inherent.blockedCharacterIds, []);
 });
 
@@ -200,7 +200,7 @@ test('release resources and all six sequences complete Buling and Xiangli and ow
   const mechanics = auditCharacterMechanicsCoverage();
   assert.equal(mechanics.verifiedCharacterIds.length, 59);
   assert.deepEqual([...mechanics.partialCharacterIds].sort(), []);
-  assert.deepEqual(mechanics.unstartedCharacterIds, []);
+  assert.deepEqual(mechanics.unstartedCharacterIds, ['lily', 'suoming']);
 });
 
 test('the existing 54 fully verified Character profiles are unchanged by the isolated completion layer', () => {

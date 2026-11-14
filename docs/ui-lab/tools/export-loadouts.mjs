@@ -1,3 +1,4 @@
+import {reviewedSourceCohort} from './reviewed-source-cohort.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {CHARACTER_CATALOG} from '../../../src/data/characters.ts';
@@ -25,7 +26,7 @@ function mainChoice(text,cost){
   const value=preferred.replace(/DMG%$/,'DMG');
   return catalog.statEditor.mainStatsByCostAndLevel[cost]?.['0']?.some(x=>x.name===value)?{value,pending:null}:{value:null,pending:'MAIN_STAT_CANONICAL_MAPPING_PENDING'};
 }
-const rows=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(character=>{
+const rows=reviewedSourceCohort().map(character=>{
   const guide=CHARACTER_GUIDE_RECOMMENDATIONS.find(r=>r.characterId===character.id);
   if(!guide)throw Error('Missing reviewed guide: '+character.id);
   const primary=guide.echoSets.find(r=>r.usage==='PRIMARY'); // retained source display order, never numeric ranking
@@ -76,7 +77,7 @@ const rows=CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(charact
     pending:[...pending,...slots.flatMap(s=>s.pending.map(p=>`Slot ${s.slot}: ${p}`))],
     executionStatus:'PENDING',comparisonStatus:guide.comparisonStatus};
 });
-if(rows.length!==59)throw Error('Released identity count drift');
+if(rows.length!==59)throw Error('Historical guide-bound identity count drift');
 const output={schemaVersion:1,meaning:'SOURCE_BOUND_STARTING_TEMPLATES_NOT_DPS_OPTIMUM',
   sourceBindings:{guide:CHARACTER_EQUIPMENT_SOURCE_REVIEW.recommendationArtifactSha256,profiles:hash(read('../../../src/data/echoLoadoutProfiles.ts')),catalog:hash(JSON.stringify(catalog))},
   summary:{characters:rows.length,complete:rows.filter(r=>r.complete).length,partial:rows.filter(r=>r.configuredSlots>0&&!r.complete).length,empty:rows.filter(r=>!r.configuredSlots).length},characters:rows};

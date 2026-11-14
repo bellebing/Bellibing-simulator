@@ -32,6 +32,27 @@ export function planFast(files,{directory=root}={}){
  return {level:'FAST',fullRequiredForMerge:true,risk:changed.some(p=>/^(?:src|research|data)\//.test(p))?'DOMAIN_OR_RUNTIME':changed.some(p=>/^\.github\//.test(p))?'CI':changed.some(p=>/\.(?:js|mjs|ts|css|html)$/.test(p))?'RUNTIME_OR_PRESENTATION':'DOCS',changed,syntax:allSyntax.slice(0,24),deferredSyntax:allSyntax.slice(24),tests,deferred};
 }
 const git=(...args)=>execFileSync('git',args,{cwd:root,encoding:'utf8',stdio:['ignore','pipe','pipe']});
+// The compare API truncates files at 300. For a larger PR, read its complete
+// paginated file list and fence both reads to the exact requested head. This may
+// conservatively include earlier PR edits; FAST budgets and FULL remain intact.
+export async function completePrFiles({repo,head,number,request}){
+ if(!Number.isSafeInteger(number)||number<=0)throw Error('DIFF_TOO_LARGE_FOR_FAST_METADATA');
+ const prefix=`https://api.github.com/repos/${repo}/pulls/${number}`;
+ const before=await request(prefix);
+ if(before.head?.sha!==head)throw Error('DIFF_HEAD_CHANGED');
+ const count=before.changed_files;
+ if(!Number.isSafeInteger(count)||count<0||count>3000)throw Error('DIFF_TOO_LARGE_FOR_FAST_METADATA');
+ const files=[];
+ for(let page=1;files.length<count;page++){
+  const batch=await request(`${prefix}/files?per_page=100&page=${page}`);
+  if(!Array.isArray(batch)||batch.length===0||batch.length>100)throw Error('DIFF_METADATA_INCOMPLETE');
+  files.push(...batch);
+ }
+ if(files.length!==count||new Set(files.map(f=>f.filename)).size!==count||files.some(f=>typeof f.filename!=='string'||!f.filename))throw Error('DIFF_METADATA_INCOMPLETE');
+ const after=await request(prefix);
+ if(after.head?.sha!==head||after.changed_files!==count)throw Error('DIFF_HEAD_CHANGED');
+ return files.flatMap(f=>[f.filename,...(f.previous_filename?[f.previous_filename]:[])]);
+}
 async function changedFiles(){
  if(process.argv.includes('--worktree'))return (git('diff','--name-only','-z','HEAD')+git('ls-files','--others','--exclude-standard','-z')).split('\0').filter(Boolean);
  const event=process.env.GITHUB_EVENT_PATH?JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH,'utf8')):{};
@@ -40,9 +61,17 @@ async function changedFiles(){
  if(!/^[a-f0-9]{40}$/.test(base)||!/^[a-f0-9]{40}$/.test(head))throw Error('INVALID_DIFF_IDENTITY');
  try{return git('diff','--name-only','-z',base,head).split('\0').filter(Boolean);}catch{
   const repo=process.env.GITHUB_REPOSITORY;if(!/^[\w.-]+\/[\w.-]+$/.test(repo??'')||!process.env.GITHUB_TOKEN)throw Error('DIFF_BASE_UNAVAILABLE');
-  const response=await fetch(`https://api.github.com/repos/${repo}/compare/${base}...${head}`,{headers:{Authorization:'Bearer '+process.env.GITHUB_TOKEN,Accept:'application/vnd.github+json'}});
-  if(!response.ok)throw Error('DIFF_METADATA_UNAVAILABLE');const data=await response.json();
-  if(!Array.isArray(data.files)||data.files.length>=300)throw Error('DIFF_TOO_LARGE_FOR_FAST_METADATA');
+  const request=async url=>{const response=await fetch(url,{headers:{Authorization:'Bearer '+process.env.GITHUB_TOKEN,Accept:'application/vnd.github+json'}});if(!response.ok)throw Error('DIFF_METADATA_UNAVAILABLE');return response.json();};
+  let data;
+  try{data=await request(`https://api.github.com/repos/${repo}/compare/${base}...${head}`);}
+  catch(error){
+   // Large PR compares can be unavailable even when the exact-head paginated
+   // PR file list is valid. Preserve fail-closed head and file-count checks.
+   if(event.pull_request?.number)return completePrFiles({repo,head,number:event.pull_request.number,request});
+   throw error;
+  }
+  if(!Array.isArray(data.files))throw Error('DIFF_METADATA_INCOMPLETE');
+  if(data.files.length>=300)return completePrFiles({repo,head,number:event.pull_request?.number,request});
   return data.files.flatMap(f=>[f.filename,...(f.previous_filename?[f.previous_filename]:[])]);
  }
 }

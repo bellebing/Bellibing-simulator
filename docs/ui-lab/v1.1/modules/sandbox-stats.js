@@ -1,11 +1,11 @@
 import facts from './sandbox-stat-sources.json' with {type:'json'};
 import weapons from '../../../ui-prototypes/assets/weapons/browser-data.json' with {type:'json'};
 import echoes from '../../../ui-prototypes/assets/echoes/browser-data.json' with {type:'json'};
-import {projectSandboxStaticStats,formatStaticStats} from '../../../../src/sandboxStaticStats.mjs';
+import {projectSandboxStaticStats,projectSandboxExpectedStats,formatStaticStats} from '../../../../src/sandboxStaticStats.mjs';
 
 // Called only with the fresh client's current run. Read numeric observations,
 // never formatted Echo-card strings, configured shells or sample fixtures.
-export function sandboxStats(state,run=null){
+export function sandboxStats(state,run=null,expectedCost=null){
  if(!state.sandboxBuild)return null;
  const character=facts.characters.find(c=>c.id===state.id),weapon=weapons.weapons.find(w=>w.id===state.sandboxBuild.weaponId);
  const input={character,weapon,baseline:state.sandboxBuild.baseline,echoStatContract:echoes.statEditor,echoes:echoes.echoes,sonataSets:echoes.sonataSets,sonataEffects:facts.sonataEffects};
@@ -17,5 +17,6 @@ export function sandboxStats(state,run=null){
   const matching=cards.every((c,i)=>{const t=state.configurationSession.configurations[i];return t&&c.speciesId===t.echoId&&c.selectedSonataSetId===t.selectedSonataSetId&&c.cost===t.cost&&c.rank===t.rank&&c.mainStat?.name===t.mainStatName;});
   if(matching)observed=projectSandboxStaticStats({...input,echoSlots:cards});
  }
- return {baseline,observed,baselineValues:formatStaticStats(baseline),observedValues:formatStaticStats(observed)};
+ const expected=state.configurationSession.active.every(Boolean)?projectSandboxExpectedStats(input,state.configurationSession.configurations,expectedCost?.acceptedEcho):null;
+ return {baseline,expected,observed,baselineValues:formatStaticStats(baseline),expectedValues:formatStaticStats(expected),observedValues:formatStaticStats(observed)};
 }

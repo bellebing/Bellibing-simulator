@@ -2393,6 +2393,12 @@
       "weaponType": "Broadblade"
     },
     {
+      "id": "lily",
+      "name": "Lily",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Pistols"
+    },
+    {
       "id": "lingyang",
       "name": "Lingyang",
       "releaseStatus": "RELEASED",
@@ -2523,6 +2529,12 @@
       "name": "Suisui",
       "releaseStatus": "RELEASED",
       "weaponType": "Rectifier"
+    },
+    {
+      "id": "suoming",
+      "name": "Suoming",
+      "releaseStatus": "RELEASED",
+      "weaponType": "Sword"
     },
     {
       "id": "taoqi",

@@ -19,7 +19,7 @@ export function artifactFiles(directory) {
 }
 export function verifyPublicArtifact(directory = 'dist') {
   const root = resolve(directory);
-  const approved = new Set([...JSON.parse(readFileSync(new URL('./public-web-assets.json', import.meta.url), 'utf8')),
+  const approved = new Set(['dps-lab/index.html', 'dps-lab/style.css', 'dps-lab/lab.js', ...JSON.parse(readFileSync(new URL('./public-web-assets.json', import.meta.url), 'utf8')),
     ...PUBLIC_BROWSER_MODULES.map(name => 'assets/' + name + '.js'), ...verifySandboxRelease(directory)]);
   const inventory = artifactFiles(root);
   const present = new Set(inventory);

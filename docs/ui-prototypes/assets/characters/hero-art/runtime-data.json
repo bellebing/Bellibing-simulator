@@ -6,9 +6,9 @@
     "src/characterHeroArt.ts#createCharacterHeroArtResolver"
   ],
   "summary": {
-    "releasedCharacters": 59,
-    "ready": 53,
-    "pending": 6
+    "releasedCharacters": 61,
+    "ready": 56,
+    "pending": 5
   },
   "characters": [
     {
@@ -374,9 +374,20 @@
     {
       "characterId": "hsin",
       "characterName": "Hsin",
-      "status": "PENDING",
-      "reasonCode": "SOURCE_REVIEW_PENDING",
-      "reason": "Catalog identity is released; Hero Art source/presentation review remains Pending."
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/hsin.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
+      }
     },
     {
       "characterId": "iuno",
@@ -455,6 +466,24 @@
           "y": 0.5
         },
         "note": "Reviewed in the real Build workspace at 1440x900, 1920x1080 and 2560x1440. Safe CONTAIN framing was retained at scale 1, offsets 0/0 and focal 0.5/0.5; no transparent-bound auto-centering was used."
+      }
+    },
+    {
+      "characterId": "lily",
+      "characterName": "Lily",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/lily.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
       }
     },
     {
@@ -807,6 +836,24 @@
           "y": 0.5
         },
         "note": "Build-frame presentation review pending; do not derive offsets from transparent bounds. Safe Build-frame default: scale 1, offsets 0/0, focal 0.5/0.5 until live review."
+      }
+    },
+    {
+      "characterId": "suoming",
+      "characterName": "Suoming",
+      "status": "READY",
+      "assetPath": "assets/characters/hero-art/suoming.webp",
+      "presentation": {
+        "safeFraming": "CONTAIN",
+        "reviewStatus": "BUILD_FRAME_PENDING",
+        "scale": 1,
+        "offsetX": 0,
+        "offsetY": 0,
+        "focalAnchor": {
+          "x": 0.5,
+          "y": 0.5
+        },
+        "note": "Source-identical original art. Safe contain. Exact live framing can be reviewed independently."
       }
     },
     {

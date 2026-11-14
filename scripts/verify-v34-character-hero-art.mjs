@@ -18,10 +18,10 @@ const assert=(condition,message,detail)=>{if(!condition)throw new Error(message+
 const close=(a,b,tolerance=.75)=>Math.abs(a-b)<=tolerance;
 
 assert(runtime.schemaVersion===1&&runtime.role==='character.hero-art.runtime','Unexpected Hero Art runtime schema');
-assert(runtime.summary.ready===53&&runtime.summary.pending===6&&runtime.summary.releasedCharacters===59,'Unexpected Hero Art coverage',runtime.summary);
-assert(ready.length===53&&pending.length===6,'Runtime row counts drifted');
+assert(runtime.summary.ready===56&&runtime.summary.pending===5&&runtime.summary.releasedCharacters===61,'Unexpected Hero Art coverage',runtime.summary);
+assert(ready.length===56&&pending.length===5,'Runtime row counts drifted');
 assert(required.every(id=>byId.get(id)?.status==='READY'),'Required visual-review sample is not READY');
-assert(!runtime.characters.some(row=>['suoming'].includes(row.characterId)),'Upcoming/WIP Character leaked into Hero Art runtime');
+assert(['hsin','lily','suoming'].every(id=>byId.get(id)?.status==='READY'),'Promoted RELEASED Characters must carry reviewed, READY Hero Art');
 for(const row of ready){
   assert(row.assetPath==='assets/characters/hero-art/'+row.characterId+'.webp','Unexpected READY path',row);
   assert(existsSync(join('docs/ui-prototypes',row.assetPath)),'Missing READY Hero Art file',row.assetPath);
@@ -29,12 +29,12 @@ for(const row of ready){
   assert(Number.isFinite(row.presentation.scale)&&Number.isFinite(row.presentation.offsetX)&&Number.isFinite(row.presentation.offsetY),'Presentation values must be explicit',row.characterId);
   assert(Number.isFinite(row.presentation.focalAnchor?.x)&&Number.isFinite(row.presentation.focalAnchor?.y),'Focal anchor must be explicit',row.characterId);
 }
-assert(JSON.stringify(pending.map(row=>row.characterId))===JSON.stringify(['hsin','jingran','rover-aero','rover-electro','rover-havoc','rover-spectro']),'Rover pending set drifted',pending.map(row=>row.characterId));
+assert(JSON.stringify(pending.map(row=>row.characterId))===JSON.stringify(['jingran','rover-aero','rover-electro','rover-havoc','rover-spectro']),'Rover pending set drifted',pending.map(row=>row.characterId));
 for(const row of pending){
   assert(row.reasonCode=== (['hsin','jingran'].includes(row.characterId)?'SOURCE_REVIEW_PENDING':'ROVER_VARIANT_IDENTITY_UNRESOLVED'),'Unexpected pending reason',row);
   assert(!('assetPath' in row)&&!('presentation' in row),'Pending Rover must not carry a guessed visual mapping',row);
 }
-assert(manifest.characters.length===53&&manifest.pending.length===6,'Provenance manifest coverage drifted');
+assert(manifest.characters.length===56&&manifest.pending.length===5,'Provenance manifest coverage drifted');
 
 async function waitForChrome(){
   const deadline=Date.now()+15000;
@@ -186,7 +186,7 @@ try{
   await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   await evaluate(send,'localStorage.clear()');
   await navigate(send);
-  await waitFor(send,"releasedCharacters.length===59&&document.documentElement.dataset.characterHeroArtReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Build runtimes did not become ready',20000);
+  await waitFor(send,"releasedCharacters.length===61&&document.documentElement.dataset.characterHeroArtReady==='true'&&document.documentElement.dataset.sequenceCatalogReady==='true'&&document.documentElement.dataset.buildStatsReady==='true'&&document.documentElement.dataset.skillsMechanicsReady==='true'",'Build runtimes did not become ready',20000);
   await evaluate(send,"show('build')");
   await sleep(850);
 
@@ -257,7 +257,7 @@ try{
   assert(await evaluate(send,"typeof weaponUi.show==='function'&&typeof echoUi.show==='function'&&typeof skillsUi.show==='function'&&typeof statsUi.refresh==='function'"),'Surrounding Build controls lost their existing interfaces');
   assert(await evaluate(send,"document.getElementById('accountBtn').textContent==='Add to Account'"),'Add to Account initial state regressed');
 
-  console.log('Character Hero Art Chrome checks passed: 53 READY source swaps, 4 explicit Rover and 2 source-review PENDING states, independent selector/focus layers, required varied-silhouette review set, and 1440x900 / 1920x1080 / 2560x1440 / 3440x1440 / 7680x2160 containment.');
+  console.log('Character Hero Art Chrome checks passed: 56 READY source swaps, 4 explicit Rover and 1 source-review PENDING states, independent selector/focus layers, required varied-silhouette review set, and 1440x900 / 1920x1080 / 2560x1440 / 3440x1440 / 7680x2160 containment.');
   socket.close();
 }finally{
   chrome.kill('SIGTERM');

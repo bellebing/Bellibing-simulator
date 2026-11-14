@@ -96,7 +96,7 @@ test('unknown parties get member guidance or explicitly labeled player-role synt
 
 test('invalid identities and incompatible explicit choices do not quietly change the player build',()=>{
   assert.throws(()=>coordinate(team('aalto','aalto','verina')),/three unique/);
-  assert.throws(()=>coordinate(team('aalto','suoming','verina')),/three unique/);
+  assert.throws(()=>coordinate(team('aalto','not-a-character','verina')),/three unique/);
   assert.throws(()=>coordinate({members:[{characterId:'aalto',referenceId:'prydwen-jiyan-standard'},{characterId:'jiyan'},{characterId:'verina'}]}),/must belong/);
   const plan=coordinate({members:[{characterId:'lucilla',referenceId:'prydwen-lucilla-standard',modeKey:'echo-skill'},{characterId:'phrolova'},{characterId:'qiuyuan'}]});
   assert.equal(plan.members[0].referenceId,'prydwen-lucilla-standard');assert.equal(plan.members[0].contextCompatible,false);

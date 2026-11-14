@@ -1,7 +1,7 @@
 import { ECHO_SETTING_STATS } from './settings-catalog.js';
 import { STAT_SECTIONS, moveSettingStat, flexCountPresentation, editFlexCount, erTargetPresentation } from './settings-state.js';
 import { SETTING_METRICS } from './simulation-model.js';
-import { CHARACTER_TARGETS } from './targets.js';
+import {characterErGuidance} from './character-er-guidance.js';
 import { erTotalFixture } from './result-fixtures.js';
 import { escapeHtml } from './util.js';
 import {sourcePriorityMode} from './source-priorities.js';
@@ -11,7 +11,7 @@ const labels={hard:'Hard Requirements',flex:'Flex Stats',other:'Other Stats'};
 export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   host.innerHTML = `<span class="carousel-announcement" id="settingsKeys">Drag to reorder or move between sections. Alt Left or Right changes section. Alt Up or Down reorders.</span>
     <section class="er-target" id="erTarget"><div class="er-target-heading"><label><input id="erEnabled" type="checkbox" aria-label="Enable ER Target" aria-describedby="erTargetBadge">ER Target</label><output id="erTargetValue" class="er-target-readout"></output><label id="erTargetEditor" class="er-target-inline-editor" hidden><input id="erTargetInput" type="number" min="0" step="0.1" inputmode="decimal" aria-label="ER Target percent" aria-describedby="erTargetBadge"><span aria-hidden="true">%</span></label><span id="erTargetBadge" role="status" aria-live="polite"></span></div></section>
-    <section><h3>Hard Requirements</h3><p id="sourcePriorityStatus" class="settings-validation" hidden></p><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div></section>
+    <section><h3>Hard Requirements</h3><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div><details id="sourcePriorityDetails" hidden><summary>Source and target details</summary><p id="sourcePriorityStatus"></p></details></section>
     <section><h3>Flex Stats</h3><label class="flex-count"><output id="flexCountLabel"></output><input id="flexCount" type="range" aria-label="Required distinct Flex Stats" aria-describedby="flexCountLabel flexCountError"></label><p id="flexCountError" class="settings-validation" role="alert" hidden></p><div id="flexRows" class="stat-list" data-stat-section="flex" aria-label="Flex Stats"></div></section>
     <details id="otherStats"><summary>Other Stats</summary><div id="otherRows" class="stat-list" data-stat-section="other" aria-label="Other Stats"></div></details>`;
   const find=selector=>host.querySelector(selector);
@@ -34,9 +34,17 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   }
   function count() {
     const state=getState(), view=flexCountPresentation(state), slider=find('#flexCount');
-    const guidance=sourcePriorityMode(state);find('.flex-count').hidden=guidance;
-    find('#sourcePriorityStatus').hidden=!guidance;
-    find('#sourcePriorityStatus').textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`:'';
+    const guidance=sourcePriorityMode(state),product=state.settingsMode==='Recommended'&&state.productEchoDefault?.characterId===state.id;
+    find('.flex-count').hidden=guidance;
+    find('#sourcePriorityDetails').hidden=!(guidance||product);
+    const sourceStatus=find('#sourcePriorityStatus'),source=state.productEchoDefault;
+    sourceStatus.textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`
+      :product?`Bellibing product default · ${source.sourceKind==='DPR_SUBSTAT_VALUE'?'DPR Substat Value ('+source.sourceSheetTitle+', scenario-specific marginal %)':'Prydwen reviewed guide substat priority'} · lowest canonical roll minima and Flex count 1 are product choices, not source-verified per-Echo thresholds. Energy Regen uses separate whole-build guidance. `
+      :'';
+    if(product&&source.sourceUrl){
+      const link=document.createElement('a');link.href=source.sourceUrl;link.target='_blank';link.rel='noopener noreferrer';
+      link.textContent=source.sourceKind==='DPR_SUBSTAT_VALUE'?' View DPR source rows ('+source.sourceRange+')':' View Prydwen source';sourceStatus.append(link);
+    }
     if(guidance){find('#flexCountError').hidden=true;return;}
     find('#flexCountLabel').textContent=state.flexCount===null?view.message:`At least ${state.flexCount} of ${state.statSections.flex.length}`;
     slider.min=state.flexCount===null?'0':'1';slider.max=String(Math.max(1,view.maximum));
@@ -46,7 +54,7 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   }
   function lists(focusId=null) {
     const state=getState();
-    STAT_SECTIONS.forEach(section=>{find(`[data-stat-section="${section}"]`).innerHTML=state.statSections[section].map(id=>row(id,section)).join('');});
+    STAT_SECTIONS.forEach(section=>{find(`[data-stat-section="${section}"]`).innerHTML=state.statSections[section].filter(id=>!state.accountProjection||id!=='Energy Regen').map(id=>row(id,section)).join('');});
     find('#otherStats').open=state.otherExpanded;count();mode();
     if(focusId) [...host.querySelectorAll('[data-minimum]')].find(row=>row.dataset.minimum===focusId)?.querySelector('.handle').focus({preventScroll:false});
   }
@@ -92,17 +100,18 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   function er() {
     const state=getState(), fixture=erTotalFixture(state.id,document.querySelector('#erReview').value);
     const view=erTargetPresentation({characterId:state.id,target:state.erTarget,total:fixture??verifiedTotal,allowIllustrative:!!fixture});
-    const reference=CHARACTER_TARGETS.find(row=>row.characterId===state.id)?.rows.find(row=>row.metric==='TOTAL_ENERGY_REGEN'&&row.status==='READY');
-    const suggested=reference?.sourceValue?.reference;
-    const suggestedPercent=Number.isFinite(suggested)?Number((suggested*100).toFixed(6)):null;
+    const reference=characterErGuidance(state.id);
+    const suggestedPercent=reference?.minimum??null;
     const customize=state.settingsMode==='Customize';
     find('#erEnabled').checked=state.erTarget.enabled;
     find('#erTarget').dataset.status=view.status;
     find('#erTarget').dataset.demo=String(view.isDemo);
     find('#erTargetValue').hidden=customize;
-    find('#erTargetValue').textContent=reference?`${reference.displayValue} suggested`:'—';
+    find('#erTargetValue').textContent=reference?`${reference.label} suggested`:'—';
+    find('#erTarget').title=reference?.conditions.join(' ')??'';
     find('#erTargetEditor').hidden=!customize;
-    find('#erTargetBadge').textContent=(view.isDemo?'Illustrative demo: ':'')+({
+    const sideGoal=state.statErRequirement;
+    find('#erTargetBadge').textContent=sideGoal?.status==='PROGRESS_TOWARD_BUILD'?'ER needed across the build':sideGoal?.status==='NEEDS_OTHER_SLOTS_OR_MAIN_STAT'?'ER needs other slots or main stat':(view.isDemo?'Illustrative demo: ':'')+({
       DISABLED:'ER target disabled',
       UNCONFIGURED:'ER target needs a valid percentage',
       UNAVAILABLE:'Verified ER total unavailable',

@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-28",
+  "timezone": "Europe/Stockholm",
+  "sourceSHA256": {
+    "index.html": "50ab978f16d751dda3f267b2f5a0bc8fa26779136199949553925491a1ec0f26",
+    "concept.css": "7e245a228ddc94454fad27dbb26a9a549570d5bf1738cfcde25b7de84d094169",
+    "concept.js": "1e8ce2f84eda3a96a81d2b47f46f10cda86ac1f88e46b135928ea343104d9e69",
+    "serve.mjs": "af9714e18279a70636c65776324597f4dfce8af4c164a986d16055fc88def61f",
+    "review.mjs": "1b022f73241234e0fb330c645a394c5a3ef2dfce9037ec388c36342cea32e10d",
+    "package-preview.mjs": "b05bf1d109ace45b81770828cf1dcdbde644a43a341a987cc032d515084a8b30"
+  },
+  "portableSHA256": "3fcd6a258d3f1a75b981b8e3c9f152eacc01b1e81c3a80baed8a313ec0dfdca5",
+  "evidence": "Real local Chromium; synthetic in-memory concept only. No production or private engine qualification."
+}

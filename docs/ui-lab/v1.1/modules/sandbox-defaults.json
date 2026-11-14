@@ -760,7 +760,7 @@
     }
   ],
   "sourceBindings": {
-    "../../../src/data/characters.ts": "7d03a5421f2f583f65432f34578719a67ee47299562356d59888fa4e346af325",
+    "../../../src/data/characters.ts": "c5832bda1f07ccb19b786e8a8842b3c0026632830a653a97ca190bf44d249bde",
     "../../../src/data/weapons.ts": "27131b1c0765805df796ed7f81a2ccb832d7c9d8aa7267a163107d9f27c5d657",
     "../../../src/data/characterEquipmentAssociations.ts": "d07b2b170987f015f2582d00d463cf7a95e91c061dbc0440f5651bdbc23bfe68",
     "../../../src/data/echoLoadoutProfiles.ts": "d35a263a33a5503d192faf5086b65b5937b74fc2a070d872d62a3415cd621f8b",
@@ -10247,7 +10247,7 @@
             "16": true
           }
         },
-        "fortePresentationStatus": "PENDING_ART_AND_TREE_PRESENTATION",
+        "fortePresentationStatus": "AVAILABLE",
         "selectedContext": {
           "kind": "EXPLICIT_SANDBOX_SOURCE_CONTEXT",
           "sourceOrder": 1,
@@ -10778,8 +10778,7 @@
         "PRIVATE_EXECUTION_NOT_CONNECTED",
         "DPR_MATCHED_CONTEXT_NOT_VERIFIED",
         "DPS_TEAM_RUN_NOT_VERIFIED",
-        "REVIEWED_ECHO_SETTINGS_REQUIREMENTS_PENDING",
-        "FORTE_ART_AND_TREE_PRESENTATION_PENDING"
+        "REVIEWED_ECHO_SETTINGS_REQUIREMENTS_PENDING"
       ],
       "rejectedSourceShells": [],
       "unresolved": [],

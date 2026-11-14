@@ -4,7 +4,7 @@ import {characterContext} from './character-context.js';
 import {sourceTeamRoles} from './team-selection.js';
 import {assetURL,escapeHtml} from './util.js';
 
-export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMode=false,evaluationContext=null,dps=null,view=null,comparisonSlot=null,comparisonMode='SANDBOX',memberOrder=null,selection=null,roleChoices=null,hasCurrentBuild=false}={}){
+export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMode=false,evaluationContext=null,dps=null,view=null,comparisonSlot=null,comparisonMode='SANDBOX',memberOrder=null,selection=null,roleChoices=null,hasCurrentBuild=false,visibleMemberIds=null}={}){
  if(expertMode)return researchDpsMarkup({characterId,contextId,expertMode,evaluationContext,dps,view,comparisonSlot,comparisonMode,memberOrder,selection,roleChoices,hasCurrentBuild});
  const context=selection??characterContext(characterId,contextId,memberOrder);
  if(!context)return '';
@@ -14,7 +14,7 @@ export function dpsConceptMarkup({characterId='augusta',contextId=null,expertMod
  const labels=['Main DPS','Partner',roles?.thirdRole??'Third member'];
  const keys=['main','partner','third'];
  const headers=memberIds.map((id,slot)=>{
-  const person=CHARACTER_CATALOG.find(c=>c.id===id),choices=roleChoices?.[keys[slot]]??[];
+  const person=visibleMemberIds&&!visibleMemberIds.includes(id)?null:CHARACTER_CATALOG.find(c=>c.id===id),choices=roleChoices?.[keys[slot]]??[];
   const editable=!!selection&&(choices.length>0||slot===2&&selection.pendingSupport);
   const portrait=person?`<img class="dps-portrait" alt="" src="${assetURL(person.face)}"><span>${escapeHtml(person.name)}</span>`:'<span class="team-empty-slot">Choose a teammate</span>';
   return `<th scope="col" class="dps-contribution"><span class="team-role-label">${escapeHtml(labels[slot])}</span><button type="button" class="team-member${!person?' is-empty':''}" data-team-role="${keys[slot]}" aria-label="${editable?'Change':'Selected'} ${escapeHtml(labels[slot])}: ${person?escapeHtml(person.name):'Pending'}" ${editable?'aria-haspopup="dialog"':'disabled'}>${portrait}${editable?'<small>Change ▾</small>':''}</button></th>`;

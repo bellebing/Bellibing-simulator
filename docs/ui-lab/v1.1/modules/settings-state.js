@@ -1,5 +1,7 @@
 import {restoreCanonicalSettings} from './canonical-settings.js';
+import {effectiveErTarget} from './character-er-guidance.js';
 import {restoreSourcePriorities} from './source-priorities.js';
+import {restoreProductEchoDefaults} from './product-echo-defaults.js';
 import { ECHO_SETTING_STATS, selectedFlexRequirement, SELECTED_FLEX_GROUP_ID } from './settings-catalog.js';
 export const STAT_SECTIONS = ['hard','flex','other'];
 export const MINIMUM_TIERS = Object.fromEntries(ECHO_SETTING_STATS.map(stat=>[stat.id,stat.labels]));
@@ -31,9 +33,11 @@ export function editFlexCount(state,count) {
   if(!Number.isInteger(count)||count<1||count>maximum)throw Error('Invalid Flex count');
   state.flexCount=count; state.settingsMode='Customize';
 }
-export function restoreRecommendedSettings(state) {
-  if(state.canonicalSettingsSource)return restoreCanonicalSettings(state)||restoreSourcePriorities(state);
-  if(state.id!=='augusta')return false;
+export function restoreRecommendedSettings(state,{productDefaults=false}={}) {
+  if(state.canonicalSettingsSource&&restoreCanonicalSettings(state))return true;
+  if(productDefaults&&restoreProductEchoDefaults(state))return true;
+  if(state.canonicalSettingsSource)return restoreSourcePriorities(state);
+  if(state.id!=='augusta')return restoreSourcePriorities(state);
   const pool=[...state.sonataPool];
   Object.assign(state,initialSettings(state.id));
   state.sonataPool=pool; // Preserve explicit UI Sonata choice when restoring other settings.
@@ -42,6 +46,7 @@ export function restoreRecommendedSettings(state) {
 // A presentation-only conditional comparison. No total is projected here and no
 // Echo requirement, acceptance decision or build state is modified.
 export function erTargetPresentation({characterId,target,total=null,allowIllustrative=false}) {
+  target={...target,valuePercent:effectiveErTarget(characterId,target)};
   const base={status:'DISABLED',isDemo:false,totalPercent:null};
   if(!target.enabled)return base;
   if(!Number.isFinite(target.valuePercent)||target.valuePercent<0)return {...base,status:'UNCONFIGURED'};

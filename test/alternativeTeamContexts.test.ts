@@ -55,7 +55,10 @@ test('the published discovery pool is opt-in, unranked and contains no unrelease
  assert.ok(find({anchorCharacterId:'qingxiao',includeModelCandidates:true}).some(r=>r.relationship==='UNRANKED_MODEL_CANDIDATE'));
  assert.ok(find({anchorCharacterId:'qingxiao'}).every(r=>r.evidenceBasis!=='PUBLISHED_MODEL_ROSTER_ONLY'));
  const released=new Set(CHARACTER_CATALOG.filter(c=>c.releaseStatus==='RELEASED').map(c=>c.id));
- assert.deepEqual(new Set(coverage.map(c=>c.characterId)),released);
+ // Pinned discovery pool is an opt-in 59-Character snapshot, not a
+  // synthetic discovery record for newly released Lily or Suoming.
+  assert.equal(released.size,61);
+  assert.deepEqual(new Set(coverage.map(c=>c.characterId)),new Set([...released].filter(id=>!['lily','suoming'].includes(id))));
  assert.ok(coverage.every(c=>c.asMember>0));
  for(const row of contexts){
   assert.equal(new Set(row.characterIds).size,3);assert.ok(row.characterIds.every(id=>released.has(id)));

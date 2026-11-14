@@ -7,6 +7,7 @@ import {createInterface} from 'node:readline';
 import {isInside} from './local-paths.mjs';
 import {startPreview} from './preview-simulator-v1.mjs';
 import {createLocalTeamDpsHandler} from './local-team-dps.mjs';
+import {startLocalCharacterScanner} from './local-character-scanner.mjs';
 
 export const publicRoot = fileURLToPath(new URL('../', import.meta.url));
 export function parseOptions(args) {
@@ -126,6 +127,7 @@ export async function startLocal(options) {
   mkdirSync(output, {recursive: true});
   if (!isInside(engine, realpathSync(output))) throw Error('Privat utdata får inte peka utanför den privata repositoryn.');
   const releaseLock = acquireLock(join(output, 'local-run.lock'));
+  let scanner;
   try {
     for (const repository of [publicRoot, engine]) {
       let installed = true;
@@ -155,14 +157,21 @@ export async function startLocal(options) {
     const manifest = JSON.parse(readFileSync(join(site, 'sandbox/engine-release.json')));
     if (manifest.status !== 'LOCAL_REVIEW_ONLY' || manifest.files.length !== 1) throw Error('Lokal Worker kunde inte kvalificeras.');
     const reviewHandler=existsSync(join(engine,'scripts/team-dps/stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine}):null;
-    const advisorHandler=existsSync(join(engine,'scripts/echo-advisor-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',protocol:'BELLIBING_ECHO_ADVICE_V1'}):null;
-    const localHandler=async(req,res,context)=>(await advisorHandler?.(req,res,context))||(await reviewHandler?.(req,res,context));
+    const advisorHandler=existsSync(join(engine,'scripts/echo-advisor-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/echo-advisor',entry:'scripts/echo-advisor-stdio.mjs',persistent:true,protocol:'BELLIBING_ECHO_ADVICE_V1'}):null;
+    // Local-only DPS Lab lives beside Build/Improve/Sandbox on the SAME private-backed
+    // preview origin. Never ship the private native evaluator in the browser bundle.
+    const dpsLabHandler=existsSync(join(engine,'scripts/team-dps/dps-lab-stdio.mjs'))?createLocalTeamDpsHandler({engineDirectory:engine,route:'/local-review/dps-lab',entry:'scripts/team-dps/dps-lab-stdio.mjs',protocol:'BELLIBING_DPS_LAB_V1',timeoutMs:60000}):null;
+    // Start the existing Python OCR service here: no second launcher and no GPL code in public dist.
+    // A missing Python/Tesseract installation must not disable Build, Inventory, Improve or DPS Lab.
+    scanner=await startLocalCharacterScanner();
+    const localHandler=async(req,res,context)=>(await scanner.handle(req,res,context))||(await dpsLabHandler?.(req,res,context))||(await advisorHandler?.(req,res,context))||(await reviewHandler?.(req,res,context));
     const server = await startPreview({directory: site, port: options.port, reviewHandler:localHandler});
+    server.once('close',()=>{scanner.close();dpsLabHandler?.close();advisorHandler?.close();reviewHandler?.close();});
     const base = `http://127.0.0.1:${server.address().port}`;
-    console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
+    console.log(`\nBellibing Local är klar.\nBuild: ${base}/build/\nImprove: ${base}/improve/\nEcho Sandbox: ${base}/sandbox/\nDPS Lab (experimentell): ${base}/dps-lab/\n\nStoppa med Enter eller Ctrl+C i detta fönster. Stängd flik stoppar inte servern.`);
     if (options.open) await openBrowser(base + '/build/').catch(() => console.log(`Webbläsaren kunde inte öppnas automatiskt. Öppna ${base}/build/`));
     await waitForStop(server);
-  } finally { releaseLock(); }
+  } finally { scanner?.close();releaseLock(); }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   try { await startLocal(parseOptions(process.argv.slice(2))); }

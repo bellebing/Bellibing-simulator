@@ -1,0 +1,1506 @@
+{
+  "schemaVersion": 1,
+  "role": "character-import.original-structured-source-evidence",
+  "canonicalAuthority": false,
+  "promotionPolicy": "INDEPENDENT_FIELD_AND_MECHANIC_REVIEW_REQUIRED",
+  "characterId": "lily",
+  "characterName": "Lily",
+  "releasePatch": "3.8",
+  "originalReleaseDate": "2026-11-12",
+  "sourceRoleId": 1512,
+  "sourceIdentity": {
+    "Id": 1512,
+    "Name": "RoleInfo_1512_Name",
+    "QualityId": 5,
+    "WeaponType": 3,
+    "ElementId": 5,
+    "PropertyId": 1512,
+    "SkillTreeGroupId": 1512,
+    "ResonantChainGroupId": 1512,
+    "SkillId": 1512,
+    "MaxLevel": 90,
+    "FormationRoleCard": "/Game/Aki/UI/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.T_IconRole_Pile_Lili_UI"
+  },
+  "level1": {
+    "Id": 1512,
+    "Lv": 1,
+    "LifeMax": 1337,
+    "Atk": 23,
+    "Def": 90,
+    "EnergyMax": 17500,
+    "Crit": 500,
+    "CritDamage": 15000,
+    "EnergyEfficiency": 10000,
+    "ElementEnergyMax": 10000
+  },
+  "level90GrowthSource": {
+    "Id": 96,
+    "Level": 90,
+    "BreachLevel": 6,
+    "LifeMaxRatio": 125000,
+    "AtkRatio": 125000,
+    "DefRatio": 122222
+  },
+  "intrinsicSourceNodes": [
+    {
+      "nodeIndex": 9,
+      "nodeId": 1056,
+      "sourceProperty": [
+        {
+          "Id": 35,
+          "Value": 180,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "Healing Bonus+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 10,
+      "nodeId": 1057,
+      "sourceProperty": [
+        {
+          "Id": 10002,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "HP+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 11,
+      "nodeId": 1058,
+      "sourceProperty": [
+        {
+          "Id": 10002,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "HP+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 12,
+      "nodeId": 1059,
+      "sourceProperty": [
+        {
+          "Id": 35,
+          "Value": 180,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "1.80%"
+      ],
+      "displayName": "Healing Bonus+",
+      "reviewedDisplayValues": [
+        "1.80%"
+      ]
+    },
+    {
+      "nodeIndex": 13,
+      "nodeId": 1060,
+      "sourceProperty": [
+        {
+          "Id": 35,
+          "Value": 420,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "Healing Bonus+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    },
+    {
+      "nodeIndex": 14,
+      "nodeId": 1061,
+      "sourceProperty": [
+        {
+          "Id": 10002,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "HP+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    },
+    {
+      "nodeIndex": 15,
+      "nodeId": 1062,
+      "sourceProperty": [
+        {
+          "Id": 10002,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "HP+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    },
+    {
+      "nodeIndex": 16,
+      "nodeId": 1063,
+      "sourceProperty": [
+        {
+          "Id": 35,
+          "Value": 420,
+          "IsRatio": false
+        }
+      ],
+      "sourceParams": [
+        "4.20%"
+      ],
+      "displayName": "Healing Bonus+",
+      "reviewedDisplayValues": [
+        "4.20%"
+      ]
+    }
+  ],
+  "forteTree": [
+    {
+      "Id": 1048,
+      "NodeIndex": 1,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006301,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1049,
+      "NodeIndex": 2,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 2,
+      "Condition": [],
+      "SkillId": 1006302,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1050,
+      "NodeIndex": 3,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 3,
+      "Condition": [],
+      "SkillId": 1006303,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1051,
+      "NodeIndex": 4,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        7
+      ],
+      "NodeType": 3,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 1006304,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1052,
+      "NodeIndex": 5,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        4
+      ],
+      "NodeType": 3,
+      "Coordinate": 3,
+      "Condition": [
+        1
+      ],
+      "SkillId": 1006305,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1053,
+      "NodeIndex": 6,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 2,
+      "Coordinate": 4,
+      "Condition": [],
+      "SkillId": 1006306,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1054,
+      "NodeIndex": 7,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 1,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006307,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1055,
+      "NodeIndex": 8,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 3,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006309,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    },
+    {
+      "Id": 1056,
+      "NodeIndex": 9,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        1
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_25_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_25_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI",
+      "Property": [
+        {
+          "Id": 35,
+          "Value": 180,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021023,
+          "Value": 3
+        },
+        {
+          "Key": 41100063,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500006
+    },
+    {
+      "Id": 1057,
+      "NodeIndex": 10,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        2
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_26_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_26_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI",
+      "Property": [
+        {
+          "Id": 10002,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021023,
+          "Value": 3
+        },
+        {
+          "Key": 41100063,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500005
+    },
+    {
+      "Id": 1058,
+      "NodeIndex": 11,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        3
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_27_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_27_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI",
+      "Property": [
+        {
+          "Id": 10002,
+          "Value": 0.017999999225139618,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021023,
+          "Value": 3
+        },
+        {
+          "Key": 41100063,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500005
+    },
+    {
+      "Id": 1059,
+      "NodeIndex": 12,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        6
+      ],
+      "NodeType": 4,
+      "Coordinate": 1,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_28_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_28_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "1.80%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI",
+      "Property": [
+        {
+          "Id": 35,
+          "Value": 180,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021023,
+          "Value": 3
+        },
+        {
+          "Key": 41100063,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 50000
+        }
+      ],
+      "UnLockCondition": 500006
+    },
+    {
+      "Id": 1060,
+      "NodeIndex": 13,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        9
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_29_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_29_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI",
+      "Property": [
+        {
+          "Id": 35,
+          "Value": 420,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021024,
+          "Value": 3
+        },
+        {
+          "Key": 41100064,
+          "Value": 3
+        },
+        {
+          "Key": 41400294,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500008
+    },
+    {
+      "Id": 1061,
+      "NodeIndex": 14,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        10
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_30_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_30_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI",
+      "Property": [
+        {
+          "Id": 10002,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021024,
+          "Value": 3
+        },
+        {
+          "Key": 41100064,
+          "Value": 3
+        },
+        {
+          "Key": 41400294,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500007
+    },
+    {
+      "Id": 1062,
+      "NodeIndex": 15,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        11
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_31_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_31_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreenlife_UI.T_Iconpropertygreenlife_UI",
+      "Property": [
+        {
+          "Id": 10002,
+          "Value": 0.041999999433755875,
+          "IsRatio": true
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021024,
+          "Value": 3
+        },
+        {
+          "Key": 41100064,
+          "Value": 3
+        },
+        {
+          "Key": 41400294,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500007
+    },
+    {
+      "Id": 1063,
+      "NodeIndex": 16,
+      "NodeGroup": 1512,
+      "ParentNodes": [
+        12
+      ],
+      "NodeType": 4,
+      "Coordinate": 2,
+      "Condition": [
+        1
+      ],
+      "SkillId": 0,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "SkillTree_32_PropertyNodeTitle",
+      "PropertyNodeDescribe": "SkillTree_32_PropertyNodeDescribe",
+      "PropertyNodeParam": [
+        "4.20%"
+      ],
+      "PropertyNodeIcon": "/Game/Aki/UI/UIResources/Common/Image/IconAttribute/T_Iconpropertygreencure_UI.T_Iconpropertygreencure_UI",
+      "Property": [
+        {
+          "Id": 35,
+          "Value": 420,
+          "IsRatio": false
+        }
+      ],
+      "Consume": [
+        {
+          "Key": 43021024,
+          "Value": 3
+        },
+        {
+          "Key": 41100064,
+          "Value": 3
+        },
+        {
+          "Key": 41400294,
+          "Value": 1
+        },
+        {
+          "Key": 2,
+          "Value": 100000
+        }
+      ],
+      "UnLockCondition": 500008
+    },
+    {
+      "Id": 1064,
+      "NodeIndex": 17,
+      "NodeGroup": 1512,
+      "ParentNodes": [],
+      "NodeType": 3,
+      "Coordinate": 1,
+      "Condition": [],
+      "SkillId": 1006310,
+      "SkillBranchIds": [],
+      "SkillBranchDescList": [],
+      "PropertyNodeTitle": "",
+      "PropertyNodeDescribe": "",
+      "PropertyNodeParam": [],
+      "PropertyNodeIcon": "",
+      "Property": [],
+      "Consume": [
+        {
+          "Key": 43020032,
+          "Value": 2
+        },
+        {
+          "Key": 41100022,
+          "Value": 3
+        },
+        {
+          "Key": 2,
+          "Value": 3900
+        }
+      ],
+      "UnLockCondition": 0
+    }
+  ],
+  "sequences": [
+    {
+      "sequence": 1,
+      "sourceChainId": 373,
+      "name": "Look, White Flowers from the Ruins of Dreams",
+      "descriptionTemplate": "Lily is immune to interruption while casting <color=Highlight>Heavy Attack - Woven Fairytale</color>, <color=Highlight>Heavy Attack - Woven Phantasm</color>, <color=Highlight>Heavy Attack - Fairytale's Finale</color>, or <color=Highlight>Heavy Attack - Phantasm's End</color>.\nWhile <color=Highlight><te href=151203>Cradle Lullaby</te></color> is active, each <color=Highlight>Intro Skill</color> cast by a Resonator in the team other than Lily now grants 2 stacks of <color=Highlight><te href=151204>Dream Aroma</te></color>.",
+      "params": [],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM1_UI.webp"
+    },
+    {
+      "sequence": 2,
+      "sourceChainId": 374,
+      "name": "Listen, a Requiem from the Dream Cradle",
+      "descriptionTemplate": "While <color=Highlight><te href=151203>Cradle Lullaby</te></color> is active, when a Resonator in the team other than Lily casts an <color=Highlight>Intro Skill</color>, each stack of <color=Highlight><te href=151204>Dream Aroma</te></color> additionally increases Crit. Rate by 2% and Crit. DMG by 6%.",
+      "params": [
+        "2%",
+        "6%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM2_UI.webp"
+    },
+    {
+      "sequence": 3,
+      "sourceChainId": 375,
+      "name": "May Your Soul Wander No More",
+      "descriptionTemplate": "Lily additionally gains 170 points of <color=Highlight><te href=151201>Dream Perfume</te></color> upon entering combat, triggered once every 12s. After Lily casts <color=Highlight>Intro Skill - Eternal Bloom</color>, she additionally gains 170 points of <color=Highlight><te href=151201>Dream Perfume</te></color>.\nCasting <color=Highlight>Resonance Liberation - Into the Dream Cradle</color> additionally restores 10 points of Concerto Energy.\nDealing DMG with <color=Highlight>Heavy Attack - Fairytale's Finale</color> or <color=Highlight>Heavy Attack - Phantasm's End</color> additionally restores 10 points of Resonance Energy.\nDuring <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color>, Lily gains <color=Highlight>Dreambell Chime</color> faster.",
+      "params": [
+        "170",
+        "12",
+        "170",
+        "10",
+        "10"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM3_UI.webp"
+    },
+    {
+      "sequence": 4,
+      "sourceChainId": 376,
+      "name": "May Your Past Sink into Silence",
+      "descriptionTemplate": "<color=Highlight>Slumberland</color>'s healing is increased by 30%.",
+      "params": [
+        "30%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM4_UI.webp"
+    },
+    {
+      "sequence": 5,
+      "sourceChainId": 377,
+      "name": "May You Find Peace in Endless Light",
+      "descriptionTemplate": "While Lily is in <color=Highlight>Slumberland</color>, the pull-in effect range is increased by 50% when a Resonator in the team other than Lily casts <color=Highlight>Intro Skill</color>.",
+      "params": [
+        "50%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM5_UI.webp"
+    },
+    {
+      "sequence": 6,
+      "sourceChainId": 378,
+      "name": "May My Reverie Never End",
+      "descriptionTemplate": "The <color=Light>Spectro DMG</color> dealt by <color=Highlight>Heavy Attack - Fairytale's Finale</color> and <color=Highlight>Heavy Attack - Phantasm's End</color> is increased by 100%.\nThe <color=Light>Spectro DMG</color> dealt by <color=Highlight>Intro Skill - Eternal Bloom</color> is increased by 700%.",
+      "params": [
+        "100%",
+        "700%"
+      ],
+      "sourceIcon": "/assets/UIResources/Common/Image/IconDevice/T_IconDevice_LiliM6_UI.webp"
+    }
+  ],
+  "skills": [
+    {
+      "sourceSkillId": 1006301,
+      "sourceSkillType": 1,
+      "sourceSort": 1,
+      "name": "Mend and Cleanse",
+      "descriptionTemplate": "<color=Title>Basic Attack</color>\nPress repeatedly or hold <color=Highlight>Normal Attack</color> to perform up to 4 consecutive attacks, dealing <color=Light>Spectro DMG</color>.\n\n<color=Title>Mid-air Attack</color>\nConsume STA to perform a Plunging Attack, dealing <color=Light>Spectro DMG</color>.\n\n<color=Title>Dodge Counter</color>\nPress <color=Highlight>Normal Attack</color> shortly after a successful Dodge to attack the target, dealing <color=Light>Spectro DMG</color>. Press <color=Highlight>Normal Attack</color> shortly after casting this skill to cast Basic Attack Stage 4.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1512001,
+          "name": "Basic Attack Stage 1 DMG",
+          "levels": [
+            "32%",
+            "34.63%",
+            "37.25%",
+            "40.93%",
+            "43.55%",
+            "46.57%",
+            "50.77%",
+            "54.96%",
+            "59.16%",
+            "63.62%"
+          ]
+        },
+        {
+          "sourceId": 1512002,
+          "name": "Basic Attack Stage 2 DMG",
+          "levels": [
+            "14.66%+14.66%*3",
+            "15.87%+15.87%*3",
+            "17.07%+17.07%*3",
+            "18.75%+18.75%*3",
+            "19.95%+19.95%*3",
+            "21.34%+21.34%*3",
+            "23.26%+23.26%*3",
+            "25.18%+25.18%*3",
+            "27.11%+27.11%*3",
+            "29.15%+29.15%*3"
+          ]
+        },
+        {
+          "sourceId": 1512003,
+          "name": "Basic Attack Stage 3 DMG",
+          "levels": [
+            "48%",
+            "51.94%",
+            "55.88%",
+            "61.39%",
+            "65.32%",
+            "69.85%",
+            "76.15%",
+            "82.44%",
+            "88.74%",
+            "95.43%"
+          ]
+        },
+        {
+          "sourceId": 1512004,
+          "name": "Basic Attack Stage 4 DMG",
+          "levels": [
+            "19.34%*3+19.34%",
+            "20.93%*3+20.93%",
+            "22.52%*3+22.52%",
+            "24.74%*3+24.74%",
+            "26.32%*3+26.32%",
+            "28.15%*3+28.15%",
+            "30.68%*3+30.68%",
+            "33.22%*3+33.22%",
+            "35.76%*3+35.76%",
+            "38.45%*3+38.45%"
+          ]
+        },
+        {
+          "sourceId": 1512005,
+          "name": "Plunging Attack DMG",
+          "levels": [
+            "57.6%",
+            "62.33%",
+            "67.05%",
+            "73.66%",
+            "78.39%",
+            "83.82%",
+            "91.38%",
+            "98.93%",
+            "106.49%",
+            "114.52%"
+          ]
+        },
+        {
+          "sourceId": 1512006,
+          "name": "Dodge Counter DMG",
+          "levels": [
+            "120%",
+            "129.84%",
+            "139.68%",
+            "153.46%",
+            "163.3%",
+            "174.62%",
+            "190.36%",
+            "206.1%",
+            "221.85%",
+            "238.58%"
+          ]
+        },
+        {
+          "sourceId": 1512007,
+          "name": "Mid-air Attack STA Cost",
+          "levels": [
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30",
+            "30"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006302,
+      "sourceSkillType": 2,
+      "sourceSort": 2,
+      "name": "Dream Blend",
+      "descriptionTemplate": "<color=Title>Resonance Skill - Nightmare Blend</color>\nLily starts with <color=Highlight>Heavy Attack - Woven Fairytale</color> by default. When <color=Highlight>Heavy Attack - Woven Fairytale</color> is active, press Resonance Skill to deal <color=Light>Spectro DMG</color> to nearby targets, then switch to <color=Highlight>Heavy Attack - Woven Phantasm</color>.\nThis skill shares a Cooldown with <color=Highlight>Resonance Skill - Reverie Blend</color>.\n\n<color=Title>Resonance Skill - Reverie Blend</color>\nWhen <color=Highlight>Heavy Attack - Woven Phantasm</color> is active, press Resonance Skill to deal <color=Light>Spectro DMG</color> to nearby targets, then switch to <color=Highlight>Heavy Attack - Woven Fairytale</color>.\nThis skill shares a Cooldown with <color=Highlight>Resonance Skill - Nightmare Blend</color>.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1512008,
+          "name": "Resonance Skill - Reverie Blend DMG",
+          "levels": [
+            "80%",
+            "86.56%",
+            "93.12%",
+            "102.31%",
+            "108.87%",
+            "116.41%",
+            "126.91%",
+            "137.4%",
+            "147.9%",
+            "159.05%"
+          ]
+        },
+        {
+          "sourceId": 1512009,
+          "name": "Resonance Skill - Nightmare Blend DMG",
+          "levels": [
+            "80%",
+            "86.56%",
+            "93.12%",
+            "102.31%",
+            "108.87%",
+            "116.41%",
+            "126.91%",
+            "137.4%",
+            "147.9%",
+            "159.05%"
+          ]
+        },
+        {
+          "sourceId": 1512010,
+          "name": "Resonance Skill - Reverie Blend/Nightmare Blend Cooldown",
+          "levels": [
+            "13",
+            "13",
+            "13",
+            "13",
+            "13",
+            "13",
+            "13",
+            "13",
+            "13",
+            "13"
+          ]
+        },
+        {
+          "sourceId": 1512025,
+          "name": "Resonance Skill - Reverie Blend/Nightmare Blend Concerto Regen",
+          "levels": [
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8",
+            "8"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006303,
+      "sourceSkillType": 3,
+      "sourceSort": 3,
+      "name": "Into the Dream Cradle",
+      "descriptionTemplate": "Casting this skill sends Lily into <color=Highlight>Slumberland</color> and grants her <color=Highlight><te href=151203>Cradle Lullaby</te></color>.\nCasting this skill also grants Lily a Shield equal to 100% of her Max HP for 4s. This Shield will not be passed on to the incoming Resonator.\nCan be cast in mid-air close to the ground.\n\n<color=Title>Slumberland</color>\nLasts for 50s. When Lily is in <color=Highlight>Slumberland</color>, she heals the nearby active Resonator every 3s. During <color=Highlight>Slumberland</color>, use directional input to command <color=Highlight>Dreambind</color> to attack, dealing <color=Light>Spectro DMG</color> to nearby targets. <color=Highlight>Dreambind</color> pulls in targets within a certain range every 5s while attacking, and stops attacking 10s after movement stops. Press Resonance Liberation again during <color=Highlight>Slumberland</color> to end it early.\nWhen Lily is in <color=Highlight>Slumberland</color> and a Resonator in the team other than Lily casts <color=Highlight>Intro Skill</color>, targets within a certain range are pulled in. This effect can be triggered once every 10s. Lily is immune to interruption during <color=Highlight>Slumberland</color> and takes 50% less DMG.\nSwitching to another Resonator during <color=Highlight>Slumberland</color> keeps Lily on the field but stops the attacks of <color=Highlight>Dreambind</color>. Lily leaves the field when <color=Highlight>Slumberland</color> ends, or earlier if she gets too far from the active Resonator. Casting <color=Highlight>Intro Skill - Eternal Bloom</color> also ends <color=Highlight>Slumberland</color> immediately.\n\n<color=Title>Cradle Lullaby</color>\nLasts for 25s. While this effect is active, each <color=Highlight>Intro Skill</color> cast by a Resonator in the team other than Lily grants 1 stack of <color=Highlight><te href=151204>Dream Aroma</te></color>. <color=Highlight>Cradle Lullaby</color> is removed when Lily is the incoming Resonator.\n\n<color=Title>Dream Aroma</color>\nStacks up to 4 times. Each stack increases the ATK of all Resonators in the team by 0.1% for every 1% of Lily's Energy Regen exceeding 190%, up to 7%. This effect is removed when Lily is the incoming Resonator or when <color=Highlight>Cradle Lullaby</color> ends.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1512017,
+          "name": "Cooldown",
+          "levels": [
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25",
+            "25"
+          ]
+        },
+        {
+          "sourceId": 1512018,
+          "name": "Resonance Cost",
+          "levels": [
+            "175",
+            "175",
+            "175",
+            "175",
+            "175",
+            "175",
+            "175",
+            "175",
+            "175",
+            "175"
+          ]
+        },
+        {
+          "sourceId": 1512019,
+          "name": "Concerto Regen",
+          "levels": [
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20",
+            "20"
+          ]
+        },
+        {
+          "sourceId": 1512020,
+          "name": "Slumberland Healing",
+          "levels": [
+            "287+0.52%",
+            "321+0.54%",
+            "359+0.56%",
+            "402+0.59%",
+            "454+0.63%",
+            "503+0.68%",
+            "511+0.75%",
+            "523+0.84%",
+            "531+0.94%",
+            "546+1.09%"
+          ]
+        },
+        {
+          "sourceId": 1512021,
+          "name": "Dreambind Continuous DMG",
+          "levels": [
+            "10%",
+            "10.82%",
+            "11.64%",
+            "12.79%",
+            "13.61%",
+            "14.56%",
+            "15.87%",
+            "17.18%",
+            "18.49%",
+            "19.89%"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006306,
+      "sourceSkillType": 5,
+      "sourceSort": 4,
+      "name": "Blooming Dream",
+      "descriptionTemplate": "<color=Title>First Bloom</color>\nAttack the target, dealing <color=Light>Spectro DMG</color>. Press <color=Highlight>Normal Attack</color> shortly after casting this skill to cast Basic Attack Stage 3.\n\n<color=Title>Eternal Bloom</color>\nAfter casting <color=Highlight>Resonance Liberation - Into the Dream Cradle</color>, Lily's next Intro Skill <color=Highlight>First Bloom</color> is replaced with <color=Highlight>Eternal Bloom</color>. When cast, it attacks the target, dealing <color=Light>Spectro DMG</color>.\nFor every 1% of Lily's Energy Regen exceeding 100%, this skill gains 0.5% Crit. Rate, up to 80%, and 1% Crit. DMG, up to 160%.\nCasting this skill grants <color=Highlight>Deep Dream Fragrance</color> for 8s. Casting <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color> consumes <color=Highlight>Deep Dream Fragrance</color> to additionally grant 100 points of <color=Highlight>Dreambell Chime</color>.\nPress <color=Highlight>Normal Attack</color> shortly after casting this skill to cast Basic Attack Stage 3.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1512022,
+          "name": "Intro Skill - First Bloom DMG",
+          "levels": [
+            "27.34%+27.34%*3",
+            "29.59%+29.59%*3",
+            "31.83%+31.83%*3",
+            "34.97%+34.97%*3",
+            "37.21%+37.21%*3",
+            "39.79%+39.79%*3",
+            "43.37%+43.37%*3",
+            "46.96%+46.96%*3",
+            "50.55%+50.55%*3",
+            "54.36%+54.36%*3"
+          ]
+        },
+        {
+          "sourceId": 1512023,
+          "name": "Intro Skill - Eternal Bloom DMG",
+          "levels": [
+            "18.16%",
+            "19.65%",
+            "21.14%",
+            "23.22%",
+            "24.71%",
+            "26.42%",
+            "28.8%",
+            "31.18%",
+            "33.57%",
+            "36.1%"
+          ]
+        },
+        {
+          "sourceId": 1512024,
+          "name": "Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006309,
+      "sourceSkillType": 11,
+      "sourceSort": 4,
+      "name": "Blooming Fragrance",
+      "descriptionTemplate": "Resonators in the team gain 25% All DMG Amplification for 30s.",
+      "descriptionParams": [],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006310,
+      "sourceSkillType": 12,
+      "sourceSort": 4,
+      "name": "Tune Break: Pistols",
+      "descriptionTemplate": "When the target's <color=Highlight>Off-Tune Level</color> is full, the Resonator may cast <color=Highlight><te href=100001>Tune Break</te></color> on the target.",
+      "descriptionParams": [],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006307,
+      "sourceSkillType": 6,
+      "sourceSort": 5,
+      "name": "Dreamland of Flowers",
+      "descriptionTemplate": "<color=Title>Dream Perfume</color>\nCan hold up to 300 points.\n<color=Highlight>Basic Attack</color>, <color=Highlight>Mid-air Attack</color>, and <color=Highlight>Dodge Counter</color> restore <color=Highlight>Dream Perfume</color> when dealing damage.\nCasting <color=Highlight>Resonance Skill - Reverie Blend</color> or <color=Highlight>Resonance Skill - Nightmare Blend</color> restores 130 points of <color=Highlight>Dream Perfume</color>.\nCasting <color=Highlight>Intro Skill - Eternal Bloom</color> restores 130 points of <color=Highlight>Dream Perfume</color>.\n\n<color=Title>Dreambell Chime</color>\nCan hold up to 300 points.\nCan be gained continuously during <color=Highlight>Heavy Attack - Woven Fairytale</color> and <color=Highlight>Heavy Attack - Woven Phantasm</color>. Any unconsumed <color=Highlight>Dreambell Chime</color> will be converted into an equal amount of <color=Highlight>Dream Perfume</color>.\n\n<color=Title>Heavy Attack - Woven Fairytale</color>\nWhen <color=Highlight>Dream Perfume</color> is full, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Heavy Attack - Woven Fairytale</color>, consuming all <color=Highlight>Dream Perfume</color> to grant 1 stack of <color=Highlight>Dream Shelter</color>. During the skill, Lily pulls in nearby targets and continuously deals <color=Light>Spectro DMG</color> to them. She also heals all Resonators in the team every second for 2s.\nCasting <color=Highlight>Heavy Attack - Woven Fairytale</color> grants Lily <color=Highlight>Wish of Praying Dream</color>.\nSwitching to another Resonator during <color=Highlight>Heavy Attack - Woven Fairytale</color> ends the skill immediately.\nLily continuously gains <color=Highlight>Dreambell Chime</color> and Concerto Energy (up to 30 points) during the skill.\nWhen <color=Highlight>Dreambell Chime</color> reaches 300 points, press or hold <color=Highlight>Normal Attack</color> to end the skill immediately and cast <color=Highlight>Heavy Attack - Fairytale's Finale</color>. <color=Highlight>Heavy Attack - Fairytale's Finale</color> is automatically cast at the end of <color=Highlight>Heavy Attack - Woven Fairytale</color>. Casting <color=Highlight>Heavy Attack - Fairytale's Finale</color> consumes all <color=Highlight>Dreambell Chime</color>.\n\n<color=Title>Heavy Attack - Fairytale's Finale</color>\nAttack targets within range, dealing <color=Light>Spectro DMG</color>.\nFor every 1% of Lily's Energy Regen exceeding 100%, this skill gains 0.5% Crit. Rate, up to 80%, and 1% Crit. DMG, up to 160%.\nLily gains <color=Highlight>Sillage</color> for 6s while casting this skill. Casting Outro Skill consumes <color=Highlight>Sillage</color> and grants <color=Highlight><te href=151202>Silvered Dream</te></color> to Resonators in the team. This effect can be triggered once every 20s.\nLily cannot be switched out while casting this skill.\n\n<color=Title>Heavy Attack - Woven Phantasm</color>\nWhen <color=Highlight>Dream Perfume</color> is full, hold <color=Highlight>Normal Attack</color> to cast <color=Highlight>Heavy Attack - Woven Phantasm</color>, consuming all <color=Highlight>Dream Perfume</color> to grant 1 stack of <color=Highlight>Dream Shelter</color>. During the skill, Lily pulls in nearby targets and continuously deals <color=Light>Spectro DMG</color> to them. She also heals all Resonators in the team every second for 2s.\nCasting <color=Highlight>Heavy Attack - Woven Phantasm</color> grants Lily <color=Highlight>Wish of Praying Dream</color>.\nSwitching to another Resonator during <color=Highlight>Heavy Attack - Woven Phantasm</color> ends the skill immediately.\nLily continuously gains <color=Highlight>Dreambell Chime</color> and Concerto Energy (up to 30 points) during the skill.\nWhen <color=Highlight>Dreambell Chime</color> reaches 300 points, press or hold <color=Highlight>Normal Attack</color> to end the skill immediately and cast <color=Highlight>Heavy Attack - Phantasm's End</color>. <color=Highlight>Heavy Attack - Phantasm's End</color> is automatically cast at the end of <color=Highlight>Heavy Attack - Woven Phantasm</color>. Casting <color=Highlight>Heavy Attack - Phantasm's End</color> consumes all <color=Highlight>Dreambell Chime</color>.\n\n<color=Title>Heavy Attack - Phantasm's End</color>\nAttack targets within range, dealing <color=Light>Spectro DMG</color>.\nFor every 1% of Lily's Energy Regen exceeding 100%, this skill gains 0.5% Crit. Rate, up to 80%, and 1% Crit. DMG, up to 160%.\nLily gains <color=Highlight>Sillage</color> for 6s while casting this skill. Casting Outro Skill consumes <color=Highlight>Sillage</color> and grants <color=Highlight><te href=151202>Silvered Dream</te></color> to Resonators in the team. This effect can be triggered once every 20s.\nLily cannot be switched out while casting this skill.\n\n<color=Title>Silvered Dream</color>\nLasts for 30s.\nWhen the Resonator with this effect is the active Resonator and can trigger Unison Response, each stack of <color=Highlight><te href=131111>Unison Boon</te></color> on the team increases their ATK by 0.1% for every 1% of Lily's Energy Regen exceeding 190%, up to 7%, counting up to 4 stacks of <color=Highlight><te href=131111>Unison Boon</te></color>.\nThe active Resonator's Echo Skill DMG gains more Crit. Rate and Crit. DMG. For every 0.7% of Lily's Energy Regen exceeding 190%, the Crit. Rate of Echo Skill DMG is increased by 0.1%, up to 10%, and the Crit. DMG of Echo Skill DMG is increased by 0.2%, up to 20%.\nAll Resonators in the team gain increased resistance to interruption.\n\n<color=Title>Dream Shelter</color>\nCasting <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color> grants 1 stack of <color=Highlight>Dream Shelter</color>, stacking up to 1 time. <color=Highlight>Dream Shelter</color> is removed when <color=Highlight>Heavy Attack - Fairytale's Finale</color> or <color=Highlight>Heavy Attack - Phantasm's End</color> ends, or when <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color> is interrupted. Receiving damage from an enemy target consumes 1 stack of <color=Highlight>Dream Shelter</color> to grant Lily immunity to interruption and reduce the DMG taken by 60% for 1s. This effect can be triggered once per second.\n\n<color=Title>Wish of Praying Dream</color>\nCan be gained once every 25s.\nWhen Lily has <color=Highlight>Wish of Praying Dream</color>, the current <color=Highlight>Heavy Attack - Woven Fairytale</color> or <color=Highlight>Heavy Attack - Woven Phantasm</color> consumes <color=Highlight>Wish of Praying Dream</color> to increase the skill's healing by 400%.",
+      "descriptionParams": [],
+      "maxLevel": 10,
+      "values": [
+        {
+          "sourceId": 1512011,
+          "name": "Heavy Attack - Woven Fairytale Healing",
+          "levels": [
+            "185+0.33%",
+            "207+0.35%",
+            "231+0.36%",
+            "259+0.38%",
+            "292+0.41%",
+            "323+0.43%",
+            "329+0.48%",
+            "336+0.54%",
+            "342+0.6%",
+            "351+0.7%"
+          ]
+        },
+        {
+          "sourceId": 1512012,
+          "name": "Heavy Attack - Woven Phantasm Healing",
+          "levels": [
+            "185+0.33%",
+            "207+0.35%",
+            "231+0.36%",
+            "259+0.38%",
+            "292+0.41%",
+            "323+0.43%",
+            "329+0.48%",
+            "336+0.54%",
+            "342+0.6%",
+            "351+0.7%"
+          ]
+        },
+        {
+          "sourceId": 1512013,
+          "name": "Heavy Attack - Woven Fairytale DMG",
+          "levels": [
+            "12.5%+12.5%*19",
+            "13.53%+13.53%*19",
+            "14.55%+14.55%*19",
+            "15.99%+15.99%*19",
+            "17.01%+17.01%*19",
+            "18.19%+18.19%*19",
+            "19.83%+19.83%*19",
+            "21.47%+21.47%*19",
+            "23.11%+23.11%*19",
+            "24.86%+24.86%*19"
+          ]
+        },
+        {
+          "sourceId": 1512014,
+          "name": "Heavy Attack - Woven Phantasm DMG",
+          "levels": [
+            "10.87%*23",
+            "11.77%*23",
+            "12.66%*23",
+            "13.9%*23",
+            "14.8%*23",
+            "15.82%*23",
+            "17.25%*23",
+            "18.67%*23",
+            "20.1%*23",
+            "21.61%*23"
+          ]
+        },
+        {
+          "sourceId": 1512015,
+          "name": "Heavy Attack - Fairytale's Finale DMG",
+          "levels": [
+            "18%",
+            "19.48%",
+            "20.96%",
+            "23.02%",
+            "24.5%",
+            "26.2%",
+            "28.56%",
+            "30.92%",
+            "33.28%",
+            "35.79%"
+          ]
+        },
+        {
+          "sourceId": 1512016,
+          "name": "Heavy Attack - Phantasm's End DMG",
+          "levels": [
+            "18%",
+            "19.48%",
+            "20.96%",
+            "23.02%",
+            "24.5%",
+            "26.2%",
+            "28.56%",
+            "30.92%",
+            "33.28%",
+            "35.79%"
+          ]
+        },
+        {
+          "sourceId": 1512029,
+          "name": "Heavy Attack - Fairytale's Finale/Phantasm's End Concerto Regen",
+          "levels": [
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10",
+            "10"
+          ]
+        }
+      ]
+    },
+    {
+      "sourceSkillId": 1006304,
+      "sourceSkillType": 4,
+      "sourceSort": 6,
+      "name": "Woven Scent",
+      "descriptionTemplate": "Casting <color=Highlight>Intro Skill - Eternal Bloom</color> additionally restores 10 points of Concerto Energy, triggered once every 20s.\nCasting <color=Highlight>Heavy Attack - Fairytale's Finale</color> or <color=Highlight>Heavy Attack - Phantasm's End</color> additionally restores 15 points of Concerto Energy, triggered once every 20s.",
+      "descriptionParams": [],
+      "maxLevel": 1,
+      "values": []
+    },
+    {
+      "sourceSkillId": 1006305,
+      "sourceSkillType": 4,
+      "sourceSort": 7,
+      "name": "Flowers for You",
+      "descriptionTemplate": "While a nearby active Resonator has 50% or more HP, Lily grants them 10% DMG Reduction.\nWhen a Resonator in the team takes a fatal blow, they will not fall and will instead gain a Shield equal to 10% of Lily's Max HP for 10s. This effect can be triggered once every 5 min.\nCasting <color=Highlight>Heavy Attack - Fairytale's Finale</color> or <color=Highlight>Heavy Attack - Phantasm's End</color> grants Lily <color=Highlight>Floral Blessing</color>.\n\n<color=Title>Floral Blessing</color>\nLasts for 60s. When the HP of a surviving Resonator in the team is below 50% of their Max HP, restore 50% of their Max HP and remove <color=Highlight>Floral Blessing</color>. This effect can be triggered once every 120s.",
+      "descriptionParams": [],
+      "maxLevel": 1,
+      "values": []
+    }
+  ],
+  "sourceIcons": {
+    "normal-attack": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconNorGun.webp",
+    "skill": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliB1.webp",
+    "liberation": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliC1.webp",
+    "inherent-1": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliD1.webp",
+    "inherent-2": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliD2.webp",
+    "intro": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliQTE.webp",
+    "circuit": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliY.webp",
+    "outro": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconLili/SP_IconLiliT.webp",
+    "tune-break": "/assets/UIResources/Common/Atlas/SkillIcon/SkillIconNor/SP_IconWeakPointBreakGun.webp"
+  },
+  "sourceArt": {
+    "portrait": "/assets/UIResources/Common/Image/IconRoleHeadCircle256/T_IconRoleHeadCircle256_77_UI.webp",
+    "hero": "/assets/UIResources/Common/Image/IconRolePile/T_IconRole_Pile_Lili_UI.webp"
+  },
+  "provenance": {
+    "roles": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/role/roleinfo.json",
+      "gitBlobSha": "f3c75716f894deb5b592f26f2379909e4705aca3",
+      "sourceBytes": 579462,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/role/roleinfo.json"
+    },
+    "base": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/property/baseproperty.json",
+      "gitBlobSha": "6886682cd26c4f0a53eca43788e6155875f9d0f9",
+      "sourceBytes": 10850391,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/property/baseproperty.json"
+    },
+    "growth": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/property/rolepropertygrowth.json",
+      "gitBlobSha": "7608dd1aabe579a24a10ef8c94b1892aa1e1b21f",
+      "sourceBytes": 12913,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/property/rolepropertygrowth.json"
+    },
+    "tree": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/skillTree/skilltree.json",
+      "gitBlobSha": "58b69308fe5496a41186c880a9a8f48cef8864ef",
+      "sourceBytes": 789371,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/skillTree/skilltree.json"
+    },
+    "chains": {
+      "repository": "Arikatsu/WutheringWaves_Data",
+      "commit": "49d65625340a32cec6851a12baedc03b5a630b25",
+      "path": "BinData/resonate_chain/resonantchain.json",
+      "gitBlobSha": "77de372786db3455a7a4a18670c7ec40b267eb3b",
+      "sourceBytes": 239396,
+      "url": "https://raw.githubusercontent.com/Arikatsu/WutheringWaves_Data/49d65625340a32cec6851a12baedc03b5a630b25/BinData/resonate_chain/resonantchain.json"
+    },
+    "characters": {
+      "repository": "DommyMM/wuwabuild",
+      "commit": "0fa70f9282bb97c645b8669d3842f6a9e4ba5076",
+      "path": "public/Data/Characters.json",
+      "gitBlobSha": "3614fc5a8ab982ca8d32a0b0fa54217d46418420",
+      "sourceBytes": 10627943,
+      "url": "https://raw.githubusercontent.com/DommyMM/wuwabuild/0fa70f9282bb97c645b8669d3842f6a9e4ba5076/public/Data/Characters.json"
+    }
+  },
+  "notes": [
+    "Source-backed Lv1 and growth ratios are retained separately. Do NOT infer published Lv90 integer rounding.",
+    "EnergyMax is raw client capacity, not Resonance Liberation cost or a Forte gauge.",
+    "Descriptions, levels, Sequences and intrinsic source IDs are evidence; mechanics remain RAW_ONLY/PENDING until reviewed and modeled.",
+    "Pinned source image paths are not imported asset files or approved UI framing."
+  ]
+}

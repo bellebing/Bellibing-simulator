@@ -7,11 +7,14 @@ const MANIFEST = join(ROOT, 'manifest.json');
 const WUWABUILD_COMMIT = '5fa70b11f1d84fb644e4dbed47873708da0fe66f';
 const TOMY_COMMIT = '5b3d1d128ed3938cbb8e5260ba07b075b321a7c6';
 const WUWABUILD_V37_COMMIT = '49222fe53b2bb2060f235152ee78ad332ea44c37';
+// Two strictly pinned complete states during a one-PR import transition. An
+// incomplete third state (e.g. Hsin staged without Lily) is never accepted.
+const INTEGRATED = JSON.parse(readFileSync(MANIFEST, 'utf8')).characters.some(row => row.characterId === 'lily');
 const EXPECTED_FAMILIES = {
   element: 6,
   sonata: 37,
-  chain: 348,
-  skill: 411,
+  chain: INTEGRATED ? 366 : 348,
+  skill: INTEGRATED ? 432 : 411,
   stat: 17,
   'echo-cost': 3,
 };
@@ -100,19 +103,19 @@ if (manifest.sources?.tomy?.commit !== TOMY_COMMIT || manifest.sources?.tomy?.br
 if (manifest.sources?.wuwabuild37?.commit !== WUWABUILD_V37_COMMIT) fail('Version 3.7 wuwabuild source pin drift');
 if (manifest.policy?.transform !== 'NONE_BYTE_IDENTICAL_COPY') fail('asset transform policy drift');
 if (manifest.policy?.materials?.startsWith('PENDING_SOURCE_MAPPING') !== true) fail('materials must remain pending until source-mapped');
-if (JSON.stringify(manifest.policy?.excludedCharacters) !== JSON.stringify(['hsin', 'suoming'])) fail('pending Character exclusion drift');
+if (JSON.stringify(manifest.policy?.excludedCharacters) !== JSON.stringify([])) fail('pending Character exclusion drift');
 
 const summaryExpected = {
-  physicalAssets: 822,
+  physicalAssets: INTEGRATED ? 861 : 822,
   upstreamCharacterRows: 62,
-  logicalCharacterKits: 58,
+  logicalCharacterKits: INTEGRATED ? 61 : 58,
   upstreamSkillReferences: 496,
-  skillReferences: 464,
-  skills: 411,
+  skillReferences: INTEGRATED ? 488 : 464,
+  skills: INTEGRATED ? 432 : 411,
   weaponTypeIconsWithinSkills: 5,
   upstreamChainReferences: 372,
-  chainReferences: 348,
-  chains: 348,
+  chainReferences: INTEGRATED ? 366 : 348,
+  chains: INTEGRATED ? 366 : 348,
   elements: 6,
   sonataSets: 37,
   statLabels: 20,
@@ -123,7 +126,7 @@ for (const [key, value] of Object.entries(summaryExpected)) {
   if (manifest.summary?.[key] !== value) fail('summary drift for ' + key + ': ' + manifest.summary?.[key]);
 }
 
-if (!Array.isArray(manifest.assets) || manifest.assets.length !== 822) fail('expected 822 manifest assets');
+if (!Array.isArray(manifest.assets) || manifest.assets.length !== summaryExpected.physicalAssets) fail('unexpected manifest asset count');
 const targetPaths = new Set();
 const familyCounts = {};
 const assetByTarget = new Map();
@@ -152,15 +155,15 @@ if (Object.keys(familyCounts).length !== Object.keys(EXPECTED_FAMILIES).length) 
 
 const actualAssetFiles = listFiles(ROOT).filter((path) => path !== MANIFEST).sort();
 const manifestAssetFiles = [...targetPaths].sort();
-if (actualAssetFiles.length !== 822) fail('physical file count drift: ' + actualAssetFiles.length);
+if (actualAssetFiles.length !== summaryExpected.physicalAssets) fail('physical file count drift: ' + actualAssetFiles.length);
 if (JSON.stringify(actualAssetFiles) !== JSON.stringify(manifestAssetFiles)) fail('asset directory contains unmanifested or missing files');
 
 const canonicalCharacters = parseCharacters();
-if (canonicalCharacters.length !== 60) fail('canonical Character count drift');
-const canonicalExcluded = ['hsin', 'suoming']; // Pinned source asset gaps, independent of catalog release.
-if (JSON.stringify(canonicalExcluded) !== JSON.stringify(['hsin', 'suoming'])) fail('canonical pending Character set drift');
+if (canonicalCharacters.length !== (INTEGRATED ? 61 : 60)) fail('canonical Character count drift');
+const canonicalExcluded = INTEGRATED ? [] : ['hsin', 'suoming']; // Source-gated until all three kits exist.
+if (JSON.stringify(canonicalExcluded) !== JSON.stringify(INTEGRATED ? [] : ['hsin', 'suoming'])) fail('canonical pending Character set drift');
 const expectedCharacterIds = new Set(canonicalCharacters.filter((row) => !canonicalExcluded.includes(row.id)).map((row) => row.id));
-if (!Array.isArray(manifest.characters) || manifest.characters.length !== 58) fail('manifest Character kit count drift');
+if (!Array.isArray(manifest.characters) || manifest.characters.length !== summaryExpected.logicalCharacterKits) fail('manifest Character kit count drift');
 const manifestCharacterIds = new Set(manifest.characters.map((row) => row.characterId));
 if (!sameSet(expectedCharacterIds, manifestCharacterIds)) fail('Character kit coverage drift');
 
@@ -185,8 +188,8 @@ for (const row of manifest.characters) {
     chainTargets.add(chain.targetPath);
   });
 }
-if (skillTargets.size !== 411) fail('unique skill reference count drift: ' + skillTargets.size);
-if (chainTargets.size !== 348) fail('unique chain reference count drift: ' + chainTargets.size);
+if (skillTargets.size !== summaryExpected.skills) fail('unique skill reference count drift: ' + skillTargets.size);
+if (chainTargets.size !== summaryExpected.chains) fail('unique chain reference count drift: ' + chainTargets.size);
 if (normalAttackTargets.size !== 5) fail('weapon-type icon count drift: ' + normalAttackTargets.size);
 
 if (!Array.isArray(manifest.elements) || manifest.elements.length !== 6) fail('element manifest count drift');
@@ -216,4 +219,4 @@ if (statTargets.size !== 17) fail('unique stat asset count drift: ' + statTarget
 if (!Array.isArray(manifest.echoCosts) || JSON.stringify(manifest.echoCosts.map((row) => row.cost)) !== JSON.stringify([1, 3, 4])) fail('Echo COST coverage drift');
 for (const row of manifest.echoCosts) if (assetByTarget.get(row.targetPath)?.family !== 'echo-cost') fail('invalid COST asset reference ' + row.cost);
 
-console.log('Builder icon foundation audit OK: 819 physical assets; 58 Character kits; 411 skills; 348 chains; 34 Sonata; 6 elements; 20 stat labels / 17 files; 3 COST.');
+console.log('Builder icon foundation audit OK: 861 physical assets; 61 Character kits; 432 skills; 366 chains; 37 Sonata; 6 elements; 20 stat labels / 17 files; 3 COST.');

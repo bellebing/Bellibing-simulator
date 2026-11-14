@@ -27,3 +27,9 @@
 .cost-comparison tfoot th { text-align:left; }
 .cost-comparison tfoot td { text-align:right; color:var(--gold); font-variant-numeric:tabular-nums; }
 .cost-comparison [hidden] { display:none; }
+
+/* Missing estimates remain —; diagnostics are opt-in below the table. */
+#resourceCost { flex-direction:column; align-items:center; }
+#resourceCost [data-expected-details] { width:100%; max-width:278px; margin-top:6px; font-size:11px; color:#87929c; }
+#resourceCost [data-expected-details] summary { cursor:pointer; }
+#resourceCost [data-expected-details] p { margin:6px 0 0; overflow-wrap:anywhere; }

@@ -1,6 +1,7 @@
 // Public presentation only. Values, ordering and recommendations come from the
 // private allowlisted result; this module performs no DPS or decision calculation.
 import {escapeHtml as html} from './util.js';
+import {expectedTunerReason} from './stat-target-cost.js';
 export const IMPROVE_OBJECTIVE_OPTIONS=Object.freeze([
  ['MIN_EXPECTED_NET_TUNERS','Lowest net Tuners'],['MIN_EXPECTED_NET_EXP','Lowest net EXP'],
  ['MIN_EXPECTED_ECHO_ATTEMPTS','Fewest Echo attempts'],['MAX_UPGRADE_PROBABILITY','Highest upgrade chance'],
@@ -69,7 +70,8 @@ export function localAdviceSummary(advice){
  if(comparison?.status==='EXPERIMENTAL'&&Number.isFinite(gain))return `<span class="advice-build-gain">${signed(gain,0)} team DPS · experimental</span><small>${goal}</small><details><summary>Build comparison</summary><p>Current ${number(comparison.current?.teamTotal,0)} → candidate ${number(comparison.candidate?.teamTotal,0)} model DPS. Other four Echoes, team and rotation are fixed.</p><p>Replacement cost and future-roll policy Pending.</p></details>`;
  const raw=advice.targetGuidance??{};
  const continued=raw.continue?.tuners?.approximate,restarted=raw.discard?.tuners?.approximate;
- return `<small>${goal}</small><details><summary>Decision scope</summary>${Number.isFinite(continued)&&Number.isFinite(restarted)?`<p>Until manual targets · Continue ${number(continued,0)} / Restart ${number(restarted,0)} gross Tuners.</p>`:''}<p>${comparison?.reason==='COMPLETE_CANDIDATE_REQUIRED'?'Record the remaining rolls for a full-build DPS comparison.':'Actual supported team and complete investment data are needed for DPS comparison.'}</p><p>Manual-target advice excludes DPS value and resource recovery.</p></details>`;
+ const calculatorReason=raw.status==='PENDING'?'<p>Target calculator: '+html(expectedTunerReason(raw.reason))+' ('+html(raw.reason??'UNAVAILABLE')+')</p>':'';
+ return `<small>${goal}</small><details><summary>Decision scope</summary>${calculatorReason}${Number.isFinite(continued)&&Number.isFinite(restarted)?`<p>Until manual targets · Continue ${number(continued,0)} / Restart ${number(restarted,0)} gross Tuners.</p>`:''}<p>${comparison?.reason==='COMPLETE_CANDIDATE_REQUIRED'?'Record the remaining rolls for a full-build DPS comparison.':'Actual supported team and complete investment data are needed for DPS comparison.'}</p><p>Manual-target advice excludes DPS value and resource recovery.</p></details>`;
 }
 export function checkpointVerdict(advice){
  if(!advice)return 'Record the result from your game';

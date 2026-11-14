@@ -11,7 +11,7 @@ const labels={hard:'Hard Requirements',flex:'Flex Stats',other:'Other Stats'};
 export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
   host.innerHTML = `<span class="carousel-announcement" id="settingsKeys">Drag to reorder or move between sections. Alt Left or Right changes section. Alt Up or Down reorders.</span>
     <section class="er-target" id="erTarget"><div class="er-target-heading"><label><input id="erEnabled" type="checkbox" aria-label="Enable ER Target" aria-describedby="erTargetBadge">ER Target</label><output id="erTargetValue" class="er-target-readout"></output><label id="erTargetEditor" class="er-target-inline-editor" hidden><input id="erTargetInput" type="number" min="0" step="0.1" inputmode="decimal" aria-label="ER Target percent" aria-describedby="erTargetBadge"><span aria-hidden="true">%</span></label><span id="erTargetBadge" role="status" aria-live="polite"></span></div></section>
-    <section><h3>Hard Requirements</h3><p id="sourcePriorityStatus" class="settings-validation" hidden></p><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div></section>
+    <section><h3>Hard Requirements</h3><div id="hardRows" class="stat-list" data-stat-section="hard" aria-label="Hard Requirements"></div><details id="sourcePriorityDetails" hidden><summary>Source and target details</summary><p id="sourcePriorityStatus"></p></details></section>
     <section><h3>Flex Stats</h3><label class="flex-count"><output id="flexCountLabel"></output><input id="flexCount" type="range" aria-label="Required distinct Flex Stats" aria-describedby="flexCountLabel flexCountError"></label><p id="flexCountError" class="settings-validation" role="alert" hidden></p><div id="flexRows" class="stat-list" data-stat-section="flex" aria-label="Flex Stats"></div></section>
     <details id="otherStats"><summary>Other Stats</summary><div id="otherRows" class="stat-list" data-stat-section="other" aria-label="Other Stats"></div></details>`;
   const find=selector=>host.querySelector(selector);
@@ -36,7 +36,7 @@ export function mountImproveSettings(host,{getState,onEdit,onSettle}) {
     const state=getState(), view=flexCountPresentation(state), slider=find('#flexCount');
     const guidance=sourcePriorityMode(state),product=state.settingsMode==='Recommended'&&state.productEchoDefault?.characterId===state.id;
     find('.flex-count').hidden=guidance;
-    find('#sourcePriorityStatus').hidden=!(guidance||product);
+    find('#sourcePriorityDetails').hidden=!(guidance||product);
     const sourceStatus=find('#sourcePriorityStatus'),source=state.productEchoDefault;
     sourceStatus.textContent=guidance?`Source priorities only · per-Echo Hard/minimum/count Pending. Customize to set your own requirements.${state.sourcePreferenceGuidance?.unresolved.length?' Some source labels still require mapping review.':''}`
       :product?`Bellibing product default · ${source.sourceKind==='DPR_SUBSTAT_VALUE'?'DPR Substat Value ('+source.sourceSheetTitle+', scenario-specific marginal %)':'Prydwen reviewed guide substat priority'} · lowest canonical roll minima and Flex count 1 are product choices, not source-verified per-Echo thresholds. Energy Regen uses separate whole-build guidance. `

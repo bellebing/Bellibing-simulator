@@ -14,7 +14,7 @@
 
 ## Active work tracking (avoid competing backlogs)
 
-**Use [GitHub Issues](https://github.com/bellebing/Bellibing-simulator/issues) for active bugs and roadmap tasks.** The owner-facing local beta queue is [#368](https://github.com/bellebing/Bellibing-simulator/issues/368). For historical `BUG-xxx`, logs/decisions and private owner evidence, cross-reference the private Handoff sheet (`Buggar`, `Uppdateringslogg`); do not copy private image/account data to a public Issue. Closed means proven fixed by affected-surface evidence, not merely code committed.
+**Use [GitHub Issues](https://github.com/bellebing/Bellibing-simulator/issues) for active bugs and roadmap tasks right now.** The structured bug form is only in the unmerged PR; until merge, choose **New issue** normally. The owner-facing local beta queue is [#368](https://github.com/bellebing/Bellibing-simulator/issues/368). For historical `BUG-xxx`, logs/decisions and private owner evidence, cross-reference the private Handoff sheet (`Buggar`, `Uppdateringslogg`); do not copy private image/account data to a public Issue. Closed means proven fixed by affected-surface evidence, not merely code committed.
 
 ## Historical or superseded sequencing (retained, not governing today)
 

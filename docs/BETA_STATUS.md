@@ -42,7 +42,7 @@
 
 ## Beta bug lifecycle
 
-**Observe → open Issue → prioritize P0/P1/P2/Parked → reproduce → fix in PR → verify on relevant real surface → close Issue.** A commit, green FAST, or synthetic scan is not a user-visible fix. For UI bugs, confirm actual browser UI; for local-scanner issues, Windows/image acceptance; for storage, save/reload and nonmutation. Use the GitHub [beta bug issue template](../.github/ISSUE_TEMPLATE/beta-bug.yml) for reproducible details, expected vs actual, environment/commit and sanitized evidence. Link `BUG-xxx` when known. Do not close old bugs merely because the same category seems to work informally.
+**Observe → open Issue → prioritize P0/P1/P2/Parked → reproduce → fix in PR → verify on relevant real surface → close Issue.** A commit, green FAST, or synthetic scan is not a user-visible fix. For UI bugs, confirm actual browser UI; for local-scanner issues, Windows/image acceptance; for storage, save/reload and nonmutation. Use [GitHub New Issue](https://github.com/bellebing/Bellibing-simulator/issues/new) immediately with reproducible details, expected vs actual, environment/commit and sanitized evidence. A structured [beta-bug template](../.github/ISSUE_TEMPLATE/beta-bug.yml) is included in Draft PR #365; GitHub will only offer that form through the normal main-branch Issues UI **after a separately approved merge**. Link `BUG-xxx` when known. Do not close old bugs merely because the same category seems to work informally.
 
 ## Documentation policy
 

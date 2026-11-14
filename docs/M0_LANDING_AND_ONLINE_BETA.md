@@ -1,5 +1,7 @@
 # M0 integration and online beta
 
+> **2026-11-14 superseded roadmap note:** This earlier online/M0 program is **not** the new local beta scope and authorizes no merge, private service exposure or Pages deployment. For active priority and beta readiness use [BETA_STATUS.md](BETA_STATUS.md) and GitHub issue #368; preserve this dated record only as historical technical context.
+
 M0 reuses the existing experimental 59/59 first-team calculator and ordinary
 Build, Current, Candidate and Sandbox owners. Gameplay-qualified coverage remains
 0/59. No new engine, rotation, source pin or M1 UI is introduced.

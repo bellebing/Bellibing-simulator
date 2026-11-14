@@ -1,5 +1,7 @@
 ﻿# Vägen till en användbar Bellibing-version
 
+> **2026-11-14 superseded roadmap note:** This is an older release-plan snapshot. Statements such as 'no commit/push' and older next-step lists are no longer current. For active priority and beta readiness use [BETA_STATUS.md](BETA_STATUS.md) and GitHub issue #368; preserve this dated record only as historical technical context.
+
 ## Nuvarande läge
 
 Den accepterade B-presentationen är överförd till versionshanterade produktfiler på den lokala #365-grenen. Build, Inventory och Teams byggs nu på de vanliga produktrutterna; Improve och Sandbox behåller sina arbetsytor. Ingen commit, push, main-merge eller publicering har utförts.

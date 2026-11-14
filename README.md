@@ -5,7 +5,9 @@ Wuthering Waves Character Build, Inventory, Teams, Improve and isolated Echo San
 **Design starts in the running app and the current user request.** Earlier UI sketches, measurements and approvals are historical references, not instructions. Bellibing uses **ETNA** for display headings and **Inter/system sans** for utility text; see [font provenance](docs/UI_TYPOGRAPHY.md).
 
 - [Published UI preview (merged main)](https://bellebing.github.io/Bellibing-simulator/ui-preview/)
-- [Project status and active work](docs/PROJECT_STATUS.md)
+- [**Local beta status, bug tracking and release gates**](docs/BETA_STATUS.md)
+- [Documentation index / historical references](docs/README.md)
+- [Project status and detailed implementation](docs/PROJECT_STATUS.md)
 - [How to run and check locally](docs/DEVELOPMENT_PROCESS.md)
 - [Functional product/data semantics](docs/PRODUCT_CONTRACT.md)
 

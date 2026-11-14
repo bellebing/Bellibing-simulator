@@ -1,4 +1,4 @@
-> Historical unmerged source candidate preserved during recovery. Current task scope and Development Process govern; dated readiness is not current product status.
+> Historical unmerged source candidate preserved during recovery. **Its October priority/order was superseded by the owner's local beta focus on 2026-11-14**: [BETA_STATUS.md](BETA_STATUS.md) and [GitHub #368](https://github.com/bellebing/Bellibing-simulator/issues/368) now own near-term priority. Long-range journey and source/account safety principles below remain references; dated readiness is not current product status.
 
 # Bellibing Simulator — master product journey and delivery roadmap
 

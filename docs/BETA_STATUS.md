@@ -4,7 +4,8 @@
 
 ## Start here — one active queue
 
-- **Active beta backlog and priorities:** [GitHub Issue #368 — local beta tracker](https://github.com/bellebing/Bellibing-simulator/issues/368). Each actionable bug or feature gets its own linked GitHub Issue (including [#366](https://github.com/bellebing/Bellibing-simulator/issues/366) and [#367](https://github.com/bellebing/Bellibing-simulator/issues/367)); avoid shadow task lists.
+- **Current user-facing task and bug list (owner clarification 2026-11-14):** [Google Handoff — Att göra](https://docs.google.com/spreadsheets/d/12xvC-hItxLBBJNgO_xoBcm-K1bAarzz4Udfc5_uFj4k/edit#gid=1892471060). One simple Google tab with NOW / SOON / LATER / PARKED; update this list as we talk instead of opening an Issue for each idea.
+- **Previously created GitHub Issues [#366–#372](https://github.com/bellebing/Bellibing-simulator/issues/368) are historical detail/reference links, NOT another active task queue.** No new GitHub Issue is required for ordinary planning. Use the existing Draft PR #365 for changes; separate PR/merge/deploy require explicit decision.
 - **Historical bug IDs and implementation evidence:** private *Bellibing Echo Tool — AI Handoff*, tabs `Buggar` and `Uppdateringslogg`. Do not publish player data, private image scans, account backups or private engine details in public issues. Reference existing `BUG-xxx` IDs in Issues and handoff logs; avoid dual independent status decisions.
 - **Detailed source/feature inventory:** [PROJECT_STATUS.md](PROJECT_STATUS.md), [current integration candidate](ONE_PR_INTEGRATION_REVIEW.md), [character import notes](CHARACTER_IMPORT_PIPELINE.md), and [source ownership / development process](DEVELOPMENT_PROCESS.md). Dates and old experimental coverage counts in long documents are historical unless the current implementation confirms them.
 - **Documentation index, active contracts and archive classification:** [README.md](README.md).
@@ -44,7 +45,7 @@
 
 ## Beta bug lifecycle
 
-**Observe → open Issue → prioritize P0/P1/P2/Parked → reproduce → fix in PR → verify on relevant real surface → close Issue.** A commit, green FAST, or synthetic scan is not a user-visible fix. For UI bugs, confirm actual browser UI; for local-scanner issues, Windows/image acceptance; for storage, save/reload and nonmutation. Use [GitHub New Issue](https://github.com/bellebing/Bellibing-simulator/issues/new) immediately with reproducible details, expected vs actual, environment/commit and sanitized evidence. A structured [beta-bug template](../.github/ISSUE_TEMPLATE/beta-bug.yml) is included in Draft PR #365; GitHub will only offer that form through the normal main-branch Issues UI **after a separately approved merge**. Link `BUG-xxx` when known. Do not close old bugs merely because the same category seems to work informally.
+**Observe → add/update one row in Google 'Att göra' → prioritize Nu/Snart/Senare/Parkerat → reproduce → fix in existing PR when authorized → verify on relevant real surface → mark row Klart.** A commit, green FAST, or synthetic scan is not a user-visible fix. For UI bugs, confirm actual browser UI; for local-scanner issues, Windows/image acceptance; for storage, save/reload and nonmutation. Detailed code investigations may link existing Issues or reference the historical `BUG-xxx` register, but a Google row is the normal planning record. A structured GitHub [beta-bug template](../.github/ISSUE_TEMPLATE/beta-bug.yml) remains available as a dormant option in unmerged Draft PR #365, not an instruction to create one Issue per task. Never label a bug fixed merely because a patch exists.
 
 ## Documentation policy
 

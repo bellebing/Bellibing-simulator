@@ -1,6 +1,6 @@
 # Bellibing documentation — where to start
 
-**Current (2026-11-14) local beta direction:** [BETA_STATUS.md](BETA_STATUS.md) → [GitHub beta tracker #368](https://github.com/bellebing/Bellibing-simulator/issues/368). Read the **actual GitHub branch/CI** before using any readiness claim. The public `main` and unmerged local candidate [PR #365](https://github.com/bellebing/Bellibing-simulator/pull/365) are deliberately different.
+**Current (2026-11-14) local beta direction:** [BETA_STATUS.md](BETA_STATUS.md) → [Google Handoff — Att göra](https://docs.google.com/spreadsheets/d/12xvC-hItxLBBJNgO_xoBcm-K1bAarzz4Udfc5_uFj4k/edit#gid=1892471060). Read the **actual GitHub branch/CI** before using any readiness claim. The public `main` and unmerged local candidate [PR #365](https://github.com/bellebing/Bellibing-simulator/pull/365) are deliberately different.
 
 ## Authoritative current documents
 
@@ -14,7 +14,7 @@
 
 ## Active work tracking (avoid competing backlogs)
 
-**Use [GitHub Issues](https://github.com/bellebing/Bellibing-simulator/issues) for active bugs and roadmap tasks right now.** The structured bug form is only in the unmerged PR; until merge, choose **New issue** normally. The owner-facing local beta queue is [#368](https://github.com/bellebing/Bellibing-simulator/issues/368). For historical `BUG-xxx`, logs/decisions and private owner evidence, cross-reference the private Handoff sheet (`Buggar`, `Uppdateringslogg`); do not copy private image/account data to a public Issue. Closed means proven fixed by affected-surface evidence, not merely code committed.
+**Use one list: [Google Handoff — Att göra](https://docs.google.com/spreadsheets/d/12xvC-hItxLBBJNgO_xoBcm-K1bAarzz4Udfc5_uFj4k/edit#gid=1892471060).** This is the current owner-facing work queue; no new GitHub Issue for everyday bugs and feature ideas. Earlier Issues #366–#372 remain as detailed references, not as a second backlog. For historical `BUG-xxx`, logs and private owner evidence, use the Handoff `Buggar`/`Uppdateringslogg` tabs. Do not copy private image/account data into public GitHub. Closed means proven fixed by affected-surface evidence, not merely code committed.
 
 ## Historical or superseded sequencing (retained, not governing today)
 
